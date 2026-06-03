@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { homeBanners } from "@/data/banners";
@@ -10,6 +11,7 @@ const AUTOPLAY_MS = 5200;
 export function HomeBannerSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const activeBanner = homeBanners[activeIndex];
 
   const nextIndex = useMemo(
     () => (activeIndex + 1) % homeBanners.length,
@@ -43,7 +45,7 @@ export function HomeBannerSlider() {
       onMouseLeave={() => setPaused(false)}
       aria-label="Banner dự án nổi bật"
     >
-      <div className="relative h-[260px] sm:h-[310px] lg:h-[360px]">
+      <div className="relative h-[260px] sm:h-[310px] lg:h-[380px]">
         {homeBanners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -69,8 +71,30 @@ export function HomeBannerSlider() {
           );
         })}
 
-        <div className="absolute inset-0 z-20 bg-black/5" />
+        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.35)_42%,rgba(0,0,0,0.08)_100%)]" />
         <div className="absolute inset-x-0 top-0 z-20 h-1 bg-[#fdcd04]" />
+
+        <div className="absolute inset-x-0 bottom-12 z-30 px-6 sm:bottom-16 lg:bottom-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="max-w-2xl text-white">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#fdcd04] sm:text-sm">
+                Dự án và hoạt động Thiên Đức
+              </p>
+              <h2 className="text-2xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+                {activeBanner.title}
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg">
+                {activeBanner.subtitle}
+              </p>
+              <Link
+                href={activeBanner.href}
+                className="mt-5 inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-black"
+              >
+                {activeBanner.ctaLabel}
+              </Link>
+            </div>
+          </div>
+        </div>
 
         <div className="absolute bottom-5 right-5 z-30 hidden items-center gap-2 md:flex">
           <button

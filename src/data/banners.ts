@@ -2,25 +2,33 @@ export const homeBanners = [
   {
     image: "/images/banners/home-banner-01.jpg",
     title: "Khu đô thị Hưng Phú",
-    subtitle: "Không gian đô thị hiện đại, kết nối cộng đồng và tiện ích đồng bộ.",
+    subtitle:
+      "Dự án đô thị tại Bến Tre, định hướng không gian sống hiện đại, kết nối cộng đồng và tiện ích đồng bộ.",
     href: "/du-an/khu-do-thi-hung-phu",
+    ctaLabel: "Xem dự án",
   },
   {
     image: "/images/banners/home-banner-02.jpg",
-    title: "Dự án Thiên Đức",
-    subtitle: "Định hướng phát triển bền vững trong lĩnh vực đầu tư và xây dựng.",
+    title: "Hợp tác phát triển dự án",
+    subtitle:
+      "Thiên Đức đồng hành cùng đối tác trong đầu tư xây dựng, phát triển đô thị và khai thác giá trị dài hạn.",
     href: "/du-an",
+    ctaLabel: "Danh mục dự án",
   },
   {
     image: "/images/banners/home-banner-03.jpg",
-    title: "Nền tảng phát triển đô thị",
-    subtitle: "Tập trung vào giá trị thật, tiến độ rõ ràng và chất lượng lâu dài.",
+    title: "Thiên Đức — Uy tín từ 2010",
+    subtitle:
+      "Tập trung vào tiến độ, chất lượng và phương châm Khách hàng hài lòng — Thiên Đức thành công.",
     href: "/gioi-thieu",
+    ctaLabel: "Giới thiệu công ty",
   },
   {
     image: "/images/banners/home-banner-04.jpg",
-    title: "Tin tức và hoạt động",
-    subtitle: "Cập nhật thông tin dự án, doanh nghiệp và thị trường.",
+    title: "Tin tức & hoạt động",
+    subtitle:
+      "Cập nhật thông tin doanh nghiệp, hoạt động dự án và các thông báo mới từ Thiên Đức.",
     href: "/tin-tuc",
+    ctaLabel: "Xem tin tức",
   },
 ];

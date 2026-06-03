@@ -88,7 +88,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="border-b-4 border-[#fdcd04] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)]">
+      <div className="border-b-2 border-[#fdcd04] bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)]">
         <div className="mx-auto flex max-w-7xl items-stretch justify-between px-4 md:px-6">
           <Link
             href="/"

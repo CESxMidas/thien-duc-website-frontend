@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -16,11 +17,24 @@ export default function NewsPage() {
           <Link
             key={post.slug}
             href={`/tin-tuc/${post.slug}`}
-            className="border border-black/10 bg-white p-5 transition hover:border-[#9b7a34]"
+            className="overflow-hidden border border-black/10 bg-white transition hover:border-[#9b7a34]"
           >
+            {post.image ? (
+              <div className="relative aspect-video bg-[#f2f2f2]">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
+            <div className="p-5">
             <p className="text-sm text-[#59646a]">{post.publishedAt}</p>
             <h2 className="mt-3 text-xl font-semibold">{post.title}</h2>
             <p className="mt-3 text-sm leading-6 text-[#59646a]">{post.summary}</p>
+            </div>
           </Link>
         ))}
       </section>

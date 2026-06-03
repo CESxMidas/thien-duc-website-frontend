@@ -41,13 +41,23 @@ src/
   types/                  TypeScript types dung chung
 public/
   images/
-    brand/                Logo, favicon, brand assets
+    brand/                Logo, favicon (da tai tu thienduccons.com)
+    banners/              4 banner trang chu (home-banner-01..04.jpg)
     projects/             Hinh anh du an
     news/                 Hinh anh tin tuc
+```
+
+## Media
+
+Tai lai anh tu website cu (neu can):
+
+```bash
+powershell -ExecutionPolicy Bypass -File scripts/fetch-thienduc-images.ps1
 ```
 
 ## Ghi chu phat trien
 
 - Du lieu trong `src/data` la placeholder, sau nay co the thay bang CMS/API.
+- Anh trong `public/images` uu tien lay tu `thienduccons.com`; thay bang file that cua cong ty khi co ban chinh.
 - Mau chinh cua website cu dang duoc giu theo tong trang, xam, nau vang.
 - Cac trang chi tiet hien dung static params tu du lieu trong `src/data`.

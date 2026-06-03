@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Cong ty Thien Duc",
   description: "Website gioi thieu cong ty, du an va tin tuc cua Thien Duc.",
+  icons: {
+    icon: "/images/brand/favicon-thien-duc.png",
+  },
 };
 
 export default function RootLayout({
