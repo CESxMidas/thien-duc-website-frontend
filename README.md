@@ -47,9 +47,6 @@ public/
     news/                 Hinh anh tin tuc
 ```
 
-## Media
-
-
 ## Ghi chu phat trien
 
 - Du lieu trong `src/data` la placeholder, sau nay co the thay bang CMS/API.
