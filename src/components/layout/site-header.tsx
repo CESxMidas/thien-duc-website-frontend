@@ -3,7 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Globe2, Mail, MapPin, Menu, Moon, Phone, Search, X } from "lucide-react";
+import {
+  Globe2,
+  Mail,
+  MapPin,
+  Menu,
+  Moon,
+  Phone,
+  Search,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 import { mainNavigation } from "@/data/navigation";
 import { siteConfig } from "@/config/site";
@@ -111,11 +120,16 @@ export function SiteHeader() {
                 const active = isActive(pathname, item);
 
                 return (
-                  <div key={item.href} className="group relative flex items-center">
+                  <div
+                    key={item.href}
+                    className="group relative flex items-center"
+                  >
                     <Link
                       href={item.href}
                       className={`inline-flex h-full items-center px-3 text-sm font-bold uppercase tracking-[0.01em] transition ${
-                        active ? "text-[#B06613]" : "text-[#5a3a12] hover:text-[#B06613]"
+                        active
+                          ? "text-[#B06613]"
+                          : "text-[#5a3a12] hover:text-[#B06613]"
                       }`}
                     >
                       {item.label}
