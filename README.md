@@ -49,11 +49,6 @@ public/
 
 ## Media
 
-Tai lai anh tu website cu (neu can):
-
-```bash
-powershell -ExecutionPolicy Bypass -File scripts/fetch-thienduc-images.ps1
-```
 
 ## Ghi chu phat trien
 
