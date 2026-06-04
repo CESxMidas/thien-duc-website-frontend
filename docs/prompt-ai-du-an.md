@@ -32,7 +32,7 @@ File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan t
 - Ảnh dự án hiện có trong `public/images/projects`:
   - `hung-phu/fancy-tower/*.jpg`
   - `hung-phu/master-plan/*.jpg`
-  - `la-bonita/legacy/*.jpg`
+  - `la-bonita/building/*.jpg`
 - Home đang dùng `projects[]` qua `src/components/sections/home-featured-projects.tsx`.
 
 ### Còn thiếu / cần xử lý
@@ -42,8 +42,9 @@ File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan t
   - Chuẩn hóa `Thành Phố Hồ Chí Minh` thành `TP.HCM` nếu thống nhất với toàn site.
   - Tránh mô tả Hưng Phú và La Bonita giống nhau kiểu placeholder.
 - Kiểm tra đường dẫn ảnh:
-  - Hưng Phú đang dùng `/images/banners/home/home-banner-hung-phu-aerial-01.jpg`, cần xác nhận file có tồn tại hoặc đổi sang ảnh trong `public/images/projects/hung-phu/...`.
-  - La Bonita đang dùng đường dẫn có chữ `lagacy`; cần dùng đúng tên file hiện có hoặc đổi tên/đường dẫn nếu cần.
+  - Hưng Phú dùng ảnh trong `public/images/projects/hung-phu/master-plan` và `public/images/projects/hung-phu/fancy-tower`.
+  - La Bonita dùng đường dẫn semantic như `la-bonita/building/la-bonita-building-render-01.jpg`.
+  - Vũng Tàu và Bảy Hiền đang dùng ảnh tham khảo tải từ web, cần công ty xác nhận quyền dùng/độ đúng dự án trước production.
 - `src/app/du-an/page.tsx` còn copy chưa nhất quán:
   - `Danh sách dự án`
   - `Thien Duc Group`

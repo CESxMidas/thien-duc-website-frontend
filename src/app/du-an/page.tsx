@@ -1,44 +1,178 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
-import { projects } from "@/data/projects";
+import {
+  projects,
+  projectStatusFilters,
+  projectStatusLabels,
+} from "@/data/projects";
+import { routes } from "@/lib/routes";
+import type { ProjectStatus } from "@/types/content";
 
-export default function ProjectsPage() {
+type ProjectsPageProps = {
+  searchParams: Promise<{
+    status?: string | string[];
+  }>;
+};
+
+export const metadata: Metadata = {
+  title: "Dự án Thiên Đức | Danh mục dự án bất động sản",
+  description:
+    "Danh mục các dự án bất động sản Thiên Đức đang triển khai, chuẩn bị phát triển hoặc đã hoàn thành, với thông tin tổng quan và hình ảnh dự án.",
+};
+
+function getStatusFilter(status: string | string[] | undefined) {
+  const value = Array.isArray(status) ? status[0] : status;
+  const validStatuses = projectStatusFilters.map((item) => item.value);
+
+  return validStatuses.includes(value as ProjectStatus)
+    ? (value as ProjectStatus | "all")
+    : "all";
+}
+
+export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
+  const { status } = await searchParams;
+  const activeStatus = getStatusFilter(status);
+  const filteredProjects =
+    activeStatus === "all"
+      ? projects
+      : projects.filter((project) => project.status === activeStatus);
+
   return (
     <SiteShell>
       <PageHeading
         eyebrow="Dự án"
-        title="Danh sách dự án"
-        description="Tổng hợp các dự án đã và đang triển khai của Thien Duc Group trên toàn quốc."
+        title="Dự án của Thiên Đức"
+        description="Tổng hợp các dự án Thiên Đức đang triển khai, đã hoàn thành hoặc đang chuẩn bị phát triển trong lĩnh vực bất động sản và xây dựng."
       />
-      <section className="mx-auto grid max-w-7xl gap-5 px-6 pb-16 md:grid-cols-3">
-        {projects.map((project) => (
-          <Link
-            key={project.slug}
-            href={`/du-an/${project.slug}`}
-            className="overflow-hidden border border-black/10 bg-white transition hover:border-[#9b7a34]"
+
+      <section className="mx-auto max-w-7xl px-6 pb-8">
+        <div className="flex flex-wrap gap-2">
+          {projectStatusFilters.map((filter) => {
+            const active = activeStatus === filter.value;
+            const href =
+              filter.value === "all"
+                ? routes.projects
+                : `${routes.projects}?status=${filter.value}`;
+
+            return (
+              <Link
+                key={filter.value}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={`inline-flex min-h-10 items-center border px-4 text-sm font-semibold transition ${
+                  active
+                    ? "border-[#B06613] bg-[#B06613] text-white"
+                    : "border-black/10 bg-white text-[#1d2428] hover:border-[#B06613] hover:text-[#B06613]"
+                }`}
+              >
+                {filter.label}
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        {filteredProjects.length > 0 ? (
+          <div
+            className={`grid gap-5 ${
+              filteredProjects.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"
+            }`}
           >
-            {project.image ? (
-              <div className="relative aspect-[3/2] bg-[#f2f2f2]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-            <div className="p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9b7a34]">
-              {project.location}
+            {filteredProjects.map((project) => (
+              <Link
+                key={project.slug}
+                href={`${routes.projects}/${project.slug}`}
+                className={`group overflow-hidden border border-black/10 bg-white transition hover:border-[#B06613] ${
+                  filteredProjects.length === 1
+                    ? "md:grid md:grid-cols-[1.08fr_0.92fr]"
+                    : ""
+                }`}
+              >
+                {project.image ? (
+                  <div
+                    className={`relative overflow-hidden bg-[#191919] ${
+                      filteredProjects.length === 1
+                        ? "aspect-[16/10] md:aspect-auto md:min-h-80"
+                        : "aspect-[3/2]"
+                    }`}
+                  >
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                ) : null}
+                <div className="flex flex-col justify-center p-5 md:p-6">
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                    {project.location ? <span>{project.location}</span> : null}
+                    {project.location ? (
+                      <span className="h-1 w-1 rounded-full bg-[#fdcd04]" />
+                    ) : null}
+                    <span>{projectStatusLabels[project.status]}</span>
+                  </div>
+                  <h2 className="mt-3 text-2xl font-semibold leading-tight">
+                    {project.title}
+                  </h2>
+                  {project.category ? (
+                    <p className="mt-2 text-sm font-semibold text-[#59646a]">
+                      {project.category}
+                    </p>
+                  ) : null}
+                  <p className="mt-4 text-sm leading-6 text-[#59646a]">
+                    {project.summary}
+                  </p>
+                  <span className="mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold transition group-hover:border-[#B06613] group-hover:text-[#B06613]">
+                    Xem chi tiết
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="border border-black/10 bg-white p-8 text-center">
+            <h2 className="text-2xl font-semibold">Chưa có dự án phù hợp</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#59646a]">
+              Hiện chưa có dự án trong nhóm trạng thái này. Bạn có thể quay lại
+              danh sách tất cả dự án để xem các thông tin đang có.
             </p>
-            <h2 className="mt-3 text-xl font-semibold">{project.title}</h2>
-            <p className="mt-3 text-sm leading-6 text-[#59646a]">{project.summary}</p>
-            </div>
+            <Link
+              href={routes.projects}
+              className="mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+            >
+              Xem tất cả dự án
+            </Link>
+          </div>
+        )}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="grid gap-6 bg-[#191919] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
+              Thông tin dự án
+            </p>
+            <h2 className="text-3xl font-semibold leading-tight">
+              Quan tâm dự án của Thiên Đức?
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
+              Liên hệ Thiên Đức để trao đổi thêm về thông tin dự án, nhu cầu tư
+              vấn hoặc định hướng hợp tác.
+            </p>
+          </div>
+          <Link
+            href={routes.contact}
+            className="inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
+          >
+            Liên hệ tư vấn
           </Link>
-        ))}
+        </div>
       </section>
     </SiteShell>
   );

@@ -53,7 +53,7 @@ export default function AboutPage() {
 
         <div className="overflow-hidden border border-black/10 bg-white shadow-sm">
           <Image
-            src="/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg"
+            src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
             alt="Dự án bất động sản Thiên Đức phát triển"
             width={720}
             height={520}

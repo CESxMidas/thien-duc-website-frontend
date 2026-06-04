@@ -1,18 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { projects } from "@/data/projects";
+import { projects, projectStatusLabels } from "@/data/projects";
 import { homeFeaturedProjectCopy } from "@/data/home";
-
-const statusLabels = {
-  "da-ban-giao": "Đã bàn giao",
-  "dang-thi-cong": "Đang thi công",
-  "chuan-bi-khoi-cong": "Chuẩn bị khởi công",
-};
 
 export function HomeFeaturedProjects() {
   const featuredProjects = projects
     .filter(
-      (project) => project.slug === "khu-do-thi-hung-phu" || project.status,
+      (project) =>
+        project.slug === "khu-do-thi-hung-phu" ||
+        project.status === "dang-thi-cong",
     )
     .slice(0, 3);
   const singleProject = featuredProjects.length === 1;
@@ -84,7 +80,7 @@ export function HomeFeaturedProjects() {
                   <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
                     <span>{display.location}</span>
                     <span className="h-1 w-1 rounded-full bg-[#fdcd04]" />
-                    <span>{statusLabels[project.status]}</span>
+                    <span>{projectStatusLabels[project.status]}</span>
                   </div>
                   <h3 className="mt-3 text-xl font-semibold">
                     {display.title}

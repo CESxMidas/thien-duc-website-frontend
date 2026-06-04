@@ -7,7 +7,8 @@ export type NavItem = {
 export type ProjectStatus =
   | "da-ban-giao"
   | "dang-thi-cong"
-  | "chuan-bi-khoi-cong";
+  | "chuan-bi-khoi-cong"
+  | "dang-cap-nhat";
 
 export type Project = {
   title: string;
@@ -17,6 +18,9 @@ export type Project = {
   location?: string;
   image?: string;
   gallery?: string[];
+  category?: string;
+  description?: string;
+  highlights?: string[];
 };
 
 export type NewsPost = {

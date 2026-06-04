@@ -69,7 +69,7 @@ Media đã có:
 - /images/banners/home/home-banner-hung-phu-aerial-01.jpg
 - /images/banners/home/home-banner-hung-phu-overview-01.jpg
 - /images/brand/logo-thien-duc.png
-- /images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg
+- /images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg
 - /images/news/2021/le-khoi-cong-fancy-tower-2021-04-07.jpg
 
 ═══════════════════════════════════════
