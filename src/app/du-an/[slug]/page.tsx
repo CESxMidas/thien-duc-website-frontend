@@ -14,7 +14,9 @@ export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({
+  params,
+}: ProjectDetailPageProps) {
   const { slug } = await params;
   const project = projects.find((item) => item.slug === slug);
 
@@ -25,7 +27,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   return (
     <SiteShell>
       <PageHeading
-        eyebrow="Chi tiet du an"
+        eyebrow="Chi tiết dự án"
         title={project.title}
         description={project.summary}
       />
@@ -33,7 +35,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <section className="mx-auto max-w-7xl px-6 pb-16">
           <div className="relative aspect-[16/9] max-h-[480px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
             <Image
-              src={project.image}
+              src={project.gallery ? project.gallery[0] : project.image}
               alt={project.title}
               fill
               preload

@@ -2,57 +2,71 @@
 
 File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan toàn website nằm ở `docs/prompt-ai-tong-web.md`.
 
-## KẾT QUẢ KIỂM TRA TRANG DỰ ÁN - 2026-06-03
+## KẾT QUẢ KIỂM TRA TRANG DỰ ÁN - 2026-06-04
 
-**Phạm vi kiểm tra:** route danh sách `/du-an`, route chi tiết `/du-an/[slug]`, data `src/data/projects.ts`, type `src/types/content.ts`, ảnh trong `public/images/projects`.
+**Phạm vi kiểm tra:** route danh sách `/du-an`, route chi tiết `/du-an/[slug]`, data `src/data/projects.ts`, type `src/types/content.ts`, ảnh trong `public/images/projects`, component Home đang đọc `projects[]`.
 
-**Kết luận:** Trang Dự án đã có route danh sách, route chi tiết động, render card dự án bằng `next/image` và `projects[]`. Tuy nhiên nội dung vẫn ở mức mẫu/tối thiểu, nhiều chỗ còn tiếng Việt không dấu hoặc lỗi encoding, chưa có metadata riêng, chưa có nội dung chi tiết dự án, chưa có bộ lọc theo trạng thái dù navigation đang link query `?status=...`. Đây là phần nên làm tiếp sau Home và Giới thiệu.
+**Kết luận:** Trang Dự án đã có route danh sách và route chi tiết động, data đã có 2 dự án là Khu đô thị Hưng Phú và Chung cư La Bonita, type `Project` đã có `gallery`. Tuy nhiên trang vẫn chưa đạt mức production: copy còn lỗi chính tả/chuẩn hóa, `/du-an` chưa có metadata riêng, chưa xử lý filter query theo navigation, trang chi tiết còn rất mỏng, chưa có tổng quan/highlights/CTA và chưa kiểm soát rủi ro dữ liệu chưa duyệt.
 
 ### Đã có sẵn
 
 - Route `/du-an` tồn tại tại `src/app/du-an/page.tsx`.
 - Route `/du-an/[slug]` tồn tại tại `src/app/du-an/[slug]/page.tsx`.
-- `generateStaticParams()` đã tạo path chi tiết từ `projects[]`.
-- `notFound()` đã xử lý slug không tồn tại.
+- `generateStaticParams()` tạo path chi tiết từ `projects[]`.
+- `notFound()` xử lý slug không tồn tại.
 - `ProjectStatus` đã có 3 trạng thái:
   - `da-ban-giao`
   - `dang-thi-cong`
   - `chuan-bi-khoi-cong`
-- `src/data/projects.ts` đã có 1 dự án mẫu: `khu-do-thi-hung-phu`.
-- Ảnh dự án đã có:
-  - `/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg`
-  - `/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-02.jpg`
-- Home đã dùng `projects[]` để render dự án tiêu biểu.
+- `Project` hiện có:
+  - `title`
+  - `slug`
+  - `summary`
+  - `status`
+  - `location?`
+  - `image?`
+  - `gallery?`
+- `src/data/projects.ts` hiện có 2 dự án:
+  - `khu-do-thi-hung-phu`
+  - `chung-cu-la-bonita`
+- Ảnh dự án hiện có trong `public/images/projects`:
+  - `hung-phu/fancy-tower/*.jpg`
+  - `hung-phu/master-plan/*.jpg`
+  - `la-bonita/legacy/*.jpg`
+- Home đang dùng `projects[]` qua `src/components/sections/home-featured-projects.tsx`.
 
 ### Còn thiếu / cần xử lý
 
-- Chuẩn hóa tiếng Việt có dấu trong `src/data/projects.ts`:
-  - `Khu do thi Hung Phu`
-  - `Du an do thi trong diem cua Thien Duc.`
-  - `Ben Tre`
-- Chuẩn hóa copy trong `src/app/du-an/page.tsx`, hiện còn `Thien Duc Group` và một số text chưa nhất quán với tên công ty.
-- Chuẩn hóa copy trong `src/app/du-an/[slug]/page.tsx`, hiện eyebrow chi tiết còn `Chi tiet du an`.
-- Thêm metadata riêng cho `/du-an`.
-- Thêm metadata động cho `/du-an/[slug]` nếu phù hợp với Next.js version hiện tại.
-- Mở rộng model `Project` nếu cần trang chi tiết production:
-  - `description`
-  - `location`
-  - `status`
-  - `category`
-  - `gallery`
-  - `highlights`
-  - `scope`
-  - `cta`
-- Bổ sung nội dung chi tiết cho dự án Khu đô thị Hưng Phú ở mức an toàn, không bịa pháp lý/quy mô/tiến độ chưa duyệt.
-- Xử lý query filter `?status=da-ban-giao`, `?status=dang-thi-cong`, `?status=chuan-bi-khoi-cong` hoặc bỏ/đổi navigation nếu chưa làm filter.
-- Thêm trạng thái empty khi không có dự án theo filter.
-- Kiểm tra ảnh có đúng với dự án và alt text có nghĩa.
-- Chạy `npm run build` sau khi sửa.
+- Chuẩn hóa copy tiếng Việt trong `src/data/projects.ts`:
+  - Sửa lỗi `Dư án` thành `Dự án`.
+  - Chuẩn hóa `Thành Phố Hồ Chí Minh` thành `TP.HCM` nếu thống nhất với toàn site.
+  - Tránh mô tả Hưng Phú và La Bonita giống nhau kiểu placeholder.
+- Kiểm tra đường dẫn ảnh:
+  - Hưng Phú đang dùng `/images/banners/home/home-banner-hung-phu-aerial-01.jpg`, cần xác nhận file có tồn tại hoặc đổi sang ảnh trong `public/images/projects/hung-phu/...`.
+  - La Bonita đang dùng đường dẫn có chữ `lagacy`; cần dùng đúng tên file hiện có hoặc đổi tên/đường dẫn nếu cần.
+- `src/app/du-an/page.tsx` còn copy chưa nhất quán:
+  - `Danh sách dự án`
+  - `Thien Duc Group`
+- `/du-an` chưa có metadata riêng.
+- `/du-an/[slug]` chưa có metadata động.
+- `/du-an` chưa xử lý query filter theo navigation:
+  - `/du-an?status=da-ban-giao`
+  - `/du-an?status=dang-thi-cong`
+  - `/du-an?status=chuan-bi-khoi-cong`
+- Trang chi tiết `/du-an/[slug]` hiện mới có heading và ảnh chính, chưa có:
+  - thông tin nhanh
+  - tổng quan dự án
+  - gallery thật
+  - highlights
+  - CTA liên hệ
+- `HomeFeaturedProjects` đang filter `(project.slug === "khu-do-thi-hung-phu" || project.status)`, điều kiện `project.status` luôn truthy nên sẽ lấy mọi project. Cần quyết định có giữ hay chỉnh về logic dự án tiêu biểu khi làm Dự án.
+- Cần tránh bịa dữ liệu chưa được duyệt: pháp lý, diện tích, số block/căn/nền, vốn, doanh thu, đối tác, tiến độ cụ thể, bàn giao, giải thưởng.
+- Chạy `npm run build` sau khi sửa code.
 
 ### TASK làm tiếp
 
 ```text
-TASK: Hoàn thiện trang Dự án Thiên Đức ở mức production cho cả `/du-an` và `/du-an/[slug]`: chuẩn hóa data `projects[]` bằng tiếng Việt có dấu, thêm metadata riêng, làm danh sách dự án có trạng thái/filter theo query nếu navigation đang dùng, hoàn thiện trang chi tiết dự án Khu đô thị Hưng Phú với gallery/nội dung/highlights an toàn, không bịa số liệu pháp lý/quy mô/tiến độ chưa duyệt. Có thể mở rộng type Project và data nếu cần. Không sửa Home/Giới thiệu trừ khi cần giữ tương thích data. Chạy `npm run build` sau khi hoàn tất.
+TASK: Hoàn thiện trang Dự án Thiên Đức ở mức production cho cả `/du-an` và `/du-an/[slug]`: chuẩn hóa `projects[]` bằng tiếng Việt có dấu, kiểm tra đường dẫn ảnh, thêm metadata riêng/dynamic metadata, làm danh sách dự án có filter theo query status, hoàn thiện trang chi tiết dự án với ảnh/gallery, thông tin nhanh, tổng quan, highlights an toàn và CTA `/lien-he`. Có thể mở rộng type Project nếu cần. Không sửa Home/Giới thiệu trừ khi cần giữ tương thích data hoặc sửa logic HomeFeaturedProjects bị ảnh hưởng bởi projects[]. Chạy `npm run build` sau khi hoàn tất.
 ```
 
 ---
@@ -66,50 +80,55 @@ PHẠM VI - CHỈ TRANG DỰ ÁN
 - Route chi tiết: src/app/du-an/[slug]/page.tsx
 - Data: src/data/projects.ts
 - Type: src/types/content.ts
+- Component liên quan do projects[] ảnh hưởng: src/components/sections/home-featured-projects.tsx
 - Ảnh: public/images/projects/*
-- Đọc tham chiếu: src/components/ui/page-heading.tsx, src/components/sections/home-featured-projects.tsx, src/data/home.ts, src/lib/routes.ts, src/data/navigation.ts
-- KHÔNG refactor header/footer/toàn site trừ khi TASK yêu cầu rõ
-- KHÔNG sửa Home/Giới thiệu trừ khi thay đổi Project type khiến component đang dùng projects[] cần cập nhật tương thích
+- Đọc tham chiếu:
+  - docs/prompt-ai-tong-web.md
+  - docs/prompt-ai-trang-chu.md
+  - docs/prompt-ai-gioi-thieu.md
+  - src/components/ui/page-heading.tsx
+  - src/data/home.ts
+  - src/lib/routes.ts
+  - src/data/navigation.ts
+- KHÔNG refactor header/footer/toàn site trừ khi TASK yêu cầu rõ.
+- KHÔNG sửa Home/Giới thiệu, trừ khi thay đổi `Project` hoặc logic `projects[]` làm vỡ component đang dùng chung.
 
 STACK & KỸ THUẬT
 
-- Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4
-- Trước khi sửa API metadata/searchParams/params, đọc guide liên quan trong node_modules/next/dist/docs/
-- page.tsx là Server Component
-- Route detail hiện dùng params dạng Promise; giữ đúng convention của version Next.js hiện tại
-- Import dùng alias: @/components, @/data, @/config, @/lib, @/types
-- Ảnh dùng next/image, đường dẫn /images/projects/...
-- Link nội bộ dùng next/link
-- Diff gọn, ưu tiên pattern hiện có
-- Chạy npm run build sau khi hoàn thiện
+- Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4.
+- Trước khi sửa API metadata/searchParams/params, đọc guide liên quan trong `node_modules/next/dist/docs/`.
+- `page.tsx` là Server Component.
+- Route detail hiện dùng `params` dạng `Promise`; giữ đúng convention đang dùng trong repo.
+- Nếu xử lý query filter ở `/du-an`, dùng `searchParams` theo Next.js 16 App Router.
+- Import dùng alias: `@/components`, `@/data`, `@/config`, `@/lib`, `@/types`.
+- Ảnh dùng `next/image`, đường dẫn `/images/projects/...` hoặc asset đã xác nhận tồn tại.
+- Link nội bộ dùng `next/link`.
+- Nội dung liên hệ lấy từ `siteConfig` nếu hiển thị contact.
+- Diff gọn, ưu tiên pattern hiện có.
+- Chạy `npm run build` sau khi hoàn thiện. Nếu cần, chạy thêm `npm run lint`.
 
 Design system tham chiếu:
-- Primary #B06613, hover #7f4b0d
-- Accent #fdcd04
-- Nền shell #f6f3ee hoặc trắng theo layout hiện có
-- Card trắng, border black/10, shadow nhẹ nếu cần
-- Text #1d2428 / #191919, muted #59646a
-- Eyebrow uppercase tracking-[0.24em]
-- Section max-width tương tự Home: mx-auto max-w-7xl px-6
+- Primary `#B06613`, hover `#7f4b0d`.
+- Accent `#fdcd04`.
+- Nền shell `#f6f3ee` hoặc trắng theo layout hiện có.
+- Card trắng, border `black/10`, shadow nhẹ nếu cần.
+- Text `#1d2428` / `#191919`, muted `#59646a`.
+- Eyebrow uppercase `tracking-[0.24em]`.
+- Section max-width tương tự Home/About: `mx-auto max-w-7xl px-6`.
 
 TRẠNG THÁI CODE HIỆN TẠI
 
-1. src/app/du-an/page.tsx render PageHeading + grid card từ projects[].
-2. src/app/du-an/[slug]/page.tsx render PageHeading + ảnh chính, chưa có nội dung chi tiết.
-3. src/data/projects.ts hiện chỉ có 1 dự án:
-   - title: "Khu do thi Hung Phu"
-   - slug: "khu-do-thi-hung-phu"
-   - summary: "Du an do thi trong diem cua Thien Duc."
-   - status: "dang-thi-cong"
-   - location: "Ben Tre"
-   - image: "/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg"
-4. src/types/content.ts Project hiện chỉ có title, slug, summary, status, location?, image?.
-5. Navigation đang có các link query theo status:
-   - /du-an?status=da-ban-giao
-   - /du-an?status=dang-thi-cong
-   - /du-an?status=chuan-bi-khoi-cong
-   nhưng trang /du-an hiện chưa xử lý filter query.
-6. Ảnh dự án hiện có khu-do-thi-hung-phu-01.jpg và khu-do-thi-hung-phu-02.jpg.
+1. `src/app/du-an/page.tsx` render `SiteShell`, `PageHeading`, grid card từ `projects[]`.
+2. `/du-an` chưa có `metadata`.
+3. `/du-an` chưa nhận/xử lý `searchParams.status`.
+4. `src/app/du-an/[slug]/page.tsx` render `PageHeading` và ảnh chính.
+5. `/du-an/[slug]` đã có `generateStaticParams()` và `notFound()`.
+6. `/du-an/[slug]` chưa có `generateMetadata`.
+7. `src/data/projects.ts` hiện có:
+   - `Khu đô thị Hưng Phú`
+   - `Chung cư La Bonita`
+8. `Project` đã có `gallery?: string[]`.
+9. `HomeFeaturedProjects` đang phụ thuộc vào `projects[]`, cần kiểm tra sau khi sửa data/type.
 
 LOGIC NỘI DUNG PRODUCTION
 
@@ -126,9 +145,9 @@ LOGIC NỘI DUNG PRODUCTION
   - đối tác
   - tỷ suất lợi nhuận
   - thời gian bàn giao
-- Nếu chưa có dữ liệu duyệt, dùng nhãn trung tính như "Thông tin đang được cập nhật" hoặc ẩn trường đó.
-- CTA phải dẫn đến route có thật: /lien-he.
-- Home đang dùng projects[], nên nếu mở rộng type phải không làm vỡ HomeFeaturedProjects.
+  - giải thưởng
+- Nếu chưa có dữ liệu duyệt, dùng nhãn trung tính như `Đang cập nhật` hoặc ẩn trường đó.
+- CTA phải dẫn đến route có thật: `/lien-he`.
 
 THỨ TỰ SECTION MỤC TIÊU - /du-an
 
@@ -142,37 +161,38 @@ THỨ TỰ SECTION MỤC TIÊU - /du-an
    - Đang thi công
    - Chuẩn bị khởi công
    - Đã bàn giao
-   - Đọc query searchParams.status nếu navigation đang dùng query.
-   - Nếu chưa muốn làm filter, phải chỉnh navigation/query hoặc ghi rõ không hỗ trợ.
+   - Đọc `searchParams.status` vì navigation đang link query.
+   - Filter không được làm 404 khi query không hợp lệ; nên fallback về Tất cả hoặc empty state có link reset.
 
 3. Grid dự án
    - Card có ảnh, location, status label, title, summary.
-   - Link tới /du-an/[slug].
-   - Nếu chỉ có 1 dự án, layout không nên trống hoặc quá loãng trên desktop.
+   - Link tới `/du-an/[slug]`.
+   - Nếu chỉ có 1 dự án theo filter, layout vẫn phải cân đối trên desktop.
 
 4. Empty state
-   - Nếu filter không có dự án, hiển thị thông báo gọn và link về /du-an.
+   - Nếu filter không có dự án, hiển thị thông báo gọn và link về `/du-an`.
 
 5. CTA cuối trang
    - Mời khách hàng/đối tác liên hệ để nhận thông tin dự án.
-   - Link /lien-he.
+   - Link `/lien-he`.
 
 THỨ TỰ SECTION MỤC TIÊU - /du-an/[slug]
 
 1. Page heading
    - Eyebrow: Chi tiết dự án
-   - H1: project.title
-   - Description: project.summary
+   - H1: `project.title`
+   - Description: `project.summary`
 
 2. Ảnh chính / gallery
-   - Dùng project.image làm ảnh chính.
-   - Nếu có project.gallery thì render thêm ảnh phụ.
+   - Dùng `project.image` làm ảnh chính.
+   - Nếu có `project.gallery`, render ảnh phụ.
+   - Không dùng `project.gallery[0]` thay ảnh chính nếu gallery là ảnh phụ, trừ khi data quy ước rõ.
 
 3. Thông tin nhanh
    - Vị trí
    - Trạng thái
    - Loại hình/lĩnh vực nếu có data
-   - Ghi "Đang cập nhật" cho trường chưa duyệt, hoặc không hiển thị.
+   - Ghi `Đang cập nhật` cho trường chưa duyệt, hoặc không hiển thị.
 
 4. Tổng quan dự án
    - Một đoạn mô tả dự án an toàn, không bịa số liệu.
@@ -180,18 +200,19 @@ THỨ TỰ SECTION MỤC TIÊU - /du-an/[slug]
 5. Điểm nổi bật
    - Chỉ dùng các điểm chung có thể xác nhận từ định hướng:
      - Định hướng không gian sống đô thị.
-     - Hạ tầng và tiện ích đồng bộ nếu copy đã duyệt.
-     - Gắn với nhu cầu an cư/phát triển khu vực.
-   - Nếu chưa chắc, dùng câu mềm: "được định hướng", "tập trung", "hướng đến".
+     - Hạ tầng/cảnh quan/tiện ích nếu copy đã duyệt.
+     - Gắn với nhu cầu an cư hoặc phát triển khu vực.
+   - Nếu chưa chắc, dùng câu mềm: `được định hướng`, `tập trung`, `hướng đến`.
 
 6. CTA cuối trang
    - Title: Quan tâm dự án này?
    - Description: Liên hệ Thiên Đức để được hỗ trợ thông tin.
-   - CTA: Liên hệ tư vấn -> /lien-he
+   - CTA: Liên hệ tư vấn -> `/lien-he`
 
 DATA MODEL GỢI Ý
 
-type Project = {
+```ts
+export type Project = {
   title: string;
   slug: string;
   summary: string;
@@ -203,11 +224,12 @@ type Project = {
   description?: string;
   highlights?: string[];
 };
+```
 
-statusLabels:
-- da-ban-giao: Đã bàn giao
-- dang-thi-cong: Đang thi công
-- chuan-bi-khoi-cong: Chuẩn bị khởi công
+Status labels:
+- `da-ban-giao`: Đã bàn giao
+- `dang-thi-cong`: Đang thi công
+- `chuan-bi-khoi-cong`: Chuẩn bị khởi công
 
 COPY MẪU
 
@@ -225,26 +247,42 @@ title: "Khu đô thị Hưng Phú"
 location: "Bến Tre"
 status: "dang-thi-cong"
 summary: "Dự án đô thị tiêu biểu của Thiên Đức, được định hướng phát triển với hạ tầng đồng bộ và không gian sống hiện đại tại Bến Tre."
-description: "Khu đô thị Hưng Phú là một trong những dự án trọng điểm được Thiên Đức đồng hành phát triển. Dự án hướng đến việc kiến tạo không gian sống ổn định, thuận tiện và phù hợp với nhu cầu an cư, kết nối của cư dân trong khu vực."
+description: "Khu đô thị Hưng Phú là một trong những dự án Thiên Đức đồng hành phát triển tại Bến Tre. Dự án hướng đến việc kiến tạo không gian sống ổn định, thuận tiện và phù hợp với nhu cầu an cư, kết nối của cư dân trong khu vực."
 highlights:
 - "Định hướng phát triển khu đô thị hiện đại tại Bến Tre."
 - "Tập trung vào hạ tầng, cảnh quan và trải nghiệm sử dụng lâu dài."
 - "Thông tin chi tiết về pháp lý, quy mô và tiến độ sẽ được cập nhật theo tài liệu được duyệt."
 
+Project data an toàn cho Chung cư La Bonita:
+title: "Chung cư La Bonita"
+location: "TP.HCM"
+status: "da-ban-giao"
+summary: "Dự án căn hộ tại TP.HCM, được giới thiệu trong danh mục dự án Thiên Đức với hình ảnh và thông tin tổng quan."
+description: "Chung cư La Bonita là dự án được giới thiệu trong danh mục dự án của Thiên Đức tại TP.HCM. Các thông tin chi tiết về quy mô, pháp lý và tiến độ nên được cập nhật theo tài liệu chính thức đã duyệt."
+highlights:
+- "Vị trí tại TP.HCM."
+- "Hình ảnh dự án đã có trong thư viện media hiện tại."
+- "Các thông tin chi tiết cần được xác nhận trước khi công bố rộng rãi."
+
 CHECKLIST TRIỂN KHAI
 
-- [ ] Đọc docs/prompt-ai-tong-web.md trước khi sửa.
-- [ ] Đọc docs/prompt-ai-trang-chu.md để giữ projects[] tương thích với Home.
-- [ ] Đọc hướng dẫn Next.js trong node_modules/next/dist/docs/ nếu sửa metadata/searchParams/params.
-- [ ] Chuẩn hóa tiếng Việt có dấu trong projects[].
-- [ ] Thêm metadata riêng cho /du-an.
-- [ ] Thêm metadata động cho /du-an/[slug] nếu phù hợp.
-- [ ] Xử lý filter status theo query hoặc điều chỉnh logic liên quan.
+- [ ] Đọc `docs/prompt-ai-tong-web.md`.
+- [ ] Đọc `docs/prompt-ai-trang-chu.md` để giữ `projects[]` tương thích với Home.
+- [ ] Đọc `docs/prompt-ai-gioi-thieu.md` để giữ giọng văn nhất quán.
+- [ ] Đọc hướng dẫn Next.js trong `node_modules/next/dist/docs/` nếu sửa metadata/searchParams/params.
+- [ ] Chuẩn hóa tiếng Việt có dấu trong `projects[]`.
+- [ ] Kiểm tra mọi đường dẫn ảnh project thực sự tồn tại.
+- [ ] Thêm metadata riêng cho `/du-an`.
+- [ ] Thêm metadata động cho `/du-an/[slug]` nếu phù hợp.
+- [ ] Xử lý filter status theo query.
 - [ ] Hoàn thiện card dự án có status/location/summary/ảnh.
-- [ ] Hoàn thiện trang chi tiết dự án có ảnh, thông tin nhanh, tổng quan, highlights, CTA.
+- [ ] Hoàn thiện trang chi tiết dự án có ảnh, gallery, thông tin nhanh, tổng quan, highlights, CTA.
 - [ ] Không bịa dữ liệu chưa được duyệt.
-- [ ] Kiểm tra /du-an, /du-an?status=dang-thi-cong, /du-an/khu-do-thi-hung-phu.
-- [ ] Chạy npm run build.
+- [ ] Kiểm tra `/du-an`, `/du-an?status=dang-thi-cong`, `/du-an?status=da-ban-giao`, `/du-an?status=chuan-bi-khoi-cong`.
+- [ ] Kiểm tra `/du-an/khu-do-thi-hung-phu` và `/du-an/chung-cu-la-bonita`.
+- [ ] Kiểm tra Home sau khi sửa `projects[]`.
+- [ ] Chạy `npm run build`.
+- [ ] Chạy `npm run lint` nếu còn thời gian hoặc nếu task yêu cầu.
 
 ĐẦU RA MONG ĐỢI
 
@@ -252,6 +290,5 @@ CHECKLIST TRIỂN KHAI
 2. Tóm tắt nội dung dự án đã đưa vào UI.
 3. Ghi chú rõ dữ liệu nào còn cần công ty duyệt.
 4. Kết quả kiểm tra các route/filter.
-5. Kết quả npm run build.
+5. Kết quả `npm run build`.
 ```
-

@@ -11,7 +11,9 @@ const statusLabels = {
 
 export function HomeFeaturedProjects() {
   const featuredProjects = projects
-    .filter((project) => project.slug === "khu-do-thi-hung-phu"  || project.status === "dang-thi-cong")
+    .filter(
+      (project) => project.slug === "khu-do-thi-hung-phu" || project.status,
+    )
     .slice(0, 3);
   const singleProject = featuredProjects.length === 1;
 
@@ -39,7 +41,9 @@ export function HomeFeaturedProjects() {
           </Link>
         </div>
 
-        <div className={`mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}>
+        <div
+          className={`mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
+        >
           {featuredProjects.map((project) => {
             const display = homeFeaturedProjectCopy[
               project.slug as keyof typeof homeFeaturedProjectCopy
@@ -54,12 +58,16 @@ export function HomeFeaturedProjects() {
                 key={project.slug}
                 href={`/du-an/${project.slug}`}
                 className={`group overflow-hidden border border-black/10 bg-[#f6f3ee] transition hover:border-[#B06613] ${
-                  singleProject ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch" : ""
+                  singleProject
+                    ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch"
+                    : ""
                 }`}
               >
                 <div
                   className={`relative overflow-hidden bg-[#191919] ${
-                    singleProject ? "aspect-[16/10] md:aspect-auto md:min-h-80" : "aspect-[4/3]"
+                    singleProject
+                      ? "aspect-[16/10] md:aspect-auto md:min-h-80"
+                      : "aspect-[4/3]"
                   }`}
                 >
                   {project.image ? (
@@ -78,7 +86,9 @@ export function HomeFeaturedProjects() {
                     <span className="h-1 w-1 rounded-full bg-[#fdcd04]" />
                     <span>{statusLabels[project.status]}</span>
                   </div>
-                  <h3 className="mt-3 text-xl font-semibold">{display.title}</h3>
+                  <h3 className="mt-3 text-xl font-semibold">
+                    {display.title}
+                  </h3>
                   <p className="mt-3 text-sm leading-6 text-[#59646a]">
                     {display.summary}
                   </p>

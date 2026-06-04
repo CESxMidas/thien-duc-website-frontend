@@ -7,14 +7,18 @@ export const projects: Project[] = [
     summary: "Dư án đô thị trọng điểm của Thiên Đức tại Bến Tre",
     status: "dang-thi-cong",
     location: "Bến Tre",
-    image: "/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg",
+    image: "/images/banners/home/home-banner-hung-phu-aerial-01.jpg",
   },
   {
-    title: "Khu đô thị Hưng Phú 2",
-    slug: "khu-do-thi-hung-phu-2",
-    summary: "Dư án đô thị trọng điểm của Thiên Đức tại Vũng Tàu",
+    title: "Chung cư La Bonita",
+    slug: "chung-cu-la-bonita",
+    summary: "Dư án đô thị trọng điểm của Thiên Đức tại Thành Phố Hồ Chí Minh",
     status: "da-ban-giao",
-    location: "Vũng Tàu",
-    image: "/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-02.jpg",
+    location: "Thành Phố Hồ Chí Minh",
+    image:
+      "/images/projects/la-bonita/legacy/la-bonita-building-render-lagacy-01.jpg",
+    gallery: [
+      "/images/projects/la-bonita/legacy/la-bonita-building-render-lagacy-02.jpg",
+    ],
   },
 ];

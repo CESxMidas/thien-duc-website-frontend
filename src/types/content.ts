@@ -16,6 +16,7 @@ export type Project = {
   status: ProjectStatus;
   location?: string;
   image?: string;
+  gallery?: string[];
 };
 
 export type NewsPost = {
