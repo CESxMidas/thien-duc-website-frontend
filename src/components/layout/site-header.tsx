@@ -109,7 +109,7 @@ export function SiteHeader() {
               alt="Logo Thiên Đức"
               width={120}
               height={96}
-              priority
+              preload
               className="h-24 w-auto object-contain"
             />
           </Link>

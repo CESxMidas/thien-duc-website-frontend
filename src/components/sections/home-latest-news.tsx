@@ -2,13 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { newsPosts } from "@/data/news";
 
-function isProductionNews(post: (typeof newsPosts)[number]) {
-  const text = `${post.title} ${post.summary}`.toLowerCase();
-  return !text.includes("cap nhat") && !text.includes("se duoc cap nhat");
-}
-
 export function HomeLatestNews() {
-  const latestNews = newsPosts.filter(isProductionNews).slice(0, 3);
+  const latestNews = newsPosts.slice(0, 3);
 
   if (latestNews.length === 0) {
     return null;
@@ -30,7 +25,7 @@ export function HomeLatestNews() {
             href="/tin-tuc"
             className="inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
           >
-            Xem tất cả
+            Tất cả bài viết
           </Link>
         </div>
 
@@ -56,6 +51,9 @@ export function HomeLatestNews() {
                 <p className="text-sm text-[#59646a]">{post.publishedAt}</p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#59646a]">{post.summary}</p>
+                <span className="mt-5 inline-flex text-sm font-semibold text-[#B06613]">
+                  Chi tiết bài viết
+                </span>
               </div>
             </Link>
           ))}

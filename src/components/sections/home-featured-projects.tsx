@@ -11,7 +11,7 @@ const statusLabels = {
 
 export function HomeFeaturedProjects() {
   const featuredProjects = projects
-    .filter((project) => project.slug === "khu-do-thi-hung-phu" || project.status === "dang-thi-cong")
+    .filter((project) => project.slug === "khu-do-thi-hung-phu"  || project.status === "dang-thi-cong")
     .slice(0, 3);
   const singleProject = featuredProjects.length === 1;
 

@@ -20,8 +20,8 @@ File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan t
   - `chuan-bi-khoi-cong`
 - `src/data/projects.ts` đã có 1 dự án mẫu: `khu-do-thi-hung-phu`.
 - Ảnh dự án đã có:
-  - `/images/projects/khu-do-thi-hung-phu-01.jpg`
-  - `/images/projects/khu-do-thi-hung-phu-02.jpg`
+  - `/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg`
+  - `/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-02.jpg`
 - Home đã dùng `projects[]` để render dự án tiêu biểu.
 
 ### Còn thiếu / cần xử lý
@@ -102,7 +102,7 @@ TRẠNG THÁI CODE HIỆN TẠI
    - summary: "Du an do thi trong diem cua Thien Duc."
    - status: "dang-thi-cong"
    - location: "Ben Tre"
-   - image: "/images/projects/khu-do-thi-hung-phu-01.jpg"
+   - image: "/images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg"
 4. src/types/content.ts Project hiện chỉ có title, slug, summary, status, location?, image?.
 5. Navigation đang có các link query theo status:
    - /du-an?status=da-ban-giao

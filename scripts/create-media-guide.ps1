@@ -101,8 +101,8 @@ try {
   $table.Cell(1,3).Range.Text = "Ví dụ đường dẫn khi code"
   $rows = @(
     @("Logo, favicon, brand", "frontend/public/images/brand", "/images/brand/logo-thien-duc.png"),
-    @("Hình dự án", "frontend/public/images/projects", "/images/projects/khu-do-thi-hung-phu-01.jpg"),
-    @("Hình tin tức", "frontend/public/images/news", "/images/news/tin-tuc-thien-duc-01.jpg"),
+    @("Hình dự án", "frontend/public/images/projects/hung-phu", "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-plaza-01.jpg"),
+    @("Hình tin tức", "frontend/public/images/news/2021", "/images/news/2021/le-khoi-cong-fancy-tower-2021-04-07.jpg"),
     @("Video dự án", "frontend/public/videos/projects", "/videos/projects/hung-phu-overview.mp4"),
     @("Video giới thiệu công ty", "frontend/public/videos/company", "/videos/company/gioi-thieu-thien-duc.mp4"),
     @("Tài liệu khác nếu có", "frontend/public/files", "/files/ho-so-nang-luc.pdf")

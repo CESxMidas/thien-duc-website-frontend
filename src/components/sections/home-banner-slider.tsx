@@ -61,7 +61,7 @@ export function HomeBannerSlider() {
                 src={banner.image}
                 alt={banner.title}
                 fill
-                priority={index === 0}
+                preload={index === 0}
                 sizes="100vw"
                 className={`object-cover transition duration-[6200ms] ease-out ${
                   isActive ? "scale-105" : "scale-100"

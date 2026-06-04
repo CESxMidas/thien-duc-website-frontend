@@ -36,7 +36,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               src={project.image}
               alt={project.title}
               fill
-              priority
+              preload
               sizes="(max-width: 1280px) 100vw, 1280px"
               className="object-cover"
             />

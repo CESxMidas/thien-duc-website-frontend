@@ -65,10 +65,12 @@ Design system:
 - Banner: h-[260px] sm:h-[310px] lg:h-[380px]
 
 Media đã có:
-- /images/banners/home-banner-01.jpg … 04.jpg
+- /images/banners/home/home-banner-interior-living-room-01.jpg … 02.jpg
+- /images/banners/home/home-banner-hung-phu-aerial-01.jpg
+- /images/banners/home/home-banner-hung-phu-overview-01.jpg
 - /images/brand/logo-thien-duc.png
-- /images/projects/khu-do-thi-hung-phu-01.jpg
-- /images/news/tin-tuc-thien-duc-01.jpg
+- /images/projects/hung-phu/legacy/hung-phu-building-render-legacy-01.jpg
+- /images/news/2021/le-khoi-cong-fancy-tower-2021-04-07.jpg
 
 ═══════════════════════════════════════
 TRẠNG THÁI CODE HIỆN TẠI

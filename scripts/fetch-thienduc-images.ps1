@@ -3,7 +3,16 @@ $root = Resolve-Path (Join-Path $PSScriptRoot "..")
 $publicRoot = Join-Path $root "public\images"
 $legacyBase = "https://thienduccons.com"
 
-$dirs = @("brand", "banners", "projects", "news")
+$dirs = @(
+  "brand",
+  "banners",
+  "banners\home",
+  "projects",
+  "projects\hung-phu",
+  "projects\hung-phu\legacy",
+  "news",
+  "news\legacy"
+)
 foreach ($name in $dirs) {
   New-Item -ItemType Directory -Force -Path (Join-Path $publicRoot $name) | Out-Null
 }
@@ -48,8 +57,13 @@ $legacyBanners = @(
   "img_data/images/491919024807.jpg"
 )
 for ($i = 0; $i -lt $legacyBanners.Count; $i++) {
-  $name = "home-banner-{0:D2}.jpg" -f ($i + 1)
-  $out = Join-Path $publicRoot "banners\$name"
+  $bannerNames = @(
+    "home-banner-interior-living-room-01.jpg",
+    "home-banner-interior-living-room-02.jpg",
+    "home-banner-hung-phu-aerial-01.jpg",
+    "home-banner-hung-phu-overview-01.jpg"
+  )
+  $out = Join-Path $publicRoot "banners\home\$($bannerNames[$i])"
   $ok = Save-UrlImage -Url (Resolve-LegacyUrl $legacyBanners[$i]) -OutPath $out
   if (-not $ok) {
     # Fallback stock imagery if legacy asset fails
@@ -68,9 +82,9 @@ $legacyProjects = @(
   "img_data/images/150400616470.jpg",
   "img_data/images/152146271795.jpg"
 )
-$projectNames = @("khu-do-thi-hung-phu-01.jpg", "khu-do-thi-hung-phu-02.jpg")
+$projectNames = @("hung-phu-building-render-legacy-01.jpg", "hung-phu-building-render-legacy-02.jpg")
 for ($i = 0; $i -lt $projectNames.Count; $i++) {
-  $out = Join-Path $publicRoot "projects\$($projectNames[$i])"
+  $out = Join-Path $publicRoot "projects\hung-phu\legacy\$($projectNames[$i])"
   $ok = Save-UrlImage -Url (Resolve-LegacyUrl $legacyProjects[$i]) -OutPath $out
   if (-not $ok) {
     $stock = @(
@@ -81,7 +95,7 @@ for ($i = 0; $i -lt $projectNames.Count; $i++) {
   }
 }
 
-$newsOut = Join-Path $publicRoot "news\tin-tuc-thien-duc-01.jpg"
+$newsOut = Join-Path $publicRoot "news\legacy\tin-tuc-thien-duc-placeholder-01.jpg"
 $newsOk = Save-UrlImage -Url (Resolve-LegacyUrl "img_data/images/898415670800.jpg") -OutPath $newsOut
 if (-not $newsOk) {
   Save-UrlImage -Url "https://images.unsplash.com/photo-1582407947304-fd86fe028716?auto=format&fit=crop&w=1200&q=80" -OutPath $newsOut | Out-Null
