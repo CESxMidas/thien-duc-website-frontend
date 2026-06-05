@@ -2,6 +2,24 @@
 
 File này chỉ dùng cho **task chi tiết trang giới thiệu**. Task tổng quan toàn website nằm ở `docs/prompt-ai-tong-web.md`.
 
+## KẾT QUẢ CẬP NHẬT TRANG GIỚI THIỆU - 2026-06-04
+
+**Kết luận:** Stack Giới thiệu đã qua mức hoàn thiện chính. Route `/gioi-thieu` hiện có metadata riêng, data `src/data/about.ts`, PageHeading production, section tổng quan, nguyên tắc/tầm nhìn, lĩnh vực hoạt động, năng lực & hợp tác, CTA liên hệ và hình ảnh minh họa bằng `next/image`.
+
+### Đã hoàn thành
+
+- Thay placeholder không dấu bằng copy tiếng Việt có dấu.
+- Thêm metadata riêng cho `/gioi-thieu`.
+- Tạo `src/data/about.ts` để quản lý nội dung giới thiệu.
+- Bổ sung các section nội dung chính theo đúng prompt.
+- CTA dùng route thật `/du-an` và `/lien-he`, thông tin liên hệ dùng `siteConfig`.
+- `npm run lint` PASS và `npm run build` PASS trong lượt kiểm tra 2026-06-04.
+
+### Còn lưu ý
+
+- Nội dung giới thiệu vẫn cần công ty duyệt lần cuối trước production.
+- Hình minh họa hiện dùng ảnh dự án có sẵn; có thể thay bằng ảnh văn phòng/đội ngũ nếu có dữ liệu thật.
+
 ## KẾT QUẢ KIỂM TRA TRANG GIỚI THIỆU - 2026-06-03
 
 **Phạm vi kiểm tra:** chỉ route `/gioi-thieu`, hiện nằm ở `src/app/gioi-thieu/page.tsx`. Đọc tham chiếu thêm `src/components/ui/page-heading.tsx`, `src/config/site.ts`, `src/lib/routes.ts`, `src/data/navigation.ts`, `src/data/home.ts`.

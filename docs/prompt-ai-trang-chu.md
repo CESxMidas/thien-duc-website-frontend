@@ -2,6 +2,16 @@
 
 File này chỉ dùng cho **task chi tiết trang chủ**. Task tổng quan toàn website nằm ở `docs/prompt-ai-tong-web.md`.
 
+## KẾT QUẢ CẬP NHẬT TRANG CHỦ — 2026-06-04
+
+**Kết luận:** Stack Home vẫn đạt mức hoàn thiện chính. Dữ liệu dự án và tin tức dùng chung đã được chuẩn hóa hơn sau khi làm stack Dự án/Media; `HomeLatestNews` hiện có thể render bài "Lễ khởi công Fancy Tower | Khu đô thị Hưng Phú" từ `src/data/news.ts`.
+
+### Còn lưu ý
+
+- Home chưa có section số liệu/uy tín vì chưa có số liệu công ty duyệt.
+- SEO description Home có thể rà thêm trước production cuối.
+- Ảnh banner hiện đã đổi sang cấu trúc `/images/banners/home/...`; nếu thay bằng render Hưng Phú/Fancy Tower thì cần dùng bản web-optimized.
+
 ## KẾT QUẢ KIỂM TRA TRANG CHỦ — 2026-06-03
 
 **Phạm vi kiểm tra:** chỉ trang chủ Home (`src/app/page.tsx`, `src/components/sections/home-*.tsx`, `src/data/home.ts`, `src/data/banners.ts`). Không dùng file này để kiểm tra header/footer/toàn site hoặc các trang `/du-an`, `/tin-tuc`, `/gioi-thieu`, `/lien-he`.

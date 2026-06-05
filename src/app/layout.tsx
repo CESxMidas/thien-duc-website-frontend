@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,8 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cong ty Thien Duc",
-  description: "Website gioi thieu cong ty, du an va tin tuc cua Thien Duc.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: "Công ty Thiên Đức",
+    template: "%s | Thiên Đức",
+  },
+  description:
+    "Website giới thiệu công ty, dự án và tin tức của Công ty TNHH Đầu tư - Xây dựng - Thương mại Thiên Đức.",
   icons: {
     icon: "/images/brand/favicon-thien-duc.png",
   },

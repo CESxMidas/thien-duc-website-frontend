@@ -28,5 +28,9 @@ export type NewsPost = {
   slug: string;
   summary: string;
   publishedAt: string;
+  eventDate?: string;
+  category?: string;
+  content?: string[];
+  author?: string;
   image?: string;
 };

@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { newsPosts } from "@/data/news";
+import { formatDate } from "@/lib/format";
 
 export function HomeLatestNews() {
-  const latestNews = newsPosts.slice(0, 3);
+  const latestNews = [...newsPosts]
+    .sort((first, second) => second.publishedAt.localeCompare(first.publishedAt))
+    .slice(0, 3);
 
   if (latestNews.length === 0) {
     return null;
@@ -48,7 +51,9 @@ export function HomeLatestNews() {
                 </div>
               ) : null}
               <div className="p-5">
-                <p className="text-sm text-[#59646a]">{post.publishedAt}</p>
+                <p className="text-sm text-[#59646a]">
+                  {formatDate(post.publishedAt)}
+                </p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#59646a]">{post.summary}</p>
                 <span className="mt-5 inline-flex text-sm font-semibold text-[#B06613]">

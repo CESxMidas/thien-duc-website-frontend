@@ -2,6 +2,31 @@
 
 File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan toàn website nằm ở `docs/prompt-ai-tong-web.md`.
 
+## KẾT QUẢ CẬP NHẬT TRANG DỰ ÁN - 2026-06-04
+
+**Kết luận:** Stack Dự án đã qua mức hoàn thiện chính theo checklist trong file này. `/du-an` đã có metadata riêng, filter theo `?status=...`, trạng thái empty, card dự án có location/status/category/summary/ảnh. `/du-an/[slug]` đã có metadata động, `generateStaticParams()`, ảnh chính, tổng quan, thông tin nhanh, highlights, gallery và CTA. `Project` type đã mở rộng để chuẩn bị cho CMS/API.
+
+### Đã hoàn thành
+
+- Chuẩn hóa copy tiếng Việt có dấu trong `src/data/projects.ts`, `/du-an` và `/du-an/[slug]`.
+- Mở rộng `Project` với `description`, `category`, `gallery`, `highlights`.
+- Thêm `dang-cap-nhat`, `projectStatusLabels` và `projectStatusFilters` cho danh mục dự án.
+- Thêm metadata cho route danh sách và metadata động cho route chi tiết.
+- Xử lý filter trạng thái theo query string:
+  - `/du-an?status=da-ban-giao`
+  - `/du-an?status=dang-thi-cong`
+  - `/du-an?status=chuan-bi-khoi-cong`
+- Thêm empty state khi không có dự án theo filter.
+- Trang chi tiết dự án đã có nội dung production ở mức an toàn, không bịa pháp lý/quy mô/tiến độ.
+- Danh mục hiện có Hưng Phú, La Bonita, Vũng Tàu và Bảy Hiền.
+- `npm run lint` PASS và `npm run build` PASS.
+
+### Còn lưu ý
+
+- Một số thông tin dự án vẫn cần công ty duyệt trước khi xem là dữ liệu production cuối cùng.
+- Vũng Tàu và Bảy Hiền đang dùng ảnh tham khảo, cần công ty xác nhận quyền dùng và độ đúng dự án trước production.
+- Vì `/du-an` đọc `searchParams` ở Server Component, route này được Next.js render dynamic. Điều này ổn cho Next server, nhưng cần đổi nếu sau này dùng static export thuần.
+
 ## KẾT QUẢ KIỂM TRA TRANG DỰ ÁN - 2026-06-04
 
 **Phạm vi kiểm tra:** route danh sách `/du-an`, route chi tiết `/du-an/[slug]`, data `src/data/projects.ts`, type `src/types/content.ts`, ảnh trong `public/images/projects`, component Home đang đọc `projects[]`.

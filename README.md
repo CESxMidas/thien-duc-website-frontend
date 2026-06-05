@@ -1,6 +1,6 @@
-# Thien Duc Frontend
+# Thiên Đức Frontend
 
-Frontend website cho Cong ty Thien Duc, xay dung bang Next.js App Router.
+Frontend website cho Công ty Thiên Đức, xây dựng bằng Next.js App Router.
 
 ## Stack
 
@@ -10,46 +10,47 @@ Frontend website cho Cong ty Thien Duc, xay dung bang Next.js App Router.
 - Tailwind CSS
 - ESLint
 
-## Chay project
+## Chạy project
 
 ```bash
 npm install
 npm run dev
 ```
 
-Mo `http://localhost:3000`.
+Mở `http://localhost:3000`.
 
-## Cau truc thu muc
+## Cấu trúc thư mục
 
 ```txt
 src/
-  app/                    Route pages cua Next.js App Router
-    page.tsx              Trang chu
-    gioi-thieu/           Trang gioi thieu
-    du-an/                Danh sach va chi tiet du an
-    tin-tuc/              Danh sach va chi tiet tin tuc
-    cong-ty-thanh-vien/   Trang cong ty thanh vien
-    tuyen-dung/           Trang tuyen dung
-    lien-he/              Trang lien he
+  app/                    Route pages của Next.js App Router
+    page.tsx              Trang chủ
+    gioi-thieu/           Trang giới thiệu
+    du-an/                Danh sách và chi tiết dự án
+    tin-tuc/              Danh sách và chi tiết tin tức
+    cong-ty-thanh-vien/   Trang công ty thành viên
+    tuyen-dung/           Trang tuyển dụng
+    lien-he/              Trang liên hệ
   components/
     layout/               Header, footer, shell layout
-    sections/             Section theo tung trang
-    ui/                   Component UI dung chung
-  config/                 Cau hinh site, mau sac, thong tin cong ty
-  data/                   Du lieu tam thoi truoc khi ket noi CMS/API
+    sections/             Section theo từng trang
+    ui/                   Component UI dùng chung
+  config/                 Cấu hình site, màu sắc, thông tin công ty
+  data/                   Dữ liệu tạm thời trước khi kết nối CMS/API
   lib/                    Helper, route constants, utilities
-  types/                  TypeScript types dung chung
+  types/                  TypeScript types dùng chung
 public/
   images/
-    brand/                Logo, favicon (da tai tu thienduccons.com)
-    banners/              4 banner trang chu (home-banner-01..04.jpg)
-    projects/             Hinh anh du an
-    news/                 Hinh anh tin tuc
+    brand/                Logo, favicon
+    banners/home/         Banner trang chủ
+    projects/hung-phu/    Hình ảnh dự án Hưng Phú
+    news/                 Hình ảnh tin tức
 ```
 
-## Ghi chu phat trien
+## Ghi chú phát triển
 
-- Du lieu trong `src/data` la placeholder, sau nay co the thay bang CMS/API.
-- Anh trong `public/images` uu tien lay tu `thienduccons.com`; thay bang file that cua cong ty khi co ban chinh.
-- Mau chinh cua website cu dang duoc giu theo tong trang, xam, nau vang.
-- Cac trang chi tiet hien dung static params tu du lieu trong `src/data`.
+- Dữ liệu trong `src/data` là lớp tạm thời trước khi kết nối CMS/API.
+- Quy ước lưu và đặt tên ảnh nằm ở `docs/cau-truc-hinh-anh.md`.
+- Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.
+- Màu chính của website đang giữ theo tông trắng, xám, nâu vàng.
+- Các trang chi tiết hiện dùng static params từ dữ liệu trong `src/data`.
