@@ -58,8 +58,8 @@ export const projects: Project[] = [
       description:
         "Phong cách sống sang trọng đi đôi với hệ thống các tiện ích công cộng hiện đại, khu đô thị hứa hẹn mang đến cho thành phố Bến Tre một diện mạo mới.",
       address: "Phường Phú Tân, thành phố Bến Tre, tỉnh Bến Tre",
-      markerLeft: 66,
-      markerTop: 28,
+      markerLeft: 65,
+      markerTop: 27,
       labels: [
         { text: "Hướng đi chợ Lách", left: 22, top: 9, kind: "direction" },
         {

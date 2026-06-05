@@ -61,11 +61,14 @@ export function ProjectLocationMap({
             className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
             style={{ left: `${markerLeft}%`, top: `${markerTop}%` }}
           >
-            <span className="pointer-events-none absolute left-1/2 top-1/2 size-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fdcd04]/60 motion-safe:animate-ping" />
-            <span className="pointer-events-none absolute left-1/2 top-1/2 size-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fdcd04]/50 motion-safe:animate-pulse" />
+            <span className="pointer-events-none absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#fdcd04] motion-safe:animate-ping" />
+            <span
+              className="pointer-events-none absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#fdcd04] motion-safe:animate-ping"
+              style={{ animationDelay: "0.7s" }}
+            />
 
-            <span className="relative grid size-14 place-items-center rounded-full bg-[#fdcd04] text-[#191919] shadow-xl shadow-black/40 ring-4 ring-white/80 transition group-hover:scale-110">
-              <MapPin className="size-7" />
+            <span className="relative grid size-5 place-items-center rounded-full bg-[#fdcd04] text-[#191919] shadow-md shadow-black/40 ring-2 ring-white/80 transition group-hover:scale-110">
+              <MapPin className="size-3" />
             </span>
 
             <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#191919] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdcd04] opacity-0 shadow-lg transition group-hover:opacity-100">
