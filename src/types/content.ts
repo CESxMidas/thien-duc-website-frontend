@@ -10,6 +10,34 @@ export type ProjectStatus =
   | "chuan-bi-khoi-cong"
 
 
+export type ProjectMapLabelKind = "place" | "area" | "road" | "direction";
+
+export type ProjectMapLabel = {
+  text: string;
+  /** Vị trí nhãn trên ảnh, tính theo phần trăm (0-100). */
+  left: number;
+  top: number;
+  kind?: ProjectMapLabelKind;
+};
+
+export type ProjectMapLocation = {
+  image: string;
+  googleMapsUrl: string;
+  heading?: string;
+  description?: string;
+  address?: string;
+  /** Vị trí marker dự án trên ảnh, tính theo phần trăm (0-100). */
+  markerLeft: number;
+  markerTop: number;
+  /** Nhãn chữ thật vẽ đè lên ảnh nền (cho ảnh nền không có chữ). */
+  labels?: ProjectMapLabel[];
+};
+
+export type ProjectFact = {
+  label: string;
+  value: string;
+};
+
 export type Project = {
   title: string;
   slug: string;
@@ -21,6 +49,8 @@ export type Project = {
   category?: string;
   description?: string;
   highlights?: string[];
+  quickFacts?: ProjectFact[];
+  mapLocation?: ProjectMapLocation;
 };
 
 export type NewsPost = {

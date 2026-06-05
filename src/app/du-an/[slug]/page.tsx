@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
+import { ProjectLocationMap } from "@/components/sections/project-location-map";
 import { projects, projectStatusLabels } from "@/data/projects";
 import { routes } from "@/lib/routes";
 
@@ -59,7 +61,7 @@ export default async function ProjectDetailPage({
         description={project.summary}
       />
 
-      {project.image ? (
+      {project.image && !project.mapLocation ? (
         <section className="mx-auto max-w-7xl px-6 pb-12">
           <div className="relative aspect-[16/9] max-h-[520px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
             <Image
@@ -74,12 +76,15 @@ export default async function ProjectDetailPage({
         </section>
       ) : null}
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-[0.85fr_1.15fr]">
-        <aside className="border border-black/10 bg-white p-6">
-          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
+      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-2">
+        <aside className="border border-black/10 bg-white p-6 md:p-8">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Thông tin nhanh
           </p>
-          <dl className="grid gap-5 text-sm">
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            Thông số chính của dự án
+          </h2>
+          <dl className="mt-6 grid gap-x-6 gap-y-5 text-sm sm:grid-cols-2">
             <div>
               <dt className="text-[#59646a]">Vị trí</dt>
               <dd className="mt-1 font-semibold text-[#191919]">
@@ -98,22 +103,65 @@ export default async function ProjectDetailPage({
                 {project.category ?? "Đang cập nhật"}
               </dd>
             </div>
+            {(project.quickFacts ?? []).map((fact) => (
+              <div key={fact.label}>
+                <dt className="text-[#59646a]">{fact.label}</dt>
+                <dd className="mt-1 font-semibold text-[#191919]">
+                  {fact.value}
+                </dd>
+              </div>
+            ))}
           </dl>
         </aside>
 
-        <article className="border border-black/10 bg-white p-6 md:p-8">
+        <article className="flex h-full flex-col border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Tổng quan dự án
           </p>
-          <h2 className="text-3xl font-semibold leading-tight">
-            Định hướng phát triển và thông tin tổng quan
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            {project.mapLocation?.heading ??
+              "Định hướng phát triển và thông tin tổng quan"}
           </h2>
-          <p className="mt-5 text-lg leading-8 text-[#59646a]">
+          <p className="mt-5 text-base leading-7 text-[#59646a]">
             {project.description ??
               "Thông tin tổng quan của dự án đang được cập nhật theo tài liệu được duyệt."}
           </p>
+          {project.mapLocation?.description ? (
+            <p className="mt-4 text-base leading-7 text-[#59646a]">
+              {project.mapLocation.description}
+            </p>
+          ) : null}
+
+          {project.mapLocation ? (
+            <div className="mt-auto flex flex-col gap-4 border-t border-black/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              {project.mapLocation.address ? (
+                <p className="inline-flex items-center gap-2 text-sm font-medium text-[#191919]">
+                  <MapPin className="size-4 shrink-0 text-[#B06613]" />
+                  <span>{project.mapLocation.address}</span>
+                </p>
+              ) : (
+                <span />
+              )}
+              <a
+                href={project.mapLocation.googleMapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 shrink-0 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-[#191919] hover:text-[#fdcd04]"
+              >
+                Xem trên Google Maps
+              </a>
+            </div>
+          ) : null}
         </article>
       </section>
+
+      {project.mapLocation ? (
+        <ProjectLocationMap
+          mapLocation={project.mapLocation}
+          title={project.title}
+          aerialImage={project.image}
+        />
+      ) : null}
 
       {gallery.length > 0 ? (
         <section className="mx-auto max-w-7xl px-6 pb-14">
@@ -154,12 +202,11 @@ export default async function ProjectDetailPage({
               Điểm nổi bật
             </p>
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              Các thông tin được trình bày ở mức an toàn
+              Những giá trị nổi bật của dự án
             </h2>
             <p className="mt-5 text-sm leading-6 text-[#59646a]">
-              Những nội dung dưới đây dùng cách diễn đạt thận trọng, tránh công
-              bố số liệu pháp lý, quy mô hoặc tiến độ khi chưa có tài liệu được
-              duyệt.
+              Các điểm nhấn về định hướng phát triển, hạ tầng và trải nghiệm
+              sống mà dự án mang lại.
             </p>
           </div>
 
