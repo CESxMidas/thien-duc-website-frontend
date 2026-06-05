@@ -1,8 +1,10 @@
+import { businessFields } from "./business-fields";
+
 export const homeHero = {
   eyebrow: "Công ty Thiên Đức",
   title: "Đầu tư – Xây dựng – Phát triển bất động sản bền vững",
   description:
-    "Thành lập năm 2010, Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng — Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
+    'Thành lập năm 2010, Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm "Khách hàng hài lòng — Thiên Đức thành công", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.',
   primaryCta: {
     label: "Xem dự án",
     href: "/du-an",
@@ -36,28 +38,7 @@ export const homeStrengths = [
   },
 ];
 
-export const homeCapabilities = [
-  {
-    title: "Phát triển BĐS",
-    description:
-      "Phát triển dự án nhà ở, khu đô thị và các sản phẩm bất động sản gắn với nhu cầu sử dụng thực tế.",
-  },
-  {
-    title: "Đầu tư hợp tác",
-    description:
-      "Tham gia hợp tác đầu tư, phát triển dự án và kết nối nguồn lực với các đối tác phù hợp.",
-  },
-  {
-    title: "Thi công EPC",
-    description:
-      "Tổ chức triển khai các hạng mục xây dựng với trọng tâm là tiến độ, chất lượng và kiểm soát thực thi.",
-  },
-  {
-    title: "Phân phối",
-    description:
-      "Đồng hành trong hoạt động giới thiệu, phân phối và kết nối khách hàng với sản phẩm dự án.",
-  },
-];
+export const homeCapabilities = businessFields;
 
 export const homeFeaturedProjectCopy = {
   "khu-do-thi-hung-phu": {

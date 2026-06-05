@@ -27,11 +27,13 @@ File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan t
 - Vũng Tàu và Bảy Hiền đang dùng ảnh tham khảo, cần công ty xác nhận quyền dùng và độ đúng dự án trước production.
 - Vì `/du-an` đọc `searchParams` ở Server Component, route này được Next.js render dynamic. Điều này ổn cho Next server, nhưng cần đổi nếu sau này dùng static export thuần.
 
-## KẾT QUẢ KIỂM TRA TRANG DỰ ÁN - 2026-06-04
+## SNAPSHOT TRƯỚC CẬP NHẬT TRANG DỰ ÁN - 2026-06-04
+
+Phần dưới đây là trạng thái kiểm tra trước khi stack Dự án được cập nhật. Không dùng phần này làm trạng thái hiện tại nếu mâu thuẫn với mục "KẾT QUẢ CẬP NHẬT" ở trên.
 
 **Phạm vi kiểm tra:** route danh sách `/du-an`, route chi tiết `/du-an/[slug]`, data `src/data/projects.ts`, type `src/types/content.ts`, ảnh trong `public/images/projects`, component Home đang đọc `projects[]`.
 
-**Kết luận:** Trang Dự án đã có route danh sách và route chi tiết động, data đã có 2 dự án là Khu đô thị Hưng Phú và Chung cư La Bonita, type `Project` đã có `gallery`. Tuy nhiên trang vẫn chưa đạt mức production: copy còn lỗi chính tả/chuẩn hóa, `/du-an` chưa có metadata riêng, chưa xử lý filter query theo navigation, trang chi tiết còn rất mỏng, chưa có tổng quan/highlights/CTA và chưa kiểm soát rủi ro dữ liệu chưa duyệt.
+**Kết luận tại thời điểm kiểm tra:** Trang Dự án đã có route danh sách và route chi tiết động, data đã có 2 dự án là Khu đô thị Hưng Phú và Chung cư La Bonita, type `Project` đã có `gallery`. Tuy nhiên trang vẫn chưa đạt mức production tại thời điểm đó: copy còn lỗi chính tả/chuẩn hóa, `/du-an` chưa có metadata riêng, chưa xử lý filter query theo navigation, trang chi tiết còn rất mỏng, chưa có tổng quan/highlights/CTA và chưa kiểm soát rủi ro dữ liệu chưa duyệt.
 
 ### Đã có sẵn
 
@@ -60,7 +62,7 @@ File này chỉ dùng cho **task chi tiết trang Dự án**. Task tổng quan t
   - `la-bonita/building/*.jpg`
 - Home đang dùng `projects[]` qua `src/components/sections/home-featured-projects.tsx`.
 
-### Còn thiếu / cần xử lý
+### Còn thiếu tại thời điểm kiểm tra
 
 - Chuẩn hóa copy tiếng Việt trong `src/data/projects.ts`:
   - Sửa lỗi `Dư án` thành `Dự án`.
@@ -144,17 +146,18 @@ Design system tham chiếu:
 
 TRẠNG THÁI CODE HIỆN TẠI
 
-1. `src/app/du-an/page.tsx` render `SiteShell`, `PageHeading`, grid card từ `projects[]`.
-2. `/du-an` chưa có `metadata`.
-3. `/du-an` chưa nhận/xử lý `searchParams.status`.
-4. `src/app/du-an/[slug]/page.tsx` render `PageHeading` và ảnh chính.
-5. `/du-an/[slug]` đã có `generateStaticParams()` và `notFound()`.
-6. `/du-an/[slug]` chưa có `generateMetadata`.
-7. `src/data/projects.ts` hiện có:
+1. `src/app/du-an/page.tsx` render `SiteShell`, `PageHeading`, filter theo `searchParams.status`, grid card từ `projects[]`, empty state và CTA cuối trang.
+2. `/du-an` đã có `metadata` riêng.
+3. `/du-an` fallback về `all` khi query status không hợp lệ.
+4. `src/app/du-an/[slug]/page.tsx` render `PageHeading`, ảnh chính, thông tin nhanh, tổng quan, gallery, highlights và CTA.
+5. `/du-an/[slug]` đã có `generateStaticParams()`, `generateMetadata()` và `notFound()`.
+6. `src/data/projects.ts` hiện có:
    - `Khu đô thị Hưng Phú`
    - `Chung cư La Bonita`
-8. `Project` đã có `gallery?: string[]`.
-9. `HomeFeaturedProjects` đang phụ thuộc vào `projects[]`, cần kiểm tra sau khi sửa data/type.
+   - `Dự án Vũng Tàu`
+   - `Dự án Bảy Hiền`
+7. `Project` đã có `gallery?: string[]`, `category?: string`, `description?: string`, `highlights?: string[]`.
+8. `HomeFeaturedProjects` đang phụ thuộc vào `projects[]` và hiện ưu tiên Hưng Phú/dự án `dang-thi-cong`.
 
 LOGIC NỘI DUNG PRODUCTION
 
@@ -256,6 +259,7 @@ Status labels:
 - `da-ban-giao`: Đã bàn giao
 - `dang-thi-cong`: Đang thi công
 - `chuan-bi-khoi-cong`: Chuẩn bị khởi công
+- `dang-cap-nhat`: Đang cập nhật
 
 COPY MẪU
 

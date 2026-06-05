@@ -45,7 +45,7 @@ export function HomeBannerSlider() {
       onMouseLeave={() => setPaused(false)}
       aria-label="Banner dự án nổi bật"
     >
-      <div className="relative h-[260px] sm:h-[310px] lg:h-[380px]">
+      <div className="relative h-[300px] sm:h-[360px] lg:h-[580px]">
         {homeBanners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -66,6 +66,7 @@ export function HomeBannerSlider() {
                 className={`object-cover transition duration-[6200ms] ease-out ${
                   isActive ? "scale-105" : "scale-100"
                 }`}
+                style={{ objectPosition: banner.objectPosition ?? "center center" }}
               />
             </div>
           );

@@ -7,7 +7,15 @@ File chi tiết hiện có:
 - Giới thiệu: `docs/prompt-ai-gioi-thieu.md`
 - Dự án: `docs/prompt-ai-du-an.md`
 - Tin tức: `docs/prompt-ai-tin-tuc.md`
+- Liên hệ: `docs/prompt-ai-lien-he.md`
 - Cấu trúc hình ảnh: `docs/cau-truc-hinh-anh.md`
+
+File chi tiết còn nên tạo ở stack tiếp theo:
+- Công ty thành viên: `docs/prompt-ai-cong-ty-thanh-vien.md`
+- Tuyển dụng: `docs/prompt-ai-tuyen-dung.md`
+- Chính sách nhân sự: `docs/prompt-ai-chinh-sach-nhan-su.md`
+- Đào tạo: `docs/prompt-ai-dao-tao.md`
+- Sơ đồ tổ chức công ty: `docs/prompt-ai-so-do-to-chuc-cong-ty.md`
 
 ---
 
@@ -33,7 +41,7 @@ Dùng file riêng cho từng trang khi cần sửa sâu layout/copy/data của m
 - Giới thiệu: `docs/prompt-ai-gioi-thieu.md`
 - Dự án: `docs/prompt-ai-du-an.md`
 - Tin tức: `docs/prompt-ai-tin-tuc.md`
-- Liên hệ: `docs/prompt-ai-lien-he.md` (chưa tạo)
+- Liên hệ: `docs/prompt-ai-lien-he.md`
 - Tuyển dụng/chính sách/đào tạo/công ty thành viên/sơ đồ tổ chức: tạo file riêng khi bắt đầu làm.
 
 ---
@@ -80,14 +88,16 @@ Files dùng chung cần đọc khi làm task tổng web:
 - Giới thiệu đã có metadata riêng, data `src/data/about.ts`, các section tổng quan/nguyên tắc/lĩnh vực/năng lực/CTA.
 - Dự án đã có metadata riêng cho `/du-an`, metadata động cho `/du-an/[slug]`, filter `?status=...`, empty state, data model mở rộng và trang chi tiết có tổng quan/highlights/gallery/CTA.
 - Tin tức đã có metadata riêng cho `/tin-tuc`, metadata động cho `/tin-tuc/[slug]`, data model mở rộng, formatter ngày, danh sách bài viết, empty state và trang chi tiết có ảnh/nội dung/thông tin nhanh.
+- Liên hệ đã có metadata riêng, thông tin liên hệ lấy từ `siteConfig`, link gọi điện/email/Google Maps, nhóm nhu cầu liên hệ và fallback gửi yêu cầu qua email.
 - Media đã được gom lại theo cấu trúc mới trong `public/images`, có guide riêng tại `docs/cau-truc-hinh-anh.md`.
 - Global metadata trong `src/app/layout.tsx` đã chuyển sang tiếng Việt có dấu và dùng `metadataBase` từ `siteConfig.url`.
 - README đã cập nhật theo cấu trúc thư mục hiện tại.
 
 ### Còn thiếu / nên làm ở stack tiếp theo
 
-- `/lien-he`, `/tuyen-dung`, `/cong-ty-thanh-vien`, `/dao-tao`, `/so-do-to-chuc-cong-ty`, `/chinh-sach-nhan-su` còn nhiều copy placeholder hoặc nội dung tối thiểu.
+- `/tuyen-dung`, `/cong-ty-thanh-vien`, `/dao-tao`, `/so-do-to-chuc-cong-ty`, `/chinh-sach-nhan-su` còn nhiều copy placeholder hoặc nội dung tối thiểu.
 - Tin tức mới có 1 bài viết thật; cần bổ sung thêm bài đã duyệt khi có dữ liệu.
+- Home, Giới thiệu, Dự án và Tin tức đã có file prompt chi tiết. Các route còn lại vẫn cần tạo prompt riêng trước khi làm sâu.
 - Ảnh 8K đã được gom nhóm nhưng chưa xuất bản bản web-optimized; tổng dung lượng `public/images` vẫn lớn.
 - `/du-an` dùng `searchParams` server-side nên là dynamic route; nếu sau này cần static export thuần, cần đổi cách filter.
 
@@ -107,7 +117,7 @@ Files dùng chung cần đọc khi làm task tổng web:
 
 - Global metadata trong `src/app/layout.tsx` còn tiếng Việt không dấu: `Cong ty Thien Duc`, `Website gioi thieu...`.
 - `src/data/projects.ts` còn title/summary/location tiếng Việt không dấu; ảnh hưởng trang `/du-an` và `/du-an/[slug]`.
-- `src/data/news.ts` đang là bài placeholder tiếng Việt không dấu; ảnh hưởng `/tin-tuc`, `/tin-tuc/[slug]` và việc bật section tin mới ở Home.
+- `src/data/news.ts` đã được cập nhật ở stack Tin tức ngày 2026-06-04. Hiện còn ít bài, nhưng không còn là placeholder không dấu.
 - Một số trang ngoài Home cần rà lại copy production, metadata riêng, H1, CTA, link và trạng thái placeholder.
 - Cần kiểm tra header/footer/navigation toàn site sau khi chuẩn hóa route và nội dung.
 - Cần kiểm tra ảnh thật có khớp với title/subtitle của từng banner, dự án, tin tức hay không.

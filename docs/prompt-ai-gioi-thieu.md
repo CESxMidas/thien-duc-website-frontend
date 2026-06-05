@@ -20,11 +20,13 @@ File này chỉ dùng cho **task chi tiết trang giới thiệu**. Task tổng 
 - Nội dung giới thiệu vẫn cần công ty duyệt lần cuối trước production.
 - Hình minh họa hiện dùng ảnh dự án có sẵn; có thể thay bằng ảnh văn phòng/đội ngũ nếu có dữ liệu thật.
 
-## KẾT QUẢ KIỂM TRA TRANG GIỚI THIỆU - 2026-06-03
+## SNAPSHOT TRƯỚC CẬP NHẬT TRANG GIỚI THIỆU - 2026-06-03
+
+Phần dưới đây là trạng thái trước khi stack Giới thiệu được cập nhật. Không dùng phần này làm trạng thái hiện tại nếu mâu thuẫn với mục "KẾT QUẢ CẬP NHẬT" ở trên.
 
 **Phạm vi kiểm tra:** chỉ route `/gioi-thieu`, hiện nằm ở `src/app/gioi-thieu/page.tsx`. Đọc tham chiếu thêm `src/components/ui/page-heading.tsx`, `src/config/site.ts`, `src/lib/routes.ts`, `src/data/navigation.ts`, `src/data/home.ts`.
 
-**Kết luận:** Trang giới thiệu hiện mới là placeholder rất ngắn, chỉ có `SiteShell` và `PageHeading`. Nội dung còn tiếng Việt không dấu, chưa có metadata riêng, chưa có section giới thiệu doanh nghiệp, lịch sử, tầm nhìn, lĩnh vực hoạt động, năng lực, giá trị cốt lõi, CTA hoặc hình ảnh minh họa. Đây là trang cần làm tiếp sau Home.
+**Kết luận tại thời điểm kiểm tra:** Trang giới thiệu khi đó mới là placeholder rất ngắn, chỉ có `SiteShell` và `PageHeading`. Nội dung còn tiếng Việt không dấu, chưa có metadata riêng, chưa có section giới thiệu doanh nghiệp, lịch sử, tầm nhìn, lĩnh vực hoạt động, năng lực, giá trị cốt lõi, CTA hoặc hình ảnh minh họa.
 
 ### Đã có sẵn
 
@@ -34,7 +36,7 @@ File này chỉ dùng cho **task chi tiết trang giới thiệu**. Task tổng 
 - `siteConfig` đã có tên công ty, email, phone, address để tái sử dụng.
 - Home đã có copy nền tảng về Thiên Đức trong `src/data/home.ts`, có thể dùng làm tham chiếu để giữ giọng văn nhất quán.
 
-### Còn thiếu / cần xử lý
+### Còn thiếu tại thời điểm kiểm tra
 
 - Thay placeholder không dấu:
   - `Gioi thieu`
@@ -95,14 +97,11 @@ Design system tham chiếu:
 
 TRẠNG THÁI CODE HIỆN TẠI
 
-1. src/app/gioi-thieu/page.tsx hiện chỉ render SiteShell + PageHeading.
-2. Nội dung hiện tại còn placeholder không dấu:
-   - eyebrow="Gioi thieu"
-   - title="Tong quan ve Cong ty Thien Duc"
-   - description="Trang nay se trinh bay lich su hinh thanh, tam nhin, linh vuc hoat dong va nang luc doanh nghiep."
-3. Chưa có export metadata riêng cho trang /gioi-thieu.
-4. Chưa có data riêng cho About.
-5. Chưa có section nội dung production hoặc CTA.
+1. `src/app/gioi-thieu/page.tsx` render `SiteShell`, `PageHeading`, section tổng quan, nguyên tắc/tầm nhìn, lĩnh vực hoạt động, năng lực & hợp tác, CTA liên hệ và hình minh họa bằng `next/image`.
+2. `/gioi-thieu` đã có `metadata` riêng.
+3. Nội dung chính đã được tách sang `src/data/about.ts`.
+4. CTA dùng route thật `/du-an` và `/lien-he`.
+5. Thông tin liên hệ dùng `siteConfig`.
 
 LOGIC NỘI DUNG PRODUCTION
 

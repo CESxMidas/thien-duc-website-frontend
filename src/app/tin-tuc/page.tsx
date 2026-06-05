@@ -5,6 +5,8 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
 import { newsPosts } from "@/data/news";
 import { formatDate } from "@/lib/format";
+import { getSearchQuery, matchesSearchQuery } from "@/lib/search";
+import { routes } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Tin tức | Thiên Đức",
@@ -12,17 +14,41 @@ export const metadata: Metadata = {
     "Tin tức doanh nghiệp, cập nhật dự án và hoạt động mới từ Công ty Thiên Đức.",
 };
 
-export default function NewsPage() {
-  const posts = [...newsPosts].sort((first, second) =>
+type NewsPageProps = {
+  searchParams: Promise<{
+    q?: string | string[];
+  }>;
+};
+
+export default async function NewsPage({ searchParams }: NewsPageProps) {
+  const { q } = await searchParams;
+  const query = getSearchQuery(q);
+  const sortedPosts = [...newsPosts].sort((first, second) =>
     second.publishedAt.localeCompare(first.publishedAt),
   );
+  const posts = query
+    ? sortedPosts.filter((post) =>
+        matchesSearchQuery(
+          query,
+          post.title,
+          post.summary,
+          post.category,
+          post.author,
+          ...(post.content ?? []),
+        ),
+      )
+    : sortedPosts;
 
   return (
     <SiteShell>
       <PageHeading
         eyebrow="Tin tức"
-        title="Tin tức và cập nhật"
-        description="Thông tin doanh nghiệp, tiến độ dự án và các hoạt động mới từ Thiên Đức."
+        title={query ? "Kết quả tìm kiếm" : "Tin tức và cập nhật"}
+        description={
+          query
+            ? `Hiển thị bài viết phù hợp với từ khóa "${query}".`
+            : "Thông tin doanh nghiệp, tiến độ dự án và các hoạt động mới từ Thiên Đức."
+        }
       />
       <section className="mx-auto max-w-7xl px-6 pb-16">
         {posts.length > 0 ? (
@@ -30,7 +56,7 @@ export default function NewsPage() {
             {posts.map((post) => (
               <Link
                 key={post.slug}
-                href={`/tin-tuc/${post.slug}`}
+                href={`${routes.news}/${post.slug}`}
                 className="group overflow-hidden border border-black/10 bg-white transition hover:border-[#9b7a34]"
               >
                 {post.image ? (
@@ -59,6 +85,20 @@ export default function NewsPage() {
                 </div>
               </Link>
             ))}
+          </div>
+        ) : query ? (
+          <div className="border border-black/10 bg-white p-8">
+            <h2 className="text-2xl font-semibold">Không tìm thấy bài viết</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#59646a]">
+              Không có kết quả phù hợp với &ldquo;{query}&rdquo;. Thử từ khóa
+              khác hoặc xem toàn bộ tin tức.
+            </p>
+            <Link
+              href={routes.news}
+              className="mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+            >
+              Xem tất cả tin tức
+            </Link>
           </div>
         ) : (
           <div className="border border-black/10 bg-white p-8">

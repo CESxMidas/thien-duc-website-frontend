@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Building2, Handshake, Mail, MapPin, Phone, ShieldCheck, Target } from "lucide-react";
+import { Handshake, Mail, MapPin, Phone, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
+import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { PageHeading } from "@/components/ui/page-heading";
 import { siteConfig } from "@/config/site";
 import {
@@ -22,7 +23,6 @@ export const metadata: Metadata = {
 };
 
 const principleIcons = [Target, Handshake, ShieldCheck];
-const fieldIcons = [Building2, ShieldCheck, Handshake, Target];
 
 export default function AboutPage() {
   return (
@@ -105,30 +105,18 @@ export default function AboutPage() {
             Lĩnh vực hoạt động
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Phát triển năng lực trên chuỗi giá trị đầu tư, xây dựng và bất động sản
+            Ngành nghề kinh doanh đã đăng ký
           </h2>
           <p className="mt-5 text-lg leading-8 text-[#59646a]">
-            Các lĩnh vực được trình bày ở mức tổng quan, tập trung vào định hướng
-            hoạt động đã có trong nội dung giới thiệu công ty.
+            Các lĩnh vực được trình bày theo nhóm ngành nghề trong mục tiêu hoạt
+            động và ngành nghề kinh doanh của Công ty Thiên Đức.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {aboutFields.map((item, index) => {
-            const Icon = fieldIcons[index];
-
-            return (
-              <article key={item.title} className="border border-black/10 bg-white p-5">
-                <div className="mb-5 flex size-11 items-center justify-center bg-[#fff4cf] text-[#B06613]">
-                  <Icon className="size-5" aria-hidden="true" />
-                </div>
-                <h3 className="text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#59646a]">
-                  {item.description}
-                </p>
-              </article>
-            );
-          })}
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {aboutFields.map((item, index) => (
+            <BusinessFieldCard key={item.title} item={item} index={index} />
+          ))}
         </div>
       </section>
 

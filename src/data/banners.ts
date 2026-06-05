@@ -1,34 +1,49 @@
-export const homeBanners = [
+export type HomeBanner = {
+  image: string;
+  title: string;
+  subtitle: string;
+  href: string;
+  ctaLabel: string;
+  /** Canh khung ảnh trong banner (object-cover). Ví dụ: "center 40%" */
+  objectPosition?: string;
+};
+
+/** Chỉ dùng file có trong public/images/banners/home/ */
+export const homeBanners: HomeBanner[] = [
   {
-    image: "/images/banners/home/home-banner-interior-living-room-01.jpg",
+    image: "/images/banners/home/home-banner-hung-phu-master-plan-02.jpg",
+    objectPosition: "center center",
     title: "Khu đô thị Hưng Phú",
     subtitle:
-      "Dự án đô thị tại Bến Tre, định hướng không gian sống hiện đại, kết nối cộng đồng và tiện ích đồng bộ.",
+      "Tổng thể dự án đô thị tại Bến Tre với không gian xanh, hạ tầng đồng bộ và định hướng phát triển bền vững.",
     href: "/du-an/khu-do-thi-hung-phu",
     ctaLabel: "Xem dự án",
   },
   {
-    image: "/images/banners/home/home-banner-interior-living-room-02.jpg",
-    title: "Hợp tác phát triển dự án",
+    image: "/images/banners/home/home-banner-hung-phu-fancy-tower-01.jpg",
+    objectPosition: "center 55%",
+    title: "Không gian sống hiện đại",
     subtitle:
-      "Thiên Đức đồng hành cùng đối tác trong đầu tư xây dựng, phát triển đô thị và khai thác giá trị dài hạn.",
-    href: "/du-an",
-    ctaLabel: "Danh mục dự án",
+      "Góc nhìn cảnh quan khu vực dự án Hưng Phú với mật độ xây dựng hài hòa và tiện ích nội khu.",
+    href: "/du-an/khu-do-thi-hung-phu",
+    ctaLabel: "Khám phá dự án",
+  },
+  {
+    image: "/images/banners/home/home-banner-hung-phu-master-plan-top-01.jpg",
+    objectPosition: "center center",
+    title: "Quy hoạch tổng thể",
+    subtitle:
+      "Mặt bằng tổng thể thể hiện bố trí khu dân cư, công trình công cộng và hạ tầng kết nối trong dự án.",
+    href: "/du-an/khu-do-thi-hung-phu",
+    ctaLabel: "Xem chi tiết",
   },
   {
     image: "/images/banners/home/home-banner-hung-phu-aerial-01.jpg",
+    objectPosition: "center center",
     title: "Thiên Đức — Uy tín từ 2010",
     subtitle:
       "Tập trung vào tiến độ, chất lượng và phương châm Khách hàng hài lòng — Thiên Đức thành công.",
     href: "/gioi-thieu",
     ctaLabel: "Giới thiệu công ty",
-  },
-  {
-    image: "/images/banners/home/home-banner-hung-phu-overview-01.jpg",
-    title: "Tin tức & hoạt động",
-    subtitle:
-      "Cập nhật thông tin doanh nghiệp, hoạt động dự án và các thông báo mới từ Thiên Đức.",
-    href: "/tin-tuc",
-    ctaLabel: "Xem tin tức",
   },
 ];

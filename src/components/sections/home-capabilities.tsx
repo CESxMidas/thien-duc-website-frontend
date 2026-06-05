@@ -1,4 +1,5 @@
 import { homeCapabilities } from "@/data/home";
+import { BusinessFieldCard } from "@/components/ui/business-field-card";
 
 export function HomeCapabilities() {
   return (
@@ -8,21 +9,17 @@ export function HomeCapabilities() {
           Lĩnh vực hoạt động
         </p>
         <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-          Tập trung vào chuỗi giá trị bất động sản và đầu tư xây dựng
+          Ngành nghề kinh doanh đã đăng ký
         </h2>
         <p className="mt-5 text-lg leading-8 text-[#59646a]">
-          Thiên Đức phát triển năng lực theo hướng thực thi dự án, hợp tác đầu tư
-          và kết nối sản phẩm đến khách hàng, đối tác phù hợp.
+          Các lĩnh vực dưới đây được trình bày theo nhóm ngành nghề trong mục tiêu
+          hoạt động và ngành nghề kinh doanh của Công ty Thiên Đức.
         </p>
       </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-4">
-        {homeCapabilities.map((item) => (
-          <article key={item.title} className="border border-black/10 bg-white p-5">
-            <div className="mb-5 h-1 w-12 bg-[#fdcd04]" />
-            <h3 className="text-lg font-semibold">{item.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-[#59646a]">{item.description}</p>
-          </article>
+      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {homeCapabilities.map((item, index) => (
+          <BusinessFieldCard key={item.title} item={item} index={index} />
         ))}
       </div>
     </section>

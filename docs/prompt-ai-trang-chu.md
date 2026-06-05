@@ -16,7 +16,7 @@ File này chỉ dùng cho **task chi tiết trang chủ**. Task tổng quan toà
 
 **Phạm vi kiểm tra:** chỉ trang chủ Home (`src/app/page.tsx`, `src/components/sections/home-*.tsx`, `src/data/home.ts`, `src/data/banners.ts`). Không dùng file này để kiểm tra header/footer/toàn site hoặc các trang `/du-an`, `/tin-tuc`, `/gioi-thieu`, `/lien-he`.
 
-**Kết luận:** Trang chủ đã hoàn thành phần chính theo prompt Home production. Các hạng mục bắt buộc như banner overlay + CTA, HomeHero production, dự án tiêu biểu, lĩnh vực hoạt động, CTA liên hệ, metadata riêng và build production đều đã có. Chưa thể xem là hoàn thành tuyệt đối vì phần số liệu/uy tín đang để optional, tin tức thật chưa có nên section tin mới đang được ẩn, và copy SEO metadata chưa khớp 100% với mẫu đề xuất trong prompt.
+**Kết luận:** Trang chủ đã hoàn thành phần chính theo prompt Home production. Các hạng mục bắt buộc như banner overlay + CTA, HomeHero production, dự án tiêu biểu, lĩnh vực hoạt động, tin tức mới, CTA liên hệ, metadata riêng và build production đều đã có. Chưa thể xem là hoàn thành tuyệt đối vì phần số liệu/uy tín đang để optional và copy SEO metadata vẫn có thể rà thêm trước production cuối.
 
 ### Đã hoàn thành
 
@@ -34,14 +34,14 @@ File này chỉ dùng cho **task chi tiết trang chủ**. Task tổng quan toà
 
 - Layout và component Home đã có; phần còn lại chủ yếu là nội dung/data cần CTY duyệt trước production.
 - Section con số/uy tín chưa triển khai vì chưa có số liệu được duyệt. Đây là mục optional.
-- `HomeLatestNews` đã có component và logic ẩn tin placeholder, nhưng hiện không hiển thị trên Home vì chưa có bài tin thật đã duyệt.
-- Dữ liệu dự án/tin tức dùng cho Home đang ở mức tối thiểu/mẫu. Home đã bù copy hiển thị cho Khu đô thị Hưng Phú, nhưng data gốc vẫn cần chuẩn hóa khi làm task toàn web.
+- `HomeLatestNews` đã có component, dùng `newsPosts[]`, sắp xếp bài mới trước và hiện có thể hiển thị bài "Lễ khởi công Fancy Tower | Khu đô thị Hưng Phú".
+- Dữ liệu dự án/tin tức dùng cho Home đã được chuẩn hóa ở mức cơ bản sau stack Dự án/Tin tức. Vẫn cần công ty duyệt cuối với dữ liệu dự án, ảnh tham khảo và nội dung bài viết.
 - SEO description trong `src/app/page.tsx` đã tách riêng nhưng vẫn là bản nháp, chưa khớp hoàn toàn mẫu SEO bên dưới.
 
 ### TASK làm tiếp
 
 ```
-TASK: Chỉ hoàn thiện dữ liệu/nội dung còn là mẫu của trang chủ: cập nhật SEO description Home theo copy đã duyệt, quyết định có/không thêm section con số sau khi CTY duyệt số liệu, chuẩn hóa dữ liệu dự án/tin tức dùng cho Home, và chỉ bật HomeLatestNews khi đã có bài tin thật đã duyệt. Không sửa layout Home và không sửa các trang khác.
+TASK: Chỉ hoàn thiện dữ liệu/nội dung còn cần duyệt của trang chủ: cập nhật SEO description Home theo copy đã duyệt, quyết định có/không thêm section con số sau khi CTY duyệt số liệu, rà lại dữ liệu dự án/tin tức đang hiển thị trên Home và thay ảnh bằng bản web-optimized nếu cần. Không sửa layout Home và không sửa các trang khác.
 ```
 ---
 
@@ -89,7 +89,7 @@ TRẠNG THÁI CODE HIỆN TẠI
 2. HomeHero: ĐÃ thay placeholder dev bằng khối định vị production; có một H1, CTA chính/phụ và 4 điểm mạnh từ src/data/home.ts.
 3. Section Home: ĐÃ có HomeFeaturedProjects, HomeCapabilities, HomeLatestNews, HomeContactCta và đã gắn vào src/app/page.tsx đúng thứ tự chính.
 4. Metadata Home: ĐÃ tách riêng trong src/app/page.tsx; NÊN rà lại description nếu muốn khớp đúng copy SEO đề xuất bên dưới.
-5. Tin tức mới: component đã có logic ẩn tin placeholder; hiện đang ẩn trên Home vì src/data/news.ts chỉ có bài mẫu "Cap nhat tin tuc Thien Duc".
+5. Tin tức mới: component đã dùng `newsPosts[]`, sort theo `publishedAt`, hiển thị tối đa 3 bài và dùng `formatDate()`.
 6. Con số / uy tín: CHƯA triển khai, nhưng là optional và chỉ nên làm khi CTY duyệt số liệu.
 7. Build kiểm tra ngày 2026-06-03: npm run build PASS.
 

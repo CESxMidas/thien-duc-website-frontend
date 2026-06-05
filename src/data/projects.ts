@@ -4,7 +4,7 @@ export const projectStatusLabels: Record<ProjectStatus, string> = {
   "da-ban-giao": "Đã bàn giao",
   "dang-thi-cong": "Đang thi công",
   "chuan-bi-khoi-cong": "Chuẩn bị khởi công",
-  "dang-cap-nhat": "Đang cập nhật",
+
 };
 
 export const projectStatusFilters: Array<{
@@ -66,7 +66,7 @@ export const projects: Project[] = [
     slug: "du-an-vung-tau",
     summary:
       "Dự án chung cư tại Vũng Tàu, đang được bổ sung hình ảnh và thông tin tổng quan theo tài liệu được duyệt.",
-    status: "dang-cap-nhat",
+    status: "da-ban-giao",
     location: "Vũng Tàu",
     category: "Chung cư",
     image: "/images/projects/vung-tau/vung-tau-center-exterior-01.webp",
@@ -86,7 +86,7 @@ export const projects: Project[] = [
     slug: "du-an-bay-hien",
     summary:
       "Dự án chung cư tại khu vực Bảy Hiền, đang được bổ sung thông tin chi tiết và hình ảnh phù hợp.",
-    status: "dang-cap-nhat",
+    status: "da-ban-giao",
     location: "Bảy Hiền, TP.HCM",
     category: "Chung cư",
     image: "/images/projects/bay-hien/bay-hien-tower-exterior-01.jpg",

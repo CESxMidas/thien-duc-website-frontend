@@ -1,4 +1,5 @@
 import { routes } from "@/lib/routes";
+import { businessFields } from "./business-fields";
 
 export const aboutHero = {
   eyebrow: "Giới thiệu",
@@ -35,28 +36,7 @@ export const aboutPrinciples = [
   },
 ];
 
-export const aboutFields = [
-  {
-    title: "Đầu tư và phát triển bất động sản",
-    description:
-      "Nghiên cứu, đầu tư và phát triển các dự án nhà ở, khu đô thị và sản phẩm bất động sản gắn với nhu cầu sử dụng thực tế.",
-  },
-  {
-    title: "Xây dựng và triển khai công trình",
-    description:
-      "Tổ chức triển khai hạ tầng, công trình dân dụng và các hạng mục xây dựng với trọng tâm là tiến độ, chất lượng và kiểm soát thực thi.",
-  },
-  {
-    title: "Hợp tác phát triển dự án",
-    description:
-      "Kết nối nguồn lực với đối tác phù hợp để mở rộng năng lực triển khai và tối ưu giá trị dài hạn cho từng dự án.",
-  },
-  {
-    title: "Thương mại và phân phối sản phẩm",
-    description:
-      "Đồng hành trong hoạt động giới thiệu, phân phối và kết nối khách hàng với sản phẩm dự án phù hợp.",
-  },
-];
+export const aboutFields = businessFields;
 
 export const aboutCapability = {
   eyebrow: "Năng lực & hợp tác",
