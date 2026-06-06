@@ -40,7 +40,7 @@ export function HomeLatestNews() {
               className="group border border-black/10 bg-[#f6f3ee] transition hover:border-[#B06613]"
             >
               {post.image ? (
-                <div className="relative aspect-video overflow-hidden bg-[#191919]">
+                <div className="relative aspect-video overflow-hidden bg-[#f2f2f2]">
                   <Image
                     src={post.image}
                     alt={post.title}

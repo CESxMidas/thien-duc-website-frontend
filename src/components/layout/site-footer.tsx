@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-black/10 bg-[#191919] text-white">
+    <footer className="border-t border-[#B06613]/20 bg-[#c99248] text-white">
       <div className="mx-auto grid max-w-7xl gap-6 px-6 py-10 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="text-lg font-semibold">{siteConfig.name}</p>

@@ -60,7 +60,7 @@ export function HomeFeaturedProjects() {
                 }`}
               >
                 <div
-                  className={`relative overflow-hidden bg-[#191919] ${
+                  className={`relative overflow-hidden bg-[#f2f2f2] ${
                     singleProject
                       ? "aspect-[16/10] md:aspect-auto md:min-h-80"
                       : "aspect-[4/3]"

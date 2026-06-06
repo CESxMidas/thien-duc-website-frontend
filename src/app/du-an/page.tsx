@@ -94,7 +94,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               >
                 {project.image ? (
                   <div
-                    className={`relative overflow-hidden bg-[#191919] ${
+                    className={`relative overflow-hidden bg-[#f2f2f2] ${
                       filteredProjects.length === 1
                         ? "aspect-[16/10] md:aspect-auto md:min-h-80"
                         : "aspect-[3/2]"
@@ -153,7 +153,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid gap-6 bg-[#191919] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+        <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
               Thông tin dự án

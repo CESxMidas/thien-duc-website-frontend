@@ -10,6 +10,10 @@ export const siteConfig = {
 
 export const brandColors = {
   primary: "#B06613",
+  primarySoft: "#c99248",
+  primarySoftInner: "#fff4cf",
+  primaryDark: "#B06613",
+  primaryDarker: "#7f4b0d",
   accent: "#fdcd04",
   background: "#FFFFFF",
   surface: "#F2F2F2",

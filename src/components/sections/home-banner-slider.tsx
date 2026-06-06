@@ -40,7 +40,7 @@ export function HomeBannerSlider() {
 
   return (
     <section
-      className="relative overflow-hidden bg-[#191919]"
+      className="relative overflow-hidden bg-[#c99248]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-label="Banner dự án nổi bật"
@@ -72,7 +72,7 @@ export function HomeBannerSlider() {
           );
         })}
 
-        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.35)_42%,rgba(0,0,0,0.08)_100%)]" />
+        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(201,146,72,0.38)_0%,rgba(201,146,72,0.2)_42%,rgba(201,146,72,0.04)_100%)]" />
         <div className="absolute inset-x-0 top-0 z-20 h-1 bg-[#fdcd04]" />
 
         <div className="absolute inset-x-0 bottom-12 z-30 px-6 sm:bottom-16 lg:bottom-20">
@@ -89,7 +89,7 @@ export function HomeBannerSlider() {
               </p>
               <Link
                 href={activeBanner.href}
-                className="mt-5 inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-black"
+                className="mt-5 inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#c99248]"
               >
                 {activeBanner.ctaLabel}
               </Link>
@@ -102,7 +102,7 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner trước"
             onClick={goToPrevious}
-            className="grid size-11 place-items-center border border-white/40 bg-black/20 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919]"
+            className="grid size-11 place-items-center border border-white/40 bg-[#c99248]/20 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919]"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -110,7 +110,7 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner tiếp theo"
             onClick={goToNext}
-            className="grid size-11 place-items-center border border-white/40 bg-black/20 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919]"
+            className="grid size-11 place-items-center border border-white/40 bg-[#c99248]/20 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919]"
           >
             <ChevronRight className="size-5" />
           </button>

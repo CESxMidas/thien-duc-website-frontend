@@ -24,7 +24,7 @@ export function SiteHeader() {
 
   return (
     <header className="relative z-40 bg-white text-[#191919] shadow-md">
-      <div className="border-b border-[#B06613]/20 bg-[#191919]">
+      <div className="border-b border-[#B06613]/25 bg-[#c99248]">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 text-sm md:px-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-x-7 gap-y-2 font-medium text-white/90">
             <a

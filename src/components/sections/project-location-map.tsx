@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MapPin } from "lucide-react";
+import { MapLocationMarker } from "@/components/ui/map-location-marker";
 import type { ProjectMapLabelKind, ProjectMapLocation } from "@/types/content";
 
 type ProjectLocationMapProps = {
@@ -41,45 +41,31 @@ export function ProjectLocationMap({
         ) : null}
 
         <div
-          className="relative overflow-hidden border border-black/10 bg-[#0c5b3f]"
+          className="relative border border-black/10 bg-[#0c5b3f]"
           style={{ aspectRatio: "1024 / 683" }}
         >
-          <Image
-            src={image}
-            alt={`Bản đồ vị trí ${title}`}
-            fill
-            quality={100}
-            sizes="(max-width: 1024px) 100vw, 640px"
-            className="object-cover"
-          />
-
-          <a
-            href={googleMapsUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Mở vị trí ${title} trên Google Maps`}
-            className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${markerLeft}%`, top: `${markerTop}%` }}
-          >
-            <span className="pointer-events-none absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#fdcd04] motion-safe:animate-ping" />
-            <span
-              className="pointer-events-none absolute left-1/2 top-1/2 size-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#fdcd04] motion-safe:animate-ping"
-              style={{ animationDelay: "0.7s" }}
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src={image}
+              alt={`Bản đồ vị trí ${title}`}
+              fill
+              quality={100}
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="object-cover"
             />
+          </div>
 
-            <span className="relative grid size-5 place-items-center rounded-full bg-[#fdcd04] text-[#191919] shadow-md shadow-black/40 ring-2 ring-white/80 transition group-hover:scale-110">
-              <MapPin className="size-3" />
-            </span>
-
-            <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#191919] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdcd04] opacity-0 shadow-lg transition group-hover:opacity-100">
-              Xem chi tiết
-            </span>
-          </a>
+          <MapLocationMarker
+            href={googleMapsUrl}
+            label={`Mở vị trí ${title} trên Google Maps`}
+            left={markerLeft}
+            top={markerTop}
+          />
 
           {(labels ?? []).map((label) => (
             <span
               key={`${label.text}-${label.left}-${label.top}`}
-              className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_55%)] ${
+              className={`pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_55%)] ${
                 labelClassByKind[label.kind ?? "place"]
               }`}
               style={{ left: `${label.left}%`, top: `${label.top}%` }}

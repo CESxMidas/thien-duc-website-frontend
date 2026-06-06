@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Handshake, Mail, MapPin, Phone, ShieldCheck, Target } from "lucide-react";
+import { Handshake, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
+import { CtaContactCards } from "@/components/ui/cta-contact-cards";
 import { PageHeading } from "@/components/ui/page-heading";
-import { siteConfig } from "@/config/site";
 import {
   aboutCapability,
   aboutContactCta,
@@ -145,7 +145,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-8 bg-[#191919] p-6 text-white md:grid-cols-[1fr_0.9fr] md:p-10">
+        <div className="grid gap-8 rounded-sm bg-[#c99248] p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:grid-cols-[1fr_0.9fr] md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
               {aboutContactCta.eyebrow}
@@ -165,47 +165,14 @@ export default function AboutPage() {
               </Link>
               <Link
                 href={aboutContactCta.secondaryCta.href}
-                className="inline-flex h-11 items-center border border-white/20 px-5 text-sm font-semibold text-white transition hover:border-[#fdcd04] hover:text-[#fdcd04]"
+                className="inline-flex h-11 items-center border border-[#B06613]/30 bg-[#fff4cf] px-5 text-sm font-semibold text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] transition hover:border-[#B06613] hover:bg-[#fdcd04]"
               >
                 {aboutContactCta.secondaryCta.label}
               </Link>
             </div>
           </div>
 
-          <div className="grid content-center gap-4 text-sm">
-            <a
-              href={`tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`}
-              className="flex gap-3 border border-white/15 p-4 transition hover:border-[#fdcd04]"
-            >
-              <Phone className="mt-0.5 size-5 shrink-0 text-[#fdcd04]" />
-              <span>
-                <span className="block text-white/60">Điện thoại</span>
-                <span className="mt-1 block font-semibold">{siteConfig.phone}</span>
-              </span>
-            </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex gap-3 border border-white/15 p-4 transition hover:border-[#fdcd04]"
-            >
-              <Mail className="mt-0.5 size-5 shrink-0 text-[#fdcd04]" />
-              <span>
-                <span className="block text-white/60">Email</span>
-                <span className="mt-1 block font-semibold">{siteConfig.email}</span>
-              </span>
-            </a>
-            <a
-              href={`https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`}
-              target="_blank"
-              rel="noreferrer"
-              className="flex gap-3 border border-white/15 p-4 transition hover:border-[#fdcd04]"
-            >
-              <MapPin className="mt-0.5 size-5 shrink-0 text-[#fdcd04]" />
-              <span>
-                <span className="block text-white/60">Trụ sở</span>
-                <span className="mt-1 block font-semibold">{siteConfig.address}</span>
-              </span>
-            </a>
-          </div>
+          <CtaContactCards />
         </div>
       </section>
     </SiteShell>

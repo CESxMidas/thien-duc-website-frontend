@@ -146,7 +146,7 @@ export default async function ProjectDetailPage({
                 href={project.mapLocation.googleMapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 shrink-0 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-[#191919] hover:text-[#fdcd04]"
+                className="inline-flex h-11 shrink-0 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-[#7f4b0d] hover:text-[#fdcd04]"
               >
                 Xem trên Google Maps
               </a>
@@ -222,7 +222,7 @@ export default async function ProjectDetailPage({
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid gap-6 bg-[#191919] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+        <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
               Quan tâm dự án này?
@@ -235,7 +235,7 @@ export default async function ProjectDetailPage({
               trao đổi thêm về dự án.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 rounded border border-[#B06613]/30 bg-[#fff4cf] p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)]">
             <Link
               href={routes.contact}
               className="inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
@@ -244,7 +244,7 @@ export default async function ProjectDetailPage({
             </Link>
             <Link
               href={routes.projects}
-              className="inline-flex h-11 items-center justify-center border border-white/20 px-5 text-sm font-semibold text-white transition hover:border-[#fdcd04] hover:text-[#fdcd04]"
+              className="inline-flex h-11 items-center justify-center border border-[#B06613]/35 bg-white px-5 text-sm font-semibold text-[#191919] transition hover:border-[#B06613] hover:bg-[#fdcd04]"
             >
               Xem dự án khác
             </Link>

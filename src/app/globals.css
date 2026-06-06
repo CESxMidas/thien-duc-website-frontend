@@ -10,12 +10,45 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --animate-map-ripple: map-ripple 2s ease-out infinite;
+
+  @keyframes map-ripple {
+    0% {
+      transform: translate(-50%, -50%) scale(0.35);
+      opacity: 0.9;
+    }
+
+    70% {
+      opacity: 0.15;
+    }
+
+    100% {
+      transform: translate(-50%, -50%) scale(5);
+      opacity: 0;
+    }
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes map-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.35);
+    opacity: 0.9;
+  }
+
+  70% {
+    opacity: 0.15;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
 }
 
 @keyframes bannerFadeUp {
