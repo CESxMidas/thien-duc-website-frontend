@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "start:lan": "next start --hostname 0.0.0.0 --port 3000",
-    "lint": "eslint"
+    "lint": "eslint",
+    "report:full": "node docs/generate-bao-cao.mjs",
+    "report:summary": "node docs/generate-bao-cao-tom-tat.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",
@@ -22,6 +24,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
+    "docx": "^9.5.0",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
