@@ -9,8 +9,7 @@
     "start": "next start",
     "start:lan": "next start --hostname 0.0.0.0 --port 3000",
     "lint": "eslint",
-    "report:full": "node docs/generate-bao-cao.mjs",
-    "report:summary": "node docs/generate-bao-cao-tom-tat.mjs"
+    "report": "node docs/generate-bao-cao-tom-tat.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Báo cáo phương án kỹ thuật — Website Thiên Đức</title>
+<style>
+  @page { margin: 2.5cm 2cm; }
+  body { font-family: Arial, sans-serif; font-size: 12pt; line-height: 1.5; color: #222; max-width: 21cm; margin: 0 auto; padding: 1.5cm; }
+  h1 { color: #B06613; font-size: 18pt; border-bottom: 2px solid #B06613; padding-bottom: 4px; margin-top: 24px; }
+  h2 { color: #B06613; font-size: 14pt; margin-top: 18px; }
+  h3 { color: #333; font-size: 12pt; margin-top: 14px; }
+  .cover { text-align: center; margin: 60px 0 40px; }
+  .cover .company { font-size: 13pt; font-weight: bold; color: #B06613; border-bottom: 3px solid #B06613; display: inline-block; padding-bottom: 8px; }
+  .cover .title { background: #F2F2F2; padding: 24px; margin: 30px 0; font-size: 22pt; font-weight: bold; color: #B06613; }
+  .cover .subtitle { font-size: 14pt; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: 10.5pt; }
+  th { background: #B06613; color: #fff; padding: 8px 10px; text-align: center; border: 1px solid #ccc; }
+  td { padding: 8px 10px; border: 1px solid #ccc; vertical-align: top; }
+  tr:nth-child(even) td { background: #F2F2F2; }
+  .priority { font-weight: bold; color: #B06613; }
+  .choice { margin: 8px 0 16px 24px; text-align: justify; }
+  .note { margin: 4px 0 12px 24px; font-style: italic; color: #8B4513; }
+  .indent { text-align: justify; margin-left: 12px; }
+  ul { margin: 8px 0; }
+  li { margin: 4px 0; }
+  .page-break { page-break-before: always; }
+  .footer { text-align: center; margin-top: 40px; font-weight: bold; color: #B06613; }
+  .sign { text-align: center; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <p class="company">CÔNG TY TNHH ĐẦU TƯ – XÂY DỰNG – THƯƠNG MẠI THIÊN ĐỨC</p>
+  <div class="title">BÁO CÁO PHƯƠNG ÁN KỸ THUẬT</div>
+  <p class="subtitle">WEBSITE GIỚI THIỆU CÔNG TY THIÊN ĐỨC</p>
+  <p>Ngày lập: 06/06/2026</p>
+</div>
+
+<div class="page-break"></div>
+
+<h1>1. MỤC ĐÍCH</h1>
+<p class="indent">Trình bày 3 phương án kỹ thuật. Mỗi PA: so sánh ưu/nhược từng công nghệ → lý do chọn → đánh giá mở rộng, bảo trì, tốc độ phản hồi.</p>
+<ul>
+  <li>Hiện trạng: Frontend Next.js 16 đang phát triển, mock data trong <code>src/data/</code>.</li>
+  <li>Yêu cầu: Website + Backend + CSDL + Admin + form liên hệ + tuyển dụng.</li>
+</ul>
+
+<h1>2. TỔNG QUAN 3 PHƯƠNG ÁN</h1>
+<table>
+  <tr><th>PA</th><th>Ưu tiên</th><th>Backend</th><th>CSDL</th><th>Admin</th><th>Điểm</th><th>Đề xuất</th></tr>
+  <tr><td>PA1</td><td>Tốc độ + chi phí</td><td>Không</td><td>Không</td><td>Không</td><td>2.4/5</td><td>GĐ1</td></tr>
+  <tr><td>PA2</td><td>Tự đăng bài</td><td>CMS</td><td>PostgreSQL</td><td>CMS</td><td>3.3/5</td><td>Chưa tối ưu</td></tr>
+  <tr><td>PA3</td><td>Kiểm soát + mở rộng</td><td>NestJS</td><td>PostgreSQL</td><td>Tự xây</td><td>4.5/5</td><td><strong>ĐỀ XUẤT</strong></td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- PA1 -->
+<h1>3. PA1 — Static-first (SSG / Jamstack)</h1>
+<p class="priority">Ưu tiên: TỐC ĐỘ RA MẮT GIAO DIỆN và CHI PHÍ THẤP NHẤT</p>
+<p class="indent">Website dạng trang tĩnh. Nội dung trong <code>src/data/</code>. Không backend, không CSDL, không admin. Phù hợp giai đoạn 1 — demo giao diện.</p>
+
+<h2>3.1. So sánh công nghệ và lý do chọn</h2>
+
+<h3>Frontend — tại sao chọn Next.js?</h3>
+<table>
+  <tr><th>Công nghệ</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Next.js 16 ✓</td><td>SSG/ISR; SEO tốt; đang dùng — không đập lại FE</td><td>App Router cần học</td></tr>
+  <tr><td>Astro</td><td>Trang tĩnh rất nhanh</td><td>Phải migrate toàn bộ FE</td></tr>
+  <tr><td>Remix</td><td>Form/action tốt</td><td>Phải viết lại; ít tài liệu VN</td></tr>
+  <tr><td>React SPA (Vite)</td><td>Dev nhanh</td><td>SEO kém — không phù hợp web giới thiệu</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Next.js 16 vì: (1) dự án đã code sẵn Next.js; (2) SSG nhanh, SEO tốt; (3) sau này chỉ thay layer data, không đổi UI.</p>
+
+<h3>Dữ liệu — tại sao KHÔNG dùng CSDL?</h3>
+<table>
+  <tr><th>Phương án</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>File TS/JSON trong repo ✓</td><td>Đơn giản; version Git; chi phí 0</td><td>Cập nhật qua developer</td></tr>
+  <tr><td>PostgreSQL</td><td>ACID; multi-user</td><td>Cần backend — vượt PA1</td></tr>
+  <tr><td>Headless CMS</td><td>Marketing tự đăng</td><td>Đó là PA2</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn file trong repo vì PA1 ưu tiên đơn giản, chi phí 0. Khi cần CSDL → chuyển PA3.</p>
+<p class="note">PA1 KHÔNG có CSDL — chủ đích, không phải thiếu sót.</p>
+
+<h3>Backend — tại sao KHÔNG có?</h3>
+<table>
+  <tr><th>Phương án</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Không có backend ✓</td><td>Chi phí 0; bảo mật tốt</td><td>Không form/CV/admin</td></tr>
+  <tr><td>NestJS + PostgreSQL</td><td>Đầy đủ nghiệp vụ</td><td>Đó là PA3</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Không có backend vì PA1 chỉ demo giao diện.</p>
+<p class="note">NestJS là framework — nếu có backend thì BẮT BUỘC cần CSDL. PA1 cố ý không có cả hai.</p>
+
+<h3>Form liên hệ</h3>
+<table>
+  <tr><th>Dịch vụ</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Formspree ✓</td><td>Không cần backend</td><td>Dữ liệu ở bên thứ ba</td></tr>
+  <tr><td>Backend tự xây</td><td>Kiểm soát</td><td>Vượt PA1</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Formspree tạm thời vì PA1 không có backend.</p>
+
+<h3>Hosting — Vercel</h3>
+<table>
+  <tr><th>Nền tảng</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Vercel ✓</td><td>Tối ưu Next.js; CDN; free tier</td><td>Giới hạn bandwidth free</td></tr>
+  <tr><td>Cloudflare Pages</td><td>CDN mạnh</td><td>Cấu hình Next phức tạp hơn</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Vercel vì được tạo bởi team Next.js — deploy tự động.</p>
+
+<h2>3.2. Tiêu chí phi chức năng</h2>
+<table>
+  <tr><th>Tiêu chí</th><th>PA1</th><th>Giải thích</th></tr>
+  <tr><td>Mở rộng tính năng</td><td>★★☆☆☆</td><td>Mỗi tính năng mới cần developer sửa code</td></tr>
+  <tr><td>Dễ bảo trì</td><td>★★★★☆</td><td>Ít thành phần; nhưng sửa nội dung phải qua dev</td></tr>
+  <tr><td>Cập nhật nội dung</td><td>★☆☆☆☆</td><td>Marketing không tự đăng bài được</td></tr>
+  <tr><td>Tốc độ phản hồi</td><td>★★★★★</td><td>HTML tĩnh CDN ~50–100ms — nhanh nhất</td></tr>
+  <tr><td>Chi phí vận hành</td><td>★★★★★</td><td>~0–5 USD/tháng</td></tr>
+  <tr><td>Đáp ứng BE + Admin</td><td>★☆☆☆☆</td><td>Không đáp ứng — hạn chế cố hữu</td></tr>
+</table>
+<p class="indent"><strong>Kết luận PA1:</strong> PA1 phù hợp giai đoạn 1 (FE + demo). Không đủ cho BE + CSDL + Admin.</p>
+
+<div class="page-break"></div>
+
+<!-- PA2 -->
+<h1>4. PA2 — Headless CMS</h1>
+<p class="priority">Ưu tiên: TỰ QUẢN TRỊ NỘI DUNG — marketing tự đăng bài</p>
+<p class="indent">Next.js + CMS (Strapi/Sanity). CMS có CSDL riêng. Form/HR vẫn thiếu — dễ thành 2–3 hệ thống rời.</p>
+
+<h2>4.1. So sánh công nghệ và lý do chọn</h2>
+
+<h3>Frontend — Next.js</h3>
+<table>
+  <tr><th>Công nghệ</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Next.js 16 ✓</td><td>ISR từ CMS; tái dùng FE hiện tại</td><td>Cần cấu hình revalidate</td></tr>
+  <tr><td>Nuxt.js</td><td>Tương tự cho Vue</td><td>Team đang dùng React</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Next.js vì tái dùng FE đang code; ISR giữ trang nhanh khi có bài mới.</p>
+
+<h3>CMS — chọn Strapi 5</h3>
+<table>
+  <tr><th>CMS</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Strapi 5 ✓</td><td>Open-source; TypeScript; PostgreSQL</td><td>Tốn công vận hành</td></tr>
+  <tr><td>Sanity</td><td>Cloud; preview tốt</td><td>Vendor lock-in; chi phí scale</td></tr>
+  <tr><td>Contentful</td><td>Enterprise</td><td>Đắt khi nhiều user</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Strapi vì open-source, tự host, dùng PostgreSQL — đồng bộ với PA3.</p>
+<p class="note">Strapi là CMS + backend nội dung — KHÔNG xử lý HR/form phức tạp.</p>
+
+<h3>CSDL — PostgreSQL (qua Strapi)</h3>
+<table>
+  <tr><th>CSDL</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>PostgreSQL ✓</td><td>ACID; Strapi hỗ trợ native</td><td>Cần server DB</td></tr>
+  <tr><td>Sanity cloud</td><td>Managed</td><td>Vendor lock-in</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">PA2 CÓ CSDL — nhưng chỉ cho nội dung (tin, dự án). Form/CV không nằm đây.</p>
+
+<h3>Backend nghiệp vụ — CHƯA ĐỦ</h3>
+<table>
+  <tr><th>Giải pháp</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Chỉ CMS ✓</td><td>Đơn giản cho content</td><td>Không form/CV/HR</td></tr>
+  <tr><td>CMS + NestJS</td><td>Gần PA3</td><td>CMS thừa — không tối ưu</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">PA2 thiếu backend nghiệp vụ — lý do không đề xuất cho Thiên Đức.</p>
+
+<h2>4.2. Tiêu chí phi chức năng</h2>
+<table>
+  <tr><th>Tiêu chí</th><th>PA2</th><th>Giải thích</th></tr>
+  <tr><td>Mở rộng tính năng</td><td>★★★☆☆</td><td>Content OK; CRM/HR khó</td></tr>
+  <tr><td>Dễ bảo trì</td><td>★★★☆☆</td><td>Phụ thuộc CMS; thêm BE form → 2 hệ thống</td></tr>
+  <tr><td>Cập nhật nội dung</td><td>★★★★★</td><td>Marketing tự đăng bài</td></tr>
+  <tr><td>Tốc độ phản hồi</td><td>★★★★☆</td><td>ISR ~100–200ms</td></tr>
+  <tr><td>Chi phí vận hành</td><td>★★★☆☆</td><td>~15–50 USD/tháng</td></tr>
+  <tr><td>Đáp ứng BE + Admin</td><td>★★☆☆☆</td><td>Content OK; form/HR thiếu</td></tr>
+</table>
+<p class="indent"><strong>Kết luận PA2:</strong> PA2 OK nếu chỉ cần đăng bài. Không đủ cho liên hệ + tuyển dụng + phân quyền.</p>
+
+<div class="page-break"></div>
+
+<!-- PA3 -->
+<h1>5. PA3 — Full-stack (FE + BE + CSDL + Admin)</h1>
+<p class="priority">Ưu tiên: KIỂM SOÁT TOÀN DIỆN, MỞ RỘNG, MỘT HỆ THỐNG THỐNG NHẤT</p>
+<p class="indent">3 repo: Frontend Next.js + Backend NestJS + PostgreSQL + Admin Vite+React. Một API cho cả web và admin.</p>
+
+<h2>5.1. So sánh công nghệ và lý do chọn</h2>
+
+<h3>Frontend — Next.js</h3>
+<table>
+  <tr><th>Công nghệ</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Next.js 16 ✓</td><td>SSG/ISR từ API; tái dùng FE</td><td>Phức tạp hơn SPA</td></tr>
+  <tr><td>React SPA</td><td>Đơn giản</td><td>SEO kém</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Next.js vì tái dùng 100% giao diện; publish admin → revalidate trang public.</p>
+
+<h3>Backend — NestJS (KHÔNG phải CSDL)</h3>
+<table>
+  <tr><th>Framework</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>NestJS 11 ✓</td><td>TypeScript; module rõ; Swagger; RBAC</td><td>Boilerplate nhiều</td></tr>
+  <tr><td>Express.js</td><td>Nhẹ</td><td>Dễ lộn xộn khi scale</td></tr>
+  <tr><td>Laravel</td><td>Admin scaffold</td><td>Stack PHP — khác FE</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn NestJS vì cùng TypeScript với FE/Admin; cấu trúc module dễ bảo trì.</p>
+<p class="note">⚠️ NestJS chỉ là framework xử lý logic — CẦN CSDL bên dưới.</p>
+
+<h3>CSDL — PostgreSQL (BẮT BUỘC)</h3>
+<table>
+  <tr><th>CSDL</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>PostgreSQL 16 ✓</td><td>ACID; quan hệ; full-text search; Neon/Supabase</td><td>Cần thiết kế schema</td></tr>
+  <tr><td>MySQL</td><td>Phổ biến</td><td>JSON/search kém hơn Postgres</td></tr>
+  <tr><td>MongoDB</td><td>Linh hoạt</td><td>Khó đảm bảo quan hệ lead/job/CV</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn PostgreSQL vì dữ liệu có quan hệ; form/CV cần ACID.</p>
+<p class="note">Sơ đồ: NestJS → Prisma → PostgreSQL.</p>
+
+<h3>ORM — Prisma</h3>
+<table>
+  <tr><th>ORM</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Prisma 6 ✓</td><td>Type-safe; migration tự động</td><td>SQL phức tạp cần raw query</td></tr>
+  <tr><td>TypeORM</td><td>Quen NestJS</td><td>Migration hay lỗi</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Prisma vì schema.prisma là chuẩn duy nhất cho DB.</p>
+
+<h3>Admin — Vite + React (repo riêng)</h3>
+<table>
+  <tr><th>Admin</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Vite + React ✓</td><td>Tách repo; shadcn/ui; không cần SEO</td><td>Tự code CRUD</td></tr>
+  <tr><td>Strapi Admin</td><td>Có sẵn</td><td>Không có HR/lead</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Chọn Vite+React repo riêng vì bảo mật; admin không cần SSG.</p>
+
+<h3>Auth — JWT + RBAC</h3>
+<table>
+  <tr><th>Auth</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>JWT ✓</td><td>Stateless; FE + Admin dùng chung API</td><td>Revoke khó hơn session</td></tr>
+  <tr><td>Session cookie</td><td>Revoke dễ</td><td>Cần sticky session</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Phân quyền: admin / editor / HR qua NestJS Guards.</p>
+
+<h3>Storage — Cloudinary</h3>
+<table>
+  <tr><th>Storage</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+  <tr><td>Cloudinary ✓</td><td>Auto-resize ảnh; CDN</td><td>Chi phí khi scale</td></tr>
+  <tr><td>S3</td><td>Rẻ scale lớn</td><td>Tự cấu hình CDN</td></tr>
+</table>
+<p><strong>→ Lý do chọn:</strong></p>
+<p class="choice">Ảnh dự án/tin cần resize tự động; CV qua signed URL.</p>
+
+<h2>5.2. Tiêu chí phi chức năng</h2>
+<table>
+  <tr><th>Tiêu chí</th><th>PA3</th><th>Giải thích</th></tr>
+  <tr><td>Mở rộng tính năng</td><td>★★★★★</td><td>Thêm module API + admin tùy ý</td></tr>
+  <tr><td>Dễ bảo trì</td><td>★★★★☆</td><td>NestJS module hóa; 3 repo tách biệt</td></tr>
+  <tr><td>Cập nhật nội dung</td><td>★★★★★</td><td>Admin tùy workflow công ty</td></tr>
+  <tr><td>Tốc độ phản hồi</td><td>★★★★☆</td><td>SSG/ISR + API &lt;200ms</td></tr>
+  <tr><td>Chi phí vận hành</td><td>★★★☆☆</td><td>~30–80 USD/tháng</td></tr>
+  <tr><td>Đáp ứng BE + Admin</td><td>★★★★★</td><td>Duy nhất đáp ứng 100%</td></tr>
+</table>
+
+<h2>5.3. Kiến trúc</h2>
+<table>
+  <tr><th>Repository</th><th>Công nghệ</th><th>Vai trò</th></tr>
+  <tr><td>thien-duc-website-frontend</td><td>Next.js 16</td><td>Website công khai</td></tr>
+  <tr><td>thien-duc-website-backend</td><td>NestJS + Prisma + PostgreSQL</td><td>API, auth, logic</td></tr>
+  <tr><td>thien-duc-website-admin</td><td>Vite + React</td><td>Dashboard nội bộ</td></tr>
+</table>
+<p class="note">Khách → Frontend → GET /api/public/* → NestJS → PostgreSQL</p>
+<p class="note">Nhân viên → Admin → JWT → NestJS → PostgreSQL / Cloudinary</p>
+<p class="indent"><strong>Kết luận PA3:</strong> PA3 DUY NHẤT đáp ứng BE + CSDL + Admin + form/HR. <strong>ĐỀ XUẤT chính thức.</strong></p>
+
+<div class="page-break"></div>
+
+<h1>6. MA TRẬN QUYẾT ĐỊNH</h1>
+<table>
+  <tr><th>Tiêu chí</th><th>Trọng số</th><th>PA1</th><th>PA2</th><th>PA3</th></tr>
+  <tr><td>Quản trị nội dung</td><td>25%</td><td>1/5</td><td>5/5</td><td>5/5</td></tr>
+  <tr><td>Form &amp; tuyển dụng</td><td>25%</td><td>2/5</td><td>2/5</td><td>5/5</td></tr>
+  <tr><td>Mở rộng</td><td>20%</td><td>2/5</td><td>3/5</td><td>5/5</td></tr>
+  <tr><td>Dễ bảo trì</td><td>10%</td><td>3/5</td><td>3/5</td><td>5/5</td></tr>
+  <tr><td>Tốc độ phản hồi</td><td>10%</td><td>5/5</td><td>4/5</td><td>4/5</td></tr>
+  <tr><td>Chi phí</td><td>10%</td><td>5/5</td><td>3/5</td><td>2/5</td></tr>
+  <tr><td><strong>Tổng</strong></td><td>100%</td><td><strong>2.4/5</strong></td><td><strong>3.3/5</strong></td><td><strong>4.5/5</strong></td></tr>
+  <tr><td>Kết luận</td><td>—</td><td>Không đủ</td><td>Chưa tối ưu</td><td><strong>ĐỀ XUẤT</strong></td></tr>
+</table>
+
+<h1>7. LỘ TRÌNH TRIỂN KHAI (PA3)</h1>
+<table>
+  <tr><th>Giai đoạn</th><th>Thời gian</th><th>Nội dung</th><th>Kết quả</th></tr>
+  <tr><td>G1 — Frontend</td><td>4–8 tuần</td><td>Hoàn thiện UI, mock data</td><td>Demo</td></tr>
+  <tr><td>G2 — Backend</td><td>4–6 tuần</td><td>NestJS + Prisma + PostgreSQL</td><td>API staging</td></tr>
+  <tr><td>G3 — Admin</td><td>3–5 tuần</td><td>Vite + React dashboard</td><td>Admin staging</td></tr>
+  <tr><td>G4 — Tích hợp</td><td>2–3 tuần</td><td>FE nối API, ISR</td><td>Beta</td></tr>
+  <tr><td>G5 — Mở rộng</td><td>2–4 tuần</td><td>Liên hệ, tuyển dụng</td><td>Production</td></tr>
+</table>
+
+<h1>8. KẾT LUẬN</h1>
+<ol>
+  <li>Đề xuất PA3: NestJS (backend) + PostgreSQL (CSDL) + Prisma + Admin riêng.</li>
+  <li>Tiếp tục FE giai đoạn 1; chuẩn hóa types làm API contract.</li>
+  <li>Thiết kế schema PostgreSQL trước khi code backend.</li>
+</ol>
+<p class="indent"><strong>NestJS chỉ là framework — PostgreSQL mới là nơi lưu dữ liệu bền vững.</strong></p>
+
+<p class="footer">— HẾT BÁO CÁO —</p>
+<p class="sign">Người lập: ........................................</p>
+<p class="sign">Phê duyệt: ........................................</p>
+
+</body>
+</html>
