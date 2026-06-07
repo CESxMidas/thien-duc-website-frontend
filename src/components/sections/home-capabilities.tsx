@@ -3,7 +3,7 @@ import { BusinessFieldCard } from "@/components/ui/business-field-card";
 
 export function HomeCapabilities() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
+    <section className="reveal-section mx-auto max-w-7xl px-6 py-16">
       <div className="max-w-3xl">
         <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
           Lĩnh vực hoạt động
@@ -17,7 +17,7 @@ export function HomeCapabilities() {
         </p>
       </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="stagger-list mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {homeCapabilities.map((item, index) => (
           <BusinessFieldCard key={item.title} item={item} index={index} />
         ))}

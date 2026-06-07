@@ -48,7 +48,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         description="Tổng hợp các dự án Thiên Đức đang triển khai, đã hoàn thành hoặc đang chuẩn bị phát triển trong lĩnh vực bất động sản và xây dựng."
       />
 
-      <section className="mx-auto max-w-7xl px-6 pb-8">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-8">
         <div className="flex flex-wrap gap-2">
           {projectStatusFilters.map((filter) => {
             const active = activeStatus === filter.value;
@@ -62,7 +62,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                 key={filter.value}
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-10 items-center border px-4 text-sm font-semibold transition ${
+                className={`button-polish inline-flex min-h-10 items-center border px-4 text-sm font-semibold transition ${
                   active
                     ? "border-[#B06613] bg-[#B06613] text-white"
                     : "border-black/10 bg-white text-[#1d2428] hover:border-[#B06613] hover:text-[#B06613]"
@@ -75,10 +75,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
         {filteredProjects.length > 0 ? (
           <div
-            className={`grid gap-5 ${
+            className={`stagger-list grid gap-5 ${
               filteredProjects.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"
             }`}
           >
@@ -86,7 +86,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               <Link
                 key={project.slug}
                 href={`${routes.projects}/${project.slug}`}
-                className={`group overflow-hidden border border-black/10 bg-white transition hover:border-[#B06613] ${
+                className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-[#B06613] ${
                   filteredProjects.length === 1
                     ? "md:grid md:grid-cols-[1.08fr_0.92fr]"
                     : ""
@@ -94,7 +94,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               >
                 {project.image ? (
                   <div
-                    className={`relative overflow-hidden bg-[#f2f2f2] ${
+                    className={`image-reveal relative overflow-hidden bg-[#f2f2f2] ${
                       filteredProjects.length === 1
                         ? "aspect-[16/10] md:aspect-auto md:min-h-80"
                         : "aspect-[3/2]"
@@ -105,7 +105,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                       alt={project.title}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-700 group-hover:scale-105"
                     />
                   </div>
                 ) : null}
@@ -128,7 +128,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   <p className="mt-4 text-sm leading-6 text-[#59646a]">
                     {project.summary}
                   </p>
-                  <span className="mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold transition group-hover:border-[#B06613] group-hover:text-[#B06613]">
+                  <span className="mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold transition group-hover:translate-x-1 group-hover:border-[#B06613] group-hover:text-[#B06613]">
                     Xem chi tiết
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             </p>
             <Link
               href={routes.projects}
-              className="mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+              className="button-polish mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
             >
               Xem tất cả dự án
             </Link>
@@ -152,7 +152,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         )}
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
         <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
@@ -168,7 +168,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           </div>
           <Link
             href={routes.contact}
-            className="inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
+            className="button-polish inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
           >
             Liên hệ tư vấn
           </Link>

@@ -62,22 +62,22 @@ export default async function ProjectDetailPage({
       />
 
       {project.image && !project.mapLocation ? (
-        <section className="mx-auto max-w-7xl px-6 pb-12">
-          <div className="relative aspect-[16/9] max-h-[520px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
+        <section className="reveal-section mx-auto max-w-7xl px-6 pb-12">
+          <div className="image-reveal relative aspect-[16/9] max-h-[520px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
             <Image
               src={project.image}
               alt={project.title}
               fill
               preload
               sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover"
+              className="object-cover transition duration-700 hover:scale-105"
             />
           </div>
         </section>
       ) : null}
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-2">
-        <aside className="border border-black/10 bg-white p-6 md:p-8">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-2">
+        <aside className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Thông tin nhanh
           </p>
@@ -114,7 +114,7 @@ export default async function ProjectDetailPage({
           </dl>
         </aside>
 
-        <article className="flex h-full flex-col border border-black/10 bg-white p-6 md:p-8">
+        <article className="hover-card flex h-full flex-col border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Tổng quan dự án
           </p>
@@ -146,7 +146,7 @@ export default async function ProjectDetailPage({
                 href={project.mapLocation.googleMapsUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 shrink-0 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-[#7f4b0d] hover:text-[#fdcd04]"
+                className="button-polish inline-flex h-11 shrink-0 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-[#7f4b0d] hover:text-[#fdcd04]"
               >
                 Xem trên Google Maps
               </a>
@@ -164,7 +164,7 @@ export default async function ProjectDetailPage({
       ) : null}
 
       {gallery.length > 0 ? (
-        <section className="mx-auto max-w-7xl px-6 pb-14">
+        <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
           <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
@@ -176,18 +176,18 @@ export default async function ProjectDetailPage({
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="stagger-list grid gap-4 md:grid-cols-3">
             {gallery.map((image, index) => (
               <div
                 key={image}
-                className="relative aspect-[4/3] overflow-hidden border border-black/10 bg-[#f2f2f2]"
+                className="image-reveal hover-card relative aspect-[4/3] overflow-hidden border border-black/10 bg-[#f2f2f2]"
               >
                 <Image
                   src={image}
                   alt={`${project.title} - hình ảnh ${index + 1}`}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition duration-700 hover:scale-105"
                 />
               </div>
             ))}
@@ -195,7 +195,7 @@ export default async function ProjectDetailPage({
         </section>
       ) : null}
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
@@ -210,9 +210,9 @@ export default async function ProjectDetailPage({
             </p>
           </div>
 
-          <div className="grid gap-4">
+          <div className="stagger-list grid gap-4">
             {(project.highlights ?? []).map((highlight) => (
-              <div key={highlight} className="border border-black/10 bg-white p-5">
+              <div key={highlight} className="hover-card border border-black/10 bg-white p-5">
                 <div className="mb-4 h-1 w-12 bg-[#fdcd04]" />
                 <p className="text-sm leading-6 text-[#59646a]">{highlight}</p>
               </div>
@@ -221,7 +221,7 @@ export default async function ProjectDetailPage({
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
         <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
@@ -238,13 +238,13 @@ export default async function ProjectDetailPage({
           <div className="flex flex-wrap gap-3 rounded border border-[#B06613]/30 bg-[#fff4cf] p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)]">
             <Link
               href={routes.contact}
-              className="inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
+              className="button-polish inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
             >
               Liên hệ tư vấn
             </Link>
             <Link
               href={routes.projects}
-              className="inline-flex h-11 items-center justify-center border border-[#B06613]/35 bg-white px-5 text-sm font-semibold text-[#191919] transition hover:border-[#B06613] hover:bg-[#fdcd04]"
+              className="button-polish inline-flex h-11 items-center justify-center border border-[#B06613]/35 bg-white px-5 text-sm font-semibold text-[#191919] transition hover:border-[#B06613] hover:bg-[#fdcd04]"
             >
               Xem dự án khác
             </Link>

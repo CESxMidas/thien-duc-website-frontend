@@ -62,3 +62,245 @@ body {
     transform: translateY(0);
   }
 }
+
+@keyframes bannerCopyIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bannerProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.banner-copy-in {
+  animation: bannerCopyIn 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.banner-progress {
+  animation: bannerProgress var(--banner-autoplay-duration, 5200ms) linear both;
+  transform-origin: left;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroCardIn {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroAccentGrow {
+  from {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  to {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}
+
+@keyframes sectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes imageCoverReveal {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(105%);
+  }
+}
+
+@keyframes pageTransitionIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: heroFadeUp 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-card-in {
+  animation: heroCardIn 5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-accent-grow {
+  animation: heroAccentGrow 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-transition {
+  animation: pageTransitionIn 5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hover-card {
+  transition:
+    border-color 240ms ease,
+    box-shadow 240ms ease,
+    transform 240ms ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 42px rgba(25, 25, 25, 0.1);
+}
+
+.button-polish {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.button-polish::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: rgba(255, 255, 255, 0.22);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 280ms ease;
+}
+
+.button-polish:hover::before {
+  transform: scaleX(1);
+}
+
+.image-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-reveal::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+  background: #fdcd04;
+  transform: translateX(-105%);
+}
+
+@supports (animation-timeline: view()) {
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: sectionReveal 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 28%;
+  }
+
+  .stagger-list > * {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: cardReveal 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 24%;
+  }
+
+  .stagger-list > *:nth-child(2) {
+    animation-range: entry 8% cover 27%;
+  }
+
+  .stagger-list > *:nth-child(3) {
+    animation-range: entry 11% cover 30%;
+  }
+
+  .stagger-list > *:nth-child(4) {
+    animation-range: entry 14% cover 33%;
+  }
+
+  .stagger-list > *:nth-child(5) {
+    animation-range: entry 17% cover 36%;
+  }
+
+  .stagger-list > *:nth-child(6) {
+    animation-range: entry 20% cover 39%;
+  }
+
+  .image-reveal::after {
+    transform: translateX(0);
+    animation: imageCoverReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 34%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-copy-in,
+  .banner-progress,
+  .hero-fade-up,
+  .hero-card-in,
+  .hero-accent-grow,
+  .page-transition,
+  .reveal-section,
+  .stagger-list > *,
+  .image-reveal::after {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hover-card:hover {
+    transform: none;
+  }
+}

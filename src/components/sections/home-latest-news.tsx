@@ -13,7 +13,7 @@ export function HomeLatestNews() {
   }
 
   return (
-    <section className="bg-white">
+    <section className="reveal-section bg-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -26,27 +26,27 @@ export function HomeLatestNews() {
           </div>
           <Link
             href="/tin-tuc"
-            className="inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
+            className="button-polish inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
           >
             Tất cả bài viết
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="stagger-list mt-10 grid gap-5 md:grid-cols-3">
           {latestNews.map((post) => (
             <Link
               key={post.slug}
               href={`/tin-tuc/${post.slug}`}
-              className="group border border-black/10 bg-[#f6f3ee] transition hover:border-[#B06613]"
+              className="hover-card group border border-black/10 bg-[#f6f3ee] hover:border-[#B06613]"
             >
               {post.image ? (
-                <div className="relative aspect-video overflow-hidden bg-[#f2f2f2]">
+                <div className="image-reveal relative aspect-video overflow-hidden bg-[#f2f2f2]">
                   <Image
                     src={post.image}
                     alt={post.title}
                     fill
                     sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className="object-cover transition duration-700 group-hover:scale-105"
                   />
                 </div>
               ) : null}
@@ -56,7 +56,7 @@ export function HomeLatestNews() {
                 </p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#59646a]">{post.summary}</p>
-                <span className="mt-5 inline-flex text-sm font-semibold text-[#B06613]">
+                <span className="mt-5 inline-flex text-sm font-semibold text-[#B06613] transition group-hover:translate-x-1">
                   Chi tiết bài viết
                 </span>
               </div>

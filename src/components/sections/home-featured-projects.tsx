@@ -18,7 +18,7 @@ export function HomeFeaturedProjects() {
   }
 
   return (
-    <section className="bg-white">
+    <section className="reveal-section bg-white">
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -31,14 +31,14 @@ export function HomeFeaturedProjects() {
           </div>
           <Link
             href="/du-an"
-            className="inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
+            className="button-polish inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
           >
             Xem tất cả dự án
           </Link>
         </div>
 
         <div
-          className={`mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
+          className={`stagger-list mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
         >
           {featuredProjects.map((project) => {
             const display = homeFeaturedProjectCopy[
@@ -53,14 +53,14 @@ export function HomeFeaturedProjects() {
               <Link
                 key={project.slug}
                 href={`/du-an/${project.slug}`}
-                className={`group overflow-hidden border border-black/10 bg-[#f6f3ee] transition hover:border-[#B06613] ${
+                className={`hover-card group overflow-hidden border border-black/10 bg-[#f6f3ee] hover:border-[#B06613] ${
                   singleProject
                     ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch"
                     : ""
                 }`}
               >
                 <div
-                  className={`relative overflow-hidden bg-[#f2f2f2] ${
+                  className={`image-reveal relative overflow-hidden bg-[#f2f2f2] ${
                     singleProject
                       ? "aspect-[16/10] md:aspect-auto md:min-h-80"
                       : "aspect-[4/3]"
@@ -72,7 +72,7 @@ export function HomeFeaturedProjects() {
                       alt={display.title}
                       fill
                       sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-700 group-hover:scale-105"
                     />
                   ) : null}
                 </div>
