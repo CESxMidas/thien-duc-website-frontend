@@ -72,7 +72,7 @@ export function HomeFeaturedProjects() {
                       alt={display.title}
                       fill
                       sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover transition duration-700 group-hover:scale-105"
+                      className="object-cover"
                     />
                   ) : null}
                 </div>

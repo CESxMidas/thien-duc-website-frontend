@@ -70,7 +70,7 @@ export default async function ProjectDetailPage({
               fill
               preload
               sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover transition duration-700 hover:scale-105"
+              className="object-cover"
             />
           </div>
         </section>
@@ -187,7 +187,7 @@ export default async function ProjectDetailPage({
                   alt={`${project.title} - hình ảnh ${index + 1}`}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-cover transition duration-700 hover:scale-105"
+                  className="object-cover"
                 />
               </div>
             ))}

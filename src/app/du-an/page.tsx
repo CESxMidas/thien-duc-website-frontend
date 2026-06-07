@@ -105,7 +105,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                       alt={project.title}
                       fill
                       sizes="(min-width: 768px) 50vw, 100vw"
-                      className="object-cover transition duration-700 group-hover:scale-105"
+                      className="object-cover"
                     />
                   </div>
                 ) : null}
@@ -128,7 +128,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   <p className="mt-4 text-sm leading-6 text-[#59646a]">
                     {project.summary}
                   </p>
-                  <span className="mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold transition group-hover:translate-x-1 group-hover:border-[#B06613] group-hover:text-[#B06613]">
+                  <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-[#B06613] group-hover:text-[#B06613]">
                     Xem chi tiết
                   </span>
                 </div>

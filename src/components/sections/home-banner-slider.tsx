@@ -38,14 +38,14 @@ export function HomeBannerSlider() {
       className="relative overflow-hidden bg-[#3d2a16]"
       aria-label="Banner dự án nổi bật"
     >
-      <div className="relative h-[340px] sm:h-[420px] lg:h-[640px]">
+      <div className="relative h-[calc(100svh-var(--site-header-height))] min-h-[320px] max-h-[calc(100svh-var(--site-header-height))]">
         {homeBanners.map((banner, index) => {
           const isActive = index === activeIndex;
 
           return (
             <div
               key={banner.image}
-              className={`absolute inset-0 transition-opacity duration-200 ease-out ${
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
                 isActive ? "z-10 opacity-100" : "z-0 opacity-0"
               }`}
               aria-hidden={!isActive}
@@ -78,15 +78,15 @@ export function HomeBannerSlider() {
           />
         </div>
 
-        <div className="absolute inset-x-0 bottom-14 z-30 px-6 sm:bottom-16 lg:bottom-20">
+        <div className="absolute inset-x-0 bottom-16 z-30 px-6 sm:bottom-20 lg:bottom-24">
           <div className="mx-auto max-w-7xl">
             <div
               key={activeBanner.title}
-              className="banner-copy-in flex min-h-[230px] max-w-2xl flex-col justify-between border border-white/15 bg-[#191919]/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:min-h-[260px] sm:p-7 lg:min-h-[280px]"
+              className="banner-copy-in flex max-w-2xl flex-col justify-between border border-white/15 bg-[#191919]/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-7"
             >
               <div className="mb-4 flex items-center gap-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#fdcd04] sm:text-sm">
-                  Dự án và hoạt động Thiên Đức
+                  {activeBanner.eyebrow}
                 </p>
                 <span className="h-px flex-1 bg-white/25" aria-hidden="true" />
               </div>
@@ -96,7 +96,7 @@ export function HomeBannerSlider() {
                   <span className="mx-2 text-white/30">/</span>
                   {String(bannerCount).padStart(2, "0")}
                 </p>
-                <div className="flex min-h-[168px] flex-col justify-between sm:min-h-[188px] lg:min-h-[204px]">
+                <div className="flex flex-col justify-between gap-4">
                   <h2 className="line-clamp-2 text-[1.35rem] font-semibold leading-tight sm:text-3xl lg:text-4xl">
                     {activeBanner.title}
                   </h2>
@@ -120,7 +120,7 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner trước"
             onClick={goToPrevious}
-            className="grid size-11 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
+            className="button-polish grid size-11 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -128,7 +128,7 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner tiếp theo"
             onClick={goToNext}
-            className="grid size-11 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur transition hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
+            className="button-polish grid size-11 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
           >
             <ChevronRight className="size-5" />
           </button>

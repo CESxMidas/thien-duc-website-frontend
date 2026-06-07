@@ -1,5 +1,6 @@
 export type HomeBanner = {
   image: string;
+  eyebrow: string;
   title: string;
   subtitle: string;
   href: string;
@@ -8,42 +9,49 @@ export type HomeBanner = {
   objectPosition?: string;
 };
 
-/** Chỉ dùng file có trong public/images/banners/home/ */
+/**
+ * 4 slide banner — mỗi slide một chủ đề và một đích chuyển hướng riêng.
+ * Ảnh hiện tạm map theo file có sẵn; có thể đổi `image` khi có ảnh phù hợp từng chủ đề.
+ */
 export const homeBanners: HomeBanner[] = [
   {
     image: "/images/banners/home/home-banner-hung-phu-master-plan-02.jpg",
     objectPosition: "center center",
+    eyebrow: "Dự án tiêu biểu",
     title: "Khu đô thị Hưng Phú",
     subtitle:
-      "Tổng thể dự án đô thị tại Bến Tre với không gian xanh, hạ tầng đồng bộ và định hướng phát triển bền vững.",
+      "Dự án đô thị tại Bến Tre — không gian sống hiện đại, hạ tầng đồng bộ và tiện ích nội khu.",
     href: "/du-an/khu-do-thi-hung-phu",
     ctaLabel: "Xem dự án",
   },
   {
     image: "/images/banners/home/home-banner-hung-phu-fancy-tower-01.jpg",
     objectPosition: "center 55%",
-    title: "Không gian sống hiện đại",
+    eyebrow: "Danh mục dự án",
+    title: "Hợp tác phát triển dự án",
     subtitle:
-      "Góc nhìn cảnh quan khu vực dự án Hưng Phú với mật độ xây dựng hài hòa và tiện ích nội khu.",
-    href: "/du-an/khu-do-thi-hung-phu",
-    ctaLabel: "Khám phá dự án",
+      "Đồng hành cùng đơn vị phát triển uy tín — chất lượng triển khai và tiến độ minh bạch.",
+    href: "/du-an",
+    ctaLabel: "Danh sách dự án",
   },
   {
     image: "/images/banners/home/home-banner-hung-phu-master-plan-top-01.jpg",
     objectPosition: "center center",
-    title: "Quy hoạch tổng thể",
+    eyebrow: "Giới thiệu công ty",
+    title: "Thiên Đức — Uy tín từ 2010",
     subtitle:
-      "Mặt bằng tổng thể thể hiện bố trí khu dân cư, công trình công cộng và hạ tầng kết nối trong dự án.",
-    href: "/du-an/khu-do-thi-hung-phu",
-    ctaLabel: "Xem chi tiết",
+      "Hơn một thập kỷ hoạt động trong đầu tư, xây dựng và phát triển bất động sản tại TP.HCM và các tỉnh.",
+    href: "/gioi-thieu",
+    ctaLabel: "Giới thiệu công ty",
   },
   {
     image: "/images/banners/home/home-banner-hung-phu-aerial-01.jpg",
     objectPosition: "center center",
-    title: "Thiên Đức — Uy tín từ 2010",
+    eyebrow: "Tin tức & sự kiện",
+    title: "Tin tức & hoạt động",
     subtitle:
-      "Tập trung vào tiến độ, chất lượng và phương châm Khách hàng hài lòng — Thiên Đức thành công.",
-    href: "/gioi-thieu",
-    ctaLabel: "Giới thiệu công ty",
+      "Cập nhật tiến độ dự án, sự kiện doanh nghiệp và thông tin hoạt động từ Thiên Đức.",
+    href: "/tin-tuc",
+    ctaLabel: "Xem tin tức",
   },
 ];

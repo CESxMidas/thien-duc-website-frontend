@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 const cardClassName =
-  "flex gap-3 rounded border border-[#B06613]/30 bg-[#fff4cf] p-4 text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] transition hover:border-[#B06613] hover:bg-[#fdcd04]";
+  "interactive-card flex gap-3 rounded border border-[#B06613]/30 bg-[#fff4cf] p-4 text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-[#B06613] hover:bg-[#fdcd04]";
 
 export function CtaContactCards() {
   return (

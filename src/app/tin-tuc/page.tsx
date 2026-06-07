@@ -50,23 +50,23 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             : "Thông tin doanh nghiệp, tiến độ dự án và các hoạt động mới từ Thiên Đức."
         }
       />
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
         {posts.length > 0 ? (
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="stagger-list grid gap-5 md:grid-cols-3">
             {posts.map((post) => (
               <Link
                 key={post.slug}
                 href={`${routes.news}/${post.slug}`}
-                className="group overflow-hidden border border-black/10 bg-white transition hover:border-[#9b7a34]"
+                className="hover-card group overflow-hidden border border-black/10 bg-white hover:border-[#B06613]"
               >
                 {post.image ? (
-                  <div className="relative aspect-video bg-[#f2f2f2]">
+                  <div className="image-reveal relative aspect-video bg-[#f2f2f2]">
                     <Image
                       src={post.image}
                       alt={post.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover"
                     />
                   </div>
                 ) : null}
@@ -82,6 +82,9 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
                   <p className="mt-3 text-sm leading-6 text-[#59646a]">
                     {post.summary}
                   </p>
+                  <span className="link-arrow mt-5 text-sm font-semibold text-[#B06613]">
+                    Đọc bài viết
+                  </span>
                 </div>
               </Link>
             ))}
@@ -95,7 +98,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             </p>
             <Link
               href={routes.news}
-              className="mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+              className="button-polish mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white hover:bg-[#7f4b0d]"
             >
               Xem tất cả tin tức
             </Link>

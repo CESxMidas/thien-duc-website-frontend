@@ -1,16 +1,119 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { footerBrand, footerSections } from "@/data/footer";
+import { routes } from "@/lib/routes";
+
+const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
+const emailHref = `mailto:${siteConfig.email}`;
+const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
+
+const footerLinkClassName =
+  "text-sm text-white/80 transition hover:text-[#fdcd04] hover:translate-x-0.5";
 
 export function SiteFooter() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-[#B06613]/20 bg-[#c99248] text-white">
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 py-10 md:grid-cols-[1fr_auto] md:items-center">
-        <div>
-          <p className="text-lg font-semibold">{siteConfig.name}</p>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-white/70">
-            {siteConfig.description}
-          </p>
+    <footer className="mt-auto border-t border-[#B06613]/25 bg-[#7f4b0d] text-white">
+      <div className="bg-[#c99248]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.15fr_repeat(3,minmax(0,1fr))] lg:gap-8 lg:py-14">
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link
+              href={routes.home}
+              className="inline-flex size-16 items-center justify-center rounded-lg border border-white/20 bg-white p-2 shadow-sm"
+              aria-label="Trang chủ Thiên Đức"
+            >
+              <Image
+                src="/images/brand/logo-thien-duc.png"
+                alt="Logo Thiên Đức"
+                width={56}
+                height={56}
+                className="size-full object-contain"
+              />
+            </Link>
+            <p className="mt-5 text-lg font-semibold">{siteConfig.name}</p>
+            <p className="mt-3 max-w-sm text-sm leading-6 text-white/80">
+              {footerBrand.tagline}
+            </p>
+            <p className="mt-4 border-l-4 border-[#fdcd04] pl-4 text-sm font-medium italic text-[#fff4cf]">
+              {footerBrand.motto}
+            </p>
+          </div>
+
+          {footerSections.map((section) => (
+            <div key={section.title}>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fdcd04]">
+                {section.title}
+              </h2>
+              <ul className="mt-5 space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className={footerLinkClassName}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <p className="text-sm text-white/60">{siteConfig.email}</p>
+
+        <div className="border-t border-[#B06613]/20">
+          <div className="mx-auto grid max-w-7xl gap-4 px-6 py-8 md:grid-cols-3">
+            <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
+              <Phone className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <span>
+                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                  Điện thoại
+                </span>
+                <span className="mt-1 block font-semibold text-white">
+                  {siteConfig.phone}
+                </span>
+              </span>
+            </a>
+            <a href={emailHref} className={`${footerLinkClassName} flex items-start gap-3`}>
+              <Mail className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <span>
+                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                  Email
+                </span>
+                <span className="mt-1 block font-semibold text-white">
+                  {siteConfig.email}
+                </span>
+              </span>
+            </a>
+            <a
+              href={mapsHref}
+              target="_blank"
+              rel="noreferrer"
+              className={`${footerLinkClassName} flex items-start gap-3`}
+            >
+              <MapPin className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <span>
+                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                  Trụ sở
+                </span>
+                <span className="mt-1 block font-semibold leading-6 text-white">
+                  {siteConfig.address}
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
+        <p>
+          © {currentYear} {siteConfig.name}. Bảo lưu mọi quyền.
+        </p>
+        <Link
+          href={routes.contact}
+          className="font-semibold text-[#fdcd04] transition hover:text-white"
+        >
+          Liên hệ tư vấn →
+        </Link>
       </div>
     </footer>
   );

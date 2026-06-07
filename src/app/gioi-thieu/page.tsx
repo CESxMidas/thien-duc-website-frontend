@@ -33,7 +33,7 @@ export default function AboutPage() {
         description={aboutHero.description}
       />
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
         <div>
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             {aboutOverview.eyebrow}
@@ -51,7 +51,8 @@ export default function AboutPage() {
           </blockquote>
         </div>
 
-        <div className="overflow-hidden border border-black/10 bg-white shadow-sm">
+        <div className="hover-card overflow-hidden border border-black/10 bg-white shadow-sm">
+          <div className="image-reveal">
           <Image
             src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
             alt="Dự án bất động sản Thiên Đức phát triển"
@@ -60,6 +61,7 @@ export default function AboutPage() {
             className="aspect-[4/3] h-auto w-full object-cover"
             sizes="(min-width: 1024px) 45vw, 100vw"
           />
+          </div>
           <div className="grid gap-3 p-5 text-sm leading-6 text-[#59646a] sm:grid-cols-2">
             <div>
               <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-[#B06613]">
@@ -81,14 +83,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-4 md:grid-cols-3">
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+        <div className="stagger-list grid gap-4 md:grid-cols-3">
           {aboutPrinciples.map((item, index) => {
             const Icon = principleIcons[index];
 
             return (
-              <article key={item.title} className="border border-black/10 bg-white p-6">
-                <Icon className="mb-5 size-8 text-[#B06613]" aria-hidden="true" />
+              <article key={item.title} className="hover-card group border border-black/10 bg-white p-6 hover:border-[#B06613]/35">
+                <Icon className="icon-badge mb-5 size-8 text-[#B06613] transition group-hover:scale-110" aria-hidden="true" />
                 <h2 className="text-2xl font-semibold">{item.title}</h2>
                 <p className="mt-4 text-sm leading-6 text-[#59646a]">
                   {item.description}
@@ -99,7 +101,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Lĩnh vực hoạt động
@@ -113,15 +115,15 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="stagger-list mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {aboutFields.map((item, index) => (
             <BusinessFieldCard key={item.title} item={item} index={index} />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-8 border border-black/10 bg-white p-6 shadow-sm md:grid-cols-[0.9fr_1.1fr] md:p-10">
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+        <div className="hover-card grid gap-8 border border-black/10 bg-white p-6 shadow-sm md:grid-cols-[0.9fr_1.1fr] md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
               {aboutCapability.eyebrow}
@@ -136,7 +138,7 @@ export default function AboutPage() {
             </p>
             <Link
               href={aboutCapability.cta.href}
-              className="mt-7 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+              className="button-polish mt-7 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white hover:bg-[#7f4b0d]"
             >
               {aboutCapability.cta.label}
             </Link>
@@ -144,7 +146,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-8 rounded-sm bg-[#c99248] p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:grid-cols-[1fr_0.9fr] md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
@@ -159,13 +161,13 @@ export default function AboutPage() {
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href={aboutContactCta.primaryCta.href}
-                className="inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
+                className="button-polish inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] hover:bg-white"
               >
                 {aboutContactCta.primaryCta.label}
               </Link>
               <Link
                 href={aboutContactCta.secondaryCta.href}
-                className="inline-flex h-11 items-center border border-[#B06613]/30 bg-[#fff4cf] px-5 text-sm font-semibold text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] transition hover:border-[#B06613] hover:bg-[#fdcd04]"
+                className="button-polish inline-flex h-11 items-center border border-[#B06613]/30 bg-[#fff4cf] px-5 text-sm font-semibold text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-[#B06613] hover:bg-[#fdcd04]"
               >
                 {aboutContactCta.secondaryCta.label}
               </Link>

@@ -6,7 +6,7 @@ export default function CareersPage() {
     <SiteShell>
       <PageHeading
         eyebrow="Tuyen dung"
-        title="Co hoi nghe nghiep tai Thien Duc"
+        title="Cơ hội nghề nghiệp tại Thiên Đức"
         description="Trang nay se hien thi vi tri dang tuyen, yeu cau ung vien va thong tin nop ho so."
       />
     </SiteShell>

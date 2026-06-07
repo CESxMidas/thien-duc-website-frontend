@@ -63,10 +63,10 @@ export function HomeHero() {
               return (
                 <div
                   key={item.title}
-                  className="hero-card-in group flex gap-4 border-b border-[#f0e6d6] p-4 transition last:border-b-0 hover:bg-[#fffaf0]"
+                  className="hero-card-in strength-row group flex gap-4 border-b border-[#f0e6d6] p-4 last:border-b-0"
                   style={{ animationDelay: `${420 + index * 120}ms` }}
                 >
-                  <div className="flex size-11 shrink-0 items-center justify-center bg-[#fff4cf] text-[#B06613] transition group-hover:bg-[#fdcd04] group-hover:text-[#191919]">
+                  <div className="icon-badge flex size-11 shrink-0 items-center justify-center bg-[#fff4cf] text-[#B06613] group-hover:bg-[#fdcd04] group-hover:text-[#191919]">
                     <Icon className="size-5" aria-hidden="true" />
                   </div>
                   <div className="min-w-0">

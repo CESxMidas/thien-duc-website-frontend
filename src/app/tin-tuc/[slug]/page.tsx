@@ -54,8 +54,8 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
       />
 
       {post.image ? (
-        <section className="mx-auto max-w-7xl px-6 pb-10">
-          <div className="relative aspect-[16/9] max-h-[560px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
+        <section className="reveal-section mx-auto max-w-7xl px-6 pb-10">
+          <div className="image-reveal relative aspect-[16/9] max-h-[560px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
             <Image
               src={post.image}
               alt={post.title}
@@ -68,8 +68,8 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         </section>
       ) : null}
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[1fr_320px]">
-        <article className="border border-black/10 bg-white p-6 md:p-8">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[1fr_320px]">
+        <article className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-[#59646a]">
             {post.category ? <span>{post.category}</span> : null}
             <span>{formatDate(post.publishedAt)}</span>
@@ -82,7 +82,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           </div>
         </article>
 
-        <aside className="h-fit border border-black/10 bg-white p-6">
+        <aside className="hover-card h-fit border border-black/10 bg-white p-6">
           <h2 className="text-xl font-semibold">Thông tin bài viết</h2>
           <dl className="mt-5 grid gap-4 text-sm">
             {post.category ? (
@@ -122,7 +122,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           </dl>
           <Link
             href="/tin-tuc"
-            className="mt-7 inline-flex h-11 w-full items-center justify-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+            className="button-polish mt-7 inline-flex h-11 w-full items-center justify-center bg-[#B06613] px-5 text-sm font-semibold text-white hover:bg-[#7f4b0d]"
           >
             Xem tất cả tin tức
           </Link>

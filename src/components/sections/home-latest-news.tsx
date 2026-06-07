@@ -46,7 +46,7 @@ export function HomeLatestNews() {
                     alt={post.title}
                     fill
                     sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
+                    className="object-cover"
                   />
                 </div>
               ) : null}
@@ -56,7 +56,7 @@ export function HomeLatestNews() {
                 </p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#59646a]">{post.summary}</p>
-                <span className="mt-5 inline-flex text-sm font-semibold text-[#B06613] transition group-hover:translate-x-1">
+                <span className="link-arrow mt-5 text-sm font-semibold text-[#B06613]">
                   Chi tiết bài viết
                 </span>
               </div>
