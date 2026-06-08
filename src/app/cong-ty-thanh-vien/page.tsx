@@ -5,9 +5,9 @@ export default function MemberCompaniesPage() {
   return (
     <SiteShell>
       <PageHeading
-        eyebrow="Cong ty thanh vien"
-        title="He thong cong ty thanh vien"
-        description="Trang nay se gioi thieu cac don vi thanh vien va moi lien ket trong he sinh thai Thien Duc."
+        eyebrow="Công ty thành viên"
+        title="Hệ thống công ty thành viên"
+        description="Trang này sẽ giới thiệu các đơn vị thành viên và mối liên kết trong hệ sinh thái Thiên Đức."
       />
     </SiteShell>
   );
