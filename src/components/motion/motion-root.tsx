@@ -6,17 +6,6 @@ const REVEAL_SELECTOR = ".reveal-section, .stagger-list, .image-reveal";
 
 export function MotionRoot({ children }: { children: ReactNode }) {
   useEffect(() => {
-    const revealAll = () => {
-      document.querySelectorAll(REVEAL_SELECTOR).forEach((element) => {
-        element.classList.add("is-revealed");
-      });
-    };
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      revealAll();
-      return;
-    }
-
     const observed = new WeakSet<Element>();
 
     const observer = new IntersectionObserver(
