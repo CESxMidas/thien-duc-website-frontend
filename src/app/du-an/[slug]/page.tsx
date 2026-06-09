@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { CheckCircle2, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -26,6 +26,34 @@ function ProjectFactCell({ label, value }: { label: string; value: string }) {
         {label}
       </dt>
       <dd className="mt-2 font-semibold leading-snug text-[#191919]">{value}</dd>
+    </div>
+  );
+}
+
+function ProjectOverviewHighlights({ highlights }: { highlights: string[] }) {
+  return (
+    <div className="mt-6 flex min-h-0 flex-1 flex-col">
+      {highlights.length > 0 ? (
+        <div className="flex flex-1 flex-col rounded-sm border border-[#B06613]/12 bg-[#fff4cf]/55 p-5">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+            Giá trị nổi bật
+          </p>
+          <ul className="grid gap-3">
+            {highlights.map((highlight) => (
+              <li
+                key={highlight}
+                className="flex items-start gap-3 text-sm leading-6 text-[#59646a]"
+              >
+                <CheckCircle2
+                  className="mt-0.5 size-4 shrink-0 text-[#B06613]"
+                  aria-hidden="true"
+                />
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -63,6 +91,7 @@ export default async function ProjectDetailPage({
   }
 
   const gallery = project.gallery ?? [];
+  const overviewHighlights = project.highlights ?? [];
 
   return (
     <SiteShell>
@@ -91,8 +120,8 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2">
-            <aside className="reveal-from-left hover-card project-detail-panel relative overflow-hidden p-6 md:p-8">
+          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
+            <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#fdcd04] via-[#c99248] to-[#B06613]" />
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
                 Thông tin nhanh
@@ -147,8 +176,10 @@ export default async function ProjectDetailPage({
                 </p>
               ) : null}
 
+              <ProjectOverviewHighlights highlights={overviewHighlights} />
+
               {project.mapLocation ? (
-                <div className="mt-auto flex flex-col gap-4 border-t border-[#B06613]/12 bg-[#fff4cf]/45 p-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-6 flex flex-col gap-4 rounded-sm border border-[#B06613]/12 bg-[#fff4cf]/45 p-4 sm:flex-row sm:items-center sm:justify-between">
                   {project.mapLocation.address ? (
                     <p className="inline-flex items-center gap-2 text-sm font-medium text-[#191919]">
                       <MapPin className="size-4 shrink-0 text-[#B06613]" />
