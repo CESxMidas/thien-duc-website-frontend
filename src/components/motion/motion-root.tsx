@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense, useEffect, type ReactNode } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useLayoutEffect, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 
 const REVEAL_SELECTOR =
   ".reveal-section, .reveal-from-left, .reveal-from-right, .stagger-list, .stagger-sides, .image-reveal";
@@ -23,13 +23,12 @@ function revealElement(element: Element, observer: IntersectionObserver) {
   observer.unobserve(element);
 }
 
-function MotionRootInner({ children }: { children: ReactNode }) {
+export function MotionRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const routeKey = `${pathname}?${searchParams.toString()}`;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const observed = new WeakSet<Element>();
+    const timeouts: number[] = [];
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -70,27 +69,23 @@ function MotionRootInner({ children }: { children: ReactNode }) {
 
     scan();
 
-    const frame = requestAnimationFrame(() => {
-      scan();
-    });
+    const frame = requestAnimationFrame(scan);
+    timeouts.push(window.setTimeout(scan, 100));
+    timeouts.push(window.setTimeout(scan, 500));
 
     const mutationObserver = new MutationObserver(scan);
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
+    window.addEventListener("load", scan);
+
     return () => {
       cancelAnimationFrame(frame);
+      timeouts.forEach((timeout) => window.clearTimeout(timeout));
+      window.removeEventListener("load", scan);
       observer.disconnect();
       mutationObserver.disconnect();
     };
-  }, [routeKey]);
+  }, [pathname]);
 
   return <div className="page-transition">{children}</div>;
-}
-
-export function MotionRoot({ children }: { children: ReactNode }) {
-  return (
-    <Suspense fallback={<div className="page-transition">{children}</div>}>
-      <MotionRootInner>{children}</MotionRootInner>
-    </Suspense>
-  );
 }
