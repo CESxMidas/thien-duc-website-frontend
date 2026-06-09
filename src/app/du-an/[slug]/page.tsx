@@ -212,17 +212,18 @@ export default async function ProjectDetailPage({
 
         {gallery.length > 0 ? (
           <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="reveal-from-right mb-8 rounded-sm border border-[#B06613]/12 bg-white/70 p-6 shadow-sm">
-                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
+            <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+              <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#fdcd04] via-[#c99248] to-[#B06613]" />
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
                   Hình ảnh dự án
                 </p>
-                <h2 className="text-3xl font-semibold leading-tight">
+                <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                   Một số hình ảnh trong thư viện hiện có
                 </h2>
-              </div>
+              </aside>
 
-              <div className="stagger-sides grid gap-4 md:grid-cols-3">
+              <div className="reveal-from-right stagger-sides grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:content-center">
                 {gallery.map((image, index) => (
                   <div
                     key={image}
@@ -232,7 +233,7 @@ export default async function ProjectDetailPage({
                       src={image}
                       alt={`${project.title} - hình ảnh ${index + 1}`}
                       fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
+                      sizes="(min-width: 1280px) 33vw, (min-width: 768px) 25vw, 100vw"
                       className="object-cover"
                     />
                   </div>
@@ -242,22 +243,23 @@ export default async function ProjectDetailPage({
           </section>
         ) : null}
 
-        <section className="bg-[#fffaf0] py-16">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="reveal-from-left">
+        <section className="project-detail-band py-14">
+          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
+            <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#fdcd04] via-[#c99248] to-[#B06613]" />
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
                 Điểm nổi bật
               </p>
-              <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                 Những giá trị nổi bật của dự án
               </h2>
               <p className="mt-5 text-sm leading-6 text-[#59646a]">
                 Các điểm nhấn về định hướng phát triển, hạ tầng và trải nghiệm
                 sống mà dự án mang lại.
               </p>
-            </div>
+            </aside>
 
-            <div className="reveal-from-right grid gap-4">
+            <div className="reveal-from-right flex h-full flex-col justify-center gap-4">
               {(project.highlights ?? []).map((highlight) => (
                 <div
                   key={highlight}
