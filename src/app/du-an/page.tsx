@@ -42,14 +42,15 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
 
   return (
     <SiteShell>
+      <div className="projects-motion">
       <PageHeading
         eyebrow="Dự án"
         title="Dự án của Thiên Đức"
         description="Tổng hợp các dự án Thiên Đức đang triển khai, đã hoàn thành hoặc đang chuẩn bị phát triển trong lĩnh vực bất động sản và xây dựng."
       />
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-8">
-        <div className="flex flex-wrap gap-2">
+      <section className="mx-auto max-w-7xl px-6 pb-8">
+        <div className="reveal-from-left flex flex-wrap gap-2">
           {projectStatusFilters.map((filter) => {
             const active = activeStatus === filter.value;
             const href =
@@ -75,11 +76,13 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
+      <section className="mx-auto max-w-7xl px-6 pb-16">
         {filteredProjects.length > 0 ? (
           <div
-            className={`stagger-list grid gap-5 ${
-              filteredProjects.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"
+            className={`grid gap-5 ${
+              filteredProjects.length === 1
+                ? "md:grid-cols-1"
+                : "stagger-sides md:grid-cols-2"
             }`}
           >
             {filteredProjects.map((project) => (
@@ -88,7 +91,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                 href={`${routes.projects}/${project.slug}`}
                 className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-[#B06613] ${
                   filteredProjects.length === 1
-                    ? "md:grid md:grid-cols-[1.08fr_0.92fr]"
+                    ? "reveal-sides-pair md:grid md:grid-cols-[1.08fr_0.92fr]"
                     : ""
                 }`}
               >
@@ -96,7 +99,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   <div
                     className={`image-reveal relative overflow-hidden bg-[#f2f2f2] ${
                       filteredProjects.length === 1
-                        ? "aspect-[16/10] md:aspect-auto md:min-h-80"
+                        ? "reveal-from-left aspect-[16/10] md:aspect-auto md:min-h-80"
                         : "aspect-[3/2]"
                     }`}
                   >
@@ -109,7 +112,11 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                     />
                   </div>
                 ) : null}
-                <div className="flex flex-col justify-center p-5 md:p-6">
+                <div
+                  className={`flex flex-col justify-center p-5 md:p-6 ${
+                    filteredProjects.length === 1 ? "reveal-from-right" : ""
+                  }`}
+                >
                   <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
                     {project.location ? <span>{project.location}</span> : null}
                     {project.location ? (
@@ -136,7 +143,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             ))}
           </div>
         ) : (
-          <div className="border border-black/10 bg-white p-8 text-center">
+          <div className="reveal-section border border-black/10 bg-white p-8 text-center">
             <h2 className="text-2xl font-semibold">Chưa có dự án phù hợp</h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#59646a]">
               Hiện chưa có dự án trong nhóm trạng thái này. Bạn có thể quay lại
@@ -152,9 +159,9 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         )}
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
-          <div>
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="reveal-sides-pair grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div className="reveal-from-left">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
               Thông tin dự án
             </p>
@@ -168,12 +175,13 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           </div>
           <Link
             href={routes.contact}
-            className="button-polish inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
+            className="button-polish reveal-from-right inline-flex h-11 items-center justify-center self-start bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white md:self-center"
           >
             Liên hệ tư vấn
           </Link>
         </div>
       </section>
+      </div>
     </SiteShell>
   );
 }

@@ -55,6 +55,7 @@ export default async function ProjectDetailPage({
 
   return (
     <SiteShell>
+      <div className="projects-motion">
       <PageHeading
         eyebrow="Chi tiết dự án"
         title={project.title}
@@ -62,8 +63,8 @@ export default async function ProjectDetailPage({
       />
 
       {project.image && !project.mapLocation ? (
-        <section className="reveal-section mx-auto max-w-7xl px-6 pb-12">
-          <div className="image-reveal relative aspect-[16/9] max-h-[520px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
+        <section className="mx-auto max-w-7xl px-6 pb-12">
+          <div className="image-reveal reveal-from-left relative aspect-[16/9] max-h-[520px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
             <Image
               src={project.image}
               alt={project.title}
@@ -76,8 +77,8 @@ export default async function ProjectDetailPage({
         </section>
       ) : null}
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-2">
-        <aside className="hover-card border border-black/10 bg-white p-6 md:p-8">
+      <section className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 pb-14 lg:grid-cols-2">
+        <aside className="reveal-from-left hover-card border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Thông tin nhanh
           </p>
@@ -114,7 +115,7 @@ export default async function ProjectDetailPage({
           </dl>
         </aside>
 
-        <article className="hover-card flex h-full flex-col border border-black/10 bg-white p-6 md:p-8">
+        <article className="reveal-from-right hover-card flex h-full flex-col border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             Tổng quan dự án
           </p>
@@ -164,19 +165,17 @@ export default async function ProjectDetailPage({
       ) : null}
 
       {gallery.length > 0 ? (
-        <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
-          <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
+        <section className="mx-auto max-w-7xl px-6 pb-14">
+          <div className="reveal-from-right mb-6">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
                 Hình ảnh dự án
               </p>
               <h2 className="text-3xl font-semibold leading-tight">
                 Một số hình ảnh trong thư viện hiện có
               </h2>
-            </div>
           </div>
 
-          <div className="stagger-list grid gap-4 md:grid-cols-3">
+          <div className="stagger-sides grid gap-4 md:grid-cols-3">
             {gallery.map((image, index) => (
               <div
                 key={image}
@@ -195,9 +194,9 @@ export default async function ProjectDetailPage({
         </section>
       ) : null}
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="reveal-sides-pair grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="reveal-from-left">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
               Điểm nổi bật
             </p>
@@ -210,7 +209,7 @@ export default async function ProjectDetailPage({
             </p>
           </div>
 
-          <div className="stagger-list grid gap-4">
+          <div className="reveal-from-right grid gap-4">
             {(project.highlights ?? []).map((highlight) => (
               <div key={highlight} className="hover-card border border-black/10 bg-white p-5">
                 <div className="mb-4 h-1 w-12 bg-[#fdcd04]" />
@@ -221,9 +220,9 @@ export default async function ProjectDetailPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
-          <div>
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="reveal-sides-pair grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div className="reveal-from-left">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
               Quan tâm dự án này?
             </p>
@@ -235,7 +234,7 @@ export default async function ProjectDetailPage({
               trao đổi thêm về dự án.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3 rounded border border-[#B06613]/30 bg-[#fff4cf] p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)]">
+          <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-[#B06613]/30 bg-[#fff4cf] p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)] md:self-center">
             <Link
               href={routes.contact}
               className="button-polish inline-flex h-11 items-center justify-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white"
@@ -251,6 +250,7 @@ export default async function ProjectDetailPage({
           </div>
         </div>
       </section>
+      </div>
     </SiteShell>
   );
 }

@@ -10,6 +10,12 @@
   --duration-base: 320ms;
   --duration-slow: 640ms;
   --duration-reveal: 760ms;
+  --duration-reveal-sides: 1080ms;
+  --duration-stagger-sides: 960ms;
+  --reveal-sides-distance: 72px;
+  --reveal-sides-pair-delay: 200ms;
+  --stagger-sides-step: 160ms;
+  --ease-reveal-sides: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
@@ -148,6 +154,124 @@ body {
 .reveal-section.is-revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes projectSlideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--reveal-sides-distance) * -1));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes projectSlideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(var(--reveal-sides-distance));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.reveal-from-left,
+.reveal-from-right {
+  opacity: 0;
+  transition:
+    border-color var(--duration-base) var(--ease-out-expo),
+    box-shadow var(--duration-base) var(--ease-out-expo);
+}
+
+.reveal-from-left {
+  transform: translateX(calc(var(--reveal-sides-distance) * -1));
+}
+
+.reveal-from-right {
+  transform: translateX(var(--reveal-sides-distance));
+}
+
+.reveal-from-left.is-revealed {
+  animation: projectSlideFromLeft var(--duration-reveal-sides) var(--ease-reveal-sides)
+    both;
+}
+
+.reveal-from-right.is-revealed {
+  animation: projectSlideFromRight var(--duration-reveal-sides) var(--ease-reveal-sides)
+    both;
+}
+
+.reveal-sides-pair .reveal-from-right.is-revealed {
+  animation-delay: var(--reveal-sides-pair-delay);
+}
+
+.reveal-from-left.hover-card.is-revealed:hover,
+.reveal-from-right.hover-card.is-revealed:hover,
+.stagger-sides.is-revealed > .hover-card:hover {
+  transform: translateY(-5px);
+}
+
+.stagger-sides > * {
+  opacity: 0;
+  transition:
+    border-color var(--duration-base) var(--ease-out-expo),
+    box-shadow var(--duration-base) var(--ease-out-expo);
+}
+
+.stagger-sides > *:nth-child(odd) {
+  transform: translateX(calc(var(--reveal-sides-distance) * -1));
+}
+
+.stagger-sides > *:nth-child(even) {
+  transform: translateX(var(--reveal-sides-distance));
+}
+
+.stagger-sides.is-revealed > *:nth-child(odd) {
+  animation: projectSlideFromLeft var(--duration-stagger-sides) var(--ease-reveal-sides)
+    both;
+}
+
+.stagger-sides.is-revealed > *:nth-child(even) {
+  animation: projectSlideFromRight var(--duration-stagger-sides) var(--ease-reveal-sides)
+    both;
+}
+
+.stagger-sides.is-revealed > *:nth-child(1) {
+  animation-delay: calc(var(--stagger-sides-step) * 0);
+}
+
+.stagger-sides.is-revealed > *:nth-child(2) {
+  animation-delay: calc(var(--stagger-sides-step) * 1);
+}
+
+.stagger-sides.is-revealed > *:nth-child(3) {
+  animation-delay: calc(var(--stagger-sides-step) * 2);
+}
+
+.stagger-sides.is-revealed > *:nth-child(4) {
+  animation-delay: calc(var(--stagger-sides-step) * 3);
+}
+
+.stagger-sides.is-revealed > *:nth-child(5) {
+  animation-delay: calc(var(--stagger-sides-step) * 4);
+}
+
+.stagger-sides.is-revealed > *:nth-child(6) {
+  animation-delay: calc(var(--stagger-sides-step) * 5);
+}
+
+.projects-motion {
+  --duration-reveal-sides: 2200ms;
+  --duration-stagger-sides: 2000ms;
+  --reveal-sides-distance: 128px;
+  --reveal-sides-pair-delay: 520ms;
+  --stagger-sides-step: 360ms;
+  --ease-reveal-sides: cubic-bezier(0.16, 0.84, 0.24, 1);
 }
 
 .stagger-list > * {

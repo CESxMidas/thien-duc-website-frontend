@@ -24,10 +24,10 @@ export function ProjectLocationMap({
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-16">
-      <div className="grid items-stretch gap-4 lg:grid-cols-2">
+      <div className="reveal-sides-pair grid items-stretch gap-4 lg:grid-cols-2">
         {aerialImage ? (
           <div
-            className="relative overflow-hidden border border-black/10 bg-[#f2f2f2]"
+            className="reveal-from-left image-reveal relative overflow-hidden border border-black/10 bg-[#f2f2f2]"
             style={{ aspectRatio: "1024 / 683" }}
           >
             <Image
@@ -41,7 +41,7 @@ export function ProjectLocationMap({
         ) : null}
 
         <div
-          className="relative border border-black/10 bg-[#0c5b3f]"
+          className="reveal-from-right image-reveal relative border border-black/10 bg-[#0c5b3f]"
           style={{ aspectRatio: "1024 / 683" }}
         >
           <div className="absolute inset-0 overflow-hidden">

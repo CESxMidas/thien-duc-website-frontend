@@ -3,7 +3,8 @@
 import { Suspense, useEffect, type ReactNode } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
-const REVEAL_SELECTOR = ".reveal-section, .stagger-list, .image-reveal";
+const REVEAL_SELECTOR =
+  ".reveal-section, .reveal-from-left, .reveal-from-right, .stagger-list, .stagger-sides, .image-reveal";
 
 function isInRevealViewport(element: Element) {
   const rect = element.getBoundingClientRect();
