@@ -5,6 +5,7 @@ import { CheckCircle2, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
+import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
 import { projects, projectStatusLabels } from "@/data/projects";
 import { routes } from "@/lib/routes";
@@ -91,6 +92,7 @@ export default async function ProjectDetailPage({
   }
 
   const gallery = project.gallery ?? [];
+  const gallerySections = project.gallerySections ?? [];
   const overviewHighlights = project.highlights ?? [];
 
   return (
@@ -210,7 +212,16 @@ export default async function ProjectDetailPage({
           />
         ) : null}
 
-        {gallery.length > 0 ? (
+        {gallerySections.length > 0 ? (
+          <section className="project-detail-band py-14">
+            <div className="mx-auto max-w-7xl px-6">
+              <ProjectGallerySections
+                sections={gallerySections}
+                projectTitle={project.title}
+              />
+            </div>
+          </section>
+        ) : gallery.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
               <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">

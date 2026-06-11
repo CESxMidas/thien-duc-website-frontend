@@ -1,4 +1,5 @@
 import type { Project, ProjectStatus } from "@/types/content";
+import { hungPhuGallerySections } from "@/data/hung-phu-gallery";
 
 export const projectStatusLabels: Record<ProjectStatus, string> = {
   "da-ban-giao": "Đã bàn giao",
@@ -27,11 +28,7 @@ export const projects: Project[] = [
     location: "Bến Tre",
     category: "Khu đô thị",
     image: "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg",
-    gallery: [
-      "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-02.jpg",
-      "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-03.jpg",
-      "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg",
-    ],
+    gallerySections: hungPhuGallerySections,
     description:
       "Khu đô thị Hưng Phú là một trong những dự án Thiên Đức đồng hành phát triển tại Bến Tre. Dự án hướng đến việc kiến tạo không gian sống ổn định, thuận tiện và phù hợp với nhu cầu an cư, kết nối của cư dân trong khu vực.",
     highlights: [

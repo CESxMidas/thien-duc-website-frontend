@@ -509,3 +509,65 @@ body {
 .nav-dropdown-item:hover {
   transform: translateX(4px);
 }
+
+@keyframes projectGalleryKenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+.project-gallery-ken-burns {
+  animation: projectGalleryKenBurns 12s var(--ease-out-expo) infinite alternate;
+}
+
+.project-gallery-card:hover {
+  border-color: rgba(176, 102, 19, 0.28);
+  box-shadow: 0 28px 56px rgba(127, 75, 13, 0.16);
+}
+
+.project-gallery-stage {
+  overflow: hidden;
+}
+
+.project-gallery-stage::before {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.34) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0;
+  transform: translateX(-120%);
+  transition:
+    opacity 500ms var(--ease-out-expo),
+    transform 900ms var(--ease-out-expo);
+}
+
+.project-gallery-card:hover .project-gallery-stage::before {
+  opacity: 1;
+  transform: translateX(120%);
+}
+
+.stagger-sides.is-revealed > .project-gallery-card.hover-card:hover {
+  transform: translateY(-5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-gallery-ken-burns {
+    animation: none;
+  }
+
+  .project-gallery-card:hover .project-gallery-stage::before {
+    opacity: 0;
+    transform: none;
+  }
+}

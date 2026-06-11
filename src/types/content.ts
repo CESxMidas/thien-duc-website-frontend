@@ -38,6 +38,12 @@ export type ProjectFact = {
   value: string;
 };
 
+export type ProjectGallerySection = {
+  title: string;
+  description?: string;
+  images: string[];
+};
+
 export type Project = {
   title: string;
   slug: string;
@@ -46,6 +52,7 @@ export type Project = {
   location?: string;
   image?: string;
   gallery?: string[];
+  gallerySections?: ProjectGallerySection[];
   category?: string;
   description?: string;
   highlights?: string[];

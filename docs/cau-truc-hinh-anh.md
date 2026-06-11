@@ -8,6 +8,9 @@ File anh trong `public/images` duoc goi bang URL bat dau bang `/images/...`.
 - `banners/home/`: anh rieng cho slider trang chu.
 - `projects/{project-slug}/master-plan/`: anh tong mat bang, phoi canh toan khu.
 - `projects/{project-slug}/fancy-tower/`: anh toa Fancy Tower, ngoai that, tien ich, phoi canh.
+- `projects/{project-slug}/supermarket/`: anh sieu thi trong khu do thi.
+- `projects/{project-slug}/shopping-center/`: anh trung tam thuong mai.
+- `projects/{project-slug}/hotel/`: anh khach san.
 - `projects/{project-slug}/legacy/`: anh cu hoac anh chat luong thap can giu de tham chieu.
 - `news/{year}/`: anh bai viet theo nam xuat ban.
 - `news/legacy/`: anh tin tuc cu hoac placeholder chua dung production.
@@ -27,6 +30,10 @@ File anh trong `public/images` duoc goi bang URL bat dau bang `/images/...`.
 - `/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg`
 - `/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-plaza-01.jpg`
 - `/images/projects/hung-phu/fancy-tower/fancy-tower-amenity-pool-01.jpg`
+- `/images/projects/hung-phu/supermarket/hung-phu-supermarket-interior-01.jpg`
+- `/images/projects/hung-phu/shopping-center/hung-phu-shopping-center-exterior-01.jpg`
+- `/images/projects/hung-phu/hotel/hung-phu-hotel-exterior-01.jpg`
+- `/images/projects/hung-phu/hotel/hung-phu-hotel-bedroom-double-01.jpg`
 - `/images/news/2021/le-khoi-cong-fancy-tower-2021-04-07.jpg`
 
 ## Luu y toi uu
