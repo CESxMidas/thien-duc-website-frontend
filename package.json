@@ -9,8 +9,8 @@
     "start": "next start",
     "start:lan": "next start --hostname 0.0.0.0 --port 3000",
     "lint": "eslint",
-    "report": "node docs/generate-bao-cao-tom-tat.mjs",
-    "excel:compare": "node docs/generate-so-sanh-domain-excel.mjs"
+    "report:docx": "npx @mohtasham/md-to-docx docs/Bao-cao-Phuong-an-2-Website-Thien-Duc.md docs/Bao-cao-Phuong-an-2-Website-Thien-Duc.docx",
+    "report:minh-hoa:docx": "npx @mohtasham/md-to-docx docs/minh-hoa-bao-cao-pa2.md docs/minh-hoa-bao-cao-pa2.docx"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",

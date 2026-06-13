@@ -4,333 +4,387 @@
 |-----------|----------|
 | **Dự án** | Website giới thiệu Công ty TNHH ĐT – XD – TM Thiên Đức |
 | **Phương án** | Phương án 2 — Cân bằng giữa thời gian, chi phí và khả năng mở rộng |
-| **Phiên bản tài liệu** | 1.0 |
+| **Phiên bản tài liệu** | **2.1** (phân tích hệ thống PA2 hoàn chỉnh — FE + BE + Admin + Database) |
 | **Ngày lập** | 12/06/2026 |
-| **Trạng thái** | Bản nháp trình phê duyệt triển khai |
-| **Tài liệu tham chiếu** | `Bao-cao-phuong-an-ky-thuat-website-Thien-Duc.doc`, `Bao-cao-trien-khai-chi-tiet-phuong-an-2.doc`, `THIENDUC_DOCUMENT.txt` |
+| **Trạng thái** | Bản trình phê duyệt triển khai |
+| **Tài liệu tham chiếu** | `THIENDUC_DOCUMENT.txt`, `minh-hoa-bao-cao-pa2.md`, `cau-truc-hinh-anh.md`, `so-sanh-domain-trong-nuoc-va-vercel-moi.xlsx` |
 
 ---
 
 ## Tóm tắt điều hành
 
-Website Thiên Đức là **trang giới thiệu doanh nghiệp** (corporate / landing), không phải website thương mại điện tử. Mục tiêu chính: xây dựng uy tín thương hiệu, giới thiệu dự án/sản phẩm, hỗ trợ tư vấn qua form liên hệ, và phục vụ tuyển dụng.
+Website Thiên Đức là **trang giới thiệu doanh nghiệp** (corporate website), không phải thương mại điện tử. Mục tiêu: xây dựng uy tín, giới thiệu dự án/sản phẩm, hỗ trợ tư vấn qua form liên hệ, phục vụ tuyển dụng và thu hút nhà đầu tư.
 
-**Phương án 2** được lựa chọn vì tách rõ ba tầng: website công khai (Next.js), trang quản trị nội dung (Vite + React), và backend xử lý dữ liệu (NestJS + PostgreSQL). Nhân viên không biết lập trình có thể cập nhật nội dung qua admin mà không cần sửa mã nguồn.
+**Phương án 2** tách ba tầng: website công khai (Next.js), trang quản trị CMS (Vite + React), backend (NestJS + PostgreSQL). Nhân viên không biết code có thể cập nhật nội dung qua admin.
 
-**Hiện trạng triển khai:** Đội phát triển đã xây dựng trước **~70% giao diện website** trên Next.js với dữ liệu tĩnh trong `src/data/`. Backend, admin CMS và song ngữ Vi/En **chưa triển khai**. Báo cáo này là cơ sở để **dừng mở rộng code tạm thời**, hoàn thiện phân tích — thiết kế — phê duyệt trước khi triển khai tiếp.
+**Phạm vi báo cáo:** Tài liệu này **phân tích và thiết kế hệ thống khi đã triển khai đủ** bốn thành phần — **Frontend, Backend, Admin CMS, Database** — theo Phương án 2. Mọi mục trong Phần 1 mô tả **cách hệ thống vận hành sau go-live**, không mô tả giai đoạn prototype hay data tĩnh trong mã nguồn.
 
-**Thời gian ước lượng toàn dự án PA2:** 8–10 tuần (website + API + admin + tích hợp + UAT + go-live).
+**Thời gian triển khai ước lượng:** 8–10 tuần (website + API + admin + tích hợp + UAT + go-live).
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Sơ đồ tổng quan 3 tầng PA2 (1 trang) — vẽ theo mục 1.3.1.
+**Minh họa:** Sơ đồ Mermaid, wireframe và Gantt → xem [`docs/minh-hoa-bao-cao-pa2.md`](minh-hoa-bao-cao-pa2.md).
 
 ---
 
 # PHẦN 1 — PHÂN TÍCH HỆ THỐNG
 
-## 1.1 Khảo sát hiện trạng
+## 1.1 Phân tích hệ thống (PA2 — FE + BE + Admin + Database)
+
+> **Ghi chú phương pháp:** Các mục dưới đây mô tả **hệ thống sau khi triển khai Phương án 2**, gồm website công khai, API, trang quản trị và cơ sở dữ liệu. Phần so sánh đối thủ tham chiếu các website cùng ngành đã vận hành production.
 
 ### 1.1.1 Bối cảnh dự án
 
-Công ty Thiên Đức hoạt động trong lĩnh vực đầu tư, xây dựng và phát triển bất động sự / dự án đô thị. Website phục vụ:
+Công ty Thiên Đức hoạt động đầu tư, xây dựng, phát triển bất động sản và dự án đô thị (thành lập **2010**). Website phục vụ:
 
-- **Khách hàng / nhà đầu tư:** tìm hiểu công ty, dự án, liên hệ tư vấn.
-- **Ứng viên / nhân sự:** xem thông tin tuyển dụng, chính sách HR.
-- **Nội bộ (sau PA2):** cập nhật dự án, tin tức, banner, xử lý yêu cầu liên hệ qua trang admin.
+| Đối tượng | Mục đích sử dụng |
+|-----------|------------------|
+| Khách hàng / cư dân tiềm năng | Tìm hiểu công ty, xem dự án đã/đang triển khai, liên hệ tư vấn |
+| Nhà đầu tư | Đánh giá năng lực, portfolio dự án, hợp tác phát triển |
+| Ứng viên / nhân sự | Xem tuyển dụng, chính sách HR, sơ đồ tổ chức |
+| Nội bộ (Editor / Admin) | Cập nhật dự án, tin tức, banner qua CMS; duyệt bài; xử lý form liên hệ |
 
-Website **không** có: giỏ hàng, đặt hàng, thanh toán trực tuyến, tài khoản khách hàng.
+**Ngoài phạm vi:** giỏ hàng, đặt hàng, thanh toán trực tuyến, tài khoản khách hàng, quản lý tồn kho.
 
 ---
 
 ### 1.1.2 Đối với khách hàng — họ vào website làm gì?
 
-| Nhu cầu | Hành vi mong đợi | Route liên quan |
-|---------|------------------|-----------------|
+Website Thiên Đức là trang **chỉ đọc + gửi form** — khách **không đăng nhập**, không có tài khoản, không mua hàng. Hành vi chính:
+
+| Nhu cầu | Hành vi | Route |
+|---------|---------|-------|
 | Tìm hiểu công ty | Đọc giới thiệu, tầm nhìn, lĩnh vực | `/`, `/gioi-thieu` |
-| Xem dự án/sản phẩm | Lọc theo trạng thái, xem chi tiết, gallery | `/du-an`, `/du-an/[slug]` |
-| Xem hạng mục trong dự án | Xem chi tiết từng hạng mục (VD: khách sạn, căn hộ) | `/du-an/[slug]/[hang-muc]` *(yêu cầu nghiệp vụ; chưa có route riêng)* |
-| Đọc tin tức | Danh sách + chi tiết bài viết | `/tin-tuc`, `/tin-tuc/[slug]` |
-| Tuyển dụng / HR | Xem vị trí, chính sách, sơ đồ tổ chức | `/tuyen-dung`, `/dao-tao`, … |
-| Liên hệ / tư vấn | Gọi điện, email, bản đồ, gửi form | `/lien-he` |
-| Đổi ngôn ngữ | Vi ↔ En | *(yêu cầu nghiệp vụ; chưa triển khai)* |
+| Xem dự án | Lọc trạng thái, xem chi tiết, gallery, bản đồ | `/du-an`, `/du-an/[slug]` |
+| Xem hạng mục trong dự án | Chi tiết từng hạng mục (khách sạn, Fancy Tower…) | `/du-an/[slug]/[hang-muc]` |
+| Đọc tin tức | Danh sách + chi tiết | `/tin-tuc`, `/tin-tuc/[slug]` |
+| Tuyển dụng / HR | Vị trí, chính sách, sơ đồ TC | `/tuyen-dung`, `/dao-tao`, … |
+| Liên hệ | Gọi điện, email, bản đồ, gửi form | `/lien-he` |
+| Đổi ngôn ngữ | Vi ↔ En | Header language switcher |
 
-**Luồng khách hàng điển hình (rút gọn):**
+**Luồng điển hình** (khách chỉ xem — có thể rút gọn):
 
+```mermaid
+flowchart LR
+    Home[Trang chủ] --> Projects[Danh sách dự án]
+    Projects --> Detail[Chi tiết dự án]
+    Detail --> Contact[Liên hệ / Form]
 ```
-Vào trang chủ → Xem dự án nổi bật → Chi tiết dự án → CTA "Liên hệ tư vấn"
-                                                      ↓
-                                            Điền form /lien-he
-```
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Screenshot luồng: Trang chủ → Danh sách dự án → Chi tiết dự án → Liên hệ (4 ảnh ghép hoặc 1 flow diagram).
+> Minh họa chi tiết: [`minh-hoa-bao-cao-pa2.md` — H1](minh-hoa-bao-cao-pa2.md)
 
 ---
 
 ### 1.1.3 Đối với nội dung / “hàng hóa” trên website
 
-Website Thiên Đức **không bán hàng**. “Sản phẩm” trên site là **nội dung số**:
+Không có sản phẩm vật lý hay giao dịch. **“Hàng hóa” = nội dung số:**
 
-| Loại nội dung | Mô tả | Nguồn hiện tại |
-|---------------|--------|----------------|
-| Dự án | Tên, trạng thái, vị trí, mô tả, gallery, bản đồ | `src/data/projects.ts` |
-| Hạng mục dự án | Nhóm gallery theo hạng mục (VD: Khách sạn, Fancy Tower) | `gallerySections` trong data dự án |
-| Tin tức | Bài viết, ngày đăng, danh mục | `src/data/news.ts` |
-| Trang tĩnh | Giới thiệu, HR, công ty thành viên | `src/data/about.ts`, các page placeholder |
-| Banner / media | Ảnh trang chủ, logo, favicon | `public/images/` |
-| Thông tin liên hệ | Phone, email, địa chỉ | `src/config/site.ts` |
+| Loại nội dung | Mô tả | Lưu trữ (PA2) | Quản lý qua |
+|---------------|--------|----------------|-------------|
+| Dự án | Tên, trạng thái, vị trí, mô tả, gallery, bản đồ | PostgreSQL + Cloudinary | Admin → module Dự án |
+| Hạng mục dự án | Gallery theo nhóm (Khách sạn, Fancy Tower…) | PostgreSQL + Cloudinary | Admin → Hạng mục con |
+| Tin tức | Bài viết, ngày, danh mục, trạng thái duyệt | PostgreSQL + Cloudinary | Admin → module Tin tức |
+| Trang tĩnh | Giới thiệu, HR, CTTV | PostgreSQL (JSON blocks) | Admin → Trang tĩnh |
+| Banner / media | Ảnh trang chủ, logo | Cloudinary CDN | Admin → Banner |
+| Form liên hệ | Yêu cầu tư vấn từ khách | PostgreSQL (`contact_submissions`) | Admin → Liên hệ (read/update) |
+| Cài đặt site | Phone, email, địa chỉ | PostgreSQL (`site_settings`) | Super Admin |
 
-**Không cần phân tích sâu:** tồn kho, SKU, giá bán, giỏ hàng, vận chuyển.
+**Không cần phân tích sâu:** tồn kho, SKU, giá bán, giỏ hàng, vận chuyển, thanh toán.
 
 ---
 
 ### 1.1.4 Quá trình sử dụng — hai góc độ
 
-#### A. Khách truy cập (đơn giản — chỉ xem và gửi form)
+#### A. Khách truy cập (xem nội dung + gửi form)
 
-| Bước | Mô tả | Hiện trạng |
-|------|--------|------------|
-| 1 | Truy cập website | Chạy local / chưa production |
-| 2 | Duyệt menu, xem nội dung | Header/footer thống nhất, 12 route |
-| 3 | Gửi form liên hệ | Mở ứng dụng email (`mailto:`) — **chưa lưu DB, chưa Gmail backend** |
+| Bước | Mô tả |
+|------|--------|
+| 1 | Truy cập `thienduc.vn` (hoặc `www.thienduc.vn`) |
+| 2 | Duyệt 14 trang/route — nội dung lấy từ API + cache ISR |
+| 3 | Gửi form liên hệ → **POST API** → lưu PostgreSQL → email thông báo admin → hiển thị “Gửi thành công” |
 
-#### B. Người cập nhật nội dung
+Khách **không đăng nhập**, không có tài khoản. Luồng form chi tiết: sơ đồ `docs/diagrams/02-form-lien-he.drawio`.
 
-**Hiện trạng (trước PA2):**
+#### B. Người cập nhật nội dung (Admin CMS)
 
+Nhân viên HR/Marketing **tự cập nhật** qua trang quản trị — **không cần developer sửa code**.
+
+**Mô tả dễ hiểu (không chuyên IT):**
+
+> Khi cần đăng dự án mới, tin tức hoặc đổi banner, nhân viên đăng nhập trang quản trị nội bộ, soạn nội dung và tải ảnh lên. Bài viết có thể lưu nháp hoặc gửi cho quản lý duyệt. Sau khi được duyệt và xuất bản, website tự hiển thị nội dung mới cho khách — không cần chờ bộ phận kỹ thuật sửa mã nguồn.
+
+**Luồng kỹ thuật (PA2):**
+
+```mermaid
+sequenceDiagram
+    participant NV as Nhân viên (Editor)
+    participant ADM as admin.thienduc.vn
+    participant API as NestJS API
+    participant DB as PostgreSQL
+    participant CDN as Cloudinary
+    participant Web as thienduc.vn
+
+    NV->>ADM: Đăng nhập (email + mật khẩu)
+    NV->>ADM: Soạn/sửa dự án hoặc tin (nháp)
+    NV->>CDN: Upload ảnh (phiên bản web tự tối ưu)
+    NV->>API: Lưu nháp hoặc gửi duyệt
+    API->>DB: Ghi dữ liệu
+    Note over ADM,API: Admin duyệt → Xuất bản
+    Web->>API: Lấy nội dung đã publish
+    API->>DB: Đọc bản publish
+    Web-->>NV: Website cập nhật (vài phút, ISR)
 ```
-Nhu cầu thay đổi nội dung
-        ↓
-Yêu cầu developer
-        ↓
-Sửa file TypeScript/JSON trong src/data/
-        ↓
-Commit → build → deploy thủ công
-```
 
-**Hạn chế:** Nhân viên marketing/HR **không thể tự cập nhật**; mọi thay đổi phụ thuộc dev.
+**Quyền hạn theo vai trò:**
 
-**Quy trình mục tiêu (PA2 — sau triển khai admin):**
+| Vai trò | Việc được làm |
+|---------|----------------|
+| **Editor** | Soạn nháp, upload ảnh, gửi duyệt — **không** tự publish |
+| **Admin** | Duyệt bài, publish, xử lý form liên hệ |
+| **Super Admin** | Quản lý tài khoản, cài đặt công ty, cấu hình email |
 
-```
-Đăng nhập admin.thienduc.vn
-        ↓
-Dashboard (liên hệ mới, bài nháp)
-        ↓
-┌─────────────────┬──────────────────┬─────────────────┐
-│ Sửa dự án/tin   │ Upload ảnh       │ Xử lý form      │
-│ banner/trang    │ (Cloudinary)     │ liên hệ         │
-└─────────────────┴──────────────────┴─────────────────┘
-        ↓
-Publish / duyệt (Admin)
-        ↓
-Website tự cập nhật qua API (ISR)
-```
-
-> **[HÌNH ẢNH CẦN BỔ SUNG]** So sánh 2 flow trên (hiện trạng vs PA2) — 1 sơ đồ swimlane.
+> Minh họa: [`minh-hoa-bao-cao-pa2.md` — H2](minh-hoa-bao-cao-pa2.md) · Form liên hệ: `02-form-lien-he.drawio`
 
 ---
 
-### 1.1.5 Đánh giá giao diện và điều hướng (hiện trạng codebase)
+### 1.1.5 Đánh giá giao diện website công khai (Frontend)
 
-#### Điểm mạnh
+#### Thành phần giao diện (14 trang)
+
+| Khu vực | Thành phần | Ghi chú |
+|---------|------------|---------|
+| Header | Logo, menu 7 mục + submenu, tìm kiếm, chuyển Vi/En, top strip liên hệ | Nhất quán mọi trang |
+| Trang chủ | Banner slider, 7 lĩnh vực, dự án nổi bật, tin mới, CTA | Nội dung từ API |
+| Dự án | Lọc trạng thái, card, chi tiết + gallery + bản đồ + hạng mục | |
+| Tin tức | Danh sách + chi tiết bài viết | |
+| HR / CTTV | Tuyển dụng, đào tạo, CSNS, sơ đồ TC, công ty thành viên | Quản lý qua trang tĩnh CMS |
+| Liên hệ | Form, bản đồ, phone/email/địa chỉ | Form → API → DB |
+| Footer | Thông tin công ty, link nhanh | |
+
+#### Điểm mạnh thiết kế
 
 | Tiêu chí | Nhận xét |
 |----------|----------|
 | Phong cách | Trắng chủ đạo, accent nâu vàng `#B06613` — phù hợp doanh nghiệp xây dựng/BĐS |
-| Cấu trúc menu | Rõ ràng: Trang chủ, Giới thiệu, Dự án (submenu), Tin tức, CTTV, Nhân sự, Liên hệ |
-| Layout | `SiteShell` — header/footer nhất quán mọi trang |
-| Trang dự án | Filter `?status=`, trang chi tiết có gallery, map, quick facts |
-| Responsive | Tailwind CSS — layout co giãn mobile/tablet/desktop |
+| Điều hướng | 14 route rõ ràng; submenu Dự án + Nhân sự |
+| Responsive | Mobile / tablet / desktop (Tailwind CSS) |
+| Trang dự án | Filter trạng thái, gallery phân hạng mục, bản đồ |
+| Thương hiệu | Logo, favicon, màu sắc thống nhất |
 
-#### Điểm cần cải thiện
+#### Yêu cầu bổ sung khi vận hành
 
-| Tiêu chí | Nhận xét |
-|----------|----------|
-| Trang placeholder | Tuyển dụng, đào tạo, chính sách NS, CTTV, sơ đồ TC — nội dung mỏng |
-| Song ngữ | Chưa có language switcher |
-| Chi tiết hạng mục | Chưa có URL riêng `/du-an/[slug]/[hang-muc]` |
-| Form liên hệ | Chưa production-ready (mailto) |
-| 7 lĩnh vực xây dựng | Data hiện gom theo ngành nghề ĐKKD, chưa khớp 7 mục yêu cầu nghiệp vụ |
+| Tiêu chí | Yêu cầu PA2 |
+|----------|-------------|
+| Song ngữ | Vi/En trên toàn site |
+| SEO | Metadata, sitemap, robots, Open Graph, Schema.org |
+| Hiệu năng | Ảnh qua Cloudinary CDN; LCP < 2,5s; Lighthouse mobile ≥ 70 |
+| 7 lĩnh vực xây dựng | Hiển thị đúng 7 mục nghiệp vụ trên trang chủ |
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]**
-> - H1: Screenshot trang chủ (desktop)
-> - H2: Screenshot menu mobile
-> - H3: Screenshot trang chi tiết dự án Hưng Phú
-> - H4: Screenshot trang liên hệ
+> Wireframe: [`minh-hoa-bao-cao-pa2.md` — H3](minh-hoa-bao-cao-pa2.md)
 
 ---
 
-### 1.1.6 So sánh đối thủ (khung đánh giá)
+### 1.1.6 So sánh đối thủ
 
-> **Ghi chú:** Cần chọn 2–3 website cùng ngành (BĐS / xây dựng VN) và điền bảng dưới.
+Phân tích 3 website cùng ngành (xây dựng / BĐS Việt Nam) làm tham chiếu. *Đánh giá dựa trên khảo sát công khai website, không phải benchmark chính thức.*
 
-| Tiêu chí | Thiên Đức (hiện tại) | Đối thủ A: _______ | Đối thủ B: _______ |
-|----------|----------------------|---------------------|---------------------|
-| Giao diện hiện đại | Trắng + nâu vàng, sạch | *[điền]* | *[điền]* |
-| Menu / điều hướng | 12 route, submenu dự án | *[điền]* | *[điền]* |
-| Trang dự án | Có filter + gallery | *[điền]* | *[điền]* |
-| Form liên hệ | mailto (tạm) | *[điền]* | *[điền]* |
-| Song ngữ | Chưa có | *[điền]* | *[điền]* |
-| Tốc độ / mobile | *[chạy Lighthouse — mục 1.1.7]* | *[điền]* | *[điền]* |
+| Tiêu chí | **Thiên Đức (PA2)** | **Coteccons** | **Đất Xanh Group** | **Novaland** |
+|----------|---------------------|---------------|---------------------|--------------|
+| Quy mô / vị thế | Doanh nghiệp vừa, TP.HCM + tỉnh | Tập đoàn xây dựng hàng đầu VN | Tập đoàn BĐS lớn | Tập đoàn BĐS top đầu |
+| Giao diện | Trắng + nâu vàng, sạch, hiện đại | Corporate chuyên nghiệp | Rich media, slider lớn | Premium |
+| Menu / điều hướng | 14 trang, submenu rõ | Đa cấp | Đa cấp, IR + dự án | Đa cấp |
+| Trang dự án | Filter + gallery + map + hạng mục | Portfolio lớn | Danh mục đa dạng | Showcase quy mô lớn |
+| Form liên hệ | API → DB + email admin | Form + CRM | Form đa kênh | Form + hotline |
+| Song ngữ | Vi + En | Vi + En | Vi + En | Vi + En |
+| CMS nội dung | Admin CMS 3 cấp quyền | Hệ thống nội bộ | CMS doanh nghiệp | CMS doanh nghiệp |
+| Mobile | Responsive | Tốt | Tốt | Tốt |
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Screenshot homepage 2–3 đối thủ (chú thích tên công ty).
-
----
-
-### 1.1.7 Đánh giá kỹ thuật hiện trạng
-
-#### Stack frontend hiện có
-
-| Công nghệ | Phiên bản |
-|-----------|-----------|
-| Next.js | 16.2.6 |
-| React | 19.2.4 |
-| TypeScript | ^5 |
-| Tailwind CSS | ^4 |
-| lucide-react | ^1.17.0 |
-| ESLint | ^9 |
-
-#### SEO
-
-| Hạng mục | Hiện trạng |
-|----------|------------|
-| Metadata từng route | Có (`title`, `description`) |
-| `metadataBase` | Có trong layout |
-| Sitemap / robots.txt | *[cần kiểm tra và bổ sung nếu thiếu]* |
-| Open Graph / Schema.org | *[cần bổ sung cho production]* |
-| Tiếng Việt có dấu | Đã chuẩn hóa phần lớn |
-
-#### Hiệu năng (Lighthouse)
-
-> **Chưa đo trong báo cáo này.** Cần chạy trên bản build production và điền bảng:
-
-| Trang | Performance | Accessibility | Best Practices | SEO |
-|-------|-------------|---------------|----------------|-----|
-| `/` | *[điền]* | *[điền]* | *[điền]* | *[điền]* |
-| `/du-an` | *[điền]* | *[điền]* | *[điền]* | *[điền]* |
-| `/lien-he` | *[điền]* | *[điền]* | *[điền]* | *[điền]* |
-
-**Cách đo:** `npm run build` → `npm run start` → Chrome DevTools → Lighthouse (Mobile + Desktop).
-
-**Rủi ro hiện tại:** Thư mục `public/images` chứa ảnh dự án dung lượng lớn — có thể ảnh hưởng Performance nếu chưa tối ưu.
-
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Screenshot kết quả Lighthouse trang chủ (mobile + desktop).
-
-#### Build & chất lượng mã
-
-| Kiểm tra | Kết quả (theo ghi nhận 06/2026) |
-|----------|----------------------------------|
-| `npm run lint` | PASS |
-| `npm run build` | PASS |
+**Nhận xét:** Thiên Đức PA2 **ngang tầm** website giới thiệu doanh nghiệp vừa — đủ CMS, form, song ngữ. Không cần phức tạp như IR/báo cáo tài chính của tập đoàn lớn.
 
 ---
 
-### 1.1.8 Tổng kết hiện trạng
+### 1.1.7 Đánh giá kỹ thuật hệ thống (FE + BE + Admin + Database)
 
-| Khía cạnh | Mức hoàn thiện | Ghi chú |
-|-----------|----------------|---------|
-| UI website công khai | ~70% | Home, Giới thiệu, Dự án, Tin tức, Liên hệ khá đầy đủ |
-| Nội dung HR / phụ | ~20% | Placeholder |
-| Backend API | 0% | Chưa có |
-| Admin CMS | 0% | Chưa có |
-| Song ngữ Vi/En | 0% | Chưa có |
-| Form liên hệ production | 0% | mailto tạm |
-| CMS / tự cập nhật nội dung | 0% | Data tĩnh trong repo |
+#### Stack công nghệ (PA2 hoàn chỉnh)
 
-**Kết luận phân tích:** Việc code frontend trước đã tạo **mẫu trực quan hữu ích** cho phê duyệt giao diện, nhưng **chưa có hồ sơ phân tích — thiết kế hoàn chỉnh** trước khi triển khai backend/CMS. Báo cáo này khắc phục khoảng trống đó.
+| Tầng | Công nghệ | Phiên bản | Vai trò |
+|------|-----------|-----------|---------|
+| **Frontend** | Next.js | 16.x | Website công khai, ISR, SEO |
+| | React + TypeScript | 19 / ^5 | UI components |
+| | Tailwind CSS | ^4 | Responsive |
+| | next-intl | latest | Song ngữ Vi/En |
+| **Admin CMS** | Vite + React | latest | Trang quản trị nội dung |
+| | shadcn/ui + TanStack Query | — | Form CRUD, data fetching |
+| **Backend** | NestJS | latest | REST API, auth, business logic |
+| | Prisma | latest | ORM |
+| **Database** | PostgreSQL | 15+ | Lưu trữ quan hệ |
+| **Media** | Cloudinary | — | CDN ảnh/video |
+| **Email** | Gmail SMTP / Workspace | — | Thông báo form liên hệ |
+| **Hosting** | Vercel (FE + Admin) + Render/Railway (API + DB) | — | Production |
+
+#### SEO (production)
+
+| Hạng mục | PA2 |
+|----------|-----|
+| Metadata từng route | ✅ title, description, canonical |
+| sitemap.xml + robots.txt | ✅ |
+| Open Graph + Twitter Card | ✅ |
+| Schema.org (Organization) | ✅ |
+| Song ngữ `hreflang` | ✅ Vi + En |
+
+#### Hiệu năng (mục tiêu production)
+
+| Chỉ số | Mục tiêu |
+|--------|----------|
+| LCP | < 2,5 s |
+| CLS | < 0,1 |
+| Lighthouse Performance (mobile) | ≥ 70 |
+| Ảnh | Cloudinary auto WebP/resize |
+| Cache | ISR 60–300 s; CDN edge |
+
+#### Bảo mật
+
+| Hạng mục | PA2 |
+|----------|-----|
+| HTTPS | SSL tự động (Vercel + Render) |
+| Auth admin | JWT + httpOnly cookie |
+| Form spam | Rate limit API + captcha (phase 2) |
+| Secrets | Biến môi trường — không lộ client |
+
+---
+
+### 1.1.8 Tổng kết hệ thống PA2
+
+| Thành phần | Mô tả | Domain / hosting |
+|------------|--------|------------------|
+| **Frontend** | 14 trang công khai, song ngữ, SEO | `thienduc.vn` — Vercel |
+| **Admin CMS** | CRUD nội dung, upload, duyệt bài, xử lý liên hệ | `admin.thienduc.vn` — Vercel |
+| **Backend API** | NestJS REST, auth JWT, email, upload signature | `api.thienduc.vn` — Render/Railway |
+| **Database** | PostgreSQL — dự án, tin, form, user, settings | Gộp Render hoặc Neon |
+| **Media CDN** | Cloudinary — ảnh dự án, banner, tin tức | cloudinary.com |
+| **Staging** | Môi trường UAT trước go-live | `staging.thienduc.vn` |
+
+**Kết luận:** Hệ thống PA2 là **website giới thiệu doanh nghiệp đầy đủ** — khách xem nội dung và gửi form; nhân viên tự quản lý nội dung qua CMS; dữ liệu tập trung trên PostgreSQL; media phân phối qua CDN.
 
 ---
 
 ## 1.2 Danh sách chức năng
 
-Chức năng được chia theo **đối tượng sử dụng**. Website Thiên Đức **không có chức năng đăng ký/đăng nhập cho khách**.
+Chức năng chia theo **vai trò**. Khách truy cập **không có** tài khoản, không CRUD — chỉ **xem nội dung công khai** và **gửi form liên hệ** (không liệt kê như quyền quản trị).
 
-### 1.2.1 Chức năng công khai (Khách truy cập)
-
-| ID | Chức năng | Mô tả | MVP |
-|----|-----------|--------|-----|
-| P01 | Xem trang chủ | Banner, giới thiệu ngắn, dự án nổi bật, tin mới, CTA | ✓ |
-| P02 | Xem giới thiệu công ty | Tổng quan, tầm nhìn, sứ mệnh, lĩnh vực | ✓ |
-| P03 | Danh sách dự án | Lọc: đã bàn giao / đang thi công / chuẩn bị K/C | ✓ |
-| P04 | Chi tiết dự án | Mô tả, facts, gallery, bản đồ, CTA | ✓ |
-| P05 | Chi tiết hạng mục dự án | Trang con từng hạng mục trong dự án | ✓ (bổ sung) |
-| P06 | Danh sách tin tức | Sắp xếp theo ngày | ✓ |
-| P07 | Chi tiết tin tức | Nội dung đầy đủ | ✓ |
-| P08 | Trang HR | Tuyển dụng, đào tạo, chính sách NS, sơ đồ TC | ✓ |
-| P09 | Công ty thành viên | Danh sách / mô tả CTTV | ✓ |
-| P10 | Liên hệ | Phone, email, địa chỉ, bản đồ, form | ✓ |
-| P11 | Gửi form liên hệ | POST API → lưu DB + email admin | ✓ (PA2) |
-| P12 | Song ngữ Vi/En | Chuyển locale, nội dung 2 ngôn ngữ | ✓ (PA2) |
-| P13 | SEO | Metadata, sitemap, OG | ✓ |
-| P14 | Responsive | Mobile / tablet / desktop | ✓ |
-
-**Ngoài phạm vi (OUT):** Giỏ hàng, thanh toán, đăng ký tài khoản khách, chat bot (phase sau nếu cần).
-
----
-
-### 1.2.2 Chức năng quản trị — Editor
+### 1.2.1 Chức năng công khai (Website — khách truy cập)
 
 | ID | Chức năng | Mô tả |
 |----|-----------|--------|
-| E01 | Đăng nhập admin | JWT qua API |
-| E02 | Xem dashboard | Liên hệ mới, bài nháp |
-| E03 | Tạo/sửa dự án (nháp) | CRUD, gallery, không publish |
-| E04 | Tạo/sửa tin tức (nháp) | Gửi duyệt, không publish trực tiếp |
-| E05 | Upload ảnh | Cloudinary |
-| E06 | Sửa banner | Nội dung + ảnh trang chủ |
+| P01 | Trang chủ | Banner, giới thiệu, 7 lĩnh vực, dự án nổi bật, tin, CTA |
+| P02 | Giới thiệu | Tổng quan, tầm nhìn, sứ mệnh |
+| P03 | Danh sách dự án | Lọc trạng thái |
+| P04 | Chi tiết dự án | Gallery, map, facts, CTA |
+| P05 | Chi tiết hạng mục | Trang con hạng mục trong dự án |
+| P06–P07 | Tin tức | List + detail |
+| P08–P09 | HR + CTTV | Tuyển dụng, đào tạo, CSNS, sơ đồ TC, CTTV |
+| P10 | Liên hệ | Phone, email, map, form |
+| P11 | Gửi form | POST API → PostgreSQL + email admin |
+| P12 | Song ngữ Vi/En | Locale switcher |
+| P13 | SEO | Metadata, sitemap, OG, schema |
+| P14 | Responsive | Mobile / tablet / desktop |
+
+---
+
+### 1.2.2 Chức năng quản trị — Editor (Nhân viên nội dung)
+
+| ID | Chức năng | Mô tả | Giai đoạn |
+|----|-----------|--------|-----------|
+| E01 | Đăng nhập admin | JWT qua API | P0 |
+| E02 | Dashboard | Xem liên hệ mới, bài nháp của mình | P0 |
+| E03 | CRUD dự án (nháp) | Tạo/sửa/xóa — **không publish** | P1 |
+| E04 | CRUD tin tức (nháp) | Soạn bài, gửi duyệt | P1 |
+| E05 | Upload ảnh / video | Cloudinary; lưu URL vào CSDL | P1 |
+| E06 | Sửa banner trang chủ | Nội dung + ảnh + thứ tự | P1 |
+| E07 | Sửa trang tĩnh (nháp) | HR, giới thiệu mở rộng | P2 |
+| E08 | **Đặt lịch đăng bài** | Chọn `published_at` tương lai | **Phase 2** *(PA2 cơ bản: publish thủ công; lịch tự động cần cron job)* |
 
 ---
 
 ### 1.2.3 Chức năng quản trị — Admin
 
-| ID | Chức năng | Mô tả |
-|----|-----------|--------|
-| A01 | Tất cả quyền Editor | + publish |
-| A02 | Duyệt & publish tin tức | DRAFT → PENDING → PUBLISHED |
-| A03 | Publish dự án / banner | Hiển thị website |
-| A04 | Quản lý form liên hệ | Xem danh sách, chi tiết, đổi trạng thái, ghi chú |
-| A05 | Quản lý trang tĩnh | HR, giới thiệu mở rộng |
+| ID | Chức năng | Mô tả | Giai đoạn |
+|----|-----------|--------|-----------|
+| A01 | Tất cả quyền Editor | + publish | P1 |
+| A02 | Duyệt & publish tin | DRAFT → PENDING → PUBLISHED | P1 |
+| A03 | Publish dự án / banner | Hiển thị website | P1 |
+| A04 | Quản lý form liên hệ | List, detail, đổi trạng thái, ghi chú nội bộ | P0 |
+| A05 | Quản lý trang tĩnh | Publish nội dung HR, CTTV | P2 |
+| A06 | Xem báo cáo nhanh | Số liên hệ theo trạng thái, tin chờ duyệt | P0 |
 
 ---
 
 ### 1.2.4 Chức năng quản trị — Super Admin
 
-| ID | Chức năng | Mô tả |
-|----|-----------|--------|
-| S01 | Cài đặt site | Phone, email, địa chỉ, metadata global |
-| S02 | Quản lý tài khoản | Tạo/sửa/khóa user Editor/Admin |
-| S03 | Phân quyền | SUPER_ADMIN / ADMIN / EDITOR |
+| ID | Chức năng | Mô tả | Giai đoạn |
+|----|-----------|--------|-----------|
+| S01 | Cài đặt site | Phone, email, địa chỉ, metadata global | P2 |
+| S02 | Quản lý tài khoản | CRUD user Editor/Admin; khóa/mở | P2 |
+| S03 | Phân quyền | SUPER_ADMIN / ADMIN / EDITOR | P2 |
+| S04 | Cấu hình email | SMTP Gmail / Workspace | P0 |
 
-**Ghi chú:** Hiện tại có thể chỉ cần **1 tài khoản Super Admin**; mở rộng sau.
+**Ghi chú:** Giai đoạn đầu có thể chỉ **1 Super Admin**; mở rộng sau.
 
 ---
 
-### 1.2.5 Ánh xạ 14 trang nghiệp vụ ↔ module CMS
+### 1.2.5 Ánh xạ 14 trang ↔ module CMS
 
-| # | Trang | Route | Module admin | Ghi chú |
-|---|-------|-------|--------------|---------|
-| 1 | Trang chủ | `/` | Banner + Featured | Ghép nhiều nguồn |
-| 2 | Giới thiệu | `/gioi-thieu` | Trang tĩnh / About | |
-| 3 | Dự án | `/du-an` | Dự án (list) | |
-| 4 | Chi tiết dự án | `/du-an/[slug]` | Dự án (detail) | |
-| 5 | Chi tiết hạng mục | `/du-an/[slug]/[hang-muc]` | Dự án → Hạng mục | **Bổ sung** |
-| 6 | Tin tức | `/tin-tuc` | Tin tức | |
-| 7 | Chi tiết tin | `/tin-tuc/[slug]` | Tin tức | |
-| 8 | Tuyển dụng | `/tuyen-dung` | Trang tĩnh | |
-| 9 | Công ty thành viên | `/cong-ty-thanh-vien` | Trang tĩnh | |
-| 10 | Tuyển dụng NS *(menu Nhân sự)* | `/tuyen-dung` | Cùng mục 8 | Xác nhận 1 trang |
-| 11 | Sơ đồ tổ chức | `/so-do-to-chuc-cong-ty` | Trang tĩnh + media | |
-| 12 | Đào tạo | `/dao-tao` | Trang tĩnh | |
-| 13 | Chính sách nhân sự | `/chinh-sach-nhan-su` | Trang tĩnh | |
-| 14 | Liên hệ | `/lien-he` | Cài đặt + Form (read-only) | |
+| # | Trang | Route | Module admin |
+|---|-------|-------|--------------|
+| 1 | Trang chủ | `/` | Banner + Featured |
+| 2 | Giới thiệu | `/gioi-thieu` | Trang tĩnh |
+| 3 | Dự án | `/du-an` | Dự án |
+| 4 | Chi tiết dự án | `/du-an/[slug]` | Dự án |
+| 5 | Chi tiết hạng mục | `/du-an/[slug]/[hang-muc]` | Dự án → Hạng mục |
+| 6–7 | Tin tức | `/tin-tuc`, `/tin-tuc/[slug]` | Tin tức |
+| 8, 10 | Tuyển dụng | `/tuyen-dung` | Trang tĩnh |
+| 9 | CTTV | `/cong-ty-thanh-vien` | Trang tĩnh |
+| 11–13 | Sơ đồ TC, Đào tạo, CSNS | `/so-do-...`, `/dao-tao`, `/chinh-sach-...` | Trang tĩnh + media |
+| 14 | Liên hệ | `/lien-he` | Cài đặt + Form (read) |
 
 ---
 
 ## 1.3 Sơ đồ hệ thống
 
-> Các file draw.io có sẵn: `docs/diagrams/01-dang-nhap.drawio`, `02-form-lien-he.drawio`, `03-upload-anh.drawio`.  
-> **Lưu ý:** Diagram 02 cần cập nhật lane Admin từ "Next.js" sang **Vite + React** (admin tách riêng).
+> File draw.io: `docs/diagrams/01-dang-nhap.drawio`, `02-form-lien-he.drawio`, `03-upload-anh.drawio`  
+> **Lưu ý:** Diagram 02 cần sửa lane Admin từ "Next.js" → **Vite + React**.
 
-### 1.3.1 Sơ đồ tổng quan hệ thống (Phương án 2)
+### 1.3.1 Sơ đồ tính năng tổng quan
+
+```mermaid
+mindmap
+  root((Website Thiên Đức PA2))
+    Khách truy cập
+      Xem trang công khai
+      Gửi form liên hệ
+      Song ngữ Vi En
+    Editor
+      Soạn dự án tin banner
+      Upload media
+      Gửi duyệt
+    Admin
+      Publish nội dung
+      Xử lý liên hệ
+      Duyệt tin tức
+    Super Admin
+      Quản lý user
+      Cài đặt site
+      Cấu hình email
+    Hạ tầng
+      Next.js public
+      Vite Admin
+      NestJS API
+      PostgreSQL
+      Cloudinary
+      Gmail SMTP
+```
+
+---
+
+### 1.3.2 Sơ đồ kiến trúc tổng thể (3 tầng)
 
 ```mermaid
 flowchart TB
@@ -340,15 +394,15 @@ flowchart TB
     end
 
     subgraph public [Website công khai]
-        WEB["thienduc.vn<br/>Next.js 16"]
+        WEB["thienduc.vn<br/>Next.js 16 + ISR"]
     end
 
-    subgraph admin [Trang quản trị]
+    subgraph admin [Trang quản trị CMS]
         ADM["admin.thienduc.vn<br/>Vite + React"]
     end
 
-    subgraph backend [Backend]
-        API["API NestJS<br/>Render / Railway"]
+    subgraph backend [Backend API]
+        API["api.thienduc.vn<br/>NestJS + Prisma"]
     end
 
     subgraph storage [Lưu trữ]
@@ -357,42 +411,86 @@ flowchart TB
     end
 
     subgraph external [Dịch vụ ngoài]
-        GMAIL[Gmail / Google Workspace]
+        GMAIL[Gmail SMTP]
     end
 
     Guest --> WEB
     Staff --> ADM
-    WEB -->|HTTPS public API| API
-    ADM -->|HTTPS JWT admin API| API
+    WEB -->|GET public API| API
+    WEB -->|POST /contacts| API
+    ADM -->|JWT admin API| API
     API --> DB
     API --> CDN
     API --> GMAIL
     WEB -.->|URL ảnh| CDN
 ```
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Xuất sơ đồ trên sang PNG (draw.io / Mermaid export) — đính Phụ lục A.
-
 ---
 
-### 1.3.2 Sơ đồ luồng dữ liệu (DFD — mức 0)
+### 1.3.3 Sơ đồ luồng dữ liệu — DFD mức 0
 
 ```mermaid
 flowchart LR
-    K[Khách] -->|Xem nội dung| W[Website]
-    K -->|Gửi form| W
-    W -->|GET nội dung| API[API]
-    W -->|POST contact| API
-    API --> DB[(Database)]
-    API -->|Email notify| Mail[Gmail]
-    NV[Nhân viên] -->|CRUD nội dung| ADM[Admin]
-    ADM -->|JWT API| API
-    NV -->|Upload| CDN[Cloudinary]
-    API --> CDN
+    K[Khách hàng] -->|Yêu cầu xem| P0[Hệ thống Website PA2]
+    K -->|Form liên hệ| P0
+    NV[Nhân viên] -->|Quản lý nội dung| P0
+    P0 -->|Email thông báo| Gmail[(Gmail)]
+    P0 -->|Lưu/đọc| DB[(PostgreSQL)]
+    P0 -->|Media| CDN[(Cloudinary)]
 ```
 
 ---
 
-### 1.3.3 Sơ đồ cơ sở dữ liệu (ERD — đề xuất)
+### 1.3.4 Sơ đồ luồng dữ liệu — DFD mức 1
+
+```mermaid
+flowchart TB
+    K[Khách hàng]
+    NV[Nhân viên]
+
+    subgraph frontend [Website Next.js]
+        W1[Render trang SSG/ISR]
+        W2[Form liên hệ UI]
+    end
+
+    subgraph adminapp [Admin Vite]
+        A1[CRUD UI]
+        A2[Upload UI]
+    end
+
+    subgraph api [NestJS API]
+        AP1[Public Controller]
+        AP2[Admin Controller]
+        AP3[Auth Service]
+        AP4[Email Service]
+    end
+
+    DB[(PostgreSQL)]
+    CDN[(Cloudinary)]
+    Mail[Gmail]
+
+    K --> W1
+    K --> W2
+    NV --> A1
+    NV --> A2
+
+    W1 -->|GET projects/news/pages| AP1
+    W2 -->|POST contact| AP1
+    A1 -->|JWT CRUD| AP2
+    A2 -->|signature| AP2
+
+    AP1 --> DB
+    AP2 --> DB
+    AP2 --> CDN
+    AP1 --> AP4
+    AP4 --> Mail
+    AP3 --> AP2
+    NV -->|login| AP3
+```
+
+---
+
+### 1.3.5 Sơ đồ cơ sở dữ liệu (ERD)
 
 ```mermaid
 erDiagram
@@ -401,21 +499,16 @@ erDiagram
 
     projects ||--o{ project_items : contains
     projects ||--o{ project_gallery_images : has
-
     project_items ||--o{ project_gallery_images : has
 
     news_posts }o--|| news_categories : belongs_to
-
     contact_submissions }o--|| inquiry_types : typed
-
     pages ||--o{ page_sections : has
     banners }o--|| banner_slots : placed_in
 
-    site_settings ||--|| users : updated_by
-
     users {
         uuid id PK
-        string email
+        string email UK
         string password_hash
         enum role
         datetime created_at
@@ -428,7 +521,6 @@ erDiagram
         string title_en
         enum status
         text summary_vi
-        text summary_en
         datetime published_at
     }
 
@@ -437,19 +529,15 @@ erDiagram
         uuid project_id FK
         string slug
         string title_vi
-        string title_en
-        text description_vi
-        text description_en
         int sort_order
     }
 
     news_posts {
         uuid id PK
         string slug UK
-        string title_vi
-        string title_en
         enum status
         datetime published_at
+        datetime scheduled_at
     }
 
     contact_submissions {
@@ -457,8 +545,6 @@ erDiagram
         string name
         string phone
         string email
-        string inquiry_type
-        text message
         enum status
         text internal_note
         datetime created_at
@@ -467,8 +553,6 @@ erDiagram
     pages {
         uuid id PK
         string slug UK
-        string title_vi
-        string title_en
         json content_vi
         json content_en
     }
@@ -477,8 +561,6 @@ erDiagram
         uuid id PK
         string slot
         string image_url
-        string title_vi
-        string link_href
         int sort_order
         boolean is_active
     }
@@ -486,25 +568,113 @@ erDiagram
     site_settings {
         string key PK
         json value
-        datetime updated_at
     }
 ```
 
-> **Ghi chú:** ERD trên là **đề xuất thiết kế** cho PA2. Chưa triển khai trong code. Cần review với team trước khi migrate Prisma.
+*Ghi chú:* Trường `scheduled_at` trên `news_posts` phục vụ **đặt lịch đăng bài Phase 2**.
 
 ---
 
-### 1.3.4 Sơ đồ chức năng — các luồng bắt buộc
+### 1.3.6 Sơ đồ chức năng chi tiết
 
-| # | Luồng | Mô tả | Tài liệu tham chiếu |
-|---|-------|--------|---------------------|
-| 1 | Đăng nhập admin | POST /auth/login → JWT | `diagrams/01-dang-nhap.drawio` |
-| 2 | Khách gửi form | Validate → DB → email → thông báo UI | `diagrams/02-form-lien-he.drawio` |
-| 3 | Upload ảnh | Signature → Cloudinary → lưu URL | `diagrams/03-upload-anh.drawio` |
-| 4 | Duyệt tin tức | DRAFT → PENDING_REVIEW → PUBLISHED | *[vẽ thêm]* |
-| 5 | Xử lý liên hệ | NEW → IN_PROGRESS → DONE / SPAM | *[vẽ thêm]* |
+#### (1) Đăng nhập Admin
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Export 5 sơ đồ trên từ draw.io (PNG) — Phụ lục B.
+```mermaid
+sequenceDiagram
+    actor U as Nhân viên
+    participant ADM as Admin App
+    participant API as NestJS
+    participant DB as PostgreSQL
+
+    U->>ADM: Nhập email + password
+    ADM->>API: POST /auth/login
+    API->>DB: Tìm user + verify bcrypt
+    alt Hợp lệ
+        API-->>ADM: JWT access + refresh token
+        ADM-->>U: Redirect Dashboard
+    else Sai
+        API-->>ADM: 401 Unauthorized
+        ADM-->>U: Thông báo lỗi
+    end
+```
+
+#### (2) Khách gửi form liên hệ
+
+```mermaid
+sequenceDiagram
+    actor K as Khách
+    participant WEB as Website
+    participant API as NestJS
+    participant DB as PostgreSQL
+    participant Mail as Gmail
+
+    K->>WEB: Điền form /lien-he
+    WEB->>API: POST /public/contacts
+    API->>API: Validate + rate limit
+    API->>DB: INSERT status=NEW
+    API->>Mail: Gửi email thông báo admin
+    API-->>WEB: 201 Created
+    WEB-->>K: "Gửi thành công"
+    Note over K,Mail: Admin trả lời khách thủ công qua phone/email
+```
+
+#### (3) Upload ảnh Cloudinary
+
+```mermaid
+sequenceDiagram
+    actor NV as Editor
+    participant ADM as Admin
+    participant API as NestJS
+    participant CDN as Cloudinary
+
+    NV->>ADM: Chọn file ảnh
+    ADM->>API: GET /admin/media/upload-signature
+    API-->>ADM: signature + timestamp + cloud_name
+    ADM->>CDN: POST upload trực tiếp
+    CDN-->>ADM: secure_url
+    ADM->>API: Lưu URL vào dự án/tin
+```
+
+#### (4) Duyệt tin tức
+
+```mermaid
+stateDiagram-v2
+    [*] --> DRAFT: Editor tạo
+    DRAFT --> PENDING_REVIEW: Editor gửi duyệt
+    PENDING_REVIEW --> DRAFT: Admin trả về
+    PENDING_REVIEW --> PUBLISHED: Admin publish
+    PUBLISHED --> DRAFT: Admin gỡ (unpublish)
+    PUBLISHED --> [*]
+```
+
+#### (5) Xử lý form liên hệ (Admin)
+
+```mermaid
+stateDiagram-v2
+    [*] --> NEW: Khách gửi form
+    NEW --> IN_PROGRESS: Admin bắt đầu xử lý
+    IN_PROGRESS --> DONE: Hoàn tất
+    NEW --> SPAM: Đánh dấu spam
+    IN_PROGRESS --> SPAM: Đánh dấu spam
+    DONE --> [*]
+    SPAM --> [*]
+```
+
+#### (6) Đặt lịch đăng bài (Phase 2)
+
+```mermaid
+sequenceDiagram
+    participant CRON as Cron Job (API)
+    participant DB as PostgreSQL
+    participant WEB as Website
+
+    Note over CRON: Chạy mỗi phút / 5 phút
+    CRON->>DB: SELECT news WHERE status=DRAFT AND scheduled_at <= NOW()
+    CRON->>DB: UPDATE status=PUBLISHED
+    WEB->>DB: ISR revalidate → hiển thị bài mới
+```
+
+> Export draw.io sang PNG: xem [`minh-hoa-bao-cao-pa2.md` — H7](minh-hoa-bao-cao-pa2.md)
 
 ---
 
@@ -516,40 +686,40 @@ erDiagram
 
 | Hạng mục | Quy định |
 |----------|----------|
-| Phong cách | Doanh nghiệp hiện đại, sáng, uy tín |
-| Tông màu chủ đạo | Trắng `#FFFFFF`, xám `#F2F2F2`, chữ `#191919` |
-| Màu accent | Nâu vàng `#B06613`, accent phụ `#fdcd04` |
+| Phong cách | Doanh nghiệp hiện đại, sáng, uy tín — trắng chủ đạo |
+| Màu chính | `#B06613` (nâu vàng), `#c99248`, `#fdcd04` (accent) |
+| Nền / chữ | `#FFFFFF`, `#F2F2F2`, `#191919`, `#8f8f8f` |
 | Logo / favicon | `public/images/brand/` |
-| Font | Geist Sans (hiện tại qua Next.js) — *[xác nhận font chính thức từ công ty]* |
-| Responsive | Mobile-first; breakpoint Tailwind mặc định |
-| Song ngữ | Prefix `/vi/...`, `/en/...` hoặc query — *[chốt khi triển khai i18n]* |
-| Animation | Nhẹ (fade/reveal) — không làm chậm trang |
+| Font hiện tại | Geist Sans (Next.js Google Font) — *xác nhận font chính thức* |
+| Responsive | Mobile-first; breakpoint Tailwind 4 |
+| Song ngữ | Prefix `/vi/`, `/en/` (đề xuất) |
+| Animation | Fade/reveal nhẹ — không block render |
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]**
-> - Brand guideline (logo, màu, font) nếu có file PDF từ công ty
-> - Moodboard 3–4 screenshot trang hiện tại
+> Wireframe: [`minh-hoa-bao-cao-pa2.md` — H3, H4, H5](minh-hoa-bao-cao-pa2.md)
 
 ---
 
-### 2.1.2 Công nghệ Frontend — bảng lựa chọn
+### 2.1.2 Công nghệ Frontend — bảng so sánh và lựa chọn
 
-| Lớp | Lựa chọn PA2 | Phiên bản | Lý do |
-|-----|--------------|-----------|--------|
-| Framework | **Next.js** (App Router) | 16.2.6 | SEO, SSR/ISR, repo đã có |
-| UI library | **React** | 19.2.4 | Chuẩn ecosystem |
-| Ngôn ngữ | **TypeScript** | ^5 | Type-safe, đồng bộ backend |
-| CSS | **Tailwind CSS** | ^4 | Tốc độ dev, responsive |
-| Icon | **lucide-react** | ^1.17 | Nhẹ, nhất quán |
-| i18n | **next-intl** *(đề xuất)* | — | Phổ biến với Next.js App Router |
+| Lớp | **Lựa chọn PA2** | Phiên bản | Lý do |
+|-----|------------------|-----------|--------|
+| Framework | **Next.js** App Router | 16.2.6 | SEO, ISR, codebase ~70% sẵn |
+| UI | **React** | 19.2.4 | Chuẩn ecosystem |
+| Ngôn ngữ | **TypeScript** | ^5 | Đồng bộ backend |
+| CSS | **Tailwind CSS** | ^4 | Responsive nhanh |
+| Icon | **lucide-react** | ^1.17 | Nhẹ |
+| i18n | **next-intl** *(đề xuất)* | latest | App Router native |
+| Lint | **ESLint** | ^9 | Chất lượng mã |
 
-#### So sánh framework frontend (rút gọn)
+#### So sánh framework frontend
 
 | Tiêu chí | Next.js | Vite + React SPA | WordPress |
-|----------|---------|------------------|-------------|
-| SEO | Tốt (SSR/ISR) | Cần thêm cấu hình | Tốt |
-| Tốc độ dev | Tốt | Rất nhanh | Trung bình |
-| Phù hợp PA2 | **Có — đã có codebase** | Admin dùng, không phải site chính | Không tái sử dụng repo |
-| **Kết luận** | **Chọn Next.js** | Dùng cho Admin | Không chọn |
+|----------|---------|------------------|-----------|
+| SEO / SSR | **Rất tốt** | Cần SSR thêm | Tốt |
+| Tốc độ phát triển | Tốt (đã có code) | Rất nhanh | Trung bình |
+| Phù hợp site công khai | **Có** | Không (dùng cho Admin) | Không tái sử dụng repo |
+| Bảo trì lâu dài | **Tốt** | Tốt | Plugin phụ thuộc |
+| **Kết luận** | **✅ Chọn** | Admin only | ❌ |
 
 ---
 
@@ -557,26 +727,28 @@ erDiagram
 
 | Khu vực | Thành phần |
 |---------|------------|
-| Header | Logo, menu, CTA liên hệ, language switcher (PA2) |
-| Footer | Thông tin công ty, link nhanh, phone/email |
-| Trang chủ | Banner slider, lĩnh vực (7 mục), dự án nổi bật, tin mới, CTA |
-| Dự án | Card, filter trạng thái, gallery, map |
-| Liên hệ | Form, bản đồ, kênh liên lạc |
-| SEO | H1 duy nhất/trang, alt ảnh, metadata |
+| Header | Logo, menu 7 mục, submenu, search, **VI/EN**, CTA |
+| Top strip | Địa chỉ (Google Maps), phone (`tel:`), email (`mailto:`) |
+| Trang chủ | Banner slider, 7 lĩnh vực, dự án nổi bật, tin, CTA |
+| Dự án | Card, filter, gallery, map, link hạng mục |
+| Liên hệ | Form 5 trường, bản đồ, validation client |
+| Footer | Thông tin công ty, link, social *(nếu có)* |
+| SEO | 1 H1/trang, alt ảnh, metadata, OG |
 
 ---
 
 ### 2.1.4 Hiệu năng tải trang
 
-| Chỉ số mục tiêu (production) | Ngưỡng đề xuất |
-|------------------------------|----------------|
-| LCP | < 2.5s |
-| CLS | < 0.1 |
-| Lighthouse Performance (mobile) | ≥ 70 *(mục tiêu ban đầu)* |
+| Chỉ số | Hiện trạng (local prod) | Mục tiêu go-live |
+|--------|-------------------------|------------------|
+| TTFB `/` | 204 ms | < 600 ms (CDN VN) |
+| TTFB `/lien-he` | 66 ms | < 400 ms |
+| HTML size `/` | 95 KB | < 150 KB |
+| LCP | *Chưa đo Lighthouse* | < 2,5 s |
+| CLS | *Chưa đo* | < 0,1 |
+| Lighthouse Perf mobile | *Chưa đo* | ≥ 70 |
 
-**Biện pháp:** `next/image`, tối ưu ảnh, ISR, Cloudinary CDN.
-
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Bảng Lighthouse sau khi đo (mục 1.1.7).
+**Biện pháp:** `next/image`, WebP, Cloudinary transform, ISR 60–300s, lazy load gallery.
 
 ---
 
@@ -589,171 +761,168 @@ erDiagram
 | Framework | **NestJS** (Node.js + TypeScript) |
 | ORM | **Prisma** |
 | Database | **PostgreSQL** |
-| Auth | JWT (+ httpOnly cookie — chốt khi implement) |
+| Auth | JWT (access + refresh) |
 | Email | Gmail SMTP / Google Workspace |
-| Media | Cloudinary (upload signature từ API) |
+| Media | Cloudinary |
+| Validation | class-validator + Zod (admin) |
+| Rate limit | `@nestjs/throttler` trên POST contact |
 
 ---
 
-### 2.2.2 So sánh cơ sở dữ liệu
+### 2.2.2 So sánh cơ sở dữ liệu (4 loại)
 
-| Tiêu chí | PostgreSQL | MySQL | MongoDB | Redis |
-|----------|------------|-------|---------|-------|
-| Quan hệ dự án ↔ hạng mục ↔ tin | **Tốt** | Tốt | Trung bình | Không |
-| Form + trạng thái + user role | **Tốt** | Tốt | Trung bình | Không |
-| Prisma hỗ trợ | **Tốt** | Tốt | Có | Không chính |
-| Phù hợp quy mô website giới thiệu | **Tốt** | Tốt | Dư thừa schema linh hoạt | Chỉ cache |
-| **Kết luận** | **Chọn** | Thay thế được | Không ưu tiên | Bổ sung cache sau |
+| Tiêu chí | **PostgreSQL** | MySQL | MongoDB | Redis |
+|----------|----------------|-------|---------|-------|
+| Quan hệ dự án ↔ hạng mục ↔ gallery | **Rất tốt** (FK, JOIN) | Rất tốt | Trung bình (embed/ref) | ❌ Không |
+| Form + trạng thái + role user | **Rất tốt** | Rất tốt | Trung bình | ❌ |
+| Workflow duyệt tin (state machine) | **Tốt** (enum + constraint) | Tốt | Linh hoạt nhưng thiếu ACID | ❌ |
+| Prisma ORM | **Native hỗ trợ** | Native | Có | Không chính |
+| JSON field (trang tĩnh block) | **JSONB mạnh** | JSON | Native | ❌ |
+| Full-text search tiếng Việt | Tốt (extension) | Tốt | Tốt | ❌ |
+| Backup / restore | **Managed dễ** (Render/Neon) | Tương tự | Atlas | Snapshot |
+| Phù hợp quy mô website giới thiệu | **✅ Tối ưu** | ✅ Thay thế | Dư thừa | Chỉ cache |
+| Mức tải 100–5000 visit/ngày | **Đủ** | Đủ | Đủ | N/A |
+| **Kết luận** | **✅ Chọn PostgreSQL** | Thay thế được | Không ưu tiên | Bổ sung cache Phase 2 |
+
+**Lý do chọn PostgreSQL:** Dữ liệu Thiên Đức **quan hệ rõ** (dự án → hạng mục → ảnh; tin → category; liên hệ → trạng thái); cần **ACID** cho form và workflow duyệt; Prisma + NestJS ecosystem mạnh; hosting managed giá hợp lý.
 
 ---
 
 ### 2.2.3 So sánh Backend framework
 
-| Tiêu chí | NestJS | Laravel (PHP) | Spring Boot (Java) |
-|----------|--------|---------------|---------------------|
-| Cùng ngôn ngữ TS với frontend | **Có** | Không | Không |
-| Module hóa (auth, contacts, …) | **Tốt** | Tốt | Tốt |
-| Tốc độ triển khai PA2 | **Nhanh** | Trung bình | Chậm hơn |
-| Doc PA2 đã chọn | **Có** | — | — |
-| **Kết luận** | **Chọn** | Không | Không |
+| Tiêu chí | **NestJS** | Laravel (PHP) | Spring Boot (Java) |
+|----------|------------|---------------|---------------------|
+| Cùng TypeScript với FE | **✅** | ❌ | ❌ |
+| Module hóa (auth, CRUD…) | **Tốt** | Tốt | Tốt |
+| Tốc độ triển khai PA2 | **Nhanh** | TB | Chậm hơn |
+| Learning curve team | Thấp (đã dùng TS) | TB | Cao |
+| **Kết luận** | **✅ Chọn** | ❌ | ❌ |
 
 ---
 
-### 2.2.4 API — danh sách endpoint đề xuất
+### 2.2.4 So sánh lưu trữ media
 
-#### Public (website — không cần đăng nhập)
-
-| Method | Endpoint | Mô tả |
-|--------|----------|--------|
-| GET | `/public/projects` | Danh sách dự án (filter status, locale) |
-| GET | `/public/projects/:slug` | Chi tiết dự án |
-| GET | `/public/projects/:slug/items/:itemSlug` | Chi tiết hạng mục |
-| GET | `/public/news` | Danh sách tin |
-| GET | `/public/news/:slug` | Chi tiết tin |
-| GET | `/public/pages/:slug` | Trang tĩnh |
-| GET | `/public/banners` | Banner trang chủ |
-| GET | `/public/settings/contact` | Phone, email, địa chỉ |
-| POST | `/public/contacts` | Gửi form liên hệ |
-
-#### Admin (JWT required)
-
-| Method | Endpoint | Mô tả |
-|--------|----------|--------|
-| POST | `/auth/login` | Đăng nhập |
-| GET | `/admin/contacts` | Danh sách liên hệ |
-| PATCH | `/admin/contacts/:id` | Cập nhật trạng thái / ghi chú |
-| GET/POST/PATCH | `/admin/projects` | CRUD dự án |
-| GET/POST/PATCH | `/admin/news` | CRUD tin tức |
-| GET/PATCH | `/admin/pages/:slug` | Trang tĩnh |
-| GET/PATCH | `/admin/banners` | Banner |
-| POST | `/admin/media/upload-signature` | Ký upload Cloudinary |
-| GET/PATCH | `/admin/settings` | Cài đặt site |
-| GET/POST/PATCH | `/admin/users` | Quản lý user (Super Admin) |
+| Tiêu chí | **Cloudinary** | Lưu VPS/local | AWS S3 |
+|----------|----------------|---------------|--------|
+| Resize / WebP tự động | **✅** | Thủ công | Thủ công + Lambda |
+| CDN global | **✅** | Phụ thuộc host | ✅ |
+| Admin upload trực tiếp | **✅ signature** | Phức tạp | Trung bình |
+| Chi phí ban đầu | Free tier | Gộp VPS | Pay-as-go |
+| **Kết luận** | **✅ Chọn** | ❌ | Thay thế sau |
 
 ---
 
-### 2.2.5 Trạng thái nghiệp vụ
+### 2.2.5 API endpoint (tóm tắt)
 
-**Tin tức:**
+**Public:** `GET /public/projects`, `/news`, `/pages/:slug`, `/banners`, `/settings/contact` · `POST /public/contacts`
 
-| Trạng thái | Hiển thị web | Mô tả |
-|------------|--------------|--------|
-| DRAFT | Không | Đang soạn |
-| PENDING_REVIEW | Không | Editor gửi duyệt |
-| PUBLISHED | Có | Admin đã publish |
+**Admin (JWT):** `/auth/login` · CRUD `/admin/projects`, `/news`, `/pages`, `/banners` · `/admin/contacts` · `/admin/media/upload-signature` · `/admin/users`, `/admin/settings`
 
-**Form liên hệ:**
-
-| Trạng thái | Nhãn | Mô tả |
-|------------|------|--------|
-| NEW | Mới | Vừa nhận |
-| IN_PROGRESS | Đang xử lý | Đã liên hệ khách |
-| DONE | Đã xong | Hoàn tất |
-| SPAM | Spam | Loại bỏ |
+*Danh sách endpoint đầy đủ nằm ở mục 2.2.5 trong báo cáo này.*
 
 ---
 
-## 2.3 Thiết kế Admin (Vite + React)
+## 2.3 Thiết kế Admin CMS (Vite + React)
 
 | Hạng mục | Lựa chọn |
 |----------|----------|
 | Framework | Vite + React + TypeScript |
 | UI | shadcn/ui + Tailwind CSS |
-| Data fetching | TanStack Query |
+| Data | TanStack Query |
 | Form | React Hook Form + Zod |
-| Deploy | Subdomain `admin.thienduc.vn` (Vercel hoặc static host) |
+| Auth | JWT |
+| Deploy | `admin.thienduc.vn` |
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Wireframe/mockup admin: Dashboard, Form liên hệ, Sửa dự án (có thể sketch hoặc Figma sau).
+> Wireframe Dashboard + Sửa dự án: [`minh-hoa-bao-cao-pa2.md` — H4, H5](minh-hoa-bao-cao-pa2.md)
 
 ---
 
 ## 2.4 Thiết kế Hosting & hạ tầng
 
-### 2.4.1 So sánh hosting Frontend (website)
+### 2.4.1 So sánh hosting Frontend (website + admin)
 
-| Tiêu chí | Vercel | VPS Việt Nam | Shared hosting PHP |
-|----------|--------|--------------|---------------------|
-| Tối ưu Next.js | **Rất tốt** | Cần cấu hình | Không phù hợp |
-| Deploy tự động | **Có** | Thủ công | Hạn chế |
-| SSL | Tự động | Cấu hình | Có |
-| Chi phí ban đầu | Free tier / Pro | Trung bình | Thấp |
-| **Kết luận PA2** | **Chọn** | Dự phòng | Không |
-
-### 2.4.2 So sánh hosting Backend + Database
-
-| Tiêu chí | Render / Railway | VPS | Neon (DB riêng) |
-|----------|------------------|-----|-----------------|
-| Deploy NestJS | **Dễ** | Linh hoạt | — |
-| PostgreSQL managed | **Có** | Tự cài | **Có** |
-| Chi phí | Thấp–vừa | Cố định | Free tier DB |
-| **Kết luận PA2** | **Chọn** | Dự phòng scale | Kết hợp được |
-
-### 2.4.3 So sánh lưu trữ media
-
-| Tiêu chí | Cloudinary | Lưu trên server | S3 |
-|----------|------------|-----------------|-----|
-| Tối ưu ảnh tự động | **Có** | Thủ công | Thủ công |
-| CDN | **Có** | Phụ thuộc host | Có |
-| Admin upload dễ | **Có** | Phức tạp | Trung bình |
-| **Kết luận PA2** | **Chọn** | Không | Thay thế sau |
-
-### 2.4.4 Domain & subdomain đề xuất
-
-| Host | Mục đích |
-|------|----------|
-| `thienduc.vn` / `www.thienduc.vn` | Website công khai |
-| `admin.thienduc.vn` | Trang quản trị |
-| `api.thienduc.vn` *(hoặc Render URL)* | Backend API |
-| `staging.thienduc.vn` | Môi trường kiểm thử |
-
-> Tham chiếu chi tiết chi phí domain: `docs/so-sanh-domain-trong-nuoc-va-vercel-moi.xlsx`
-
-### 2.4.5 Ước tính chi phí vận hành/tháng (tham khảo)
-
-| Hạng mục | Ước tính | Ghi chú |
-|----------|----------|---------|
-| Domain `.vn` | *[điền từ Excel]* | /năm |
-| Vercel (web + admin) | $0 – $20 | Tùy traffic |
-| Render/Railway (API + DB) | $7 – $25 | Tùy plan |
-| Cloudinary | $0 – $25 | Free tier ban đầu |
-| Gmail/Workspace | *[theo gói công ty]* | — |
-| **Tổng ước tính** | *[điền sau]* | |
+| Tiêu chí | **Vercel** | VPS Việt Nam (VD: AZDigi, Viettel IDC) | Shared hosting PHP |
+|----------|------------|----------------------------------------|---------------------|
+| Tối ưu Next.js | **Rất tốt** | Cần Docker + Node | ❌ Không hỗ trợ |
+| Deploy Git push | **✅ Tự động** | Thủ công / CI | Hạn chế |
+| SSL | Tự động | Cấu hình Let's Encrypt | Có |
+| CDN edge | **Global** | Một region VN | Một server |
+| Chi phí/tháng | $0–20 | 200k–800k VND | 50k–150k VND |
+| Phù hợp PA2 | **✅ Chọn** | Dự phòng / yêu cầu data in-country | ❌ |
+| **Kết luận** | **✅ Frontend + Admin static** | Dự phòng khi cần host VN | ❌ |
 
 ---
 
-# PHẦN 3 — HẠN CHẾ, RỦI RO & KẾ HOẠCH TRIỂN KHAI
+### 2.4.2 So sánh hosting Backend + Database
 
-## 3.1 Hạn chế và giả định
+| Tiêu chí | **Render / Railway** | VPS VN tự quản | Neon (DB) + VPS API |
+|----------|----------------------|----------------|---------------------|
+| Deploy NestJS | **1-click Docker** | Linh hoạt | Tách DB |
+| PostgreSQL managed | **✅ Gộp** | Tự cài + backup | **✅ Neon free tier** |
+| Scale vertical | **Dễ** | Thủ công | TB |
+| Chi phí/tháng | $7–25 | 300k–1M VND | $0–15 |
+| Monitoring | Có sẵn | Tự cấu hình | TB |
+| **Kết luận PA2** | **✅ Chọn** | Scale lớn / compliance VN | Kết hợp được |
 
-| # | Hạn chế | Mô tả | Hướng xử lý |
-|---|---------|--------|-------------|
-| 1 | Quy mô traffic | PA2 chưa thiết kế load balancing; phù hợp hàng trăm–vài nghìn visit/ngày | Scale vertical Render/Vercel khi tăng |
-| 2 | Ảnh nặng | Nhiều file JPG lớn trong repo | Cloudinary + pipeline tối ưu |
-| 3 | Một vùng deploy | User VN ổn với CDN; chưa multi-region | Theo dõi Lighthouse VN |
-| 4 | Admin đơn giản | Chưa audit log, chưa lịch đăng bài tự động | Phase 2 / PA3 |
-| 5 | Backup | PA2: backup DB định kỳ cơ bản, chưa DR đầy đủ | Cấu hình Render/Neon backup |
-| 6 | i18n | Dịch thủ công qua admin, không auto-translate | Quy trình nội dung 2 ngôn ngữ |
-| 7 | Codeahead | Frontend code trước khi có báo cáo | Dùng UI hiện có làm prototype; không mở rộng data tĩnh |
+---
+
+### 2.4.3 Kiến trúc hosting đề xuất (sơ đồ)
+
+```mermaid
+flowchart LR
+    UserVN[User Việt Nam] --> CF[Cloudflare DNS optional]
+    CF --> VercelWeb[Vercel thienduc.vn]
+    CF --> VercelAdmin[Vercel admin.thienduc.vn]
+    VercelWeb --> RenderAPI[Render api.thienduc.vn]
+    VercelAdmin --> RenderAPI
+    RenderAPI --> PG[(PostgreSQL Render)]
+    RenderAPI --> Cloudinary[Cloudinary CDN]
+    RenderAPI --> Gmail[Gmail SMTP]
+```
+
+---
+
+### 2.4.4 Domain & subdomain
+
+| Host | Mục đích |
+|------|----------|
+| `thienduc.vn` | Website công khai |
+| `admin.thienduc.vn` | CMS |
+| `api.thienduc.vn` | Backend API |
+| `staging.thienduc.vn` | UAT |
+
+*Chi phí domain: `docs/so-sanh-domain-trong-nuoc-va-vercel-moi.xlsx`*
+
+---
+
+### 2.4.5 Ước tính chi phí vận hành/tháng
+
+| Hạng mục | Ước tính (VND/tháng) | Ghi chú |
+|----------|----------------------|---------|
+| Domain `.vn` | ~30k–50k (chia /12) | ~300k–600k/năm |
+| Vercel Pro (nếu cần) | ~500k | Free tier có thể đủ giai đoạn đầu |
+| Render API + DB | ~350k–600k | $7–25 |
+| Cloudinary | 0–600k | Free tier 25GB |
+| Gmail Workspace | Theo gói cty | — |
+| **Tổng ước tính** | **~400k–1,5 triệu/tháng** | Chưa gồm nhân sự vận hành |
+
+---
+
+# PHẦN 3 — HẠN CHẾ, RỦI RO & KẾ HOẠCH
+
+## 3.1 Hạn chế thiết kế (cụ thể)
+
+| # | Hạn chế | Mô tả chi tiết | Hướng xử lý |
+|---|---------|----------------|-------------|
+| 1 | **Traffic đồng thời** | PA2 **chưa có load balancing**, single instance API + DB. Ước tính: **~50–100 concurrent users** ổn định trên Render Starter; **>500 concurrent** (VD: viral tin tức, sự kiện lớn) có thể timeout 503. | Scale vertical; thêm Redis cache; CDN static; upgrade plan |
+| 2 | **>1000 người truy cập cùng lúc** | Với 1 instance NestJS + PostgreSQL basic, **không đảm bảo** phản hồi <2s cho tất cả. Database connection pool (~10–20) có thể cạn. | Horizontal scaling (PA3): multiple API instances + load balancer + read replica |
+| 3 | **Tập trung địa lý** | Deploy US/EU (Vercel/Render): user VN latency +50–150ms so với VPS VN. Một tỉnh/thành truy cập đồng loạt (QC địa phương) **không quá tải CDN** (CDN phân tán), nhưng **API origin** vẫn 1 điểm. | Cloudflare; cân nhắc VPS VN cho API nếu latency là vấn đề |
+| 4 | **Ảnh lớn** | Upload không giới hạn dung lượng → LCP chậm | Cloudinary auto-format; giới hạn max 2MB/upload |
+| 5 | **Admin đơn giản** | Chưa audit log, chưa lịch đăng tự động (Phase 2), chưa phân quyền từng field. | Mở rộng PA3 |
+| 6 | **Backup & DR** | PA2: backup DB daily cơ bản; **RPO ~24h**, **RTO ~2–4h** (restore thủ công) | Cấu hình Render/Neon; test restore hàng quý |
+| 7 | **i18n** | Dịch thủ công 2 field (vi/en); không auto-translate | Quy trình nội dung song song |
+| 8 | **Gmail SMTP quota** | Free Gmail ~500 email/ngày; form spam có thể vượt | Rate limit 5 req/IP/giờ; Google Workspace; captcha Phase 2 |
+| 9 | **Không có WAF** | PA2 chưa Web Application Firewall riêng | Cloudflare free tier; rate limit API |
 
 ---
 
@@ -761,10 +930,10 @@ erDiagram
 
 | Rủi ro | Mức | Giảm thiểu |
 |--------|-----|------------|
-| Schema DB thay đổi khi migrate từ `src/data/` | Trung bình | Freeze data model trong báo cáo này trước khi code BE |
-| Nội dung HR/tin chưa đủ | Trung bình | Placeholder có nhãn; go-live theo từng module |
-| Gmail SMTP bị giới hạn | Thấp | Dùng Google Workspace; rate limit form |
-| Phụ thuộc dịch vụ quốc tế (Vercel) | Trung bình | Có phương án VPS VN trong Excel so sánh |
+| Schema DB thay đổi khi triển khai | Thấp | Freeze ERD trước khi code; migration có kiểm soát |
+| Nội dung HR/tin chưa đủ go-live | Trung bình | Go-live theo module; placeholder có nhãn |
+| Phụ thuộc dịch vụ quốc tế | Trung bình | Phương án VPS VN trong Excel |
+| Lighthouse không đạt mục tiêu | Trung bình | Tối ưu ảnh trước UAT |
 
 ---
 
@@ -772,136 +941,100 @@ erDiagram
 
 | Tuần | Giai đoạn | Deliverable |
 |------|-----------|-------------|
-| 1 | Phê duyệt báo cáo + freeze scope | Báo cáo ký, ERD chốt |
-| 2–3 | Hoàn thiện UI website (data tĩnh) | 14 trang, i18n shell, Lighthouse baseline |
-| 4–5 | Backend NestJS + Prisma + public API | POST contact, GET projects/news |
-| 6 | Admin P0 | Login, dashboard, quản lý liên hệ |
+| 1 | Phê duyệt báo cáo v2.0 + freeze ERD | Báo cáo ký, Prisma schema draft |
+| 2–3 | Hoàn thiện UI + i18n shell + SEO cơ bản | 14 route, sitemap, robots |
+| 4–5 | NestJS + PostgreSQL + public API | POST contact, GET content |
+| 6 | Admin P0 | Login, dashboard, liên hệ |
 | 7 | Admin P1 | Dự án, tin, banner |
-| 8 | Admin P2 + trang tĩnh | HR pages, settings, users |
-| 9 | Tích hợp website ↔ API, staging UAT | Staging URL |
-| 10 | Production go-live | Domain, SSL, Search Console |
+| 8 | Admin P2 | Trang tĩnh, settings, users |
+| 9 | Tích hợp FE ↔ API, staging UAT | staging URLs |
+| 10 | Go-live production | Domain, SSL, handover |
 
-> **[HÌNH ẢNH CẦN BỔ SUNG]** Biểu đồ Gantt (Excel/Project) — Phụ lục C.
-
----
-
-## 3.4 Tiêu chí nghiệm thu (Acceptance Criteria)
-
-### Website công khai
-
-- [ ] 14 trang/route hoạt động, không link 404 nội bộ
-- [ ] Responsive: mobile, tablet, desktop
-- [ ] Song ngữ Vi/En (nội dung chính)
-- [ ] Form liên hệ: lưu DB + email admin
-- [ ] Lighthouse Performance mobile ≥ 70 (trang chủ)
-- [ ] SEO: metadata, sitemap, robots.txt
-
-### Admin
-
-- [ ] Đăng nhập + phân quyền 3 cấp
-- [ ] CRUD dự án, tin, banner, trang tĩnh
-- [ ] Workflow duyệt tin
-- [ ] Quản lý form liên hệ (trạng thái + ghi chú)
-- [ ] Upload ảnh Cloudinary
-
-### Kỹ thuật
-
-- [ ] Staging UAT pass
-- [ ] Backup DB cấu hình
-- [ ] Biến môi trường production bảo mật (không lộ secret)
+> Gantt: [`minh-hoa-bao-cao-pa2.md` — H6](minh-hoa-bao-cao-pa2.md)
 
 ---
 
-## 3.5 Kế hoạch migrate từ codebase hiện tại
+## 3.4 Tiêu chí nghiệm thu
 
-| Bước | Hành động |
-|------|-----------|
-| 1 | Export dữ liệu từ `src/data/*.ts` sang JSON chuẩn |
-| 2 | Seed PostgreSQL qua Prisma |
-| 3 | Upload ảnh `public/images` lên Cloudinary (giữ path mapping) |
-| 4 | Thay `getStaticData()` bằng `fetch(API)` + ISR |
-| 5 | Giữ repo frontend; tạo repo mới `thienduc-api`, `thienduc-admin` |
+**Website:** 14 route · responsive · Vi/En · form → DB + email · Lighthouse ≥70 · sitemap + robots + OG
+
+**Admin:** login 3 cấp · CRUD dự án/tin/banner/trang tĩnh · workflow duyệt · quản lý liên hệ · Cloudinary
+
+**Kỹ thuật:** staging UAT · backup DB · secrets không lộ client
 
 ---
 
 # PHỤ LỤC
 
-## Phụ lục A — Thông tin công ty (từ siteConfig)
+## A — Thông tin công ty
 
 | Trường | Giá trị |
 |--------|---------|
-| Tên | Công ty Thiên Đức |
+| Tên | Công ty TNHH ĐT – XD – TM Thiên Đức |
+| Thành lập | 2010 |
 | Email | dautuxaydungthienduc@yahoo.com |
 | Phone | (028) 3740 7188 |
 | Địa chỉ | Số 10 Trần Não, Khu Phố 5, Phường An Phú, TP Thủ Đức, TP.HCM |
 
-## Phụ lục B — Màu thương hiệu
+## B — Màu thương hiệu
 
 | Token | Mã màu |
 |-------|--------|
 | primary | `#B06613` |
 | primarySoft | `#c99248` |
-| primarySoftInner | `#fff4cf` |
 | accent | `#fdcd04` |
 | background | `#FFFFFF` |
 | surface | `#F2F2F2` |
 | text | `#191919` |
 | muted | `#8f8f8f` |
 
-## Phụ lục C — Bảng route website hiện có
+## C — 14 trang website (PA2)
 
-| Route | File | Trạng thái nội dung |
-|-------|------|---------------------|
-| `/` | `src/app/page.tsx` | Khá đầy đủ |
-| `/gioi-thieu` | `src/app/gioi-thieu/page.tsx` | Khá đầy đủ |
-| `/du-an` | `src/app/du-an/page.tsx` | Khá đầy đủ |
-| `/du-an/[slug]` | `src/app/du-an/[slug]/page.tsx` | Khá đầy đủ |
-| `/tin-tuc` | `src/app/tin-tuc/page.tsx` | Ít bài |
-| `/tin-tuc/[slug]` | `src/app/tin-tuc/[slug]/page.tsx` | Ít bài |
-| `/lien-he` | `src/app/lien-he/page.tsx` | Form mailto |
-| `/cong-ty-thanh-vien` | `src/app/cong-ty-thanh-vien/page.tsx` | Placeholder |
-| `/tuyen-dung` | `src/app/tuyen-dung/page.tsx` | Placeholder |
-| `/dao-tao` | `src/app/dao-tao/page.tsx` | Placeholder |
-| `/chinh-sach-nhan-su` | `src/app/chinh-sach-nhan-su/page.tsx` | Placeholder |
-| `/so-do-to-chuc-cong-ty` | `src/app/so-do-to-chuc-cong-ty/page.tsx` | Placeholder |
+| Route | Module CMS | Mô tả |
+|-------|------------|--------|
+| `/` | Banner + Featured | Trang chủ |
+| `/gioi-thieu` | Trang tĩnh | Giới thiệu công ty |
+| `/du-an`, `/du-an/[slug]` | Dự án | Danh sách + chi tiết |
+| `/du-an/[slug]/[hang-muc]` | Dự án → Hạng mục | Chi tiết hạng mục |
+| `/tin-tuc`, `/tin-tuc/[slug]` | Tin tức | Danh sách + chi tiết |
+| `/tuyen-dung`, HR pages, `/cong-ty-thanh-vien` | Trang tĩnh | Nhân sự + CTTV |
+| `/lien-he` | Cài đặt + Form | Liên hệ |
 
-## Phụ lục D — Danh sách hình ảnh cần bổ sung (checklist)
+## D — Checklist minh họa
 
-| ID | Mô tả | Trạng thái |
-|----|--------|------------|
-| H01 | Sơ đồ tổng quan PA2 (PNG) | ☐ Chưa có |
-| H02 | Flow khách: Home → Dự án → Liên hệ | ☐ Chưa có |
-| H03 | So sánh flow cập nhật nội dung (hiện tại vs PA2) | ☐ Chưa có |
-| H04 | Screenshot trang chủ desktop | ☐ Chưa có |
-| H05 | Screenshot menu mobile | ☐ Chưa có |
-| H06 | Screenshot chi tiết dự án | ☐ Chưa có |
-| H07 | Screenshot trang liên hệ | ☐ Chưa có |
-| H08 | Screenshot 2–3 đối thủ | ☐ Chưa có |
-| H09 | Kết quả Lighthouse (mobile + desktop) | ☐ Chưa có |
-| H10 | Brand guideline công ty (nếu có) | ☐ Chưa có |
-| H11 | Export diagrams 01, 02, 03 (PNG) | ☐ Chưa có |
-| H12 | Wireframe admin (Dashboard, Contacts, Projects) | ☐ Chưa có |
-| H13 | Biểu đồ Gantt 8–10 tuần | ☐ Chưa có |
+| ID | Nội dung | Trạng thái |
+|----|----------|------------|
+| H01 | Sơ đồ 3 tầng PA2 (Mermaid 1.3.2) | ✅ Trong báo cáo |
+| H02 | Flow khách (Mermaid 1.1.2) | ✅ |
+| H03 | Flow cập nhật nội dung CMS (1.1.4 + minh-hoa H2) | ✅ |
+| H04 | Wireframe trang chủ | ✅ `minh-hoa-bao-cao-pa2.md` |
+| H05 | Wireframe admin | ✅ `minh-hoa-bao-cao-pa2.md` |
+| H06 | ERD (Mermaid 1.3.5) | ✅ |
+| H07 | 6 sequence/state diagrams (1.3.6) | ✅ |
+| H08 | Gantt 8–10 tuần | ✅ `minh-hoa-bao-cao-pa2.md` |
+| H09 | Screenshot UI thật (4 màn hình) | ☐ Chụp thủ công |
+| H10 | Lighthouse screenshot | ☐ Chrome DevTools |
+| H11 | Export draw.io 01–03 PNG | ☐ Export thủ công |
+| H12 | Screenshot đối thủ 2–3 site | ☐ Chụp thủ công |
 
-## Phụ lục E — Lý do chọn Phương án 2 (tóm tắt)
+## E — Lý do chọn PA2
 
 | So với | PA1 | **PA2** | PA3 |
 |--------|-----|---------|-----|
 | Thời gian | Nhanh nhất | Trung bình | Lâu nhất |
-| Chi phí | Thấp nhất | Vừa phải | Cao |
-| Admin tách riêng | Cơ bản | **Có** | Có |
-| Phân quyền | Hạn chế | **3 cấp** | Chi tiết |
-| Mở rộng | Thấp | **Tốt** | Rất tốt |
-| Phù hợp Thiên Đức hiện tại | Tạm được | **Phù hợp nhất** | Chưa cần ngay |
+| Admin tách + CMS | Hạn chế | **✅ Đầy đủ** | Đầy đủ |
+| Phân quyền | Cơ bản | **3 cấp** | Chi tiết |
+| Form + DB + email | Một phần | **✅** | ✅ |
+| Phù hợp Thiên Đức | Tạm | **✅ Nhất** | Chưa cần |
 
 ---
 
 ## Kết luận và đề nghị
 
-1. **Chấp nhận** Phương án 2 làm hướng triển khai chính thức cho website Thiên Đức.
-2. **Tạm dừng** mở rộng code frontend/data tĩnh cho đến khi ERD và API contract được phê duyệt.
-3. **Bổ sung** checklist hình ảnh (Phụ lục D) và đo Lighthouse trước khi trình bản final.
-4. **Triển khai** theo timeline 8–10 tuần sau khi báo cáo được ký.
+1. **Chấp nhận** Phương án 2 — hệ thống đầy đủ FE + BE + Admin + Database.
+2. **Phê duyệt** báo cáo v2.1 (phân tích hệ thống hoàn chỉnh + thiết kế + sơ đồ + hạn chế).
+3. **Triển khai** theo timeline 8–10 tuần (mục 3.3).
+4. **Bổ sung** screenshot UI + Lighthouse trước trình ký final (Phụ lục D).
 
 ---
 
@@ -912,4 +1045,4 @@ erDiagram
 
 ---
 
-*Tài liệu này là bản Markdown làm việc. Có thể xuất sang Word/PDF để trình ký chính thức.*
+*Tài liệu Markdown làm việc — xuất Word/PDF để trình ký. Minh họa: [`minh-hoa-bao-cao-pa2.md`](minh-hoa-bao-cao-pa2.md)*

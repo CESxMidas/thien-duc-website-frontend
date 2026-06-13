@@ -50,7 +50,7 @@ public/
 ## Ghi chú phát triển
 
 - Dữ liệu trong `src/data` là lớp tạm thời trước khi kết nối CMS/API.
-- Quy ước lưu và đặt tên ảnh nằm ở `docs/cau-truc-hinh-anh.md`.
+- Quy ước lưu và đặt tên ảnh: `docs/cau-truc-hinh-anh.md`.
+- Báo cáo Phương án 2: `docs/Bao-cao-Phuong-an-2-Website-Thien-Duc.md` (Word: `.docx`), minh họa: `docs/minh-hoa-bao-cao-pa2.md` (Word: `docs/minh-hoa-bao-cao-pa2.docx`).
+- Tạo lại file Word: `npm run report:docx` và `npm run report:minh-hoa:docx`.
 - Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.
-- Màu chính của website đang giữ theo tông trắng, xám, nâu vàng.
-- Các trang chi tiết hiện dùng static params từ dữ liệu trong `src/data`.
