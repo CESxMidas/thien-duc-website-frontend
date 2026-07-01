@@ -51,6 +51,6 @@ public/
 
 - Dữ liệu trong `src/data` là lớp tạm thời trước khi kết nối CMS/API.
 - Quy ước lưu và đặt tên ảnh: `docs/cau-truc-hinh-anh.md`.
-- Báo cáo Phương án 2: `docs/Bao-cao-Phuong-an-2-Website-Thien-Duc.md` (Word: `.docx`), minh họa: `docs/minh-hoa-bao-cao-pa2.md` (Word: `docs/minh-hoa-bao-cao-pa2.docx`).
-- Tạo lại file Word: `npm run report:docx` và `npm run report:minh-hoa:docx`.
+- Báo cáo phương án kỹ thuật: `docs/BAO-CAO-PHUONG-AN-KI-THUAT-WEBSITE.md` (Word: `docs/Báo cáo phương án kỹ thuật website Thiên Đức.docx`).
+- Tạo lại file Word: `npm run report:docx` (có trang bìa, mục lục tự động, số trang). Sau khi mở Word: **Ctrl+A → F9** để cập nhật mục lục; xem ở chế độ **Bố cục Trang in** (Print Layout).
 - Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.

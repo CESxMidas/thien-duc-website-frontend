@@ -9,8 +9,7 @@
     "start": "next start",
     "start:lan": "next start --hostname 0.0.0.0 --port 3000",
     "lint": "eslint",
-    "report:docx": "npx --yes @mohtasham/md-to-docx docs/BAO-CAO-PHUONG-AN-KI-THUAT-WEBSITE.md docs/BAO-CAO-PHUONG-AN-KI-THUAT-WEBSITE.docx",
-    "report:merge-viet": "node tools/merge-bao-cao-into-backup.mjs"
+    "report:docx": "node tools/build-report-docx.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",

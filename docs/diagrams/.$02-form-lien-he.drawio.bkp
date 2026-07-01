@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Cursor">
   <diagram id="contact-compact" name="Form lien he">
-    <mxGraphModel dx="2828" dy="1682" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="2000" math="0" shadow="0">
+    <mxGraphModel dx="1230" dy="731" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="2000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -166,10 +166,9 @@
         <mxCell id="e-feok-end" edge="1" parent="1" source="fe-ok" style="endArrow=block;strokeColor=#82B366;html=1;strokeWidth=2;" target="end-a-ok">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e-fefail-end" edge="1" parent="1" source="fe-fail" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;endArrow=block;strokeColor=#B85450;html=1;strokeWidth=2;exitX=0.965;exitY=0.04;entryX=0.5;entryY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="end-a-fail">
+        <mxCell id="e-fefail-end" edge="1" parent="1" source="fe-fail" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;endArrow=block;strokeColor=#B85450;html=1;strokeWidth=2;exitX=1;exitY=0;entryX=0.5;entryY=0;" target="end-a-fail">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="420" y="492" />
               <mxPoint x="420" y="455" />
               <mxPoint x="915" y="455" />
             </Array>
