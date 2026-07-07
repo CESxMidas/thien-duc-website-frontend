@@ -109,20 +109,38 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 pb-14 lg:grid-cols-[0.95fr_1.05fr]">
-        <div>
+      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 pb-14 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
-            Nhu cầu liên hệ
+            {contactFormCopy.eyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight">
-            Chọn nội dung cần trao đổi
+            {contactFormCopy.title}
           </h2>
           <p className="mt-4 text-sm leading-6 text-[#59646a]">
-            Thiên Đức tiếp nhận các nhóm nhu cầu sau và chuyển đến bộ phận phù
-            hợp.
+            {contactFormCopy.description}
           </p>
 
-          <div className="stagger-list mt-8 grid gap-4">
+          <div className="mt-8">
+            <ContactForm />
+          </div>
+        </div>
+
+        <div className="grid content-start gap-6">
+          <div>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
+              Nhu cầu liên hệ
+            </p>
+            <h2 className="text-3xl font-semibold leading-tight">
+              Nội dung thường gặp
+            </h2>
+            <p className="mt-4 text-sm leading-6 text-[#59646a]">
+              Chọn đúng nhóm nội dung trong form giúp Thiên Đức phản hồi nhanh
+              hơn.
+            </p>
+          </div>
+
+          <div className="stagger-list grid gap-4">
             {inquiryTypes.map((item, index) => {
               const Icon = inquiryIcons[index];
 
@@ -150,52 +168,26 @@ export default function ContactPage() {
             })}
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {contactProcess.map((item) => (
-              <div
-                key={item.step}
-                className="border border-black/10 bg-white p-4"
-              >
-                <p className="text-sm font-semibold text-[#B06613]">
-                  {item.step}
-                </p>
-                <h3 className="mt-2 font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[#59646a]">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="hover-card border border-black/10 bg-white p-6 md:p-8">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
-            {contactFormCopy.eyebrow}
-          </p>
-          <h2 className="text-3xl font-semibold leading-tight">
-            {contactFormCopy.title}
-          </h2>
-          <p className="mt-4 text-sm leading-6 text-[#59646a]">
-            {contactFormCopy.description}
-          </p>
-
-          <div className="mt-8">
-            <ContactForm />
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-3 border-t border-black/10 pt-6">
-            <a
-              href={phoneHref}
-              className="button-polish inline-flex h-11 items-center justify-center border border-black/15 px-5 text-sm font-semibold hover:border-[#B06613] hover:text-[#B06613]"
-            >
-              Gọi Thiên Đức
-            </a>
-            <a
-              href={emailHref}
-              className="button-polish inline-flex h-11 items-center justify-center border border-black/15 px-5 text-sm font-semibold hover:border-[#B06613] hover:text-[#B06613]"
-            >
-              Gửi email trực tiếp
-            </a>
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-[#191919]">
+              Sau khi gửi thông tin
+            </h3>
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              {contactProcess.map((item) => (
+                <div
+                  key={item.step}
+                  className="border border-black/10 bg-white p-4"
+                >
+                  <p className="text-sm font-semibold text-[#B06613]">
+                    {item.step}
+                  </p>
+                  <h4 className="mt-2 font-semibold">{item.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-[#59646a]">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -8,14 +8,14 @@ export const contactHero = {
   eyebrow: "Liên hệ",
   title: "Kết nối với Thiên Đức",
   description:
-    "Thiên Đức tiếp nhận thông tin từ khách hàng, đối tác và các bên quan tâm đến dự án, hợp tác hoặc hoạt động doanh nghiệp.",
+    "Thông tin liên hệ chính thức dành cho khách hàng, đối tác và các bên quan tâm đến hoạt động của Thiên Đức.",
 };
 
 export const contactIntro = {
   eyebrow: "Thông tin liên hệ",
-  title: "Trao đổi trực tiếp với Thiên Đức",
+  title: "Chọn kênh liên hệ phù hợp",
   description:
-    "Vui lòng chọn kênh liên hệ phù hợp hoặc gửi yêu cầu qua form. Nội dung sẽ được chuyển đến bộ phận phụ trách tương ứng.",
+    "Bạn có thể gọi, gửi email hoặc xem vị trí văn phòng trước khi gửi thông tin tư vấn chi tiết.",
 };
 
 export const inquiryTypes: InquiryType[] = [
@@ -42,29 +42,29 @@ export const inquiryTypes: InquiryType[] = [
 export const contactProcess = [
   {
     step: "01",
-    title: "Gửi yêu cầu",
-    description: "Điền form hoặc liên hệ qua điện thoại, email.",
+    title: "Tiếp nhận",
+    description: "Ghi nhận thông tin từ form, điện thoại hoặc email.",
   },
   {
     step: "02",
-    title: "Tiếp nhận nội dung",
-    description: "Thiên Đức chuyển thông tin đến bộ phận phụ trách phù hợp.",
+    title: "Phân loại",
+    description: "Chuyển nội dung đến bộ phận phụ trách phù hợp.",
   },
   {
     step: "03",
     title: "Phản hồi",
     description:
-      "Đội ngũ liên hệ lại theo nội dung trao đổi và thông tin bạn cung cấp.",
+      "Liên hệ lại theo nội dung và thông tin bạn cung cấp.",
   },
 ];
 
 export const contactFormCopy = {
   eyebrow: "Gửi yêu cầu",
-  title: "Form liên hệ",
+  title: "Gửi thông tin tư vấn",
   description:
-    "Điền thông tin bên dưới. Khi gửi, hệ thống sẽ mở ứng dụng email để bạn xác nhận và gửi yêu cầu đến Thiên Đức.",
+    "Điền nội dung cần trao đổi, hệ thống sẽ mở email để bạn xác nhận trước khi gửi đến Thiên Đức.",
   note:
-    "Trang web hiện chưa có hệ thống lưu form trực tiếp. Yêu cầu được gửi qua email đến địa chỉ công ty.",
+    "Yêu cầu được gửi qua email đến địa chỉ công ty.",
   submitLabel: "Gửi yêu cầu qua email",
   fields: {
     name: "Họ và tên",
