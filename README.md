@@ -50,7 +50,7 @@ public/
 ## Ghi chú phát triển
 
 - Dữ liệu trong `src/data` là lớp tạm thời trước khi kết nối CMS/API.
-- Quy ước lưu và đặt tên ảnh: `docs/cau-truc-hinh-anh.md`.
-- Báo cáo phương án kỹ thuật: `docs/BAO-CAO-PHUONG-AN-KI-THUAT-WEBSITE.md` (Word: `docs/Báo cáo phương án kỹ thuật website Thiên Đức.docx`).
+- Tài liệu dự án (kế hoạch coding, câu hỏi xác nhận, báo cáo kỹ thuật, sơ đồ) đã dời ra `../docs/` (cấp workspace, dùng chung cho cả frontend và backend).
+- Báo cáo phương án kỹ thuật: `../docs/Báo cáo phương án kỹ thuật website Thiên Đức.docx`.
 - Tạo lại file Word: `npm run report:docx` (có trang bìa, mục lục tự động, số trang). Sau khi mở Word: **Ctrl+A → F9** để cập nhật mục lục; xem ở chế độ **Bố cục Trang in** (Print Layout).
 - Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.
