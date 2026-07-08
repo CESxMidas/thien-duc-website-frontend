@@ -571,3 +571,26 @@ body {
     transform: none;
   }
 }
+
+/* A11y toàn cục (UI-UX-HANDOFF-SPEC.md mục 7, 8) */
+:focus-visible {
+  outline: 2px solid #fdcd04;
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  background: #b06613;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  transition: top 150ms ease-out;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}

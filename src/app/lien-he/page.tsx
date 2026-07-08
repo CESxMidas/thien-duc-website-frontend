@@ -239,7 +239,7 @@ export default function ContactPage() {
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight">
               {contactCta.title}
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
               {contactCta.description}
             </p>
           </div>

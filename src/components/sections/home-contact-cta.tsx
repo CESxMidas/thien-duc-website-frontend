@@ -13,7 +13,7 @@ export function HomeContactCta() {
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
             {homeContactCta.title}
           </h2>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
             {homeContactCta.description}
           </p>
           <Link

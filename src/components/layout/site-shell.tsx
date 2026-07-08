@@ -5,8 +5,11 @@ import { SiteHeader } from "@/components/layout/site-header";
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#f6f3ee] text-[#1d2428]">
+      <a href="#main-content" className="skip-link">
+        Bỏ qua điều hướng
+      </a>
       <SiteHeader />
-      {children}
+      <main id="main-content">{children}</main>
       <SiteFooter />
     </div>
   );

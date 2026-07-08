@@ -155,7 +155,7 @@ export default function AboutPage() {
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
               {aboutContactCta.title}
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/75">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
               {aboutContactCta.description}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">

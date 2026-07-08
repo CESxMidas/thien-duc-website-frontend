@@ -301,7 +301,7 @@ export default async function ProjectDetailPage({
               <h2 className="text-3xl font-semibold leading-tight">
                 Liên hệ Thiên Đức để được hỗ trợ thông tin
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
                 Đội ngũ Thiên Đức sẵn sàng tiếp nhận nhu cầu tư vấn, hợp tác
                 hoặc trao đổi thêm về dự án.
               </p>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
 import {
@@ -57,19 +58,31 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               filter.value === "all"
                 ? routes.projects
                 : `${routes.projects}?status=${filter.value}`;
+            const count =
+              filter.value === "all"
+                ? projects.length
+                : projects.filter((project) => project.status === filter.value)
+                    .length;
 
             return (
               <Link
                 key={filter.value}
                 href={href}
+                scroll={false}
                 aria-current={active ? "page" : undefined}
-                className={`button-polish inline-flex min-h-10 items-center border px-4 text-sm font-semibold transition ${
+                className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
                   active
                     ? "border-[#B06613] bg-[#B06613] text-white"
                     : "border-black/10 bg-white text-[#1d2428] hover:border-[#B06613] hover:text-[#B06613]"
                 }`}
               >
+                {active ? (
+                  <Check className="size-4 shrink-0" aria-hidden="true" />
+                ) : null}
                 {filter.label}
+                <span className={active ? "text-white/80" : "text-[#59646a]"}>
+                  ({count})
+                </span>
               </Link>
             );
           })}
@@ -168,7 +181,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <h2 className="text-3xl font-semibold leading-tight">
               Quan tâm dự án của Thiên Đức?
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/75">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
               Liên hệ Thiên Đức để trao đổi thêm về thông tin dự án, nhu cầu tư
               vấn hoặc định hướng hợp tác.
             </p>
