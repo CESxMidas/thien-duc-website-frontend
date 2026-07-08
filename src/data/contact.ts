@@ -62,10 +62,10 @@ export const contactFormCopy = {
   eyebrow: "Gửi yêu cầu",
   title: "Gửi thông tin tư vấn",
   description:
-    "Điền nội dung cần trao đổi, hệ thống sẽ mở email để bạn xác nhận trước khi gửi đến Thiên Đức.",
+    "Điền nội dung cần trao đổi, yêu cầu sẽ được gửi trực tiếp đến bộ phận phụ trách của Thiên Đức.",
   note:
-    "Yêu cầu được gửi qua email đến địa chỉ công ty.",
-  submitLabel: "Gửi yêu cầu qua email",
+    "Thông tin của bạn chỉ dùng để phản hồi yêu cầu này và được bảo mật theo quy định.",
+  submitLabel: "Gửi yêu cầu",
   fields: {
     name: "Họ và tên",
     phone: "Số điện thoại",
