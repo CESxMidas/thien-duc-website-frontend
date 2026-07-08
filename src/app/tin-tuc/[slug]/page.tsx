@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { newsPosts } from "@/data/news";
 import { formatDate } from "@/lib/format";
+import { routes } from "@/lib/routes";
 
 type NewsDetailPageProps = {
   params: Promise<{
@@ -47,6 +49,13 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
   return (
     <SiteShell>
+      <Breadcrumb
+        items={[
+          { label: "Trang chủ", href: routes.home },
+          { label: "Tin tức", href: routes.news },
+          { label: post.title },
+        ]}
+      />
       <PageHeading
         eyebrow="Chi tiết tin tức"
         title={post.title}

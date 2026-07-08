@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CheckCircle2, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
@@ -99,6 +100,13 @@ export default async function ProjectDetailPage({
     <SiteShell>
       <div className="projects-motion">
         <section className="project-detail-hero border-b border-[#B06613]/10">
+          <Breadcrumb
+            items={[
+              { label: "Trang chủ", href: routes.home },
+              { label: "Dự án", href: routes.projects },
+              { label: project.title },
+            ]}
+          />
           <PageHeading
             eyebrow="Chi tiết dự án"
             title={project.title}
