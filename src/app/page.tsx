@@ -4,7 +4,7 @@ import { HomeBannerSlider } from "@/components/sections/home-banner-slider";
 import { HomeCapabilities } from "@/components/sections/home-capabilities";
 import { HomeContactCta } from "@/components/sections/home-contact-cta";
 import { HomeFeaturedProjects } from "@/components/sections/home-featured-projects";
-import { HomeHero } from "@/components/sections/home-hero";
+import { HomeIntroStrip } from "@/components/sections/home-intro-strip";
 import { HomeLatestNews } from "@/components/sections/home-latest-news";
 
 export const metadata: Metadata = {
@@ -17,8 +17,8 @@ export default function HomePage() {
   return (
     <SiteShell>
       <HomeBannerSlider />
-      <HomeHero />
       <HomeFeaturedProjects />
+      <HomeIntroStrip />
       <HomeCapabilities />
       <HomeLatestNews />
       <HomeContactCta />
