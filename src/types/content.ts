@@ -2,6 +2,10 @@ export type NavItem = {
   label: string;
   href: string;
   children?: NavItem[];
+  /** Tên nhóm trong dropdown (các item cùng group đứng chung dưới 1 heading). */
+  group?: string;
+  /** Nhãn cho link cha khi hiển thị như item đầu trong menu con mobile. */
+  overviewLabel?: string;
 };
 
 export type ProjectStatus =
