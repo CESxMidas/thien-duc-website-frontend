@@ -60,6 +60,19 @@ export type Project = {
   mapLocation?: ProjectMapLocation;
 };
 
+/** Hạng mục con của dự án (bảng project_items) — dùng cho route du-an/[slug]/[hang-muc]. */
+export type ProjectItem = {
+  title: string;
+  slug: string;
+  summary?: string;
+  description?: string;
+  status?: ProjectStatus;
+  image?: string;
+  highlights?: string[];
+  quickFacts?: ProjectFact[];
+  gallerySections?: ProjectGallerySection[];
+};
+
 export type NewsPost = {
   title: string;
   slug: string;
