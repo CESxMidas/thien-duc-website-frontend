@@ -31,7 +31,7 @@ export default function AboutPage() {
         description={aboutHero.description}
       />
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
             {aboutOverview.eyebrow}
@@ -82,14 +82,23 @@ export default function AboutPage() {
       </section>
 
       <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
-        <div className="stagger-list grid gap-4 md:grid-cols-3">
+        <div className="max-w-3xl">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
+            Giá trị nền tảng
+          </p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+            Tầm nhìn, sứ mệnh và giá trị cốt lõi
+          </h2>
+        </div>
+
+        <div className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
           {aboutPrinciples.map((item, index) => {
             const Icon = principleIcons[index];
 
             return (
               <article key={item.title} className="hover-card group border border-black/10 bg-white p-6 hover:border-[#B06613]/35">
                 <Icon className="icon-badge mb-5 size-8 text-[#B06613] transition group-hover:scale-110" aria-hidden="true" />
-                <h2 className="text-2xl font-semibold">{item.title}</h2>
+                <h3 className="text-xl font-semibold">{item.title}</h3>
                 <p className="mt-4 text-sm leading-6 text-[#59646a]">
                   {item.description}
                 </p>

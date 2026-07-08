@@ -22,17 +22,17 @@ export const aboutPrinciples = [
   {
     title: "Tầm nhìn",
     description:
-      "Phát triển các không gian sống và dự án có giá trị sử dụng lâu dài, đóng góp tích cực cho đô thị và cộng đồng.",
+      "Trở thành thương hiệu đầu tư và xây dựng bất động sản uy tín hàng đầu Việt Nam, kiến tạo các công trình có giải pháp kiến trúc đột phá, thẩm mỹ cao và bền vững theo thời gian.",
   },
   {
     title: "Sứ mệnh",
     description:
-      "Đồng hành cùng khách hàng, đối tác và cộng đồng thông qua các dự án minh bạch, chất lượng và có định hướng thực thi rõ ràng.",
+      "Mang lại giải pháp an cư và không gian sống đẳng cấp, an toàn cho khách hàng; áp dụng kỹ thuật, vật liệu mới để tối ưu hiệu quả cho đối tác và đồng hành cùng phát triển hạ tầng đô thị.",
   },
   {
     title: "Giá trị cốt lõi",
     description:
-      "Uy tín, minh bạch, chất lượng và hợp tác bền vững là các giá trị Thiên Đức theo đuổi trong quá trình phát triển.",
+      "Uy tín — Chất lượng — Đột phá — Bền vững: bốn giá trị nền tảng cho mọi hoạt động đầu tư, xây dựng và hợp tác của Thiên Đức.",
   },
 ];
 
