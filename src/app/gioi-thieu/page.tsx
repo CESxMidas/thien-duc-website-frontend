@@ -4,10 +4,8 @@ import Link from "next/link";
 import { Handshake, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
-import { CtaContactCards } from "@/components/ui/cta-contact-cards";
 import { PageHeading } from "@/components/ui/page-heading";
 import {
-  aboutCapability,
   aboutContactCta,
   aboutFields,
   aboutHero,
@@ -122,59 +120,31 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
-        <div className="hover-card grid gap-8 border border-black/10 bg-white p-6 shadow-sm md:grid-cols-[0.9fr_1.1fr] md:p-10">
-          <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
-              {aboutCapability.eyebrow}
-            </p>
-            <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              {aboutCapability.title}
-            </h2>
-          </div>
-          <div>
-            <p className="text-lg leading-8 text-[#59646a]">
-              {aboutCapability.description}
-            </p>
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-16">
+        <div className="rounded-sm bg-[#c99248] p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
+            {aboutContactCta.eyebrow}
+          </p>
+          <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
+            {aboutContactCta.title}
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
+            {aboutContactCta.description}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
             <Link
-              href={aboutCapability.cta.href}
-              className="button-polish mt-7 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white hover:bg-[#7f4b0d]"
+              href={aboutContactCta.primaryCta.href}
+              className="button-polish inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] hover:bg-white"
             >
-              {aboutCapability.cta.label}
+              {aboutContactCta.primaryCta.label}
+            </Link>
+            <Link
+              href={aboutContactCta.secondaryCta.href}
+              className="button-polish inline-flex h-11 items-center border border-white/50 px-5 text-sm font-semibold text-white hover:bg-white hover:text-[#191919]"
+            >
+              {aboutContactCta.secondaryCta.label}
             </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-8 rounded-sm bg-[#c99248] p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:grid-cols-[1fr_0.9fr] md:p-10">
-          <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
-              {aboutContactCta.eyebrow}
-            </p>
-            <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
-              {aboutContactCta.title}
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
-              {aboutContactCta.description}
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                href={aboutContactCta.primaryCta.href}
-                className="button-polish inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] hover:bg-white"
-              >
-                {aboutContactCta.primaryCta.label}
-              </Link>
-              <Link
-                href={aboutContactCta.secondaryCta.href}
-                className="button-polish inline-flex h-11 items-center border border-[#B06613]/30 bg-[#fff4cf] px-5 text-sm font-semibold text-[#191919] shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-[#B06613] hover:bg-[#fdcd04]"
-              >
-                {aboutContactCta.secondaryCta.label}
-              </Link>
-            </div>
-          </div>
-
-          <CtaContactCards />
         </div>
       </section>
     </SiteShell>

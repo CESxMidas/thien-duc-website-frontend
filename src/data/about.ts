@@ -9,7 +9,7 @@ export const aboutHero = {
 };
 
 export const aboutOverview = {
-  eyebrow: "Tổng quan doanh nghiệp",
+  eyebrow: "Định hướng phát triển",
   title: "Đối tác đầu tư và phát triển dự án theo hướng thận trọng, bền vững",
   paragraphs: [
     "Với định hướng phát triển thận trọng và bền vững, Thiên Đức tập trung vào các dự án có quy hoạch rõ ràng, chất lượng triển khai ổn định và giá trị sử dụng lâu dài.",
@@ -37,17 +37,6 @@ export const aboutPrinciples = [
 ];
 
 export const aboutFields = businessFields;
-
-export const aboutCapability = {
-  eyebrow: "Năng lực & hợp tác",
-  title: "Tập trung vào tiến độ, chất lượng triển khai và phối hợp đối tác",
-  description:
-    "Thiên Đức tiếp cận dự án với tinh thần thận trọng, minh bạch và hướng đến giá trị dài hạn. Doanh nghiệp chú trọng phối hợp cùng đối tác trong từng giai đoạn để kiểm soát chất lượng thực thi, thông tin dự án và trải nghiệm của khách hàng.",
-  cta: {
-    label: "Xem dự án tiêu biểu",
-    href: routes.projects,
-  },
-};
 
 export const aboutContactCta = {
   eyebrow: "Kết nối với Thiên Đức",

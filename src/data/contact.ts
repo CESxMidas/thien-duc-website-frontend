@@ -11,13 +11,6 @@ export const contactHero = {
     "Thông tin liên hệ chính thức dành cho khách hàng, đối tác và các bên quan tâm đến hoạt động của Thiên Đức.",
 };
 
-export const contactIntro = {
-  eyebrow: "Thông tin liên hệ",
-  title: "Chọn kênh liên hệ phù hợp",
-  description:
-    "Bạn có thể gọi, gửi email hoặc xem vị trí văn phòng trước khi gửi thông tin tư vấn chi tiết.",
-};
-
 export const inquiryTypes: InquiryType[] = [
   {
     id: "tu-van-du-an",
@@ -81,15 +74,4 @@ export const contactMap = {
   description:
     "Bạn có thể xem vị trí trên bản đồ hoặc liên hệ trước để sắp xếp lịch làm việc phù hợp.",
   ctaLabel: "Mở Google Maps",
-};
-
-export const contactCta = {
-  eyebrow: "Dự án Thiên Đức",
-  title: "Quan tâm dự án trước khi liên hệ?",
-  description:
-    "Xem danh mục dự án và thông tin tổng quan để trao đổi nhanh hơn với đội ngũ tư vấn.",
-  primaryLabel: "Xem danh sách dự án",
-  primaryHref: "/du-an",
-  secondaryLabel: "Giới thiệu công ty",
-  secondaryHref: "/gioi-thieu",
 };
