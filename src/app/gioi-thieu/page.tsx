@@ -56,7 +56,7 @@ export default function AboutPage() {
             alt="Dự án bất động sản Thiên Đức phát triển"
             width={720}
             height={520}
-            className="aspect-[4/3] h-auto w-full object-cover"
+            className="aspect-4/3 h-auto w-full object-cover"
             sizes="(min-width: 1024px) 45vw, 100vw"
           />
           </div>

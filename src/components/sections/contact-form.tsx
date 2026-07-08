@@ -75,18 +75,20 @@ export function ContactForm() {
         error ? "border-[#9b2c2c]" : "border-black/15"
       }`,
       onBlur: (event: { currentTarget: { value: string } }) => {
+        const value = event.currentTarget.value;
         setFieldErrors((current) => ({
           ...current,
-          [field]: validateField(field, event.currentTarget.value),
+          [field]: validateField(field, value),
         }));
       },
       onChange: (event: { currentTarget: { value: string } }) => {
         // Chỉ re-validate on-change khi field đã có lỗi (tránh báo lỗi khi đang gõ)
+        const value = event.currentTarget.value;
         setFieldErrors((current) =>
           current[field]
             ? {
                 ...current,
-                [field]: validateField(field, event.currentTarget.value),
+                [field]: validateField(field, value),
               }
             : current,
         );
