@@ -62,6 +62,8 @@ export type Project = {
   highlights?: string[];
   quickFacts?: ProjectFact[];
   mapLocation?: ProjectMapLocation;
+  /** Hạng mục con, ví dụ Fancy Tower thuộc Khu đô thị Hưng Phú. */
+  items?: ProjectItem[];
 };
 
 /** Hạng mục con của dự án (bảng project_items) — dùng cho route du-an/[slug]/[hang-muc]. */
@@ -75,6 +77,8 @@ export type ProjectItem = {
   highlights?: string[];
   quickFacts?: ProjectFact[];
   gallerySections?: ProjectGallerySection[];
+  /** Ảnh của hạng mục (bảng project_gallery, lọc theo project_item_id). */
+  gallery?: string[];
 };
 
 export type NewsPost = {

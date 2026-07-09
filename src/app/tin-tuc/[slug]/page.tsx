@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
-import { newsPosts } from "@/data/news";
+import { getNewsPostBySlug, getNewsPosts } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 import { routes } from "@/lib/routes";
 
@@ -15,7 +15,8 @@ type NewsDetailPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const newsPosts = await getNewsPosts();
   return newsPosts.map((post) => ({ slug: post.slug }));
 }
 
@@ -23,7 +24,7 @@ export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = newsPosts.find((item) => item.slug === slug);
+  const post = await getNewsPostBySlug(slug);
 
   if (!post) {
     return {
@@ -39,7 +40,7 @@ export async function generateMetadata({
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { slug } = await params;
-  const post = newsPosts.find((item) => item.slug === slug);
+  const post = await getNewsPostBySlug(slug);
 
   if (!post) {
     notFound();

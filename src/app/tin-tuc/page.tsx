@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
-import { newsPosts } from "@/data/news";
+import { getNewsPosts } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 import { getSearchQuery, matchesSearchQuery } from "@/lib/search";
 import { routes } from "@/lib/routes";
@@ -23,6 +23,7 @@ type NewsPageProps = {
 export default async function NewsPage({ searchParams }: NewsPageProps) {
   const { q } = await searchParams;
   const query = getSearchQuery(q);
+  const newsPosts = await getNewsPosts();
   const sortedPosts = [...newsPosts].sort((first, second) =>
     second.publishedAt.localeCompare(first.publishedAt),
   );

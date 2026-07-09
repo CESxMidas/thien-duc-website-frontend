@@ -36,6 +36,25 @@ export const mockProjects: ProjectDto[] = projects.map((project, index) => ({
   gallerySections: project.gallerySections ?? null,
   mapLocation: project.mapLocation ?? null,
   order: index,
+  items: (project.items ?? []).map((item, itemIndex) => ({
+    id: `mock-project-${index + 1}-item-${itemIndex + 1}`,
+    projectId: `mock-project-${index + 1}`,
+    slug: item.slug,
+    title: { vi: item.title },
+    summary: item.summary ? { vi: item.summary } : null,
+    description: item.description ? { vi: item.description } : null,
+    status: item.status ? statusToDto[item.status] : null,
+    image: item.image ?? null,
+    highlights: item.highlights?.map((vi) => ({ vi })) ?? null,
+    quickFacts: item.quickFacts ?? null,
+    gallerySections: item.gallerySections ?? null,
+    order: itemIndex,
+    galleryImages: (item.gallery ?? []).map((url, imageIndex) => ({
+      id: `mock-project-${index + 1}-item-${itemIndex + 1}-image-${imageIndex + 1}`,
+      url,
+      order: imageIndex,
+    })),
+  })),
 }));
 
 export const mockNewsPosts: NewsPostDto[] = newsPosts.map((post, index) => ({

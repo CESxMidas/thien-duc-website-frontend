@@ -8,7 +8,8 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
-import { projects, projectStatusLabels } from "@/data/projects";
+import { getProjectBySlug, getProjects } from "@/lib/api/projects";
+import { projectStatusLabels } from "@/lib/project-status";
 import { routes } from "@/lib/routes";
 
 type ProjectDetailPageProps = {
@@ -16,10 +17,6 @@ type ProjectDetailPageProps = {
     slug: string;
   }>;
 };
-
-function getProject(slug: string) {
-  return projects.find((item) => item.slug === slug);
-}
 
 function ProjectFactCell({ label, value }: { label: string; value: string }) {
   return (
@@ -60,7 +57,8 @@ function ProjectOverviewHighlights({ highlights }: { highlights: string[] }) {
   );
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const projects = await getProjects();
   return projects.map((project) => ({ slug: project.slug }));
 }
 
@@ -68,7 +66,7 @@ export async function generateMetadata({
   params,
 }: ProjectDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -86,7 +84,7 @@ export default async function ProjectDetailPage({
   params,
 }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -95,6 +93,7 @@ export default async function ProjectDetailPage({
   const gallery = project.gallery ?? [];
   const gallerySections = project.gallerySections ?? [];
   const overviewHighlights = project.highlights ?? [];
+  const items = project.items ?? [];
 
   return (
     <SiteShell>
@@ -218,6 +217,59 @@ export default async function ProjectDetailPage({
             title={project.title}
             aerialImage={project.image}
           />
+        ) : null}
+
+        {items.length > 0 ? (
+          <section className="project-detail-band py-14">
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="reveal-from-left">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+                  Hạng mục trong dự án
+                </p>
+                <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
+                  Các hạng mục hợp thành {project.title}
+                </h2>
+              </div>
+
+              <div className="stagger-sides mt-8 grid gap-5 md:grid-cols-3">
+                {items.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`${routes.projects}/${project.slug}/${item.slug}`}
+                    className="hover-card group flex flex-col overflow-hidden border border-brand/18 bg-white hover:border-brand"
+                  >
+                    {item.image ? (
+                      <div className="image-reveal relative aspect-[4/3] overflow-hidden bg-surface">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : null}
+                    <div className="flex flex-1 flex-col p-5">
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+                        {projectStatusLabels[item.status ?? project.status]}
+                      </span>
+                      <h3 className="mt-3 text-xl font-semibold leading-snug">
+                        {item.title}
+                      </h3>
+                      {item.summary ? (
+                        <p className="mt-3 text-sm leading-6 text-slate">
+                          {item.summary}
+                        </p>
+                      ) : null}
+                      <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-brand/20 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
+                        Xem hạng mục
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
         ) : null}
 
         {gallerySections.length > 0 ? (

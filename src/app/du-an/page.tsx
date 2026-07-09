@@ -4,11 +4,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
-import {
-  projects,
-  projectStatusFilters,
-  projectStatusLabels,
-} from "@/data/projects";
+import { getProjects } from "@/lib/api/projects";
+import { projectStatusFilters, projectStatusLabels } from "@/lib/project-status";
 import { routes } from "@/lib/routes";
 import type { ProjectStatus } from "@/types/content";
 
@@ -36,6 +33,7 @@ function getStatusFilter(status: string | string[] | undefined) {
 export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
   const { status } = await searchParams;
   const activeStatus = getStatusFilter(status);
+  const projects = await getProjects();
   const filteredProjects =
     activeStatus === "all"
       ? projects

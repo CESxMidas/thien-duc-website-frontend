@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { projects, projectStatusLabels } from "@/data/projects";
+import { getProjects } from "@/lib/api/projects";
+import { projectStatusLabels } from "@/lib/project-status";
 import { homeFeaturedProjectCopy } from "@/data/home";
 
-export function HomeFeaturedProjects() {
+export async function HomeFeaturedProjects() {
+  const projects = await getProjects();
   const featuredProjects = projects
     .filter(
       (project) =>

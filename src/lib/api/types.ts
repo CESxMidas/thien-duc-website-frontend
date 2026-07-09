@@ -51,6 +51,8 @@ export type ProjectItemDto = {
   quickFacts?: ProjectFact[] | null;
   gallerySections?: ProjectGallerySection[] | null;
   order: number;
+  /** Backend trả kèm khi GET /projects/:slug/:itemSlug (include galleryImages). */
+  galleryImages?: ProjectGalleryImageDto[];
 };
 
 export type ProjectGalleryImageDto = {

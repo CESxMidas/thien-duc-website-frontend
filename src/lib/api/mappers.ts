@@ -47,6 +47,7 @@ export function mapProject(dto: ProjectDto): Project {
     highlights: dto.highlights?.map((item) => localized(item)),
     quickFacts: dto.quickFacts ?? undefined,
     mapLocation: dto.mapLocation ?? undefined,
+    items: dto.items?.map(mapProjectItem),
   };
 }
 
@@ -61,6 +62,8 @@ export function mapProjectItem(dto: ProjectItemDto): ProjectItem {
     highlights: dto.highlights?.map((item) => localized(item)),
     quickFacts: dto.quickFacts ?? undefined,
     gallerySections: dto.gallerySections ?? undefined,
+    // Ảnh hạng mục nằm ở bảng project_gallery, backend trả theo `order` tăng dần.
+    gallery: dto.galleryImages?.map((image) => image.url),
   };
 }
 

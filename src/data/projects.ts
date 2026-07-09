@@ -1,22 +1,9 @@
-import type { Project, ProjectStatus } from "@/types/content";
+// Dữ liệu dự án dùng khi chưa cấu hình `NEXT_PUBLIC_API_URL` (chế độ mock của
+// `src/lib/api/*`). Nội dung phải khớp seed backend `prisma/seed-projects.js`.
+// Nhãn trạng thái nay nằm ở `src/lib/project-status.ts`.
+
+import type { Project } from "@/types/content";
 import { hungPhuGallerySections } from "@/data/hung-phu-gallery";
-
-export const projectStatusLabels: Record<ProjectStatus, string> = {
-  "da-ban-giao": "Đã bàn giao",
-  "dang-thi-cong": "Đang thi công",
-  "chuan-bi-khoi-cong": "Chuẩn bị khởi công",
-
-};
-
-export const projectStatusFilters: Array<{
-  label: string;
-  value: ProjectStatus | "all";
-}> = [
-  { label: "Tất cả", value: "all" },
-  { label: "Đang thi công", value: "dang-thi-cong" },
-  { label: "Chuẩn bị khởi công", value: "chuan-bi-khoi-cong" },
-  { label: "Đã bàn giao", value: "da-ban-giao" },
-];
 
 export const projects: Project[] = [
   {
@@ -117,6 +104,54 @@ export const projects: Project[] = [
         { text: "SÔNG BẾN TRE", left: 80, top: 83, kind: "area" },
       ],
     },
+    items: [
+      {
+        title: "Chung cư Fancy Tower",
+        slug: "fancy-tower",
+        summary:
+          "Tòa căn hộ cao cấp 19 tầng nổi và 1 tầng hầm với 196 căn hộ — dự án chung cư cao tầng đầu tiên tại khu vực.",
+        description:
+          "Fancy Tower đã được Sở Xây dựng nghiệm thu hoàn thành công trình và sẵn sàng cấp sổ hồng cho cư dân. Tòa nhà đã hoàn thiện thi công, bàn giao và đưa vào vận hành.",
+        status: "da-ban-giao",
+        image:
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg",
+        highlights: [
+          "19 tầng nổi, 1 tầng hầm, 196 căn hộ.",
+          "Đã nghiệm thu hoàn thành công trình, sẵn sàng cấp sổ hồng.",
+          "Hồ bơi và khu tiện ích nội khu đã vận hành.",
+        ],
+        quickFacts: [
+          { label: "Quy mô", value: "19 tầng nổi + 1 tầng hầm" },
+          { label: "Số căn hộ", value: "196 căn" },
+          { label: "Tình trạng", value: "Đã bàn giao, đang vận hành" },
+        ],
+        gallery: [
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-evening-01.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-plaza-01.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-plaza-02.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-amenity-pool-01.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-amenity-pool-02.jpg",
+          "/images/projects/hung-phu/fancy-tower/fancy-tower-amenity-pool-03.jpg",
+        ],
+      },
+      {
+        title: "Trung tâm thương mại Hưng Phú Mall",
+        slug: "hung-phu-mall",
+        summary:
+          "Trung tâm thương mại 5 tầng trong nội khu, đang hoàn thiện giai đoạn cuối để đưa vào khai thác.",
+        status: "dang-thi-cong",
+        quickFacts: [{ label: "Quy mô", value: "5 tầng" }],
+      },
+      {
+        title: "Khu nhà ở thấp tầng",
+        slug: "khu-nha-o-thap-tang",
+        summary:
+          "330 căn nhà phố liền kề, shophouse đi bộ và biệt thự — đã hoàn thiện, cư dân đã dọn vào sinh sống ổn định.",
+        status: "da-ban-giao",
+        quickFacts: [{ label: "Số căn", value: "330 căn" }],
+      },
+    ],
   },
   {
     title: "Chung cư La Bonita",

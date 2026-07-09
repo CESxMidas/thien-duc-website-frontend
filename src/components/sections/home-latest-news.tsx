@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { newsPosts } from "@/data/news";
+import { getNewsPosts } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 
-export function HomeLatestNews() {
+export async function HomeLatestNews() {
+  const newsPosts = await getNewsPosts();
   const latestNews = [...newsPosts]
     .sort((first, second) => second.publishedAt.localeCompare(first.publishedAt))
     .slice(0, 3);

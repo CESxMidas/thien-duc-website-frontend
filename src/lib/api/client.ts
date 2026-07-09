@@ -13,6 +13,8 @@ export class ApiError extends Error {
   constructor(
     public readonly code: string,
     message: string,
+    /** HTTP status — 404 phân biệt "không có nội dung" với lỗi thật. */
+    public readonly status: number,
     public readonly details?: unknown,
   ) {
     super(message);
@@ -35,7 +37,27 @@ export async function apiFetch<T>(
 
   const body = (await response.json()) as ApiResponse<T>;
   if (!body.success) {
-    throw new ApiError(body.error.code, body.error.message, body.error.details);
+    throw new ApiError(
+      body.error.code,
+      body.error.message,
+      response.status,
+      body.error.details,
+    );
   }
   return body.data;
+}
+
+/** `undefined` khi backend trả 404; lỗi khác vẫn ném ra để trang báo lỗi thật. */
+export async function apiFetchOptional<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<T | undefined> {
+  try {
+    return await apiFetch<T>(path, init);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) {
+      return undefined;
+    }
+    throw error;
+  }
 }
