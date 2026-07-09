@@ -64,8 +64,8 @@ export async function HomeFeaturedProjects() {
                 <div
                   className={`image-reveal relative overflow-hidden bg-surface ${
                     singleProject
-                      ? "aspect-[16/10] md:aspect-auto md:min-h-80"
-                      : "aspect-[4/3]"
+                      ? "aspect-16/10 md:aspect-auto md:min-h-80"
+                      : "aspect-4/3"
                   }`}
                 >
                   {project.image ? (
