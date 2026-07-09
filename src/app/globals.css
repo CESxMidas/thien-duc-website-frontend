@@ -18,6 +18,29 @@
   --ease-reveal-sides: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ==========================================================================
+   Bảng màu thương hiệu Thiên Đức (UI-UX-HANDOFF-SPEC.md — giữ nguyên, không đổi)
+   Khai báo ở @theme để Tailwind sinh sẵn text-brand / bg-gold / border-ink…
+   Dùng token thay vì gõ hex trong component: đổi màu một chỗ, áp dụng toàn site.
+   ========================================================================== */
+@theme {
+  --color-brand: #b06613;
+  --color-brand-soft: #c99248;
+  --color-brand-dark: #7f4b0d;
+  --color-gold: #fdcd04;
+  --color-gold-soft: #fff4cf;
+  --color-ink: #191919;
+  --color-ink-soft: #1d2428;
+  --color-slate: #59646a;
+  --color-cream: #fff8ea;
+  --color-surface: #f2f2f2;
+  --color-surface-warm: #f6f3ee;
+
+  /* Màu ngữ nghĩa cho trạng thái form (mục 8 handoff spec). */
+  --color-danger: #9b2c2c;
+  --color-success: #166534;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -572,9 +595,12 @@ body {
   }
 }
 
-/* A11y toàn cục (UI-UX-HANDOFF-SPEC.md mục 7, 8) */
+/* A11y toàn cục (UI-UX-HANDOFF-SPEC.md mục 7, 8).
+   Viền focus dùng nâu đồng #b06613: vàng #fdcd04 trên nền trắng chỉ đạt 1.5:1,
+   dưới ngưỡng 3:1 của WCAG 2.4.11. Nâu đồng đạt 4.42:1 trên trắng và 3.32:1
+   trên nền đen #191919 — hợp lệ trên cả nền sáng lẫn nền tối của trang. */
 :focus-visible {
-  outline: 2px solid #fdcd04;
+  outline: 2px solid #b06613;
   outline-offset: 2px;
 }
 
@@ -593,4 +619,6 @@ body {
 
 .skip-link:focus-visible {
   top: 1rem;
+  /* Nền skip-link chính là nâu đồng, nên viền focus phải đổi sang trắng. */
+  outline-color: #ffffff;
 }

@@ -156,7 +156,7 @@ export function HomeBannerSlider() {
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
             <div
               key={activeIndex}
-              className="banner-progress h-full bg-[#fdcd04]"
+              className="banner-progress h-full bg-gold"
               onAnimationEnd={handleProgressEnd}
               style={{
                 animationDuration: `${AUTOPLAY_MS}ms`,
@@ -170,12 +170,12 @@ export function HomeBannerSlider() {
           <div className="mx-auto max-w-7xl">
             <div
               key={activeBanner.title}
-              className={`flex max-w-2xl flex-col justify-between border border-white/15 bg-[#191919]/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-7 ${
+              className={`flex max-w-2xl flex-col justify-between border border-white/15 bg-ink/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-7 ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}
             >
               <div className="mb-4 flex items-center gap-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#fdcd04] sm:text-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold sm:text-sm">
                   {activeBanner.eyebrow}
                 </p>
                 <span className="h-px flex-1 bg-white/25" aria-hidden="true" />
@@ -196,13 +196,13 @@ export function HomeBannerSlider() {
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
                       href={activeBanner.href}
-                      className="button-polish inline-flex h-11 items-center bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
+                      className="button-polish inline-flex h-11 items-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
                     >
                       {activeBanner.ctaLabel}
                     </Link>
                     <Link
                       href={routes.contact}
-                      className="button-polish inline-flex h-11 items-center border border-white/60 px-5 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919]"
+                      className="button-polish inline-flex h-11 items-center border border-white/60 px-5 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
                     >
                       Liên hệ tư vấn
                     </Link>
@@ -218,7 +218,7 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner trước"
             onClick={goToPrevious}
-            className="button-polish grid size-9 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919] md:size-11"
+            className="button-polish grid size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink md:size-11"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -226,13 +226,13 @@ export function HomeBannerSlider() {
             type="button"
             aria-label="Banner tiếp theo"
             onClick={goToNext}
-            className="button-polish grid size-9 place-items-center border border-white/40 bg-[#191919]/30 text-white backdrop-blur hover:border-[#fdcd04] hover:bg-[#fdcd04] hover:text-[#191919] focus:outline-none focus:ring-2 focus:ring-[#fdcd04] focus:ring-offset-2 focus:ring-offset-[#191919] md:size-11"
+            className="button-polish grid size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink md:size-11"
           >
             <ChevronRight className="size-5" />
           </button>
         </div>
 
-        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center rounded-full border border-white/20 bg-[#191919]/25 px-1 backdrop-blur">
+        <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center rounded-full border border-white/20 bg-ink/25 px-1 backdrop-blur">
           {homeBanners.map((banner, index) => (
             <button
               key={banner.image}
@@ -245,7 +245,7 @@ export function HomeBannerSlider() {
               <span
                 className={`block h-2.5 rounded-full transition-all ${
                   index === activeIndex
-                    ? "w-9 bg-[#fdcd04]"
+                    ? "w-9 bg-gold"
                     : "w-2.5 bg-white/70 hover:bg-white"
                 }`}
               />

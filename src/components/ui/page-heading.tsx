@@ -16,7 +16,7 @@ export function PageHeading({ eyebrow, title, description }: PageHeadingProps) {
         {title}
       </h1>
       {description ? (
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[#59646a]">
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-slate">
           {description}
         </p>
       ) : null}

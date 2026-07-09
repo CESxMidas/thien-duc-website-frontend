@@ -8,9 +8,9 @@ import { ApiError } from "@/lib/api/client";
 import { submitContactForm } from "@/lib/api/contact";
 
 const inputClassName =
-  "h-11 w-full border bg-white px-4 text-sm text-[#191919] outline-none transition placeholder:text-[#59646a] focus:border-[#B06613] focus:ring-2 focus:ring-[#fdcd04]/40";
+  "h-11 w-full border bg-white px-4 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40";
 
-const labelClassName = "mb-2 block text-sm font-semibold text-[#1d2428]";
+const labelClassName = "mb-2 block text-sm font-semibold text-ink-soft";
 
 type FieldName = "name" | "phone" | "email" | "inquiry" | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
@@ -49,7 +49,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   return (
     <p
       id={id}
-      className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-[#9b2c2c]"
+      className="mt-1.5 flex items-center gap-1.5 text-[13px] font-medium text-danger"
     >
       <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
       {message}
@@ -72,7 +72,7 @@ export function ContactForm() {
       "aria-invalid": error ? true : undefined,
       "aria-describedby": error ? `contact-${field}-error` : undefined,
       className: `${inputClassName} ${
-        error ? "border-[#9b2c2c]" : "border-black/15"
+        error ? "border-danger" : "border-black/15"
       }`,
       onBlur: (event: { currentTarget: { value: string } }) => {
         const value = event.currentTarget.value;
@@ -159,16 +159,16 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="border border-[#166534]/25 bg-[#166534]/10 p-8 text-center"
+        className="border border-success/25 bg-success/10 p-8 text-center"
       >
         <CheckCircle2
-          className="mx-auto size-10 text-[#166534]"
+          className="mx-auto size-10 text-success"
           aria-hidden="true"
         />
         <h3 className="mt-4 text-xl font-semibold text-[#14532d]">
           Đã gửi yêu cầu thành công
         </h3>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#1d2428]">
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink-soft">
           Cảm ơn bạn đã liên hệ. Thiên Đức sẽ phản hồi trong vòng 24 giờ làm
           việc qua số điện thoại hoặc email bạn cung cấp.
         </p>
@@ -179,7 +179,7 @@ export function ContactForm() {
             setFieldErrors({});
             setSubmitError(null);
           }}
-          className="button-polish mt-6 inline-flex h-11 items-center border border-[#B06613]/40 bg-white px-5 text-sm font-semibold text-[#7f4b0d] transition hover:border-[#B06613] hover:bg-[#fff8ea]"
+          className="button-polish mt-6 inline-flex h-11 items-center border border-brand/40 bg-white px-5 text-sm font-semibold text-brand-dark transition hover:border-brand hover:bg-cream"
         >
           Gửi yêu cầu khác
         </button>
@@ -200,7 +200,7 @@ export function ContactForm() {
         <div>
           <label htmlFor="contact-name" className={labelClassName}>
             {contactFormCopy.fields.name}
-            <span className="text-[#B06613]"> *</span>
+            <span className="text-brand"> *</span>
           </label>
           <input
             id="contact-name"
@@ -216,7 +216,7 @@ export function ContactForm() {
         <div>
           <label htmlFor="contact-phone" className={labelClassName}>
             {contactFormCopy.fields.phone}
-            <span className="text-[#B06613]"> *</span>
+            <span className="text-brand"> *</span>
           </label>
           <input
             id="contact-phone"
@@ -249,7 +249,7 @@ export function ContactForm() {
       <div>
         <label htmlFor="contact-inquiry" className={labelClassName}>
           {contactFormCopy.fields.inquiry}
-          <span className="text-[#B06613]"> *</span>
+          <span className="text-brand"> *</span>
         </label>
         <select
           id="contact-inquiry"
@@ -273,7 +273,7 @@ export function ContactForm() {
       <div>
         <label htmlFor="contact-message" className={labelClassName}>
           {contactFormCopy.fields.message}
-          <span className="text-[#B06613]"> *</span>
+          <span className="text-brand"> *</span>
         </label>
         <textarea
           id="contact-message"
@@ -305,19 +305,19 @@ export function ContactForm() {
           className={`border px-4 py-3 text-sm font-medium ${
             submitError.kind === "rate-limit"
               ? "border-[#b45309]/30 bg-[#fef3c7] text-[#92400e]"
-              : "border-[#9b2c2c]/30 bg-[#9b2c2c]/8 text-[#9b2c2c]"
+              : "border-danger/30 bg-danger/8 text-danger"
           }`}
         >
           {submitError.message}
         </p>
       ) : null}
 
-      <p className="text-sm leading-6 text-[#59646a]">{contactFormCopy.note}</p>
+      <p className="text-sm leading-6 text-slate">{contactFormCopy.note}</p>
 
       <button
         type="submit"
         disabled={submitting}
-        className="button-polish inline-flex h-11 w-full min-w-44 items-center justify-center gap-2 bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-[#B06613] sm:w-auto"
+        className="button-polish inline-flex h-11 w-full min-w-44 items-center justify-center gap-2 bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-brand sm:w-auto"
       >
         {submitting ? (
           <>

@@ -72,15 +72,15 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                 aria-current={active ? "page" : undefined}
                 className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
                   active
-                    ? "border-[#B06613] bg-[#B06613] text-white"
-                    : "border-black/10 bg-white text-[#1d2428] hover:border-[#B06613] hover:text-[#B06613]"
+                    ? "border-brand bg-brand text-white"
+                    : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
                 }`}
               >
                 {active ? (
                   <Check className="size-4 shrink-0" aria-hidden="true" />
                 ) : null}
                 {filter.label}
-                <span className={active ? "text-white/80" : "text-[#59646a]"}>
+                <span className={active ? "text-white/80" : "text-slate"}>
                   ({count})
                 </span>
               </Link>
@@ -102,7 +102,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               <Link
                 key={project.slug}
                 href={`${routes.projects}/${project.slug}`}
-                className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-[#B06613] ${
+                className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-brand ${
                   filteredProjects.length === 1
                     ? "reveal-sides-pair md:grid md:grid-cols-[1.08fr_0.92fr]"
                     : ""
@@ -110,7 +110,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               >
                 {project.image ? (
                   <div
-                    className={`image-reveal relative overflow-hidden bg-[#f2f2f2] ${
+                    className={`image-reveal relative overflow-hidden bg-surface ${
                       filteredProjects.length === 1
                         ? "reveal-from-left aspect-[16/10] md:aspect-auto md:min-h-80"
                         : "aspect-[3/2]"
@@ -130,10 +130,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                     filteredProjects.length === 1 ? "reveal-from-right" : ""
                   }`}
                 >
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                     {project.location ? <span>{project.location}</span> : null}
                     {project.location ? (
-                      <span className="h-1 w-1 rounded-full bg-[#fdcd04]" />
+                      <span className="h-1 w-1 rounded-full bg-gold" />
                     ) : null}
                     <span>{projectStatusLabels[project.status]}</span>
                   </div>
@@ -141,14 +141,14 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                     {project.title}
                   </h2>
                   {project.category ? (
-                    <p className="mt-2 text-sm font-semibold text-[#59646a]">
+                    <p className="mt-2 text-sm font-semibold text-slate">
                       {project.category}
                     </p>
                   ) : null}
-                  <p className="mt-4 text-sm leading-6 text-[#59646a]">
+                  <p className="mt-4 text-sm leading-6 text-slate">
                     {project.summary}
                   </p>
-                  <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-[#B06613] group-hover:text-[#B06613]">
+                  <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
                     Xem chi tiết
                   </span>
                 </div>
@@ -158,13 +158,13 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
         ) : (
           <div className="reveal-section border border-black/10 bg-white p-8 text-center">
             <h2 className="text-2xl font-semibold">Chưa có dự án phù hợp</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#59646a]">
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate">
               Hiện chưa có dự án trong nhóm trạng thái này. Bạn có thể quay lại
               danh sách tất cả dự án để xem các thông tin đang có.
             </p>
             <Link
               href={routes.projects}
-              className="button-polish mt-6 inline-flex h-11 items-center bg-[#B06613] px-5 text-sm font-semibold text-white transition hover:bg-[#7f4b0d]"
+              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
             >
               Xem tất cả dự án
             </Link>
@@ -173,9 +173,9 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="reveal-sides-pair grid gap-6 bg-[#c99248] p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+        <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div className="reveal-from-left">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#fdcd04]">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
               Thông tin dự án
             </p>
             <h2 className="text-3xl font-semibold leading-tight">
@@ -188,7 +188,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           </div>
           <Link
             href={routes.contact}
-            className="button-polish reveal-from-right inline-flex h-11 items-center justify-center self-start bg-[#fdcd04] px-5 text-sm font-semibold text-[#191919] transition hover:bg-white md:self-center"
+            className="button-polish reveal-from-right inline-flex h-11 items-center justify-center self-start bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white md:self-center"
           >
             Liên hệ tư vấn
           </Link>

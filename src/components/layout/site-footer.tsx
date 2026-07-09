@@ -10,14 +10,14 @@ const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
-  "text-sm text-white/80 transition hover:text-[#fdcd04] hover:translate-x-0.5";
+  "text-sm text-white/80 transition hover:text-gold hover:translate-x-0.5";
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-[#B06613]/25 bg-[#7f4b0d] text-white">
-      <div className="bg-[#c99248]">
+    <footer className="mt-auto border-t border-brand/25 bg-brand-dark text-white">
+      <div className="bg-brand-soft">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.15fr_repeat(3,minmax(0,1fr))] lg:gap-8 lg:py-14">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
@@ -37,14 +37,14 @@ export function SiteFooter() {
             <p className="mt-3 max-w-sm text-sm leading-6 text-white/80">
               {footerBrand.tagline}
             </p>
-            <p className="mt-4 border-l-4 border-[#fdcd04] pl-4 text-sm font-medium italic text-[#fff4cf]">
+            <p className="mt-4 border-l-4 border-gold pl-4 text-sm font-medium italic text-gold-soft">
               {footerBrand.motto}
             </p>
           </div>
 
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#fdcd04]">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
                 {section.title}
               </h2>
               <ul className="mt-5 space-y-3">
@@ -60,10 +60,10 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="border-t border-[#B06613]/20">
+        <div className="border-t border-brand/20">
           <div className="mx-auto grid max-w-7xl gap-4 px-6 py-8 md:grid-cols-3">
             <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
-              <Phone className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
                   Điện thoại
@@ -74,7 +74,7 @@ export function SiteFooter() {
               </span>
             </a>
             <a href={emailHref} className={`${footerLinkClassName} flex items-start gap-3`}>
-              <Mail className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <Mail className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
                   Email
@@ -90,7 +90,7 @@ export function SiteFooter() {
               rel="noreferrer"
               className={`${footerLinkClassName} flex items-start gap-3`}
             >
-              <MapPin className="mt-0.5 size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
                   Trụ sở
@@ -110,7 +110,7 @@ export function SiteFooter() {
         </p>
         <Link
           href={routes.contact}
-          className="font-semibold text-[#fdcd04] transition hover:text-white"
+          className="font-semibold text-gold transition hover:text-white"
         >
           Liên hệ tư vấn →
         </Link>

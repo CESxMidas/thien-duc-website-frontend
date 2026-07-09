@@ -25,7 +25,7 @@ const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.add
 const DROPDOWN_CLOSE_DELAY_MS = 150;
 
 const topStripLinkClassName =
-  "inline-flex min-w-0 items-center gap-2 text-white/90 transition hover:text-[#fdcd04]";
+  "inline-flex min-w-0 items-center gap-2 text-white/90 transition hover:text-gold";
 
 function isActive(pathname: string, item: NavItem) {
   if (item.href === "/") {
@@ -53,7 +53,7 @@ function groupChildren(children: NavItem[]) {
 
 function HeaderTopStrip() {
   return (
-    <div className="border-b border-[#B06613]/25 bg-[#c99248]">
+    <div className="border-b border-brand/25 bg-brand-soft">
       <div className="mx-auto max-w-7xl px-4 py-2.5 md:px-6 md:py-3">
         <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <a
@@ -64,7 +64,7 @@ function HeaderTopStrip() {
             className={`${topStripLinkClassName} order-2 text-center text-xs leading-5 sm:text-sm lg:order-1 lg:flex-1 lg:text-left`}
           >
             <MapPin
-              className="mx-auto size-4 shrink-0 text-[#fdcd04] lg:mx-0"
+              className="mx-auto size-4 shrink-0 text-gold lg:mx-0"
               aria-hidden="true"
             />
             <span className="line-clamp-2 lg:line-clamp-1">{siteConfig.address}</span>
@@ -72,7 +72,7 @@ function HeaderTopStrip() {
 
           <div className="order-1 flex items-center justify-center gap-3 sm:gap-4 lg:order-2 lg:shrink-0">
             <a href={phoneHref} className={`${topStripLinkClassName} font-semibold`}>
-              <Phone className="size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <Phone className="size-4 shrink-0 text-gold" aria-hidden="true" />
               <span className="whitespace-nowrap">{siteConfig.phone}</span>
             </a>
 
@@ -85,7 +85,7 @@ function HeaderTopStrip() {
               href={emailHref}
               className={`${topStripLinkClassName} max-w-44 min-[400px]:max-w-none`}
             >
-              <Mail className="size-4 shrink-0 text-[#fdcd04]" aria-hidden="true" />
+              <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
               <span className="truncate sm:whitespace-nowrap">{siteConfig.email}</span>
             </a>
           </div>
@@ -146,11 +146,11 @@ export function SiteHeader() {
   return (
     <header
       id="site-header"
-      className="relative z-40 bg-white text-[#191919] shadow-md"
+      className="relative z-40 bg-white text-ink shadow-md"
     >
       <HeaderTopStrip />
 
-      <div className="border-b-[3px] border-[#fdcd04] bg-[linear-gradient(180deg,#ffffff_0%,#fff8ea_100%)]">
+      <div className="border-b-[3px] border-gold bg-[linear-gradient(180deg,#ffffff_0%,#fff8ea_100%)]">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
           <Link
             href="/"
@@ -168,7 +168,7 @@ export function SiteHeader() {
           </Link>
 
           <nav
-            className="hidden h-full min-w-0 flex-1 items-center justify-between border-l border-[#B06613]/15 lg:flex"
+            className="hidden h-full min-w-0 flex-1 items-center justify-between border-l border-brand/15 lg:flex"
             onKeyDown={(event) => {
               if (event.key === "Escape" && openDropdown) {
                 setOpenDropdown(null);
@@ -200,8 +200,8 @@ export function SiteHeader() {
                     aria-expanded={hasChildren ? dropdownOpen : undefined}
                     className={`nav-link-polish inline-flex h-16 items-center gap-1 whitespace-nowrap border-b-[3px] px-2 text-[13px] font-bold uppercase tracking-[0.02em] xl:px-2.5 xl:text-sm md:h-18 ${
                       active
-                        ? "border-[#B06613] text-[#B06613]"
-                        : "border-transparent text-[#191919] hover:border-[#B06613]/40 hover:text-[#7f4b0d]"
+                        ? "border-brand text-brand"
+                        : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
                     }`}
                   >
                     {item.label}
@@ -217,7 +217,7 @@ export function SiteHeader() {
 
                   {item.children ? (
                     <div
-                      className={`absolute left-0 top-full z-50 min-w-72 bg-[#B06613] shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-[opacity,visibility] duration-200 ease-out ${
+                      className={`absolute left-0 top-full z-50 min-w-72 bg-brand shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-[opacity,visibility] duration-200 ease-out ${
                         dropdownOpen
                           ? "visible opacity-100"
                           : "invisible opacity-0"
@@ -228,7 +228,7 @@ export function SiteHeader() {
                           key={group.heading ?? `group-${groupIndex}`}
                           className={
                             groupIndex > 0
-                              ? "border-t border-[#7f4b0d]/40"
+                              ? "border-t border-brand-dark/40"
                               : undefined
                           }
                         >
@@ -242,7 +242,7 @@ export function SiteHeader() {
                               key={child.href}
                               href={child.href}
                               onClick={() => setOpenDropdown(null)}
-                              className="nav-dropdown-item block border-b border-[#7f4b0d]/30 px-7 py-3.5 text-sm font-bold uppercase text-white last:border-b-0 hover:bg-[#7f4b0d]"
+                              className="nav-dropdown-item block border-b border-brand-dark/30 px-7 py-3.5 text-sm font-bold uppercase text-white last:border-b-0 hover:bg-brand-dark"
                             >
                               {child.label}
                             </Link>
@@ -265,12 +265,12 @@ export function SiteHeader() {
               name="q"
               type="search"
               placeholder="Tìm tin tức..."
-              className="h-10 w-36 border border-[#B06613]/30 bg-white px-3 text-sm text-[#191919] outline-none transition placeholder:text-[#59646a] focus:border-[#B06613] xl:w-44"
+              className="h-10 w-36 border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand xl:w-44"
             />
             <button
               type="submit"
               aria-label="Tìm kiếm tin tức"
-              className="button-polish grid h-10 w-10 place-items-center bg-[#B06613] text-white hover:bg-[#7f4b0d]"
+              className="button-polish grid h-10 w-10 place-items-center bg-brand text-white hover:bg-brand-dark"
             >
               <Search className="size-4" />
             </button>
@@ -281,7 +281,7 @@ export function SiteHeader() {
             aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((value) => !value)}
-            className="grid size-10 place-items-center border-2 border-[#B06613]/35 text-[#7f4b0d] lg:hidden"
+            className="grid size-10 place-items-center border-2 border-brand/35 text-brand-dark lg:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -297,7 +297,7 @@ export function SiteHeader() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className="flex min-h-11 items-center justify-between border-b border-[#B06613]/15 text-sm font-bold uppercase text-[#191919]"
+                      className="flex min-h-11 items-center justify-between border-b border-brand/15 text-sm font-bold uppercase text-ink"
                     >
                       {item.label}
                     </Link>
@@ -314,22 +314,22 @@ export function SiteHeader() {
                       onClick={() =>
                         setMobileExpanded(expanded ? null : item.href)
                       }
-                      className="flex min-h-11 w-full items-center justify-between border-b border-[#B06613]/15 text-left text-sm font-bold uppercase text-[#191919]"
+                      className="flex min-h-11 w-full items-center justify-between border-b border-brand/15 text-left text-sm font-bold uppercase text-ink"
                     >
                       {item.label}
                       <ChevronDown
                         aria-hidden="true"
-                        className={`size-4 shrink-0 text-[#7f4b0d] transition-transform duration-200 ${
+                        className={`size-4 shrink-0 text-brand-dark transition-transform duration-200 ${
                           expanded ? "rotate-180" : ""
                         }`}
                       />
                     </button>
                     {expanded ? (
-                      <div className="grid border-b border-[#B06613]/15 bg-[#fff4cf]">
+                      <div className="grid border-b border-brand/15 bg-gold-soft">
                         <Link
                           href={item.href}
                           onClick={() => setMenuOpen(false)}
-                          className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-[#B06613]"
+                          className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
                         >
                           {item.overviewLabel ?? item.label}
                         </Link>
@@ -338,7 +338,7 @@ export function SiteHeader() {
                             key={child.href}
                             href={child.href}
                             onClick={() => setMenuOpen(false)}
-                            className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-[#B06613]"
+                            className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
                           >
                             {child.label}
                           </Link>
@@ -354,12 +354,12 @@ export function SiteHeader() {
                 name="q"
                 type="search"
                 placeholder="Tìm tin tức..."
-                className="h-11 min-w-0 flex-1 border border-[#B06613]/30 px-4 text-sm text-[#191919] outline-none focus:border-[#B06613]"
+                className="h-11 min-w-0 flex-1 border border-brand/30 px-4 text-sm text-ink outline-none focus:border-brand"
               />
               <button
                 type="submit"
                 aria-label="Tìm kiếm tin tức"
-                className="grid h-11 w-12 place-items-center bg-[#B06613] text-white"
+                className="grid h-11 w-12 place-items-center bg-brand text-white"
               >
                 <Search className="size-5" />
               </button>

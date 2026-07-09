@@ -22,7 +22,7 @@ export function HomeFeaturedProjects() {
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-[#B06613]">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
               Dự án tiêu biểu
             </p>
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
@@ -31,7 +31,7 @@ export function HomeFeaturedProjects() {
           </div>
           <Link
             href="/du-an"
-            className="button-polish inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-[#B06613] hover:text-[#B06613] md:self-auto"
+            className="button-polish inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-brand hover:text-brand md:self-auto"
           >
             Xem tất cả dự án
           </Link>
@@ -53,14 +53,14 @@ export function HomeFeaturedProjects() {
               <Link
                 key={project.slug}
                 href={`/du-an/${project.slug}`}
-                className={`hover-card group overflow-hidden border border-black/10 bg-[#f6f3ee] hover:border-[#B06613] ${
+                className={`hover-card group overflow-hidden border border-black/10 bg-surface-warm hover:border-brand ${
                   singleProject
                     ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch"
                     : ""
                 }`}
               >
                 <div
-                  className={`image-reveal relative overflow-hidden bg-[#f2f2f2] ${
+                  className={`image-reveal relative overflow-hidden bg-surface ${
                     singleProject
                       ? "aspect-[16/10] md:aspect-auto md:min-h-80"
                       : "aspect-[4/3]"
@@ -77,15 +77,15 @@ export function HomeFeaturedProjects() {
                   ) : null}
                 </div>
                 <div className="p-5">
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                  <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                     <span>{display.location}</span>
-                    <span className="h-1 w-1 rounded-full bg-[#fdcd04]" />
+                    <span className="h-1 w-1 rounded-full bg-gold" />
                     <span>{projectStatusLabels[project.status]}</span>
                   </div>
                   <h3 className="mt-3 text-xl font-semibold">
                     {display.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-[#59646a]">
+                  <p className="mt-3 text-sm leading-6 text-slate">
                     {display.summary}
                   </p>
                 </div>

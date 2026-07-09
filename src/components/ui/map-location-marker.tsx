@@ -13,7 +13,7 @@ function RippleRing({ delay }: { delay: string }) {
   return (
     <span
       aria-hidden="true"
-      className="pointer-events-none absolute left-1/2 top-1/2 size-6 rounded-full border border-[#fdcd04] bg-[#fdcd04]/45"
+      className="pointer-events-none absolute left-1/2 top-1/2 size-6 rounded-full border border-gold bg-gold/45"
       style={{
         animation: "map-ripple 2s ease-out infinite",
         animationDelay: delay,
@@ -43,12 +43,12 @@ export function MapLocationMarker({
         <RippleRing delay="0.66s" />
         <RippleRing delay="1.32s" />
 
-        <span className="absolute left-1/2 top-1/2 z-10 grid size-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[#fdcd04] text-[#191919] shadow-[0_2px_10px_rgba(0,0,0,0.4)] ring-2 ring-white transition group-hover:scale-110">
+        <span className="absolute left-1/2 top-1/2 z-10 grid size-5 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-gold text-ink shadow-[0_2px_10px_rgba(0,0,0,0.4)] ring-2 ring-white transition group-hover:scale-110">
           <MapPin className="size-3" strokeWidth={2.5} aria-hidden="true" />
         </span>
       </span>
 
-      <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#c99248] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-[#fdcd04] opacity-0 shadow-lg transition group-hover:opacity-100">
+      <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-soft px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-gold opacity-0 shadow-lg transition group-hover:opacity-100">
         Xem chi tiết
       </span>
     </a>

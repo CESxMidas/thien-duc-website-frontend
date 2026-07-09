@@ -50,26 +50,26 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
               className="flex items-center gap-2"
             >
               {index > 0 ? (
-                <span aria-hidden="true" className="text-[#B06613]/40">
+                <span aria-hidden="true" className="text-brand/40">
                   /
                 </span>
               ) : null}
               {item.href && !isLast ? (
                 <Link
                   href={item.href}
-                  className={`text-[#59646a] transition hover:text-[#B06613] ${
+                  className={`text-slate transition hover:text-brand ${
                     collapseOnMobile ? "hidden sm:inline" : ""
                   }`}
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current="page" className="text-[#191919]">
+                <span aria-current="page" className="text-ink">
                   {item.label}
                 </span>
               )}
               {collapseOnMobile ? (
-                <span aria-hidden="true" className="text-[#59646a] sm:hidden">
+                <span aria-hidden="true" className="text-slate sm:hidden">
                   …
                 </span>
               ) : null}

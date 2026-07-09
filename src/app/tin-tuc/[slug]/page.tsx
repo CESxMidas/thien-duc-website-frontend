@@ -64,7 +64,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       {post.image ? (
         <section className="reveal-section mx-auto max-w-7xl px-6 pb-10">
-          <div className="image-reveal relative aspect-[16/9] max-h-[560px] overflow-hidden border border-black/10 bg-[#f2f2f2]">
+          <div className="image-reveal relative aspect-[16/9] max-h-[560px] overflow-hidden border border-black/10 bg-surface">
             <Image
               src={post.image}
               alt={post.title}
@@ -79,7 +79,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[1fr_320px]">
         <article className="hover-card border border-black/10 bg-white p-6 md:p-8">
-          <div className="flex flex-wrap gap-3 text-sm font-medium text-[#59646a]">
+          <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
             {post.category ? <span>{post.category}</span> : null}
             <span>{formatDate(post.publishedAt)}</span>
           </div>
@@ -96,42 +96,42 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
           <dl className="mt-5 grid gap-4 text-sm">
             {post.category ? (
               <div>
-                <dt className="font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   Chuyên mục
                 </dt>
-                <dd className="mt-1 text-[#59646a]">{post.category}</dd>
+                <dd className="mt-1 text-slate">{post.category}</dd>
               </div>
             ) : null}
             <div>
-              <dt className="font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+              <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                 Ngày đăng
               </dt>
-              <dd className="mt-1 text-[#59646a]">
+              <dd className="mt-1 text-slate">
                 {formatDate(post.publishedAt)}
               </dd>
             </div>
             {post.eventDate ? (
               <div>
-                <dt className="font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   Ngày sự kiện
                 </dt>
-                <dd className="mt-1 text-[#59646a]">
+                <dd className="mt-1 text-slate">
                   {formatDate(post.eventDate)}
                 </dd>
               </div>
             ) : null}
             {post.author ? (
               <div>
-                <dt className="font-semibold uppercase tracking-[0.16em] text-[#B06613]">
+                <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   Nguồn
                 </dt>
-                <dd className="mt-1 text-[#59646a]">{post.author}</dd>
+                <dd className="mt-1 text-slate">{post.author}</dd>
               </div>
             ) : null}
           </dl>
           <Link
             href="/tin-tuc"
-            className="button-polish mt-7 inline-flex h-11 w-full items-center justify-center bg-[#B06613] px-5 text-sm font-semibold text-white hover:bg-[#7f4b0d]"
+            className="button-polish mt-7 inline-flex h-11 w-full items-center justify-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             Xem tất cả tin tức
           </Link>
