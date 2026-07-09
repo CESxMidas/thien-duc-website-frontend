@@ -65,7 +65,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
 
       {post.image ? (
         <section className="reveal-section mx-auto max-w-7xl px-6 pb-10">
-          <div className="image-reveal relative aspect-[16/9] max-h-[560px] overflow-hidden border border-black/10 bg-surface">
+          <div className="image-reveal relative aspect-video max-h-140 overflow-hidden border border-black/10 bg-surface">
             <Image
               src={post.image}
               alt={post.title}
