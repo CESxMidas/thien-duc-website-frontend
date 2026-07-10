@@ -100,7 +100,7 @@ function ProjectGallerySlider({
           compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
         }`}
       >
-        <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-gradient-to-b from-gold to-brand transition-transform duration-500 ease-out group-hover:scale-y-100" />
+        <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-linear-to-b from-gold to-brand transition-transform duration-500 ease-out group-hover:scale-y-100" />
         <div className={`flex items-start ${compact ? "gap-3" : "gap-4"}`}>
           <span
             className={`project-gallery-icon grid shrink-0 place-items-center rounded-sm border border-brand/20 bg-white text-brand shadow-sm transition duration-500 group-hover:scale-105 group-hover:border-gold group-hover:bg-gold group-hover:text-ink ${
@@ -141,7 +141,7 @@ function ProjectGallerySlider({
         </div>
       </div>
 
-      <div className="project-gallery-stage relative aspect-[16/10] bg-surface">
+      <div className="project-gallery-stage relative aspect-16/10 bg-surface">
         {images.map((image, slideIndex) => {
           const isActive = slideIndex === activeIndex;
 
@@ -162,7 +162,7 @@ function ProjectGallerySlider({
                     ? "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                     : "(max-width: 1024px) 100vw, 50vw"
                 }
-                className={`object-cover transition duration-[5200ms] ease-out ${
+                className={`object-cover transition duration-5200ms ease-out ${
                   isActive
                     ? isHovered
                       ? "scale-[1.08]"

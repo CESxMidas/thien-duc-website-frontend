@@ -22,7 +22,7 @@ function PartnerPlate({ partner }: { partner: string }) {
     <div className="relative flex aspect-4/3 flex-col justify-center overflow-hidden bg-brand-dark px-6 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(253,205,4,0.16),transparent_42%)]" />
       <Handshake
-        className="absolute -bottom-6 -right-4 size-40 text-white/[0.06]"
+        className="absolute -bottom-6 -right-4 size-40 text-white/6"
         aria-hidden="true"
       />
       <p className="relative text-xs font-semibold uppercase tracking-[0.24em] text-gold">
