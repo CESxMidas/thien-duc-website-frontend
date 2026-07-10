@@ -166,7 +166,9 @@ export const projects: Project[] = [
     category: "Chung cư",
     image:
       "/images/projects/la-bonita/building/la-bonita-building-render-01.jpg",
+    // Gồm cả ảnh bìa — slider thư viện cần ít nhất 2 ảnh mới hiện điều hướng.
     gallery: [
+      "/images/projects/la-bonita/building/la-bonita-building-render-01.jpg",
       "/images/projects/la-bonita/building/la-bonita-building-render-02.jpg",
     ],
     description:
@@ -197,6 +199,7 @@ export const projects: Project[] = [
     category: "Chung cư",
     image: "/images/projects/vung-tau/vung-tau-center-exterior-01.webp",
     gallery: [
+      "/images/projects/vung-tau/vung-tau-center-exterior-01.webp",
       "/images/projects/vung-tau/vung-tau-center-exterior-02.webp",
     ],
     description:

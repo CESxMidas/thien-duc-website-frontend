@@ -50,11 +50,45 @@ export const aboutStats = [
 ];
 
 /**
- * Danh mục dự án tiêu biểu (câu 7). Khác `data/projects.ts`: bảng này gồm cả
- * dự án hợp tác cùng CapitaLand — không nằm trong danh mục dự án đang giới thiệu
- * trên trang `/du-an`, nên không có trang chi tiết riêng.
+ * Danh mục dự án tiêu biểu (câu 7). Khác `data/projects.ts`: danh sách này gồm
+ * cả dự án hợp tác cùng CapitaLand — không nằm trong danh mục đang giới thiệu ở
+ * `/du-an` nên không có trang chi tiết, và **không có ảnh** (ảnh do CapitaLand
+ * giữ bản quyền, xem `thien-duc-website-resources/README.md`). Thẻ nào thiếu
+ * `image` sẽ render dạng chữ thay vì mượn ảnh dự án khác.
  */
-export const aboutPortfolio = [
+export type PortfolioProject = {
+  name: string;
+  location: string;
+  role: string;
+  partner: string;
+  scale: string;
+  status: string;
+  image?: string;
+  /** Có trang chi tiết trên site thì thẻ thành liên kết. */
+  href?: string;
+};
+
+export const aboutPortfolio: PortfolioProject[] = [
+  {
+    name: "Khu đô thị Hưng Phú",
+    location: "Bến Tre",
+    role: "Chủ đầu tư duy nhất",
+    partner: "UBND tỉnh Bến Tre",
+    scale: "Biệt thự, nhà liên kế, tòa nhà Liên Sở và hạ tầng đô thị",
+    status: "Đã bàn giao hạ tầng, tiếp tục hoàn thiện",
+    image: "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg",
+    href: "/du-an/khu-do-thi-hung-phu",
+  },
+  {
+    name: "Chung cư Fancy Tower",
+    location: "Bến Tre",
+    role: "Chủ đầu tư",
+    partner: "Thuộc Khu đô thị Hưng Phú",
+    scale: "Chung cư cao tầng đầu tiên tại khu vực",
+    status: "Đã hoàn thiện",
+    image: "/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg",
+    href: "/du-an/khu-do-thi-hung-phu/fancy-tower",
+  },
   {
     name: "Vista Verde",
     location: "Quận 2, TP.HCM",
@@ -70,22 +104,6 @@ export const aboutPortfolio = [
     partner: "CapitaLand (Singapore)",
     scale: "4 tòa tháp cao cấp",
     status: "Đã bàn giao",
-  },
-  {
-    name: "Khu đô thị Hưng Phú",
-    location: "Bến Tre",
-    role: "Chủ đầu tư duy nhất",
-    partner: "UBND tỉnh Bến Tre",
-    scale: "Biệt thự, nhà liên kế, tòa nhà Liên Sở và hạ tầng đô thị",
-    status: "Đã bàn giao hạ tầng, tiếp tục hoàn thiện",
-  },
-  {
-    name: "Chung cư Fancy Tower",
-    location: "Bến Tre",
-    role: "Chủ đầu tư",
-    partner: "Thuộc Khu đô thị Hưng Phú",
-    scale: "Chung cư cao tầng đầu tiên tại khu vực",
-    status: "Đã hoàn thiện",
   },
 ];
 

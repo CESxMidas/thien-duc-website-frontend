@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Handshake, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
+import { AboutPortfolio } from "@/components/sections/about-portfolio";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { PageHeading } from "@/components/ui/page-heading";
 import {
@@ -176,40 +177,11 @@ export default async function AboutPage({
             Dự án tiêu biểu
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Danh mục dự án đã bàn giao và đang triển khai
+            Dự án đã bàn giao và đang triển khai
           </h2>
         </div>
 
-        {/* Bảng cuộn ngang trong khung riêng — không để tràn ra body trên mobile. */}
-        <div className="mt-10 overflow-x-auto border border-black/10 bg-white">
-          <table className="w-full min-w-208 border-collapse text-left text-sm">
-            <thead className="bg-surface-warm text-xs uppercase tracking-[0.14em] text-brand">
-              <tr>
-                <th scope="col" className="px-5 py-4 font-semibold">Dự án</th>
-                <th scope="col" className="px-5 py-4 font-semibold">Vai trò</th>
-                <th scope="col" className="px-5 py-4 font-semibold">Đối tác</th>
-                <th scope="col" className="px-5 py-4 font-semibold">Quy mô</th>
-                <th scope="col" className="px-5 py-4 font-semibold">Trạng thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              {aboutPortfolio.map((project) => (
-                <tr key={project.name} className="border-t border-black/10">
-                  <th scope="row" className="px-5 py-4 font-semibold text-ink">
-                    {project.name}
-                    <span className="mt-1 block text-xs font-normal text-slate">
-                      {project.location}
-                    </span>
-                  </th>
-                  <td className="px-5 py-4 leading-6 text-slate">{project.role}</td>
-                  <td className="px-5 py-4 leading-6 text-slate">{project.partner}</td>
-                  <td className="px-5 py-4 leading-6 text-slate">{project.scale}</td>
-                  <td className="px-5 py-4 leading-6 text-slate">{project.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <AboutPortfolio projects={aboutPortfolio} locale={locale} />
       </section>
 
       <section className="reveal-section mx-auto max-w-7xl px-6 py-14">

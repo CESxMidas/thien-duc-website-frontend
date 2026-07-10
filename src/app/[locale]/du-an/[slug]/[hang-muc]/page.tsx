@@ -206,30 +206,22 @@ export default async function ProjectItemPage({
         ) : gallery.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-6">
-              <div className="reveal-from-left">
+              <div className="reveal-from-left mb-8">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
                   Hình ảnh hạng mục
                 </p>
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  Một số hình ảnh của {item.title}
+                  Thư viện ảnh {item.title}
                 </h2>
               </div>
-              <div className="stagger-sides mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {gallery.map((image, index) => (
-                  <div
-                    key={image}
-                    className="image-reveal hover-card relative aspect-4/3 overflow-hidden border border-brand/18 bg-surface shadow-[0_12px_28px_rgba(127,75,13,0.1)]"
-                  >
-                    <Image
-                      src={image}
-                      alt={`${item.title} - hình ảnh ${index + 1}`}
-                      fill
-                      sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+
+              {/* Dùng chung slider với dự án có hạng mục — không dựng thêm một
+                  cách hiển thị ảnh thứ hai phải bảo trì song song. */}
+              <ProjectGallerySections
+                sections={[{ title: item.title, images: gallery }]}
+                projectTitle={item.title}
+                sectionLabel="Thư viện"
+              />
             </div>
           </section>
         ) : null}

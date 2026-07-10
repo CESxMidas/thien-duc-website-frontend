@@ -15,6 +15,11 @@ const sectionIcons: Record<string, typeof Hotel> = {
 type ProjectGallerySectionsProps = {
   sections: ProjectGallerySection[];
   projectTitle: string;
+  /**
+   * Nhãn đứng trên tiêu đề mỗi khối. Mặc định "Hạng mục" cho dự án có hạng mục
+   * con; dự án chỉ có một thư viện ảnh chung thì truyền nhãn khác.
+   */
+  sectionLabel?: string;
 };
 
 function getGalleryGridClass(sectionCount: number) {
@@ -38,11 +43,16 @@ function ProjectGallerySlider({
   projectTitle,
   sectionIndex,
   compact,
+  sectionLabel,
+  showIndex,
 }: {
   section: ProjectGallerySection;
   projectTitle: string;
   sectionIndex: number;
   compact: boolean;
+  sectionLabel: string;
+  /** Chỉ đánh số khi có nhiều khối — "Thư viện 01" đứng một mình là vô nghĩa. */
+  showIndex: boolean;
 }) {
   const images = section.images;
   const imageCount = images.length;
@@ -102,7 +112,8 @@ function ProjectGallerySlider({
           <div className="min-w-0 flex-1">
             {!compact ? (
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand transition duration-300 group-hover:tracking-[0.24em]">
-                Hạng mục {String(sectionIndex + 1).padStart(2, "0")}
+                {sectionLabel}
+                {showIndex ? ` ${String(sectionIndex + 1).padStart(2, "0")}` : ""}
               </p>
             ) : null}
             <h3
@@ -256,6 +267,7 @@ function ProjectGallerySlider({
 export function ProjectGallerySections({
   sections,
   projectTitle,
+  sectionLabel = "Hạng mục",
 }: ProjectGallerySectionsProps) {
   const visibleSections = sections.filter((section) => section.images.length > 0);
   const sectionCount = visibleSections.length;
@@ -276,6 +288,8 @@ export function ProjectGallerySections({
           projectTitle={projectTitle}
           sectionIndex={sectionIndex}
           compact={compact}
+          sectionLabel={sectionLabel}
+          showIndex={sectionCount > 1}
         />
       ))}
     </div>
