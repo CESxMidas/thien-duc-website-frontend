@@ -9,6 +9,8 @@ import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectItemsCarousel } from "@/components/sections/project-items-carousel";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
+import { ProjectMapEmbed } from "@/components/sections/project-map-embed";
+import { ProjectPhotoStrip } from "@/components/sections/project-photo-strip";
 import { getProjectBySlug, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -18,7 +20,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 function ProjectFactCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
+    <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
       <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
         {label}
       </dt>
@@ -99,6 +101,19 @@ export default async function ProjectDetailPage({
   const overviewHighlights = project.highlights ?? [];
   const items = project.items ?? [];
 
+  // Hưng Phú dùng bản đồ minh hoạ (`mapLocation`); các dự án khác nhúng Google
+  // Maps nếu suy ra được địa chỉ (ưu tiên quickFact "Địa chỉ", không thì
+  // "tên dự án + địa danh"). Có bản đồ thì ảnh dự án hiện trong khối bản đồ,
+  // không lặp lại ở hero phía trên.
+  const addressFact = (project.quickFacts ?? []).find((fact) =>
+    /địa chỉ/i.test(fact.label),
+  );
+  const mapQuery =
+    addressFact?.value ??
+    (project.location ? `${project.title} ${project.location}` : undefined);
+  const hasEmbedMap = !project.mapLocation && Boolean(mapQuery);
+  const hasMap = Boolean(project.mapLocation) || hasEmbedMap;
+
   return (
     <SiteShell locale={locale}>
       <div className="projects-motion">
@@ -117,7 +132,7 @@ export default async function ProjectDetailPage({
           />
         </section>
 
-        {project.image && !project.mapLocation ? (
+        {project.image && !hasMap ? (
           <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
             <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
               <Image
@@ -142,12 +157,15 @@ export default async function ProjectDetailPage({
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                 Thông số chính của dự án
               </h2>
-              <dl className="mt-6 grid gap-4 sm:grid-cols-2">
+              {/* `flex-1 auto-rows-fr` để lưới thông số giãn đều lấp hết chiều
+                  cao panel — hai cột luôn bằng nhau mà không để lại khoảng
+                  trống thừa ở đáy cột trái. */}
+              <dl className="mt-6 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
                 <ProjectFactCell
                   label="Vị trí"
                   value={project.location ?? "Đang cập nhật"}
                 />
-                <div className="rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
+                <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
                     Trạng thái
                   </dt>
@@ -203,6 +221,12 @@ export default async function ProjectDetailPage({
             title={project.title}
             aerialImage={project.image}
           />
+        ) : hasEmbedMap && mapQuery ? (
+          <ProjectMapEmbed
+            query={mapQuery}
+            title={project.title}
+            aerialImage={project.image}
+          />
         ) : null}
 
         {items.length > 0 ? (
@@ -239,13 +263,18 @@ export default async function ProjectDetailPage({
         ) : gallery.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-6">
-              {/* Dự án không chia hạng mục: slider ảnh chạy tự động, bỏ tiêu đề
-                  khối và đầu thẻ vì tên dự án đã nằm ở tiêu đề trang. */}
-              <ProjectGallerySections
-                sections={[{ title: project.title, images: gallery }]}
-                projectTitle={project.title}
-                hideHeader
-              />
+              <div className="reveal-from-left mb-8">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+                  Hình ảnh dự án
+                </p>
+                <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
+                  Không gian & tiện ích
+                </h2>
+              </div>
+              {/* Dự án không chia hạng mục: xếp ảnh thành hàng (tối đa 3) và tự
+                  trượt khi đủ ảnh — song song với carousel hạng mục của dự án
+                  có hạng mục, để bố cục giữa các dự án đồng nhất. */}
+              <ProjectPhotoStrip images={gallery} title={project.title} />
             </div>
           </section>
         ) : null}

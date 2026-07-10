@@ -34,3 +34,22 @@ Cập nhật 2026-07-11 — sau đợt tinh chỉnh UI/UX phần dự án:
   thì panel thông tin chiếm `lg:col-span-2`.
 - Mọi slider tự chạy tôn trọng `prefers-reduced-motion` (tắt autoplay) và tạm
   dừng khi hover/focus. Autoplay chạy bằng CSS `banner-progress` + `onAnimationEnd`.
+
+Bổ sung 2026-07-11 (đồng nhất bố cục mọi dự án, lấy Hưng Phú làm chuẩn):
+
+- **Bản đồ vị trí**: dự án có `mapLocation` (ảnh minh hoạ vẽ tay + nhãn) dùng
+  `ProjectLocationMap`; dự án **không** có thì dùng `ProjectMapEmbed` (nhúng
+  Google Maps `output=embed`, không cần API key). Chuỗi địa chỉ suy ra từ
+  quickFact có nhãn khớp `/địa chỉ/i`, không thì `"{title} {location}"`. **Có
+  bản đồ (bất kỳ loại nào) thì ẩn ảnh hero trên cùng** — ảnh dự án hiện trong
+  khối bản đồ (cột trái), tránh lặp. Không suy được địa chỉ → không render map
+  (không để khối trống).
+- **Cân hai panel Thông tin nhanh / Tổng quan**: cột trái `<dl>` dùng
+  `flex-1 auto-rows-fr` + ô `flex flex-col justify-center` để giãn đều lấp hết
+  chiều cao, **không để khoảng trống thừa ở đáy**. Cột phải `line-clamp` mô tả
+  (6/3 dòng) để không cao vống hơn cột trái.
+- **Thư viện ảnh dự án không hạng mục**: dùng `ProjectPhotoStrip` — xếp ảnh
+  thành hàng tối đa 3 ảnh, tự trượt (scroll-snap) khi có > 3 ảnh, ít ảnh thì
+  hiện lưới tĩnh. Đây là khối song song với carousel hạng mục để bố cục giữa các
+  dự án đồng nhất. **Cần ≥ 4 ảnh thật thì mới thấy hiệu ứng trượt** — hiện mock
+  chỉ 1–2 ảnh/dự án nên đang hiện hàng tĩnh.
