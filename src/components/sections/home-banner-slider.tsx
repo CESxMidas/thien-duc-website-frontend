@@ -161,7 +161,7 @@ export function HomeBannerSlider({
                 preload={index === 0}
                 loading={index === 0 ? undefined : "lazy"}
                 sizes="100vw"
-                className={`object-cover transition duration-[7200ms] ease-out ${
+                className={`object-cover transition duration-7200 ease-out ${
                   isActive && !reducedMotion ? "scale-105" : "scale-100"
                 }`}
                 style={{ objectPosition: banner.objectPosition ?? "center center" }}
