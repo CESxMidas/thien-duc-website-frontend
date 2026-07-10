@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle2, MapPin } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
+import { ProjectItemsCarousel } from "@/components/sections/project-items-carousel";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
 import { getProjectBySlug, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
@@ -178,38 +179,20 @@ export default async function ProjectDetailPage({
                 {project.mapLocation?.heading ??
                   "Định hướng phát triển và thông tin tổng quan"}
               </h2>
-              <p className="mt-5 text-base leading-7 text-slate">
+              {/* Địa chỉ + nút Google Maps cố ý bỏ ở đây: khối bản đồ ngay dưới
+                  đã có đủ địa chỉ và nút chỉ đường, nhắc lại là thừa và làm cột
+                  này dài hơn hẳn cột bên trái. */}
+              <p className="mt-5 line-clamp-6 text-base leading-7 text-slate">
                 {project.description ??
                   "Thông tin tổng quan của dự án đang được cập nhật theo tài liệu được duyệt."}
               </p>
               {project.mapLocation?.description ? (
-                <p className="mt-4 text-base leading-7 text-slate">
+                <p className="mt-4 line-clamp-3 text-base leading-7 text-slate">
                   {project.mapLocation.description}
                 </p>
               ) : null}
 
               <ProjectOverviewHighlights highlights={overviewHighlights} />
-
-              {project.mapLocation ? (
-                <div className="mt-6 flex flex-col gap-4 rounded-sm border border-brand/12 bg-gold-soft/45 p-4 sm:flex-row sm:items-center sm:justify-between">
-                  {project.mapLocation.address ? (
-                    <p className="inline-flex items-center gap-2 text-sm font-medium text-ink">
-                      <MapPin className="size-4 shrink-0 text-brand" />
-                      <span>{project.mapLocation.address}</span>
-                    </p>
-                  ) : (
-                    <span />
-                  )}
-                  <a
-                    href={project.mapLocation.googleMapsUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="button-polish inline-flex h-11 shrink-0 items-center justify-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-brand-dark hover:text-gold"
-                  >
-                    Xem trên Google Maps
-                  </a>
-                </div>
-              ) : null}
             </article>
           </div>
         </section>
@@ -225,7 +208,7 @@ export default async function ProjectDetailPage({
         {items.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-6">
-              <div className="reveal-from-left">
+              <div className="reveal-from-left mb-8">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
                   Hạng mục trong dự án
                 </p>
@@ -234,51 +217,17 @@ export default async function ProjectDetailPage({
                 </h2>
               </div>
 
-              <div className="stagger-sides mt-8 grid gap-5 md:grid-cols-3">
-                {items.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={localizePath(
-                      `${routes.projects}/${project.slug}/${item.slug}`,
-                      locale,
-                    )}
-                    className="hover-card group flex flex-col overflow-hidden border border-brand/18 bg-white hover:border-brand"
-                  >
-                    {item.image ? (
-                      <div className="image-reveal relative aspect-4/3 overflow-hidden bg-surface">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          sizes="(min-width: 768px) 33vw, 100vw"
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="flex flex-1 flex-col p-5">
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                        {projectStatusLabels[item.status ?? project.status]}
-                      </span>
-                      <h3 className="mt-3 text-xl font-semibold leading-snug">
-                        {item.title}
-                      </h3>
-                      {item.summary ? (
-                        <p className="mt-3 text-sm leading-6 text-slate">
-                          {item.summary}
-                        </p>
-                      ) : null}
-                      <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-brand/20 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
-                        Xem hạng mục
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+              {/* Một showcase tự chạy duy nhất — trước đây hạng mục hiện hai lần
+                  (lưới thẻ + khối gallerySections cùng tên) gây trùng lặp. */}
+              <ProjectItemsCarousel
+                items={items}
+                projectSlug={project.slug}
+                projectStatus={project.status}
+                locale={locale}
+              />
             </div>
           </section>
-        ) : null}
-
-        {gallerySections.length > 0 ? (
+        ) : gallerySections.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-6">
               <ProjectGallerySections
@@ -290,21 +239,12 @@ export default async function ProjectDetailPage({
         ) : gallery.length > 0 ? (
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-6">
-              <div className="reveal-from-left mb-8">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-                  Hình ảnh dự án
-                </p>
-                <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  Thư viện ảnh {project.title}
-                </h2>
-              </div>
-
-              {/* Dự án không chia hạng mục vẫn dùng chung slider — tránh dựng
-                  thêm một cách hiển thị ảnh thứ hai phải bảo trì song song. */}
+              {/* Dự án không chia hạng mục: slider ảnh chạy tự động, bỏ tiêu đề
+                  khối và đầu thẻ vì tên dự án đã nằm ở tiêu đề trang. */}
               <ProjectGallerySections
                 sections={[{ title: project.title, images: gallery }]}
                 projectTitle={project.title}
-                sectionLabel="Thư viện"
+                hideHeader
               />
             </div>
           </section>

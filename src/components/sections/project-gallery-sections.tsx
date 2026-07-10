@@ -20,6 +20,11 @@ type ProjectGallerySectionsProps = {
    * con; dự án chỉ có một thư viện ảnh chung thì truyền nhãn khác.
    */
   sectionLabel?: string;
+  /**
+   * Ẩn hoàn toàn phần đầu thẻ (nhãn + tiêu đề khối). Dùng cho dự án chỉ có một
+   * thư viện ảnh phẳng: tên dự án đã nằm ở tiêu đề trang nên nhắc lại là thừa.
+   */
+  hideHeader?: boolean;
 };
 
 function getGalleryGridClass(sectionCount: number) {
@@ -45,6 +50,7 @@ function ProjectGallerySlider({
   compact,
   sectionLabel,
   showIndex,
+  hideHeader,
 }: {
   section: ProjectGallerySection;
   projectTitle: string;
@@ -53,6 +59,7 @@ function ProjectGallerySlider({
   sectionLabel: string;
   /** Chỉ đánh số khi có nhiều khối — "Thư viện 01" đứng một mình là vô nghĩa. */
   showIndex: boolean;
+  hideHeader: boolean;
 }) {
   const images = section.images;
   const imageCount = images.length;
@@ -95,6 +102,7 @@ function ProjectGallerySlider({
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
+      {!hideHeader ? (
       <div
         className={`project-gallery-card-header relative overflow-hidden border-b border-brand/12 bg-gold-soft/45 ${
           compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
@@ -140,6 +148,7 @@ function ProjectGallerySlider({
           ) : null}
         </div>
       </div>
+      ) : null}
 
       <div className="project-gallery-stage relative aspect-16/10 bg-surface">
         {images.map((image, slideIndex) => {
@@ -268,6 +277,7 @@ export function ProjectGallerySections({
   sections,
   projectTitle,
   sectionLabel = "Hạng mục",
+  hideHeader = false,
 }: ProjectGallerySectionsProps) {
   const visibleSections = sections.filter((section) => section.images.length > 0);
   const sectionCount = visibleSections.length;
@@ -290,6 +300,7 @@ export function ProjectGallerySections({
           compact={compact}
           sectionLabel={sectionLabel}
           showIndex={sectionCount > 1}
+          hideHeader={hideHeader}
         />
       ))}
     </div>

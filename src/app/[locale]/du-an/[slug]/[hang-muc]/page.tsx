@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -7,6 +6,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
+import { ProjectItemGallery } from "@/components/sections/project-item-gallery";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -78,6 +78,11 @@ export default async function ProjectItemPage({
   const projectHref = localizePath(`${routes.projects}/${project.slug}`, locale);
   const gallery = item.gallery ?? [];
   const gallerySections = item.gallerySections ?? [];
+  // Ảnh đại diện đứng đầu, gộp cùng ảnh trong gallery và khử trùng lặp (ảnh bìa
+  // thường cũng nằm trong gallery).
+  const galleryImages = [
+    ...new Set([item.image, ...gallery].filter(Boolean) as string[]),
+  ];
   const highlights = item.highlights ?? [];
   const quickFacts = item.quickFacts ?? [];
   // Hạng mục không đặt trạng thái riêng thì lấy theo dự án cha.
@@ -105,46 +110,42 @@ export default async function ProjectItemPage({
           />
         </section>
 
-        {item.image ? (
-          <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
-            <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                preload
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                className="object-cover"
-              />
-            </div>
-          </section>
-        ) : null}
-
         <section className="project-detail-band py-14">
           <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
-            <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
+            {galleryImages.length > 0 ? (
+              <div className="reveal-from-left h-full">
+                {/* Ảnh đại diện lớn ở trên, list ảnh con chạy ngay dưới —
+                    đứng ngang và cùng chiều cao với khối thông tin bên phải. */}
+                <ProjectItemGallery images={galleryImages} title={item.title} />
+              </div>
+            ) : null}
+
+            <article
+              className={`reveal-from-right hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8 ${
+                galleryImages.length === 0 ? "lg:col-span-2" : ""
+              }`}
+            >
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-                Thông tin nhanh
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                Thông số chính của hạng mục
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+                  Tổng quan hạng mục
+                </p>
+                <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                  {projectStatusLabels[status]}
+                </span>
+              </div>
+              <h2 className="mt-4 text-2xl font-semibold leading-tight md:text-3xl">
+                Giới thiệu {item.title}
               </h2>
+              <p className="mt-5 text-base leading-7 text-slate">
+                {item.description ??
+                  "Thông tin tổng quan của hạng mục đang được cập nhật theo tài liệu được duyệt."}
+              </p>
+
+              {/* Thông tin nhanh gộp chung vào khối tổng quan thay vì tách panel
+                  riêng — hai phần này ngắn, để ngang với ảnh cho cân đối. */}
               <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
-                    Trạng thái
-                  </dt>
-                  <dd className="mt-2">
-                    <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                      {projectStatusLabels[status]}
-                    </span>
-                  </dd>
-                </div>
-                <ProjectFactCell
-                  label="Thuộc dự án"
-                  value={project.title}
-                />
+                <ProjectFactCell label="Thuộc dự án" value={project.title} />
                 {quickFacts.map((fact) => (
                   <ProjectFactCell
                     key={fact.label}
@@ -153,19 +154,6 @@ export default async function ProjectItemPage({
                   />
                 ))}
               </dl>
-            </aside>
-
-            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex h-full flex-col overflow-hidden border-l-4 border-l-gold p-6 md:p-8">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-                Tổng quan hạng mục
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                Giới thiệu {item.title}
-              </h2>
-              <p className="mt-5 text-base leading-7 text-slate">
-                {item.description ??
-                  "Thông tin tổng quan của hạng mục đang được cập nhật theo tài liệu được duyệt."}
-              </p>
 
               {highlights.length > 0 ? (
                 <div className="mt-6 flex min-h-0 flex-1 flex-col">
@@ -194,33 +182,14 @@ export default async function ProjectItemPage({
           </div>
         </section>
 
+        {/* Hạng mục hiếm khi chia nhiều thư viện con; nếu có thì giữ nguyên
+            slider nhiều khối bên dưới bố cục hai cột. */}
         {gallerySections.length > 0 ? (
-          <section className="project-detail-band py-14">
+          <section className="project-detail-band pb-14">
             <div className="mx-auto max-w-7xl px-6">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={item.title}
-              />
-            </div>
-          </section>
-        ) : gallery.length > 0 ? (
-          <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="reveal-from-left mb-8">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-                  Hình ảnh hạng mục
-                </p>
-                <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  Thư viện ảnh {item.title}
-                </h2>
-              </div>
-
-              {/* Dùng chung slider với dự án có hạng mục — không dựng thêm một
-                  cách hiển thị ảnh thứ hai phải bảo trì song song. */}
-              <ProjectGallerySections
-                sections={[{ title: item.title, images: gallery }]}
-                projectTitle={item.title}
-                sectionLabel="Thư viện"
               />
             </div>
           </section>
