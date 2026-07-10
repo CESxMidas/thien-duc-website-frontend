@@ -1,0 +1,96 @@
+{
+  "common": {
+    "skipToContent": "Skip navigation",
+    "contactCta": "Request a consultation",
+    "viewDetail": "View details",
+    "readArticle": "Read article",
+    "viewAllProjects": "View all projects",
+    "viewAllNews": "View all news",
+    "languageSwitcher": "Select language"
+  },
+  "header": {
+    "searchPlaceholder": "Search news...",
+    "searchLabel": "Search news",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "phone": "Phone",
+    "email": "Email",
+    "office": "Head office",
+    "rights": "All rights reserved."
+  },
+  "home": {
+    "featuredEyebrow": "Featured projects",
+    "featuredTitle": "Urban developments delivered alongside Thien Duc",
+    "latestEyebrow": "Latest news",
+    "latestTitle": "News and activities from Thien Duc",
+    "allPosts": "All articles",
+    "postDetail": "Read the article"
+  },
+  "projects": {
+    "eyebrow": "Projects",
+    "title": "Thien Duc projects",
+    "description": "An overview of the projects Thien Duc is developing, has completed, or is preparing to launch in real estate and construction.",
+    "searchResultsTitle": "Project search results",
+    "emptyTitle": "No matching projects",
+    "emptyDescription": "There are no projects with this status yet. Go back to the full project list to see what is currently available.",
+    "ctaEyebrow": "Project information",
+    "ctaTitle": "Interested in a Thien Duc project?",
+    "ctaDescription": "Get in touch with Thien Duc to discuss project details, advisory needs, or partnership opportunities."
+  },
+  "news": {
+    "eyebrow": "News",
+    "title": "News and updates",
+    "description": "Company information, project progress, and the latest activities from Thien Duc.",
+    "searchResultsTitle": "Search results",
+    "searchResultsDescription": "Showing articles matching \"{query}\".",
+    "notFoundTitle": "No articles found",
+    "notFoundDescription": "No results match \"{query}\". Try a different keyword or browse all news.",
+    "emptyTitle": "No articles yet",
+    "emptyDescription": "News content will be published once official information is available from Thien Duc."
+  },
+  "navLabels": {
+    "/": "Home",
+    "/gioi-thieu": "About",
+    "/du-an": "Projects",
+    "/du-an/khu-do-thi-hung-phu": "Hung Phu Urban Area",
+    "/du-an?status=da-ban-giao": "Handed over",
+    "/du-an?status=dang-thi-cong": "Under construction",
+    "/du-an?status=chuan-bi-khoi-cong": "Preparing to break ground",
+    "/tin-tuc": "News",
+    "/cong-ty-thanh-vien": "Member companies",
+    "/tuyen-dung": "Careers & People",
+    "/so-do-to-chuc-cong-ty": "Organisation chart",
+    "/dao-tao": "Training",
+    "/chinh-sach-nhan-su": "HR policy",
+    "/lien-he": "Contact"
+  },
+  "navOverviewLabels": {
+    "/du-an": "All projects",
+    "/tuyen-dung": "Careers"
+  },
+  "navGroups": {
+    "Dự án nổi bật": "Featured projects",
+    "Theo trạng thái": "By status"
+  },
+  "footerSectionTitles": {
+    "Công ty": "Company",
+    "Dự án": "Projects",
+    "Nhân sự": "People"
+  },
+  "footerLabels": {
+    "/": "Home",
+    "/gioi-thieu": "About",
+    "/cong-ty-thanh-vien": "Member companies",
+    "/tin-tuc": "News",
+    "/du-an": "Project list",
+    "/du-an/khu-do-thi-hung-phu": "Hung Phu Urban Area",
+    "/du-an?status=dang-thi-cong": "Under construction",
+    "/du-an?status=da-ban-giao": "Handed over",
+    "/tuyen-dung": "Careers",
+    "/so-do-to-chuc-cong-ty": "Organisation chart",
+    "/dao-tao": "Training",
+    "/chinh-sach-nhan-su": "HR policy"
+  }
+}

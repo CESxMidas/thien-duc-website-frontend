@@ -1,10 +1,13 @@
+import { aboutHero, aboutOverview } from "@/data/about";
 import { homeBanners } from "@/data/banners";
+import { contactHero } from "@/data/contact";
 import { newsPosts } from "@/data/news";
 import { projects } from "@/data/projects";
 import type { ProjectStatus } from "@/types/content";
 import type {
   BannerDto,
   NewsPostDto,
+  PageDto,
   ProjectDto,
   ProjectStatusDto,
 } from "@/lib/api/types";
@@ -71,6 +74,29 @@ export const mockNewsPosts: NewsPostDto[] = newsPosts.map((post, index) => ({
     ? { slug: "tin-du-an", name: { vi: post.category } }
     : null,
 }));
+
+/**
+ * Trang nội dung: chỉ phần chữ (tiêu đề + đoạn giới thiệu) do CMS quản lý. Các
+ * khối có cấu trúc riêng (thẻ giá trị cốt lõi, quy trình liên hệ, bản đồ) vẫn là
+ * bố cục tĩnh trong `src/data/*`, không nhét vừa `content: LocalizedText[]`.
+ */
+export const mockPages: PageDto[] = [
+  {
+    id: "mock-page-gioi-thieu",
+    slug: "gioi-thieu",
+    title: { vi: aboutHero.title },
+    content: [
+      { vi: aboutHero.description },
+      ...aboutOverview.paragraphs.map((vi) => ({ vi })),
+    ],
+  },
+  {
+    id: "mock-page-lien-he",
+    slug: "lien-he",
+    title: { vi: contactHero.title },
+    content: [{ vi: contactHero.description }],
+  },
+];
 
 export const mockBanners: BannerDto[] = homeBanners.map((banner, index) => ({
   id: `mock-banner-${index + 1}`,

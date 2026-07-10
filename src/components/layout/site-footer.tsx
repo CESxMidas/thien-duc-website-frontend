@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { footerBrand, footerSections } from "@/data/footer";
+import { localizePath, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
@@ -12,7 +14,12 @@ const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.add
 const footerLinkClassName =
   "text-sm text-white/80 transition hover:text-gold hover:translate-x-0.5";
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  locale: Locale;
+  dictionary: Dictionary;
+};
+
+export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -21,7 +28,7 @@ export function SiteFooter() {
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.15fr_repeat(3,minmax(0,1fr))] lg:gap-8 lg:py-14">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
-              href={routes.home}
+              href={localizePath(routes.home, locale)}
               className="inline-flex size-16 items-center justify-center rounded-lg border border-white/20 bg-white p-2 shadow-sm"
               aria-label="Trang chủ Thiên Đức"
             >
@@ -45,13 +52,16 @@ export function SiteFooter() {
           {footerSections.map((section) => (
             <div key={section.title}>
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
-                {section.title}
+                {dictionary.footerSectionTitles[section.title] ?? section.title}
               </h2>
               <ul className="mt-5 space-y-3">
                 {section.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className={footerLinkClassName}>
-                      {link.label}
+                    <Link
+                      href={localizePath(link.href, locale)}
+                      className={footerLinkClassName}
+                    >
+                      {dictionary.footerLabels[link.href] ?? link.label}
                     </Link>
                   </li>
                 ))}
@@ -66,7 +76,7 @@ export function SiteFooter() {
               <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  Điện thoại
+                  {dictionary.footer.phone}
                 </span>
                 <span className="mt-1 block font-semibold text-white">
                   {siteConfig.phone}
@@ -77,7 +87,7 @@ export function SiteFooter() {
               <Mail className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  Email
+                  {dictionary.footer.email}
                 </span>
                 <span className="mt-1 block font-semibold text-white">
                   {siteConfig.email}
@@ -93,7 +103,7 @@ export function SiteFooter() {
               <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
               <span>
                 <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  Trụ sở
+                  {dictionary.footer.office}
                 </span>
                 <span className="mt-1 block font-semibold leading-6 text-white">
                   {siteConfig.address}
@@ -106,13 +116,13 @@ export function SiteFooter() {
 
       <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
         <p>
-          © {currentYear} {siteConfig.name}. Bảo lưu mọi quyền.
+          © {currentYear} {siteConfig.name}. {dictionary.footer.rights}
         </p>
         <Link
-          href={routes.contact}
+          href={localizePath(routes.contact, locale)}
           className="font-semibold text-gold transition hover:text-white"
         >
-          Liên hệ tư vấn →
+          {dictionary.common.contactCta} →
         </Link>
       </div>
     </footer>

@@ -7,3 +7,10 @@ export {
 } from "@/lib/api/projects";
 export { getNewsPosts, getNewsPostBySlug } from "@/lib/api/news";
 export { getBanners } from "@/lib/api/banners";
+export { getPageBySlug, type StaticPageContent } from "@/lib/api/pages";
+export {
+  search,
+  MIN_SEARCH_LENGTH,
+  type SearchResults,
+  type SearchScope,
+} from "@/lib/api/search";

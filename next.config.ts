@@ -7,20 +7,8 @@ const nextConfig: NextConfig = {
     "172.28.*.*",
     "10.*.*.*",
   ],
-  async redirects() {
-    return [
-      {
-        source: "/vi",
-        destination: "/",
-        permanent: false,
-      },
-      {
-        source: "/vi/:path*",
-        destination: "/:path*",
-        permanent: false,
-      },
-    ];
-  },
+  // Định tuyến locale (`/vi` → `/`, rewrite `/du-an` → `/vi/du-an`) nằm ở
+  // `src/proxy.ts` vì cần đọc pathname của từng request.
 };
 
 export default nextConfig;

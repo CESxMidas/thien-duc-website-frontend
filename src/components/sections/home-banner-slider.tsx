@@ -10,15 +10,30 @@ import {
   useRef,
   useState,
 } from "react";
-import { homeBanners } from "@/data/banners";
+import type { HomeBanner } from "@/data/banners";
+import { localizePath, type Locale } from "@/lib/i18n/config";
 import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 7000;
 const MANUAL_PAUSE_MS = 12000;
 const SWIPE_THRESHOLD_PX = 48;
-const bannerCount = homeBanners.length;
 
-export function HomeBannerSlider() {
+type HomeBannerSliderProps = {
+  banners: HomeBanner[];
+  locale: Locale;
+  contactCtaLabel: string;
+};
+
+/**
+ * Banner do CMS quản lý — dữ liệu nạp ở server (`HomeBannerSection`) rồi truyền
+ * xuống đây, vì carousel cần state và sự kiện chuột/bàn phím.
+ */
+export function HomeBannerSlider({
+  banners,
+  locale,
+  contactCtaLabel,
+}: HomeBannerSliderProps) {
+  const bannerCount = banners.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoverPaused, setHoverPaused] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
@@ -27,7 +42,7 @@ export function HomeBannerSlider() {
   const manualPauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
 
-  const activeBanner = homeBanners[activeIndex];
+  const activeBanner = banners[activeIndex];
   const autoplayEnabled = bannerCount > 1 && !reducedMotion;
   const isPaused = hoverPaused || tabHidden || manualPaused;
 
@@ -104,6 +119,12 @@ export function HomeBannerSlider() {
     else goToPrevious();
   }
 
+  // Banner đến từ CMS: biên tập viên có thể tắt hết, khi đó không render gì.
+  // Hook phải khai báo xong trước lần return sớm này.
+  if (bannerCount === 0 || !activeBanner) {
+    return null;
+  }
+
   return (
     <section
       className="relative overflow-hidden bg-[#3d2a16]"
@@ -118,7 +139,7 @@ export function HomeBannerSlider() {
       onTouchEnd={handleTouchEnd}
     >
       <div className="relative h-[clamp(480px,75svh,820px)]">
-        {homeBanners.map((banner, index) => {
+        {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
           return (
@@ -195,16 +216,16 @@ export function HomeBannerSlider() {
                   </p>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <Link
-                      href={activeBanner.href}
+                      href={localizePath(activeBanner.href, locale)}
                       className="button-polish inline-flex h-11 items-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
                     >
                       {activeBanner.ctaLabel}
                     </Link>
                     <Link
-                      href={routes.contact}
+                      href={localizePath(routes.contact, locale)}
                       className="button-polish inline-flex h-11 items-center border border-white/60 px-5 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
                     >
-                      Liên hệ tư vấn
+                      {contactCtaLabel}
                     </Link>
                   </div>
                 </div>
@@ -233,7 +254,7 @@ export function HomeBannerSlider() {
         </div>
 
         <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 items-center rounded-full border border-white/20 bg-ink/25 px-1 backdrop-blur">
-          {homeBanners.map((banner, index) => (
+          {banners.map((banner, index) => (
             <button
               key={banner.image}
               type="button"

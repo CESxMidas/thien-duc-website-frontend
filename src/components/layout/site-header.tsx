@@ -15,6 +15,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { mainNavigation } from "@/data/navigation";
 import { siteConfig } from "@/config/site";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import type { NavItem } from "@/types/content";
 
@@ -27,12 +30,13 @@ const DROPDOWN_CLOSE_DELAY_MS = 150;
 const topStripLinkClassName =
   "inline-flex min-w-0 items-center gap-2 text-white/90 transition hover:text-gold";
 
-function isActive(pathname: string, item: NavItem) {
+/** `path` đã bỏ tiền tố locale nên so khớp được với href gốc trong `navigation.ts`. */
+function isActive(path: string, item: NavItem) {
   if (item.href === "/") {
-    return pathname === "/";
+    return path === "/";
   }
 
-  return pathname === item.href || pathname.startsWith(`${item.href}/`);
+  return path === item.href || path.startsWith(`${item.href}/`);
 }
 
 /** Gom children theo group (giữ thứ tự xuất hiện); item không có group đứng nhóm không tiêu đề. */
@@ -95,8 +99,19 @@ function HeaderTopStrip() {
   );
 }
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  locale: Locale;
+  dictionary: Dictionary;
+};
+
+export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const pathname = usePathname();
+  const { path } = splitLocale(pathname);
+  const searchAction = localizePath(routes.news, locale);
+
+  /** Nhãn điều hướng dịch theo `href`; thiếu bản dịch thì giữ nguyên tiếng Việt. */
+  const navLabel = (item: NavItem) => dictionary.navLabels[item.href] ?? item.label;
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -153,7 +168,7 @@ export function SiteHeader() {
       <div className="border-b-[3px] border-gold bg-[linear-gradient(180deg,#ffffff_0%,#fff8ea_100%)]">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
           <Link
-            href="/"
+            href={localizePath("/", locale)}
             className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
             aria-label="Trang chủ Thiên Đức"
           >
@@ -177,7 +192,7 @@ export function SiteHeader() {
             }}
           >
             {mainNavigation.map((item) => {
-              const active = isActive(pathname, item);
+              const active = isActive(path, item);
               const hasChildren = Boolean(item.children?.length);
               const dropdownOpen = openDropdown === item.href;
 
@@ -195,7 +210,7 @@ export function SiteHeader() {
                   onBlur={hasChildren ? closeDropdownDelayed : undefined}
                 >
                   <Link
-                    href={item.href}
+                    href={localizePath(item.href, locale)}
                     aria-haspopup={hasChildren || undefined}
                     aria-expanded={hasChildren ? dropdownOpen : undefined}
                     className={`nav-link-polish inline-flex h-16 items-center gap-1 whitespace-nowrap border-b-[3px] px-2 text-[13px] font-bold uppercase tracking-[0.02em] xl:px-2.5 xl:text-sm md:h-18 ${
@@ -204,7 +219,7 @@ export function SiteHeader() {
                         : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
                     }`}
                   >
-                    {item.label}
+                    {navLabel(item)}
                     {hasChildren ? (
                       <ChevronDown
                         aria-hidden="true"
@@ -234,17 +249,17 @@ export function SiteHeader() {
                         >
                           {group.heading ? (
                             <p className="px-7 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
-                              {group.heading}
+                              {dictionary.navGroups[group.heading] ?? group.heading}
                             </p>
                           ) : null}
                           {group.items.map((child) => (
                             <Link
                               key={child.href}
-                              href={child.href}
+                              href={localizePath(child.href, locale)}
                               onClick={() => setOpenDropdown(null)}
                               className="nav-dropdown-item block border-b border-brand-dark/30 px-7 py-3.5 text-sm font-bold uppercase text-white last:border-b-0 hover:bg-brand-dark"
                             >
-                              {child.label}
+                              {navLabel(child)}
                             </Link>
                           ))}
                         </div>
@@ -256,29 +271,35 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <form action={routes.news} className="hidden shrink-0 items-center lg:flex">
+          <form action={searchAction} className="hidden shrink-0 items-center lg:flex">
             <label className="sr-only" htmlFor="site-search">
-              Tìm kiếm tin tức
+              {dictionary.header.searchLabel}
             </label>
             <input
               id="site-search"
               name="q"
               type="search"
-              placeholder="Tìm tin tức..."
+              placeholder={dictionary.header.searchPlaceholder}
               className="h-10 w-36 border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand xl:w-44"
             />
             <button
               type="submit"
-              aria-label="Tìm kiếm tin tức"
+              aria-label={dictionary.header.searchLabel}
               className="button-polish grid h-10 w-10 place-items-center bg-brand text-white hover:bg-brand-dark"
             >
               <Search className="size-4" />
             </button>
           </form>
 
+          <LanguageSwitcher
+            locale={locale}
+            label={dictionary.common.languageSwitcher}
+            className="hidden shrink-0 lg:flex"
+          />
+
           <button
             type="button"
-            aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+            aria-label={menuOpen ? dictionary.header.closeMenu : dictionary.header.openMenu}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((value) => !value)}
             className="grid size-10 place-items-center border-2 border-brand/35 text-brand-dark lg:hidden"
@@ -295,11 +316,11 @@ export function SiteHeader() {
                   return (
                     <Link
                       key={item.href}
-                      href={item.href}
+                      href={localizePath(item.href, locale)}
                       onClick={() => setMenuOpen(false)}
                       className="flex min-h-11 items-center justify-between border-b border-brand/15 text-sm font-bold uppercase text-ink"
                     >
-                      {item.label}
+                      {navLabel(item)}
                     </Link>
                   );
                 }
@@ -316,7 +337,7 @@ export function SiteHeader() {
                       }
                       className="flex min-h-11 w-full items-center justify-between border-b border-brand/15 text-left text-sm font-bold uppercase text-ink"
                     >
-                      {item.label}
+                      {navLabel(item)}
                       <ChevronDown
                         aria-hidden="true"
                         className={`size-4 shrink-0 text-brand-dark transition-transform duration-200 ${
@@ -327,20 +348,22 @@ export function SiteHeader() {
                     {expanded ? (
                       <div className="grid border-b border-brand/15 bg-gold-soft">
                         <Link
-                          href={item.href}
+                          href={localizePath(item.href, locale)}
                           onClick={() => setMenuOpen(false)}
                           className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
                         >
-                          {item.overviewLabel ?? item.label}
+                          {dictionary.navOverviewLabels[item.href] ??
+                            item.overviewLabel ??
+                            navLabel(item)}
                         </Link>
                         {item.children.map((child) => (
                           <Link
                             key={child.href}
-                            href={child.href}
+                            href={localizePath(child.href, locale)}
                             onClick={() => setMenuOpen(false)}
                             className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
                           >
-                            {child.label}
+                            {navLabel(child)}
                           </Link>
                         ))}
                       </div>
@@ -349,21 +372,27 @@ export function SiteHeader() {
                 );
               })}
             </nav>
-            <form action={routes.news} className="mx-auto flex max-w-7xl">
+            <form action={searchAction} className="mx-auto flex max-w-7xl">
               <input
                 name="q"
                 type="search"
-                placeholder="Tìm tin tức..."
+                placeholder={dictionary.header.searchPlaceholder}
                 className="h-11 min-w-0 flex-1 border border-brand/30 px-4 text-sm text-ink outline-none focus:border-brand"
               />
               <button
                 type="submit"
-                aria-label="Tìm kiếm tin tức"
+                aria-label={dictionary.header.searchLabel}
                 className="grid h-11 w-12 place-items-center bg-brand text-white"
               >
                 <Search className="size-5" />
               </button>
             </form>
+
+            <LanguageSwitcher
+              locale={locale}
+              label={dictionary.common.languageSwitcher}
+              className="mx-auto mt-4 flex max-w-7xl"
+            />
           </div>
         ) : null}
       </div>

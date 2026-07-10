@@ -99,6 +99,17 @@ export type NewsPostDto = {
   category?: { slug: string; name: LocalizedText } | null;
 };
 
+/**
+ * Trang nội dung tĩnh do CMS quản lý (`GET /pages/:slug`). `content` là mảng
+ * đoạn văn song ngữ — cùng quy ước với `NewsPostDto.content`.
+ */
+export type PageDto = {
+  id: string;
+  slug: string;
+  title: LocalizedText;
+  content: LocalizedText[] | null;
+};
+
 export type BannerDto = {
   id: string;
   image: string;

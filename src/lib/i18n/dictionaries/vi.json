@@ -1,0 +1,58 @@
+{
+  "common": {
+    "skipToContent": "Bỏ qua điều hướng",
+    "contactCta": "Liên hệ tư vấn",
+    "viewDetail": "Xem chi tiết",
+    "readArticle": "Đọc bài viết",
+    "viewAllProjects": "Xem tất cả dự án",
+    "viewAllNews": "Xem tất cả tin tức",
+    "languageSwitcher": "Chọn ngôn ngữ"
+  },
+  "header": {
+    "searchPlaceholder": "Tìm tin tức...",
+    "searchLabel": "Tìm kiếm tin tức",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
+  },
+  "footer": {
+    "phone": "Điện thoại",
+    "email": "Email",
+    "office": "Trụ sở",
+    "rights": "Bảo lưu mọi quyền."
+  },
+  "home": {
+    "featuredEyebrow": "Dự án tiêu biểu",
+    "featuredTitle": "Không gian phát triển đô thị do Thiên Đức đồng hành triển khai",
+    "latestEyebrow": "Tin mới",
+    "latestTitle": "Tin tức và hoạt động từ Thiên Đức",
+    "allPosts": "Tất cả bài viết",
+    "postDetail": "Chi tiết bài viết"
+  },
+  "projects": {
+    "eyebrow": "Dự án",
+    "title": "Dự án của Thiên Đức",
+    "description": "Tổng hợp các dự án Thiên Đức đang triển khai, đã hoàn thành hoặc đang chuẩn bị phát triển trong lĩnh vực bất động sản và xây dựng.",
+    "searchResultsTitle": "Kết quả tìm kiếm dự án",
+    "emptyTitle": "Chưa có dự án phù hợp",
+    "emptyDescription": "Hiện chưa có dự án trong nhóm trạng thái này. Bạn có thể quay lại danh sách tất cả dự án để xem các thông tin đang có.",
+    "ctaEyebrow": "Thông tin dự án",
+    "ctaTitle": "Quan tâm dự án của Thiên Đức?",
+    "ctaDescription": "Liên hệ Thiên Đức để trao đổi thêm về thông tin dự án, nhu cầu tư vấn hoặc định hướng hợp tác."
+  },
+  "news": {
+    "eyebrow": "Tin tức",
+    "title": "Tin tức và cập nhật",
+    "description": "Thông tin doanh nghiệp, tiến độ dự án và các hoạt động mới từ Thiên Đức.",
+    "searchResultsTitle": "Kết quả tìm kiếm",
+    "searchResultsDescription": "Hiển thị bài viết phù hợp với từ khóa \"{query}\".",
+    "notFoundTitle": "Không tìm thấy bài viết",
+    "notFoundDescription": "Không có kết quả phù hợp với \"{query}\". Thử từ khóa khác hoặc xem toàn bộ tin tức.",
+    "emptyTitle": "Chưa có bài viết",
+    "emptyDescription": "Nội dung tin tức sẽ được cập nhật khi có thông tin chính thức từ Thiên Đức."
+  },
+  "navLabels": {},
+  "navOverviewLabels": {},
+  "navGroups": {},
+  "footerSectionTitles": {},
+  "footerLabels": {}
+}

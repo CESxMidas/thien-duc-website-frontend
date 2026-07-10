@@ -1,11 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/lib/api/projects";
+import { defaultLocale, localizePath, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { projectStatusLabels } from "@/lib/project-status";
+import { routes } from "@/lib/routes";
 import { homeFeaturedProjectCopy } from "@/data/home";
 
-export async function HomeFeaturedProjects() {
-  const projects = await getProjects();
+export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
+  const [projects, dictionary] = await Promise.all([
+    getProjects(locale),
+    getDictionary(locale),
+  ]);
   const featuredProjects = projects
     .filter(
       (project) =>
@@ -25,17 +31,17 @@ export async function HomeFeaturedProjects() {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-              Dự án tiêu biểu
+              {dictionary.home.featuredEyebrow}
             </p>
             <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
-              Không gian phát triển đô thị do Thiên Đức đồng hành triển khai
+              {dictionary.home.featuredTitle}
             </h2>
           </div>
           <Link
-            href="/du-an"
+            href={localizePath(routes.projects, locale)}
             className="button-polish inline-flex h-11 items-center self-start border border-black/15 px-5 text-sm font-semibold transition hover:border-brand hover:text-brand md:self-auto"
           >
-            Xem tất cả dự án
+            {dictionary.common.viewAllProjects}
           </Link>
         </div>
 
@@ -43,18 +49,24 @@ export async function HomeFeaturedProjects() {
           className={`stagger-list mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
         >
           {featuredProjects.map((project) => {
-            const display = homeFeaturedProjectCopy[
-              project.slug as keyof typeof homeFeaturedProjectCopy
-            ] ?? {
+            const apiCopy = {
               title: project.title,
               location: project.location,
               summary: project.summary,
             };
+            // Bản rút gọn viết tay chỉ có tiếng Việt — locale khác dùng thẳng
+            // nội dung CMS thay vì hiển thị tiếng Việt trên trang tiếng Anh.
+            const display =
+              locale === defaultLocale
+                ? (homeFeaturedProjectCopy[
+                    project.slug as keyof typeof homeFeaturedProjectCopy
+                  ] ?? apiCopy)
+                : apiCopy;
 
             return (
               <Link
                 key={project.slug}
-                href={`/du-an/${project.slug}`}
+                href={localizePath(`${routes.projects}/${project.slug}`, locale)}
                 className={`hover-card group overflow-hidden border border-black/10 bg-surface-warm hover:border-brand ${
                   singleProject
                     ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch"
