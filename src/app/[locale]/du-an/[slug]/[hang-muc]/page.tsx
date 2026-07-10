@@ -107,7 +107,7 @@ export default async function ProjectItemPage({
 
         {item.image ? (
           <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
-            <div className="image-reveal reveal-from-left relative aspect-[16/9] max-h-[520px] overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
+            <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
               <Image
                 src={item.image}
                 alt={item.title}
@@ -123,7 +123,7 @@ export default async function ProjectItemPage({
         <section className="project-detail-band py-14">
           <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-brand-soft to-brand" />
+              <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
                 Thông tin nhanh
               </p>
@@ -218,7 +218,7 @@ export default async function ProjectItemPage({
                 {gallery.map((image, index) => (
                   <div
                     key={image}
-                    className="image-reveal hover-card relative aspect-[4/3] overflow-hidden border border-brand/18 bg-surface shadow-[0_12px_28px_rgba(127,75,13,0.1)]"
+                    className="image-reveal hover-card relative aspect-4/3 overflow-hidden border border-brand/18 bg-surface shadow-[0_12px_28px_rgba(127,75,13,0.1)]"
                   >
                     <Image
                       src={image}
