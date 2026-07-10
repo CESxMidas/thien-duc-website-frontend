@@ -11,7 +11,10 @@ import {
   aboutFields,
   aboutHero,
   aboutOverview,
+  aboutPortfolio,
   aboutPrinciples,
+  aboutStats,
+  aboutTimeline,
 } from "@/data/about";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
@@ -122,6 +125,90 @@ export default async function AboutPage({
               </span>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="reveal-section mx-auto max-w-7xl px-6">
+        <dl className="stagger-list grid gap-4 border border-black/10 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
+          {aboutStats.map((stat) => (
+            <div key={stat.label} className="border-l-4 border-gold pl-4">
+              <dt className="text-3xl font-semibold leading-none text-brand">
+                {stat.value}
+              </dt>
+              <dd className="mt-2 font-semibold text-ink">{stat.label}</dd>
+              <dd className="mt-1 text-sm leading-6 text-slate">{stat.note}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+        <div className="max-w-3xl">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            Chặng đường phát triển
+          </p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+            Từ 2010 đến nay
+          </h2>
+        </div>
+
+        <ol className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
+          {aboutTimeline.map((milestone) => (
+            <li
+              key={milestone.period}
+              className="hover-card border border-black/10 bg-white p-6 hover:border-brand/35"
+            >
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">
+                {milestone.period}
+              </p>
+              <h3 className="mt-3 text-xl font-semibold">{milestone.title}</h3>
+              <p className="mt-4 text-sm leading-6 text-slate">
+                {milestone.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+        <div className="max-w-3xl">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            Dự án tiêu biểu
+          </p>
+          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+            Danh mục dự án đã bàn giao và đang triển khai
+          </h2>
+        </div>
+
+        {/* Bảng cuộn ngang trong khung riêng — không để tràn ra body trên mobile. */}
+        <div className="mt-10 overflow-x-auto border border-black/10 bg-white">
+          <table className="w-full min-w-208 border-collapse text-left text-sm">
+            <thead className="bg-surface-warm text-xs uppercase tracking-[0.14em] text-brand">
+              <tr>
+                <th scope="col" className="px-5 py-4 font-semibold">Dự án</th>
+                <th scope="col" className="px-5 py-4 font-semibold">Vai trò</th>
+                <th scope="col" className="px-5 py-4 font-semibold">Đối tác</th>
+                <th scope="col" className="px-5 py-4 font-semibold">Quy mô</th>
+                <th scope="col" className="px-5 py-4 font-semibold">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              {aboutPortfolio.map((project) => (
+                <tr key={project.name} className="border-t border-black/10">
+                  <th scope="row" className="px-5 py-4 font-semibold text-ink">
+                    {project.name}
+                    <span className="mt-1 block text-xs font-normal text-slate">
+                      {project.location}
+                    </span>
+                  </th>
+                  <td className="px-5 py-4 leading-6 text-slate">{project.role}</td>
+                  <td className="px-5 py-4 leading-6 text-slate">{project.partner}</td>
+                  <td className="px-5 py-4 leading-6 text-slate">{project.scale}</td>
+                  <td className="px-5 py-4 leading-6 text-slate">{project.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 

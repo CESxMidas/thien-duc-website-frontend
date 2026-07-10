@@ -30,6 +30,7 @@ export type Dictionary = {
     email: string;
     office: string;
     rights: string;
+    taxCode: string;
   };
   home: {
     featuredEyebrow: string;

@@ -10,28 +10,31 @@ export const projects: Project[] = [
     title: "Khu đô thị Hưng Phú",
     slug: "khu-do-thi-hung-phu",
     summary:
-      "Dự án đô thị tiêu biểu của Thiên Đức, được định hướng phát triển với hạ tầng đồng bộ và không gian sống hiện đại tại Bến Tre.",
+      "Khu đô thị 11,25 ha do Thiên Đức làm chủ đầu tư tại trung tâm TP. Bến Tre, gồm 330 căn nhà ở thấp tầng và tòa căn hộ Fancy Tower.",
     status: "dang-thi-cong",
     location: "Bến Tre",
     category: "Khu đô thị",
     image: "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg",
     gallerySections: hungPhuGallerySections,
     description:
-      "Khu đô thị Hưng Phú là một trong những dự án Thiên Đức đồng hành phát triển tại Bến Tre. Dự án hướng đến việc kiến tạo không gian sống ổn định, thuận tiện và phù hợp với nhu cầu an cư, kết nối của cư dân trong khu vực.",
+      "Khu đô thị Hưng Phú nằm mặt tiền đường Nguyễn Thị Định, Phường Phú Tân, TP. Bến Tre, trên khu đất hậu cần Tỉnh đội cũ. Hạ tầng kỹ thuật, đường nội khu và các phân khu nhà phố thấp tầng đã hoàn thiện, phần lớn cư dân đã dọn vào sinh sống ổn định. Trung tâm thương mại Hưng Phú Mall và nhà trẻ nội khu đang hoàn thiện giai đoạn cuối để đưa vào khai thác.",
     highlights: [
-      "Định hướng phát triển khu đô thị hiện đại tại Bến Tre.",
-      "Tập trung vào hạ tầng, cảnh quan và trải nghiệm sử dụng lâu dài.",
-      "Thông tin chi tiết về pháp lý, quy mô và tiến độ sẽ được cập nhật theo tài liệu được duyệt.",
+      "Quy mô 11,25 ha với 330 căn nhà phố liền kề, shophouse đi bộ và biệt thự.",
+      "Sổ hồng lâu dài; đã hoàn tất nghiệm thu hạ tầng kỹ thuật.",
+      "Tòa nhà hành chính Liên Sở của tỉnh nằm ngay trong nội khu.",
+      "Tiện ích nội khu: khu dịch vụ ngầm, hồ bơi, trường mẫu giáo, trung tâm văn hóa thể thao, công viên cây xanh và siêu thị.",
     ],
     quickFacts: [
       { label: "Chủ đầu tư", value: "Công ty TNHH ĐT - XD - TM Thiên Đức" },
-      { label: "Tổng diện tích", value: "112.521 m² (~11,3 ha)" },
+      { label: "Tổng diện tích", value: "112.521 m² (11,25 ha)" },
       { label: "Diện tích đất ở", value: "43.403 m²" },
       { label: "Mật độ xây dựng", value: "38,5%" },
+      { label: "Nhà ở thấp tầng", value: "330 căn" },
       {
         label: "Sản phẩm",
         value: "Nhà phố liền kề, biệt thự và căn hộ Fancy Tower (19 tầng)",
       },
+      { label: "Pháp lý", value: "Sổ hồng lâu dài" },
       { label: "Quy hoạch", value: "Chi tiết 1/500 (phê duyệt năm 2015)" },
     ],
     mapLocation: {
@@ -157,9 +160,9 @@ export const projects: Project[] = [
     title: "Chung cư La Bonita",
     slug: "chung-cu-la-bonita",
     summary:
-      "Dự án căn hộ tại TP.HCM, được giới thiệu trong danh mục dự án Thiên Đức với hình ảnh và thông tin tổng quan.",
+      "Tòa căn hộ 14 tầng với 60 căn hộ trên tuyến đường Nguyễn Gia Trí, Quận Bình Thạnh, TP.HCM.",
     status: "da-ban-giao",
-    location: "TP.HCM",
+    location: "Bình Thạnh, TP.HCM",
     category: "Chung cư",
     image:
       "/images/projects/la-bonita/building/la-bonita-building-render-01.jpg",
@@ -167,48 +170,74 @@ export const projects: Project[] = [
       "/images/projects/la-bonita/building/la-bonita-building-render-02.jpg",
     ],
     description:
-      "Chung cư La Bonita là dự án được giới thiệu trong danh mục dự án của Thiên Đức tại TP.HCM. Các thông tin chi tiết về quy mô, pháp lý và tiến độ nên được cập nhật theo tài liệu chính thức đã duyệt.",
+      "La Bonita tọa lạc tại số 6 - 8 đường Nguyễn Gia Trí (đường D2 cũ), Phường 25, Quận Bình Thạnh. Bốn tầng khối đế dành cho trung tâm thương mại, officetel và văn phòng cho thuê; từ tầng 5 đến tầng 14 là khu căn hộ. Công trình đã hoàn thiện xây dựng và bàn giao từ năm 2018.",
     highlights: [
-      "Vị trí tại TP.HCM.",
-      "Hình ảnh dự án đã có trong thư viện media hiện tại.",
-      "Các thông tin chi tiết cần được xác nhận trước khi công bố rộng rãi.",
+      "1 block cao 14 tầng nổi và 2 tầng hầm gửi xe.",
+      "Chỉ 60 căn hộ, khoảng 6 căn mỗi sàn.",
+      "Kết nối trực tiếp ra Điện Biên Phủ và Xô Viết Nghệ Tĩnh, khoảng 5 - 10 phút vào trung tâm Quận 1.",
+    ],
+    quickFacts: [
+      { label: "Địa chỉ", value: "6 - 8 Nguyễn Gia Trí, Phường 25, Bình Thạnh" },
+      { label: "Diện tích đất", value: "1.374 m²" },
+      { label: "Diện tích sàn xây dựng", value: "11.654 m²" },
+      { label: "Quy mô", value: "14 tầng nổi + 2 tầng hầm" },
+      { label: "Số căn hộ", value: "60 căn" },
+      { label: "Bàn giao", value: "Năm 2018" },
     ],
   },
   {
-    title: "Dự án Vũng Tàu",
+    // Slug giữ nguyên `du-an-vung-tau` dù tiêu đề đổi thành tên chính thức —
+    // đổi slug sẽ làm hỏng mọi liên kết đã phát ra ngoài.
+    title: "Silver Sea Tower",
     slug: "du-an-vung-tau",
     summary:
-      "Dự án chung cư tại Vũng Tàu, đang được bổ sung hình ảnh và thông tin tổng quan theo tài liệu được duyệt.",
+      "Tòa nhà phức hợp 18 tầng tại số 47 Ba Cu, trung tâm TP. Vũng Tàu, với 80 căn hộ đã có sổ hồng lâu dài.",
     status: "da-ban-giao",
-    location: "Vũng Tàu",
+    location: "TP. Vũng Tàu",
     category: "Chung cư",
     image: "/images/projects/vung-tau/vung-tau-center-exterior-01.webp",
     gallery: [
       "/images/projects/vung-tau/vung-tau-center-exterior-02.webp",
     ],
     description:
-      "Dự án Vũng Tàu được giới thiệu trong danh mục dự án chung cư của Thiên Đức. Các thông tin chi tiết về vị trí, quy mô, pháp lý và tiến độ cần được cập nhật theo hồ sơ chính thức trước khi công bố rộng rãi.",
+      "Silver Sea Tower nằm tại số 47 đường Ba Cu, Phường 1, TP. Vũng Tàu — sát cạnh UBND thành phố và cách Bãi Trước khoảng 500m, nên cả hai mặt tòa nhà đều có tầm nhìn hướng biển. Công trình đã hoàn thiện và đưa vào vận hành: khối căn hộ có cư dân sinh sống ổn định, khối văn phòng và thương mại tầng đế đã hoạt động đồng bộ.",
     highlights: [
-      "Loại hình chung cư tại khu vực Vũng Tàu.",
-      "Hình ảnh hiện đang dùng làm ảnh tham khảo phù hợp với nhóm dự án chung cư.",
-      "Thông tin chi tiết về pháp lý, quy mô và tiến độ sẽ được cập nhật theo tài liệu được duyệt.",
+      "18 tầng nổi và 2 tầng hầm; tầng áp mái có sân vườn trên cao và bãi đáp trực thăng phục vụ PCCC.",
+      "80 căn hộ diện tích 101 - 162 m², thiết kế 2 - 3 phòng ngủ.",
+      "Đã có sổ hồng lâu dài riêng cho từng căn hộ, chuyển nhượng công chứng sang tên bình thường.",
+    ],
+    quickFacts: [
+      { label: "Địa chỉ", value: "47 Ba Cu, Phường 1, TP. Vũng Tàu" },
+      { label: "Diện tích khu đất", value: "1.490,3 m²" },
+      { label: "Quy mô", value: "18 tầng nổi + 2 tầng hầm" },
+      { label: "Số căn hộ", value: "80 căn (101 - 162 m²)" },
+      { label: "Phân khu", value: "Tầng 1-3 thương mại · 4-7 văn phòng · 8-18 căn hộ" },
+      { label: "Pháp lý", value: "Sổ hồng lâu dài từng căn" },
     ],
   },
   {
-    title: "Dự án Bảy Hiền",
+    // Slug giữ nguyên `du-an-bay-hien` vì lý do như trên.
+    title: "Bảy Hiền Tower",
     slug: "du-an-bay-hien",
     summary:
-      "Dự án chung cư tại khu vực Bảy Hiền, đang được bổ sung thông tin chi tiết và hình ảnh phù hợp.",
+      "Tòa nhà 23 tầng tại số 9 Phạm Phú Thứ, Quận Tân Bình, TP.HCM, gồm khối chợ sỉ phụ liệu dệt may và khu căn hộ.",
     status: "da-ban-giao",
-    location: "Bảy Hiền, TP.HCM",
+    location: "Tân Bình, TP.HCM",
     category: "Chung cư",
     image: "/images/projects/bay-hien/bay-hien-tower-exterior-01.jpg",
     description:
-      "Dự án Bảy Hiền được giới thiệu trong danh mục dự án chung cư của Thiên Đức tại TP.HCM. Nội dung hiện trình bày ở mức tổng quan an toàn, chờ công ty xác nhận thêm thông tin chính thức về pháp lý, quy mô và tiến độ.",
+      "Bảy Hiền Tower tọa lạc tại số 9 Phạm Phú Thứ, Phường 11, Quận Tân Bình — cách Ngã tư Bảy Hiền khoảng 300m và sát Chợ sỉ Tân Bình. Khối căn hộ đã hoàn thiện và bàn giao, hiện có hơn 150 hộ dân sinh sống. Khối thương mại 5 tầng đã xây dựng xong phần thô và đang chờ hoàn tất thủ tục để đưa vào khai thác.",
     highlights: [
-      "Loại hình chung cư tại khu vực Bảy Hiền, TP.HCM.",
-      "Hình ảnh hiện đang dùng làm ảnh tham khảo phù hợp với nhóm dự án chung cư.",
-      "Các thông tin chi tiết cần được xác nhận trước khi công bố rộng rãi.",
+      "23 tầng nổi và 2 tầng hầm gửi xe, diện tích hầm khoảng 5.500 m².",
+      "Khối đế 5 tầng thương mại, sàn gần 7.000 m², bố trí khoảng 500 sạp chợ sỉ phụ liệu dệt may.",
+      "Đối diện Bệnh viện Thống Nhất, gần THPT Nguyễn Thượng Hiền và Công viên Lê Thị Riêng.",
+    ],
+    quickFacts: [
+      { label: "Địa chỉ", value: "9 Phạm Phú Thứ, Phường 11, Tân Bình" },
+      { label: "Diện tích khu đất", value: "2.712 m²" },
+      { label: "Quy mô", value: "23 tầng nổi + 2 tầng hầm" },
+      { label: "Số căn hộ", value: "168 - 196 căn (70 - 101 m² và Duplex)" },
+      { label: "Khối thương mại", value: "5 tầng, sàn gần 7.000 m²" },
     ],
   },
 ];

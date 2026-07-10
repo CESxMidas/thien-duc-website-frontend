@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { legalInfo, siteConfig } from "@/config/site";
 import { footerBrand, footerSections } from "@/data/footer";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -111,6 +111,17 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               </span>
             </a>
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-brand/20">
+        <div className="mx-auto max-w-7xl px-6 py-5 text-xs leading-6 text-white/55">
+          <p className="font-semibold uppercase tracking-[0.12em] text-white/70">
+            {legalInfo.legalName}
+          </p>
+          <p className="mt-1">
+            {dictionary.footer.taxCode}: {legalInfo.taxCode} · {legalInfo.authority}
+          </p>
         </div>
       </div>
 

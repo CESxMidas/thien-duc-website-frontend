@@ -45,8 +45,8 @@ export function buildAlternates(
  * vào chỉ mục sẽ kéo điểm SEO toàn site xuống. Gỡ slug khỏi đây khi có nội dung.
  */
 export const placeholderPaths: readonly string[] = [
+  // `/cong-ty-thanh-vien` đã có nội dung thật (câu 6) → đã gỡ khỏi danh sách này.
   "/tuyen-dung",
-  "/cong-ty-thanh-vien",
   "/so-do-to-chuc-cong-ty",
   "/dao-tao",
   "/chinh-sach-nhan-su",

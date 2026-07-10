@@ -18,7 +18,8 @@
     "phone": "Phone",
     "email": "Email",
     "office": "Head office",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "taxCode": "Tax code"
   },
   "home": {
     "featuredEyebrow": "Featured projects",

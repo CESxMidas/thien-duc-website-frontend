@@ -43,6 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry(routes.about, "monthly", 0.8),
     entry(routes.projects, "weekly", 0.9),
     entry(routes.news, "daily", 0.8),
+    entry(routes.members, "yearly", 0.6),
     entry(routes.contact, "yearly", 0.6),
   ];
 
