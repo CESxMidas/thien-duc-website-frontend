@@ -29,6 +29,7 @@ export type Dictionary = {
     phone: string;
     email: string;
     office: string;
+    contact: string;
     rights: string;
     taxCode: string;
   };

@@ -25,7 +25,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   return (
     <footer className="mt-auto border-t border-brand/25 bg-brand-dark text-white">
       <div className="bg-brand-soft">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.15fr_repeat(3,minmax(0,1fr))] lg:gap-8 lg:py-14">
+        {/* Gom Liên hệ thành một cột trong hàng trên (bỏ dải full-width thưa
+            thớt cũ) để lấp đầy hàng và tránh khoảng trống ngang dư thừa. */}
+        <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
               href={localizePath(routes.home, locale)}
@@ -41,7 +43,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               />
             </Link>
             <p className="mt-5 text-lg font-semibold">{siteConfig.name}</p>
-            <p className="mt-3 max-w-sm text-sm leading-6 text-white/80">
+            <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
               {footerBrand.tagline}
             </p>
             <p className="mt-4 border-l-4 border-gold pl-4 text-sm font-medium italic text-gold-soft">
@@ -68,48 +70,57 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               </ul>
             </div>
           ))}
-        </div>
 
-        <div className="border-t border-brand/20">
-          <div className="mx-auto grid max-w-7xl gap-4 px-6 py-8 md:grid-cols-3">
-            <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
-              <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span>
-                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  {dictionary.footer.phone}
-                </span>
-                <span className="mt-1 block font-semibold text-white">
-                  {siteConfig.phone}
-                </span>
-              </span>
-            </a>
-            <a href={emailHref} className={`${footerLinkClassName} flex items-start gap-3`}>
-              <Mail className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span>
-                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  {dictionary.footer.email}
-                </span>
-                <span className="mt-1 block font-semibold text-white">
-                  {siteConfig.email}
-                </span>
-              </span>
-            </a>
-            <a
-              href={mapsHref}
-              target="_blank"
-              rel="noreferrer"
-              className={`${footerLinkClassName} flex items-start gap-3`}
-            >
-              <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span>
-                <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
-                  {dictionary.footer.office}
-                </span>
-                <span className="mt-1 block font-semibold leading-6 text-white">
-                  {siteConfig.address}
-                </span>
-              </span>
-            </a>
+          <div className="sm:col-span-2 lg:col-span-1">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+              {dictionary.footer.contact}
+            </h2>
+            <ul className="mt-5 space-y-4">
+              <li>
+                <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
+                  <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
+                  <span>
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                      {dictionary.footer.phone}
+                    </span>
+                    <span className="mt-1 block font-semibold text-white">
+                      {siteConfig.phone}
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href={emailHref} className={`${footerLinkClassName} flex items-start gap-3`}>
+                  <Mail className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
+                  <span className="min-w-0">
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                      {dictionary.footer.email}
+                    </span>
+                    <span className="mt-1 block wrap-break-word font-semibold text-white">
+                      {siteConfig.email}
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={mapsHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${footerLinkClassName} flex items-start gap-3`}
+                >
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
+                  <span>
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                      {dictionary.footer.office}
+                    </span>
+                    <span className="mt-1 block font-semibold leading-6 text-white">
+                      {siteConfig.address}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
