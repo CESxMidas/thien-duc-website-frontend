@@ -45,8 +45,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
     const first = track.firstElementChild as HTMLElement | null;
     const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 16;
     const step = (first ? first.clientWidth : track.clientWidth) + gap;
-    const atEnd =
-      track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
 
     if (direction > 0 && atEnd) {
       track.scrollTo({ left: 0, behavior: "smooth" });
@@ -95,7 +94,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
     >
       <div
         ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-width:none [&::-webkit-scrollbar]:hidden"
       >
         {images.map((image, index) => (
           <div

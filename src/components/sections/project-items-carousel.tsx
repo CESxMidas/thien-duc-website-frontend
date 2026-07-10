@@ -106,7 +106,7 @@ export function ProjectItemsCarousel({
                   aria-label={`Xem hạng mục ${item.title}`}
                   className="group/slide grid w-full shrink-0 grid-cols-1 md:grid-cols-2"
                 >
-                  <div className="relative aspect-16/10 overflow-hidden bg-surface md:aspect-auto md:min-h-[22rem]">
+                  <div className="relative aspect-16/10 overflow-hidden bg-surface md:aspect-auto md:min-h-22rem">
                     {item.image ? (
                       <Image
                         src={item.image}
