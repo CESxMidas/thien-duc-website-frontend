@@ -110,6 +110,18 @@ export type PageDto = {
   content: LocalizedText[] | null;
 };
 
+/** Dự án hợp tác (`GET /cooperation`) — mọi field chữ song ngữ, không có ảnh. */
+export type CooperationProjectDto = {
+  id: string;
+  name: LocalizedText;
+  location: LocalizedText;
+  role: LocalizedText;
+  partner: LocalizedText;
+  scale: LocalizedText;
+  status: LocalizedText;
+  order: number;
+};
+
 export type BannerDto = {
   id: string;
   image: string;

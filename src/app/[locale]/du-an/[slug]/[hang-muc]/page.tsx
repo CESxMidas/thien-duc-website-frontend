@@ -114,8 +114,6 @@ export default async function ProjectItemPage({
           <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
               <div className="reveal-from-left h-full">
-                {/* Ảnh đại diện lớn ở trên, list ảnh con chạy ngay dưới —
-                    đứng ngang và cùng chiều cao với khối thông tin bên phải. */}
                 <ProjectItemGallery images={galleryImages} title={item.title} />
               </div>
             ) : null}
@@ -139,7 +137,7 @@ export default async function ProjectItemPage({
               </h2>
               <p className="mt-5 text-base leading-7 text-slate">
                 {item.description ??
-                  "Thông tin tổng quan của hạng mục đang được cập nhật theo tài liệu được duyệt."}
+                  "Thông tin đang được cập nhật"}
               </p>
 
               {/* Thông tin nhanh gộp chung vào khối tổng quan thay vì tách panel

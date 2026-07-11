@@ -1,4 +1,5 @@
 import type { HomeBanner } from "@/data/banners";
+import type { CooperationProject } from "@/data/home";
 import type {
   NewsPost,
   Project,
@@ -8,6 +9,7 @@ import type {
 import type { Locale } from "@/lib/i18n/config";
 import type {
   BannerDto,
+  CooperationProjectDto,
   LocalizedText,
   NewsPostDto,
   ProjectDto,
@@ -93,6 +95,20 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     content: dto.content?.map((item) => localized(item, locale)),
     author: dto.author ?? undefined,
     image: dto.image ?? undefined,
+  };
+}
+
+export function mapCooperationProject(
+  dto: CooperationProjectDto,
+  locale: Locale,
+): CooperationProject {
+  return {
+    name: localized(dto.name, locale),
+    location: localized(dto.location, locale),
+    role: localized(dto.role, locale),
+    partner: localized(dto.partner, locale),
+    scale: localized(dto.scale, locale),
+    status: localized(dto.status, locale),
   };
 }
 

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Handshake, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
-import { AboutPortfolio } from "@/components/sections/about-portfolio";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { PageHeading } from "@/components/ui/page-heading";
 import {
@@ -12,7 +11,6 @@ import {
   aboutFields,
   aboutHero,
   aboutOverview,
-  aboutPortfolio,
   aboutPrinciples,
   aboutStats,
   aboutTimeline,
@@ -169,19 +167,6 @@ export default async function AboutPage({
             </li>
           ))}
         </ol>
-      </section>
-
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
-        <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-            Dự án tiêu biểu
-          </p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Dự án đã bàn giao và đang triển khai
-          </h2>
-        </div>
-
-        <AboutPortfolio projects={aboutPortfolio} locale={locale} />
       </section>
 
       <section className="reveal-section mx-auto max-w-7xl px-6 py-14">

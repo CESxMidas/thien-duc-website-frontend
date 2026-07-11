@@ -1,5 +1,3 @@
-import { businessFields } from "./business-fields";
-
 export const homeHero = {
   eyebrow: "Công ty Thiên Đức",
   title: "Đầu tư – Xây dựng – Phát triển bất động sản bền vững",
@@ -38,7 +36,47 @@ export const homeStrengths = [
   },
 ];
 
-export const homeCapabilities = businessFields;
+/**
+ * Dự án hợp tác — khối riêng ở trang chủ (chuyển từ danh mục "Dự án tiêu biểu"
+ * cũ ở trang Giới thiệu). Đây là các dự án Thiên Đức đồng phát triển cùng đối
+ * tác quốc tế, **không** nằm trong danh mục `/du-an` (do Thiên Đức làm chủ đầu
+ * tư) nên không có trang chi tiết. Ảnh do đối tác (CapitaLand) giữ bản quyền —
+ * thẻ hiển thị bằng thông tin thay vì mượn ảnh dự án khác.
+ */
+export const homeCooperationIntro = {
+  eyebrow: "Dự án hợp tác",
+  title: "Đồng hành cùng đối tác phát triển bất động sản quốc tế",
+  description:
+    "Giai đoạn 2014 – 2018, Thiên Đức hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), đồng chủ đầu tư và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
+};
+
+export type CooperationProject = {
+  name: string;
+  location: string;
+  role: string;
+  partner: string;
+  scale: string;
+  status: string;
+};
+
+export const homeCooperation: CooperationProject[] = [
+  {
+    name: "Vista Verde",
+    location: "Quận 2, TP.HCM",
+    role: "Đồng chủ đầu tư",
+    partner: "CapitaLand (Singapore)",
+    scale: "25.295 m² · 4 tòa tháp · 1.152 căn hộ",
+    status: "Đã bàn giao",
+  },
+  {
+    name: "Feliz en Vista",
+    location: "Quận 2, TP.HCM",
+    role: "Đồng chủ đầu tư",
+    partner: "CapitaLand (Singapore)",
+    scale: "4 tòa tháp căn hộ cao cấp",
+    status: "Đã bàn giao",
+  },
+];
 
 export const homeFeaturedProjectCopy = {
   "khu-do-thi-hung-phu": {

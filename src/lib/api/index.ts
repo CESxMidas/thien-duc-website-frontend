@@ -7,6 +7,7 @@ export {
 } from "@/lib/api/projects";
 export { getNewsPosts, getNewsPostBySlug } from "@/lib/api/news";
 export { getBanners } from "@/lib/api/banners";
+export { getCooperationProjects } from "@/lib/api/cooperation";
 export { getPageBySlug, type StaticPageContent } from "@/lib/api/pages";
 export {
   search,

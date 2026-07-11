@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { HomeBannerSection } from "@/components/sections/home-banner-section";
-import { HomeCapabilities } from "@/components/sections/home-capabilities";
 import { HomeContactCta } from "@/components/sections/home-contact-cta";
+import { HomeCooperation } from "@/components/sections/home-cooperation";
 import { HomeFeaturedProjects } from "@/components/sections/home-featured-projects";
 import { HomeIntroStrip } from "@/components/sections/home-intro-strip";
 import { HomeLatestNews } from "@/components/sections/home-latest-news";
@@ -46,7 +46,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <HomeBannerSection locale={locale} />
       <HomeFeaturedProjects locale={locale} />
       <HomeIntroStrip />
-      <HomeCapabilities />
+      <HomeCooperation locale={locale} />
       <HomeLatestNews locale={locale} />
       <HomeContactCta locale={locale} />
     </SiteShell>

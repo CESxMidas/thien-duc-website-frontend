@@ -150,6 +150,15 @@ body {
   transform-origin: left;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .hero-fade-up {
   animation: heroFadeUp 720ms var(--ease-out-expo) both;
 }
