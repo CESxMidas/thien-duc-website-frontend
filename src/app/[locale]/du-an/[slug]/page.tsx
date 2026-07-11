@@ -133,7 +133,7 @@ export default async function ProjectDetailPage({
         </section>
 
         {project.image && !hasMap ? (
-          <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
+          <section className="mx-auto max-w-7xl px-4 pb-10 pt-4 sm:px-6 sm:pb-12">
             <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
               <Image
                 src={project.image}
@@ -148,7 +148,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
@@ -231,7 +231,7 @@ export default async function ProjectDetailPage({
 
         {items.length > 0 ? (
           <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
                   Hạng mục trong dự án
@@ -253,7 +253,7 @@ export default async function ProjectDetailPage({
           </section>
         ) : gallerySections.length > 0 ? (
           <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={project.title}
@@ -262,7 +262,7 @@ export default async function ProjectDetailPage({
           </section>
         ) : gallery.length > 0 ? (
           <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
                   Hình ảnh dự án
@@ -280,7 +280,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
@@ -309,7 +309,7 @@ export default async function ProjectDetailPage({
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-16">
+        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">

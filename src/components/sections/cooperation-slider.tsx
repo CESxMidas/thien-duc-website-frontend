@@ -73,7 +73,7 @@ export function CooperationSlider({
 
   return (
     <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-16">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
@@ -82,7 +82,7 @@ export function CooperationSlider({
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
               {homeCooperationIntro.title}
             </h2>
-            <p className="mt-5 text-lg leading-8 text-slate">
+            <p className="mt-4 text-base leading-7 text-slate sm:mt-5 sm:text-lg sm:leading-8">
               {homeCooperationIntro.description}
             </p>
           </div>
@@ -121,7 +121,7 @@ export function CooperationSlider({
           {projects.map((project) => (
             <article
               key={project.name}
-              className="hover-card group relative flex w-[85%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-6 text-white sm:w-[70%] md:w-[calc(50%-0.625rem)] md:p-8"
+              className="hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-6 md:w-[calc(50%-0.625rem)] md:p-8"
             >
               <div
                 className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(253,205,4,0.18),transparent_46%)]"

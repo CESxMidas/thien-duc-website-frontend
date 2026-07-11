@@ -31,13 +31,13 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="mx-auto max-w-7xl px-6 pt-6 text-[13px] font-medium"
+      className="mx-auto max-w-7xl px-4 pt-4 text-[13px] font-medium sm:px-6 sm:pt-6"
     >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 leading-6">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           // Mobile: giữ cấp đầu + 2 cấp cuối, các cấp giữa thu thành "…"
@@ -64,7 +64,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current="page" className="text-ink">
+                <span aria-current="page" className="min-w-0 wrap-break-word text-ink">
                   {item.label}
                 </span>
               )}

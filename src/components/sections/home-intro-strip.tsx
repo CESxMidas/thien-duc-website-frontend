@@ -9,15 +9,15 @@ const strengthIcons = [Building2, Handshake, Star, ShieldCheck];
  */
 export function HomeIntroStrip() {
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f6f3ee_0%,#fff9ec_45%,#f6f3ee_100%)]">
+    <section className="relative overflow-hidden bg-gradient-to-br from-surface-warm via-cream to-surface-warm">
       <div
         className="hero-accent-grow pointer-events-none absolute inset-y-0 left-0 w-1 bg-gold"
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-14">
+      <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
-          <p className="inline-flex h-11 items-center gap-3 bg-brand px-5 text-sm font-semibold uppercase tracking-[0.24em] text-white shadow-[0_8px_24px_rgba(176,102,19,0.22)]">
+          <p className="inline-flex min-h-11 items-center gap-3 bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(176,102,19,0.22)] sm:px-5 sm:text-sm sm:tracking-[0.24em]">
             {homeHero.eyebrow}
           </p>
           <p className="mt-6 border-l-4 border-gold bg-white/70 py-1 pl-5 text-base leading-8 text-slate lg:text-lg">

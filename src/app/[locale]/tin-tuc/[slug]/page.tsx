@@ -70,7 +70,7 @@ export default async function NewsDetailPage({
       />
 
       {post.image ? (
-        <section className="reveal-section mx-auto max-w-7xl px-6 pb-10">
+        <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6">
           <div className="image-reveal relative aspect-video max-h-140 overflow-hidden border border-black/10 bg-surface">
             <Image
               src={post.image}
@@ -84,14 +84,14 @@ export default async function NewsDetailPage({
         </section>
       ) : null}
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[1fr_320px]">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-6 px-4 pb-10 sm:px-6 sm:pb-16 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
             {post.category ? <span>{post.category}</span> : null}
             <span>{formatDate(post.publishedAt)}</span>
           </div>
 
-          <div className="mt-8 grid gap-5 text-base leading-8 text-[#384247]">
+          <div className="mt-6 grid gap-5 text-base leading-7 text-slate sm:mt-8 sm:leading-8">
             {content.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}

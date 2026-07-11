@@ -8,7 +8,7 @@ import { ApiError } from "@/lib/api/client";
 import { submitContactForm } from "@/lib/api/contact";
 
 const inputClassName =
-  "h-11 w-full border bg-white px-4 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40";
+  "h-12 w-full border bg-white px-4 text-base text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40 sm:h-11 sm:text-sm";
 
 const labelClassName = "mb-2 block text-sm font-semibold text-ink-soft";
 
@@ -165,7 +165,7 @@ export function ContactForm() {
           className="mx-auto size-10 text-success"
           aria-hidden="true"
         />
-        <h3 className="mt-4 text-xl font-semibold text-[#14532d]">
+        <h3 className="mt-4 text-xl font-semibold text-success-strong">
           Đã gửi yêu cầu thành công
         </h3>
         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink-soft">
@@ -304,7 +304,7 @@ export function ContactForm() {
           role="alert"
           className={`border px-4 py-3 text-sm font-medium ${
             submitError.kind === "rate-limit"
-              ? "border-[#b45309]/30 bg-[#fef3c7] text-[#92400e]"
+              ? "border-warning/30 bg-warning-soft text-warning"
               : "border-danger/30 bg-danger/8 text-danger"
           }`}
         >

@@ -77,7 +77,7 @@ export default async function AboutPage({
         description={heading.description}
       />
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-6 py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             {aboutOverview.eyebrow}
@@ -127,7 +127,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6">
+      <section className="reveal-section mx-auto max-w-7xl px-4 sm:px-6">
         <dl className="stagger-list grid gap-4 border border-black/10 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
           {aboutStats.map((stat) => (
             <div key={stat.label} className="border-l-4 border-gold pl-4">
@@ -141,7 +141,7 @@ export default async function AboutPage({
         </dl>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Chặng đường phát triển
@@ -169,7 +169,7 @@ export default async function AboutPage({
         </ol>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Giá trị nền tảng
@@ -196,7 +196,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Lĩnh vực hoạt động
@@ -217,7 +217,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 py-16">
+      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="rounded-sm bg-brand-soft p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
             {aboutContactCta.eyebrow}

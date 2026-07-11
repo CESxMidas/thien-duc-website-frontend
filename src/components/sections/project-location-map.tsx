@@ -24,7 +24,7 @@ export function ProjectLocationMap({
 
   return (
     <section className="project-detail-band reveal-section overflow-hidden py-10">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid w-full gap-4 lg:grid-cols-2 lg:items-stretch">
           {aerialImage ? (
             <div
@@ -42,7 +42,7 @@ export function ProjectLocationMap({
           ) : null}
 
           <div
-            className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-[#0c5b3f] shadow-[0_16px_36px_rgba(127,75,13,0.12)]"
+            className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-map shadow-[0_16px_36px_rgba(127,75,13,0.12)]"
             style={{ aspectRatio: "1024 / 683" }}
           >
             <div className="absolute inset-0 overflow-hidden">

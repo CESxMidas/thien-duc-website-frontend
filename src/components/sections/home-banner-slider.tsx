@@ -127,7 +127,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden bg-[#3d2a16]"
+      className="relative overflow-hidden bg-ink"
       aria-label="Banner dự án nổi bật"
       aria-roledescription="carousel"
       onPointerEnter={() => setHoverPaused(true)}
@@ -138,7 +138,7 @@ export function HomeBannerSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-[clamp(480px,75svh,820px)]">
+      <div className="relative h-[clamp(32rem,75svh,51.25rem)]">
         {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -187,7 +187,7 @@ export function HomeBannerSlider({
           </div>
         ) : null}
 
-        <div className="absolute inset-x-0 bottom-16 z-30 px-6 sm:bottom-20">
+        <div className="absolute inset-x-0 bottom-16 z-30 px-4 sm:bottom-20 sm:px-6">
           <div className="mx-auto max-w-7xl">
             <div
               key={activeBanner.title}
@@ -214,16 +214,16 @@ export function HomeBannerSlider({
                   <p className="mt-3 line-clamp-3 max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg">
                     {activeBanner.subtitle}
                   </p>
-                  <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="mt-5 grid gap-3 min-[420px]:flex min-[420px]:flex-wrap sm:mt-6">
                     <Link
                       href={localizePath(activeBanner.href, locale)}
-                      className="button-polish inline-flex h-11 items-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
+                      className="button-polish inline-flex h-11 items-center justify-center px-4 text-center text-sm font-semibold text-ink transition bg-gold hover:bg-white sm:px-5"
                     >
                       {activeBanner.ctaLabel}
                     </Link>
                     <Link
                       href={localizePath(routes.contact, locale)}
-                      className="button-polish inline-flex h-11 items-center border border-white/60 px-5 text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink"
+                      className="button-polish inline-flex h-11 items-center justify-center border border-white/60 px-4 text-center text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-ink sm:px-5"
                     >
                       {contactCtaLabel}
                     </Link>
@@ -234,7 +234,7 @@ export function HomeBannerSlider({
           </div>
         </div>
 
-        <div className="absolute bottom-5 right-5 z-30 flex items-center gap-2">
+        <div className="absolute bottom-5 right-5 z-30 hidden items-center gap-2 sm:flex">
           <button
             type="button"
             aria-label="Banner trước"

@@ -58,7 +58,7 @@ export default async function NewsPage({
             : dictionary.news.description
         }
       />
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         {posts.length > 0 ? (
           <div className="stagger-list grid gap-5 md:grid-cols-3">
             {posts.map((post) => (

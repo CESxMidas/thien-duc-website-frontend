@@ -111,7 +111,7 @@ export default async function ProjectItemPage({
         </section>
 
         <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
               <div className="reveal-from-left h-full">
                 <ProjectItemGallery images={galleryImages} title={item.title} />
@@ -184,7 +184,7 @@ export default async function ProjectItemPage({
             slider nhiều khối bên dưới bố cục hai cột. */}
         {gallerySections.length > 0 ? (
           <section className="project-detail-band pb-14">
-            <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={item.title}
@@ -194,7 +194,7 @@ export default async function ProjectItemPage({
         ) : null}
 
         {siblings.length > 0 ? (
-          <section className="mx-auto max-w-7xl px-6 py-14">
+          <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
               Hạng mục khác
             </p>
@@ -228,7 +228,7 @@ export default async function ProjectItemPage({
           </section>
         ) : null}
 
-        <section className="mx-auto max-w-7xl px-6 pb-16">
+        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">

@@ -12,7 +12,7 @@ const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
-  "text-sm text-white/80 transition hover:text-gold hover:translate-x-0.5";
+  "inline-flex min-h-11 items-center text-sm text-white/80 transition hover:text-gold sm:min-h-0";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -27,7 +27,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="bg-brand-soft">
         {/* Gom Liên hệ thành một cột trong hàng trên (bỏ dải full-width thưa
             thớt cũ) để lấp đầy hàng và tránh khoảng trống ngang dư thừa. */}
-        <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
+        <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-9 px-4 py-10 sm:grid-cols-2 sm:px-6 sm:py-12 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
               href={localizePath(routes.home, locale)}
@@ -56,7 +56,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
                 {dictionary.footerSectionTitles[section.title] ?? section.title}
               </h2>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-3 space-y-1 sm:mt-5 sm:space-y-3">
                 {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -75,7 +75,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
               {dictionary.footer.contact}
             </h2>
-            <ul className="mt-5 space-y-4">
+            <ul className="mt-4 space-y-2 sm:mt-5 sm:space-y-4">
               <li>
                 <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
                   <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
@@ -126,7 +126,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       </div>
 
       <div className="border-t border-brand/20">
-        <div className="mx-auto max-w-7xl px-6 py-5 text-xs leading-6 text-white/55">
+        <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-6 text-white/65 sm:px-6">
           <p className="font-semibold uppercase tracking-[0.12em] text-white/70">
             {legalInfo.legalName}
           </p>
@@ -136,13 +136,13 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 text-sm text-white/65 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-white/70 sm:px-6 md:flex-row md:items-center md:justify-between">
         <p>
           © {currentYear} {siteConfig.name}. {dictionary.footer.rights}
         </p>
         <Link
           href={localizePath(routes.contact, locale)}
-          className="font-semibold text-gold transition hover:text-white"
+          className="inline-flex min-h-11 items-center font-semibold text-gold transition hover:text-white md:min-h-0"
         >
           {dictionary.common.contactCta} →
         </Link>

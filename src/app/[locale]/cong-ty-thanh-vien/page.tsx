@@ -48,7 +48,7 @@ export default async function MemberCompaniesPage({
         description="Các pháp nhân trong hệ sinh thái Thiên Đức, cùng người đại diện pháp luật."
       />
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="hover-card grid gap-6 border border-black/10 bg-white p-6 md:grid-cols-[auto_1fr] md:items-center md:p-8">
           <div className="grid size-14 place-items-center rounded-full bg-gold-soft">
             <UserRound className="size-7 text-brand" aria-hidden="true" />
@@ -67,7 +67,7 @@ export default async function MemberCompaniesPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Đơn vị thành viên
@@ -112,7 +112,7 @@ export default async function MemberCompaniesPage({
         </p>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">

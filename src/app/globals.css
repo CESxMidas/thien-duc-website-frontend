@@ -39,6 +39,10 @@
   /* Màu ngữ nghĩa cho trạng thái form (mục 8 handoff spec). */
   --color-danger: #9b2c2c;
   --color-success: #166534;
+  --color-success-strong: #14532d;
+  --color-warning: #92400e;
+  --color-warning-soft: #fef3c7;
+  --color-map: #0c5b3f;
 }
 
 @theme inline {
@@ -53,6 +57,31 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+html {
+  overflow-x: clip;
+  scroll-padding-top: var(--site-header-height);
+}
+
+body {
+  min-width: 20rem;
+  overflow-wrap: break-word;
+}
+
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
 }
 
 @keyframes map-ripple {
@@ -384,6 +413,8 @@ body {
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
   transition:
     transform var(--duration-fast) var(--ease-out-expo),
     box-shadow var(--duration-fast) var(--ease-out-expo),
@@ -540,6 +571,19 @@ body {
 
 .nav-dropdown-item:hover {
   transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 1rem;
+  }
+
+  .hover-card:hover,
+  .stagger-sides.is-revealed > .project-gallery-card.hover-card:hover {
+    transform: none;
+  }
 }
 
 /* Header: collapse secondary information after the page starts scrolling. */

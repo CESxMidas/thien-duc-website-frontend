@@ -27,7 +27,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
 
   return (
     <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">

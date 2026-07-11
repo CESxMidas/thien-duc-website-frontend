@@ -62,7 +62,7 @@ export default async function CareersPage({
         description={careersHero.description}
       />
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="stagger-list grid gap-4 md:grid-cols-3">
           {careersValues.map((value) => (
             <article
@@ -78,7 +78,7 @@ export default async function CareersPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-14">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Vị trí đang tuyển
@@ -172,7 +172,7 @@ export default async function CareersPage({
         )}
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-6 pb-16">
+      <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="max-w-3xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
             Quy trình
