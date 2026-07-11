@@ -147,37 +147,62 @@ export function CooperationSlider({
                 </div>
               ) : null}
 
+              {/* Khối chữ kẹp số dòng (line-clamp) để nội dung dài không kéo
+                  giãn thẻ — mọi thẻ giữ đúng một khung, rê chuột đọc toàn văn. */}
               <div className="relative">
                 <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-gold">
                   <Handshake className="size-4" aria-hidden="true" />
                   Hợp tác phát triển
                 </p>
-                <h3 className="mt-4 text-2xl font-semibold leading-tight md:text-3xl">
+                <h3
+                  className="mt-4 line-clamp-1 text-2xl font-semibold leading-tight md:text-3xl"
+                  title={project.name}
+                >
                   {project.name}
                 </h3>
-                <p className="mt-2 text-sm font-medium text-white/70">
+                {/* Cố định 2 dòng (min-h theo line-height) — thẻ có mô tả 1
+                    dòng hay 2 dòng đều cao bằng nhau. */}
+                <p
+                  className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-white/70"
+                  title={`${project.location} · ${project.scale}`}
+                >
                   {project.location} · {project.scale}
                 </p>
               </div>
 
               <dl className="relative mt-8 grid gap-4 border-t border-white/15 pt-6 text-sm sm:grid-cols-3">
-                <div>
+                <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
                     Vai trò
                   </dt>
-                  <dd className="mt-1 font-semibold">{project.role}</dd>
+                  <dd
+                    className="mt-1 line-clamp-2 font-semibold"
+                    title={project.role}
+                  >
+                    {project.role}
+                  </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
                     Đối tác
                   </dt>
-                  <dd className="mt-1 font-semibold">{project.partner}</dd>
+                  <dd
+                    className="mt-1 line-clamp-2 font-semibold"
+                    title={project.partner}
+                  >
+                    {project.partner}
+                  </dd>
                 </div>
-                <div>
+                <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
                     Trạng thái
                   </dt>
-                  <dd className="mt-1 font-semibold">{project.status}</dd>
+                  <dd
+                    className="mt-1 line-clamp-2 font-semibold"
+                    title={project.status}
+                  >
+                    {project.status}
+                  </dd>
                 </div>
               </dl>
             </article>
