@@ -64,7 +64,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
       onBlurCapture={() => setIsPaused(false)}
     >
       <div className="group hover-card relative flex-1 overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]">
-        <div className="project-gallery-stage relative aspect-16/10 h-full min-h-[18rem]">
+        <div className="project-gallery-stage relative aspect-16/10 h-full min-h-18rem">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 
