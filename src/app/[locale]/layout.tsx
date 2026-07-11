@@ -33,6 +33,13 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+// ISR cho toàn bộ trang dưới [locale]: trang tĩnh được dựng lại tối đa mỗi 60s
+// khi có lượt truy cập. Thiếu dòng này, HTML prerender lúc `next build` bị cache
+// vô thời hạn — nội dung sửa trong Admin (dự án hợp tác, tin tức, banner…) chỉ
+// hiện sau lần deploy kế tiếp, gây "cập nhật chậm". Giá trị phải là literal
+// (Next yêu cầu phân tích tĩnh), không viết `60 * 1`.
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
