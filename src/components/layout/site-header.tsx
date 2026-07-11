@@ -28,7 +28,7 @@ const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.add
 const DROPDOWN_CLOSE_DELAY_MS = 150;
 
 const topStripLinkClassName =
-  "inline-flex min-w-0 items-center gap-2 text-white/90 transition hover:text-gold";
+  "inline-flex min-h-11 min-w-0 items-center gap-2 rounded-sm text-white/90 transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 /** `path` đã bỏ tiền tố locale nên so khớp được với href gốc trong `navigation.ts`. */
 function isActive(path: string, item: NavItem) {
@@ -57,42 +57,39 @@ function groupChildren(children: NavItem[]) {
 
 function HeaderTopStrip() {
   return (
-    <div className="border-b border-brand/25 bg-brand-soft">
-      <div className="mx-auto max-w-7xl px-4 py-2.5 md:px-6 md:py-3">
-        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+    <div className="header-top-strip grid bg-brand-soft">
+      <div className="min-h-0 overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 py-1.5 md:px-6 md:py-2">
+        <div className="grid min-w-0 gap-x-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-6">
           <a
             href={mapsHref}
             target="_blank"
             rel="noreferrer"
             title={siteConfig.address}
-            className={`${topStripLinkClassName} order-2 text-center text-xs leading-5 sm:text-sm lg:order-1 lg:flex-1 lg:text-left`}
+            className={`${topStripLinkClassName} col-span-full text-xs leading-5 sm:text-sm lg:col-span-1`}
           >
             <MapPin
-              className="mx-auto size-4 shrink-0 text-gold lg:mx-0"
+              className="size-4 shrink-0 text-gold"
               aria-hidden="true"
             />
             <span className="line-clamp-2 lg:line-clamp-1">{siteConfig.address}</span>
           </a>
 
-          <div className="order-1 flex items-center justify-center gap-3 sm:gap-4 lg:order-2 lg:shrink-0">
+          <div className="col-span-full grid min-w-0 grid-cols-2 border-t border-white/15 sm:border-t-0 lg:col-span-1 lg:flex lg:shrink-0 lg:gap-4">
             <a href={phoneHref} className={`${topStripLinkClassName} font-semibold`}>
               <Phone className="size-4 shrink-0 text-gold" aria-hidden="true" />
               <span className="whitespace-nowrap">{siteConfig.phone}</span>
             </a>
 
-            <span
-              className="hidden h-4 w-px shrink-0 bg-white/35 sm:block"
-              aria-hidden="true"
-            />
-
             <a
               href={emailHref}
-              className={`${topStripLinkClassName} max-w-44 min-[400px]:max-w-none`}
+              className={`${topStripLinkClassName} justify-end border-l border-white/15 pl-3 lg:border-l-0 lg:pl-0`}
             >
               <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
               <span className="truncate sm:whitespace-nowrap">{siteConfig.email}</span>
             </a>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -113,9 +110,40 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const navLabel = (item: NavItem) => dictionary.navLabels[item.href] ?? item.label;
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    let ticking = false;
+    const updateScrollState = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 24);
+        ticking = false;
+      });
+    };
+
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     const header = document.getElementById("site-header");
@@ -161,11 +189,12 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   return (
     <header
       id="site-header"
-      className="relative z-40 bg-white text-ink shadow-md"
+      data-scrolled={isScrolled || undefined}
+      className="sticky top-0 z-40 bg-white text-ink shadow-md"
     >
       <HeaderTopStrip />
 
-      <div className="border-b-[3px] border-gold bg-[linear-gradient(180deg,#ffffff_0%,#fff8ea_100%)]">
+      <div className="border-b-[3px] border-gold bg-gradient-to-b from-white to-cream">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
           <Link
             href={localizePath("/", locale)}
@@ -271,7 +300,10 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             })}
           </nav>
 
-          <form action={searchAction} className="hidden shrink-0 items-center lg:flex">
+          <form
+            action={searchAction}
+            className={`header-secondary-action hidden shrink-0 items-center lg:flex ${isScrolled ? "pointer-events-none" : ""}`}
+          >
             <label className="sr-only" htmlFor="site-search">
               {dictionary.header.searchLabel}
             </label>
@@ -294,7 +326,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           <LanguageSwitcher
             locale={locale}
             label={dictionary.common.languageSwitcher}
-            className="hidden shrink-0 lg:flex"
+            className={`header-secondary-action hidden shrink-0 lg:flex ${isScrolled ? "pointer-events-none" : ""}`}
           />
 
           <button
@@ -302,14 +334,19 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             aria-label={menuOpen ? dictionary.header.closeMenu : dictionary.header.openMenu}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((value) => !value)}
-            className="grid size-10 place-items-center border-2 border-brand/35 text-brand-dark lg:hidden"
+            className="ml-auto grid size-11 shrink-0 place-items-center rounded-sm border-2 border-brand/35 text-brand-dark transition-colors duration-200 hover:bg-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
 
-        {menuOpen ? (
-          <div className="border-t border-black/10 bg-white px-4 pb-5 lg:hidden">
+          <div
+            aria-hidden={!menuOpen}
+            // `inert` removes closed drawer controls from keyboard and screen-reader flow.
+            inert={!menuOpen ? true : undefined}
+            className={`mobile-menu-panel grid bg-white lg:hidden ${menuOpen ? "is-open" : ""}`}
+          >
+            <div className="min-h-0 overflow-y-auto overscroll-contain border-t border-black/10 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
             <nav className="mx-auto grid max-w-7xl gap-1 py-4">
               {mainNavigation.map((item) => {
                 if (!item.children?.length) {
@@ -345,12 +382,12 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                         }`}
                       />
                     </button>
-                    {expanded ? (
-                      <div className="grid border-b border-brand/15 bg-gold-soft">
+                      <div className={`mobile-submenu grid ${expanded ? "is-open" : ""}`}>
+                        <div className="min-h-0 overflow-hidden border-b border-brand/15 bg-gold-soft">
                         <Link
                           href={localizePath(item.href, locale)}
                           onClick={() => setMenuOpen(false)}
-                          className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
+                          className="flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-brand-dark hover:text-brand"
                         >
                           {dictionary.navOverviewLabels[item.href] ??
                             item.overviewLabel ??
@@ -361,13 +398,13 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                             key={child.href}
                             href={localizePath(child.href, locale)}
                             onClick={() => setMenuOpen(false)}
-                            className="px-4 py-3 text-sm font-semibold text-[#5a3a12] hover:text-brand"
+                            className="flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-brand-dark hover:text-brand"
                           >
                             {navLabel(child)}
                           </Link>
                         ))}
+                        </div>
                       </div>
-                    ) : null}
                   </div>
                 );
               })}
@@ -393,8 +430,8 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               label={dictionary.common.languageSwitcher}
               className="mx-auto mt-4 flex max-w-7xl"
             />
+            </div>
           </div>
-        ) : null}
       </div>
     </header>
   );

@@ -542,6 +542,71 @@ body {
   transform: translateX(4px);
 }
 
+/* Header: collapse secondary information after the page starts scrolling. */
+.header-top-strip {
+  grid-template-rows: 1fr;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  opacity: 1;
+  transition:
+    grid-template-rows 260ms var(--ease-out-quart),
+    opacity 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+#site-header[data-scrolled="true"] .header-top-strip {
+  grid-template-rows: 0fr;
+  border-color: transparent;
+  opacity: 0;
+}
+
+.header-secondary-action {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 180ms ease-out,
+    transform 220ms var(--ease-out-quart);
+}
+
+#site-header[data-scrolled="true"] .header-secondary-action {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.mobile-menu-panel,
+.mobile-submenu {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    grid-template-rows 280ms var(--ease-out-quart),
+    opacity 180ms ease-out,
+    transform 240ms var(--ease-out-quart),
+    visibility 0s linear 280ms;
+}
+
+.mobile-menu-panel.is-open,
+.mobile-submenu.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.mobile-menu-panel > div {
+  max-height: calc(100dvh - 4rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-top-strip,
+  .header-secondary-action,
+  .mobile-menu-panel,
+  .mobile-submenu {
+    transition-duration: 1ms;
+  }
+}
+
 @keyframes projectGalleryKenBurns {
   0% {
     transform: scale(1);
