@@ -127,6 +127,21 @@ export function CooperationSlider({
                 aria-hidden="true"
               />
 
+              {project.image ? (
+                <div
+                  role="img"
+                  aria-label={`Ảnh phối cảnh ${project.name}`}
+                  style={{ backgroundImage: `url(${project.image})` }}
+                  className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-center md:-mx-8 md:-mt-8 md:h-52"
+                >
+                  {/* Chuyển màu về nền thẻ để chữ phía dưới luôn đọc rõ. */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/30 to-transparent"
+                    aria-hidden="true"
+                  />
+                </div>
+              ) : null}
+
               <div className="relative">
                 <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-gold">
                   <Handshake className="size-4" aria-hidden="true" />

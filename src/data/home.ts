@@ -57,6 +57,8 @@ export type CooperationProject = {
   partner: string;
   scale: string;
   status: string;
+  /** Ảnh phối cảnh (tùy chọn) — thẻ lùi về nền thương hiệu khi không có. */
+  image?: string;
 };
 
 export const homeCooperation: CooperationProject[] = [
@@ -67,6 +69,7 @@ export const homeCooperation: CooperationProject[] = [
     partner: "CapitaLand (Singapore)",
     scale: "25.295 m² · 4 tòa tháp · 1.152 căn hộ",
     status: "Đã bàn giao",
+    image: "/images/cooperation/vista-verde-placeholder.svg",
   },
   {
     name: "Feliz en Vista",
@@ -75,6 +78,7 @@ export const homeCooperation: CooperationProject[] = [
     partner: "CapitaLand (Singapore)",
     scale: "4 tòa tháp căn hộ cao cấp",
     status: "Đã bàn giao",
+    image: "/images/cooperation/feliz-en-vista-placeholder.svg",
   },
 ];
 

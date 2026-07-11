@@ -119,6 +119,7 @@ export type CooperationProjectDto = {
   partner: LocalizedText;
   scale: LocalizedText;
   status: LocalizedText;
+  image: string | null;
   order: number;
 };
 

@@ -109,6 +109,7 @@ export function mapCooperationProject(
     partner: localized(dto.partner, locale),
     scale: localized(dto.scale, locale),
     status: localized(dto.status, locale),
+    image: dto.image ?? undefined,
   };
 }
 
