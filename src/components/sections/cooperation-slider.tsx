@@ -33,7 +33,10 @@ export function CooperationSlider({
       const clamped = (index + count) % count;
       const child = track.children[clamped] as HTMLElement | undefined;
       if (child) {
-        track.scrollTo({ left: child.offsetLeft - track.offsetLeft, behavior: "smooth" });
+        track.scrollTo({
+          left: child.offsetLeft - track.offsetLeft,
+          behavior: "smooth",
+        });
       }
     },
     [count],
@@ -47,7 +50,9 @@ export function CooperationSlider({
     const children = Array.from(track.children) as HTMLElement[];
     const nearest = children.reduce(
       (best, child, index) => {
-        const distance = Math.abs(child.offsetLeft - track.offsetLeft - track.scrollLeft);
+        const distance = Math.abs(
+          child.offsetLeft - track.offsetLeft - track.scrollLeft,
+        );
         return distance < best.distance ? { index, distance } : best;
       },
       { index: 0, distance: Infinity },
@@ -136,7 +141,7 @@ export function CooperationSlider({
                 >
                   {/* Chuyển màu về nền thẻ để chữ phía dưới luôn đọc rõ. */}
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/30 to-transparent"
+                    className="absolute inset-0 bg-linear-to-t from-brand-dark via-brand-dark/30 to-transparent"
                     aria-hidden="true"
                   />
                 </div>
