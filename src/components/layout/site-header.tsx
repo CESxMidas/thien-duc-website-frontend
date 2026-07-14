@@ -117,11 +117,17 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
 
   useEffect(() => {
     let ticking = false;
+    let lastIsScrolled = false;
+
     const updateScrollState = () => {
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 24);
+        const shouldBeScrolled = window.scrollY > 64;
+        if (shouldBeScrolled !== lastIsScrolled) {
+          setIsScrolled(shouldBeScrolled);
+          lastIsScrolled = shouldBeScrolled;
+        }
         ticking = false;
       });
     };
@@ -194,7 +200,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
     >
       <HeaderTopStrip />
 
-      <div className="border-b-[3px] border-gold bg-gradient-to-b from-white to-cream">
+      <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
           <Link
             href={localizePath("/", locale)}
