@@ -116,7 +116,7 @@ export function CooperationSlider({
           onMouseLeave={() => setIsPaused(false)}
           onFocusCapture={() => setIsPaused(true)}
           onBlurCapture={() => setIsPaused(false)}
-          className="stagger-list no-scrollbar mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2"
+          className="stagger-list no-scrollbar mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 justify-center px-4 sm:px-6 md:px-0 md:justify-start"
         >
           {projects.map((project) => (
             <article
