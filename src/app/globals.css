@@ -616,7 +616,33 @@ textarea {
   transform: translateY(-8px);
 }
 
-.mobile-menu-panel,
+/* Menu mobile là overlay cố định (fixed): luôn phủ đè lên nội dung, không phụ
+   thuộc vị trí cuộn hay chiều cao header sticky. */
+.mobile-menu-overlay {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 200ms ease-out,
+    visibility 0s linear 200ms;
+}
+
+.mobile-menu-overlay.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.mobile-menu-sheet {
+  transform: translateY(-8px);
+  transition: transform 240ms var(--ease-out-quart);
+}
+
+.mobile-menu-overlay.is-open .mobile-menu-sheet {
+  transform: translateY(0);
+}
+
 .mobile-submenu {
   grid-template-rows: 0fr;
   visibility: hidden;
@@ -629,7 +655,6 @@ textarea {
     visibility 0s linear 280ms;
 }
 
-.mobile-menu-panel.is-open,
 .mobile-submenu.is-open {
   grid-template-rows: 1fr;
   visibility: visible;
@@ -638,14 +663,11 @@ textarea {
   transition-delay: 0s;
 }
 
-.mobile-menu-panel > div {
-  max-height: calc(100dvh - 4rem);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .header-top-strip,
   .header-secondary-action,
-  .mobile-menu-panel,
+  .mobile-menu-overlay,
+  .mobile-menu-sheet,
   .mobile-submenu {
     transition-duration: 1ms;
   }

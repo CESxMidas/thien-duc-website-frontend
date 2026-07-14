@@ -350,9 +350,17 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             aria-hidden={!menuOpen}
             // `inert` removes closed drawer controls from keyboard and screen-reader flow.
             inert={!menuOpen ? true : undefined}
-            className={`mobile-menu-panel grid bg-white lg:hidden ${menuOpen ? "is-open" : ""}`}
+            className={`mobile-menu-overlay fixed inset-x-0 bottom-0 top-(--site-header-height) lg:hidden ${menuOpen ? "is-open" : ""}`}
           >
-            <div className="min-h-0 overflow-y-auto overscroll-contain border-t border-black/10 px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+            {/* Lớp nền mờ: chạm ra ngoài để đóng menu. */}
+            <button
+              type="button"
+              aria-label={dictionary.header.closeMenu}
+              tabIndex={-1}
+              onClick={() => setMenuOpen(false)}
+              className="mobile-menu-backdrop absolute inset-0 h-full w-full bg-ink/40"
+            />
+            <div className="mobile-menu-sheet absolute inset-x-0 top-0 max-h-full overflow-y-auto overscroll-contain border-t border-black/10 bg-white px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-xl">
             <nav className="mx-auto grid max-w-7xl gap-1 py-4">
               {mainNavigation.map((item) => {
                 if (!item.children?.length) {
