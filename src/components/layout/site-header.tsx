@@ -123,7 +123,11 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(() => {
-        const shouldBeScrolled = window.scrollY > 64;
+        // Hysteresis: bật khi cuộn quá 96px, chỉ tắt khi lên dưới 32px. Việc
+        // co/giãn top-strip đổi chiều cao header ~40px làm scrollY nhảy; hai
+        // ngưỡng cách nhau đủ rộng để trạng thái không lật qua lại (nhấp nháy).
+        const y = window.scrollY;
+        const shouldBeScrolled = lastIsScrolled ? y > 32 : y > 96;
         if (shouldBeScrolled !== lastIsScrolled) {
           setIsScrolled(shouldBeScrolled);
           lastIsScrolled = shouldBeScrolled;
