@@ -166,7 +166,9 @@ textarea {
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* `none` (không phải translateY(0)) để trạng thái nghỉ KHÔNG giữ transform —
+       tránh tạo containing block làm hỏng position: fixed của menu mobile. */
+    transform: none;
   }
 }
 
@@ -201,7 +203,11 @@ textarea {
 }
 
 .page-transition {
-  animation: pageTransitionIn 420ms var(--ease-out-expo) both;
+  /* `backwards` (không phải `both`): chống nháy trạng thái đầu, nhưng SAU khi
+     animation xong không giữ transform — nếu giữ (both), trình duyệt resolve
+     transform thành matrix và tạo containing block, làm position: fixed của menu
+     mobile bị neo vào đây thay vì viewport. */
+  animation: pageTransitionIn 420ms var(--ease-out-expo) backwards;
 }
 
 .reveal-section {
