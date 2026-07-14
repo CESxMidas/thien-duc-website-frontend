@@ -26,6 +26,11 @@ function revealElement(element: Element, observer: IntersectionObserver) {
 export function MotionRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
+  // Scroll về đầu trang khi route thay đổi
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   useLayoutEffect(() => {
     const observed = new WeakSet<Element>();
     const timeouts: number[] = [];
