@@ -21,16 +21,3 @@ export const legalInfo = {
   companyType: "Công ty TNHH hai thành viên trở lên",
   mainBusiness: "Xây dựng nhà các loại (mã ngành 4100)",
 };
-
-export const brandColors = {
-  primary: "#B06613",
-  primarySoft: "#c99248",
-  primarySoftInner: "#fff4cf",
-  primaryDark: "#B06613",
-  primaryDarker: "#7f4b0d",
-  accent: "#fdcd04",
-  background: "#FFFFFF",
-  surface: "#F2F2F2",
-  text: "#191919",
-  muted: "#8f8f8f",
-};

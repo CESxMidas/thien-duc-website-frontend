@@ -1,7 +1,6 @@
 import type { NewsPost, Project } from "@/types/content";
-import { apiFetch, isApiEnabled } from "@/lib/api/client";
+import { apiFetch } from "@/lib/api/client";
 import { mapNewsPost, mapProject } from "@/lib/api/mappers";
-import { mockNewsPosts, mockProjects } from "@/lib/api/mock";
 import type { NewsPostDto, ProjectDto } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -35,10 +34,6 @@ export async function search(
     return { projects: [], news: [] };
   }
 
-  if (!isApiEnabled) {
-    return searchMock(trimmed, locale, scope);
-  }
-
   const params = new URLSearchParams({ q: trimmed, type: scope });
   const data = await apiFetch<SearchResponseDto>(`/search?${params}`);
 
@@ -46,49 +41,4 @@ export async function search(
     projects: data.projects.map((dto) => mapProject(dto, locale)),
     news: data.news.map((dto) => mapNewsPost(dto, locale)),
   };
-}
-
-/**
- * Chế độ mock (chưa đặt `NEXT_PUBLIC_API_URL`): so khớp chuỗi con đơn giản trên
- * DTO. Chỉ để chạy giao diện khi không có backend — không phải full-text thật.
- */
-function searchMock(
-  query: string,
-  locale: Locale,
-  scope: SearchScope,
-): SearchResults {
-  const needle = query.toLowerCase();
-  const hit = (...fields: Array<string | undefined>) =>
-    fields.filter(Boolean).join(" ").toLowerCase().includes(needle);
-
-  const projects =
-    scope === "news"
-      ? []
-      : mockProjects
-          .filter((dto) =>
-            hit(
-              dto.title.vi,
-              dto.summary.vi,
-              dto.description?.vi,
-              dto.category ?? undefined,
-              dto.location ?? undefined,
-            ),
-          )
-          .map((dto) => mapProject(dto, locale));
-
-  const news =
-    scope === "projects"
-      ? []
-      : mockNewsPosts
-          .filter((dto) =>
-            hit(
-              dto.title.vi,
-              dto.summary.vi,
-              dto.author ?? undefined,
-              ...(dto.content?.map((item) => item.vi) ?? []),
-            ),
-          )
-          .map((dto) => mapNewsPost(dto, locale));
-
-  return { projects, news };
 }

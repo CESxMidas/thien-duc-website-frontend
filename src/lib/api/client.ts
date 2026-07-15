@@ -2,12 +2,9 @@ import type { ApiResponse } from "@/lib/api/types";
 
 /**
  * Base URL của backend, ví dụ `http://localhost:3001/api`.
- * Khi chưa cấu hình `NEXT_PUBLIC_API_URL`, lớp API chạy ở chế độ mock
- * (dữ liệu từ `src/lib/api/mock.ts`) — không gọi mạng.
+ * Bắt buộc cấu hình `NEXT_PUBLIC_API_URL` — frontend luôn lấy dữ liệu từ API.
  */
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
-
-export const isApiEnabled = API_BASE_URL.length > 0;
 
 export class ApiError extends Error {
   constructor(

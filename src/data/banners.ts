@@ -5,14 +5,9 @@ export type HomeBanner = {
   subtitle: string;
   href: string;
   ctaLabel: string;
-  /** Canh khung ảnh trong banner (object-cover). Ví dụ: "center 40%" */
   objectPosition?: string;
 };
 
-/**
- * 4 slide banner — mỗi slide một chủ đề và một đích chuyển hướng riêng.
- * Ảnh hiện tạm map theo file có sẵn; có thể đổi `image` khi có ảnh phù hợp từng chủ đề.
- */
 export const homeBanners: HomeBanner[] = [
   {
     image: "/images/banners/home/home-banner-hung-phu-master-plan-02.jpg",

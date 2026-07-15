@@ -3,8 +3,8 @@ import type { Locale } from "@/lib/i18n/config";
 import { CooperationSlider } from "@/components/sections/cooperation-slider";
 
 /**
- * Section "Dự án hợp tác" trang chủ. Server component: lấy dữ liệu (API thật
- * hoặc mock tĩnh) rồi truyền cho slider client. Không có dữ liệu thì ẩn hẳn
+ * Section "Dự án hợp tác" trang chủ. Server component: lấy dữ liệu từ API
+ * `/cooperation` rồi truyền cho slider client. Không có dữ liệu thì ẩn hẳn
  * khối, tránh để tiêu đề trơ trọi.
  */
 export async function HomeCooperation({ locale }: { locale: Locale }) {

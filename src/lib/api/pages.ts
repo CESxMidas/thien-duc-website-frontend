@@ -1,6 +1,5 @@
-import { apiFetchOptional, isApiEnabled } from "@/lib/api/client";
+import { apiFetchOptional } from "@/lib/api/client";
 import { localized } from "@/lib/api/mappers";
-import { mockPages } from "@/lib/api/mock";
 import type { PageDto } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -18,9 +17,9 @@ export async function getPageBySlug(
   slug: string,
   locale: Locale,
 ): Promise<StaticPageContent | undefined> {
-  const dto = isApiEnabled
-    ? await apiFetchOptional<PageDto>(`/pages/${encodeURIComponent(slug)}`)
-    : mockPages.find((page) => page.slug === slug);
+  const dto = await apiFetchOptional<PageDto>(
+    `/pages/${encodeURIComponent(slug)}`,
+  );
 
   if (!dto) return undefined;
 

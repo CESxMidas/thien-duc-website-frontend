@@ -1,14 +1,10 @@
 import type { Project, ProjectItem } from "@/types/content";
-import { apiFetch, apiFetchOptional, isApiEnabled } from "@/lib/api/client";
+import { apiFetch, apiFetchOptional } from "@/lib/api/client";
 import { mapProject, mapProjectItem } from "@/lib/api/mappers";
-import { mockProjects } from "@/lib/api/mock";
 import type { ProjectDto, ProjectItemDto } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n/config";
 
 export async function getProjects(locale: Locale): Promise<Project[]> {
-  if (!isApiEnabled) {
-    return mockProjects.map((dto) => mapProject(dto, locale));
-  }
   const data = await apiFetch<ProjectDto[]>("/projects");
   return data.map((dto) => mapProject(dto, locale));
 }
@@ -17,10 +13,6 @@ export async function getProjectBySlug(
   slug: string,
   locale: Locale,
 ): Promise<Project | undefined> {
-  if (!isApiEnabled) {
-    const dto = mockProjects.find((project) => project.slug === slug);
-    return dto ? mapProject(dto, locale) : undefined;
-  }
   const data = await apiFetchOptional<ProjectDto>(
     `/projects/${encodeURIComponent(slug)}`,
   );
@@ -36,12 +28,6 @@ export async function getProjectItem(
   itemSlug: string,
   locale: Locale,
 ): Promise<ProjectItem | undefined> {
-  if (!isApiEnabled) {
-    const dto = mockProjects
-      .find((project) => project.slug === projectSlug)
-      ?.items?.find((item) => item.slug === itemSlug);
-    return dto ? mapProjectItem(dto, locale) : undefined;
-  }
   const data = await apiFetchOptional<ProjectItemDto>(
     `/projects/${encodeURIComponent(projectSlug)}/${encodeURIComponent(itemSlug)}`,
   );

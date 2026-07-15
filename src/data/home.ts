@@ -61,27 +61,6 @@ export type CooperationProject = {
   image?: string;
 };
 
-export const homeCooperation: CooperationProject[] = [
-  {
-    name: "Vista Verde",
-    location: "Quận 2, TP.HCM",
-    role: "Đồng chủ đầu tư",
-    partner: "CapitaLand (Singapore)",
-    scale: "25.295 m² · 4 tòa tháp · 1.152 căn hộ",
-    status: "Đã bàn giao",
-    image: "/images/cooperation/vista-verde-placeholder.svg",
-  },
-  {
-    name: "Feliz en Vista",
-    location: "Quận 2, TP.HCM",
-    role: "Đồng chủ đầu tư",
-    partner: "CapitaLand (Singapore)",
-    scale: "4 tòa tháp căn hộ cao cấp",
-    status: "Đã bàn giao",
-    image: "/images/cooperation/feliz-en-vista-placeholder.svg",
-  },
-];
-
 export const homeFeaturedProjectCopy = {
   "khu-do-thi-hung-phu": {
     title: "Khu đô thị Hưng Phú",

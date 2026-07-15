@@ -12,7 +12,7 @@ const AUTOPLAY_MS = 5200;
  * nhiều thẻ trên cùng một hàng (mobile lộ mép thẻ kế tiếp gợi ý vuốt, desktop
  * xếp cạnh nhau). Tự chạy tôn trọng `prefers-reduced-motion` và tạm dừng khi
  * hover/focus. Không mượn ảnh — mỗi thẻ là một tấm nền thương hiệu đối tác.
- * Dữ liệu do server truyền vào (từ API `/cooperation`, fallback mock tĩnh).
+ * Dữ liệu do server truyền vào (từ API `/cooperation`).
  */
 export function CooperationSlider({
   projects,
