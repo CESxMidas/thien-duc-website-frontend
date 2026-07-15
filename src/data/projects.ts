@@ -15,7 +15,8 @@ export const projects: Project[] = [
     status: "da-ban-giao",
     location: "Bến Tre",
     category: "Khu đô thị",
-    image: "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg",
+    image:
+      "/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg",
     gallerySections: hungPhuGallerySections,
     description:
       "Khu đô thị Hưng Phú nằm mặt tiền đường Nguyễn Thị Định, Phường Phú Tân, TP. Bến Tre, trên khu đất hậu cần Tỉnh đội cũ. Hạ tầng kỹ thuật, đường nội khu, các phân khu nhà phố thấp tầng và tòa căn hộ Fancy Tower đều đã bàn giao, cư dân sinh sống ổn định. Trung tâm thương mại Hưng Phú Mall và nhà trẻ nội khu đang hoàn thiện giai đoạn cuối để đưa vào khai thác.",
@@ -41,7 +42,8 @@ export const projects: Project[] = [
     mapLocation: {
       image:
         "/images/projects/hung-phu/location/hung-phu-location-map-base.png",
-      googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Kh%C3%B9+%C4%91%C3%B4+th%E1%BB%8B+H%C6%B0ng+Ph%C3%BA+B%E1%BA%BFn+Tre",
+      googleMapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Kh%C3%B9+%C4%91%C3%B4+th%E1%BB%8B+H%C6%B0ng+Ph%C3%BA+B%E1%BA%BFn+Tre",
       heading: "Tọa lạc tại trung tâm nổi bật của thành phố Bến Tre",
       description:
         "Phong cách sống sang trọng đi đôi với hệ thống các tiện ích công cộng hiện đại, khu đô thị hứa hẹn mang đến cho thành phố Bến Tre một diện mạo mới.",
@@ -180,7 +182,10 @@ export const projects: Project[] = [
       "Kết nối trực tiếp ra Điện Biên Phủ và Xô Viết Nghệ Tĩnh, khoảng 5 - 10 phút vào trung tâm Quận 1.",
     ],
     quickFacts: [
-      { label: "Địa chỉ", value: "6 - 8 Nguyễn Gia Trí, Phường 25, Bình Thạnh" },
+      {
+        label: "Địa chỉ",
+        value: "6 - 8 Nguyễn Gia Trí, Phường 25, Bình Thạnh",
+      },
       { label: "Diện tích đất", value: "1.374 m²" },
       { label: "Diện tích sàn xây dựng", value: "11.654 m²" },
       { label: "Quy mô", value: "14 tầng nổi + 2 tầng hầm" },
@@ -215,7 +220,10 @@ export const projects: Project[] = [
       { label: "Diện tích khu đất", value: "1.490,3 m²" },
       { label: "Quy mô", value: "18 tầng nổi + 2 tầng hầm" },
       { label: "Số căn hộ", value: "80 căn (101 - 162 m²)" },
-      { label: "Phân khu", value: "Tầng 1-3 thương mại · 4-7 văn phòng · 8-18 căn hộ" },
+      {
+        label: "Phân khu",
+        value: "Tầng 1-3 thương mại · 4-7 văn phòng · 8-18 căn hộ",
+      },
       { label: "Pháp lý", value: "Sổ hồng lâu dài từng căn" },
     ],
   },

@@ -114,31 +114,24 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollSentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    let ticking = false;
-    let lastIsScrolled = false;
+    const sentinel = scrollSentinelRef.current;
+    if (!sentinel) return;
 
-    const updateScrollState = () => {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(() => {
-        // Hysteresis: bật khi cuộn quá 96px, chỉ tắt khi lên dưới 32px. Việc
-        // co/giãn top-strip đổi chiều cao header ~40px làm scrollY nhảy; hai
-        // ngưỡng cách nhau đủ rộng để trạng thái không lật qua lại (nhấp nháy).
-        const y = window.scrollY;
-        const shouldBeScrolled = lastIsScrolled ? y > 32 : y > 96;
-        if (shouldBeScrolled !== lastIsScrolled) {
-          setIsScrolled(shouldBeScrolled);
-          lastIsScrolled = shouldBeScrolled;
-        }
-        ticking = false;
-      });
-    };
-
-    updateScrollState();
-    window.addEventListener("scroll", updateScrollState, { passive: true });
-    return () => window.removeEventListener("scroll", updateScrollState);
+    // Thay vì đọc `window.scrollY` theo ngưỡng — vốn nhiễu trên mobile (thanh URL
+    // show/hide + đà cuộn) và bị chính việc co/giãn top-strip làm nhảy giá trị,
+    // gây lật trạng thái liên tục (nhấp nháy) — ta quan sát một "sentinel" đặt
+    // absolute ở đỉnh trang cao 96px. Sentinel nằm ngoài luồng nên header đổi
+    // chiều cao không dịch chuyển nó; IntersectionObserver chỉ chốt theo vị trí
+    // cuộn tuyệt đối, không thể tạo vòng phản hồi.
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -197,12 +190,21 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   }
 
   return (
-    <header
-      id="site-header"
-      data-scrolled={isScrolled || undefined}
-      className="sticky top-0 z-40 bg-white text-ink shadow-md"
-    >
-      <HeaderTopStrip />
+    <>
+      {/* Mốc phát hiện cuộn: absolute ở đỉnh trang, cao 96px, vô hình. Nằm ngoài
+          luồng nên header sticky co/giãn không làm nó dịch chuyển — tránh vòng
+          lật trạng thái gây nhấp nháy. */}
+      <div
+        ref={scrollSentinelRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-24"
+      />
+      <header
+        id="site-header"
+        data-scrolled={isScrolled || undefined}
+        className="sticky top-0 z-40 bg-white text-ink shadow-md"
+      >
+        <HeaderTopStrip />
 
       <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
@@ -451,6 +453,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             </div>
           </div>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

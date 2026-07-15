@@ -11,6 +11,15 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
+// Tên thương hiệu hiển thị trên tab trình duyệt — đồng bộ với Admin
+// ("Quản trị Công ty Thiên Đức") và site name mặc định ở `[locale]/layout.tsx`.
+const homeBrandTitle: Record<Locale, string> = {
+  vi: "Công ty Thiên Đức",
+  en: "Thien Duc Company",
+};
+
+// `title` dài giàu từ khóa dưới đây chỉ dùng cho Open Graph / Twitter (thẻ chia
+// sẻ mạng xã hội); riêng thẻ <title> tab được ép về `homeBrandTitle` bên dưới.
 const homeCopy: Record<Locale, { title: string; description: string }> = {
   vi: {
     title: "Công ty Thiên Đức | Đầu tư & phát triển bất động sản TP.HCM",
@@ -30,11 +39,16 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  return buildPageMetadata({
-    ...homeCopy[locale],
-    path: routes.home,
-    locale,
-  });
+  return {
+    ...buildPageMetadata({
+      ...homeCopy[locale],
+      path: routes.home,
+      locale,
+    }),
+    // `absolute` để bỏ qua template "%s | Thiên Đức" của layout cha — tab chỉ
+    // hiển thị đúng "Công ty Thiên Đức", đồng bộ với Admin.
+    title: { absolute: homeBrandTitle[locale] },
+  };
 }
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {

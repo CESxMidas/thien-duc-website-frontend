@@ -75,7 +75,7 @@ export async function generateMetadata({
   }
 
   return buildPageMetadata({
-    title: `${project.title} | Dự án Thiên Đức`,
+    title: `${project.title}`,
     description: project.summary,
     path: `${routes.projects}/${project.slug}`,
     locale,

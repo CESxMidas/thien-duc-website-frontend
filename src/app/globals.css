@@ -62,6 +62,13 @@ body {
 html {
   overflow-x: clip;
   scroll-padding-top: var(--site-header-height);
+  /* Header sticky co/giãn top-strip theo scroll (đổi chiều cao ~40px). Khi lướt
+     lên gần đỉnh, top-strip giãn lại làm main reflow; scroll-anchoring mặc định
+     sẽ bù scrollY từng frame trong lúc animation 260ms chạy, giằng co với đà
+     cuộn tay → header giật/nhấp nháy. Tắt anchoring để height header đổi mà
+     không kéo scrollY. An toàn vì ảnh trong trang đều đặt sẵn width/height
+     (next/image) nên không có nội dung tải muộn làm nhảy layout. */
+  overflow-anchor: none;
 }
 
 body {
