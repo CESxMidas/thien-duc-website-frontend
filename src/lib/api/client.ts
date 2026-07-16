@@ -6,6 +6,13 @@ import type { ApiResponse } from "@/lib/api/types";
  */
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
+/**
+ * Môi trường build không có API (vd. CI) → `generateStaticParams` trả rỗng để
+ * bỏ prerender thay vì `fetch` URL tương đối nổ `Failed to parse URL`. Trang
+ * chi tiết vẫn render on-demand lúc chạy (ISR `revalidate` ở layout).
+ */
+export const isApiConfigured = API_BASE_URL.length > 0;
+
 export class ApiError extends Error {
   constructor(
     public readonly code: string,

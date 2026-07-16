@@ -11,6 +11,7 @@ import { ProjectItemsCarousel } from "@/components/sections/project-items-carous
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
 import { ProjectMapEmbed } from "@/components/sections/project-map-embed";
 import { ProjectPhotoStrip } from "@/components/sections/project-photo-strip";
+import { isApiConfigured } from "@/lib/api/client";
 import { getProjectBySlug, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -59,6 +60,8 @@ function ProjectOverviewHighlights({ highlights }: { highlights: string[] }) {
 
 /** Slug không phụ thuộc ngôn ngữ — locale do `generateStaticParams` của layout sinh. */
 export async function generateStaticParams() {
+  // Build không có API (CI) → bỏ prerender, trang render on-demand (xem client.ts).
+  if (!isApiConfigured) return [];
   const projects = await getProjects(defaultLocale);
   return projects.map((project) => ({ slug: project.slug }));
 }

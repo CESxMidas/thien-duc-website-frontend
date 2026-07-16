@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { isApiConfigured } from "@/lib/api/client";
 import { getNewsPosts } from "@/lib/api/news";
 import { getProjects } from "@/lib/api/projects";
 import { defaultLocale } from "@/lib/i18n/config";
@@ -31,10 +32,11 @@ function entry(
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Slug không phụ thuộc ngôn ngữ — lấy một lần theo locale mặc định.
-  const [projects, newsPosts] = await Promise.all([
-    getProjects(defaultLocale),
-    getNewsPosts(defaultLocale),
-  ]);
+  // Build không có API (vd. CI) → sitemap chỉ gồm route tĩnh; production
+  // (env đã đặt) vẫn đủ dự án + tin tức như cũ.
+  const [projects, newsPosts] = isApiConfigured
+    ? await Promise.all([getProjects(defaultLocale), getNewsPosts(defaultLocale)])
+    : [[], []];
 
   // Cố ý bỏ các route trong `placeholderPaths` (tuyển dụng, đào tạo…): chúng
   // đang `noindex` vì chưa có nội dung thật, đưa vào sitemap là tín hiệu mâu thuẫn.

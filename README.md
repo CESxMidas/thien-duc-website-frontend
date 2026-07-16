@@ -51,8 +51,10 @@ public/
 
 - Quy ước code dùng chung cho frontend / admin / backend: `../AGENTS.md`.
 - Dữ liệu động lấy qua `src/lib/api/*` (`getProjects`, `getNewsPosts`…). Khi chưa
-  đặt `NEXT_PUBLIC_API_URL`, lớp API tự chạy chế độ mock từ `src/data/*` — kiểm
-  tra bằng `isApiEnabled`.
+  đặt `NEXT_PUBLIC_API_URL` (kiểm tra bằng `isApiConfigured` trong
+  `lib/api/client.ts`), `next build` bỏ prerender cây `/[locale]` + sitemap chỉ
+  gồm route tĩnh — build chạy được không cần API (vd. CI); trang render
+  on-demand lúc chạy. (Chế độ mock từ `src/data/*` trước đây đã gỡ.)
 - `src/data/` còn hai loại file: **mock của CMS** (`projects.ts`, `news.ts`,
   `banners.ts`, `about.ts`, `contact.ts`) và **copy tĩnh của UI** (`home.ts`,
   `navigation.ts`, `footer.ts`, `business-fields.ts`). Chỉ loại đầu sẽ bị thay

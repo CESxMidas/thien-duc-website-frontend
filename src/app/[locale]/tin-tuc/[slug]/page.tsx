@@ -6,6 +6,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHeading } from "@/components/ui/page-heading";
+import { isApiConfigured } from "@/lib/api/client";
 import { getNewsPostBySlug, getNewsPosts } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
@@ -15,6 +16,8 @@ import { buildNewsArticleJsonLd, buildPageMetadata } from "@/lib/seo";
 
 /** Slug không phụ thuộc ngôn ngữ — locale do `generateStaticParams` của layout sinh. */
 export async function generateStaticParams() {
+  // Build không có API (CI) → bỏ prerender, bài render on-demand (xem client.ts).
+  if (!isApiConfigured) return [];
   const newsPosts = await getNewsPosts(defaultLocale);
   return newsPosts.map((post) => ({ slug: post.slug }));
 }

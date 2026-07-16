@@ -7,6 +7,7 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectItemGallery } from "@/components/sections/project-item-gallery";
+import { isApiConfigured } from "@/lib/api/client";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -18,6 +19,8 @@ import { buildPageMetadata } from "@/lib/seo";
 // `/du-an/khu-do-thi-hung-phu/fancy-tower`.
 
 export async function generateStaticParams() {
+  // Build không có API (CI) → bỏ prerender, trang render on-demand (xem client.ts).
+  if (!isApiConfigured) return [];
   const projects = await getProjects(defaultLocale);
   return projects.flatMap((project) =>
     (project.items ?? []).map((item) => ({
