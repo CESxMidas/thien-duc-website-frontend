@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/config/site";
+import { JsonLd } from "@/components/ui/json-ld";
 import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
-import { absoluteUrl, buildAlternates, defaultOgImage } from "@/lib/seo";
+import {
+  absoluteUrl,
+  buildAlternates,
+  buildOrganizationJsonLd,
+  defaultOgImage,
+} from "@/lib/seo";
 import "../globals.css";
 
 // Body/UI: Be Vietnam Pro — font Việt bản địa, hiển thị dấu tiếng Việt hoàn hảo,
@@ -99,7 +105,11 @@ export default async function RootLayout({
       lang={localeHtmlLang[locale]}
       className={`${beVietnamPro.variable} ${playfairDisplay.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans">{children}</body>
+      <body className="flex min-h-full flex-col font-sans">
+        {/* Organization JSON-LD toàn site (task →7) — NewsArticle tham chiếu qua @id. */}
+        <JsonLd data={buildOrganizationJsonLd()} />
+        {children}
+      </body>
     </html>
   );
 }

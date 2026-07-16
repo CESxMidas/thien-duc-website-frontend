@@ -4,13 +4,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { JsonLd } from "@/components/ui/json-ld";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getNewsPostBySlug, getNewsPosts } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
-import { buildPageMetadata } from "@/lib/seo";
+import { buildNewsArticleJsonLd, buildPageMetadata } from "@/lib/seo";
 
 /** Slug không phụ thuộc ngôn ngữ — locale do `generateStaticParams` của layout sinh. */
 export async function generateStaticParams() {
@@ -56,6 +57,8 @@ export default async function NewsDetailPage({
 
   return (
     <SiteShell locale={locale}>
+      {/* NewsArticle JSON-LD (task →7) — publisher/author trỏ Organization ở layout. */}
+      <JsonLd data={buildNewsArticleJsonLd(post, locale)} />
       <Breadcrumb
         items={[
           { label: "Trang chủ", href: localizePath(routes.home, locale) },
