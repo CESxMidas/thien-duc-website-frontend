@@ -26,14 +26,14 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <section className="reveal-section bg-cream">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            <p className="text-eyebrow mb-4 text-brand">
               {dictionary.home.featuredEyebrow}
             </p>
-            <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
+            <h2 className="max-w-3xl text-3xl font-semibold leading-[1.2] md:text-[2.5rem]">
               {dictionary.home.featuredTitle}
             </h2>
           </div>
@@ -67,7 +67,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
               <Link
                 key={project.slug}
                 href={localizePath(`${routes.projects}/${project.slug}`, locale)}
-                className={`hover-card group overflow-hidden border border-black/10 bg-surface-warm hover:border-brand ${
+                className={`hover-card group overflow-hidden border border-brand/10 bg-white shadow-[0_10px_28px_rgba(25,25,25,0.05)] hover:border-brand ${
                   singleProject
                     ? "md:grid md:grid-cols-[1.1fr_0.9fr] md:items-stretch"
                     : ""

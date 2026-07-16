@@ -130,9 +130,7 @@ export function ProjectItemsCarousel({
                   </div>
 
                   <div className="flex flex-col justify-center gap-4 bg-linear-to-br from-white to-gold-soft/35 p-6 md:p-10">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand">
-                      Hạng mục
-                    </p>
+                    <p className="text-eyebrow text-brand">Hạng mục</p>
                     <h3 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
                       {item.title}
                     </h3>

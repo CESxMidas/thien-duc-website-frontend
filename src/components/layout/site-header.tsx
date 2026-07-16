@@ -139,13 +139,48 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+
+    // Khoá cuộn nền bằng kỹ thuật `position: fixed` thay vì `overflow: hidden`.
+    // Đặt `overflow: hidden` lên body biến body thành scroll container, khiến
+    // header `sticky` mất mốc và tụt về đỉnh tài liệu (biến mất khỏi màn hình khi
+    // đang cuộn). Ghim body ở vị trí cuộn hiện tại giữ header sticky nguyên chỗ.
+    const body = document.body;
+    const scrollY = window.scrollY;
+    const previous = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.left = previous.left;
+      body.style.right = previous.right;
+      body.style.width = previous.width;
+      window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", onKeyDown);
     };
+  }, [menuOpen]);
+
+  // Chuyển sang breakpoint desktop khi menu đang mở: đóng menu và mở khoá cuộn,
+  // tránh kẹt trạng thái `fixed` trên body khi người dùng phóng to cửa sổ.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
   }, [menuOpen]);
 
   useEffect(() => {
@@ -257,7 +292,9 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                     className={`nav-link-polish inline-flex h-16 items-center gap-1 whitespace-nowrap border-b-[3px] px-2 text-[13px] font-bold uppercase tracking-[0.02em] xl:px-2.5 xl:text-sm md:h-18 ${
                       active
                         ? "border-brand text-brand"
-                        : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
+                        : dropdownOpen
+                          ? "border-brand/40 text-brand-dark"
+                          : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
                     }`}
                   >
                     {navLabel(item)}
@@ -273,6 +310,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
 
                   {item.children ? (
                     <div
+                      onPointerEnter={() => openDropdownNow(item.href)}
                       className={`absolute left-0 top-full z-50 min-w-72 bg-brand shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-[opacity,visibility] duration-200 ease-out ${
                         dropdownOpen
                           ? "visible opacity-100"
@@ -314,7 +352,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
 
           <form
             action={searchAction}
-            className={`header-secondary-action hidden shrink-0 items-center lg:flex ${isScrolled ? "pointer-events-none" : ""}`}
+            className="hidden shrink-0 items-center xl:flex"
           >
             <label className="sr-only" htmlFor="site-search">
               {dictionary.header.searchLabel}
@@ -338,7 +376,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           <LanguageSwitcher
             locale={locale}
             label={dictionary.common.languageSwitcher}
-            className={`header-secondary-action hidden shrink-0 lg:flex ${isScrolled ? "pointer-events-none" : ""}`}
+            className="hidden shrink-0 xl:flex"
           />
 
           <button
@@ -448,7 +486,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             <LanguageSwitcher
               locale={locale}
               label={dictionary.common.languageSwitcher}
-              className="mx-auto mt-4 flex max-w-7xl"
+              className="mt-4"
             />
             </div>
           </div>

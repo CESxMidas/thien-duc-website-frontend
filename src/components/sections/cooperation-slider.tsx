@@ -73,10 +73,10 @@ export function CooperationSlider({
 
   return (
     <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            <p className="text-eyebrow mb-4 text-brand">
               {homeCooperationIntro.eyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -150,7 +150,7 @@ export function CooperationSlider({
               {/* Khối chữ kẹp số dòng (line-clamp) để nội dung dài không kéo
                   giãn thẻ — mọi thẻ giữ đúng một khung, rê chuột đọc toàn văn. */}
               <div className="relative">
-                <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-gold">
+                <p className="text-eyebrow inline-flex items-center gap-2 text-gold">
                   <Handshake className="size-4" aria-hidden="true" />
                   Hợp tác phát triển
                 </p>

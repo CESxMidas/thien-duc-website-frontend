@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({
           <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+              <p className="text-eyebrow mb-4 text-brand">
                 Thông tin nhanh
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
@@ -190,7 +190,7 @@ export default async function ProjectDetailPage({
             </aside>
 
             <article className="reveal-from-right hover-card project-detail-panel-accent relative flex h-full flex-col overflow-hidden border-l-4 border-l-gold p-6 md:p-8">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+              <p className="text-eyebrow mb-4 text-brand">
                 Tổng quan dự án
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
@@ -233,7 +233,7 @@ export default async function ProjectDetailPage({
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+                <p className="text-eyebrow mb-4 text-brand">
                   Hạng mục trong dự án
                 </p>
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
@@ -264,7 +264,7 @@ export default async function ProjectDetailPage({
           <section className="project-detail-band py-14">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+                <p className="text-eyebrow mb-4 text-brand">
                   Hình ảnh dự án
                 </p>
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
@@ -283,7 +283,7 @@ export default async function ProjectDetailPage({
           <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+              <p className="text-eyebrow mb-4 text-brand">
                 Điểm nổi bật
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
@@ -312,7 +312,7 @@ export default async function ProjectDetailPage({
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
+              <p className="text-eyebrow mb-4 text-gold">
                 Quan tâm dự án này?
               </p>
               <h2 className="text-3xl font-semibold leading-tight">

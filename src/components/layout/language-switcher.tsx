@@ -34,11 +34,14 @@ export function LanguageSwitcher({
 
   return (
     <div
-      className={`items-center gap-1 border border-brand/30 bg-white ${className}`}
+      className={`inline-flex items-center gap-0.5 rounded-md border border-brand/25 bg-cream/70 p-0.5 ${className}`}
       role="group"
       aria-label={label}
     >
-      <Globe className="ml-2 size-4 shrink-0 text-brand" aria-hidden="true" />
+      <Globe
+        className="ml-1.5 mr-0.5 size-3.5 shrink-0 text-brand/70"
+        aria-hidden="true"
+      />
       {locales.map((item) => {
         const active = item === locale;
 
@@ -48,10 +51,10 @@ export function LanguageSwitcher({
             href={localizePath(path, item)}
             hrefLang={item}
             aria-current={active ? "true" : undefined}
-            className={`min-h-9 px-2 py-1 text-xs font-bold uppercase transition ${
+            className={`grid min-h-8 min-w-9 place-items-center rounded px-2.5 text-xs font-bold uppercase tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               active
-                ? "text-brand"
-                : "text-slate hover:text-brand-dark"
+                ? "bg-brand text-white shadow-sm"
+                : "text-slate hover:bg-brand/10 hover:text-brand-dark"
             }`}
           >
             <span className="sr-only">{localeLabels[item]}</span>

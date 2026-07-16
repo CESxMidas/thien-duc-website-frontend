@@ -79,13 +79,13 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             {aboutOverview.eyebrow}
           </p>
           <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
             {aboutOverview.title}
           </h2>
-          <div className="mt-6 grid gap-4 text-lg leading-8 text-slate">
+          <div className="measure mt-6 grid gap-4 text-lg leading-8 text-slate">
             {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -131,7 +131,7 @@ export default async function AboutPage({
         <dl className="stagger-list grid gap-4 border border-black/10 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
           {aboutStats.map((stat) => (
             <div key={stat.label} className="border-l-4 border-gold pl-4">
-              <dt className="text-3xl font-semibold leading-none text-brand">
+              <dt className="font-display text-4xl font-semibold leading-none text-brand">
                 {stat.value}
               </dt>
               <dd className="mt-2 font-semibold text-ink">{stat.label}</dd>
@@ -143,7 +143,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Chặng đường phát triển
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -171,7 +171,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Giá trị nền tảng
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -198,7 +198,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Lĩnh vực hoạt động
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -219,7 +219,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="rounded-sm bg-brand-soft p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
+          <p className="text-eyebrow mb-4 text-gold">
             {aboutContactCta.eyebrow}
           </p>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">

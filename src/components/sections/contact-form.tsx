@@ -207,6 +207,8 @@ export function ContactForm() {
             name="name"
             type="text"
             required
+            // Khớp trần backend (CreateContactSubmissionDto) — đổi đồng bộ 2 nơi.
+            maxLength={120}
             autoComplete="name"
             placeholder="Nguyễn Văn A"
             {...fieldProps("name")}
@@ -223,6 +225,7 @@ export function ContactForm() {
             name="phone"
             type="tel"
             required
+            maxLength={30}
             autoComplete="tel"
             placeholder="090x xxx xxx"
             {...fieldProps("phone")}
@@ -239,6 +242,7 @@ export function ContactForm() {
           id="contact-email"
           name="email"
           type="email"
+          maxLength={200}
           autoComplete="email"
           placeholder="email@example.com"
           {...fieldProps("email")}
@@ -280,6 +284,7 @@ export function ContactForm() {
           name="message"
           required
           rows={5}
+          maxLength={5000}
           placeholder="Mô tả ngắn nhu cầu tư vấn, dự án quan tâm hoặc nội dung cần trao đổi."
           {...fieldProps("message")}
           className={`${fieldProps("message").className} min-h-35 resize-y py-3`}

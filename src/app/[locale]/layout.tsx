@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
 import { absoluteUrl, buildAlternates, defaultOgImage } from "@/lib/seo";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+// Body/UI: Be Vietnam Pro — font Việt bản địa, hiển thị dấu tiếng Việt hoàn hảo,
+// đồng bộ với heading của Admin. Chỉ nạp các weight thực dùng (400 body, 500
+// nav/button, 600–700 nhấn) — mục 9 UI-UX-HANDOFF: tiết kiệm băng thông.
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-be-vietnam",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// Display/heading: Playfair Display serif — tạo chất "modern luxury real estate".
+// Chỉ dùng cho tiêu đề lớn (H1/H2, hero), không dùng cho đoạn văn dài (mục 3).
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "vietnamese"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const rootCopy: Record<Locale, { title: string; description: string }> = {
@@ -88,7 +97,7 @@ export default async function RootLayout({
   return (
     <html
       lang={localeHtmlLang[locale]}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${beVietnamPro.variable} ${playfairDisplay.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">{children}</body>
     </html>

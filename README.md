@@ -58,8 +58,8 @@ public/
   `navigation.ts`, `footer.ts`, `business-fields.ts`). Chỉ loại đầu sẽ bị thay
   dần bằng API; loại sau giữ nguyên.
 - Còn tồn: `home-banner-slider.tsx` chưa gọi `getBanners()`; `gioi-thieu` và
-  `lien-he` chưa đọc từ module `pages`. Xem `../thien-duc-website-docs/KE-HOACH-CODING.md`.
+  `lien-he` chưa đọc từ module `pages`. Xem `../thien-duc-website-docs/docs/04-implementation/implementation-plan.md`.
 - Tài liệu dự án (kế hoạch coding, câu hỏi xác nhận, báo cáo kỹ thuật, sơ đồ) nằm ở `../thien-duc-website-docs/` (cấp workspace, dùng chung cho frontend, admin và backend).
-- Báo cáo phương án kỹ thuật: `../thien-duc-website-docs/Báo cáo phương án kỹ thuật website Thiên Đức.docx`.
+- Báo cáo phương án kỹ thuật: `../thien-duc-website-docs/docs/01-requirements/technical-proposal-pa2.docx`.
 - Tạo lại file Word: `npm run report:docx` (có trang bìa, mục lục tự động, số trang). Sau khi mở Word: **Ctrl+A → F9** để cập nhật mục lục; xem ở chế độ **Bố cục Trang in** (Print Layout).
 - Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.

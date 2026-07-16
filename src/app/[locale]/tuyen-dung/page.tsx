@@ -80,7 +80,7 @@ export default async function CareersPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Vị trí đang tuyển
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -174,7 +174,7 @@ export default async function CareersPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Quy trình
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">

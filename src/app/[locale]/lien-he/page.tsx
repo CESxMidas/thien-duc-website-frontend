@@ -74,7 +74,7 @@ export default async function ContactPage({
 
       <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-4 sm:px-6 sm:pb-14 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="hover-card border border-black/10 bg-white p-6 md:p-8">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             {contactFormCopy.eyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight">
@@ -101,7 +101,7 @@ export default async function ContactPage({
 
         <div className="grid content-start gap-6">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            <p className="text-eyebrow mb-4 text-brand">
               Quy trình
             </p>
             <h2 className="text-3xl font-semibold leading-tight">
@@ -135,7 +135,7 @@ export default async function ContactPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+            <p className="text-eyebrow mb-4 text-brand">
               {contactMap.eyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight">

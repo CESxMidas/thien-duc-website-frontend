@@ -74,7 +74,9 @@
   },
   "navGroups": {
     "Dự án nổi bật": "Featured projects",
-    "Theo trạng thái": "By status"
+    "Theo trạng thái": "By status",
+    "Công ty": "Company",
+    "Nhân sự": "People"
   },
   "footerSectionTitles": {
     "Công ty": "Company",

@@ -69,7 +69,7 @@ export default async function MemberCompaniesPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
+          <p className="text-eyebrow mb-4 text-brand">
             Đơn vị thành viên
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
@@ -115,7 +115,7 @@ export default async function MemberCompaniesPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
+            <p className="text-eyebrow mb-4 text-gold">
               Hợp tác cùng Thiên Đức
             </p>
             <h2 className="text-3xl font-semibold leading-tight">

@@ -4,6 +4,29 @@
   --background: #ffffff;
   --foreground: #171717;
   --site-header-height: 8.75rem;
+
+  /* ------------------------------------------------------------------
+     Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
+     mượt từ mobile → desktop, không cần media query rải rác. Đơn vị rem để
+     tôn trọng cỡ chữ hệ thống. Áp qua utility .text-display/.text-h1… và
+     rule heading mặc định bên dưới.
+     ------------------------------------------------------------------ */
+  --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem); /* 36 → 72px */
+  --text-h1: clamp(2rem, 1.5rem + 2.1vw, 3.5rem); /* 32 → 56px */
+  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.625rem); /* 28 → 42px */
+  --text-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem); /* 22 → 30px */
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); /* 17 → 20px */
+  --text-eyebrow: 0.8125rem; /* 13px label ngắn */
+
+  --leading-hero: 1.08;
+  --leading-heading: 1.22;
+  --leading-body: 1.7;
+
+  /* Playfair có dáng cao, dấu tiếng Việt nặng → tracking hơi âm cho khít, còn
+     eyebrow uppercase cần giãn vừa phải (0.18em thay vì 0.24em vốn hơi thô). */
+  --tracking-display: -0.012em;
+  --tracking-eyebrow: 0.18em;
+  --measure-prose: 68ch;
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --duration-fast: 220ms;
@@ -48,15 +71,65 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Be Vietnam Pro = mặc định (font-sans). Playfair Display = font-display cho
+     tiêu đề lớn — sinh sẵn utility `font-display` để dùng trong component. */
+  --font-sans: var(--font-be-vietnam);
+  --font-display: var(--font-playfair);
   --animate-map-ripple: map-ripple 2s ease-out infinite;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-be-vietnam), "Segoe UI", system-ui, sans-serif;
+  line-height: var(--leading-body);
+  /* Nét chữ mượt hơn trên nền sáng, đặc biệt với Playfair có stroke mảnh. */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Chỉ H1/H2 (tiêu đề trang & tiêu đề section) dùng serif Playfair để tạo chất
+   cao cấp — dùng có tiết chế. H3 trở xuống (card title, sub-label) giữ Be
+   Vietnam Pro đậm cho dễ đọc và giữ tông "corporate premium". Component tự
+   quyết font-size/line-height; đây chỉ set font-family + tracking. */
+h1,
+h2 {
+  font-family: var(--font-playfair), "Times New Roman", serif;
+  letter-spacing: var(--tracking-display);
+}
+
+/* Utility gọn cho type scale — dùng khi muốn áp size token thay vì cỡ cứng. */
+.text-hero {
+  font-size: var(--text-hero);
+  line-height: var(--leading-hero);
+}
+
+.text-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-heading);
+}
+
+.text-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-heading);
+}
+
+.text-lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-body);
+}
+
+.text-eyebrow {
+  font-family: var(--font-be-vietnam), system-ui, sans-serif;
+  font-size: var(--text-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Giới hạn độ rộng đoạn văn 60–75 ký tự cho dễ đọc (mục 3, mục 5). */
+.measure {
+  max-width: var(--measure-prose);
 }
 
 html {
@@ -582,8 +655,10 @@ textarea {
     padding-left var(--duration-fast) var(--ease-out-expo);
 }
 
+/* Thụt lề chữ khi hover thay vì dịch cả khối (translateX): giữ nền nằm gọn
+   trong panel, không lồi ra mép phải. */
 .nav-dropdown-item:hover {
-  transform: translateX(4px);
+  padding-left: 2.25rem;
 }
 
 @media (max-width: 640px) {
@@ -614,19 +689,6 @@ textarea {
   grid-template-rows: 0fr;
   border-color: transparent;
   opacity: 0;
-}
-
-.header-secondary-action {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 180ms ease-out,
-    transform 220ms var(--ease-out-quart);
-}
-
-#site-header[data-scrolled="true"] .header-secondary-action {
-  opacity: 0;
-  transform: translateY(-8px);
 }
 
 /* Menu mobile là overlay cố định (fixed): luôn phủ đè lên nội dung, không phụ

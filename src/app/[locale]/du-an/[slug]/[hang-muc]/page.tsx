@@ -125,9 +125,7 @@ export default async function ProjectItemPage({
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <div className="flex flex-wrap items-center gap-3">
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-                  Tổng quan hạng mục
-                </p>
+                <p className="text-eyebrow text-brand">Tổng quan hạng mục</p>
                 <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                   {projectStatusLabels[status]}
                 </span>
@@ -195,9 +193,7 @@ export default async function ProjectItemPage({
 
         {siblings.length > 0 ? (
           <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-brand">
-              Hạng mục khác
-            </p>
+            <p className="text-eyebrow mb-4 text-brand">Hạng mục khác</p>
             <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
               Tiếp tục khám phá {project.title}
             </h2>
@@ -231,9 +227,7 @@ export default async function ProjectItemPage({
         <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-gold">
-                Quan tâm hạng mục này?
-              </p>
+              <p className="text-eyebrow mb-4 text-gold">Quan tâm hạng mục này?</p>
               <h2 className="text-3xl font-semibold leading-tight">
                 Liên hệ Thiên Đức để được hỗ trợ thông tin
               </h2>

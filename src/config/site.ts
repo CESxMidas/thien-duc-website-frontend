@@ -5,13 +5,9 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
-  address: "Số 10 Trần Não, Khu Phố 5, Phường An Phú, TP Thủ Đức, TP.HCM",
+  address: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
 };
 
-/**
- * Thông tin đăng ký kinh doanh (câu 8 trong `docs/CAU-HOI-CAN-XAC-NHAN.md`).
- * Hiển thị ở chân trang — website doanh nghiệp cần công khai MST và tên pháp nhân.
- */
 export const legalInfo = {
   legalName: "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC",
   taxCode: "0309910290",

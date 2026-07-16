@@ -53,7 +53,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
+              <h2 className="text-eyebrow text-gold">
                 {dictionary.footerSectionTitles[section.title] ?? section.title}
               </h2>
               <ul className="mt-3 space-y-1 sm:mt-5 sm:space-y-3">
@@ -72,9 +72,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           ))}
 
           <div className="sm:col-span-2 lg:col-span-1">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-gold">
-              {dictionary.footer.contact}
-            </h2>
+            <h2 className="text-eyebrow text-gold">{dictionary.footer.contact}</h2>
             <ul className="mt-4 space-y-2 sm:mt-5 sm:space-y-4">
               <li>
                 <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>

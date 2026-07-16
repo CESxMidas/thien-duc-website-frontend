@@ -196,7 +196,7 @@ export function HomeBannerSlider({
               }`}
             >
               <div className="mb-4 flex items-center gap-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold sm:text-sm">
+                <p className="text-eyebrow text-gold">
                   {activeBanner.eyebrow}
                 </p>
                 <span className="h-px flex-1 bg-white/25" aria-hidden="true" />
@@ -208,7 +208,7 @@ export function HomeBannerSlider({
                   {String(bannerCount).padStart(2, "0")}
                 </p>
                 <div className="flex flex-col justify-between gap-4">
-                  <h1 className="line-clamp-2 text-[1.35rem] font-semibold leading-tight sm:text-3xl lg:text-4xl">
+                  <h1 className="line-clamp-2 text-[1.6rem] font-semibold leading-[1.15] sm:text-4xl lg:text-[3.25rem]">
                     {activeBanner.title}
                   </h1>
                   <p className="mt-3 line-clamp-3 max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg">
