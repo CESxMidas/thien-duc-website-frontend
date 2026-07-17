@@ -5,6 +5,8 @@ import { MapPin } from "lucide-react";
 type MapLocationMarkerProps = {
   href: string;
   label: string;
+  /** Nhãn chip khi hover, theo locale (EN-FULL-A). */
+  detailLabel: string;
   left: number;
   top: number;
 };
@@ -26,6 +28,7 @@ function RippleRing({ delay }: { delay: string }) {
 export function MapLocationMarker({
   href,
   label,
+  detailLabel,
   left,
   top,
 }: MapLocationMarkerProps) {
@@ -49,7 +52,7 @@ export function MapLocationMarker({
       </span>
 
       <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-soft px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-gold opacity-0 shadow-lg transition group-hover:opacity-100">
-        Xem chi tiết
+        {detailLabel}
       </span>
     </a>
   );

@@ -1,10 +1,12 @@
 import { Mail, MapPin, Phone } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { displayAddress, siteConfig } from "@/config/site";
+import type { Locale } from "@/lib/i18n/config";
 
 const cardClassName =
   "interactive-card flex gap-3 rounded border border-brand/30 bg-gold-soft p-4 text-ink shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-brand hover:bg-gold";
 
 type CtaContactCardsProps = {
+  locale: Locale;
   labels: {
     phone: string;
     email: string;
@@ -12,7 +14,7 @@ type CtaContactCardsProps = {
   };
 };
 
-export function CtaContactCards({ labels }: CtaContactCardsProps) {
+export function CtaContactCards({ locale, labels }: CtaContactCardsProps) {
   return (
     <div className="grid content-center gap-4 text-sm">
       <a
@@ -46,7 +48,7 @@ export function CtaContactCards({ labels }: CtaContactCardsProps) {
         <span>
           <span className="block text-slate">{labels.office}</span>
           <span className="mt-1 block font-semibold text-ink">
-            {siteConfig.address}
+            {displayAddress(locale)}
           </span>
         </span>
       </a>

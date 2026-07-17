@@ -3,7 +3,12 @@
  * Không hardcode host: mọi URL kỳ vọng dựng từ `siteConfig.url` để test chạy
  * đúng dù `NEXT_PUBLIC_SITE_URL` có được đặt hay không.
  */
-import { legalInfo, siteConfig } from "@/config/site";
+import {
+  brandName,
+  legalDisplayName,
+  legalInfo,
+  siteConfig,
+} from "@/config/site";
 import type { NewsPost } from "@/types/content";
 import {
   absoluteUrl,
@@ -31,7 +36,7 @@ describe("absoluteUrl", () => {
 });
 
 describe("buildOrganizationJsonLd (→7)", () => {
-  const org = buildOrganizationJsonLd();
+  const org = buildOrganizationJsonLd("vi");
 
   it("khai đúng @type/@id để schema khác tham chiếu", () => {
     expect(org["@context"]).toBe("https://schema.org");
@@ -40,13 +45,26 @@ describe("buildOrganizationJsonLd (→7)", () => {
     expect(org["@id"]).toBe(absoluteUrl("/#organization"));
   });
 
-  it("chỉ dùng dữ liệu pháp lý thật từ config/site.ts", () => {
+  it("bản vi dùng đúng tên/pháp lý tiếng Việt từ config/site.ts", () => {
+    expect(org.name).toBe(brandName.vi);
     expect(org.name).toBe(siteConfig.name);
+    expect(org.legalName).toBe(legalDisplayName.vi);
     expect(org.legalName).toBe(legalInfo.legalName);
     expect(org.taxID).toBe(legalInfo.taxCode);
     expect(org.email).toBe(siteConfig.email);
     expect(org.telephone).toBe(siteConfig.phone);
     expect(org.url).toBe(siteConfig.url);
+  });
+
+  it("bản en dùng tên/pháp lý hiển thị tiếng Anh (EN-FULL-A)", () => {
+    const en = buildOrganizationJsonLd("en");
+    expect(en.name).toBe(brandName.en);
+    expect(en.name).toBe("Thien Duc Company");
+    expect(en.legalName).toBe(legalDisplayName.en);
+    expect(en.address).toMatchObject({
+      addressLocality: "Ho Chi Minh City",
+      addressCountry: "VN",
+    });
   });
 
   it("đổi operatingSince dd/mm/yyyy → foundingDate ISO 8601", () => {

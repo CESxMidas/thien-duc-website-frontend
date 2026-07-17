@@ -59,7 +59,7 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
               ) : null}
               <div className="p-5">
                 <p className="text-sm text-slate">
-                  {formatDate(post.publishedAt)}
+                  {formatDate(post.publishedAt, locale)}
                 </p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate">{post.summary}</p>

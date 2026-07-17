@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
-import { siteConfig } from "@/config/site";
+import { brandName, brandShortName, siteConfig } from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
 import { isApiConfigured } from "@/lib/api/client";
 import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
@@ -71,7 +71,7 @@ export async function generateMetadata({
     metadataBase: new URL(siteConfig.url),
     title: {
       default: copy.title,
-      template: `%s | ${siteConfig.shortName}`,
+      template: `%s | ${brandShortName[locale]}`,
     },
     description: copy.description,
     alternates: buildAlternates("/", locale),
@@ -80,7 +80,7 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "website",
-      siteName: siteConfig.name,
+      siteName: brandName[locale],
       locale: localeHtmlLang[locale],
       title: copy.title,
       description: copy.description,
@@ -112,7 +112,7 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col font-sans">
         {/* Organization JSON-LD toàn site (task →7) — NewsArticle tham chiếu qua @id. */}
-        <JsonLd data={buildOrganizationJsonLd()} />
+        <JsonLd data={buildOrganizationJsonLd(locale)} />
         {children}
       </body>
     </html>

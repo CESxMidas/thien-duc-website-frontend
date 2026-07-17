@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n/config";
+
 export const siteConfig = {
   name: "Công ty Thiên Đức",
   shortName: "Thiên Đức",
@@ -17,3 +19,52 @@ export const legalInfo = {
   companyType: "Công ty TNHH hai thành viên trở lên",
   mainBusiness: "Xây dựng nhà các loại (mã ngành 4100)",
 };
+
+/**
+ * Hiển thị thương hiệu / pháp lý / địa chỉ theo locale cho **nội dung
+ * người dùng thấy** trên route `/en` (EN-FULL-A). Bản `vi` giữ **byte-identical**
+ * với `siteConfig`/`legalInfo` để route tiếng Việt không đổi; bản `en` là dạng
+ * hiển thị tiếng Anh (bỏ dấu, không phải bản đăng ký pháp lý gốc tiếng Việt).
+ * Địa chỉ trong query Google Maps (`?q=`) vẫn dùng `siteConfig.address` gốc để
+ * geocode chính xác — đó là tham số URL, không phải nội dung hiển thị.
+ */
+export const brandName: Record<Locale, string> = {
+  vi: siteConfig.name,
+  en: "Thien Duc Company",
+};
+
+export const brandShortName: Record<Locale, string> = {
+  vi: siteConfig.shortName,
+  en: "Thien Duc",
+};
+
+export const legalDisplayName: Record<Locale, string> = {
+  vi: legalInfo.legalName,
+  en: "Thien Duc Investment Construction Trading Co., Ltd",
+};
+
+export const taxAuthorityName: Record<Locale, string> = {
+  vi: legalInfo.authority,
+  en: "Ho Chi Minh City Tax Department",
+};
+
+/** Hai phần địa chỉ cho JSON-LD PostalAddress (street + locality). */
+export const addressParts: Record<Locale, { street: string; locality: string }> = {
+  vi: {
+    street: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức",
+    locality: "Thành phố Hồ Chí Minh",
+  },
+  en: {
+    street: "1D Tran Nao, Binh Trung Ward, Thu Duc City",
+    locality: "Ho Chi Minh City",
+  },
+};
+
+/**
+ * Địa chỉ một dòng để hiển thị (footer, trang liên hệ). Bản `vi` bằng đúng
+ * `siteConfig.address` cũ (street + ", " + locality) nên không đổi output VI.
+ */
+export function displayAddress(locale: Locale): string {
+  const { street, locality } = addressParts[locale];
+  return `${street}, ${locality}`;
+}

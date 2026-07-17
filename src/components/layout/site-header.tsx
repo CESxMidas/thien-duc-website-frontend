@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { mainNavigation } from "@/data/navigation";
-import { siteConfig } from "@/config/site";
+import { displayAddress, siteConfig } from "@/config/site";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -55,7 +55,7 @@ function groupChildren(children: NavItem[]) {
   return groups;
 }
 
-function HeaderTopStrip() {
+function HeaderTopStrip({ locale }: { locale: Locale }) {
   return (
     <div className="header-top-strip grid bg-brand-soft">
       <div className="min-h-0 overflow-hidden">
@@ -65,14 +65,14 @@ function HeaderTopStrip() {
             href={mapsHref}
             target="_blank"
             rel="noreferrer"
-            title={siteConfig.address}
+            title={displayAddress(locale)}
             className={`${topStripLinkClassName} col-span-full text-xs leading-5 sm:text-sm lg:col-span-1`}
           >
             <MapPin
               className="size-4 shrink-0 text-gold"
               aria-hidden="true"
             />
-            <span className="line-clamp-2 lg:line-clamp-1">{siteConfig.address}</span>
+            <span className="line-clamp-2 lg:line-clamp-1">{displayAddress(locale)}</span>
           </a>
 
           <div className="col-span-full grid min-w-0 grid-cols-2 border-t border-white/15 sm:border-t-0 lg:col-span-1 lg:flex lg:shrink-0 lg:gap-4">
@@ -239,7 +239,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
         data-scrolled={isScrolled || undefined}
         className="sticky top-0 z-40 bg-white text-ink shadow-md"
       >
-        <HeaderTopStrip />
+        <HeaderTopStrip locale={locale} />
 
       <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">

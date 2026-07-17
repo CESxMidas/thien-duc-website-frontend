@@ -103,7 +103,7 @@ export default async function NewsDetailPage({
         <article className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
             {post.category ? <span>{post.category}</span> : null}
-            <span>{formatDate(post.publishedAt)}</span>
+            <span>{formatDate(post.publishedAt, locale)}</span>
           </div>
 
           <div className="mt-6 grid gap-5 text-base leading-7 text-slate sm:mt-8 sm:leading-8">
@@ -131,7 +131,7 @@ export default async function NewsDetailPage({
                 {dictionary.newsDetail.publishedLabel}
               </dt>
               <dd className="mt-1 text-slate">
-                {formatDate(post.publishedAt)}
+                {formatDate(post.publishedAt, locale)}
               </dd>
             </div>
             {post.eventDate ? (
@@ -140,7 +140,7 @@ export default async function NewsDetailPage({
                   {dictionary.newsDetail.eventDateLabel}
                 </dt>
                 <dd className="mt-1 text-slate">
-                  {formatDate(post.eventDate)}
+                  {formatDate(post.eventDate, locale)}
                 </dd>
               </div>
             ) : null}

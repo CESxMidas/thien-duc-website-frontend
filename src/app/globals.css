@@ -698,6 +698,14 @@ textarea {
   .stagger-sides.is-revealed > .project-gallery-card.hover-card:hover {
     transform: none;
   }
+
+  /* Mobile: khối .projects-motion dùng offset trượt ngang lớn (128px). Các phần
+     tử chưa reveal bên dưới màn hình bị đẩy sang phải → tràn ngang, zoom-out ở
+     viewport 390px. Vô hiệu offset ngang ở mobile (giữ fade opacity), desktop
+     và reduced-motion không đổi. */
+  .projects-motion {
+    --reveal-sides-distance: 0px;
+  }
 }
 
 /* Header: collapse secondary information after the page starts scrolling. */

@@ -108,7 +108,7 @@ export default async function CareersPage({
                   {position.deadline ? (
                     <span className="inline-flex items-center gap-1.5 text-slate">
                       <CalendarClock className="size-4" aria-hidden="true" />
-                      Hạn nộp {formatDate(position.deadline)}
+                      Hạn nộp {formatDate(position.deadline, locale)}
                     </span>
                   ) : null}
                 </div>

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { MapLocationMarker } from "@/components/ui/map-location-marker";
+import type { Locale } from "@/lib/i18n/config";
+import { mapCopy } from "@/lib/map-copy";
 import type { ProjectMapLabelKind, ProjectMapLocation } from "@/types/content";
 
 type ProjectLocationMapProps = {
   mapLocation: ProjectMapLocation;
   title: string;
+  locale: Locale;
   aerialImage?: string;
 };
 
@@ -18,9 +21,11 @@ const labelClassByKind: Record<ProjectMapLabelKind, string> = {
 export function ProjectLocationMap({
   mapLocation,
   title,
+  locale,
   aerialImage,
 }: ProjectLocationMapProps) {
   const { image, googleMapsUrl, markerLeft, markerTop, labels } = mapLocation;
+  const copy = mapCopy[locale];
 
   return (
     <section className="project-detail-band reveal-section overflow-hidden py-10">
@@ -33,7 +38,7 @@ export function ProjectLocationMap({
             >
               <Image
                 src={aerialImage}
-                alt={`Phối cảnh tổng thể ${title}`}
+                alt={copy.aerialAlt(title)}
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
                 className="object-cover"
@@ -48,7 +53,7 @@ export function ProjectLocationMap({
             <div className="absolute inset-0 overflow-hidden">
               <Image
                 src={image}
-                alt={`Bản đồ vị trí ${title}`}
+                alt={copy.mapAlt(title)}
                 fill
                 quality={100}
                 sizes="(max-width: 1024px) 100vw, 640px"
@@ -58,7 +63,8 @@ export function ProjectLocationMap({
 
             <MapLocationMarker
               href={googleMapsUrl}
-              label={`Mở vị trí ${title} trên Google Maps`}
+              label={copy.openInMaps(title)}
+              detailLabel={copy.viewDetails}
               left={markerLeft}
               top={markerTop}
             />

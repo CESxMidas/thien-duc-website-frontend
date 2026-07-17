@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import {
-  localeLabels,
+  localeNameIn,
   locales,
   localizePath,
   splitLocale,
@@ -57,7 +57,7 @@ export function LanguageSwitcher({
                 : "text-slate hover:bg-brand/10 hover:text-brand-dark"
             }`}
           >
-            <span className="sr-only">{localeLabels[item]}</span>
+            <span className="sr-only">{localeNameIn[locale][item]}</span>
             <span aria-hidden="true">{item}</span>
           </Link>
         );

@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { inquiryTypeIds } from "@/data/contact";
 import { ApiError } from "@/lib/api/client";
 import { submitContactForm } from "@/lib/api/contact";
+import type { Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const inputClassName =
@@ -57,7 +58,13 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export function ContactForm({ copy }: { copy: ContactFormCopy }) {
+export function ContactForm({
+  copy,
+  locale = "vi",
+}: {
+  copy: ContactFormCopy;
+  locale?: Locale;
+}) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitError, setSubmitError] = useState<{
@@ -294,7 +301,9 @@ export function ContactForm({ copy }: { copy: ContactFormCopy }) {
 
       {/* Honeypot chống spam bot — người dùng thật không thấy field này */}
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="contact-company">Công ty</label>
+        <label htmlFor="contact-company">
+          {locale === "en" ? "Company" : "Công ty"}
+        </label>
         <input
           id="contact-company"
           name="company"

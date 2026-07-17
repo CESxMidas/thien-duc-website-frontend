@@ -5,7 +5,7 @@ import { MapPin } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ContactForm } from "@/components/sections/contact-form";
 import { PageHeading } from "@/components/ui/page-heading";
-import { siteConfig } from "@/config/site";
+import { displayAddress, siteConfig } from "@/config/site";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -95,7 +95,7 @@ export default async function ContactPage({
           </p>
 
           <div className="mt-8">
-            <ContactForm copy={dictionary.contactForm} />
+            <ContactForm copy={dictionary.contactForm} locale={locale} />
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default async function ContactPage({
               {contact.mapDescription}
             </p>
             <p className="mt-5 font-semibold leading-7 text-ink">
-              {siteConfig.address}
+              {displayAddress(locale)}
             </p>
             <Link
               href={mapsHref}

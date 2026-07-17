@@ -22,6 +22,17 @@ export const localeLabels: Record<Locale, string> = {
   en: "English",
 };
 
+/**
+ * Tên ngôn ngữ theo **route đang xem** (EN-FULL-A): trên `/en` mọi nhãn a11y
+ * phải là tiếng Anh, nên nút chuyển sang tiếng Việt đọc là "Vietnamese". Route
+ * tiếng Việt giữ nguyên endonym "Tiếng Việt". Khoá ngoài = locale route, khoá
+ * trong = ngôn ngữ của nút.
+ */
+export const localeNameIn: Record<Locale, Record<Locale, string>> = {
+  vi: { vi: "Tiếng Việt", en: "English" },
+  en: { vi: "Vietnamese", en: "English" },
+};
+
 export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }

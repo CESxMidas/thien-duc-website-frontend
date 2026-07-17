@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { legalInfo, siteConfig } from "@/config/site";
+import {
+  displayAddress,
+  legalDisplayName,
+  legalInfo,
+  siteConfig,
+  taxAuthorityName,
+} from "@/config/site";
 import { footerSections } from "@/data/footer";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -119,7 +125,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                       {dictionary.footer.office}
                     </span>
                     <span className="mt-1 block font-semibold leading-6 text-white">
-                      {siteConfig.address}
+                      {displayAddress(locale)}
                     </span>
                   </span>
                 </a>
@@ -132,10 +138,10 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="border-t border-brand/20">
         <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-6 text-white/75 sm:px-6">
           <p className="font-semibold uppercase tracking-[0.12em] text-white/85">
-            {legalInfo.legalName}
+            {legalDisplayName[locale]}
           </p>
           <p className="mt-1">
-            {dictionary.footer.taxCode}: {legalInfo.taxCode} · {legalInfo.authority}
+            {dictionary.footer.taxCode}: {legalInfo.taxCode} · {taxAuthorityName[locale]}
           </p>
         </div>
       </div>

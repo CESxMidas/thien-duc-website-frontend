@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { legalInfo, siteConfig } from "@/config/site";
+import {
+  addressParts,
+  brandName,
+  legalInfo,
+  legalDisplayName,
+  siteConfig,
+} from "@/config/site";
 import {
   defaultLocale,
   localeHtmlLang,
@@ -66,7 +72,7 @@ export const organizationId = () => absoluteUrl("/#organization");
  * `LocalBusiness`: repo không có `openingHours`/`geo`, và `sameAs` bỏ qua vì
  * chưa có URL mạng xã hội chính thức nào trong repo (bổ sung khi công ty cung cấp).
  */
-export function buildOrganizationJsonLd(): Record<string, unknown> {
+export function buildOrganizationJsonLd(locale: Locale): Record<string, unknown> {
   // legalInfo.operatingSince dạng dd/mm/yyyy → ISO 8601 cho schema.org.
   const foundingDate = legalInfo.operatingSince.split("/").reverse().join("-");
 
@@ -74,19 +80,20 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": organizationId(),
-    name: siteConfig.name,
-    legalName: legalInfo.legalName,
+    // Tên/pháp lý/địa chỉ hiển thị theo locale (EN-FULL-A) — route `/en` hiện
+    // dạng tiếng Anh, route `vi` giữ nguyên chuỗi cũ.
+    name: brandName[locale],
+    legalName: legalDisplayName[locale],
     url: siteConfig.url,
     logo: absoluteUrl("/images/brand/logo-thien-duc.png"),
     email: siteConfig.email,
     telephone: siteConfig.phone,
     taxID: legalInfo.taxCode,
     foundingDate,
-    // Tách từ chuỗi địa chỉ trong siteConfig.address — cùng một dữ liệu gốc.
     address: {
       "@type": "PostalAddress",
-      streetAddress: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức",
-      addressLocality: "Thành phố Hồ Chí Minh",
+      streetAddress: addressParts[locale].street,
+      addressLocality: addressParts[locale].locality,
       addressCountry: "VN",
     },
   };
@@ -158,7 +165,7 @@ export function buildPageMetadata({
       url,
       title,
       description,
-      siteName: siteConfig.name,
+      siteName: brandName[locale],
       locale: localeHtmlLang[locale],
       images: [{ url: absoluteUrl(image), width: 1200, height: 630, alt: title }],
       ...(publishedTime ? { publishedTime } : {}),

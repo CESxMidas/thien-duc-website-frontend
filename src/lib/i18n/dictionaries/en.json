@@ -233,8 +233,8 @@
     "stats": [
       { "value": "16+", "label": "Years in operation", "note": "From 2010 to today" },
       { "value": "3", "label": "Major mixed-use projects", "note": "Along with many civil infrastructure works" },
-      { "value": "1.152", "label": "Vista Verde apartments", "note": "4 towers, co-developed with CapitaLand" },
-      { "value": "11,25 ha", "label": "Hung Phu Urban Area", "note": "Sole developer, in Ben Tre" }
+      { "value": "1,152", "label": "Vista Verde apartments", "note": "4 towers, co-developed with CapitaLand" },
+      { "value": "11.25 ha", "label": "Hung Phu Urban Area", "note": "Sole developer, in Ben Tre" }
     ],
     "timelineEyebrow": "Our journey",
     "timelineTitle": "From 2010 to today",

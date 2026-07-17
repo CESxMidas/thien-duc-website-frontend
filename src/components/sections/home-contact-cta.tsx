@@ -29,6 +29,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
         </div>
 
         <CtaContactCards
+          locale={locale}
           labels={{
             phone: dictionary.footer.phone,
             email: dictionary.footer.email,

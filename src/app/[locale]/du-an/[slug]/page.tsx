@@ -237,12 +237,14 @@ export default async function ProjectDetailPage({
           <ProjectLocationMap
             mapLocation={project.mapLocation}
             title={project.title}
+            locale={locale}
             aerialImage={project.image}
           />
         ) : hasEmbedMap && mapQuery ? (
           <ProjectMapEmbed
             query={mapQuery}
             title={project.title}
+            locale={locale}
             aerialImage={project.image}
           />
         ) : null}

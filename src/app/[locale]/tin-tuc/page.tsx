@@ -80,7 +80,7 @@ export default async function NewsPage({
                 ) : null}
                 <div className="p-5">
                   <p className="text-sm font-medium text-slate">
-                    {[post.category, formatDate(post.publishedAt)]
+                    {[post.category, formatDate(post.publishedAt, locale)]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>

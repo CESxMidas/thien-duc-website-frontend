@@ -1,9 +1,12 @@
 import Image from "next/image";
+import type { Locale } from "@/lib/i18n/config";
+import { mapCopy } from "@/lib/map-copy";
 
 type ProjectMapEmbedProps = {
   /** Chuỗi tìm kiếm địa chỉ (địa chỉ đầy đủ hoặc "tên dự án + địa danh"). */
   query: string;
   title: string;
+  locale: Locale;
   aerialImage?: string;
 };
 
@@ -18,11 +21,13 @@ type ProjectMapEmbedProps = {
 export function ProjectMapEmbed({
   query,
   title,
+  locale,
   aerialImage,
 }: ProjectMapEmbedProps) {
+  const copy = mapCopy[locale];
   const src = `https://www.google.com/maps?q=${encodeURIComponent(
     query,
-  )}&hl=vi&z=16&output=embed`;
+  )}&hl=${locale}&z=16&output=embed`;
 
   return (
     <section className="project-detail-band reveal-section overflow-hidden py-10">
@@ -39,7 +44,7 @@ export function ProjectMapEmbed({
             >
               <Image
                 src={aerialImage}
-                alt={`Hình ảnh ${title}`}
+                alt={copy.imageAlt(title)}
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
                 className="object-cover"
@@ -53,7 +58,7 @@ export function ProjectMapEmbed({
           >
             <iframe
               src={src}
-              title={`Bản đồ vị trí ${title}`}
+              title={copy.mapAlt(title)}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
