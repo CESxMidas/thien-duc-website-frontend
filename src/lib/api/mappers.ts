@@ -43,6 +43,20 @@ export function localized(
   return text.vi;
 }
 
+/**
+ * Như `localized()` nhưng nhận thêm `string` — dùng cho các field vừa chuyển
+ * sang song ngữ (location/category, EN-FULL-C2): dữ liệu cũ có thể còn là chuỗi
+ * tiếng Việt thuần, khi đó hiện nguyên văn ở cả hai locale.
+ */
+function localizedLoose(
+  value: LocalizedText | string | null | undefined,
+  locale: Locale,
+): string | undefined {
+  if (value == null) return undefined;
+  if (typeof value === "string") return value;
+  return localized(value, locale);
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -55,11 +69,11 @@ export function mapProject(dto: ProjectDto, locale: Locale): Project {
     slug: dto.slug,
     summary: localized(dto.summary, locale),
     status: statusFromDto[dto.status],
-    location: dto.location ?? undefined,
+    location: localizedLoose(dto.location, locale),
     image: dto.image ?? undefined,
     gallery: dto.gallery.length > 0 ? dto.gallery : undefined,
     gallerySections: dto.gallerySections ?? undefined,
-    category: dto.category ?? undefined,
+    category: localizedLoose(dto.category, locale),
     description: localized(dto.description, locale),
     highlights: dto.highlights?.map((item) => localized(item, locale)),
     quickFacts: dto.quickFacts ?? undefined,

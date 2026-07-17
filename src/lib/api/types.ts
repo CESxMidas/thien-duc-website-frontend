@@ -69,10 +69,12 @@ export type ProjectDto = {
   summary: LocalizedText;
   description?: LocalizedText | null;
   status: ProjectStatusDto;
-  location?: string | null;
+  // location/category chuyển sang song ngữ (EN-FULL-C2). Chấp nhận cả `string`
+  // (dữ liệu cũ chưa migrate) để mapper lùi an toàn về nguyên văn.
+  location?: LocalizedText | string | null;
   image?: string | null;
   gallery: string[];
-  category?: string | null;
+  category?: LocalizedText | string | null;
   highlights?: LocalizedText[] | null;
   quickFacts?: ProjectFact[] | null;
   gallerySections?: ProjectGallerySection[] | null;
