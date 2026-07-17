@@ -27,6 +27,9 @@ export function CooperationSlider({
   const [isPaused, setIsPaused] = useState(false);
   const count = projects.length;
   const canSlide = count > 1;
+  // Một dự án hợp tác: thẻ 50% để trống nửa hàng bên phải trên desktop → cho
+  // thẻ trải full chiều rộng để khối cân đối. Nhiều dự án giữ nguyên hàng slider.
+  const singleProject = count === 1;
 
   const scrollToIndex = useCallback(
     (index: number) => {
@@ -124,7 +127,9 @@ export function CooperationSlider({
           {projects.map((project) => (
             <article
               key={project.name}
-              className="hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-6 md:w-[calc(50%-0.625rem)] md:p-8"
+              className={`hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-6 md:p-8 ${
+                singleProject ? "md:w-full" : "md:w-[calc(50%-0.625rem)]"
+              }`}
             >
               <div
                 className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(253,205,4,0.18),transparent_46%)]"
