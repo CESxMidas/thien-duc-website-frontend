@@ -3,6 +3,7 @@ import type { CooperationProject } from "@/data/home";
 import type {
   NewsPost,
   Project,
+  ProjectFact,
   ProjectItem,
   ProjectStatus,
 } from "@/types/content";
@@ -14,6 +15,7 @@ import type {
   LocalizedText,
   NewsPostDto,
   ProjectDto,
+  ProjectFactDto,
   ProjectItemDto,
   ProjectStatusDto,
 } from "@/lib/api/types";
@@ -58,6 +60,19 @@ function localizedLoose(
   return localized(value, locale);
 }
 
+/**
+ * Quick-fact song ngữ → cặp chuỗi theo locale (EN-FULL-C3). `label`/`value` có
+ * thể là `{ vi, en? }` (mới) hoặc chuỗi tiếng Việt thuần (dữ liệu cũ);
+ * `localizedLoose` lo cả hai và lùi về `vi` khi thiếu `en`, nên `/en` không bao
+ * giờ render `[object Object]` và route tiếng Việt giữ nguyên nội dung.
+ */
+function localizeFact(fact: ProjectFactDto, locale: Locale): ProjectFact {
+  return {
+    label: localizedLoose(fact.label, locale) ?? "",
+    value: localizedLoose(fact.value, locale) ?? "",
+  };
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -77,7 +92,7 @@ export function mapProject(dto: ProjectDto, locale: Locale): Project {
     category: localizedLoose(dto.category, locale),
     description: localized(dto.description, locale),
     highlights: dto.highlights?.map((item) => localized(item, locale)),
-    quickFacts: dto.quickFacts ?? undefined,
+    quickFacts: dto.quickFacts?.map((fact) => localizeFact(fact, locale)),
     mapLocation: dto.mapLocation ?? undefined,
     items: dto.items?.map((item) => mapProjectItem(item, locale)),
   };
@@ -92,7 +107,7 @@ export function mapProjectItem(dto: ProjectItemDto, locale: Locale): ProjectItem
     status: dto.status ? statusFromDto[dto.status] : undefined,
     image: dto.image ?? undefined,
     highlights: dto.highlights?.map((item) => localized(item, locale)),
-    quickFacts: dto.quickFacts ?? undefined,
+    quickFacts: dto.quickFacts?.map((fact) => localizeFact(fact, locale)),
     gallerySections: dto.gallerySections ?? undefined,
     // Ảnh hạng mục nằm ở bảng project_gallery, backend trả theo `order` tăng dần.
     gallery: dto.galleryImages?.map((image) => image.url),

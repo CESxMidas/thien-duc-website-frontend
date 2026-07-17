@@ -1,5 +1,4 @@
 import type {
-  ProjectFact,
   ProjectGallerySection,
   ProjectMapLocation,
 } from "@/types/content";
@@ -13,6 +12,17 @@ import type {
 export type LocalizedText = {
   vi: string;
   en?: string;
+};
+
+/**
+ * Quick-fact thô từ backend. Song ngữ (EN-FULL-C3): `label`/`value` là
+ * `{ vi, en? }`; dữ liệu cũ có thể còn là chuỗi tiếng Việt thuần. Mapper phân
+ * giải theo locale bằng `localizedLoose`, nên UI vẫn nhận `{ label, value }`
+ * dạng chuỗi (xem `ProjectFact` trong `types/content.ts`).
+ */
+export type ProjectFactDto = {
+  label: LocalizedText | string;
+  value: LocalizedText | string;
 };
 
 export type ApiSuccessResponse<T> = {
@@ -48,7 +58,7 @@ export type ProjectItemDto = {
   status?: ProjectStatusDto | null;
   image?: string | null;
   highlights?: LocalizedText[] | null;
-  quickFacts?: ProjectFact[] | null;
+  quickFacts?: ProjectFactDto[] | null;
   gallerySections?: ProjectGallerySection[] | null;
   order: number;
   /** Backend trả kèm khi GET /projects/:slug/:itemSlug (include galleryImages). */
@@ -76,7 +86,7 @@ export type ProjectDto = {
   gallery: string[];
   category?: LocalizedText | string | null;
   highlights?: LocalizedText[] | null;
-  quickFacts?: ProjectFact[] | null;
+  quickFacts?: ProjectFactDto[] | null;
   gallerySections?: ProjectGallerySection[] | null;
   mapLocation?: ProjectMapLocation | null;
   order: number;

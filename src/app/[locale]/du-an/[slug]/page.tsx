@@ -114,8 +114,11 @@ export default async function ProjectDetailPage({
   // Maps nếu suy ra được địa chỉ (ưu tiên quickFact "Địa chỉ", không thì
   // "tên dự án + địa danh"). Có bản đồ thì ảnh dự án hiện trong khối bản đồ,
   // không lặp lại ở hero phía trên.
+  // quickFacts đã được phân giải theo locale (EN-FULL-C3), nên khớp cả nhãn
+  // tiếng Việt ("Địa chỉ") lẫn bản dịch tiếng Anh ("Address") để trang `/en`
+  // vẫn suy ra được địa chỉ nhúng Google Maps khi dự án không có `mapLocation`.
   const addressFact = (project.quickFacts ?? []).find((fact) =>
-    /địa chỉ/i.test(fact.label),
+    /địa chỉ|address/i.test(fact.label),
   );
   const mapQuery =
     addressFact?.value ??
