@@ -412,6 +412,32 @@ textarea {
   animation-delay: calc(var(--stagger-sides-step) * 5);
 }
 
+/* Reduced motion: tắt toàn bộ animation vào trang / reveal — nội dung hiện
+   ngay, đủ opacity, không transform. Các transition hover (border/box-shadow)
+   không phải chuyển động nên giữ nguyên. Đây cũng là lưới an toàn cho việc
+   đo hiệu năng: nội dung không bao giờ bị kẹt ở opacity 0. */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition,
+  .banner-copy-in,
+  .hero-fade-up {
+    animation: none;
+  }
+
+  .reveal-section,
+  .reveal-from-left,
+  .reveal-from-right,
+  .stagger-sides > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-from-left.is-revealed,
+  .reveal-from-right.is-revealed,
+  .stagger-sides.is-revealed > * {
+    animation: none;
+  }
+}
+
 .projects-motion {
   --duration-reveal-sides: 2200ms;
   --duration-stagger-sides: 2000ms;

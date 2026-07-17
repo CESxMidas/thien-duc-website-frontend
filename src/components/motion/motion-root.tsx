@@ -6,6 +6,15 @@ import { usePathname } from "next/navigation";
 const REVEAL_SELECTOR =
   ".reveal-section, .reveal-from-left, .reveal-from-right, .stagger-list, .stagger-sides, .image-reveal";
 
+// Lần tải trang đầu tiên KHÔNG chạy fade `page-transition`: animation bắt đầu ở
+// opacity 0 nên first paint vô hình → Lighthouse/PSI có thể không ghi nhận được
+// FCP/LCP (đã tái lập NO_FCP chập chờn trên production, xem
+// docs/06-testing/g4-measurement-baseline.md). Template remount MotionRoot mỗi
+// lần điều hướng nên cờ phải nằm ở module scope (chỉ set trong effect — không
+// chạy lúc SSR, không gây hydration mismatch: server và first client render đều
+// không có class, các lần điều hướng client-side sau đó mới có).
+let hasCompletedInitialLoad = false;
+
 function isInRevealViewport(element: Element) {
   const rect = element.getBoundingClientRect();
 
@@ -25,6 +34,14 @@ function revealElement(element: Element, observer: IntersectionObserver) {
 
 export function MotionRoot({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+
+  // Đọc cờ NGAY lúc render (trước effect): instance đầu tiên thấy `false` →
+  // không fade; instance của các lần điều hướng sau thấy `true` → fade như cũ.
+  const isClientNavigation = hasCompletedInitialLoad;
+
+  useLayoutEffect(() => {
+    hasCompletedInitialLoad = true;
+  }, []);
 
   // Scroll về đầu trang khi route thay đổi
   useLayoutEffect(() => {
@@ -92,5 +109,9 @@ export function MotionRoot({ children }: { children: ReactNode }) {
     };
   }, [pathname]);
 
-  return <div className="page-transition">{children}</div>;
+  return (
+    <div className={isClientNavigation ? "page-transition" : undefined}>
+      {children}
+    </div>
+  );
 }
