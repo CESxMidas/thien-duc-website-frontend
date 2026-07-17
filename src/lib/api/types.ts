@@ -25,6 +25,21 @@ export type ProjectFactDto = {
   value: LocalizedText | string;
 };
 
+/**
+ * `mapLocation` thô từ backend. Phần **prose** song ngữ (EN-FULL-C5a):
+ * `heading`/`description`/`address` là `{ vi, en? }` hoặc chuỗi cũ; mapper phân
+ * giải theo locale. `labels[].text` giữ nguyên (chưa song ngữ hóa — để dành
+ * C5b), nên `image`/`markers`/`labels` kế thừa y hệt `ProjectMapLocation`.
+ */
+export type ProjectMapLocationDto = Omit<
+  ProjectMapLocation,
+  "heading" | "description" | "address"
+> & {
+  heading?: LocalizedText | string;
+  description?: LocalizedText | string;
+  address?: LocalizedText | string;
+};
+
 export type ApiSuccessResponse<T> = {
   success: true;
   data: T;
@@ -88,7 +103,7 @@ export type ProjectDto = {
   highlights?: LocalizedText[] | null;
   quickFacts?: ProjectFactDto[] | null;
   gallerySections?: ProjectGallerySection[] | null;
-  mapLocation?: ProjectMapLocation | null;
+  mapLocation?: ProjectMapLocationDto | null;
   order: number;
   /** Backend trả kèm khi GET /projects và /projects/:slug (include items). */
   items?: ProjectItemDto[];

@@ -7,6 +7,7 @@ import { mapProject } from "./mappers";
 import type { ProjectDto } from "./types";
 
 const baseDto: ProjectDto = {
+  id: "p1",
   slug: "khu-do-thi-hung-phu",
   title: { vi: "Khu đô thị Hưng Phú", en: "Hung Phu Urban Area" },
   summary: { vi: "Tóm tắt", en: "Summary" },
@@ -48,5 +49,38 @@ describe("mapProject quickFacts (EN-FULL-C3)", () => {
 
   it("không có quickFacts → undefined (không phải mảng rỗng)", () => {
     expect(mapProject({ ...baseDto, quickFacts: null }, "en").quickFacts).toBeUndefined();
+  });
+});
+
+describe("mapProject mapLocation prose (EN-FULL-C5a)", () => {
+  const dto: ProjectDto = {
+    ...baseDto,
+    mapLocation: {
+      image: "/map.webp",
+      googleMapsUrl: "https://maps.example/?q=x",
+      heading: { vi: "Tọa lạc trung tâm", en: "In the city center" },
+      description: "", // rỗng ở cả hai → không hiển thị
+      address: "Phường Phú Tân", // dữ liệu cũ dạng chuỗi
+      markerLeft: 65,
+      markerTop: 27,
+      labels: [{ text: "Hướng đi chợ Lách", left: 22, top: 9, kind: "direction" }],
+    },
+  };
+
+  it("locale 'en' phân giải heading; address chuỗi cũ lùi nguyên văn", () => {
+    const ml = mapProject(dto, "en").mapLocation;
+    expect(ml?.heading).toBe("In the city center");
+    expect(ml?.address).toBe("Phường Phú Tân");
+    // Nhãn bản đồ CỐ Ý giữ nguyên tiếng Việt (để dành C5b).
+    expect(ml?.labels?.[0].text).toBe("Hướng đi chợ Lách");
+  });
+
+  it("locale 'vi' giữ nguyên heading tiếng Việt", () => {
+    const ml = mapProject(dto, "vi").mapLocation;
+    expect(ml?.heading).toBe("Tọa lạc trung tâm");
+  });
+
+  it("description rỗng → undefined (không render [object Object] hay ô trống)", () => {
+    expect(mapProject(dto, "en").mapLocation?.description).toBeUndefined();
   });
 });

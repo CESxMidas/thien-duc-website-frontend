@@ -5,6 +5,7 @@ import type {
   Project,
   ProjectFact,
   ProjectItem,
+  ProjectMapLocation,
   ProjectStatus,
 } from "@/types/content";
 import { localizeAuthor } from "@/config/site";
@@ -17,6 +18,7 @@ import type {
   ProjectDto,
   ProjectFactDto,
   ProjectItemDto,
+  ProjectMapLocationDto,
   ProjectStatusDto,
 } from "@/lib/api/types";
 
@@ -73,6 +75,30 @@ function localizeFact(fact: ProjectFactDto, locale: Locale): ProjectFact {
   };
 }
 
+/**
+ * Phân giải phần prose của khối bản đồ theo locale (EN-FULL-C5a):
+ * `heading`/`description`/`address` là `{ vi, en? }` (mới) hoặc chuỗi cũ —
+ * `localizedLoose` lo cả hai và lùi về `vi`. `labels[].text` **cố ý giữ nguyên**
+ * (chưa song ngữ hóa — để dành C5b); `image`/`markers` chuyển thẳng.
+ */
+function mapMapLocation(
+  dto: ProjectMapLocationDto,
+  locale: Locale,
+): ProjectMapLocation {
+  return {
+    image: dto.image,
+    googleMapsUrl: dto.googleMapsUrl,
+    // Chuỗi rỗng coi như thiếu (→ undefined) để heading lùi về tiêu đề mặc định
+    // và mô tả/địa chỉ trống không render ô rỗng.
+    heading: localizedLoose(dto.heading, locale) || undefined,
+    description: localizedLoose(dto.description, locale) || undefined,
+    address: localizedLoose(dto.address, locale) || undefined,
+    markerLeft: dto.markerLeft,
+    markerTop: dto.markerTop,
+    labels: dto.labels,
+  };
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -93,7 +119,9 @@ export function mapProject(dto: ProjectDto, locale: Locale): Project {
     description: localized(dto.description, locale),
     highlights: dto.highlights?.map((item) => localized(item, locale)),
     quickFacts: dto.quickFacts?.map((fact) => localizeFact(fact, locale)),
-    mapLocation: dto.mapLocation ?? undefined,
+    mapLocation: dto.mapLocation
+      ? mapMapLocation(dto.mapLocation, locale)
+      : undefined,
     items: dto.items?.map((item) => mapProjectItem(item, locale)),
   };
 }
