@@ -28,13 +28,16 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const post = await getNewsPostBySlug(slug, locale);
+  const [post, dictionary] = await Promise.all([
+    getNewsPostBySlug(slug, locale),
+    getDictionary(locale),
+  ]);
   if (!post) {
-    return { title: "Tin tức không tồn tại" };
+    return { title: dictionary.newsDetail.notFoundTitle };
   }
 
   return buildPageMetadata({
-    title: `${post.title} | Tin tức Thiên Đức`,
+    title: `${post.title} | ${dictionary.newsDetail.metaSuffix}`,
     description: post.summary,
     path: `${routes.news}/${post.slug}`,
     locale,
@@ -64,13 +67,19 @@ export default async function NewsDetailPage({
       <JsonLd data={buildNewsArticleJsonLd(post, locale)} />
       <Breadcrumb
         items={[
-          { label: "Trang chủ", href: localizePath(routes.home, locale) },
-          { label: "Tin tức", href: localizePath(routes.news, locale) },
+          {
+            label: dictionary.breadcrumb.home,
+            href: localizePath(routes.home, locale),
+          },
+          {
+            label: dictionary.breadcrumb.news,
+            href: localizePath(routes.news, locale),
+          },
           { label: post.title },
         ]}
       />
       <PageHeading
-        eyebrow="Chi tiết tin tức"
+        eyebrow={dictionary.newsDetail.eyebrow}
         title={post.title}
         description={post.summary}
       />
@@ -105,19 +114,21 @@ export default async function NewsDetailPage({
         </article>
 
         <aside className="hover-card h-fit border border-black/10 bg-white p-6">
-          <h2 className="text-xl font-semibold">Thông tin bài viết</h2>
+          <h2 className="text-xl font-semibold">
+            {dictionary.newsDetail.infoTitle}
+          </h2>
           <dl className="mt-5 grid gap-4 text-sm">
             {post.category ? (
               <div>
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
-                  Chuyên mục
+                  {dictionary.newsDetail.categoryLabel}
                 </dt>
                 <dd className="mt-1 text-slate">{post.category}</dd>
               </div>
             ) : null}
             <div>
               <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
-                Ngày đăng
+                {dictionary.newsDetail.publishedLabel}
               </dt>
               <dd className="mt-1 text-slate">
                 {formatDate(post.publishedAt)}
@@ -126,7 +137,7 @@ export default async function NewsDetailPage({
             {post.eventDate ? (
               <div>
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
-                  Ngày sự kiện
+                  {dictionary.newsDetail.eventDateLabel}
                 </dt>
                 <dd className="mt-1 text-slate">
                   {formatDate(post.eventDate)}
@@ -136,7 +147,7 @@ export default async function NewsDetailPage({
             {post.author ? (
               <div>
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
-                  Nguồn
+                  {dictionary.newsDetail.sourceLabel}
                 </dt>
                 <dd className="mt-1 text-slate">{post.author}</dd>
               </div>

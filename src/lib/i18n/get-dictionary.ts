@@ -63,6 +63,72 @@ export type Dictionary = {
     emptyTitle: string;
     emptyDescription: string;
   };
+  /** Nhãn `ProjectStatus` + khóa "all" cho chip lọc danh sách dự án. */
+  projectStatus: Record<string, string>;
+  breadcrumb: {
+    home: string;
+    projects: string;
+    news: string;
+  };
+  projectDetail: {
+    notFoundTitle: string;
+    eyebrow: string;
+    quickInfoEyebrow: string;
+    quickInfoTitle: string;
+    locationLabel: string;
+    statusLabel: string;
+    categoryLabel: string;
+    updating: string;
+    overviewEyebrow: string;
+    overviewFallbackTitle: string;
+    overviewFallbackDescription: string;
+    highlightsLabel: string;
+    itemsEyebrow: string;
+    itemsTitle: string;
+    galleryEyebrow: string;
+    galleryTitle: string;
+    highlightsEyebrow: string;
+    highlightsTitle: string;
+    highlightsDescription: string;
+    ctaEyebrow: string;
+    ctaTitle: string;
+    ctaDescription: string;
+  };
+  projectItem: {
+    notFoundTitle: string;
+    metaSuffix: string;
+    eyebrow: string;
+    overviewEyebrow: string;
+    introTitle: string;
+    descriptionFallback: string;
+    parentProjectLabel: string;
+    highlightsLabel: string;
+    siblingsEyebrow: string;
+    siblingsTitle: string;
+    viewItem: string;
+    backToProject: string;
+    ctaEyebrow: string;
+    ctaTitle: string;
+    ctaDescription: string;
+  };
+  itemsCarousel: {
+    badge: string;
+    viewItem: string;
+    ariaView: string;
+    ariaGoTo: string;
+    ariaPrevious: string;
+    ariaNext: string;
+  };
+  newsDetail: {
+    notFoundTitle: string;
+    metaSuffix: string;
+    eyebrow: string;
+    infoTitle: string;
+    categoryLabel: string;
+    publishedLabel: string;
+    eventDateLabel: string;
+    sourceLabel: string;
+  };
   navLabels: Record<string, string>;
   navOverviewLabels: Record<string, string>;
   navGroups: Record<string, string>;

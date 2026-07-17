@@ -52,6 +52,76 @@
     "emptyTitle": "No articles yet",
     "emptyDescription": "News content will be published once official information is available from Thien Duc."
   },
+  "projectStatus": {
+    "all": "All",
+    "da-ban-giao": "Handed over",
+    "dang-thi-cong": "Under construction",
+    "chuan-bi-khoi-cong": "Preparing to break ground"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "projects": "Projects",
+    "news": "News"
+  },
+  "projectDetail": {
+    "notFoundTitle": "Project not found | Thiên Đức",
+    "eyebrow": "Project details",
+    "quickInfoEyebrow": "Quick facts",
+    "quickInfoTitle": "Key project figures",
+    "locationLabel": "Location",
+    "statusLabel": "Status",
+    "categoryLabel": "Type",
+    "updating": "Being updated",
+    "overviewEyebrow": "Project overview",
+    "overviewFallbackTitle": "Development direction and general information",
+    "overviewFallbackDescription": "The project overview is being updated according to approved documentation.",
+    "highlightsLabel": "Key values",
+    "itemsEyebrow": "Project components",
+    "itemsTitle": "The components that make up {title}",
+    "galleryEyebrow": "Project images",
+    "galleryTitle": "Spaces & amenities",
+    "highlightsEyebrow": "Highlights",
+    "highlightsTitle": "The project's standout values",
+    "highlightsDescription": "Key points on development direction, infrastructure, and the living experience the project delivers.",
+    "ctaEyebrow": "Interested in this project?",
+    "ctaTitle": "Contact Thien Duc for more information",
+    "ctaDescription": "The Thien Duc team is ready to discuss advisory needs, partnership opportunities, or further details about the project."
+  },
+  "projectItem": {
+    "notFoundTitle": "Component not found | Thiên Đức",
+    "metaSuffix": "Thien Duc projects",
+    "eyebrow": "Component · {title}",
+    "overviewEyebrow": "Component overview",
+    "introTitle": "About {title}",
+    "descriptionFallback": "Information is being updated",
+    "parentProjectLabel": "Part of project",
+    "highlightsLabel": "Key values",
+    "siblingsEyebrow": "Other components",
+    "siblingsTitle": "Continue exploring {title}",
+    "viewItem": "View component",
+    "backToProject": "Back to the project",
+    "ctaEyebrow": "Interested in this component?",
+    "ctaTitle": "Contact Thien Duc for more information",
+    "ctaDescription": "The Thien Duc team is ready to discuss advisory needs, partnership opportunities, or further details about {title}."
+  },
+  "itemsCarousel": {
+    "badge": "Component",
+    "viewItem": "View component",
+    "ariaView": "View component {title}",
+    "ariaGoTo": "Go to component {title}",
+    "ariaPrevious": "Previous component",
+    "ariaNext": "Next component"
+  },
+  "newsDetail": {
+    "notFoundTitle": "Article not found",
+    "metaSuffix": "Thien Duc news",
+    "eyebrow": "Article details",
+    "infoTitle": "Article information",
+    "categoryLabel": "Category",
+    "publishedLabel": "Published on",
+    "eventDateLabel": "Event date",
+    "sourceLabel": "Source"
+  },
   "navLabels": {
     "/": "Home",
     "/gioi-thieu": "About",

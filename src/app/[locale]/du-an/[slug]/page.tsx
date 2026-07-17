@@ -14,8 +14,7 @@ import { ProjectPhotoStrip } from "@/components/sections/project-photo-strip";
 import { isApiConfigured } from "@/lib/api/client";
 import { getProjectBySlug, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
-import { projectStatusLabels } from "@/lib/project-status";
+import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -30,13 +29,19 @@ function ProjectFactCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ProjectOverviewHighlights({ highlights }: { highlights: string[] }) {
+function ProjectOverviewHighlights({
+  highlights,
+  label,
+}: {
+  highlights: string[];
+  label: string;
+}) {
   return (
     <div className="mt-6 flex min-h-0 flex-1 flex-col">
       {highlights.length > 0 ? (
         <div className="flex flex-1 flex-col rounded-sm border border-brand/12 bg-gold-soft/55 p-5">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-            Giá trị nổi bật
+            {label}
           </p>
           <ul className="grid gap-3">
             {highlights.map((highlight) => (
@@ -74,7 +79,8 @@ export async function generateMetadata({
 
   const project = await getProjectBySlug(slug, locale);
   if (!project) {
-    return { title: "Dự án không tồn tại | Thiên Đức" };
+    const dictionary = await getDictionary(locale);
+    return { title: dictionary.projectDetail.notFoundTitle };
   }
 
   return buildPageMetadata({
@@ -123,13 +129,19 @@ export default async function ProjectDetailPage({
         <section className="project-detail-hero border-b border-brand/10">
           <Breadcrumb
             items={[
-              { label: "Trang chủ", href: localizePath(routes.home, locale) },
-              { label: "Dự án", href: localizePath(routes.projects, locale) },
+              {
+                label: dictionary.breadcrumb.home,
+                href: localizePath(routes.home, locale),
+              },
+              {
+                label: dictionary.breadcrumb.projects,
+                href: localizePath(routes.projects, locale),
+              },
               { label: project.title },
             ]}
           />
           <PageHeading
-            eyebrow="Chi tiết dự án"
+            eyebrow={dictionary.projectDetail.eyebrow}
             title={project.title}
             description={project.summary}
           />
@@ -155,32 +167,32 @@ export default async function ProjectDetailPage({
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="text-eyebrow mb-4 text-brand">
-                Thông tin nhanh
+                {dictionary.projectDetail.quickInfoEyebrow}
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                Thông số chính của dự án
+                {dictionary.projectDetail.quickInfoTitle}
               </h2>
               {/* `flex-1 auto-rows-fr` để lưới thông số giãn đều lấp hết chiều
                   cao panel — hai cột luôn bằng nhau mà không để lại khoảng
                   trống thừa ở đáy cột trái. */}
               <dl className="mt-6 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
                 <ProjectFactCell
-                  label="Vị trí"
-                  value={project.location ?? "Đang cập nhật"}
+                  label={dictionary.projectDetail.locationLabel}
+                  value={project.location ?? dictionary.projectDetail.updating}
                 />
                 <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
-                    Trạng thái
+                    {dictionary.projectDetail.statusLabel}
                   </dt>
                   <dd className="mt-2">
                     <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                      {projectStatusLabels[project.status]}
+                      {dictionary.projectStatus[project.status]}
                     </span>
                   </dd>
                 </div>
                 <ProjectFactCell
-                  label="Loại hình"
-                  value={project.category ?? "Đang cập nhật"}
+                  label={dictionary.projectDetail.categoryLabel}
+                  value={project.category ?? dictionary.projectDetail.updating}
                 />
                 {(project.quickFacts ?? []).map((fact) => (
                   <ProjectFactCell
@@ -194,18 +206,18 @@ export default async function ProjectDetailPage({
 
             <article className="reveal-from-right hover-card project-detail-panel-accent relative flex h-full flex-col overflow-hidden border-l-4 border-l-gold p-6 md:p-8">
               <p className="text-eyebrow mb-4 text-brand">
-                Tổng quan dự án
+                {dictionary.projectDetail.overviewEyebrow}
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                 {project.mapLocation?.heading ??
-                  "Định hướng phát triển và thông tin tổng quan"}
+                  dictionary.projectDetail.overviewFallbackTitle}
               </h2>
               {/* Địa chỉ + nút Google Maps cố ý bỏ ở đây: khối bản đồ ngay dưới
                   đã có đủ địa chỉ và nút chỉ đường, nhắc lại là thừa và làm cột
                   này dài hơn hẳn cột bên trái. */}
               <p className="mt-5 line-clamp-6 text-base leading-7 text-slate">
                 {project.description ??
-                  "Thông tin tổng quan của dự án đang được cập nhật theo tài liệu được duyệt."}
+                  dictionary.projectDetail.overviewFallbackDescription}
               </p>
               {project.mapLocation?.description ? (
                 <p className="mt-4 line-clamp-3 text-base leading-7 text-slate">
@@ -213,7 +225,10 @@ export default async function ProjectDetailPage({
                 </p>
               ) : null}
 
-              <ProjectOverviewHighlights highlights={overviewHighlights} />
+              <ProjectOverviewHighlights
+                highlights={overviewHighlights}
+                label={dictionary.projectDetail.highlightsLabel}
+              />
             </article>
           </div>
         </section>
@@ -237,10 +252,12 @@ export default async function ProjectDetailPage({
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
-                  Hạng mục trong dự án
+                  {dictionary.projectDetail.itemsEyebrow}
                 </p>
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  Các hạng mục hợp thành {project.title}
+                  {interpolate(dictionary.projectDetail.itemsTitle, {
+                    title: project.title,
+                  })}
                 </h2>
               </div>
 
@@ -251,6 +268,8 @@ export default async function ProjectDetailPage({
                 projectSlug={project.slug}
                 projectStatus={project.status}
                 locale={locale}
+                statusLabels={dictionary.projectStatus}
+                labels={dictionary.itemsCarousel}
               />
             </div>
           </section>
@@ -268,10 +287,10 @@ export default async function ProjectDetailPage({
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
-                  Hình ảnh dự án
+                  {dictionary.projectDetail.galleryEyebrow}
                 </p>
                 <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  Không gian & tiện ích
+                  {dictionary.projectDetail.galleryTitle}
                 </h2>
               </div>
               {/* Dự án không chia hạng mục: xếp ảnh thành hàng (tối đa 3) và tự
@@ -287,14 +306,13 @@ export default async function ProjectDetailPage({
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="text-eyebrow mb-4 text-brand">
-                Điểm nổi bật
+                {dictionary.projectDetail.highlightsEyebrow}
               </p>
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                Những giá trị nổi bật của dự án
+                {dictionary.projectDetail.highlightsTitle}
               </h2>
               <p className="mt-5 text-sm leading-6 text-slate">
-                Các điểm nhấn về định hướng phát triển, hạ tầng và trải nghiệm
-                sống mà dự án mang lại.
+                {dictionary.projectDetail.highlightsDescription}
               </p>
             </aside>
 
@@ -316,14 +334,13 @@ export default async function ProjectDetailPage({
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">
-                Quan tâm dự án này?
+                {dictionary.projectDetail.ctaEyebrow}
               </p>
               <h2 className="text-3xl font-semibold leading-tight">
-                Liên hệ Thiên Đức để được hỗ trợ thông tin
+                {dictionary.projectDetail.ctaTitle}
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
-                Đội ngũ Thiên Đức sẵn sàng tiếp nhận nhu cầu tư vấn, hợp tác
-                hoặc trao đổi thêm về dự án.
+                {dictionary.projectDetail.ctaDescription}
               </p>
             </div>
             <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)] md:self-center">

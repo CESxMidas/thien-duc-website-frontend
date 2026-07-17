@@ -10,8 +10,7 @@ import { ProjectItemGallery } from "@/components/sections/project-item-gallery";
 import { isApiConfigured } from "@/lib/api/client";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
-import { projectStatusLabels } from "@/lib/project-status";
+import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -36,13 +35,16 @@ export async function generateMetadata({
   const { locale, slug, "hang-muc": itemSlug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const item = await getProjectItem(slug, itemSlug, locale);
+  const [item, dictionary] = await Promise.all([
+    getProjectItem(slug, itemSlug, locale),
+    getDictionary(locale),
+  ]);
   if (!item) {
-    return { title: "Hạng mục không tồn tại | Thiên Đức" };
+    return { title: dictionary.projectItem.notFoundTitle };
   }
 
   return buildPageMetadata({
-    title: `${item.title} | Dự án Thiên Đức`,
+    title: `${item.title} | ${dictionary.projectItem.metaSuffix}`,
     description: item.summary ?? "",
     path: `${routes.projects}/${slug}/${item.slug}`,
     locale,
@@ -100,14 +102,22 @@ export default async function ProjectItemPage({
         <section className="project-detail-hero border-b border-brand/10">
           <Breadcrumb
             items={[
-              { label: "Trang chủ", href: localizePath(routes.home, locale) },
-              { label: "Dự án", href: localizePath(routes.projects, locale) },
+              {
+                label: dictionary.breadcrumb.home,
+                href: localizePath(routes.home, locale),
+              },
+              {
+                label: dictionary.breadcrumb.projects,
+                href: localizePath(routes.projects, locale),
+              },
               { label: project.title, href: projectHref },
               { label: item.title },
             ]}
           />
           <PageHeading
-            eyebrow={`Hạng mục · ${project.title}`}
+            eyebrow={interpolate(dictionary.projectItem.eyebrow, {
+              title: project.title,
+            })}
             title={item.title}
             description={item.summary}
           />
@@ -128,23 +138,30 @@ export default async function ProjectItemPage({
             >
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <div className="flex flex-wrap items-center gap-3">
-                <p className="text-eyebrow text-brand">Tổng quan hạng mục</p>
+                <p className="text-eyebrow text-brand">
+                  {dictionary.projectItem.overviewEyebrow}
+                </p>
                 <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                  {projectStatusLabels[status]}
+                  {dictionary.projectStatus[status]}
                 </span>
               </div>
               <h2 className="mt-4 text-2xl font-semibold leading-tight md:text-3xl">
-                Giới thiệu {item.title}
+                {interpolate(dictionary.projectItem.introTitle, {
+                  title: item.title,
+                })}
               </h2>
               <p className="mt-5 text-base leading-7 text-slate">
                 {item.description ??
-                  "Thông tin đang được cập nhật"}
+                  dictionary.projectItem.descriptionFallback}
               </p>
 
               {/* Thông tin nhanh gộp chung vào khối tổng quan thay vì tách panel
                   riêng — hai phần này ngắn, để ngang với ảnh cho cân đối. */}
               <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-                <ProjectFactCell label="Thuộc dự án" value={project.title} />
+                <ProjectFactCell
+                  label={dictionary.projectItem.parentProjectLabel}
+                  value={project.title}
+                />
                 {quickFacts.map((fact) => (
                   <ProjectFactCell
                     key={fact.label}
@@ -158,7 +175,7 @@ export default async function ProjectItemPage({
                 <div className="mt-6 flex min-h-0 flex-1 flex-col">
                   <div className="flex flex-1 flex-col rounded-sm border border-brand/12 bg-gold-soft/55 p-5">
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                      Giá trị nổi bật
+                      {dictionary.projectItem.highlightsLabel}
                     </p>
                     <ul className="grid gap-3">
                       {highlights.map((highlight) => (
@@ -196,9 +213,13 @@ export default async function ProjectItemPage({
 
         {siblings.length > 0 ? (
           <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
-            <p className="text-eyebrow mb-4 text-brand">Hạng mục khác</p>
+            <p className="text-eyebrow mb-4 text-brand">
+              {dictionary.projectItem.siblingsEyebrow}
+            </p>
             <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-              Tiếp tục khám phá {project.title}
+              {interpolate(dictionary.projectItem.siblingsTitle, {
+                title: project.title,
+              })}
             </h2>
             <div className="stagger-list mt-8 grid gap-5 md:grid-cols-2">
               {siblings.map((sibling) => (
@@ -208,7 +229,7 @@ export default async function ProjectItemPage({
                   className="hover-card group border border-black/10 bg-white p-5 hover:border-brand"
                 >
                   <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                    {projectStatusLabels[sibling.status ?? project.status]}
+                    {dictionary.projectStatus[sibling.status ?? project.status]}
                   </span>
                   <h3 className="mt-3 text-xl font-semibold leading-snug">
                     {sibling.title}
@@ -219,7 +240,7 @@ export default async function ProjectItemPage({
                     </p>
                   ) : null}
                   <span className="link-arrow mt-5 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
-                    Xem hạng mục
+                    {dictionary.projectItem.viewItem}
                   </span>
                 </Link>
               ))}
@@ -230,13 +251,16 @@ export default async function ProjectItemPage({
         <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
-              <p className="text-eyebrow mb-4 text-gold">Quan tâm hạng mục này?</p>
+              <p className="text-eyebrow mb-4 text-gold">
+                {dictionary.projectItem.ctaEyebrow}
+              </p>
               <h2 className="text-3xl font-semibold leading-tight">
-                Liên hệ Thiên Đức để được hỗ trợ thông tin
+                {dictionary.projectItem.ctaTitle}
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
-                Đội ngũ Thiên Đức sẵn sàng tiếp nhận nhu cầu tư vấn, hợp tác hoặc
-                trao đổi thêm về {item.title}.
+                {interpolate(dictionary.projectItem.ctaDescription, {
+                  title: item.title,
+                })}
               </p>
             </div>
             <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)] md:self-center">
@@ -250,7 +274,7 @@ export default async function ProjectItemPage({
                 href={projectHref}
                 className="button-polish inline-flex h-11 items-center justify-center border border-brand/35 bg-white px-5 text-sm font-semibold text-ink transition hover:border-brand hover:bg-gold"
               >
-                Về trang dự án
+                {dictionary.projectItem.backToProject}
               </Link>
             </div>
           </div>

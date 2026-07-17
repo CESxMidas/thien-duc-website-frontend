@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { ProjectItem, ProjectStatus } from "@/types/content";
-import { projectStatusLabels } from "@/lib/project-status";
 import { localizePath, type Locale } from "@/lib/i18n/config";
+import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 5200;
@@ -16,6 +16,10 @@ type ProjectItemsCarouselProps = {
   projectSlug: string;
   projectStatus: ProjectStatus;
   locale: Locale;
+  /** Nhãn trạng thái + copy carousel do server truyền vào (client component
+      không tự nạp dictionary async được). */
+  statusLabels: Dictionary["projectStatus"];
+  labels: Dictionary["itemsCarousel"];
 };
 
 /**
@@ -28,6 +32,8 @@ export function ProjectItemsCarousel({
   projectSlug,
   projectStatus,
   locale,
+  statusLabels,
+  labels,
 }: ProjectItemsCarouselProps) {
   const count = items.length;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -103,7 +109,9 @@ export function ProjectItemsCarousel({
                 <Link
                   key={item.slug}
                   href={href}
-                  aria-label={`Xem hạng mục ${item.title}`}
+                  aria-label={interpolate(labels.ariaView, {
+                    title: item.title,
+                  })}
                   className="group/slide grid w-full shrink-0 grid-cols-1 md:grid-cols-2"
                 >
                   <div className="relative aspect-16/10 overflow-hidden bg-surface md:aspect-auto md:min-h-22rem">
@@ -125,12 +133,12 @@ export function ProjectItemsCarousel({
                     )}
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,25,25,0)_55%,rgba(25,25,25,0.28)_100%)]" />
                     <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
-                      {projectStatusLabels[item.status ?? projectStatus]}
+                      {statusLabels[item.status ?? projectStatus]}
                     </span>
                   </div>
 
                   <div className="flex flex-col justify-center gap-4 bg-linear-to-br from-white to-gold-soft/35 p-6 md:p-10">
-                    <p className="text-eyebrow text-brand">Hạng mục</p>
+                    <p className="text-eyebrow text-brand">{labels.badge}</p>
                     <h3 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
                       {item.title}
                     </h3>
@@ -140,7 +148,7 @@ export function ProjectItemsCarousel({
                       </p>
                     ) : null}
                     <span className="link-arrow mt-2 inline-flex h-11 w-fit items-center border border-brand/25 px-5 text-sm font-semibold text-brand transition group-hover/slide:border-brand group-hover/slide:bg-gold group-hover/slide:text-ink">
-                      Xem hạng mục
+                      {labels.viewItem}
                     </span>
                   </div>
                 </Link>
@@ -157,7 +165,9 @@ export function ProjectItemsCarousel({
               <button
                 key={item.slug}
                 type="button"
-                aria-label={`Chuyển tới hạng mục ${item.title}`}
+                aria-label={interpolate(labels.ariaGoTo, {
+                  title: item.title,
+                })}
                 aria-current={index === activeIndex}
                 onClick={() => setActiveIndex(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
@@ -172,7 +182,7 @@ export function ProjectItemsCarousel({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              aria-label="Hạng mục trước"
+              aria-label={labels.ariaPrevious}
               onClick={goToPrevious}
               className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
             >
@@ -180,7 +190,7 @@ export function ProjectItemsCarousel({
             </button>
             <button
               type="button"
-              aria-label="Hạng mục tiếp theo"
+              aria-label={labels.ariaNext}
               onClick={goToNext}
               className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
             >

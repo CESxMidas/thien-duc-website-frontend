@@ -9,10 +9,7 @@ import { getProjects } from "@/lib/api/projects";
 import { search } from "@/lib/api/search";
 import { isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
-import {
-  projectStatusFilters,
-  projectStatusLabels,
-} from "@/lib/project-status";
+import { projectStatusFilterValues } from "@/lib/project-status";
 import { routes } from "@/lib/routes";
 import { getSearchQuery } from "@/lib/search";
 import { buildPageMetadata } from "@/lib/seo";
@@ -35,9 +32,8 @@ export async function generateMetadata({
 
 function getStatusFilter(status: string | string[] | undefined) {
   const value = Array.isArray(status) ? status[0] : status;
-  const validStatuses = projectStatusFilters.map((item) => item.value);
 
-  return validStatuses.includes(value as ProjectStatus)
+  return projectStatusFilterValues.includes(value as ProjectStatus)
     ? (value as ProjectStatus | "all")
     : "all";
 }
@@ -81,25 +77,25 @@ export default async function ProjectsPage({
         {query ? null : (
           <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
             <div className="reveal-from-left flex flex-wrap gap-2">
-              {projectStatusFilters.map((filter) => {
-                const active = activeStatus === filter.value;
+              {projectStatusFilterValues.map((value) => {
+                const active = activeStatus === value;
                 const href =
-                  filter.value === "all"
+                  value === "all"
                     ? localizePath(routes.projects, locale)
                     : localizePath(
-                        `${routes.projects}?status=${filter.value}`,
+                        `${routes.projects}?status=${value}`,
                         locale,
                       );
                 const count =
-                  filter.value === "all"
+                  value === "all"
                     ? projects.length
                     : projects.filter(
-                        (project) => project.status === filter.value,
+                        (project) => project.status === value,
                       ).length;
 
                 return (
                   <Link
-                    key={filter.value}
+                    key={value}
                     href={href}
                     scroll={false}
                     aria-current={active ? "page" : undefined}
@@ -112,7 +108,7 @@ export default async function ProjectsPage({
                     {active ? (
                       <Check className="size-4 shrink-0" aria-hidden="true" />
                     ) : null}
-                    {filter.label}
+                    {dictionary.projectStatus[value]}
                     <span className={active ? "text-white/80" : "text-slate"}>
                       ({count})
                     </span>
@@ -174,7 +170,7 @@ export default async function ProjectsPage({
                       {project.location ? (
                         <span className="h-1 w-1 rounded-full bg-gold" />
                       ) : null}
-                      <span>{projectStatusLabels[project.status]}</span>
+                      <span>{dictionary.projectStatus[project.status]}</span>
                     </div>
                     <h2 className="mt-3 text-2xl font-semibold leading-tight">
                       {project.title}

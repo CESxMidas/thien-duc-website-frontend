@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getProjects } from "@/lib/api/projects";
 import { defaultLocale, localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
-import { projectStatusLabels } from "@/lib/project-status";
 import { routes } from "@/lib/routes";
 import { homeFeaturedProjectCopy } from "@/data/home";
 
@@ -94,7 +93,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
                   <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                     <span>{display.location}</span>
                     <span className="h-1 w-1 rounded-full bg-gold" />
-                    <span>{projectStatusLabels[project.status]}</span>
+                    <span>{dictionary.projectStatus[project.status]}</span>
                   </div>
                   <h3 className="mt-3 text-xl font-semibold">
                     {display.title}
