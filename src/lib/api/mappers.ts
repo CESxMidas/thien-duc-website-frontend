@@ -76,10 +76,10 @@ function localizeFact(fact: ProjectFactDto, locale: Locale): ProjectFact {
 }
 
 /**
- * Phân giải phần prose của khối bản đồ theo locale (EN-FULL-C5a):
- * `heading`/`description`/`address` là `{ vi, en? }` (mới) hoặc chuỗi cũ —
- * `localizedLoose` lo cả hai và lùi về `vi`. `labels[].text` **cố ý giữ nguyên**
- * (chưa song ngữ hóa — để dành C5b); `image`/`markers` chuyển thẳng.
+ * Phân giải khối bản đồ theo locale. Prose (EN-FULL-C5a) + nhãn overlay
+ * (EN-FULL-C5b): `heading`/`description`/`address` và `labels[].text` là
+ * `{ vi, en? }` (mới) hoặc chuỗi cũ — `localizedLoose` lo cả hai và lùi về `vi`.
+ * Vị trí/kiểu của nhãn (`left`/`top`/`kind`) và `image`/`markers` giữ nguyên.
  */
 function mapMapLocation(
   dto: ProjectMapLocationDto,
@@ -95,7 +95,10 @@ function mapMapLocation(
     address: localizedLoose(dto.address, locale) || undefined,
     markerLeft: dto.markerLeft,
     markerTop: dto.markerTop,
-    labels: dto.labels,
+    labels: dto.labels?.map((label) => ({
+      ...label,
+      text: localizedLoose(label.text, locale) ?? "",
+    })),
   };
 }
 

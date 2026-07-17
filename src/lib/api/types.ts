@@ -1,5 +1,6 @@
 import type {
   ProjectGallerySection,
+  ProjectMapLabel,
   ProjectMapLocation,
 } from "@/types/content";
 
@@ -31,13 +32,22 @@ export type ProjectFactDto = {
  * giải theo locale. `labels[].text` giữ nguyên (chưa song ngữ hóa — để dành
  * C5b), nên `image`/`markers`/`labels` kế thừa y hệt `ProjectMapLocation`.
  */
+/**
+ * Một nhãn bản đồ thô. `text` song ngữ (EN-FULL-C5b): `{ vi, en? }` hoặc chuỗi
+ * cũ; mapper phân giải theo locale. `left`/`top`/`kind` giữ nguyên.
+ */
+export type ProjectMapLabelDto = Omit<ProjectMapLabel, "text"> & {
+  text: LocalizedText | string;
+};
+
 export type ProjectMapLocationDto = Omit<
   ProjectMapLocation,
-  "heading" | "description" | "address"
+  "heading" | "description" | "address" | "labels"
 > & {
   heading?: LocalizedText | string;
   description?: LocalizedText | string;
   address?: LocalizedText | string;
+  labels?: ProjectMapLabelDto[];
 };
 
 export type ApiSuccessResponse<T> = {

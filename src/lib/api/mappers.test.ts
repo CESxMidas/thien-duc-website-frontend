@@ -63,21 +63,39 @@ describe("mapProject mapLocation prose (EN-FULL-C5a)", () => {
       address: "Phường Phú Tân", // dữ liệu cũ dạng chuỗi
       markerLeft: 65,
       markerTop: 27,
-      labels: [{ text: "Hướng đi chợ Lách", left: 22, top: 9, kind: "direction" }],
+      labels: [
+        // Nhãn song ngữ (C5b): EN chọn bản dịch, giữ nguyên left/top/kind.
+        {
+          text: { vi: "Hướng đi chợ Lách", en: "To Cho Lach" },
+          left: 22,
+          top: 9,
+          kind: "direction",
+        },
+        // Nhãn cũ dạng chuỗi: lùi nguyên văn tiếng Việt ở cả hai locale.
+        { text: "QL.60", left: 49, top: 14, kind: "road" },
+      ],
     },
   };
 
-  it("locale 'en' phân giải heading; address chuỗi cũ lùi nguyên văn", () => {
+  it("locale 'en' phân giải heading + nhãn; chuỗi cũ lùi nguyên văn", () => {
     const ml = mapProject(dto, "en").mapLocation;
     expect(ml?.heading).toBe("In the city center");
     expect(ml?.address).toBe("Phường Phú Tân");
-    // Nhãn bản đồ CỐ Ý giữ nguyên tiếng Việt (để dành C5b).
-    expect(ml?.labels?.[0].text).toBe("Hướng đi chợ Lách");
+    // Nhãn song ngữ → tiếng Anh, vị trí/kiểu giữ nguyên.
+    expect(ml?.labels?.[0]).toEqual({
+      text: "To Cho Lach",
+      left: 22,
+      top: 9,
+      kind: "direction",
+    });
+    // Nhãn cũ (chuỗi) → giữ nguyên văn, không phải [object Object].
+    expect(ml?.labels?.[1].text).toBe("QL.60");
   });
 
-  it("locale 'vi' giữ nguyên heading tiếng Việt", () => {
+  it("locale 'vi' giữ nguyên heading + nhãn tiếng Việt", () => {
     const ml = mapProject(dto, "vi").mapLocation;
     expect(ml?.heading).toBe("Tọa lạc trung tâm");
+    expect(ml?.labels?.[0].text).toBe("Hướng đi chợ Lách");
   });
 
   it("description rỗng → undefined (không render [object Object] hay ô trống)", () => {
