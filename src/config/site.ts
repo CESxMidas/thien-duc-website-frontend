@@ -38,6 +38,26 @@ export const brandShortName: Record<Locale, string> = {
   en: "Thien Duc",
 };
 
+/**
+ * Byline bài viết hiển thị theo locale (EN-FULL-C4). Tác giả bài tin trong CMS
+ * thường chính là thương hiệu site ("Thiên Đức") — chuỗi này phải hiện
+ * "Thien Duc" trên `/en` thay vì để nguyên tiếng Việt có dấu. Tên tác giả là
+ * người thật (vd. "Nguyễn Văn A") **giữ nguyên**, không phiên âm/dịch. Chuỗi
+ * rỗng/null → `undefined`; mọi byline khác thương hiệu trả về nguyên văn nên
+ * route tiếng Việt và các byline không phải thương hiệu không đổi một chữ.
+ *
+ * `author` vẫn là `string` (không đổi schema/DTO): cột này còn nuôi full-text
+ * search (`news_search_document`) và JSON-LD `Person.name`, nên chỉ bản đồ hiển
+ * thị theo locale ở tầng frontend là đủ và an toàn nhất.
+ */
+export function localizeAuthor(
+  author: string | null | undefined,
+  locale: Locale,
+): string | undefined {
+  if (!author) return undefined;
+  return author === brandShortName.vi ? brandShortName[locale] : author;
+}
+
 export const legalDisplayName: Record<Locale, string> = {
   vi: legalInfo.legalName,
   en: "Thien Duc Investment Construction Trading Co., Ltd",

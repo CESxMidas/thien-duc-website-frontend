@@ -6,6 +6,7 @@ import type {
   ProjectItem,
   ProjectStatus,
 } from "@/types/content";
+import { localizeAuthor } from "@/config/site";
 import type { Locale } from "@/lib/i18n/config";
 import type {
   BannerDto,
@@ -107,7 +108,7 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     eventDate: dto.eventDate?.slice(0, 10),
     category: localized(dto.category?.name, locale),
     content: dto.content?.map((item) => localized(item, locale)),
-    author: dto.author ?? undefined,
+    author: localizeAuthor(dto.author, locale),
     image: dto.image ?? undefined,
   };
 }
