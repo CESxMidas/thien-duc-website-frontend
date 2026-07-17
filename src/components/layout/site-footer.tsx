@@ -12,7 +12,7 @@ const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
-  "inline-flex min-h-11 items-center text-sm text-white/80 transition hover:text-gold sm:min-h-0";
+  "inline-flex min-h-11 items-center text-sm text-white/85 transition hover:text-gold sm:min-h-0";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -24,7 +24,11 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
   return (
     <footer className="mt-auto border-t border-brand/25 bg-brand-dark text-white">
-      <div className="bg-brand-soft">
+      {/* Nền brand-dark (#7f4b0d) cho cả khối trên: brand-soft (#c99248) quá
+          sáng khiến chữ trắng/vàng chỉ đạt ~1.8–2.7:1 (dưới ngưỡng WCAG AA).
+          Đồng bộ nền nâu đậm — vốn đã khai báo ở thẻ <footer> — đưa chữ trắng
+          lên ~7:1, vàng lên ~4.8:1, giữ đúng tông thương hiệu. */}
+      <div className="bg-brand-dark">
         {/* Gom Liên hệ thành một cột trong hàng trên (bỏ dải full-width thưa
             thớt cũ) để lấp đầy hàng và tránh khoảng trống ngang dư thừa. */}
         <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-9 px-4 py-10 sm:grid-cols-2 sm:px-6 sm:py-12 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
@@ -80,7 +84,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 <a href={phoneHref} className={`${footerLinkClassName} flex items-start gap-3`}>
                   <Phone className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
                   <span>
-                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/75">
                       {dictionary.footer.phone}
                     </span>
                     <span className="mt-1 block font-semibold text-white">
@@ -93,7 +97,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 <a href={emailHref} className={`${footerLinkClassName} flex items-start gap-3`}>
                   <Mail className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
                   <span className="min-w-0">
-                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/75">
                       {dictionary.footer.email}
                     </span>
                     <span className="mt-1 block wrap-break-word font-semibold text-white">
@@ -111,7 +115,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 >
                   <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden="true" />
                   <span>
-                    <span className="block text-xs uppercase tracking-[0.16em] text-white/55">
+                    <span className="block text-xs uppercase tracking-[0.16em] text-white/75">
                       {dictionary.footer.office}
                     </span>
                     <span className="mt-1 block font-semibold leading-6 text-white">
@@ -126,8 +130,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       </div>
 
       <div className="border-t border-brand/20">
-        <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-6 text-white/65 sm:px-6">
-          <p className="font-semibold uppercase tracking-[0.12em] text-white/70">
+        <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-6 text-white/75 sm:px-6">
+          <p className="font-semibold uppercase tracking-[0.12em] text-white/85">
             {legalInfo.legalName}
           </p>
           <p className="mt-1">
@@ -136,7 +140,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-white/70 sm:px-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-white/85 sm:px-6 md:flex-row md:items-center md:justify-between">
         <p>
           © {currentYear} {dictionary.shared.companyName}.{" "}
           {dictionary.footer.rights}

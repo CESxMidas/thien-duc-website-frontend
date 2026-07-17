@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MapPin } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ContactForm } from "@/components/sections/contact-form";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -155,11 +156,24 @@ export default async function ContactPage({
             </Link>
           </div>
 
-          <div className="overflow-hidden border border-black/10 bg-white shadow-sm">
+          <div className="relative overflow-hidden border border-black/10 bg-white shadow-sm">
+            {/* Skeleton nền khung bản đồ: iframe Google Maps trong suốt cho tới
+                khi tiles vẽ xong, nên lớp này lộ ra trong lúc chờ thay vì khung
+                trắng trơ. Không dùng chữ để khỏi phải i18n; tôn trọng
+                prefers-reduced-motion (tắt nhấp nháy). */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 grid place-items-center bg-surface-warm"
+            >
+              <div className="flex flex-col items-center gap-3 text-brand/45">
+                <MapPin className="size-8 animate-pulse motion-reduce:animate-none" />
+                <span className="h-1.5 w-24 rounded-full bg-brand/15" />
+              </div>
+            </div>
             <iframe
               title={contact.mapIframeTitle}
               src={mapsEmbedHref}
-              className="aspect-4/3 min-h-70 w-full border-0 lg:aspect-16/10"
+              className="relative z-10 aspect-4/3 min-h-70 w-full border-0 lg:aspect-16/10"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
