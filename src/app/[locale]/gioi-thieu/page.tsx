@@ -6,17 +6,9 @@ import { Handshake, ShieldCheck, Target } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { PageHeading } from "@/components/ui/page-heading";
-import {
-  aboutContactCta,
-  aboutFields,
-  aboutHero,
-  aboutOverview,
-  aboutPrinciples,
-  aboutStats,
-  aboutTimeline,
-} from "@/data/about";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -59,20 +51,24 @@ export default async function AboutPage({
   // Phần chữ do CMS quản lý (`GET /pages/gioi-thieu`): đoạn đầu là mô tả dưới
   // tiêu đề, các đoạn sau là nội dung khối "Định hướng phát triển". Các khối có
   // bố cục riêng (giá trị cốt lõi, ngành nghề) vẫn là UI tĩnh.
-  const page = await getPageBySlug(PAGE_SLUG, locale);
+  const [page, dictionary] = await Promise.all([
+    getPageBySlug(PAGE_SLUG, locale),
+    getDictionary(locale),
+  ]);
+  const about = dictionary.about;
   const [heroDescription, ...overviewParagraphs] = page?.paragraphs ?? [];
 
   const heading = {
-    title: page?.title ?? aboutHero.title,
-    description: heroDescription ?? aboutHero.description,
+    title: page?.title ?? about.heroTitle,
+    description: heroDescription ?? about.heroDescription,
   };
   const paragraphs =
-    overviewParagraphs.length > 0 ? overviewParagraphs : aboutOverview.paragraphs;
+    overviewParagraphs.length > 0 ? overviewParagraphs : about.overviewParagraphs;
 
   return (
     <SiteShell locale={locale}>
       <PageHeading
-        eyebrow={aboutHero.eyebrow}
+        eyebrow={about.eyebrow}
         title={heading.title}
         description={heading.description}
       />
@@ -80,10 +76,10 @@ export default async function AboutPage({
       <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
           <p className="text-eyebrow mb-4 text-brand">
-            {aboutOverview.eyebrow}
+            {about.overviewEyebrow}
           </p>
           <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
-            {aboutOverview.title}
+            {about.overviewTitle}
           </h2>
           <div className="measure mt-6 grid gap-4 text-lg leading-8 text-slate">
             {paragraphs.map((paragraph) => (
@@ -91,7 +87,7 @@ export default async function AboutPage({
             ))}
           </div>
           <blockquote className="mt-8 border-l-4 border-gold bg-white px-5 py-4 text-lg font-semibold text-ink-soft shadow-sm">
-            {aboutOverview.motto}
+            {about.motto}
           </blockquote>
         </div>
 
@@ -99,7 +95,7 @@ export default async function AboutPage({
           <div className="image-reveal">
           <Image
             src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
-            alt="Dự án bất động sản Thiên Đức phát triển"
+            alt={about.imageAlt}
             width={720}
             height={520}
             className="aspect-4/3 h-auto w-full object-cover"
@@ -109,18 +105,18 @@ export default async function AboutPage({
           <div className="grid gap-3 p-5 text-sm leading-6 text-slate sm:grid-cols-2">
             <div>
               <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                Thành lập
+                {about.foundedLabel}
               </span>
               <span className="mt-1 block text-lg font-semibold text-ink">
-                2010
+                {about.foundedValue}
               </span>
             </div>
             <div>
               <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                Địa bàn
+                {about.areaLabel}
               </span>
               <span className="mt-1 block text-lg font-semibold text-ink">
-                TP.HCM và các tỉnh
+                {about.areaValue}
               </span>
             </div>
           </div>
@@ -129,7 +125,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-7xl px-4 sm:px-6">
         <dl className="stagger-list grid gap-4 border border-black/10 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
-          {aboutStats.map((stat) => (
+          {about.stats.map((stat) => (
             <div key={stat.label} className="border-l-4 border-gold pl-4">
               <dt className="font-display text-4xl font-semibold leading-none text-brand">
                 {stat.value}
@@ -144,15 +140,15 @@ export default async function AboutPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Chặng đường phát triển
+            {about.timelineEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Từ 2010 đến nay
+            {about.timelineTitle}
           </h2>
         </div>
 
         <ol className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
-          {aboutTimeline.map((milestone) => (
+          {about.timeline.map((milestone) => (
             <li
               key={milestone.period}
               className="hover-card border border-black/10 bg-white p-6 hover:border-brand/35"
@@ -172,15 +168,15 @@ export default async function AboutPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Giá trị nền tảng
+            {about.principlesEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Tầm nhìn, sứ mệnh và giá trị cốt lõi
+            {about.principlesTitle}
           </h2>
         </div>
 
         <div className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
-          {aboutPrinciples.map((item, index) => {
+          {about.principles.map((item, index) => {
             const Icon = principleIcons[index];
 
             return (
@@ -199,20 +195,24 @@ export default async function AboutPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Lĩnh vực hoạt động
+            {about.fieldsEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Ngành nghề kinh doanh đã đăng ký
+            {about.fieldsTitle}
           </h2>
           <p className="mt-5 text-lg leading-8 text-slate">
-            Các lĩnh vực được trình bày theo nhóm ngành nghề trong mục tiêu hoạt
-            động và ngành nghề kinh doanh của Công ty Thiên Đức.
+            {about.fieldsDescription}
           </p>
         </div>
 
         <div className="stagger-list mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {aboutFields.map((item, index) => (
-            <BusinessFieldCard key={item.title} item={item} index={index} />
+          {about.fields.map((item, index) => (
+            <BusinessFieldCard
+              key={item.title}
+              item={item}
+              index={index}
+              codeLabel={about.fieldCodeLabel}
+            />
           ))}
         </div>
       </section>
@@ -220,26 +220,26 @@ export default async function AboutPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
         <div className="rounded-sm bg-brand-soft p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
           <p className="text-eyebrow mb-4 text-gold">
-            {aboutContactCta.eyebrow}
+            {about.ctaEyebrow}
           </p>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
-            {aboutContactCta.title}
+            {about.ctaTitle}
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
-            {aboutContactCta.description}
+            {about.ctaDescription}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
-              href={localizePath(aboutContactCta.primaryCta.href, locale)}
+              href={localizePath(routes.projects, locale)}
               className="button-polish inline-flex h-11 items-center bg-gold px-5 text-sm font-semibold text-ink hover:bg-white"
             >
-              {aboutContactCta.primaryCta.label}
+              {about.ctaPrimary}
             </Link>
             <Link
-              href={localizePath(aboutContactCta.secondaryCta.href, locale)}
+              href={localizePath(routes.contact, locale)}
               className="button-polish inline-flex h-11 items-center border border-white/50 px-5 text-sm font-semibold text-white hover:bg-white hover:text-ink"
             >
-              {aboutContactCta.secondaryCta.label}
+              {about.ctaSecondary}
             </Link>
           </div>
         </div>

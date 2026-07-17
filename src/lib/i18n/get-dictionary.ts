@@ -132,6 +132,7 @@ export type Dictionary = {
   shared: {
     homeAriaLabel: string;
     logoAlt: string;
+    companyName: string;
   };
   footerBrand: {
     tagline: string;
@@ -165,6 +166,87 @@ export type Dictionary = {
     ariaPrevious: string;
     ariaNext: string;
     ariaGoTo: string;
+  };
+  contactForm: {
+    fields: {
+      name: string;
+      phone: string;
+      email: string;
+      inquiry: string;
+      message: string;
+    };
+    placeholders: {
+      name: string;
+      phone: string;
+      email: string;
+      message: string;
+    };
+    inquiryPlaceholder: string;
+    inquiryOptions: Record<string, string>;
+    note: string;
+    submitLabel: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    successAgain: string;
+    errors: {
+      name: string;
+      phone: string;
+      email: string;
+      inquiry: string;
+      message: string;
+      rateLimit: string;
+      network: string;
+    };
+  };
+  about: {
+    eyebrow: string;
+    heroTitle: string;
+    heroDescription: string;
+    overviewEyebrow: string;
+    overviewTitle: string;
+    overviewParagraphs: string[];
+    motto: string;
+    imageAlt: string;
+    foundedLabel: string;
+    foundedValue: string;
+    areaLabel: string;
+    areaValue: string;
+    stats: Array<{ value: string; label: string; note: string }>;
+    timelineEyebrow: string;
+    timelineTitle: string;
+    timeline: Array<{ period: string; title: string; description: string }>;
+    principlesEyebrow: string;
+    principlesTitle: string;
+    principles: Array<{ title: string; description: string }>;
+    fieldsEyebrow: string;
+    fieldsTitle: string;
+    fieldsDescription: string;
+    fieldCodeLabel: string;
+    fields: Array<{ code: string; title: string; description: string }>;
+    ctaEyebrow: string;
+    ctaTitle: string;
+    ctaDescription: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+  };
+  contact: {
+    heroEyebrow: string;
+    heroTitle: string;
+    heroDescription: string;
+    formEyebrow: string;
+    formTitle: string;
+    formDescription: string;
+    callPrefix: string;
+    processEyebrow: string;
+    processTitle: string;
+    processDescription: string;
+    process: Array<{ step: string; title: string; description: string }>;
+    mapEyebrow: string;
+    mapTitle: string;
+    mapDescription: string;
+    mapCta: string;
+    mapIframeTitle: string;
   };
   navLabels: Record<string, string>;
   navOverviewLabels: Record<string, string>;

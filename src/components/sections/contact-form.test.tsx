@@ -7,6 +7,8 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ContactForm } from "./contact-form";
 import { submitContactForm } from "@/lib/api/contact";
 import { ApiError } from "@/lib/api/client";
+import type { Dictionary } from "@/lib/i18n/get-dictionary";
+import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
 jest.mock("@/lib/api/contact", () => ({
   submitContactForm: jest.fn(),
@@ -15,6 +17,14 @@ jest.mock("@/lib/api/contact", () => ({
 const submitMock = submitContactForm as jest.MockedFunction<
   typeof submitContactForm
 >;
+
+// Dùng copy tiếng Việt (nguồn hiển thị hiện tại) nên các assert regex tiếng
+// Việt bên dưới giữ nguyên — B3 chỉ chuyển chuỗi vào dictionary, không đổi VI.
+const copy = (viDictionary as unknown as Dictionary).contactForm;
+
+function renderForm() {
+  return render(<ContactForm copy={copy} />);
+}
 
 function fillValidForm() {
   fireEvent.change(screen.getByLabelText(/họ.*tên/i), {
@@ -37,7 +47,7 @@ beforeEach(() => {
 
 describe("ContactForm", () => {
   it("khớp trần @MaxLength backend (→3): name 120 / phone 30 / email 200 / message 5000", () => {
-    render(<ContactForm />);
+    renderForm();
 
     expect(screen.getByLabelText(/họ.*tên/i)).toHaveAttribute(
       "maxlength",
@@ -54,7 +64,7 @@ describe("ContactForm", () => {
   });
 
   it("submit form trống → báo lỗi từng field, KHÔNG gọi API", async () => {
-    render(<ContactForm />);
+    renderForm();
 
     fireEvent.click(screen.getByRole("button", { name: /gửi yêu cầu/i }));
 
@@ -69,7 +79,7 @@ describe("ContactForm", () => {
 
   it("gửi hợp lệ → gọi API với phone đã chuẩn hóa, hiện màn hình thành công", async () => {
     submitMock.mockResolvedValueOnce({} as never);
-    render(<ContactForm />);
+    renderForm();
 
     fillValidForm();
     fireEvent.click(screen.getByRole("button", { name: /gửi yêu cầu/i }));
@@ -89,7 +99,7 @@ describe("ContactForm", () => {
   });
 
   it("honeypot có giá trị → giả lập thành công, KHÔNG gọi API", async () => {
-    render(<ContactForm />);
+    renderForm();
 
     fillValidForm();
     fireEvent.change(screen.getByLabelText("Công ty"), {
@@ -109,7 +119,7 @@ describe("ContactForm", () => {
     submitMock.mockRejectedValueOnce(
       new ApiError("TOO_MANY_REQUESTS", "Too many requests", 429),
     );
-    render(<ContactForm />);
+    renderForm();
 
     fillValidForm();
     fireEvent.click(screen.getByRole("button", { name: /gửi yêu cầu/i }));

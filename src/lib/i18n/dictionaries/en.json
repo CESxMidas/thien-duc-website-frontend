@@ -124,7 +124,8 @@
   },
   "shared": {
     "homeAriaLabel": "Thien Duc home",
-    "logoAlt": "Thien Duc logo"
+    "logoAlt": "Thien Duc logo",
+    "companyName": "Thien Duc Company"
   },
   "footerBrand": {
     "tagline": "Real estate investment, construction, and development — accompanying sustainable urban growth.",
@@ -175,6 +176,164 @@
     "ariaPrevious": "Previous banner",
     "ariaNext": "Next banner",
     "ariaGoTo": "Go to banner {index}"
+  },
+  "contactForm": {
+    "fields": {
+      "name": "Full name",
+      "phone": "Phone number",
+      "email": "Email",
+      "inquiry": "Enquiry topic",
+      "message": "Request details"
+    },
+    "placeholders": {
+      "name": "e.g. John Smith",
+      "phone": "090x xxx xxx",
+      "email": "email@example.com",
+      "message": "Briefly describe your advisory needs, the project you're interested in, or what you'd like to discuss."
+    },
+    "inquiryPlaceholder": "Select a topic",
+    "inquiryOptions": {
+      "tu-van-du-an": "Project advisory",
+      "hop-tac-phat-trien": "Development partnership",
+      "thong-tin-doanh-nghiep": "Company information"
+    },
+    "note": "Your information is used only to respond to this request and is kept confidential in accordance with regulations.",
+    "submitLabel": "Send request",
+    "submitting": "Sending...",
+    "successTitle": "Request sent successfully",
+    "successBody": "Thank you for reaching out. Thien Duc will respond within 24 business hours via the phone number or email you provided.",
+    "successAgain": "Send another request",
+    "errors": {
+      "name": "Please enter your full name (at least 2 characters).",
+      "phone": "The phone number format is invalid (e.g. 0901234567).",
+      "email": "The email format is invalid.",
+      "inquiry": "Please select a topic.",
+      "message": "Please describe your request (at least 10 characters).",
+      "rateLimit": "You've sent too many requests. Please try again in an hour or call {phone}.",
+      "network": "The request couldn't be sent. Please check your connection and try again — your entered information is preserved."
+    }
+  },
+  "about": {
+    "eyebrow": "About",
+    "heroTitle": "Overview of Thien Duc Company",
+    "heroDescription": "Thien Duc Investment Construction Trading Co., Ltd was established in 2010, operating in investment, construction, trading, and real estate development in Ho Chi Minh City and the southern provinces. Over 16 years of growth, it has partnered with CapitaLand and is now the developer of the Hung Phu Urban Area in Ben Tre.",
+    "overviewEyebrow": "Development direction",
+    "overviewTitle": "An investment and project-development partner with a prudent, sustainable approach",
+    "overviewParagraphs": [
+      "Thien Duc was established in 2010 by a team of experts, architects, and engineers with many years of experience in Vietnam's construction industry.",
+      "The 2014-2018 period marked a turning point when the company formed a strategic partnership with the international real estate group CapitaLand, successfully developing and delivering international-standard premium apartment complexes in Ho Chi Minh City.",
+      "From 2018 to today, Thien Duc has expanded its land bank and developer role into the southern provinces, notably a large-scale urban area in Ben Tre province."
+    ],
+    "motto": "Satisfied customers - Thien Duc's success",
+    "imageAlt": "A real estate project developed by Thien Duc",
+    "foundedLabel": "Established",
+    "foundedValue": "2010",
+    "areaLabel": "Coverage",
+    "areaValue": "HCMC and provinces",
+    "stats": [
+      { "value": "16+", "label": "Years in operation", "note": "From 2010 to today" },
+      { "value": "3", "label": "Major mixed-use projects", "note": "Along with many civil infrastructure works" },
+      { "value": "1.152", "label": "Vista Verde apartments", "note": "4 towers, co-developed with CapitaLand" },
+      { "value": "11,25 ha", "label": "Hung Phu Urban Area", "note": "Sole developer, in Ben Tre" }
+    ],
+    "timelineEyebrow": "Our journey",
+    "timelineTitle": "From 2010 to today",
+    "timeline": [
+      {
+        "period": "2010",
+        "title": "Establishment",
+        "description": "A team of experts, architects, and engineers with many years of experience in Vietnam's construction industry co-founded the company."
+      },
+      {
+        "period": "2014 - 2018",
+        "title": "International cooperation",
+        "description": "Formed a strategic partnership with CapitaLand Group (Singapore), developing and delivering international-standard premium apartment complexes in Ho Chi Minh City."
+      },
+      {
+        "period": "2018 - present",
+        "title": "Expanding the developer role",
+        "description": "Expanded its land bank into the southern provinces, notably large-scale urban area projects in Ben Tre province."
+      }
+    ],
+    "principlesEyebrow": "Foundational values",
+    "principlesTitle": "Vision, mission, and core values",
+    "principles": [
+      {
+        "title": "Vision",
+        "description": "To become a leading, reputable real estate investment and construction brand in Vietnam, creating works with breakthrough architectural solutions, high aesthetics, and lasting sustainability."
+      },
+      {
+        "title": "Mission",
+        "description": "To deliver premium, absolutely safe living solutions and spaces for customers; to apply advanced techniques and new materials to optimise economic efficiency for partners; and to accompany the nation's modern urban infrastructure development."
+      },
+      {
+        "title": "Core values",
+        "description": "Reputation — Quality — Breakthrough — Sustainability: the four foundational values behind every investment, construction, and partnership activity of Thien Duc."
+      }
+    ],
+    "fieldsEyebrow": "Areas of operation",
+    "fieldsTitle": "Registered business lines",
+    "fieldsDescription": "The areas are presented by business line group within the operating objectives and registered business lines of Thien Duc Company.",
+    "fieldCodeLabel": "Code",
+    "fields": [
+      {
+        "code": "6810",
+        "title": "Real estate business",
+        "description": "Real estate business and land-use rights owned, held, or leased; leasing of offices and workshops."
+      },
+      {
+        "code": "4100–4330",
+        "title": "Construction works",
+        "description": "Construction of all types of buildings; road and transport works; civil engineering works; site preparation; construction finishing."
+      },
+      {
+        "code": "7110",
+        "title": "Architecture & engineering consulting",
+        "description": "Supervision of construction and finishing of civil and industrial works; structural design of civil and industrial construction works."
+      },
+      {
+        "code": "4659–4662",
+        "title": "Materials & equipment trading",
+        "description": "Wholesale of iron and steel; machinery, equipment, and spare parts for mining and construction."
+      },
+      {
+        "code": "4933–5022",
+        "title": "Freight transport",
+        "description": "Freight transport by road and inland waterway."
+      },
+      {
+        "code": "3011",
+        "title": "Shipbuilding & floating structures",
+        "description": "Building of ships and floating structures per registered business lines (not operated at the head office)."
+      }
+    ],
+    "ctaEyebrow": "Connect with Thien Duc",
+    "ctaTitle": "Discuss projects, partnerships, or advisory needs",
+    "ctaDescription": "The Thien Duc team is ready to receive information from customers, partners, and anyone interested in our project development direction.",
+    "ctaPrimary": "View projects",
+    "ctaSecondary": "Contact"
+  },
+  "contact": {
+    "heroEyebrow": "Contact",
+    "heroTitle": "Connect with Thien Duc",
+    "heroDescription": "Official contact information for customers, partners, and anyone interested in Thien Duc's activities.",
+    "formEyebrow": "Send a request",
+    "formTitle": "Submit an enquiry",
+    "formDescription": "Fill in what you'd like to discuss, and your request will be sent directly to the responsible team at Thien Duc.",
+    "callPrefix": "Or call now",
+    "processEyebrow": "Process",
+    "processTitle": "After you submit",
+    "processDescription": "Choosing the right topic group in the form helps Thien Duc respond faster.",
+    "process": [
+      { "step": "01", "title": "Receive", "description": "Record your information from the form, phone, or email." },
+      { "step": "02", "title": "Sort", "description": "Route your request to the appropriate responsible team." },
+      { "step": "03", "title": "Respond", "description": "Get back to you based on the details and information you provided." }
+    ],
+    "mapEyebrow": "Office location",
+    "mapTitle": "Thien Duc head office",
+    "mapDescription": "You can view the location on the map or contact us in advance to arrange a suitable meeting time.",
+    "mapCta": "Open Google Maps",
+    "mapIframeTitle": "Map of Thien Duc's location"
   },
   "navLabels": {
     "/": "Home",

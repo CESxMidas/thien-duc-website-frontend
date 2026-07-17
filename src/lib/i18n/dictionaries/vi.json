@@ -124,7 +124,8 @@
   },
   "shared": {
     "homeAriaLabel": "Trang chủ Thiên Đức",
-    "logoAlt": "Logo Thiên Đức"
+    "logoAlt": "Logo Thiên Đức",
+    "companyName": "Công ty Thiên Đức"
   },
   "footerBrand": {
     "tagline": "Đầu tư, xây dựng và phát triển bất động sản — đồng hành cùng sự phát triển đô thị bền vững.",
@@ -175,6 +176,164 @@
     "ariaPrevious": "Banner trước",
     "ariaNext": "Banner tiếp theo",
     "ariaGoTo": "Chuyển tới banner {index}"
+  },
+  "contactForm": {
+    "fields": {
+      "name": "Họ và tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "inquiry": "Nội dung cần trao đổi",
+      "message": "Nội dung yêu cầu"
+    },
+    "placeholders": {
+      "name": "Nguyễn Văn A",
+      "phone": "090x xxx xxx",
+      "email": "email@example.com",
+      "message": "Mô tả ngắn nhu cầu tư vấn, dự án quan tâm hoặc nội dung cần trao đổi."
+    },
+    "inquiryPlaceholder": "Chọn nội dung cần trao đổi",
+    "inquiryOptions": {
+      "tu-van-du-an": "Tư vấn dự án",
+      "hop-tac-phat-trien": "Hợp tác phát triển",
+      "thong-tin-doanh-nghiep": "Thông tin doanh nghiệp"
+    },
+    "note": "Thông tin của bạn chỉ dùng để phản hồi yêu cầu này và được bảo mật theo quy định.",
+    "submitLabel": "Gửi yêu cầu",
+    "submitting": "Đang gửi...",
+    "successTitle": "Đã gửi yêu cầu thành công",
+    "successBody": "Cảm ơn bạn đã liên hệ. Thiên Đức sẽ phản hồi trong vòng 24 giờ làm việc qua số điện thoại hoặc email bạn cung cấp.",
+    "successAgain": "Gửi yêu cầu khác",
+    "errors": {
+      "name": "Vui lòng nhập họ tên (tối thiểu 2 ký tự).",
+      "phone": "Số điện thoại chưa đúng định dạng (ví dụ: 0901234567).",
+      "email": "Email chưa đúng định dạng.",
+      "inquiry": "Vui lòng chọn nội dung cần trao đổi.",
+      "message": "Vui lòng mô tả nội dung yêu cầu (tối thiểu 10 ký tự).",
+      "rateLimit": "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau 1 giờ hoặc gọi {phone}.",
+      "network": "Không gửi được yêu cầu. Vui lòng kiểm tra kết nối và thử lại — dữ liệu bạn nhập vẫn được giữ nguyên."
+    }
+  },
+  "about": {
+    "eyebrow": "Giới thiệu",
+    "heroTitle": "Tổng quan về Công ty Thiên Đức",
+    "heroDescription": "Công ty TNHH Đầu tư Xây dựng Thương mại Thiên Đức thành lập năm 2010, hoạt động trong lĩnh vực đầu tư, xây dựng, thương mại và phát triển bất động sản tại TP.HCM và các tỉnh phía Nam. Hơn 16 năm phát triển, từng hợp tác cùng CapitaLand và hiện là chủ đầu tư khu đô thị Hưng Phú tại Bến Tre.",
+    "overviewEyebrow": "Định hướng phát triển",
+    "overviewTitle": "Đối tác đầu tư và phát triển dự án theo hướng thận trọng, bền vững",
+    "overviewParagraphs": [
+      "Thiên Đức được thành lập năm 2010 bởi đội ngũ chuyên gia, kiến trúc sư và kỹ sư nhiều năm kinh nghiệm trong ngành xây dựng Việt Nam.",
+      "Giai đoạn 2014 - 2018 đánh dấu bước ngoặt khi công ty hợp tác chiến lược cùng tập đoàn bất động sản quốc tế CapitaLand, triển khai và bàn giao thành công các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
+      "Từ năm 2018 đến nay, Thiên Đức mở rộng quỹ đất và vai trò chủ đầu tư sang các tỉnh thành phía Nam, tiêu biểu là khu đô thị quy mô lớn tại tỉnh Bến Tre."
+    ],
+    "motto": "Khách hàng hài lòng - Thiên Đức thành công",
+    "imageAlt": "Dự án bất động sản Thiên Đức phát triển",
+    "foundedLabel": "Thành lập",
+    "foundedValue": "2010",
+    "areaLabel": "Địa bàn",
+    "areaValue": "TP.HCM và các tỉnh",
+    "stats": [
+      { "value": "16+", "label": "Năm hoạt động", "note": "Từ 2010 đến nay" },
+      { "value": "3", "label": "Đại dự án phức hợp", "note": "Cùng nhiều công trình hạ tầng dân dụng" },
+      { "value": "1.152", "label": "Căn hộ Vista Verde", "note": "4 tòa tháp, đồng chủ đầu tư cùng CapitaLand" },
+      { "value": "11,25 ha", "label": "Khu đô thị Hưng Phú", "note": "Chủ đầu tư duy nhất, tại Bến Tre" }
+    ],
+    "timelineEyebrow": "Chặng đường phát triển",
+    "timelineTitle": "Từ 2010 đến nay",
+    "timeline": [
+      {
+        "period": "2010",
+        "title": "Thành lập",
+        "description": "Đội ngũ chuyên gia, kiến trúc sư và kỹ sư nhiều năm kinh nghiệm trong ngành xây dựng Việt Nam cùng sáng lập công ty."
+      },
+      {
+        "period": "2014 - 2018",
+        "title": "Hợp tác quốc tế",
+        "description": "Bắt tay hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), triển khai và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM."
+      },
+      {
+        "period": "2018 - nay",
+        "title": "Mở rộng vai trò chủ đầu tư",
+        "description": "Mở rộng quỹ đất sang các tỉnh thành phía Nam, tiêu biểu là các dự án khu đô thị quy mô lớn tại tỉnh Bến Tre."
+      }
+    ],
+    "principlesEyebrow": "Giá trị nền tảng",
+    "principlesTitle": "Tầm nhìn, sứ mệnh và giá trị cốt lõi",
+    "principles": [
+      {
+        "title": "Tầm nhìn",
+        "description": "Trở thành thương hiệu đầu tư và xây dựng bất động sản uy tín hàng đầu Việt Nam, kiến tạo các công trình có giải pháp kiến trúc đột phá, thẩm mỹ cao và bền vững theo thời gian."
+      },
+      {
+        "title": "Sứ mệnh",
+        "description": "Mang lại giải pháp an cư và không gian sống đẳng cấp, an toàn tuyệt đối cho khách hàng; áp dụng kỹ thuật tiên tiến và vật liệu mới để tối ưu hiệu quả kinh tế cho đối tác; đồng hành cùng sự phát triển hạ tầng đô thị hiện đại của quốc gia."
+      },
+      {
+        "title": "Giá trị cốt lõi",
+        "description": "Uy tín — Chất lượng — Đột phá — Bền vững: bốn giá trị nền tảng cho mọi hoạt động đầu tư, xây dựng và hợp tác của Thiên Đức."
+      }
+    ],
+    "fieldsEyebrow": "Lĩnh vực hoạt động",
+    "fieldsTitle": "Ngành nghề kinh doanh đã đăng ký",
+    "fieldsDescription": "Các lĩnh vực được trình bày theo nhóm ngành nghề trong mục tiêu hoạt động và ngành nghề kinh doanh của Công ty Thiên Đức.",
+    "fieldCodeLabel": "Mã",
+    "fields": [
+      {
+        "code": "6810",
+        "title": "Kinh doanh bất động sản",
+        "description": "Kinh doanh bất động sản, quyền sử dụng đất thuộc sở hữu, chủ sử dụng hoặc đi thuê; cho thuê văn phòng, nhà xưởng."
+      },
+      {
+        "code": "4100–4330",
+        "title": "Xây dựng công trình",
+        "description": "Xây dựng nhà các loại; công trình đường bộ và giao thông; công trình kỹ thuật dân dụng; chuẩn bị mặt bằng; hoàn thiện công trình xây dựng."
+      },
+      {
+        "code": "7110",
+        "title": "Kiến trúc & tư vấn kỹ thuật",
+        "description": "Giám sát công tác xây dựng và hoàn thiện công trình dân dụng, công nghiệp; thiết kế kết cấu công trình xây dựng dân dụng và công nghiệp."
+      },
+      {
+        "code": "4659–4662",
+        "title": "Thương mại vật tư – thiết bị",
+        "description": "Bán buôn sắt, thép; máy móc, thiết bị và phụ tùng máy khai khoáng, xây dựng."
+      },
+      {
+        "code": "4933–5022",
+        "title": "Vận tải hàng hóa",
+        "description": "Vận tải hàng hóa bằng đường bộ và đường thủy nội địa."
+      },
+      {
+        "code": "3011",
+        "title": "Đóng tàu & cấu kiện nổi",
+        "description": "Đóng tàu và cấu kiện nổi theo ngành nghề đăng ký (không hoạt động tại trụ sở)."
+      }
+    ],
+    "ctaEyebrow": "Kết nối với Thiên Đức",
+    "ctaTitle": "Trao đổi về dự án, hợp tác hoặc nhu cầu tư vấn",
+    "ctaDescription": "Đội ngũ Thiên Đức sẵn sàng tiếp nhận thông tin từ khách hàng, đối tác và các bên quan tâm đến định hướng phát triển dự án.",
+    "ctaPrimary": "Xem dự án",
+    "ctaSecondary": "Liên hệ"
+  },
+  "contact": {
+    "heroEyebrow": "Liên hệ",
+    "heroTitle": "Kết nối với Thiên Đức",
+    "heroDescription": "Thông tin liên hệ chính thức dành cho khách hàng, đối tác và các bên quan tâm đến hoạt động của Thiên Đức.",
+    "formEyebrow": "Gửi yêu cầu",
+    "formTitle": "Gửi thông tin tư vấn",
+    "formDescription": "Điền nội dung cần trao đổi, yêu cầu sẽ được gửi trực tiếp đến bộ phận phụ trách của Thiên Đức.",
+    "callPrefix": "Hoặc gọi ngay",
+    "processEyebrow": "Quy trình",
+    "processTitle": "Sau khi gửi thông tin",
+    "processDescription": "Chọn đúng nhóm nội dung trong form giúp Thiên Đức phản hồi nhanh hơn.",
+    "process": [
+      { "step": "01", "title": "Tiếp nhận", "description": "Ghi nhận thông tin từ form, điện thoại hoặc email." },
+      { "step": "02", "title": "Phân loại", "description": "Chuyển nội dung đến bộ phận phụ trách phù hợp." },
+      { "step": "03", "title": "Phản hồi", "description": "Liên hệ lại theo nội dung và thông tin bạn cung cấp." }
+    ],
+    "mapEyebrow": "Vị trí văn phòng",
+    "mapTitle": "Trụ sở Công ty Thiên Đức",
+    "mapDescription": "Bạn có thể xem vị trí trên bản đồ hoặc liên hệ trước để sắp xếp lịch làm việc phù hợp.",
+    "mapCta": "Mở Google Maps",
+    "mapIframeTitle": "Bản đồ vị trí Công ty Thiên Đức"
   },
   "navLabels": {},
   "navOverviewLabels": {},

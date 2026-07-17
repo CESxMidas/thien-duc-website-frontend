@@ -42,7 +42,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 className="size-full object-contain"
               />
             </Link>
-            <p className="mt-5 text-lg font-semibold">{siteConfig.name}</p>
+            <p className="mt-5 text-lg font-semibold">
+              {dictionary.shared.companyName}
+            </p>
             <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
               {dictionary.footerBrand.tagline}
             </p>
@@ -136,7 +138,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
       <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-white/70 sm:px-6 md:flex-row md:items-center md:justify-between">
         <p>
-          © {currentYear} {siteConfig.name}. {dictionary.footer.rights}
+          © {currentYear} {dictionary.shared.companyName}.{" "}
+          {dictionary.footer.rights}
         </p>
         <Link
           href={localizePath(routes.contact, locale)}

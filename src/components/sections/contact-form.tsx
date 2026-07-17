@@ -3,9 +3,10 @@
 import { CheckCircle2, LoaderCircle, TriangleAlert } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { siteConfig } from "@/config/site";
-import { contactFormCopy, inquiryTypes } from "@/data/contact";
+import { inquiryTypeIds } from "@/data/contact";
 import { ApiError } from "@/lib/api/client";
 import { submitContactForm } from "@/lib/api/contact";
+import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const inputClassName =
   "h-12 w-full border bg-white px-4 text-base text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40 sm:h-11 sm:text-sm";
@@ -15,31 +16,30 @@ const labelClassName = "mb-2 block text-sm font-semibold text-ink-soft";
 type FieldName = "name" | "phone" | "email" | "inquiry" | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
 type FormStatus = "idle" | "submitting" | "success";
+type ContactFormCopy = Dictionary["contactForm"];
 
 const PHONE_PATTERN = /^(0|\+84)\d{9,10}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validateField(field: FieldName, value: string): string | undefined {
+function validateField(
+  field: FieldName,
+  value: string,
+  messages: ContactFormCopy["errors"],
+): string | undefined {
   switch (field) {
     case "name":
-      return value.trim().length >= 2
-        ? undefined
-        : "Vui lòng nhập họ tên (tối thiểu 2 ký tự).";
+      return value.trim().length >= 2 ? undefined : messages.name;
     case "phone":
       return PHONE_PATTERN.test(value.replace(/[\s.-]/g, ""))
         ? undefined
-        : "Số điện thoại chưa đúng định dạng (ví dụ: 0901234567).";
+        : messages.phone;
     case "email":
       if (!value.trim()) return undefined;
-      return EMAIL_PATTERN.test(value.trim())
-        ? undefined
-        : "Email chưa đúng định dạng.";
+      return EMAIL_PATTERN.test(value.trim()) ? undefined : messages.email;
     case "inquiry":
-      return value ? undefined : "Vui lòng chọn nội dung cần trao đổi.";
+      return value ? undefined : messages.inquiry;
     case "message":
-      return value.trim().length >= 10
-        ? undefined
-        : "Vui lòng mô tả nội dung yêu cầu (tối thiểu 10 ký tự).";
+      return value.trim().length >= 10 ? undefined : messages.message;
   }
 }
 
@@ -57,7 +57,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ copy }: { copy: ContactFormCopy }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [submitError, setSubmitError] = useState<{
@@ -78,7 +78,7 @@ export function ContactForm() {
         const value = event.currentTarget.value;
         setFieldErrors((current) => ({
           ...current,
-          [field]: validateField(field, value),
+          [field]: validateField(field, value, copy.errors),
         }));
       },
       onChange: (event: { currentTarget: { value: string } }) => {
@@ -88,7 +88,7 @@ export function ContactForm() {
           current[field]
             ? {
                 ...current,
-                [field]: validateField(field, value),
+                [field]: validateField(field, value, copy.errors),
               }
             : current,
         );
@@ -112,7 +112,7 @@ export function ContactForm() {
 
     const errors: FieldErrors = {};
     for (const field of Object.keys(values) as FieldName[]) {
-      const error = validateField(field, values[field]);
+      const error = validateField(field, values[field], copy.errors);
       if (error) errors[field] = error;
     }
 
@@ -143,13 +143,14 @@ export function ContactForm() {
       if (error instanceof ApiError && error.code === "TOO_MANY_REQUESTS") {
         setSubmitError({
           kind: "rate-limit",
-          message: `Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau 1 giờ hoặc gọi ${siteConfig.phone}.`,
+          message: interpolate(copy.errors.rateLimit, {
+            phone: siteConfig.phone,
+          }),
         });
       } else {
         setSubmitError({
           kind: "network",
-          message:
-            "Không gửi được yêu cầu. Vui lòng kiểm tra kết nối và thử lại — dữ liệu bạn nhập vẫn được giữ nguyên.",
+          message: copy.errors.network,
         });
       }
     }
@@ -166,11 +167,10 @@ export function ContactForm() {
           aria-hidden="true"
         />
         <h3 className="mt-4 text-xl font-semibold text-success-strong">
-          Đã gửi yêu cầu thành công
+          {copy.successTitle}
         </h3>
         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink-soft">
-          Cảm ơn bạn đã liên hệ. Thiên Đức sẽ phản hồi trong vòng 24 giờ làm
-          việc qua số điện thoại hoặc email bạn cung cấp.
+          {copy.successBody}
         </p>
         <button
           type="button"
@@ -181,7 +181,7 @@ export function ContactForm() {
           }}
           className="button-polish mt-6 inline-flex h-11 items-center border border-brand/40 bg-white px-5 text-sm font-semibold text-brand-dark transition hover:border-brand hover:bg-cream"
         >
-          Gửi yêu cầu khác
+          {copy.successAgain}
         </button>
       </div>
     );
@@ -199,7 +199,7 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="contact-name" className={labelClassName}>
-            {contactFormCopy.fields.name}
+            {copy.fields.name}
             <span className="text-brand"> *</span>
           </label>
           <input
@@ -210,14 +210,14 @@ export function ContactForm() {
             // Khớp trần backend (CreateContactSubmissionDto) — đổi đồng bộ 2 nơi.
             maxLength={120}
             autoComplete="name"
-            placeholder="Nguyễn Văn A"
+            placeholder={copy.placeholders.name}
             {...fieldProps("name")}
           />
           <FieldError id="contact-name-error" message={fieldErrors.name} />
         </div>
         <div>
           <label htmlFor="contact-phone" className={labelClassName}>
-            {contactFormCopy.fields.phone}
+            {copy.fields.phone}
             <span className="text-brand"> *</span>
           </label>
           <input
@@ -227,7 +227,7 @@ export function ContactForm() {
             required
             maxLength={30}
             autoComplete="tel"
-            placeholder="090x xxx xxx"
+            placeholder={copy.placeholders.phone}
             {...fieldProps("phone")}
           />
           <FieldError id="contact-phone-error" message={fieldErrors.phone} />
@@ -236,7 +236,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-email" className={labelClassName}>
-          {contactFormCopy.fields.email}
+          {copy.fields.email}
         </label>
         <input
           id="contact-email"
@@ -244,7 +244,7 @@ export function ContactForm() {
           type="email"
           maxLength={200}
           autoComplete="email"
-          placeholder="email@example.com"
+          placeholder={copy.placeholders.email}
           {...fieldProps("email")}
         />
         <FieldError id="contact-email-error" message={fieldErrors.email} />
@@ -252,7 +252,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-inquiry" className={labelClassName}>
-          {contactFormCopy.fields.inquiry}
+          {copy.fields.inquiry}
           <span className="text-brand"> *</span>
         </label>
         <select
@@ -263,11 +263,11 @@ export function ContactForm() {
           {...fieldProps("inquiry")}
         >
           <option value="" disabled>
-            Chọn nội dung cần trao đổi
+            {copy.inquiryPlaceholder}
           </option>
-          {inquiryTypes.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.title}
+          {inquiryTypeIds.map((id) => (
+            <option key={id} value={id}>
+              {copy.inquiryOptions[id]}
             </option>
           ))}
         </select>
@@ -276,7 +276,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="contact-message" className={labelClassName}>
-          {contactFormCopy.fields.message}
+          {copy.fields.message}
           <span className="text-brand"> *</span>
         </label>
         <textarea
@@ -285,7 +285,7 @@ export function ContactForm() {
           required
           rows={5}
           maxLength={5000}
-          placeholder="Mô tả ngắn nhu cầu tư vấn, dự án quan tâm hoặc nội dung cần trao đổi."
+          placeholder={copy.placeholders.message}
           {...fieldProps("message")}
           className={`${fieldProps("message").className} min-h-35 resize-y py-3`}
         />
@@ -317,7 +317,7 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <p className="text-sm leading-6 text-slate">{contactFormCopy.note}</p>
+      <p className="text-sm leading-6 text-slate">{copy.note}</p>
 
       <button
         type="submit"
@@ -327,10 +327,10 @@ export function ContactForm() {
         {submitting ? (
           <>
             <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
-            Đang gửi...
+            {copy.submitting}
           </>
         ) : (
-          contactFormCopy.submitLabel
+          copy.submitLabel
         )}
       </button>
     </form>

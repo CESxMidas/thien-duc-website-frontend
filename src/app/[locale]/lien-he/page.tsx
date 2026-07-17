@@ -5,14 +5,9 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { ContactForm } from "@/components/sections/contact-form";
 import { PageHeading } from "@/components/ui/page-heading";
 import { siteConfig } from "@/config/site";
-import {
-  contactFormCopy,
-  contactHero,
-  contactMap,
-  contactProcess,
-} from "@/data/contact";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -53,10 +48,14 @@ export default async function ContactPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const page = await getPageBySlug(PAGE_SLUG, locale);
+  const [page, dictionary] = await Promise.all([
+    getPageBySlug(PAGE_SLUG, locale),
+    getDictionary(locale),
+  ]);
+  const contact = dictionary.contact;
   const heading = {
-    title: page?.title ?? contactHero.title,
-    description: page?.paragraphs[0] ?? contactHero.description,
+    title: page?.title ?? contact.heroTitle,
+    description: page?.paragraphs[0] ?? contact.heroDescription,
   };
 
   // Google Maps nhận mã ngôn ngữ 2 ký tự ở tham số `hl`.
@@ -67,7 +66,7 @@ export default async function ContactPage({
   return (
     <SiteShell locale={locale}>
       <PageHeading
-        eyebrow={contactHero.eyebrow}
+        eyebrow={contact.heroEyebrow}
         title={heading.title}
         description={heading.description}
       />
@@ -75,16 +74,16 @@ export default async function ContactPage({
       <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-4 sm:px-6 sm:pb-14 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="hover-card border border-black/10 bg-white p-6 md:p-8">
           <p className="text-eyebrow mb-4 text-brand">
-            {contactFormCopy.eyebrow}
+            {contact.formEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight">
-            {contactFormCopy.title}
+            {contact.formTitle}
           </h2>
           <p className="mt-4 text-sm leading-6 text-slate">
-            {contactFormCopy.description}
+            {contact.formDescription}
           </p>
           <p className="mt-3 text-sm text-slate">
-            Hoặc gọi ngay{" "}
+            {contact.callPrefix}{" "}
             <a
               href={phoneHref}
               className="font-semibold text-brand hover:text-brand-dark"
@@ -95,26 +94,25 @@ export default async function ContactPage({
           </p>
 
           <div className="mt-8">
-            <ContactForm />
+            <ContactForm copy={dictionary.contactForm} />
           </div>
         </div>
 
         <div className="grid content-start gap-6">
           <div>
             <p className="text-eyebrow mb-4 text-brand">
-              Quy trình
+              {contact.processEyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight">
-              Sau khi gửi thông tin
+              {contact.processTitle}
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate">
-              Chọn đúng nhóm nội dung trong form giúp Thiên Đức phản hồi nhanh
-              hơn.
+              {contact.processDescription}
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            {contactProcess.map((item) => (
+            {contact.process.map((item) => (
               <div
                 key={item.step}
                 className="hover-card border border-black/10 bg-white p-5"
@@ -136,13 +134,13 @@ export default async function ContactPage({
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
             <p className="text-eyebrow mb-4 text-brand">
-              {contactMap.eyebrow}
+              {contact.mapEyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight">
-              {contactMap.title}
+              {contact.mapTitle}
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate">
-              {contactMap.description}
+              {contact.mapDescription}
             </p>
             <p className="mt-5 font-semibold leading-7 text-ink">
               {siteConfig.address}
@@ -153,13 +151,13 @@ export default async function ContactPage({
               rel="noreferrer"
               className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
             >
-              {contactMap.ctaLabel}
+              {contact.mapCta}
             </Link>
           </div>
 
           <div className="overflow-hidden border border-black/10 bg-white shadow-sm">
             <iframe
-              title="Bản đồ vị trí Công ty Thiên Đức"
+              title={contact.mapIframeTitle}
               src={mapsEmbedHref}
               className="aspect-4/3 min-h-70 w-full border-0 lg:aspect-16/10"
               loading="lazy"

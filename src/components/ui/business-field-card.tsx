@@ -1,12 +1,17 @@
-import type { BusinessField } from "@/data/business-fields";
 import { BusinessFieldIcon } from "@/components/ui/business-field-icon";
 
 type BusinessFieldCardProps = {
-  item: BusinessField;
+  item: { title: string; code: string; description: string };
   index: number;
+  /** Nhãn "Mã"/"Code" song ngữ (i18n-B4). */
+  codeLabel: string;
 };
 
-export function BusinessFieldCard({ item, index }: BusinessFieldCardProps) {
+export function BusinessFieldCard({
+  item,
+  index,
+  codeLabel,
+}: BusinessFieldCardProps) {
   return (
     <article className="hover-card group border border-black/10 bg-white p-5 hover:border-brand/35">
       <div className="mb-4 flex items-start justify-between gap-3">
@@ -14,7 +19,7 @@ export function BusinessFieldCard({ item, index }: BusinessFieldCardProps) {
           <BusinessFieldIcon index={index} />
         </div>
         <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
-          Mã {item.code}
+          {codeLabel} {item.code}
         </span>
       </div>
       <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
