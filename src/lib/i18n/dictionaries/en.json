@@ -122,6 +122,60 @@
     "eventDateLabel": "Event date",
     "sourceLabel": "Source"
   },
+  "shared": {
+    "homeAriaLabel": "Thien Duc home",
+    "logoAlt": "Thien Duc logo"
+  },
+  "footerBrand": {
+    "tagline": "Real estate investment, construction, and development — accompanying sustainable urban growth.",
+    "motto": "Satisfied customers — Thien Duc's success"
+  },
+  "homeIntro": {
+    "eyebrow": "Thien Duc Company",
+    "description": "Established in 2010, Thien Duc Investment - Construction - Trading Co., Ltd works in real estate, construction investment, and urban development. Guided by the motto \"Satisfied customers — Thien Duc's success\", the company focuses on schedule, execution quality, and lasting value for every project.",
+    "strengths": [
+      {
+        "title": "Investment & development",
+        "description": "Seeking, investing in, and developing projects with a clear direction on planning, amenities, and viability."
+      },
+      {
+        "title": "Strategic partnership",
+        "description": "Connecting with partners to expand delivery capacity, optimise resources, and create lasting value."
+      },
+      {
+        "title": "Flagship project",
+        "description": "Hung Phu Urban Area is a key project reflecting our urban development direction in Ben Tre."
+      },
+      {
+        "title": "Execution commitment",
+        "description": "Closely tracking progress, construction quality, and transparent information throughout project development."
+      }
+    ]
+  },
+  "homeCooperation": {
+    "eyebrow": "Cooperation projects",
+    "title": "Partnering with international real estate developers",
+    "description": "From 2014 to 2018, Thien Duc formed a strategic partnership with CapitaLand Group (Singapore), co-developing and delivering international-standard premium apartment complexes in Ho Chi Minh City.",
+    "cardBadge": "Development partnership",
+    "roleLabel": "Role",
+    "partnerLabel": "Partner",
+    "statusLabel": "Status",
+    "ariaPrevious": "Previous cooperation project",
+    "ariaNext": "Next cooperation project",
+    "ariaGoTo": "Go to project {name}",
+    "imageAlt": "Rendering of {name}"
+  },
+  "homeContact": {
+    "eyebrow": "Contact Thien Duc",
+    "title": "Discuss projects, partnerships, or advisory needs",
+    "description": "The Thien Duc team is ready to receive information from customers, partners, and anyone interested in our projects."
+  },
+  "homeBanner": {
+    "regionLabel": "Featured project banners",
+    "ariaPrevious": "Previous banner",
+    "ariaNext": "Next banner",
+    "ariaGoTo": "Go to banner {index}"
+  },
   "navLabels": {
     "/": "Home",
     "/gioi-thieu": "About",

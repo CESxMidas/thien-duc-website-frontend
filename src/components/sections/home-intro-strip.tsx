@@ -1,5 +1,6 @@
 import { Building2, Handshake, ShieldCheck, Star } from "lucide-react";
-import { homeHero, homeStrengths } from "@/data/home";
+import type { Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 const strengthIcons = [Building2, Handshake, Star, ShieldCheck];
 
@@ -7,7 +8,10 @@ const strengthIcons = [Building2, Handshake, Star, ShieldCheck];
  * Dải giới thiệu rút gọn thay cho hero cũ (H1 + CTA đã dời lên banner slider
  * theo UI-UX-HANDOFF-SPEC.md mục H1). Mục tiêu chiều cao ≤ 50vh.
  */
-export function HomeIntroStrip() {
+export async function HomeIntroStrip({ locale }: { locale: Locale }) {
+  const dictionary = await getDictionary(locale);
+  const { eyebrow, description, strengths } = dictionary.homeIntro;
+
   return (
     <section className="relative overflow-hidden border-y border-brand/10 bg-linear-to-br from-surface-warm via-cream to-surface-warm">
       <div
@@ -18,15 +22,15 @@ export function HomeIntroStrip() {
       <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="max-w-3xl">
           <p className="inline-flex min-h-11 items-center gap-3 bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(176,102,19,0.22)] sm:px-5 sm:text-sm sm:tracking-[0.24em]">
-            {homeHero.eyebrow}
+            {eyebrow}
           </p>
           <p className="mt-6 border-l-4 border-gold bg-white/70 py-1 pl-5 text-base leading-8 text-slate lg:text-lg">
-            {homeHero.description}
+            {description}
           </p>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {homeStrengths.map((item, index) => {
+          {strengths.map((item, index) => {
             const Icon = strengthIcons[index];
 
             return (

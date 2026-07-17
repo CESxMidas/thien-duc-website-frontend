@@ -59,7 +59,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     <SiteShell locale={locale}>
       <HomeBannerSection locale={locale} />
       <HomeFeaturedProjects locale={locale} />
-      <HomeIntroStrip />
+      <HomeIntroStrip locale={locale} />
       <HomeCooperation locale={locale} />
       <HomeLatestNews locale={locale} />
       <HomeContactCta locale={locale} />

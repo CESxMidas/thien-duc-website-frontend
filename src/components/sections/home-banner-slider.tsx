@@ -12,6 +12,7 @@ import {
 } from "react";
 import type { HomeBanner } from "@/data/banners";
 import { localizePath, type Locale } from "@/lib/i18n/config";
+import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 7000;
@@ -22,6 +23,8 @@ type HomeBannerSliderProps = {
   banners: HomeBanner[];
   locale: Locale;
   contactCtaLabel: string;
+  /** Nhãn a11y song ngữ do server truyền vào (client không nạp dictionary). */
+  labels: Dictionary["homeBanner"];
 };
 
 /**
@@ -32,6 +35,7 @@ export function HomeBannerSlider({
   banners,
   locale,
   contactCtaLabel,
+  labels,
 }: HomeBannerSliderProps) {
   const bannerCount = banners.length;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -128,7 +132,7 @@ export function HomeBannerSlider({
   return (
     <section
       className="relative overflow-hidden bg-ink"
-      aria-label="Banner dự án nổi bật"
+      aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onPointerEnter={() => setHoverPaused(true)}
       onPointerLeave={() => setHoverPaused(false)}
@@ -237,7 +241,7 @@ export function HomeBannerSlider({
         <div className="absolute bottom-5 right-5 z-30 hidden items-center gap-2 sm:flex">
           <button
             type="button"
-            aria-label="Banner trước"
+            aria-label={labels.ariaPrevious}
             onClick={goToPrevious}
             className="button-polish grid size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink md:size-11"
           >
@@ -245,7 +249,7 @@ export function HomeBannerSlider({
           </button>
           <button
             type="button"
-            aria-label="Banner tiếp theo"
+            aria-label={labels.ariaNext}
             onClick={goToNext}
             className="button-polish grid size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink md:size-11"
           >
@@ -258,7 +262,9 @@ export function HomeBannerSlider({
             <button
               key={banner.image}
               type="button"
-              aria-label={`Chuyển tới banner ${index + 1}`}
+              aria-label={interpolate(labels.ariaGoTo, {
+                index: String(index + 1),
+              })}
               aria-current={index === activeIndex}
               onClick={() => goToSlide(index)}
               className="grid min-h-11 min-w-11 place-items-center"

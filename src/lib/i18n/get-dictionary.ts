@@ -129,6 +129,43 @@ export type Dictionary = {
     eventDateLabel: string;
     sourceLabel: string;
   };
+  shared: {
+    homeAriaLabel: string;
+    logoAlt: string;
+  };
+  footerBrand: {
+    tagline: string;
+    motto: string;
+  };
+  homeIntro: {
+    eyebrow: string;
+    description: string;
+    strengths: Array<{ title: string; description: string }>;
+  };
+  homeCooperation: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    cardBadge: string;
+    roleLabel: string;
+    partnerLabel: string;
+    statusLabel: string;
+    ariaPrevious: string;
+    ariaNext: string;
+    ariaGoTo: string;
+    imageAlt: string;
+  };
+  homeContact: {
+    eyebrow: string;
+    title: string;
+    description: string;
+  };
+  homeBanner: {
+    regionLabel: string;
+    ariaPrevious: string;
+    ariaNext: string;
+    ariaGoTo: string;
+  };
   navLabels: Record<string, string>;
   navOverviewLabels: Record<string, string>;
   navGroups: Record<string, string>;

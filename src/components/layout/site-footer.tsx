@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { legalInfo, siteConfig } from "@/config/site";
-import { footerBrand, footerSections } from "@/data/footer";
+import { footerSections } from "@/data/footer";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -32,11 +32,11 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <Link
               href={localizePath(routes.home, locale)}
               className="inline-flex size-16 items-center justify-center rounded-lg border border-white/20 bg-white p-2 shadow-sm"
-              aria-label="Trang chủ Thiên Đức"
+              aria-label={dictionary.shared.homeAriaLabel}
             >
               <Image
                 src="/images/brand/logo-thien-duc.png"
-                alt="Logo Thiên Đức"
+                alt={dictionary.shared.logoAlt}
                 width={56}
                 height={56}
                 className="size-full object-contain"
@@ -44,10 +44,10 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </Link>
             <p className="mt-5 text-lg font-semibold">{siteConfig.name}</p>
             <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
-              {footerBrand.tagline}
+              {dictionary.footerBrand.tagline}
             </p>
             <p className="mt-4 border-l-4 border-gold pl-4 text-sm font-medium italic text-gold-soft">
-              {footerBrand.motto}
+              {dictionary.footerBrand.motto}
             </p>
           </div>
 

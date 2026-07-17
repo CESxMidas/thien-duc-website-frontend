@@ -246,11 +246,11 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           <Link
             href={localizePath("/", locale)}
             className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
-            aria-label="Trang chủ Thiên Đức"
+            aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
               src="/images/brand/logo-thien-duc.png"
-              alt="Logo Thiên Đức"
+              alt={dictionary.shared.logoAlt}
               width={56}
               height={56}
               preload

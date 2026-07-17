@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CtaContactCards } from "@/components/ui/cta-contact-cards";
-import { homeContactCta } from "@/data/home";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -13,13 +12,13 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
       <div className="grid gap-8 rounded-sm bg-brand-soft p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:grid-cols-[1fr_0.9fr] md:p-10">
         <div>
           <p className="text-eyebrow mb-4 text-gold">
-            {homeContactCta.eyebrow}
+            {dictionary.homeContact.eyebrow}
           </p>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">
-            {homeContactCta.title}
+            {dictionary.homeContact.title}
           </h2>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-white">
-            {homeContactCta.description}
+            {dictionary.homeContact.description}
           </p>
           <Link
             href={localizePath(routes.contact, locale)}
@@ -29,7 +28,13 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        <CtaContactCards />
+        <CtaContactCards
+          labels={{
+            phone: dictionary.footer.phone,
+            email: dictionary.footer.email,
+            office: dictionary.footer.office,
+          }}
+        />
       </div>
     </section>
   );

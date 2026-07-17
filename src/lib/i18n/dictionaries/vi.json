@@ -122,6 +122,60 @@
     "eventDateLabel": "Ngày sự kiện",
     "sourceLabel": "Nguồn"
   },
+  "shared": {
+    "homeAriaLabel": "Trang chủ Thiên Đức",
+    "logoAlt": "Logo Thiên Đức"
+  },
+  "footerBrand": {
+    "tagline": "Đầu tư, xây dựng và phát triển bất động sản — đồng hành cùng sự phát triển đô thị bền vững.",
+    "motto": "Khách hàng hài lòng — Thiên Đức thành công"
+  },
+  "homeIntro": {
+    "eyebrow": "Công ty Thiên Đức",
+    "description": "Thành lập năm 2010, Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng — Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
+    "strengths": [
+      {
+        "title": "Đầu tư & phát triển",
+        "description": "Tìm kiếm, đầu tư và phát triển các dự án có định hướng rõ ràng về quy hoạch, tiện ích và khả năng khai thác."
+      },
+      {
+        "title": "Hợp tác chiến lược",
+        "description": "Kết nối cùng đối tác để mở rộng năng lực triển khai, tối ưu nguồn lực và tạo giá trị bền vững."
+      },
+      {
+        "title": "Dự án tiêu biểu",
+        "description": "Khu đô thị Hưng Phú là dự án trọng điểm, thể hiện định hướng phát triển đô thị tại Bến Tre."
+      },
+      {
+        "title": "Cam kết thực thi",
+        "description": "Theo sát tiến độ, chất lượng xây dựng và thông tin minh bạch trong quá trình phát triển dự án."
+      }
+    ]
+  },
+  "homeCooperation": {
+    "eyebrow": "Dự án hợp tác",
+    "title": "Đồng hành cùng đối tác phát triển bất động sản quốc tế",
+    "description": "Giai đoạn 2014 – 2018, Thiên Đức hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), đồng chủ đầu tư và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
+    "cardBadge": "Hợp tác phát triển",
+    "roleLabel": "Vai trò",
+    "partnerLabel": "Đối tác",
+    "statusLabel": "Trạng thái",
+    "ariaPrevious": "Dự án hợp tác trước",
+    "ariaNext": "Dự án hợp tác tiếp theo",
+    "ariaGoTo": "Chuyển tới dự án {name}",
+    "imageAlt": "Ảnh phối cảnh {name}"
+  },
+  "homeContact": {
+    "eyebrow": "Liên hệ Thiên Đức",
+    "title": "Trao đổi về dự án, hợp tác hoặc nhu cầu tư vấn",
+    "description": "Đội ngũ Thiên Đức sẵn sàng tiếp nhận thông tin từ khách hàng, đối tác và các bên quan tâm đến dự án."
+  },
+  "homeBanner": {
+    "regionLabel": "Banner dự án nổi bật",
+    "ariaPrevious": "Banner trước",
+    "ariaNext": "Banner tiếp theo",
+    "ariaGoTo": "Chuyển tới banner {index}"
+  },
   "navLabels": {},
   "navOverviewLabels": {},
   "navGroups": {},

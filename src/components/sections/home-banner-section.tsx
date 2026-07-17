@@ -15,6 +15,7 @@ export async function HomeBannerSection({ locale }: { locale: Locale }) {
       banners={banners}
       locale={locale}
       contactCtaLabel={dictionary.common.contactCta}
+      labels={dictionary.homeBanner}
     />
   );
 }

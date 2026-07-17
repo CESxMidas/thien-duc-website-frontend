@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Building2, ChevronLeft, ChevronRight, Handshake } from "lucide-react";
 import type { CooperationProject } from "@/data/home";
-import { homeCooperationIntro } from "@/data/home";
+import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const AUTOPLAY_MS = 5200;
 
@@ -16,8 +16,11 @@ const AUTOPLAY_MS = 5200;
  */
 export function CooperationSlider({
   projects,
+  labels,
 }: {
   projects: CooperationProject[];
+  /** Copy song ngữ do server truyền vào (client không nạp dictionary async). */
+  labels: Dictionary["homeCooperation"];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -77,13 +80,13 @@ export function CooperationSlider({
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <p className="text-eyebrow mb-4 text-brand">
-              {homeCooperationIntro.eyebrow}
+              {labels.eyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-              {homeCooperationIntro.title}
+              {labels.title}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate sm:mt-5 sm:text-lg sm:leading-8">
-              {homeCooperationIntro.description}
+              {labels.description}
             </p>
           </div>
 
@@ -91,7 +94,7 @@ export function CooperationSlider({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                aria-label="Dự án hợp tác trước"
+                aria-label={labels.ariaPrevious}
                 onClick={() => scrollToIndex(activeIndex - 1)}
                 className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
               >
@@ -99,7 +102,7 @@ export function CooperationSlider({
               </button>
               <button
                 type="button"
-                aria-label="Dự án hợp tác tiếp theo"
+                aria-label={labels.ariaNext}
                 onClick={() => scrollToIndex(activeIndex + 1)}
                 className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
               >
@@ -135,7 +138,9 @@ export function CooperationSlider({
               {project.image ? (
                 <div
                   role="img"
-                  aria-label={`Ảnh phối cảnh ${project.name}`}
+                  aria-label={interpolate(labels.imageAlt, {
+                    name: project.name,
+                  })}
                   style={{ backgroundImage: `url(${project.image})` }}
                   className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-center md:-mx-8 md:-mt-8 md:h-52"
                 >
@@ -152,7 +157,7 @@ export function CooperationSlider({
               <div className="relative">
                 <p className="text-eyebrow inline-flex items-center gap-2 text-gold">
                   <Handshake className="size-4" aria-hidden="true" />
-                  Hợp tác phát triển
+                  {labels.cardBadge}
                 </p>
                 <h3
                   className="mt-4 line-clamp-1 text-2xl font-semibold leading-tight md:text-3xl"
@@ -173,7 +178,7 @@ export function CooperationSlider({
               <dl className="relative mt-8 grid gap-4 border-t border-white/15 pt-6 text-sm sm:grid-cols-3">
                 <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
-                    Vai trò
+                    {labels.roleLabel}
                   </dt>
                   <dd
                     className="mt-1 line-clamp-2 font-semibold"
@@ -184,7 +189,7 @@ export function CooperationSlider({
                 </div>
                 <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
-                    Đối tác
+                    {labels.partnerLabel}
                   </dt>
                   <dd
                     className="mt-1 line-clamp-2 font-semibold"
@@ -195,7 +200,7 @@ export function CooperationSlider({
                 </div>
                 <div className="min-w-0">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
-                    Trạng thái
+                    {labels.statusLabel}
                   </dt>
                   <dd
                     className="mt-1 line-clamp-2 font-semibold"
@@ -215,7 +220,9 @@ export function CooperationSlider({
               <button
                 key={project.name}
                 type="button"
-                aria-label={`Chuyển tới dự án ${project.name}`}
+                aria-label={interpolate(labels.ariaGoTo, {
+                  name: project.name,
+                })}
                 aria-current={index === activeIndex}
                 onClick={() => scrollToIndex(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${

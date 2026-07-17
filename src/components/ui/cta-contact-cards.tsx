@@ -4,7 +4,15 @@ import { siteConfig } from "@/config/site";
 const cardClassName =
   "interactive-card flex gap-3 rounded border border-brand/30 bg-gold-soft p-4 text-ink shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-brand hover:bg-gold";
 
-export function CtaContactCards() {
+type CtaContactCardsProps = {
+  labels: {
+    phone: string;
+    email: string;
+    office: string;
+  };
+};
+
+export function CtaContactCards({ labels }: CtaContactCardsProps) {
   return (
     <div className="grid content-center gap-4 text-sm">
       <a
@@ -13,7 +21,7 @@ export function CtaContactCards() {
       >
         <Phone className="mt-0.5 size-5 shrink-0 text-brand" />
         <span>
-          <span className="block text-slate">Điện thoại</span>
+          <span className="block text-slate">{labels.phone}</span>
           <span className="mt-1 block font-semibold text-ink">
             {siteConfig.phone}
           </span>
@@ -22,7 +30,7 @@ export function CtaContactCards() {
       <a href={`mailto:${siteConfig.email}`} className={cardClassName}>
         <Mail className="mt-0.5 size-5 shrink-0 text-brand" />
         <span>
-          <span className="block text-slate">Email</span>
+          <span className="block text-slate">{labels.email}</span>
           <span className="mt-1 block font-semibold text-ink">
             {siteConfig.email}
           </span>
@@ -36,7 +44,7 @@ export function CtaContactCards() {
       >
         <MapPin className="mt-0.5 size-5 shrink-0 text-brand" />
         <span>
-          <span className="block text-slate">Trụ sở</span>
+          <span className="block text-slate">{labels.office}</span>
           <span className="mt-1 block font-semibold text-ink">
             {siteConfig.address}
           </span>
