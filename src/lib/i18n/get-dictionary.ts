@@ -248,6 +248,25 @@ export type Dictionary = {
     mapCta: string;
     mapIframeTitle: string;
   };
+  careers: {
+    eyebrow: string;
+    heroTitle: string;
+    heroDescription: string;
+    values: Array<{ title: string; description: string }>;
+    openEyebrow: string;
+    openTitle: string;
+    emptyTitle: string;
+    emptyBody: string;
+    emptyCta: string;
+    deadlineLabel: string;
+    responsibilitiesLabel: string;
+    requirementsLabel: string;
+    applyCta: string;
+    applySubject: string;
+    processEyebrow: string;
+    processTitle: string;
+    process: Array<{ step: string; title: string; description: string }>;
+  };
   memberCompanies: {
     eyebrow: string;
     title: string;

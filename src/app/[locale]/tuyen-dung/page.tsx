@@ -4,14 +4,10 @@ import { BriefcaseBusiness, CalendarClock, MapPin } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
 import { siteConfig } from "@/config/site";
-import {
-  careersHero,
-  careersProcess,
-  careersValues,
-  openPositions,
-} from "@/data/careers";
+import { openPositions } from "@/data/careers";
 import { formatDate } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
+import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -44,27 +40,29 @@ export async function generateMetadata({
   });
 }
 
-const applyHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-  "Ứng tuyển - [Vị trí]",
-)}`;
-
 export default async function CareersPage({
   params,
 }: PageProps<"/[locale]/tuyen-dung">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const dictionary = await getDictionary(locale);
+  const t = dictionary.careers;
+
+  const applyHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+    t.applySubject,
+  )}`;
 
   return (
     <SiteShell locale={locale}>
       <PageHeading
-        eyebrow={careersHero.eyebrow}
-        title={careersHero.title}
-        description={careersHero.description}
+        eyebrow={t.eyebrow}
+        title={t.heroTitle}
+        description={t.heroDescription}
       />
 
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="stagger-list grid gap-4 md:grid-cols-3">
-          {careersValues.map((value) => (
+          {t.values.map((value) => (
             <article
               key={value.title}
               className="hover-card border border-black/10 bg-white p-6 hover:border-brand/35"
@@ -81,10 +79,10 @@ export default async function CareersPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Vị trí đang tuyển
+            {t.openEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Các vị trí Thiên Đức đang tìm kiếm
+            {t.openTitle}
           </h2>
         </div>
 
@@ -108,7 +106,7 @@ export default async function CareersPage({
                   {position.deadline ? (
                     <span className="inline-flex items-center gap-1.5 text-slate">
                       <CalendarClock className="size-4" aria-hidden="true" />
-                      Hạn nộp {formatDate(position.deadline, locale)}
+                      {t.deadlineLabel} {formatDate(position.deadline, locale)}
                     </span>
                   ) : null}
                 </div>
@@ -120,7 +118,7 @@ export default async function CareersPage({
                 <div className="mt-6 grid gap-6 md:grid-cols-2">
                   <div>
                     <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                      Mô tả công việc
+                      {t.responsibilitiesLabel}
                     </h4>
                     <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
                       {position.responsibilities.map((item) => (
@@ -132,7 +130,7 @@ export default async function CareersPage({
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                      Yêu cầu ứng viên
+                      {t.requirementsLabel}
                     </h4>
                     <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
                       {position.requirements.map((item) => (
@@ -148,7 +146,7 @@ export default async function CareersPage({
                   href={applyHref}
                   className="button-polish mt-7 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
                 >
-                  Ứng tuyển vị trí này
+                  {t.applyCta}
                 </a>
               </article>
             ))}
@@ -156,17 +154,16 @@ export default async function CareersPage({
         ) : (
           <div className="reveal-section mt-10 border border-black/10 bg-white p-8">
             <h3 className="text-2xl font-semibold">
-              Hiện chưa có vị trí đang tuyển
+              {t.emptyTitle}
             </h3>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              Thiên Đức vẫn tiếp nhận hồ sơ ứng tuyển tự do. Gửi CV kèm vị trí
-              bạn quan tâm, bộ phận nhân sự sẽ liên hệ khi có nhu cầu phù hợp.
+              {t.emptyBody}
             </p>
             <a
               href={applyHref}
               className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
             >
-              Gửi hồ sơ ứng tuyển
+              {t.emptyCta}
             </a>
           </div>
         )}
@@ -175,15 +172,15 @@ export default async function CareersPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Quy trình
+            {t.processEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Các bước ứng tuyển
+            {t.processTitle}
           </h2>
         </div>
 
         <ol className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
-          {careersProcess.map((step) => (
+          {t.process.map((step) => (
             <li
               key={step.step}
               className="hover-card border border-black/10 bg-white p-6"
@@ -191,7 +188,7 @@ export default async function CareersPage({
               <p className="text-sm font-semibold text-brand">{step.step}</p>
               <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
               <p className="mt-3 text-sm leading-6 text-slate">
-                {step.description}
+                {interpolate(step.description, { email: siteConfig.email })}
               </p>
             </li>
           ))}
