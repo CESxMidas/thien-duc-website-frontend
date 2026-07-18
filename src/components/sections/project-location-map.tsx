@@ -72,7 +72,7 @@ export function ProjectLocationMap({
             {(labels ?? []).map((label) => (
               <span
                 key={`${label.text}-${label.left}-${label.top}`}
-                className={`pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center leading-tight [text-shadow:_0_1px_2px_rgb(0_0_0_/_55%)] ${
+                className={`pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-center leading-tight text-shadow:_0_1px_2px_rgb(0_0_0_/_55%) ${
                   labelClassByKind[label.kind ?? "place"]
                 }`}
                 style={{ left: `${label.left}%`, top: `${label.top}%` }}
