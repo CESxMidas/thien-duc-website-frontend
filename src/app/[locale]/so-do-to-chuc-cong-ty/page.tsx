@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -35,23 +36,28 @@ export default async function OrganizationChartPage({
 }: PageProps<"/[locale]/so-do-to-chuc-cong-ty">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const dictionary = await getDictionary(locale);
+  const { orgChart } = dictionary.hrPages;
 
   return (
     <SiteShell locale={locale}>
       <Breadcrumb
         items={[
-          { label: "Trang chủ", href: localizePath(routes.home, locale) },
           {
-            label: "Tuyển dụng & Nhân sự",
+            label: dictionary.breadcrumb.home,
+            href: localizePath(routes.home, locale),
+          },
+          {
+            label: dictionary.hrPages.parentLabel,
             href: localizePath(routes.careers, locale),
           },
-          { label: "Sơ đồ tổ chức công ty" },
+          { label: orgChart.title },
         ]}
       />
       <PageHeading
-        eyebrow="Nhân sự"
-        title="Sơ đồ tổ chức công ty"
-        description="Trang này sẽ trình bày cơ cấu tổ chức và các bộ phận chính của Thiên Đức."
+        eyebrow={dictionary.hrPages.eyebrow}
+        title={orgChart.title}
+        description={orgChart.description}
       />
     </SiteShell>
   );

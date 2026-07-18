@@ -279,6 +279,13 @@ export type Dictionary = {
     ctaEyebrow: string;
     ctaTitle: string;
   };
+  hrPages: {
+    parentLabel: string;
+    eyebrow: string;
+    training: { title: string; description: string };
+    orgChart: { title: string; description: string };
+    hrPolicy: { title: string; description: string };
+  };
   navLabels: Record<string, string>;
   navOverviewLabels: Record<string, string>;
   navGroups: Record<string, string>;

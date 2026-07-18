@@ -395,6 +395,22 @@
     "ctaEyebrow": "Hợp tác cùng Thiên Đức",
     "ctaTitle": "Trao đổi về cơ hội hợp tác trong hệ sinh thái"
   },
+  "hrPages": {
+    "parentLabel": "Tuyển dụng & Nhân sự",
+    "eyebrow": "Nhân sự",
+    "training": {
+      "title": "Đào tạo",
+      "description": "Trang này sẽ giới thiệu hoạt động đào tạo, phát triển năng lực và văn hóa học tập của công ty."
+    },
+    "orgChart": {
+      "title": "Sơ đồ tổ chức công ty",
+      "description": "Trang này sẽ trình bày cơ cấu tổ chức và các bộ phận chính của Thiên Đức."
+    },
+    "hrPolicy": {
+      "title": "Chính sách nhân sự",
+      "description": "Trang này sẽ tổng hợp các chính sách nhân sự, phúc lợi và môi trường làm việc tại Thiên Đức."
+    }
+  },
   "navLabels": {},
   "navOverviewLabels": {},
   "navGroups": {},

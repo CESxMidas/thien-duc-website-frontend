@@ -395,6 +395,22 @@
     "ctaEyebrow": "Partner with Thien Duc",
     "ctaTitle": "Discuss partnership opportunities within the ecosystem"
   },
+  "hrPages": {
+    "parentLabel": "Careers & Human Resources",
+    "eyebrow": "Human Resources",
+    "training": {
+      "title": "Training",
+      "description": "This page will introduce Thien Duc’s training activities, internal development programs, and employee capability-building initiatives."
+    },
+    "orgChart": {
+      "title": "Company Organization Chart",
+      "description": "This page will present Thien Duc’s organizational structure, departments, and management relationships."
+    },
+    "hrPolicy": {
+      "title": "Human Resources Policy",
+      "description": "This page will introduce Thien Duc’s human resources policies, employee benefits, workplace standards, and development orientation."
+    }
+  },
   "navLabels": {
     "/": "Home",
     "/gioi-thieu": "About",

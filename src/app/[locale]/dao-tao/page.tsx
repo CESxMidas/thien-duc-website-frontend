@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -37,23 +38,28 @@ export default async function TrainingPage({
 }: PageProps<"/[locale]/dao-tao">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const dictionary = await getDictionary(locale);
+  const { training } = dictionary.hrPages;
 
   return (
     <SiteShell locale={locale}>
       <Breadcrumb
         items={[
-          { label: "Trang chủ", href: localizePath(routes.home, locale) },
           {
-            label: "Tuyển dụng & Nhân sự",
+            label: dictionary.breadcrumb.home,
+            href: localizePath(routes.home, locale),
+          },
+          {
+            label: dictionary.hrPages.parentLabel,
             href: localizePath(routes.careers, locale),
           },
-          { label: "Đào tạo" },
+          { label: training.title },
         ]}
       />
       <PageHeading
-        eyebrow="Nhân sự"
-        title="Đào tạo"
-        description="Trang này sẽ giới thiệu hoạt động đào tạo, phát triển năng lực và văn hóa học tập của công ty."
+        eyebrow={dictionary.hrPages.eyebrow}
+        title={training.title}
+        description={training.description}
       />
     </SiteShell>
   );

@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -37,23 +38,28 @@ export default async function HumanResourcesPolicyPage({
 }: PageProps<"/[locale]/chinh-sach-nhan-su">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const dictionary = await getDictionary(locale);
+  const { hrPolicy } = dictionary.hrPages;
 
   return (
     <SiteShell locale={locale}>
       <Breadcrumb
         items={[
-          { label: "Trang chủ", href: localizePath(routes.home, locale) },
           {
-            label: "Tuyển dụng & Nhân sự",
+            label: dictionary.breadcrumb.home,
+            href: localizePath(routes.home, locale),
+          },
+          {
+            label: dictionary.hrPages.parentLabel,
             href: localizePath(routes.careers, locale),
           },
-          { label: "Chính sách nhân sự" },
+          { label: hrPolicy.title },
         ]}
       />
       <PageHeading
-        eyebrow="Nhân sự"
-        title="Chính sách nhân sự"
-        description="Trang này sẽ tổng hợp các chính sách nhân sự, phúc lợi và môi trường làm việc tại Thiên Đức."
+        eyebrow={dictionary.hrPages.eyebrow}
+        title={hrPolicy.title}
+        description={hrPolicy.description}
       />
     </SiteShell>
   );
