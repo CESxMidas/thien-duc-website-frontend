@@ -4,10 +4,14 @@ import { notFound } from "next/navigation";
 import { Building2, UserRound } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
-import { legalInfo, siteConfig } from "@/config/site";
-import { legalRepresentative, memberCompanies } from "@/data/member-companies";
+import { legalDisplayName, siteConfig } from "@/config/site";
+import {
+  legalRepresentative,
+  localizeBilingual,
+  memberCompanies,
+} from "@/data/member-companies";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -39,13 +43,14 @@ export default async function MemberCompaniesPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dictionary = await getDictionary(locale);
+  const t = dictionary.memberCompanies;
 
   return (
     <SiteShell locale={locale}>
       <PageHeading
-        eyebrow="Công ty thành viên"
-        title="Hệ thống công ty thành viên"
-        description="Các pháp nhân trong hệ sinh thái Thiên Đức, cùng người đại diện pháp luật."
+        eyebrow={t.eyebrow}
+        title={t.title}
+        description={t.description}
       />
 
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
@@ -55,13 +60,13 @@ export default async function MemberCompaniesPage({
           </div>
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">
-              {legalRepresentative.role}
+              {localizeBilingual(legalRepresentative.role, locale)}
             </p>
             <p className="mt-2 text-2xl font-semibold">
               {legalRepresentative.name}
             </p>
             <p className="mt-3 text-sm leading-6 text-slate">
-              Đại diện {legalInfo.legalName} và các đơn vị thành viên dưới đây.
+              {interpolate(t.repIntro, { legalName: legalDisplayName[locale] })}
             </p>
           </div>
         </div>
@@ -70,10 +75,10 @@ export default async function MemberCompaniesPage({
       <section className="reveal-section mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-14">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            Đơn vị thành viên
+            {t.listEyebrow}
           </p>
           <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
-            Các doanh nghiệp, đơn vị trong hệ sinh thái
+            {t.listTitle}
           </h2>
         </div>
 
@@ -92,7 +97,7 @@ export default async function MemberCompaniesPage({
               </h3>
               {company.note ? (
                 <p className="mt-3 text-sm leading-6 text-slate">
-                  {company.note}
+                  {localizeBilingual(company.note, locale)}
                 </p>
               ) : null}
             </li>
@@ -100,15 +105,14 @@ export default async function MemberCompaniesPage({
         </ul>
 
         <p className="mt-8 max-w-3xl text-sm leading-6 text-slate">
-          Thông tin chi tiết của từng đơn vị (mã số thuế, địa chỉ, ngành nghề)
-          liên hệ trực tiếp với Thiên Đức qua{" "}
+          {t.detailNotePrefix}{" "}
           <a
             href={`mailto:${siteConfig.email}`}
             className="font-semibold text-brand hover:text-brand-dark"
           >
             {siteConfig.email}
           </a>
-          .
+          {t.detailNoteSuffix}
         </p>
       </section>
 
@@ -116,10 +120,10 @@ export default async function MemberCompaniesPage({
         <div className="grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
             <p className="text-eyebrow mb-4 text-gold">
-              Hợp tác cùng Thiên Đức
+              {t.ctaEyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight">
-              Trao đổi về cơ hội hợp tác trong hệ sinh thái
+              {t.ctaTitle}
             </h2>
           </div>
           <Link

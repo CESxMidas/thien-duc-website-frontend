@@ -248,6 +248,18 @@ export type Dictionary = {
     mapCta: string;
     mapIframeTitle: string;
   };
+  memberCompanies: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    repIntro: string;
+    listEyebrow: string;
+    listTitle: string;
+    detailNotePrefix: string;
+    detailNoteSuffix: string;
+    ctaEyebrow: string;
+    ctaTitle: string;
+  };
   navLabels: Record<string, string>;
   navOverviewLabels: Record<string, string>;
   navGroups: Record<string, string>;

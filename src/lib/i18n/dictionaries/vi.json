@@ -335,6 +335,18 @@
     "mapCta": "Mở Google Maps",
     "mapIframeTitle": "Bản đồ vị trí Công ty Thiên Đức"
   },
+  "memberCompanies": {
+    "eyebrow": "Công ty thành viên",
+    "title": "Hệ thống công ty thành viên",
+    "description": "Các pháp nhân trong hệ sinh thái Thiên Đức, cùng người đại diện pháp luật.",
+    "repIntro": "Đại diện {legalName} và các đơn vị thành viên dưới đây.",
+    "listEyebrow": "Đơn vị thành viên",
+    "listTitle": "Các doanh nghiệp, đơn vị trong hệ sinh thái",
+    "detailNotePrefix": "Thông tin chi tiết của từng đơn vị (mã số thuế, địa chỉ, ngành nghề) liên hệ trực tiếp với Thiên Đức qua",
+    "detailNoteSuffix": ".",
+    "ctaEyebrow": "Hợp tác cùng Thiên Đức",
+    "ctaTitle": "Trao đổi về cơ hội hợp tác trong hệ sinh thái"
+  },
   "navLabels": {},
   "navOverviewLabels": {},
   "navGroups": {},

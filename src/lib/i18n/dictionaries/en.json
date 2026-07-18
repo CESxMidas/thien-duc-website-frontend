@@ -335,6 +335,18 @@
     "mapCta": "Open Google Maps",
     "mapIframeTitle": "Map of Thien Duc's location"
   },
+  "memberCompanies": {
+    "eyebrow": "Member Companies",
+    "title": "Member Company Network",
+    "description": "Legal entities within the Thien Duc ecosystem and their legal representative.",
+    "repIntro": "Representative of {legalName} and the member entities listed below.",
+    "listEyebrow": "Member entities",
+    "listTitle": "Companies and units within the ecosystem",
+    "detailNotePrefix": "For detailed information about each entity, including tax code, address, and business activities, please contact Thien Duc directly via",
+    "detailNoteSuffix": ".",
+    "ctaEyebrow": "Partner with Thien Duc",
+    "ctaTitle": "Discuss partnership opportunities within the ecosystem"
+  },
   "navLabels": {
     "/": "Home",
     "/gioi-thieu": "About",
