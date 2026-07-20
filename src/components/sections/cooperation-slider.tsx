@@ -79,7 +79,7 @@ export function CooperationSlider({
 
   return (
     <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20">
+      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 sm:py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <p className="text-eyebrow mb-4 text-brand">

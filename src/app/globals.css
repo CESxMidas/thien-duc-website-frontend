@@ -59,6 +59,12 @@
   --color-surface: #f2f2f2;
   --color-surface-warm: #f6f3ee;
 
+  /* Bề rộng tối đa của khối nội dung mọi section (header, footer, page). Gom về
+     một token để đổi một chỗ — sinh sẵn utility `max-w-site`. 70rem ≈ 1120px:
+     gọn hơn 7xl (80rem) cũ, cho cảm giác nội dung tập trung, cao cấp mà lưới
+     3–4 cột vẫn thoải mái. */
+  --container-site: 70rem;
+
   /* Màu ngữ nghĩa cho trạng thái form (mục 8 handoff spec). */
   --color-danger: #9b2c2c;
   --color-success: #166534;
@@ -130,6 +136,20 @@ h2 {
 /* Giới hạn độ rộng đoạn văn 60–75 ký tự cho dễ đọc (mục 3, mục 5). */
 .measure {
   max-width: var(--measure-prose);
+}
+
+/* Nhịp đọc cho khối văn bản dài (bài viết, giới thiệu): giới hạn bề rộng dòng
+   ~68ch và thụt dòng đầu 1.5em từ đoạn thứ hai trở đi (đoạn mở đầu để phẳng
+   theo lối canh lề trái). Chỉ dùng cho vùng prose nhiều đoạn — KHÔNG áp cho
+   nút, tiêu đề, nav, thẻ nhãn ngắn, số liệu hay form. Dùng `p + p` nên hoạt
+   động cả khi các đoạn nằm trong grid/flex; không gây layout shift vì chỉ đẩy
+   ký tự đầu dòng, không đổi chiều cao khối. */
+.prose-content {
+  max-width: var(--measure-prose);
+}
+
+.prose-content > p + p {
+  text-indent: 1.5em;
 }
 
 html {

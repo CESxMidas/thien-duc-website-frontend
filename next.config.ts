@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         pathname: "/thienduc/**",
       },
     ],
+    // Next 16 yêu cầu allowlist các mức `quality`. Mặc định chỉ có 75; thêm 90
+    // để ảnh hero/banner (nguồn 1920×640 bị phóng to trên màn hình lớn) nét hơn,
+    // giảm cảm giác mờ. Giữ 75 cho ảnh thường để không tăng dung lượng toàn site.
+    qualities: [75, 90],
   },
   // Định tuyến locale (`/vi` → `/`, rewrite `/du-an` → `/vi/du-an`) nằm ở
   // `src/proxy.ts` vì cần đọc pathname của từng request.

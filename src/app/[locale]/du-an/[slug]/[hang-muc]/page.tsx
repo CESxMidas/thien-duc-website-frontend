@@ -123,8 +123,8 @@ export default async function ProjectItemPage({
           />
         </section>
 
-        <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+        <section className="project-detail-band py-12">
+          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
               <div className="reveal-from-left h-full">
                 <ProjectItemGallery images={galleryImages} title={item.title} />
@@ -201,8 +201,8 @@ export default async function ProjectItemPage({
         {/* Hạng mục hiếm khi chia nhiều thư viện con; nếu có thì giữ nguyên
             slider nhiều khối bên dưới bố cục hai cột. */}
         {gallerySections.length > 0 ? (
-          <section className="project-detail-band pb-14">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <section className="project-detail-band pb-12">
+            <div className="mx-auto max-w-site px-4 sm:px-6">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={item.title}
@@ -212,7 +212,7 @@ export default async function ProjectItemPage({
         ) : null}
 
         {siblings.length > 0 ? (
-          <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+          <section className="mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-12">
             <p className="text-eyebrow mb-4 text-brand">
               {dictionary.projectItem.siblingsEyebrow}
             </p>
@@ -248,7 +248,7 @@ export default async function ProjectItemPage({
           </section>
         ) : null}
 
-        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
+        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">

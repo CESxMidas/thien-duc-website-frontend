@@ -151,7 +151,7 @@ export default async function ProjectDetailPage({
         </section>
 
         {project.image && !hasMap ? (
-          <section className="mx-auto max-w-7xl px-4 pb-10 pt-4 sm:px-6 sm:pb-12">
+          <section className="mx-auto max-w-site px-4 pb-8 pt-4 sm:px-6 sm:pb-12">
             <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
               <Image
                 src={project.image}
@@ -165,8 +165,8 @@ export default async function ProjectDetailPage({
           </section>
         ) : null}
 
-        <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+        <section className="project-detail-band py-12">
+          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="text-eyebrow mb-4 text-brand">
@@ -253,8 +253,8 @@ export default async function ProjectDetailPage({
         ) : null}
 
         {items.length > 0 ? (
-          <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <section className="project-detail-band py-12">
+            <div className="mx-auto max-w-site px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
                   {dictionary.projectDetail.itemsEyebrow}
@@ -279,8 +279,8 @@ export default async function ProjectDetailPage({
             </div>
           </section>
         ) : gallerySections.length > 0 ? (
-          <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <section className="project-detail-band py-12">
+            <div className="mx-auto max-w-site px-4 sm:px-6">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={project.title}
@@ -288,8 +288,8 @@ export default async function ProjectDetailPage({
             </div>
           </section>
         ) : gallery.length > 0 ? (
-          <section className="project-detail-band py-14">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <section className="project-detail-band py-12">
+            <div className="mx-auto max-w-site px-4 sm:px-6">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
                   {dictionary.projectDetail.galleryEyebrow}
@@ -306,8 +306,8 @@ export default async function ProjectDetailPage({
           </section>
         ) : null}
 
-        <section className="project-detail-band py-14">
-          <div className="reveal-sides-pair mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+        <section className="project-detail-band py-12">
+          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-6 md:p-8">
               <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
               <p className="text-eyebrow mb-4 text-brand">
@@ -335,7 +335,7 @@ export default async function ProjectDetailPage({
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+        <section className="mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-14">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">

@@ -6,7 +6,7 @@ type PageHeadingProps = {
 
 export function PageHeading({ eyebrow, title, description }: PageHeadingProps) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+    <section className="mx-auto max-w-site px-4 py-6 sm:px-6 sm:py-8">
       {eyebrow ? (
         <p className="text-eyebrow mb-3 text-brand sm:mb-4">{eyebrow}</p>
       ) : null}

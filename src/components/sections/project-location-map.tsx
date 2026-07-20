@@ -28,8 +28,8 @@ export function ProjectLocationMap({
   const copy = mapCopy[locale];
 
   return (
-    <section className="project-detail-band reveal-section overflow-hidden py-10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section className="project-detail-band reveal-section overflow-hidden py-8">
+      <div className="mx-auto max-w-site px-4 sm:px-6">
         <div className="grid w-full gap-4 lg:grid-cols-2 lg:items-stretch">
           {aerialImage ? (
             <div

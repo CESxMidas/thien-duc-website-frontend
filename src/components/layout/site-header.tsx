@@ -59,7 +59,7 @@ function HeaderTopStrip({ locale }: { locale: Locale }) {
   return (
     <div className="header-top-strip grid bg-brand-soft">
       <div className="min-h-0 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-4 py-1.5 md:px-6 md:py-2">
+        <div className="mx-auto max-w-site px-4 py-1.5 md:px-6 md:py-2">
         <div className="grid min-w-0 gap-x-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-6">
           <a
             href={mapsHref}
@@ -242,7 +242,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
         <HeaderTopStrip locale={locale} />
 
       <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
+        <div className="mx-auto flex h-16 max-w-site items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
           <Link
             href={localizePath("/", locale)}
             className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
@@ -405,7 +405,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               className="mobile-menu-backdrop absolute inset-0 h-full w-full bg-ink/40"
             />
             <div className="mobile-menu-sheet absolute inset-x-0 top-0 max-h-full overflow-y-auto overscroll-contain border-t border-black/10 bg-white px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-xl">
-            <nav className="mx-auto grid max-w-7xl gap-1 py-4">
+            <nav className="mx-auto grid max-w-site gap-1 py-4">
               {mainNavigation.map((item) => {
                 if (!item.children?.length) {
                   return (
@@ -467,7 +467,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 );
               })}
             </nav>
-            <form action={searchAction} className="mx-auto flex max-w-7xl">
+            <form action={searchAction} className="mx-auto flex max-w-site">
               <input
                 name="q"
                 type="search"

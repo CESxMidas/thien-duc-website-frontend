@@ -30,8 +30,8 @@ export function ProjectMapEmbed({
   )}&hl=${locale}&z=16&output=embed`;
 
   return (
-    <section className="project-detail-band reveal-section overflow-hidden py-10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section className="project-detail-band reveal-section overflow-hidden py-8">
+      <div className="mx-auto max-w-site px-4 sm:px-6">
         <div
           className={`grid w-full gap-4 lg:items-stretch ${
             aerialImage ? "lg:grid-cols-2" : "lg:grid-cols-1"

@@ -75,7 +75,7 @@ export default async function ProjectsPage({
         />
 
         {query ? null : (
-          <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
+          <section className="mx-auto max-w-site px-4 pb-8 sm:px-6">
             <div className="reveal-from-left flex flex-wrap gap-2">
               {projectStatusFilterValues.map((value) => {
                 const active = activeStatus === value;
@@ -119,7 +119,7 @@ export default async function ProjectsPage({
           </section>
         )}
 
-        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
+        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
           {filteredProjects.length > 0 ? (
             <div
               className={`grid gap-5 ${
@@ -208,7 +208,7 @@ export default async function ProjectsPage({
           )}
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 sm:pb-16">
+        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
           <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">

@@ -73,7 +73,7 @@ export default async function AboutPage({
         description={heading.description}
       />
 
-      <section className="reveal-section mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+      <section className="reveal-section mx-auto grid max-w-site gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
           <p className="text-eyebrow mb-4 text-brand">
             {about.overviewEyebrow}
@@ -81,7 +81,7 @@ export default async function AboutPage({
           <h2 className="max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
             {about.overviewTitle}
           </h2>
-          <div className="measure mt-6 grid gap-4 text-lg leading-8 text-slate">
+          <div className="prose-content mt-6 grid gap-4 text-lg leading-8 text-slate">
             {paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -123,7 +123,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="reveal-section mx-auto max-w-site px-4 sm:px-6">
         <dl className="stagger-list grid gap-4 border border-black/10 bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 lg:p-8">
           {about.stats.map((stat) => (
             <div key={stat.label} className="border-l-4 border-gold pl-4">
@@ -137,7 +137,7 @@ export default async function AboutPage({
         </dl>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <section className="reveal-section mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-12">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {about.timelineEyebrow}
@@ -165,7 +165,7 @@ export default async function AboutPage({
         </ol>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <section className="reveal-section mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-12">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {about.principlesEyebrow}
@@ -192,7 +192,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14">
+      <section className="reveal-section mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-12">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {about.fieldsEyebrow}
@@ -217,7 +217,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16">
+      <section className="reveal-section mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-14">
         <div className="rounded-sm bg-brand-soft p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
           <p className="text-eyebrow mb-4 text-gold">
             {about.ctaEyebrow}

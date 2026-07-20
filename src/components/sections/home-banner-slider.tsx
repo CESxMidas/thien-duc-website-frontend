@@ -164,6 +164,7 @@ export function HomeBannerSlider({
                 fill
                 preload={index === 0}
                 loading={index === 0 ? undefined : "lazy"}
+                quality={90}
                 sizes="100vw"
                 className={`object-cover transition duration-7200 ease-out ${
                   isActive && !reducedMotion ? "scale-105" : "scale-100"
@@ -174,8 +175,12 @@ export function HomeBannerSlider({
           );
         })}
 
-        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(25,25,25,0.72)_0%,rgba(25,25,25,0.42)_43%,rgba(25,25,25,0.08)_100%)]" />
-        <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_78%,rgba(253,205,4,0.18),transparent_32%)]" />
+        {/* Lớp phủ nhẹ hơn hẳn bản cũ (0.72 → 0.5): khối chữ bên dưới đã có nền
+            ink/28 + backdrop-blur riêng nên vẫn đọc rõ, còn ảnh banner sáng và
+            trong trẻo hơn thay vì bị tối. Vẫn giữ độ tối phía trái để mép thẻ
+            chữ hoà vào nền, nhạt dần về phải để lộ chi tiết ảnh. */}
+        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)]" />
+        <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_78%,rgba(253,205,4,0.16),transparent_32%)]" />
 
         {autoplayEnabled ? (
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
@@ -192,7 +197,7 @@ export function HomeBannerSlider({
         ) : null}
 
         <div className="absolute inset-x-0 bottom-16 z-30 px-4 sm:bottom-20 sm:px-6">
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-site">
             <div
               key={activeBanner.title}
               className={`flex max-w-2xl flex-col justify-between border border-white/15 bg-ink/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-7 ${

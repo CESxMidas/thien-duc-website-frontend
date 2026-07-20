@@ -37,7 +37,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="bg-brand-dark">
         {/* Gom Liên hệ thành một cột trong hàng trên (bỏ dải full-width thưa
             thớt cũ) để lấp đầy hàng và tránh khoảng trống ngang dư thừa. */}
-        <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-9 px-4 py-10 sm:grid-cols-2 sm:px-6 sm:py-12 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
+        <div className="mx-auto grid max-w-site gap-x-8 gap-y-9 px-4 py-10 sm:grid-cols-2 sm:px-6 sm:py-12 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link
               href={localizePath(routes.home, locale)}
@@ -136,7 +136,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       </div>
 
       <div className="border-t border-brand/20">
-        <div className="mx-auto max-w-7xl px-4 py-5 text-xs leading-6 text-white/75 sm:px-6">
+        <div className="mx-auto max-w-site px-4 py-5 text-xs leading-6 text-white/75 sm:px-6">
           <p className="font-semibold uppercase tracking-[0.12em] text-white/85">
             {legalDisplayName[locale]}
           </p>
@@ -146,7 +146,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-sm text-white/85 sm:px-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex max-w-site flex-col gap-3 px-4 py-5 text-sm text-white/85 sm:px-6 md:flex-row md:items-center md:justify-between">
         <p>
           © {currentYear} {dictionary.shared.companyName}.{" "}
           {dictionary.footer.rights}
