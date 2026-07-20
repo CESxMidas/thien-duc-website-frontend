@@ -95,6 +95,12 @@ export type ProjectGalleryImageDto = {
   url: string;
   caption?: LocalizedText | null;
   order: number;
+  /**
+   * Ảnh gắn với một hạng mục con thì có `projectItemId`; ảnh của cả dự án thì
+   * null. GET /projects/:slug trả về **tất cả** ảnh của dự án (cả hai loại), nên
+   * mapper phải lọc theo trường này để tách ảnh cấp dự án khỏi ảnh hạng mục.
+   */
+  projectItemId?: string | null;
 };
 
 export type ProjectDto = {

@@ -102,3 +102,41 @@ describe("mapProject mapLocation prose (EN-FULL-C5a)", () => {
     expect(mapProject(dto, "en").mapLocation?.description).toBeUndefined();
   });
 });
+
+describe("mapProject gallery source (PROJECT-GALLERY-IMAGES-FIX-M1)", () => {
+  it("ưu tiên quan hệ galleryImages, chỉ lấy ảnh cấp dự án (projectItemId null)", () => {
+    const project = mapProject(
+      {
+        ...baseDto,
+        gallery: ["/legacy.webp"],
+        galleryImages: [
+          { id: "g1", url: "/proj-a.webp", order: 0, projectItemId: null },
+          // Ảnh hạng mục — phải bị loại khỏi thư viện cấp dự án.
+          { id: "g2", url: "/item.webp", order: 1, projectItemId: "item-1" },
+          { id: "g3", url: "/proj-b.webp", order: 2, projectItemId: null },
+        ],
+      },
+      "vi",
+    );
+    expect(project.gallery).toEqual(["/proj-a.webp", "/proj-b.webp"]);
+  });
+
+  it("quan hệ chỉ toàn ảnh hạng mục → lùi về gallery phẳng (legacy)", () => {
+    const project = mapProject(
+      {
+        ...baseDto,
+        gallery: ["/legacy.webp"],
+        galleryImages: [
+          { id: "g2", url: "/item.webp", order: 0, projectItemId: "item-1" },
+        ],
+      },
+      "vi",
+    );
+    expect(project.gallery).toEqual(["/legacy.webp"]);
+  });
+
+  it("không có quan hệ lẫn gallery phẳng → undefined (không render khối trống)", () => {
+    const project = mapProject({ ...baseDto, gallery: [] }, "vi");
+    expect(project.gallery).toBeUndefined();
+  });
+});

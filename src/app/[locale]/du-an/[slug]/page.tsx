@@ -126,6 +126,28 @@ export default async function ProjectDetailPage({
   const hasEmbedMap = !project.mapLocation && Boolean(mapQuery);
   const hasMap = Boolean(project.mapLocation) || hasEmbedMap;
 
+  // PROJECT-GALLERY-IMAGES-FIX-M1: dự án có **cả** hạng mục (`items`) lẫn thư
+  // viện ảnh cấp dự án (`gallery`) thì ảnh dự án được đưa lên ngay dưới ảnh
+  // chính (main image / bản đồ), rồi mới tới carousel hạng mục — thay vì bị ẩn
+  // hoàn toàn như trước (khối ảnh cũ loại trừ lẫn nhau: chỉ 1 trong 3). Dự án
+  // chỉ có một trong hai giữ nguyên bố cục cũ (xem khối ở cuối trang).
+  const showGalleryUnderMain = items.length > 0 && gallery.length > 0;
+  const galleryStrip = showGalleryUnderMain ? (
+    <section className="project-detail-band py-8">
+      <div className="mx-auto max-w-site px-4 sm:px-6">
+        <div className="reveal-from-left mb-6">
+          <p className="text-eyebrow mb-3 text-brand">
+            {dictionary.projectDetail.galleryEyebrow}
+          </p>
+          <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
+            {dictionary.projectDetail.galleryTitle}
+          </h2>
+        </div>
+        <ProjectPhotoStrip images={gallery} title={project.title} />
+      </div>
+    </section>
+  ) : null;
+
   return (
     <SiteShell locale={locale}>
       <div className="projects-motion">
@@ -164,6 +186,10 @@ export default async function ProjectDetailPage({
             </div>
           </section>
         ) : null}
+
+        {/* Case C, dự án không có bản đồ: ảnh chính là hero phía trên, thư viện
+            ảnh dự án nằm ngay dưới nó. */}
+        {!hasMap ? galleryStrip : null}
 
         <section className="project-detail-band py-12">
           <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
@@ -251,6 +277,10 @@ export default async function ProjectDetailPage({
             aerialImage={project.image}
           />
         ) : null}
+
+        {/* Case C, dự án có bản đồ: ảnh chính (ảnh trên không) nằm trong khối
+            bản đồ ở trên, thư viện ảnh dự án nằm ngay dưới nó. */}
+        {hasMap ? galleryStrip : null}
 
         {items.length > 0 ? (
           <section className="project-detail-band py-12">

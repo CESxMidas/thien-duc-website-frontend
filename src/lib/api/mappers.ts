@@ -102,6 +102,27 @@ function mapMapLocation(
   };
 }
 
+/**
+ * Ảnh **cấp dự án** (ảnh con của chính dự án, không thuộc hạng mục nào).
+ *
+ * Ưu tiên quan hệ `galleryImages` do Admin upload — GET /projects/:slug trả về
+ * *tất cả* ảnh (cả ảnh hạng mục), nên lọc lấy ảnh có `projectItemId == null`
+ * để **không** lẫn ảnh hạng mục vào thư viện cấp dự án. Quan hệ rỗng thì lùi về
+ * `gallery` phẳng (dữ liệu cũ). Trả `undefined` khi không có ảnh để trang không
+ * render khối thư viện trống.
+ */
+function mapProjectGallery(dto: ProjectDto): string[] | undefined {
+  const relationImages = dto.galleryImages
+    ?.filter((image) => image.projectItemId == null)
+    .map((image) => image.url);
+
+  if (relationImages && relationImages.length > 0) {
+    return relationImages;
+  }
+
+  return dto.gallery.length > 0 ? dto.gallery : undefined;
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -116,7 +137,7 @@ export function mapProject(dto: ProjectDto, locale: Locale): Project {
     status: statusFromDto[dto.status],
     location: localizedLoose(dto.location, locale),
     image: dto.image ?? undefined,
-    gallery: dto.gallery.length > 0 ? dto.gallery : undefined,
+    gallery: mapProjectGallery(dto),
     gallerySections: dto.gallerySections ?? undefined,
     category: localizedLoose(dto.category, locale),
     description: localized(dto.description, locale),
