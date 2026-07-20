@@ -3,8 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Cho phép HMR/dev assets khi truy cập qua IP LAN (điện thoại, máy khác cùng Wi-Fi).
   allowedDevOrigins: ["192.168.*.*", "172.28.*.*", "10.*.*.*"],
-  // Ảnh banner/dự án do CMS lưu trên Cloudinary (cloud `thienduc`). `next/image`
+  // Ảnh banner/dự án do CMS lưu trên Cloudinary (cloud `ksnntvmu`). `next/image`
   // chỉ tải ảnh từ host được khai báo — thiếu dòng này ảnh Cloudinary bị chặn.
+  // Cloud name nằm ngay trong URL ảnh (`res.cloudinary.com/<cloud>/image/upload/…`);
+  // pathname phải khớp đúng cloud thật, sai cloud thì next/image trả 400, ảnh không hiện.
   images: {
     remotePatterns: [
       {
