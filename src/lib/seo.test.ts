@@ -1,7 +1,7 @@
 /**
  * Test JSON-LD + metadata builders (task →7, bảo vệ bởi task →8).
  * Không hardcode host: mọi URL kỳ vọng dựng từ `siteConfig.url` để test chạy
- * đúng dù `NEXT_PUBLIC_SITE_URL` có được đặt hay không.
+ * đúng dù `VITE_SITE_URL` có được đặt hay không.
  */
 import {
   brandName,

@@ -4,7 +4,7 @@ export const siteConfig = {
   name: "Công ty Thiên Đức",
   shortName: "Thiên Đức",
   description: "Website giới thiệu công ty, dự án và tin tức của Thiên Đức.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.VITE_SITE_URL?? "http://localhost:3000",
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
   address: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
