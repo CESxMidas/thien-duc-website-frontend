@@ -242,7 +242,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
         <HeaderTopStrip locale={locale} />
 
       <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
-        <div className="mx-auto flex h-16 max-w-site items-center gap-3 px-4 md:h-18 md:px-6 lg:gap-5.25">
+        <div className="mx-auto flex h-16 max-w-site items-center gap-x-3 px-4 md:h-18 md:gap-x-4 md:px-6 xl:gap-x-6">
           <Link
             href={localizePath("/", locale)}
             className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
@@ -259,7 +259,12 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           </Link>
 
           <nav
-            className="hidden h-full min-w-0 flex-1 items-center justify-between border-l border-brand/15 lg:flex"
+            // Nav là một nhóm **kích thước theo nội dung** (`shrink-0`), KHÔNG
+            // `flex-1 justify-between`. Kiểu cũ kéo item ra sát hai mép và khi
+            // hết chỗ (nav VI dài) thì item cuối ("LIÊN HỆ") tràn xuống dưới ô
+            // tìm kiếm. Nay nav giữ nguyên bề rộng; ô tìm kiếm mới là phần co
+            // lại khi chật (xem `form` bên dưới) → nav không bao giờ chồng search.
+            className="hidden h-full shrink-0 items-center gap-x-0.5 border-l border-brand/15 pl-4 lg:flex xl:gap-x-1 xl:pl-5"
             onKeyDown={(event) => {
               if (event.key === "Escape" && openDropdown) {
                 setOpenDropdown(null);
@@ -350,9 +355,13 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             })}
           </nav>
 
+          {/* `ml-auto` đẩy cụm tìm kiếm về sát mép phải → luôn có khoảng trống
+              rõ ràng (spacer co giãn) giữa "LIÊN HỆ" và ô tìm kiếm. `min-w-0`
+              cho phép ô input co lại khi chật thay vì đẩy nav chồng lên nhau —
+              input là phần nhường chỗ, nav thì không. */}
           <form
             action={searchAction}
-            className="hidden shrink-0 items-center xl:flex"
+            className="ml-auto hidden min-w-0 shrink items-center xl:flex"
           >
             <label className="sr-only" htmlFor="site-search">
               {dictionary.header.searchLabel}
@@ -362,12 +371,12 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               name="q"
               type="search"
               placeholder={dictionary.header.searchPlaceholder}
-              className="h-10 w-36 border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand xl:w-44"
+              className="h-10 w-44 min-w-0 shrink border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand"
             />
             <button
               type="submit"
               aria-label={dictionary.header.searchLabel}
-              className="button-polish grid h-10 w-10 place-items-center bg-brand text-white hover:bg-brand-dark"
+              className="button-polish grid h-10 w-10 shrink-0 place-items-center bg-brand text-white hover:bg-brand-dark"
             >
               <Search className="size-4" />
             </button>
