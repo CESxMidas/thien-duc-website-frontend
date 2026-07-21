@@ -51,7 +51,7 @@ public/
 
 - Quy ước code dùng chung cho frontend / admin / backend: `../AGENTS.md`.
 - Dữ liệu động lấy qua `src/lib/api/*` (`getProjects`, `getNewsPosts`…). Khi chưa
-  đặt `VITE_API_URL` (kiểm tra bằng `isApiConfigured` trong
+  đặt `NEXT_PUBLIC_API_URL` (kiểm tra bằng `isApiConfigured` trong
   `lib/api/client.ts`), `next build` bỏ prerender cây `/[locale]` + sitemap chỉ
   gồm route tĩnh — build chạy được không cần API (vd. CI); trang render
   on-demand lúc chạy. (Chế độ mock từ `src/data/*` trước đây đã gỡ.)

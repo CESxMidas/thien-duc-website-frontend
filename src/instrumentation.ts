@@ -4,7 +4,7 @@
 // 03-file-conventions/instrumentation.md.
 import * as Sentry from "@sentry/nextjs";
 
-const dsn = process.env.VITE_SENTRY_DSN;
+const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
 
 export function register() {
   // Thiếu DSN → không init; captureRequestError về sau tự thành no-op.

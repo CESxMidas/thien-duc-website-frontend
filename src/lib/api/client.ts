@@ -2,9 +2,11 @@ import type { ApiResponse } from "@/lib/api/types";
 
 /**
  * Base URL của backend, ví dụ `http://localhost:3001/api`.
- * Bắt buộc cấu hình `VITE_API_URL` — frontend luôn lấy dữ liệu từ API.
+ * Bắt buộc cấu hình `NEXT_PUBLIC_API_URL` — frontend luôn lấy dữ liệu từ API.
+ * Tiền tố `NEXT_PUBLIC_` để Next inline giá trị vào cả bundle trình duyệt
+ * (contact form, search chạy phía client cũng cần base URL này).
  */
-export const API_BASE_URL = process.env.VITE_API_URL ?? "";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 /**
  * Môi trường build không có API (vd. CI) → `generateStaticParams` trả rỗng để
