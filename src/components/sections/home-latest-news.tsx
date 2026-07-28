@@ -62,7 +62,7 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
                   {formatDate(post.publishedAt, locale)}
                 </p>
                 <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate">{post.summary}</p>
+                {/* <p className="mt-3 text-sm leading-6 text-slate">{post.summary}</p> */}
                 <span className="link-arrow mt-5 text-sm font-semibold text-brand">
                   {dictionary.home.postDetail}
                 </span>
