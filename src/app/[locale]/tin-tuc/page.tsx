@@ -87,9 +87,9 @@ export default async function NewsPage({
                   <h2 className="mt-3 text-xl font-semibold leading-snug">
                     {post.title}
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-slate">
+                  {/* <p className="mt-3 text-sm leading-6 text-slate">
                     {post.summary}
-                  </p>
+                  </p> */}
                   <span className="link-arrow mt-5 text-sm font-semibold text-brand">
                     {dictionary.common.readArticle}
                   </span>
