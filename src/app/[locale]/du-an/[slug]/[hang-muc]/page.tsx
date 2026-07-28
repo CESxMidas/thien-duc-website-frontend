@@ -249,7 +249,7 @@ export default async function ProjectItemPage({
         ) : null}
 
         <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
-          <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div className="reveal-sides-pair grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">
                 {dictionary.projectItem.ctaEyebrow}

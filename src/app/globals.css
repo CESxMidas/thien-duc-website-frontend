@@ -47,7 +47,10 @@
    Dùng token thay vì gõ hex trong component: đổi màu một chỗ, áp dụng toàn site.
    ========================================================================== */
 @theme {
-  --color-brand: #b06613;
+  /* Nâu đồng — làm đậm nhẹ từ #b06613 (chỉ 4.41:1) xuống #9f5a0f để trắng trên
+     brand ≥ 4.5:1 (nút/panel) và brand trên nền trắng/ấm ≥ 4.5:1 (link, eyebrow),
+     đạt WCAG 2.1 AA. Cùng tông đồng, chỉ sâu hơn chút. (A11Y-CONTRAST-M2) */
+  --color-brand: #9f5a0f;
   --color-brand-soft: #c99248;
   --color-brand-dark: #7f4b0d;
   --color-gold: #fdcd04;
@@ -865,11 +868,11 @@ textarea {
 }
 
 /* A11y toàn cục (UI-UX-HANDOFF-SPEC.md mục 7, 8).
-   Viền focus dùng nâu đồng #b06613: vàng #fdcd04 trên nền trắng chỉ đạt 1.5:1,
-   dưới ngưỡng 3:1 của WCAG 2.4.11. Nâu đồng đạt 4.42:1 trên trắng và 3.32:1
-   trên nền đen #191919 — hợp lệ trên cả nền sáng lẫn nền tối của trang. */
+   Viền focus dùng nâu đồng #9f5a0f: vàng #fdcd04 trên nền trắng chỉ đạt 1.5:1,
+   dưới ngưỡng 3:1 của WCAG 2.4.11. Nâu đồng #9f5a0f đạt 5.33:1 trên trắng và
+   3.30:1 trên nền đen #191919 — hợp lệ trên cả nền sáng lẫn nền tối. */
 :focus-visible {
-  outline: 2px solid #b06613;
+  outline: 2px solid #9f5a0f;
   outline-offset: 2px;
 }
 
@@ -878,7 +881,7 @@ textarea {
   left: 1rem;
   top: -100%;
   z-index: 100;
-  background: #b06613;
+  background: #9f5a0f;
   color: #ffffff;
   font-size: 0.875rem;
   font-weight: 600;

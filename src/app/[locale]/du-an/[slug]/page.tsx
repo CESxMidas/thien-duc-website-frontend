@@ -366,7 +366,7 @@ export default async function ProjectDetailPage({
         </section>
 
         <section className="mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-14">
-          <div className="reveal-sides-pair grid gap-6 bg-brand-soft p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+          <div className="reveal-sides-pair grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold">
                 {dictionary.projectDetail.ctaEyebrow}

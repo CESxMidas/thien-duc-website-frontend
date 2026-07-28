@@ -57,7 +57,7 @@ function groupChildren(children: NavItem[]) {
 
 function HeaderTopStrip({ locale }: { locale: Locale }) {
   return (
-    <div className="header-top-strip grid bg-brand-soft">
+    <div className="header-top-strip grid bg-brand">
       <div className="min-h-0 overflow-hidden">
         <div className="mx-auto max-w-site px-4 py-1.5 md:px-6 md:py-2">
         <div className="grid min-w-0 gap-x-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-6">
