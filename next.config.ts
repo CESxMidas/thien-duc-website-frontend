@@ -2,7 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Cho phép HMR/dev assets khi truy cập qua IP LAN (điện thoại, máy khác cùng Wi-Fi).
-  allowedDevOrigins: ["192.168.*.*", "172.28.*.*", "10.*.*.*"],
+  //
+  // `127.0.0.1` là BẮT BUỘC cho E2E: `next dev` chặn asset dev từ mọi origin
+  // khác origin nó được khởi tạo (mặc định `localhost`), nên mở trang qua
+  // `http://127.0.0.1:3000` sẽ **không tải được JS → không hydrate**: validate
+  // phía client không chạy, `useEffect` không chạy (banner autoplay/reduced-
+  // motion sai), form không gửi. Nhìn bề ngoài trang vẫn "hiện" vì HTML server
+  // render vẫn về. E2E dùng 127.0.0.1 thay cho `localhost` để tránh phân giải
+  // IPv6 (`::1`) ở CI. Tuỳ chọn này chỉ có tác dụng ở chế độ dev.
+  allowedDevOrigins: ["127.0.0.1", "192.168.*.*", "172.28.*.*", "10.*.*.*"],
   // Ảnh banner/dự án do CMS lưu trên Cloudinary (cloud `ksnntvmu`). `next/image`
   // chỉ tải ảnh từ host được khai báo — thiếu dòng này ảnh Cloudinary bị chặn.
   // Cloud name nằm ngay trong URL ảnh (`res.cloudinary.com/<cloud>/image/upload/…`);
