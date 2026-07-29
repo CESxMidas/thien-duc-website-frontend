@@ -26,6 +26,32 @@ function visibleCountFor(width: number): number {
   return 1;
 }
 
+/**
+ * Giá trị `transform` dịch track sang trái `activeIndex` bước.
+ *
+ * Viết thành **một** biểu thức `calc()` phẳng và **tự mang dấu âm**.
+ *
+ * KHÔNG được viết `translateX(-calc(...))`: dấu trừ đặt ngay trước `calc()` là
+ * cú pháp CSS không hợp lệ, trình duyệt bỏ nguyên khai báo `transform` — nút bấm
+ * vẫn đổi state, chấm vẫn sáng, mà thẻ đứng im. Đây từng là lỗi thật; test
+ * `news-slider-transform.test.ts` khoá lại.
+ *
+ * Phần trăm tính theo bề rộng của chính track, mà track rộng đúng bằng khung
+ * chứa, nên phép tính khớp với bề rộng thẻ.
+ */
+export function trackTransform(
+  activeIndex: number,
+  visibleCount: number,
+  gapPx: number = GAP_PX,
+): string {
+  if (activeIndex <= 0) return "translateX(0px)";
+
+  const trackGaps = (visibleCount - 1) * gapPx;
+  return `translateX(calc(${-activeIndex} * (100% - ${trackGaps}px) / ${visibleCount} - ${
+    activeIndex * gapPx
+  }px))`;
+}
+
 type NewsSliderProps = {
   posts: NewsPost[];
   locale: Locale;
@@ -103,7 +129,7 @@ export function NewsSlider({
   // Mỗi thẻ rộng `(100% - tổng gap) / số ô`; bước trượt = bề rộng thẻ + một gap.
   const trackGaps = (visibleCount - 1) * GAP_PX;
   const slideWidth = `calc((100% - ${trackGaps}px) / ${visibleCount})`;
-  const offset = `calc(${activeIndex} * (${slideWidth} + ${GAP_PX}px))`;
+  const transform = trackTransform(activeIndex, visibleCount);
 
   return (
     <div
@@ -117,7 +143,7 @@ export function NewsSlider({
         <ul
           data-testid="news-slider-track"
           className="flex list-none gap-5 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-          style={{ transform: `translateX(-${offset})` }}
+          style={{ transform }}
         >
           {posts.map((post, index) => {
             // Thẻ nằm ngoài cửa sổ đang hiện bị ẩn khỏi thứ tự Tab và khỏi trình

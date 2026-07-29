@@ -263,6 +263,31 @@ describe("NewsSlider — ngưỡng hiện nút theo breakpoint", () => {
   }
 });
 
+describe("NewsSlider — track thực sự dịch chuyển", () => {
+  const trackTransform = () =>
+    screen.getByTestId("news-slider-track").style.transform;
+
+  it("bấm next làm transform của track đổi", () => {
+    renderSlider(makePosts(8), { width: 1280 });
+    expect(trackTransform()).toBe("translateX(0px)");
+
+    fireEvent.click(screen.getByTestId("news-slider-next"));
+    expect(trackTransform()).not.toBe("translateX(0px)");
+
+    fireEvent.click(screen.getByTestId("news-slider-previous"));
+    expect(trackTransform()).toBe("translateX(0px)");
+  });
+
+  it("transform không bao giờ chứa `-calc(` (CSS hỏng, trình duyệt bỏ qua)", () => {
+    renderSlider(makePosts(8), { width: 1280 });
+
+    for (let step = 0; step < 5; step += 1) {
+      fireEvent.click(screen.getByTestId("news-slider-next"));
+      expect(trackTransform()).not.toContain("-calc(");
+    }
+  });
+});
+
 describe("NewsSlider — vị trí và khả năng nhìn thấy của điều khiển", () => {
   it("hàng điều khiển nằm NGOÀI khối overflow-hidden nên không bị cắt", () => {
     const { container } = renderSlider(makePosts(8), { width: 1280 });
