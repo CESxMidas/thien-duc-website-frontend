@@ -230,6 +230,80 @@ describe("NewsSlider — trường hợp biên", () => {
   });
 });
 
+/**
+ * Ngưỡng hiện điều khiển, tách riêng vì đây chính là thứ gây hiểu nhầm "slider
+ * hỏng": desktop có đúng 3 bài thì KHÔNG có nút — đúng thiết kế, vì không còn
+ * gì để trượt tới.
+ */
+describe("NewsSlider — ngưỡng hiện nút theo breakpoint", () => {
+  const cases = [
+    { name: "desktop", width: 1280, slots: 3 },
+    { name: "tablet", width: 768, slots: 2 },
+    { name: "mobile", width: 375, slots: 1 },
+  ];
+
+  for (const { name, width, slots } of cases) {
+    it(`${name}: đúng ${slots} bài → KHÔNG có nút`, () => {
+      renderSlider(makePosts(slots), { width });
+
+      expect(visibleSlides()).toHaveLength(slots);
+      expect(screen.queryByTestId("news-slider-next")).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId("news-slider-previous"),
+      ).not.toBeInTheDocument();
+    });
+
+    it(`${name}: ${slots + 1} bài → CÓ nút`, () => {
+      renderSlider(makePosts(slots + 1), { width });
+
+      expect(visibleSlides()).toHaveLength(slots);
+      expect(screen.getByTestId("news-slider-next")).toBeInTheDocument();
+      expect(screen.getByTestId("news-slider-previous")).toBeInTheDocument();
+    });
+  }
+});
+
+describe("NewsSlider — vị trí và khả năng nhìn thấy của điều khiển", () => {
+  it("hàng điều khiển nằm NGOÀI khối overflow-hidden nên không bị cắt", () => {
+    const { container } = renderSlider(makePosts(8), { width: 1280 });
+
+    const clipper = container.querySelector(".overflow-hidden");
+    expect(clipper).not.toBeNull();
+
+    const next = screen.getByTestId("news-slider-next");
+    expect(clipper?.contains(next)).toBe(false);
+  });
+
+  it("previous đứng trước next trong thứ tự DOM (trái → phải)", () => {
+    renderSlider(makePosts(8), { width: 1280 });
+
+    const previous = screen.getByTestId("news-slider-previous");
+    const next = screen.getByTestId("news-slider-next");
+
+    // Node.DOCUMENT_POSITION_FOLLOWING = 4 → next nằm sau previous.
+    expect(previous.compareDocumentPosition(next) & 4).toBeTruthy();
+  });
+
+  it("không đặt z-index âm hay display:none lên hàng điều khiển", () => {
+    renderSlider(makePosts(8), { width: 1280 });
+
+    const controls = screen.getByTestId("news-slider-next").parentElement
+      ?.parentElement;
+    expect(controls?.className).not.toMatch(/hidden|invisible|z-\[-/);
+  });
+
+  it("cả hai nút đều có aria-label mô tả được", () => {
+    renderSlider(makePosts(8), { width: 1280 });
+
+    expect(screen.getByTestId("news-slider-previous")).toHaveAccessibleName(
+      viLabels.ariaPrevious,
+    );
+    expect(screen.getByTestId("news-slider-next")).toHaveAccessibleName(
+      viLabels.ariaNext,
+    );
+  });
+});
+
 describe("NewsSlider — song ngữ", () => {
   it("locale EN dùng nhãn điều khiển tiếng Anh", () => {
     renderSlider(makePosts(8), { labels: enLabels });
