@@ -1,19 +1,23 @@
 import Link from "next/link";
 import { NewsSlider } from "@/components/sections/news-slider";
-import { getNewsPage, HOME_NEWS_LIMIT } from "@/lib/api/news";
+import { getNewsPosts } from "@/lib/api/news";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 export async function HomeLatestNews({ locale }: { locale: Locale }) {
-  // Chỉ nạp một trang đầu (8 bài) thay vì cả kho tin, và để backend lo việc lọc
-  // PUBLISHED + sắp mới nhất trước — trước đây trang chủ tải hết rồi tự sắp.
+  // Nạp TOÀN BỘ bài đã đăng để slider trang chủ trượt hết kho tin (yêu cầu sản
+  // phẩm 2026-07-30, thay cho mốc 8 bài trước đó).
+  //
+  // Không sắp lại ở đây: backend đã trả đúng thứ tự `publishedAt desc, id desc`.
+  // Endpoint phẳng `/news` cố ý được dùng thay cho bản phân trang vì `limit` của
+  // API bị chặn trần 50 — muốn "hết" thì phải đi đường này.
   const [latestNews, dictionary] = await Promise.all([
-    getNewsPage(locale, { page: 1, limit: HOME_NEWS_LIMIT }),
+    getNewsPosts(locale),
     getDictionary(locale),
   ]);
 
-  if (latestNews.items.length === 0) {
+  if (latestNews.length === 0) {
     return null;
   }
 
@@ -38,7 +42,7 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
         </div>
 
         <NewsSlider
-          posts={latestNews.items}
+          posts={latestNews}
           locale={locale}
           labels={dictionary.newsSlider}
           detailLabel={dictionary.home.postDetail}

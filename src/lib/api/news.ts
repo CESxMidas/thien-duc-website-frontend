@@ -7,9 +7,6 @@ import type { Locale } from "@/lib/i18n/config";
 /** Số bài mỗi trang ở `/tin-tuc` — khớp lưới 3 cột × 3 hàng trên desktop. */
 export const NEWS_PAGE_SIZE = 9;
 
-/** Số bài nạp cho slider trang chủ. Trang chủ không kéo cả kho tin về. */
-export const HOME_NEWS_LIMIT = 8;
-
 export type NewsPage = {
   items: NewsPost[];
   page: number;

@@ -20,6 +20,13 @@ const BREAKPOINT_DESKTOP = 1024;
 /** Khoảng cách giữa hai thẻ, tính bằng px — bằng `gap-5` của Tailwind. */
 const GAP_PX = 20;
 
+/**
+ * Quá số này thì thay dãy chấm bằng bộ đếm "3 / 16". Trang chủ nay nạp toàn bộ
+ * kho tin nên số vị trí trượt tăng theo số bài, không còn cố định như khi giới
+ * hạn 8 bài.
+ */
+const MAX_DOTS = 8;
+
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
   if (width >= BREAKPOINT_TABLET) return 2;
@@ -106,6 +113,8 @@ export function NewsSlider({
   const canGoPrevious = activeIndex > 0;
   const canGoNext = activeIndex < maxIndex;
   const isInteractive = maxIndex > 0;
+  /** Số vị trí trượt được (kể cả vị trí đầu). */
+  const positionCount = maxIndex + 1;
 
   function goToPrevious() {
     setActiveIndex(Math.max(0, activeIndex - 1));
@@ -196,24 +205,40 @@ export function NewsSlider({
 
       {isInteractive ? (
         <div className="mt-6 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            {Array.from({ length: maxIndex + 1 }, (_, index) => (
-              <button
-                key={index}
-                type="button"
-                aria-label={interpolate(labels.ariaGoTo, {
-                  index: String(index + 1),
-                })}
-                aria-current={index === activeIndex ? "true" : undefined}
-                onClick={() => setActiveIndex(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex
-                    ? "w-8 bg-brand"
-                    : "w-2.5 bg-brand/25 hover:bg-brand/45"
-                }`}
-              />
-            ))}
-          </div>
+          {/* Kho tin lớn sinh ra hàng chục vị trí trượt. Quá ngưỡng thì đổi dãy
+              chấm sang bộ đếm gọn: 20 chấm bé xíu vừa rối mắt vừa không bấm
+              trúng trên mobile, lại nhồi 20 nút vào thứ tự Tab. */}
+          {positionCount <= MAX_DOTS ? (
+            <div data-testid="news-slider-dots" className="flex items-center gap-2">
+              {Array.from({ length: positionCount }, (_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={interpolate(labels.ariaGoTo, {
+                    index: String(index + 1),
+                  })}
+                  aria-current={index === activeIndex ? "true" : undefined}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === activeIndex
+                      ? "w-8 bg-brand"
+                      : "w-2.5 bg-brand/25 hover:bg-brand/45"
+                  }`}
+                />
+              ))}
+            </div>
+          ) : (
+            <p
+              data-testid="news-slider-counter"
+              aria-hidden="true"
+              className="text-sm font-semibold tabular-nums text-slate"
+            >
+              {interpolate(labels.counter, {
+                current: String(activeIndex + 1),
+                total: String(positionCount),
+              })}
+            </p>
+          )}
 
           <div className="flex items-center gap-2">
             <button

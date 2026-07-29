@@ -449,7 +449,8 @@
     "ariaPrevious": "Xem các bài trước",
     "ariaNext": "Xem các bài tiếp theo",
     "ariaGoTo": "Chuyển tới nhóm bài số {index}",
-    "status": "Bài {current} trên {total}"
+    "status": "Bài {current} trên {total}",
+    "counter": "{current} / {total}"
   },
   "pagination": {
     "navLabel": "Phân trang tin tức",

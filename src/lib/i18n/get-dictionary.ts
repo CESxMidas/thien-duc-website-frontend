@@ -126,6 +126,7 @@ export type Dictionary = {
     ariaNext: string;
     ariaGoTo: string;
     status: string;
+    counter: string;
   };
   /** Bộ phân trang của `/tin-tuc`. */
   pagination: {

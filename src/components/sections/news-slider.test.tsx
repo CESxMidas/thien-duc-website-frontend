@@ -329,6 +329,60 @@ describe("NewsSlider — vị trí và khả năng nhìn thấy của điều kh
   });
 });
 
+/**
+ * Trang chủ nay nạp TOÀN BỘ bài đã đăng, nên số vị trí trượt tăng theo kho tin.
+ */
+describe("NewsSlider — kho tin lớn", () => {
+  it("trượt được tới tận bài cuối của kho", () => {
+    renderSlider(makePosts(20), { width: 1280 });
+
+    // 20 bài / 3 ô → 17 bước.
+    for (let step = 0; step < 17; step += 1) {
+      fireEvent.click(screen.getByTestId("news-slider-next"));
+    }
+
+    expect(screen.getByTestId("news-slider-next")).toBeDisabled();
+    expect(
+      within(visibleSlides()[2]).getByText("Bài viết 20"),
+    ).toBeInTheDocument();
+  });
+
+  it("mọi bài đều được render (không cắt bớt ở 8)", () => {
+    renderSlider(makePosts(20), { width: 1280 });
+    expect(screen.getAllByTestId("news-slide")).toHaveLength(20);
+  });
+
+  it("ít vị trí → hiện dãy chấm", () => {
+    // 10 bài / 3 ô → 8 vị trí, đúng ngưỡng.
+    renderSlider(makePosts(10), { width: 1280 });
+
+    expect(screen.getByTestId("news-slider-dots")).toBeInTheDocument();
+    expect(screen.queryByTestId("news-slider-counter")).not.toBeInTheDocument();
+  });
+
+  it("nhiều vị trí → đổi sang bộ đếm, không nhồi hàng chục chấm vào Tab", () => {
+    // 20 bài / 3 ô → 18 vị trí, vượt ngưỡng 8.
+    renderSlider(makePosts(20), { width: 1280 });
+
+    expect(screen.queryByTestId("news-slider-dots")).not.toBeInTheDocument();
+    const counter = screen.getByTestId("news-slider-counter");
+    expect(counter).toHaveTextContent("1 / 18");
+
+    fireEvent.click(screen.getByTestId("news-slider-next"));
+    expect(counter).toHaveTextContent("2 / 18");
+  });
+
+  it("bộ đếm không lặp lại thông tin cho trình đọc màn hình", () => {
+    renderSlider(makePosts(20), { width: 1280 });
+
+    // Vùng aria-live đã báo vị trí; bộ đếm chỉ là phần nhìn.
+    expect(screen.getByTestId("news-slider-counter")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+});
+
 describe("NewsSlider — song ngữ", () => {
   it("locale EN dùng nhãn điều khiển tiếng Anh", () => {
     renderSlider(makePosts(8), { labels: enLabels });

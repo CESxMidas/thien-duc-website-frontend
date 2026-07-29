@@ -489,7 +489,8 @@
     "ariaPrevious": "View previous articles",
     "ariaNext": "View next articles",
     "ariaGoTo": "Go to article group {index}",
-    "status": "Article {current} of {total}"
+    "status": "Article {current} of {total}",
+    "counter": "{current} / {total}"
   },
   "pagination": {
     "navLabel": "News pagination",
