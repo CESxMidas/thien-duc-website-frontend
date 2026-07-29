@@ -119,6 +119,25 @@ export type Dictionary = {
     ariaPrevious: string;
     ariaNext: string;
   };
+  /** Slider tin mới ở trang chủ (NEWS-SLIDER-AND-PAGINATION-M1). */
+  newsSlider: {
+    regionLabel: string;
+    ariaPrevious: string;
+    ariaNext: string;
+    ariaGoTo: string;
+    status: string;
+  };
+  /** Bộ phân trang của `/tin-tuc`. */
+  pagination: {
+    navLabel: string;
+    previous: string;
+    next: string;
+    ariaPage: string;
+    ariaCurrent: string;
+    ellipsis: string;
+    summary: string;
+    summaryShort: string;
+  };
   newsDetail: {
     notFoundTitle: string;
     metaSuffix: string;

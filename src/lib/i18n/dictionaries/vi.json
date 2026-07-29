@@ -231,10 +231,26 @@
     "areaLabel": "Địa bàn",
     "areaValue": "TP.HCM và các tỉnh",
     "stats": [
-      { "value": "16+", "label": "Năm hoạt động", "note": "Từ 2010 đến nay" },
-      { "value": "3", "label": "Đại dự án phức hợp", "note": "Cùng nhiều công trình hạ tầng dân dụng" },
-      { "value": "1.152", "label": "Căn hộ Vista Verde", "note": "4 tòa tháp, đồng chủ đầu tư cùng CapitaLand" },
-      { "value": "11,25 ha", "label": "Khu đô thị Hưng Phú", "note": "Chủ đầu tư duy nhất, tại Bến Tre" }
+      {
+        "value": "16+",
+        "label": "Năm hoạt động",
+        "note": "Từ 2010 đến nay"
+      },
+      {
+        "value": "3",
+        "label": "Đại dự án phức hợp",
+        "note": "Cùng nhiều công trình hạ tầng dân dụng"
+      },
+      {
+        "value": "1.152",
+        "label": "Căn hộ Vista Verde",
+        "note": "4 tòa tháp, đồng chủ đầu tư cùng CapitaLand"
+      },
+      {
+        "value": "11,25 ha",
+        "label": "Khu đô thị Hưng Phú",
+        "note": "Chủ đầu tư duy nhất, tại Bến Tre"
+      }
     ],
     "timelineEyebrow": "Chặng đường phát triển",
     "timelineTitle": "Từ 2010 đến nay",
@@ -325,9 +341,21 @@
     "processTitle": "Sau khi gửi thông tin",
     "processDescription": "Chọn đúng nhóm nội dung trong form giúp Thiên Đức phản hồi nhanh hơn.",
     "process": [
-      { "step": "01", "title": "Tiếp nhận", "description": "Ghi nhận thông tin từ form, điện thoại hoặc email." },
-      { "step": "02", "title": "Phân loại", "description": "Chuyển nội dung đến bộ phận phụ trách phù hợp." },
-      { "step": "03", "title": "Phản hồi", "description": "Liên hệ lại theo nội dung và thông tin bạn cung cấp." }
+      {
+        "step": "01",
+        "title": "Tiếp nhận",
+        "description": "Ghi nhận thông tin từ form, điện thoại hoặc email."
+      },
+      {
+        "step": "02",
+        "title": "Phân loại",
+        "description": "Chuyển nội dung đến bộ phận phụ trách phù hợp."
+      },
+      {
+        "step": "03",
+        "title": "Phản hồi",
+        "description": "Liên hệ lại theo nội dung và thông tin bạn cung cấp."
+      }
     ],
     "mapEyebrow": "Vị trí văn phòng",
     "mapTitle": "Trụ sở Công ty Thiên Đức",
@@ -415,5 +443,22 @@
   "navOverviewLabels": {},
   "navGroups": {},
   "footerSectionTitles": {},
-  "footerLabels": {}
+  "footerLabels": {},
+  "newsSlider": {
+    "regionLabel": "Tin mới nhất",
+    "ariaPrevious": "Xem các bài trước",
+    "ariaNext": "Xem các bài tiếp theo",
+    "ariaGoTo": "Chuyển tới nhóm bài số {index}",
+    "status": "Bài {current} trên {total}"
+  },
+  "pagination": {
+    "navLabel": "Phân trang tin tức",
+    "previous": "Trang trước",
+    "next": "Trang sau",
+    "ariaPage": "Trang {page}",
+    "ariaCurrent": "Trang {page}, trang hiện tại",
+    "ellipsis": "Lược bớt các trang",
+    "summary": "Trang {page} / {total}",
+    "summaryShort": "Trang {page}"
+  }
 }

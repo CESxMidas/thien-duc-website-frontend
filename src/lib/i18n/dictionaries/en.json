@@ -231,10 +231,26 @@
     "areaLabel": "Coverage",
     "areaValue": "HCMC and provinces",
     "stats": [
-      { "value": "16+", "label": "Years in operation", "note": "From 2010 to today" },
-      { "value": "3", "label": "Major mixed-use projects", "note": "Along with many civil infrastructure works" },
-      { "value": "1,152", "label": "Vista Verde apartments", "note": "4 towers, co-developed with CapitaLand" },
-      { "value": "11.25 ha", "label": "Hung Phu Urban Area", "note": "Sole developer, in Ben Tre" }
+      {
+        "value": "16+",
+        "label": "Years in operation",
+        "note": "From 2010 to today"
+      },
+      {
+        "value": "3",
+        "label": "Major mixed-use projects",
+        "note": "Along with many civil infrastructure works"
+      },
+      {
+        "value": "1,152",
+        "label": "Vista Verde apartments",
+        "note": "4 towers, co-developed with CapitaLand"
+      },
+      {
+        "value": "11.25 ha",
+        "label": "Hung Phu Urban Area",
+        "note": "Sole developer, in Ben Tre"
+      }
     ],
     "timelineEyebrow": "Our journey",
     "timelineTitle": "From 2010 to today",
@@ -325,9 +341,21 @@
     "processTitle": "After you submit",
     "processDescription": "Choosing the right topic group in the form helps Thien Duc respond faster.",
     "process": [
-      { "step": "01", "title": "Receive", "description": "Record your information from the form, phone, or email." },
-      { "step": "02", "title": "Sort", "description": "Route your request to the appropriate responsible team." },
-      { "step": "03", "title": "Respond", "description": "Get back to you based on the details and information you provided." }
+      {
+        "step": "01",
+        "title": "Receive",
+        "description": "Record your information from the form, phone, or email."
+      },
+      {
+        "step": "02",
+        "title": "Sort",
+        "description": "Route your request to the appropriate responsible team."
+      },
+      {
+        "step": "03",
+        "title": "Respond",
+        "description": "Get back to you based on the details and information you provided."
+      }
     ],
     "mapEyebrow": "Office location",
     "mapTitle": "Thien Duc head office",
@@ -455,5 +483,22 @@
     "/so-do-to-chuc-cong-ty": "Organisation chart",
     "/dao-tao": "Training",
     "/chinh-sach-nhan-su": "HR policy"
+  },
+  "newsSlider": {
+    "regionLabel": "Latest news",
+    "ariaPrevious": "View previous articles",
+    "ariaNext": "View next articles",
+    "ariaGoTo": "Go to article group {index}",
+    "status": "Article {current} of {total}"
+  },
+  "pagination": {
+    "navLabel": "News pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "ariaPage": "Page {page}",
+    "ariaCurrent": "Page {page}, current page",
+    "ellipsis": "More pages",
+    "summary": "Page {page} of {total}",
+    "summaryShort": "Page {page}"
   }
 }

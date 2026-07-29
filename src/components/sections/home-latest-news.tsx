@@ -1,21 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
-import { getNewsPosts } from "@/lib/api/news";
-import { formatDate } from "@/lib/format";
+import { NewsSlider } from "@/components/sections/news-slider";
+import { getNewsPage, HOME_NEWS_LIMIT } from "@/lib/api/news";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 export async function HomeLatestNews({ locale }: { locale: Locale }) {
-  const [newsPosts, dictionary] = await Promise.all([
-    getNewsPosts(locale),
+  // Chỉ nạp một trang đầu (8 bài) thay vì cả kho tin, và để backend lo việc lọc
+  // PUBLISHED + sắp mới nhất trước — trước đây trang chủ tải hết rồi tự sắp.
+  const [latestNews, dictionary] = await Promise.all([
+    getNewsPage(locale, { page: 1, limit: HOME_NEWS_LIMIT }),
     getDictionary(locale),
   ]);
-  const latestNews = [...newsPosts]
-    .sort((first, second) => second.publishedAt.localeCompare(first.publishedAt))
-    .slice(0, 3);
 
-  if (latestNews.length === 0) {
+  if (latestNews.items.length === 0) {
     return null;
   }
 
@@ -39,37 +37,12 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        <div className="stagger-list mt-10 grid gap-5 md:grid-cols-3">
-          {latestNews.map((post) => (
-            <Link
-              key={post.slug}
-              href={localizePath(`${routes.news}/${post.slug}`, locale)}
-              className="hover-card group border border-brand/10 bg-white shadow-[0_10px_28px_rgba(25,25,25,0.05)] hover:border-brand"
-            >
-              {post.image ? (
-                <div className="image-reveal relative aspect-video overflow-hidden bg-surface">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-              ) : null}
-              <div className="p-5">
-                <p className="text-sm text-slate">
-                  {formatDate(post.publishedAt, locale)}
-                </p>
-                <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
-                {/* <p className="mt-3 text-sm leading-6 text-slate">{post.summary}</p> */}
-                <span className="link-arrow mt-5 text-sm font-semibold text-brand">
-                  {dictionary.home.postDetail}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <NewsSlider
+          posts={latestNews.items}
+          locale={locale}
+          labels={dictionary.newsSlider}
+          detailLabel={dictionary.home.postDetail}
+        />
       </div>
     </section>
   );

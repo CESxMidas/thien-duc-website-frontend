@@ -177,3 +177,20 @@ export type BannerDto = {
   objectPosition?: string | null;
   order: number;
 };
+
+/**
+ * Envelope phân trang của backend (`GET /news?page&limit`). Nằm **bên trong**
+ * `data` của `ApiResponse`, không thay thế nó.
+ *
+ * Chỉ xuất hiện khi request có `page` hoặc `limit`; không có hai tham số đó thì
+ * `/news` vẫn trả mảng phẳng như trước (hợp đồng tương thích ngược).
+ */
+export type PaginatedDto<T> = {
+  items: T[];
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+};
