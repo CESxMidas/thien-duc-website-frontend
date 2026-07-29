@@ -219,7 +219,7 @@ export default async function AboutPage({
 
       <section className="reveal-section mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-14">
         <div className="rounded-sm bg-brand p-6 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
-          <p className="text-eyebrow mb-4 text-gold">
+          <p className="text-eyebrow mb-4 text-gold-soft">
             {about.ctaEyebrow}
           </p>
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">

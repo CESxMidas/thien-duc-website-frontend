@@ -119,7 +119,7 @@ export default async function MemberCompaniesPage({
       <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
         <div className="grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
           <div>
-            <p className="text-eyebrow mb-4 text-gold">
+            <p className="text-eyebrow mb-4 text-gold-soft">
               {t.ctaEyebrow}
             </p>
             <h2 className="text-3xl font-semibold leading-tight">

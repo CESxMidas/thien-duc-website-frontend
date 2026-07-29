@@ -54,6 +54,10 @@
   --color-brand-soft: #c99248;
   --color-brand-dark: #7f4b0d;
   --color-gold: #fdcd04;
+  /* Vàng nhạt. Dùng làm NỀN (thẻ liên hệ) và làm CHỮ trên nền nâu đồng: vàng
+     đậm `--color-gold` trên `--color-brand` chỉ đạt 3.53:1, dưới ngưỡng 4.5:1
+     của WCAG AA cho chữ thường; `--color-gold-soft` đạt 4.84:1 mà vẫn cùng họ
+     màu. Mọi eyebrow trong panel `bg-brand` dùng `text-gold-soft`. */
   --color-gold-soft: #fff4cf;
   --color-ink: #191919;
   --color-ink-soft: #1d2428;
