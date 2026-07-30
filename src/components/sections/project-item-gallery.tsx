@@ -57,13 +57,13 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
 
   return (
     <div
-      className="project-item-gallery flex h-full flex-col gap-4"
+      className="project-item-gallery flex h-full min-w-0 flex-col gap-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="group hover-card relative flex-1 overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]">
+      <div className="group hover-card relative min-w-0 flex-1 overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]">
         <div className="project-gallery-stage relative aspect-16/10 h-full min-h-18rem">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
@@ -141,7 +141,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
       </div>
 
       {multiple ? (
-        <div className="flex gap-3 overflow-x-auto pb-1">
+        <div className="flex min-w-0 gap-3 overflow-x-auto pb-1">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 

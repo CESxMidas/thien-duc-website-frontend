@@ -7,7 +7,7 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
 import { ProjectItemGallery } from "@/components/sections/project-item-gallery";
-import { isApiConfigured } from "@/lib/api/client";
+import { staticParamsSafe } from "@/lib/api/client";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
@@ -18,15 +18,17 @@ import { buildPageMetadata } from "@/lib/seo";
 // `/du-an/khu-do-thi-hung-phu/fancy-tower`.
 
 export async function generateStaticParams() {
-  // Build không có API (CI) → bỏ prerender, trang render on-demand (xem client.ts).
-  if (!isApiConfigured) return [];
-  const projects = await getProjects(defaultLocale);
-  return projects.flatMap((project) =>
-    (project.items ?? []).map((item) => ({
-      slug: project.slug,
-      "hang-muc": item.slug,
-    })),
-  );
+  // Thiếu API (CI) HOẶC backend không phản hồi → bỏ prerender, render on-demand.
+  // Xem `staticParamsSafe` trong `lib/api/client.ts` (AUDIT-M2 / D10).
+  return staticParamsSafe("du-an/[slug]/[hang-muc]", async () => {
+    const projects = await getProjects(defaultLocale);
+    return projects.flatMap((project) =>
+      (project.items ?? []).map((item) => ({
+        slug: project.slug,
+        "hang-muc": item.slug,
+      })),
+    );
+  });
 }
 
 export async function generateMetadata({
@@ -126,7 +128,7 @@ export default async function ProjectItemPage({
         <section className="project-detail-band py-12">
           <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
-              <div className="reveal-from-left h-full">
+              <div className="reveal-from-left h-full min-w-0">
                 <ProjectItemGallery images={galleryImages} title={item.title} />
               </div>
             ) : null}

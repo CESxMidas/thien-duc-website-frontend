@@ -23,4 +23,19 @@ jobs:
 
       - run: npm test
 
+      # HỢP ĐỒNG BUILD TƯỜNG MINH (AUDIT-M2 / D10).
+      #
+      # CI cố ý build **KHÔNG có backend**: `NEXT_PUBLIC_API_URL` để rỗng nên
+      # `[locale]/layout.tsx` bỏ prerender cả cây `/[locale]` và mọi route render
+      # on-demand lúc chạy. Ghi tường minh ở đây thay vì dựa vào việc "tình cờ
+      # thiếu biến" — trước đây bước này xanh chỉ vì biến không tồn tại, khiến
+      # không ai thấy rằng phần prerender phụ thuộc backend chưa hề được kiểm.
+      #
+      # Hệ quả phải biết: bước này **không** kiểm được prerender dữ liệu thật.
+      # Muốn kiểm thì dựng backend + Postgres rồi build với
+      # `NEXT_PUBLIC_API_URL` + `BUILD_REQUIRE_API=1` (xem
+      # `docs/07-deployment/deployment-guide.md`). Bộ E2E full-stack
+      # (`admin/.github/workflows/e2e-fullstack.yml`) đã phủ đường có backend.
       - run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ''

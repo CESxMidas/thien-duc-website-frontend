@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import { serializeJsonLd } from "@/lib/json-ld";
 
 export type BreadcrumbItem = {
   label: string;
@@ -35,7 +36,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
     >
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 leading-6">
         {items.map((item, index) => {

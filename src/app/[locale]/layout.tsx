@@ -3,7 +3,7 @@ import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google";
 import { notFound } from "next/navigation";
 import { brandName, brandShortName, siteConfig } from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
-import { isApiConfigured } from "@/lib/api/client";
+import { isApiReachableAtBuild } from "@/lib/api/client";
 import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
 import {
   absoluteUrl,
@@ -45,11 +45,17 @@ const rootCopy: Record<Locale, { title: string; description: string }> = {
   },
 };
 
-export function generateStaticParams() {
-  // Build không có API (vd. CI): trả rỗng → toàn bộ cây /[locale] bỏ prerender
-  // lúc build, render on-demand khi chạy (ISR bên dưới). Prerender trang chủ/
-  // gioi-thieu/lien-he đều cần fetch CMS — thiếu API là nổ `Failed to parse URL`.
-  if (!isApiConfigured) return [];
+export async function generateStaticParams() {
+  // Cổng DUY NHẤT quyết định có prerender cây /[locale] hay không.
+  //
+  // Thiếu API (vd. CI) → trả rỗng: prerender trang chủ/gioi-thieu/lien-he đều
+  // cần fetch CMS, thiếu API là nổ `Failed to parse URL`.
+  //
+  // AUDIT-M2 / D10: backend CÓ cấu hình nhưng KHÔNG phản hồi (Render Free ngủ
+  // sau 15′) cũng phải rỗng. Trước đây trường hợp này làm `next build` chết hẳn
+  // với `connect ECONNREFUSED` → `Failed to collect page data`. Nay bỏ prerender
+  // và render on-demand lúc chạy (ISR bên dưới) — hành vi runtime không đổi.
+  if (!(await isApiReachableAtBuild("[locale]/layout"))) return [];
   return locales.map((locale) => ({ locale }));
 }
 
