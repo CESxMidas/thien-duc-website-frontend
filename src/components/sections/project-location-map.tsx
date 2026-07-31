@@ -55,7 +55,13 @@ export function ProjectLocationMap({
                 src={image}
                 alt={copy.mapAlt(title)}
                 fill
-                quality={100}
+                // D8 — `quality={100}` KHÔNG nằm trong `images.qualities`
+                // ([75, 90] ở `next.config.ts`), nên Next 16 trả **HTTP 400**
+                // (`"q" parameter (quality) of 100 is not allowed`) và ảnh bản
+                // đồ HỎNG trên mọi trang chi tiết dự án — không chỉ là lệch
+                // cấu hình. Dùng 90: mức cao nhất đã được allowlist, đủ nét cho
+                // chữ trên bản đồ, và rẻ hơn 100 đáng kể.
+                quality={90}
                 sizes="(max-width: 1024px) 100vw, 640px"
                 className="object-cover"
               />

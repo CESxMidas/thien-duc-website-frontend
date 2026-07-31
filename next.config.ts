@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
+import { isSentryUploadEnabled, resolveSentryRelease } from "./src/lib/sentry-build";
 
 const nextConfig: NextConfig = {
   // Cho phép HMR/dev assets khi truy cập qua IP LAN (điện thoại, máy khác cùng Wi-Fi).
@@ -85,4 +87,47 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * Upload source map lên Sentry (backlog §6 "Sentry source map upload").
+ *
+ * Không có source map thì stack trace production chỉ là tên hàm đã minify
+ * (`t.a is not a function`) — gần như vô dụng. `withSentryConfig` là tích hợp
+ * CHÍNH THỨC của `@sentry/nextjs` (đã cài): nó tự sinh source map ẩn, upload
+ * lúc build, rồi **xoá khỏi thư mục build** nên không phát ra công khai.
+ *
+ * CỔNG BẬT: chỉ chạy khi có ĐỦ `SENTRY_AUTH_TOKEN` + `SENTRY_ORG` +
+ * `SENTRY_PROJECT`. Thiếu bất kỳ cái nào (máy dev, CI thường, `npm run build`
+ * cục bộ) thì cấu hình gốc được trả về NGUYÊN VẸN — build vẫn xanh, không gọi
+ * mạng, không cảnh báo ồn. Token KHÔNG bao giờ nằm trong repo; chỉ đọc từ biến
+ * môi trường của môi trường build (Vercel/CI).
+ *
+ * `release` gắn theo commit SHA để map đúng bundle ↔ mã nguồn. Ưu tiên biến
+ * `SENTRY_RELEASE` (đặt tay), sau đó `VERCEL_GIT_COMMIT_SHA`, rồi
+ * `GITHUB_SHA`; không có thì để Sentry tự suy luận.
+ *
+ * CHÍNH SÁCH KHI UPLOAD LỖI: `errorHandler` chỉ CẢNH BÁO, không ném — hỏng
+ * đường truyền tới Sentry không được phép làm đổ một bản deploy vốn lành lặn.
+ */
+const sentryUploadEnabled = isSentryUploadEnabled(process.env);
+const sentryRelease = resolveSentryRelease(process.env);
+
+export default sentryUploadEnabled
+  ? withSentryConfig(nextConfig, {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      ...(sentryRelease ? { release: { name: sentryRelease } } : {}),
+      // Không in log build ồn ào; vẫn giữ cảnh báo khi upload hỏng.
+      silent: true,
+      // Không gửi telemetry sử dụng về Sentry.
+      telemetry: false,
+      sourcemaps: {
+        // Xoá source map khỏi output sau khi upload — không phát công khai.
+        deleteSourcemapsAfterUpload: true,
+      },
+      // Upload hỏng KHÔNG được làm đổ build.
+      errorHandler: (err) => {
+        console.warn("[sentry] upload source map thất bại, bỏ qua:", err.message);
+      },
+    })
+  : nextConfig;

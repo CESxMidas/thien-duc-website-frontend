@@ -463,6 +463,28 @@ textarea {
   .stagger-sides.is-revealed > * {
     animation: none;
   }
+
+  /* M2-R2 — `.stagger-sides` KHÔNG được trung hoà bởi bốn luật ở trên vì độ ưu
+     tiên (specificity), không phải thứ tự:
+       `.stagger-sides > *:nth-child(odd)`            = 0,2,0  (đặt transform)
+       `.stagger-sides.is-revealed > *:nth-child(odd)`= 0,3,0  (đặt animation)
+     đều CAO HƠN `.stagger-sides > *` (0,1,0) và `.stagger-sides.is-revealed > *`
+     (0,2,0). Vì vậy người chọn giảm chuyển động vẫn thấy thẻ trượt ngang 128px.
+     Cách sửa: lặp lại ĐÚNG hình dạng selector để thắng ở cùng mức specificity
+     (thắng nhờ đứng sau) — KHÔNG dùng `!important`, KHÔNG tắt animation toàn
+     cục, và KHÔNG đụng tới `:hover` (0,3,0) nên nhấc thẻ 5px khi rê chuột vẫn
+     còn: đó là phản hồi tương tác, không phải chuyển động tự phát. */
+  .stagger-sides > *:nth-child(odd),
+  .stagger-sides > *:nth-child(even) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .stagger-sides.is-revealed > *:nth-child(odd),
+  .stagger-sides.is-revealed > *:nth-child(even) {
+    animation: none;
+    animation-delay: 0s;
+  }
 }
 
 .projects-motion {
