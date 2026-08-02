@@ -108,6 +108,19 @@ const nextConfig: NextConfig = {
  * CHÍNH SÁCH KHI UPLOAD LỖI: `errorHandler` chỉ CẢNH BÁO, không ném — hỏng
  * đường truyền tới Sentry không được phép làm đổ một bản deploy vốn lành lặn.
  */
+/**
+ * Phân tích kích thước bundle (backlog §6 "G4 — tối ưu hiệu năng còn lại").
+ *
+ * KHÔNG cấu hình gì ở đây, và KHÔNG dùng `@next/bundle-analyzer`: Next 16 build
+ * bằng **Turbopack** mặc định, còn analyzer đó là plugin của webpack nên
+ * Turbopack bỏ qua hoàn toàn — đã đo: build xanh nhưng `.next/analyze/` rỗng.
+ * Ép `--webpack` để analyzer chạy được thì lại phân tích một bundle KHÁC với
+ * bundle production thật, tức số liệu sai một cách khó thấy.
+ *
+ * Đường đúng là cờ CÓ SẴN của Next: `next build --experimental-analyze`
+ * (Turbopack-native). Xem script `npm run analyze`. Vì là cờ CLI nên analyzer
+ * **không bao giờ** chạy trong `npm run build` của Vercel/CI.
+ */
 const sentryUploadEnabled = isSentryUploadEnabled(process.env);
 const sentryRelease = resolveSentryRelease(process.env);
 
