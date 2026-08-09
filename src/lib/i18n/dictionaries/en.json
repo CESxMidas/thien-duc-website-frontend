@@ -11,6 +11,9 @@
   "header": {
     "searchPlaceholder": "Search news...",
     "searchLabel": "Search news",
+    "searchSubmit": "Search",
+    "searchOpen": "Open search",
+    "searchClose": "Close search",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -132,7 +135,8 @@
     "motto": "Satisfied customers — Thien Duc's success"
   },
   "homeIntro": {
-    "eyebrow": "Thien Duc Company",
+    "eyebrow": "About",
+    "title": "Thien Duc Company",
     "description": "Established in 2010, Thien Duc Investment - Construction - Trading Co., Ltd works in real estate, construction investment, and urban development. Guided by the motto \"Satisfied customers — Thien Duc's success\", the company focuses on schedule, execution quality, and lasting value for every project.",
     "strengths": [
       {

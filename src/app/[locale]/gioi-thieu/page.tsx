@@ -71,6 +71,7 @@ export default async function AboutPage({
         eyebrow={about.eyebrow}
         title={heading.title}
         description={heading.description}
+        layout="split"
       />
 
       <section className="reveal-section mx-auto grid max-w-site gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1fr_0.9fr] lg:items-start">

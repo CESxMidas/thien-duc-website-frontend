@@ -3,7 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --site-header-height: 8.75rem;
+  /* Fallback trước khi JS đo thật (ResizeObserver trong SiteHeader ghi đè giá
+     trị này). 7rem = 112px ≈ top strip 36px + header chính 72px + vạch gold 3px
+     ở desktop. Trước đây là 8.75rem (140px) — khớp top strip 44px/hàng cũ. */
+  --site-header-height: 7rem;
 
   /* ------------------------------------------------------------------
      Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
@@ -758,19 +761,20 @@ textarea {
 }
 
 /* Header: collapse secondary information after the page starts scrolling. */
+/* Không kẻ `border-bottom` ở đây: nền `bg-brand` (nâu đồng) đã tương phản mạnh
+   với dải `from-white to-cream` của header chính, và header chính đã có vạch
+   `border-b-[3px] border-gold`. Hai vạch ngang cách nhau ~36px khiến top strip
+   trông như một thanh ngang hàng header thay vì phụ trợ. */
 .header-top-strip {
   grid-template-rows: 1fr;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
   opacity: 1;
   transition:
     grid-template-rows 260ms var(--ease-out-quart),
-    opacity 180ms ease-out,
-    border-color 180ms ease-out;
+    opacity 180ms ease-out;
 }
 
 #site-header[data-scrolled="true"] .header-top-strip {
   grid-template-rows: 0fr;
-  border-color: transparent;
   opacity: 0;
 }
 

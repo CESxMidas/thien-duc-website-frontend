@@ -37,8 +37,12 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="bg-brand-dark">
         {/* Gom Liên hệ thành một cột trong hàng trên (bỏ dải full-width thưa
             thớt cũ) để lấp đầy hàng và tránh khoảng trống ngang dư thừa. */}
-        <div className="mx-auto grid max-w-site gap-x-8 gap-y-9 px-4 py-10 sm:grid-cols-2 sm:px-6 sm:py-12 lg:grid-cols-[1.5fr_repeat(3,minmax(0,0.85fr))_1.25fr] lg:gap-x-10">
-          <div className="sm:col-span-2 lg:col-span-1">
+        {/* Padding/gap thu gọn: `py-10 sm:py-12` (40/48px) + `gap-y-9` (36px) là
+            dư — với 5 hàng ở mobile, riêng row-gap đã cộng ~144px. Cột brand hạ
+            từ `1.5fr` xuống `1.15fr` để bớt chênh chiều cao với 3 cột link ngắn
+            (giảm dải rỗng ở nửa dưới) mà không phải độn thêm link giả. */}
+        <div className="mx-auto grid max-w-site gap-x-8 gap-y-7 grid-cols-2 px-4 py-8 sm:px-6 sm:py-11 sm:gap-y-8 lg:grid-cols-[1.15fr_repeat(3,minmax(0,0.8fr))_1.2fr] lg:gap-x-10">
+          <div className="col-span-2 lg:col-span-1">
             <Link
               href={localizePath(routes.home, locale)}
               className="inline-flex size-16 items-center justify-center rounded-lg border border-white/20 bg-white p-2 shadow-sm"
@@ -58,7 +62,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <p className="mt-3 max-w-xs text-sm leading-6 text-white/80">
               {dictionary.footerBrand.tagline}
             </p>
-            <p className="mt-4 border-l-4 border-gold pl-4 text-sm font-medium italic text-gold-soft">
+            {/* `max-w-xs` giống tagline — trước đây motto không giới hạn nên hai
+                đoạn trong cùng một cột có độ dài dòng khác nhau, mép phải lởm chởm. */}
+            <p className="mt-4 max-w-xs border-l-4 border-gold pl-4 text-sm font-medium italic text-gold-soft">
               {dictionary.footerBrand.motto}
             </p>
           </div>
@@ -83,7 +89,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </div>
           ))}
 
-          <div className="sm:col-span-2 lg:col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <h2 className="text-eyebrow text-gold">{dictionary.footer.contact}</h2>
             <ul className="mt-4 space-y-2 sm:mt-5 sm:space-y-4">
               <li>
@@ -131,32 +137,39 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 </a>
               </li>
             </ul>
+
+            {/* CTA chuyển từ dải copyright cuối trang lên đây: nó là phần tử hành
+                động duy nhất của footer, đặt ngay dưới thông tin liên hệ thì gắn
+                đúng ngữ cảnh và nằm trong vùng mắt còn đọc. Đồng thời việc này
+                kéo dài cột Liên hệ, cân bớt với cột brand và giải phóng dải cuối. */}
+            <Link
+              href={localizePath(routes.contact, locale)}
+              className="mt-5 inline-flex min-h-11 items-center rounded-md border border-gold px-4 text-sm font-semibold text-gold transition-colors hover:bg-gold hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              {dictionary.common.contactCta} →
+            </Link>
           </div>
         </div>
       </div>
 
+      {/* Một dải chân duy nhất. Trước đây là hai khối riêng, mỗi khối `py-5` —
+          80px padding cho 3 dòng chữ 12px, và chỉ khối trên có `border-t` nên
+          ranh giới trông không nhất quán. */}
       <div className="border-t border-brand/20">
-        <div className="mx-auto max-w-site px-4 py-5 text-xs leading-6 text-white/75 sm:px-6">
-          <p className="font-semibold uppercase tracking-[0.12em] text-white/85">
-            {legalDisplayName[locale]}
-          </p>
-          <p className="mt-1">
-            {dictionary.footer.taxCode}: {legalInfo.taxCode} · {taxAuthorityName[locale]}
+        <div className="mx-auto flex max-w-site flex-col gap-2 px-4 py-4 text-xs leading-6 text-white/75 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-6">
+          <div className="min-w-0">
+            <p className="font-semibold uppercase tracking-[0.12em] text-white/85">
+              {legalDisplayName[locale]}
+            </p>
+            <p>
+              {dictionary.footer.taxCode}: {legalInfo.taxCode} · {taxAuthorityName[locale]}
+            </p>
+          </div>
+          <p className="shrink-0 md:text-right">
+            © {currentYear} {dictionary.shared.companyName}.{" "}
+            {dictionary.footer.rights}
           </p>
         </div>
-      </div>
-
-      <div className="mx-auto flex max-w-site flex-col gap-3 px-4 py-5 text-sm text-white/85 sm:px-6 md:flex-row md:items-center md:justify-between">
-        <p>
-          © {currentYear} {dictionary.shared.companyName}.{" "}
-          {dictionary.footer.rights}
-        </p>
-        <Link
-          href={localizePath(routes.contact, locale)}
-          className="inline-flex min-h-11 items-center font-semibold text-gold transition hover:text-white md:min-h-0"
-        >
-          {dictionary.common.contactCta} →
-        </Link>
       </div>
     </footer>
   );

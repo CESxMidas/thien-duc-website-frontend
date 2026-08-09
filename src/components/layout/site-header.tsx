@@ -3,18 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  ChevronDown,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Search,
-  X,
-} from "lucide-react";
+import { ChevronDown, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { mainNavigation } from "@/data/navigation";
 import { displayAddress, siteConfig } from "@/config/site";
+import { HeaderSearch } from "@/components/layout/header-search";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -27,8 +20,12 @@ const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.add
 
 const DROPDOWN_CLOSE_DELAY_MS = 150;
 
+// `min-h-11` (44px) là ngưỡng tap-target cho cảm ứng — cần thiết dưới md, nhưng
+// trên desktop chuột nó ép mỗi hàng strip cao 44px, đẩy top strip lên ~81% chiều
+// cao header chính và làm đảo hierarchy. `md:min-h-0` trả chiều cao về theo nội
+// dung (leading-5 = 20px) từ 768px trở lên.
 const topStripLinkClassName =
-  "inline-flex min-h-11 min-w-0 items-center gap-2 rounded-sm text-white/90 transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "inline-flex min-h-11 min-w-0 items-center gap-2 rounded-sm leading-5 text-white/90 transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:min-h-0";
 
 /** `path` đã bỏ tiền tố locale nên so khớp được với href gốc trong `navigation.ts`. */
 function isActive(path: string, item: NavItem) {
@@ -59,37 +56,46 @@ function HeaderTopStrip({ locale }: { locale: Locale }) {
   return (
     <div className="header-top-strip grid bg-brand">
       <div className="min-h-0 overflow-hidden">
-        <div className="mx-auto max-w-site px-4 py-1.5 md:px-6 md:py-2">
-        <div className="grid min-w-0 gap-x-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-6">
-          <a
-            href={mapsHref}
-            target="_blank"
-            rel="noreferrer"
-            title={displayAddress(locale)}
-            className={`${topStripLinkClassName} col-span-full text-xs leading-5 sm:text-sm lg:col-span-1`}
-          >
-            <MapPin
-              className="size-4 shrink-0 text-gold"
-              aria-hidden="true"
-            />
-            <span className="line-clamp-2 lg:line-clamp-1">{displayAddress(locale)}</span>
-          </a>
-
-          <div className="col-span-full grid min-w-0 grid-cols-2 border-t border-white/15 sm:border-t-0 lg:col-span-1 lg:flex lg:shrink-0 lg:gap-4">
-            <a href={phoneHref} className={`${topStripLinkClassName} font-semibold`}>
-              <Phone className="size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span className="whitespace-nowrap">{siteConfig.phone}</span>
-            </a>
-
+        <div className="mx-auto max-w-site px-4 py-1 md:px-6 md:py-2">
+          {/* Một hàng từ `md` (768px) trở lên — trước đây gộp hàng chỉ bật ở `lg`
+              nên suốt 0–1023px strip luôn 2 hàng × 44px (≈105px), **cao hơn cả
+              header chính**. `sm:grid-cols-2` cũ là code chết: cả hai con đều
+              `col-span-full` cho tới `lg`, nên 2 cột không bao giờ có hiệu lực. */}
+          <div className="grid min-w-0 gap-x-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-6">
+            {/* Địa chỉ ẩn dưới 768px: nó chiếm trọn một hàng 44px (~12% màn 844px)
+                cho thông tin đã có đầy đủ ở footer và trang Liên hệ. */}
             <a
-              href={emailHref}
-              className={`${topStripLinkClassName} justify-end border-l border-white/15 pl-3 lg:border-l-0 lg:pl-0`}
+              href={mapsHref}
+              target="_blank"
+              rel="noreferrer"
+              title={displayAddress(locale)}
+              className={`${topStripLinkClassName} col-span-full hidden text-xs md:col-span-1 md:inline-flex md:text-[13px]`}
             >
-              <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span className="truncate sm:whitespace-nowrap">{siteConfig.email}</span>
+              <MapPin
+                className="size-4 shrink-0 text-gold md:size-3.5"
+                aria-hidden="true"
+              />
+              <span className="line-clamp-2 md:line-clamp-1">{displayAddress(locale)}</span>
             </a>
+
+            <div className="col-span-full grid min-w-0 grid-cols-2 md:col-span-1 md:flex md:shrink-0 md:gap-5">
+              <a
+                href={phoneHref}
+                className={`${topStripLinkClassName} text-xs font-semibold md:text-[13px]`}
+              >
+                <Phone className="size-4 shrink-0 text-gold md:size-3.5" aria-hidden="true" />
+                <span className="whitespace-nowrap">{siteConfig.phone}</span>
+              </a>
+
+              <a
+                href={emailHref}
+                className={`${topStripLinkClassName} justify-end border-l border-white/15 pl-3 text-xs md:border-l-0 md:pl-0 md:text-[13px]`}
+              >
+                <Mail className="size-4 shrink-0 text-gold md:size-3.5" aria-hidden="true" />
+                <span className="truncate md:whitespace-nowrap">{siteConfig.email}</span>
+              </a>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -355,37 +361,23 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             })}
           </nav>
 
-          {/* `ml-auto` đẩy cụm tìm kiếm về sát mép phải → luôn có khoảng trống
-              rõ ràng (spacer co giãn) giữa "LIÊN HỆ" và ô tìm kiếm. `min-w-0`
-              cho phép ô input co lại khi chật thay vì đẩy nav chồng lên nhau —
-              input là phần nhường chỗ, nav thì không. */}
-          <form
+          {/* `ml-auto` đẩy cụm phải về sát mép → giữ khoảng thở rõ ràng giữa
+              "LIÊN HỆ" và cụm search/ngôn ngữ. Cả hai đều `shrink-0`: nút search
+              nay chỉ rộng 44px (thay vì form 216px) nên không còn phải giành chỗ
+              với nav — đó là điều cho phép hạ ngưỡng hiện từ `xl` xuống `lg`. */}
+          {/* `h-full items-center`: container cao bằng cả hàng header để panel
+              (`absolute top-full`) rơi xuống **dưới** vạch gold, không đè lên
+              nó. Nút bên trong vẫn căn giữa theo trục dọc như cũ. */}
+          <HeaderSearch
             action={searchAction}
-            className="ml-auto hidden min-w-0 shrink items-center xl:flex"
-          >
-            <label className="sr-only" htmlFor="site-search">
-              {dictionary.header.searchLabel}
-            </label>
-            <input
-              id="site-search"
-              name="q"
-              type="search"
-              placeholder={dictionary.header.searchPlaceholder}
-              className="h-10 w-44 min-w-0 shrink border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand"
-            />
-            <button
-              type="submit"
-              aria-label={dictionary.header.searchLabel}
-              className="button-polish grid h-10 w-10 shrink-0 place-items-center bg-brand text-white hover:bg-brand-dark"
-            >
-              <Search className="size-4" />
-            </button>
-          </form>
+            dictionary={dictionary}
+            className="ml-auto hidden h-full shrink-0 items-center lg:flex"
+          />
 
           <LanguageSwitcher
             locale={locale}
             label={dictionary.common.languageSwitcher}
-            className="hidden shrink-0 xl:flex"
+            className="hidden shrink-0 lg:flex"
           />
 
           <button
@@ -477,18 +469,23 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               })}
             </nav>
             <form action={searchAction} className="mx-auto flex max-w-site">
+              {/* Input này trước đây chỉ có `placeholder`, không có label nào →
+                  thiếu accessible name (WCAG 4.1.2). */}
+              <label className="sr-only" htmlFor="mobile-site-search">
+                {dictionary.header.searchLabel}
+              </label>
               <input
+                id="mobile-site-search"
                 name="q"
                 type="search"
                 placeholder={dictionary.header.searchPlaceholder}
-                className="h-11 min-w-0 flex-1 border border-brand/30 px-4 text-sm text-ink outline-none focus:border-brand"
+                className="h-11 min-w-0 flex-1 rounded-l-md border border-r-0 border-brand/30 px-4 text-sm text-ink outline-none focus-visible:border-brand focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand"
               />
               <button
                 type="submit"
-                aria-label={dictionary.header.searchLabel}
-                className="grid h-11 w-12 place-items-center bg-brand text-white"
+                className="grid h-11 shrink-0 place-items-center rounded-r-md bg-brand px-4 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               >
-                <Search className="size-5" />
+                {dictionary.header.searchSubmit}
               </button>
             </form>
 

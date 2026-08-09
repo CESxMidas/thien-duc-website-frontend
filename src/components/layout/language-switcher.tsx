@@ -34,7 +34,9 @@ export function LanguageSwitcher({
 
   return (
     <div
-      className={`inline-flex items-center gap-0.5 rounded-md border border-brand/25 bg-cream/70 p-0.5 ${className}`}
+      // `h-11` khớp đúng chiều cao nút mở tìm kiếm (size-11) đứng ngay cạnh —
+      // trước đây cụm này chỉ ~38px nên hai control lệch nhau ~6px.
+      className={`inline-flex h-11 items-center gap-0.5 rounded-md border border-brand/25 bg-cream/70 p-0.5 ${className}`}
       role="group"
       aria-label={label}
     >
@@ -51,7 +53,7 @@ export function LanguageSwitcher({
             href={localizePath(path, item)}
             hrefLang={item}
             aria-current={active ? "true" : undefined}
-            className={`grid min-h-8 min-w-9 place-items-center rounded px-2.5 text-xs font-bold uppercase tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`grid h-full min-w-9 place-items-center rounded px-2.5 text-xs font-bold uppercase tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
               active
                 ? "bg-brand text-white shadow-sm"
                 : "text-slate hover:bg-brand/10 hover:text-brand-dark"

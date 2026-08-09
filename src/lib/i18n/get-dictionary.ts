@@ -22,6 +22,9 @@ export type Dictionary = {
   header: {
     searchPlaceholder: string;
     searchLabel: string;
+    searchSubmit: string;
+    searchOpen: string;
+    searchClose: string;
     openMenu: string;
     closeMenu: string;
   };
@@ -160,6 +163,7 @@ export type Dictionary = {
   };
   homeIntro: {
     eyebrow: string;
+    title: string;
     description: string;
     strengths: Array<{ title: string; description: string }>;
   };

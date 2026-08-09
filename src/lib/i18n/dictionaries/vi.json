@@ -11,6 +11,9 @@
   "header": {
     "searchPlaceholder": "Tìm tin tức...",
     "searchLabel": "Tìm kiếm tin tức",
+    "searchSubmit": "Tìm",
+    "searchOpen": "Mở ô tìm kiếm",
+    "searchClose": "Đóng ô tìm kiếm",
     "openMenu": "Mở menu",
     "closeMenu": "Đóng menu"
   },
@@ -129,11 +132,12 @@
   },
   "footerBrand": {
     "tagline": "Đầu tư, xây dựng và phát triển bất động sản — đồng hành cùng sự phát triển đô thị bền vững.",
-    "motto": "Khách hàng hài lòng — Thiên Đức thành công"
+    "motto": "Khách hàng hài lòng, Thiên Đức thành công"
   },
   "homeIntro": {
-    "eyebrow": "Công ty Thiên Đức",
-    "description": "Thành lập năm 2010, Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng — Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
+    "eyebrow": "Giới thiệu",
+    "title": "Công ty Thiên Đức",
+    "description": "Thành lập năm 2010, Công ty TNHH Đầu tư Xây dựng Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
     "strengths": [
       {
         "title": "Đầu tư & phát triển",

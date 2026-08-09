@@ -17,12 +17,18 @@ export async function SiteShell({ locale, children }: SiteShellProps) {
   const dictionary = await getDictionary(locale);
 
   return (
-    <div className="min-h-screen bg-surface-warm text-ink-soft">
+    // `flex flex-col` là bắt buộc: `mt-auto` trên <footer> chỉ có tác dụng khi
+    // cha là flex container. Thiếu nó, trang ngắn hơn viewport để lộ một dải nền
+    // `bg-surface-warm` trống bên **dưới** footer (div vẫn cao min-h-screen).
+    // `flex-1` cho <main> đẩy footer xuống đáy mà không cần chiều cao cố định.
+    <div className="flex min-h-screen flex-col bg-surface-warm text-ink-soft">
       <a href="#main-content" className="skip-link">
         {dictionary.common.skipToContent}
       </a>
       <SiteHeader locale={locale} dictionary={dictionary} />
-      <main id="main-content">{children}</main>
+      <main id="main-content" className="flex-1">
+        {children}
+      </main>
       <SiteFooter locale={locale} dictionary={dictionary} />
     </div>
   );
