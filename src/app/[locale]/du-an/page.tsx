@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
+import { ProjectCarousel } from "@/components/sections/project-carousel";
 import { PageHeading } from "@/components/ui/page-heading";
+import { ProjectCard } from "@/components/ui/project-card";
 import { getProjects } from "@/lib/api/projects";
 import { search } from "@/lib/api/search";
 import { isLocale, localizePath } from "@/lib/i18n/config";
@@ -50,6 +51,15 @@ export default async function ProjectsPage({
   const query = getSearchQuery(q);
   const dictionary = await getDictionary(locale);
 
+  // Thứ tự hiển thị dự án do CMS quản lý qua `Project.order` (backend trả về
+  // `orderBy: { order: 'asc' }` — `order` nhỏ hơn đứng trước). Frontend GIỮ
+  // NGUYÊN thứ tự đó, cố ý không sort lại.
+  //
+  // Lưu ý: "mới nhất → cũ nhất" ở đây là **quy ước biên tập do CMS sắp xếp**,
+  // KHÔNG phải sắp xếp tự động suy ra từ ngày tháng của dự án. Model `Project`
+  // không có trường ngày nghiệp vụ nào; `createdAt` chỉ là thời điểm nhập bản
+  // ghi vào CMS nên không phản ánh dòng thời gian dự án, và không được dùng.
+  //
   // Tìm kiếm và lọc trạng thái là hai chế độ tách biệt: khi có từ khóa, kết quả
   // đã xếp theo độ liên quan nên không chồng thêm bộ lọc lên trên.
   const projects = query
@@ -60,6 +70,44 @@ export default async function ProjectsPage({
     query || activeStatus === "all"
       ? projects
       : projects.filter((project) => project.status === activeStatus);
+
+  const statusFilters = (
+    <div className="reveal-from-left flex flex-wrap gap-2">
+      {projectStatusFilterValues.map((value) => {
+        const active = activeStatus === value;
+        const href =
+          value === "all"
+            ? localizePath(routes.projects, locale)
+            : localizePath(`${routes.projects}?status=${value}`, locale);
+        const count =
+          value === "all"
+            ? projects.length
+            : projects.filter((project) => project.status === value).length;
+
+        return (
+          <Link
+            key={value}
+            href={href}
+            scroll={false}
+            aria-current={active ? "page" : undefined}
+            className={`button-polish inline-flex min-h-11 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
+              active
+                ? "border-brand bg-brand text-white"
+                : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
+            }`}
+          >
+            {active ? (
+              <Check className="size-4 shrink-0" aria-hidden="true" />
+            ) : null}
+            {dictionary.projectStatus[value]}
+            <span className={active ? "text-white/80" : "text-slate"}>
+              ({count})
+            </span>
+          </Link>
+        );
+      })}
+    </div>
+  );
 
   return (
     <SiteShell locale={locale}>
@@ -74,122 +122,59 @@ export default async function ProjectsPage({
           description={dictionary.projects.description}
         />
 
-        {query ? null : (
-          <section className="mx-auto max-w-site px-4 pb-8 sm:px-6">
-            <div className="reveal-from-left flex flex-wrap gap-2">
-              {projectStatusFilterValues.map((value) => {
-                const active = activeStatus === value;
-                const href =
-                  value === "all"
-                    ? localizePath(routes.projects, locale)
-                    : localizePath(
-                        `${routes.projects}?status=${value}`,
-                        locale,
-                      );
-                const count =
-                  value === "all"
-                    ? projects.length
-                    : projects.filter(
-                        (project) => project.status === value,
-                      ).length;
-
-                return (
-                  <Link
-                    key={value}
-                    href={href}
-                    scroll={false}
-                    aria-current={active ? "page" : undefined}
-                    className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
-                      active
-                        ? "border-brand bg-brand text-white"
-                        : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
-                    }`}
-                  >
-                    {active ? (
-                      <Check className="size-4 shrink-0" aria-hidden="true" />
-                    ) : null}
-                    {dictionary.projectStatus[value]}
-                    <span className={active ? "text-white/80" : "text-slate"}>
-                      ({count})
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
         <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
           {filteredProjects.length > 0 ? (
-            <div
-              className={`grid gap-5 ${
-                filteredProjects.length === 1
-                  ? "md:grid-cols-1"
-                  : "stagger-sides md:grid-cols-2"
-              }`}
-            >
-              {filteredProjects.map((project) => (
-                <Link
-                  key={project.slug}
-                  href={localizePath(
-                    `${routes.projects}/${project.slug}`,
-                    locale,
-                  )}
-                  className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-brand ${
-                    filteredProjects.length === 1
-                      ? "reveal-sides-pair md:grid md:grid-cols-[1.08fr_0.92fr]"
-                      : ""
-                  }`}
-                >
-                  {project.image ? (
-                    <div
-                      className={`image-reveal relative overflow-hidden bg-surface ${
-                        filteredProjects.length === 1
-                          ? "reveal-from-left aspect-16/10 md:aspect-auto md:min-h-80"
-                          : "aspect-3/2"
-                      }`}
-                    >
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : null}
-                  <div
-                    className={`flex flex-col justify-center p-5 md:p-6 ${
-                      filteredProjects.length === 1 ? "reveal-from-right" : ""
-                    }`}
-                  >
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                      {project.location ? (
-                        <span>{project.location}</span>
-                      ) : null}
-                      {project.location ? (
-                        <span className="h-1 w-1 rounded-full bg-gold" />
-                      ) : null}
-                      <span>{dictionary.projectStatus[project.status]}</span>
-                    </div>
-                    <h2 className="mt-3 text-2xl font-semibold leading-tight">
-                      {project.title}
-                    </h2>
-                    {project.category ? (
-                      <p className="mt-2 text-sm font-semibold text-slate">
-                        {project.category}
-                      </p>
-                    ) : null}
-                    <p className="mt-4 text-sm leading-6 text-slate">
-                      {project.summary}
-                    </p>
-                    <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
-                      {dictionary.common.viewDetail}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            query ? (
+              // Kết quả tìm kiếm giữ LƯỚI: số lượng biến động và người dùng đang
+              // muốn quét/so sánh nhanh các kết quả khớp, không phải duyệt tuần tự.
+              <div
+                className={`grid gap-5 ${
+                  filteredProjects.length === 1
+                    ? "md:grid-cols-1"
+                    : "stagger-sides md:grid-cols-2"
+                }`}
+              >
+                {filteredProjects.map((project) => (
+                  <ProjectCard
+                    key={project.slug}
+                    project={project}
+                    href={localizePath(
+                      `${routes.projects}/${project.slug}`,
+                      locale,
+                    )}
+                    statusLabel={dictionary.projectStatus[project.status]}
+                    viewDetailLabel={dictionary.common.viewDetail}
+                    featured={filteredProjects.length === 1}
+                  />
+                ))}
+              </div>
+            ) : (
+              // `key` theo bộ lọc: đổi trạng thái lọc sẽ remount carousel, nhờ đó
+              // vị trí cuộn về thẻ đầu tiên và hai nút tính lại trạng thái tắt/bật.
+              <ProjectCarousel
+                key={activeStatus}
+                toolbar={statusFilters}
+                labels={{
+                  region: dictionary.projects.carouselLabel,
+                  previous: dictionary.projects.previousProject,
+                  next: dictionary.projects.nextProject,
+                }}
+                items={filteredProjects.map((project) => (
+                  <ProjectCard
+                    key={project.slug}
+                    project={project}
+                    href={localizePath(
+                      `${routes.projects}/${project.slug}`,
+                      locale,
+                    )}
+                    statusLabel={dictionary.projectStatus[project.status]}
+                    viewDetailLabel={dictionary.common.viewDetail}
+                    featured={filteredProjects.length === 1}
+                    sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 85vw"
+                  />
+                ))}
+              />
+            )
           ) : (
             <div className="reveal-section border border-black/10 bg-white p-8 text-center">
               <h2 className="text-2xl font-semibold">

@@ -49,6 +49,9 @@ export type Dictionary = {
     title: string;
     description: string;
     searchResultsTitle: string;
+    carouselLabel: string;
+    previousProject: string;
+    nextProject: string;
     emptyTitle: string;
     emptyDescription: string;
     ctaEyebrow: string;
