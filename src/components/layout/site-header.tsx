@@ -3,18 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import {
-  ChevronDown,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Search,
-  X,
-} from "lucide-react";
+import { ChevronDown, Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { mainNavigation } from "@/data/navigation";
 import { displayAddress, siteConfig } from "@/config/site";
+import { HeaderSearchForm } from "@/components/layout/header-search-form";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -27,8 +20,10 @@ const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.add
 
 const DROPDOWN_CLOSE_DELAY_MS = 150;
 
+// Strip là thông tin phụ trợ: chữ 12px, icon 14px, link cao bằng cả dải
+// (`h-full`) để vùng chạm vẫn đạt 40px trên mobile dù dải chỉ cao 40/36px.
 const topStripLinkClassName =
-  "inline-flex min-h-11 min-w-0 items-center gap-2 rounded-sm text-white/90 transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "inline-flex h-full min-w-0 items-center gap-1.5 rounded-sm text-white/90 transition-colors duration-200 hover:text-gold focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold";
 
 /** `path` đã bỏ tiền tố locale nên so khớp được với href gốc trong `navigation.ts`. */
 function isActive(path: string, item: NavItem) {
@@ -56,40 +51,56 @@ function groupChildren(children: NavItem[]) {
 }
 
 function HeaderTopStrip({ locale }: { locale: Locale }) {
+  const address = displayAddress(locale);
+
   return (
     <div className="header-top-strip grid bg-brand">
       <div className="min-h-0 overflow-hidden">
-        <div className="mx-auto max-w-site px-4 py-1.5 md:px-6 md:py-2">
-        <div className="grid min-w-0 gap-x-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-6">
+        {/* Một hàng duy nhất, cao 40px (mobile) / 36px (desktop) — đủ thấp để
+            không cạnh tranh với header chính cao 64/72px. Cùng container
+            `max-w-site` + padding ngang với header nên hai dải thẳng lề. */}
+        <div className="mx-auto flex h-10 max-w-header items-center gap-x-4 px-4 text-xs leading-none md:h-9 md:px-6 lg:gap-x-6">
+          {/* Dưới `md` chỉ hiện icon: nhãn ẩn bằng `sr-only` (không xoá khỏi
+              trình đọc màn hình) nên link vẫn có tên truy cập đầy đủ, còn
+              `href` map thì không đổi. */}
           <a
             href={mapsHref}
             target="_blank"
             rel="noreferrer"
-            title={displayAddress(locale)}
-            className={`${topStripLinkClassName} col-span-full text-xs leading-5 sm:text-sm lg:col-span-1`}
+            title={address}
+            className={`${topStripLinkClassName} shrink-0 md:min-w-0 md:shrink`}
           >
             <MapPin
-              className="size-4 shrink-0 text-gold"
+              className="size-3.5 shrink-0 text-gold"
               aria-hidden="true"
             />
-            <span className="line-clamp-2 lg:line-clamp-1">{displayAddress(locale)}</span>
+            <span className="sr-only md:not-sr-only md:truncate">
+              {address}
+            </span>
           </a>
 
-          <div className="col-span-full grid min-w-0 grid-cols-2 border-t border-white/15 sm:border-t-0 lg:col-span-1 lg:flex lg:shrink-0 lg:gap-4">
-            <a href={phoneHref} className={`${topStripLinkClassName} font-semibold`}>
-              <Phone className="size-4 shrink-0 text-gold" aria-hidden="true" />
+          <div className="ml-auto flex h-full min-w-0 shrink-0 items-center gap-x-4 lg:gap-x-6">
+            <a
+              href={phoneHref}
+              className={`${topStripLinkClassName} font-semibold`}
+            >
+              <Phone
+                className="size-3.5 shrink-0 text-gold"
+                aria-hidden="true"
+              />
               <span className="whitespace-nowrap">{siteConfig.phone}</span>
             </a>
 
-            <a
-              href={emailHref}
-              className={`${topStripLinkClassName} justify-end border-l border-white/15 pl-3 lg:border-l-0 lg:pl-0`}
-            >
-              <Mail className="size-4 shrink-0 text-gold" aria-hidden="true" />
-              <span className="truncate sm:whitespace-nowrap">{siteConfig.email}</span>
+            <a href={emailHref} className={topStripLinkClassName}>
+              <Mail
+                className="size-3.5 shrink-0 text-gold"
+                aria-hidden="true"
+              />
+              <span className="sr-only whitespace-nowrap sm:not-sr-only">
+                {siteConfig.email}
+              </span>
             </a>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -107,7 +118,8 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const searchAction = localizePath(routes.news, locale);
 
   /** Nhãn điều hướng dịch theo `href`; thiếu bản dịch thì giữ nguyên tiếng Việt. */
-  const navLabel = (item: NavItem) => dictionary.navLabels[item.href] ?? item.label;
+  const navLabel = (item: NavItem) =>
+    dictionary.navLabels[item.href] ?? item.label;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -241,163 +253,171 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
       >
         <HeaderTopStrip locale={locale} />
 
-      <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
-        <div className="mx-auto flex h-16 max-w-site items-center gap-x-3 px-4 md:h-18 md:gap-x-4 md:px-6 xl:gap-x-6">
-          <Link
-            href={localizePath("/", locale)}
-            className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
-            aria-label={dictionary.shared.homeAriaLabel}
-          >
-            <Image
-              src="/images/brand/logo-thien-duc.png"
-              alt={dictionary.shared.logoAlt}
-              width={56}
-              height={56}
-              preload
-              className="size-full object-contain"
-            />
-          </Link>
+        <div className="border-b-[3px] border-gold bg-linear-to-b from-white to-cream">
+          {/* `lg:gap-x-3` co khoảng cách giữa logo / nav / tìm kiếm / ngôn ngữ ở
+            đúng dải chật nhất (1024–1279), rồi giãn lại từ `xl`. */}
+          <div className="mx-auto flex h-16 max-w-header items-center gap-x-3 px-4 md:h-18 md:gap-x-4 md:px-6 lg:gap-x-3 xl:gap-x-6">
+            <Link
+              href={localizePath("/", locale)}
+              className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-white p-1.5 shadow-sm md:size-14"
+              aria-label={dictionary.shared.homeAriaLabel}
+            >
+              <Image
+                src="/images/brand/logo-thien-duc.png"
+                alt={dictionary.shared.logoAlt}
+                width={56}
+                height={56}
+                preload
+                className="size-full object-contain"
+              />
+            </Link>
 
-          <nav
-            // Nav là một nhóm **kích thước theo nội dung** (`shrink-0`), KHÔNG
-            // `flex-1 justify-between`. Kiểu cũ kéo item ra sát hai mép và khi
-            // hết chỗ (nav VI dài) thì item cuối ("LIÊN HỆ") tràn xuống dưới ô
-            // tìm kiếm. Nay nav giữ nguyên bề rộng; ô tìm kiếm mới là phần co
-            // lại khi chật (xem `form` bên dưới) → nav không bao giờ chồng search.
-            className="hidden h-full shrink-0 items-center gap-x-0.5 border-l border-brand/15 pl-4 lg:flex xl:gap-x-1 xl:pl-5"
-            onKeyDown={(event) => {
-              if (event.key === "Escape" && openDropdown) {
-                setOpenDropdown(null);
-                (document.activeElement as HTMLElement | null)?.blur();
-              }
-            }}
-          >
-            {mainNavigation.map((item) => {
-              const active = isActive(path, item);
-              const hasChildren = Boolean(item.children?.length);
-              const dropdownOpen = openDropdown === item.href;
+            <nav
+              // Nav là một nhóm **kích thước theo nội dung** (`shrink-0`), KHÔNG
+              // `flex-1 justify-between`. Kiểu cũ kéo item ra sát hai mép và khi
+              // hết chỗ (nav VI dài) thì item cuối ("LIÊN HỆ") tràn xuống dưới ô
+              // tìm kiếm. Nay nav giữ nguyên bề rộng; ô tìm kiếm mới là phần co
+              // lại khi chật (xem `form` bên dưới) → nav không bao giờ chồng search.
+              className="hidden h-full shrink-0 items-center gap-x-0.5 border-l border-brand/15 pl-3 lg:flex xl:gap-x-1 xl:pl-5"
+              onKeyDown={(event) => {
+                if (event.key === "Escape" && openDropdown) {
+                  setOpenDropdown(null);
+                  (document.activeElement as HTMLElement | null)?.blur();
+                }
+              }}
+            >
+              {mainNavigation.map((item) => {
+                const active = isActive(path, item);
+                const hasChildren = Boolean(item.children?.length);
+                const dropdownOpen = openDropdown === item.href;
 
-              return (
-                <div
-                  key={item.href}
-                  className="group relative flex shrink-0 items-center"
-                  onPointerEnter={
-                    hasChildren ? () => openDropdownNow(item.href) : undefined
-                  }
-                  onPointerLeave={hasChildren ? closeDropdownDelayed : undefined}
-                  onFocus={
-                    hasChildren ? () => openDropdownNow(item.href) : undefined
-                  }
-                  onBlur={hasChildren ? closeDropdownDelayed : undefined}
-                >
-                  <Link
-                    href={localizePath(item.href, locale)}
-                    aria-haspopup={hasChildren || undefined}
-                    aria-expanded={hasChildren ? dropdownOpen : undefined}
-                    className={`nav-link-polish inline-flex h-16 items-center gap-1 whitespace-nowrap border-b-[3px] px-2 text-[13px] font-bold uppercase tracking-[0.02em] xl:px-2.5 xl:text-sm md:h-18 ${
-                      active
-                        ? "border-brand text-brand"
-                        : dropdownOpen
-                          ? "border-brand/40 text-brand-dark"
-                          : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
-                    }`}
+                return (
+                  <div
+                    key={item.href}
+                    className="group relative flex shrink-0 items-center"
+                    onPointerEnter={
+                      hasChildren ? () => openDropdownNow(item.href) : undefined
+                    }
+                    onPointerLeave={
+                      hasChildren ? closeDropdownDelayed : undefined
+                    }
+                    onFocus={
+                      hasChildren ? () => openDropdownNow(item.href) : undefined
+                    }
+                    onBlur={hasChildren ? closeDropdownDelayed : undefined}
                   >
-                    {navLabel(item)}
-                    {hasChildren ? (
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={`size-3.5 shrink-0 transition-transform duration-200 ${
-                          dropdownOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    ) : null}
-                  </Link>
-
-                  {item.children ? (
-                    <div
-                      onPointerEnter={() => openDropdownNow(item.href)}
-                      className={`absolute left-0 top-full z-50 min-w-72 bg-brand shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-[opacity,visibility] duration-200 ease-out ${
-                        dropdownOpen
-                          ? "visible opacity-100"
-                          : "invisible opacity-0"
+                    <Link
+                      href={localizePath(item.href, locale)}
+                      aria-haspopup={hasChildren || undefined}
+                      aria-expanded={hasChildren ? dropdownOpen : undefined}
+                      // `px-1.5` ở `lg` (thay vì `px-2` cũ): mua lại ~24px cho cả
+                      // dải nav để ô tìm kiếm + đổi ngôn ngữ vừa chỗ ở 1024px.
+                      // Chỉ giảm padding — KHÔNG rút gọn nhãn điều hướng.
+                      className={`nav-link-polish inline-flex h-16 items-center gap-1 whitespace-nowrap border-b-[3px] px-1.5 text-[13px] font-bold uppercase tracking-[0.02em] xl:px-2.5 xl:text-sm md:h-18 ${
+                        active
+                          ? "border-brand text-brand"
+                          : dropdownOpen
+                            ? "border-brand/40 text-brand-dark"
+                            : "border-transparent text-ink hover:border-brand/40 hover:text-brand-dark"
                       }`}
                     >
-                      {groupChildren(item.children).map((group, groupIndex) => (
-                        <div
-                          key={group.heading ?? `group-${groupIndex}`}
-                          className={
-                            groupIndex > 0
-                              ? "border-t border-brand-dark/40"
-                              : undefined
-                          }
-                        >
-                          {group.heading ? (
-                            <p className="px-7 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
-                              {dictionary.navGroups[group.heading] ?? group.heading}
-                            </p>
-                          ) : null}
-                          {group.items.map((child) => (
-                            <Link
-                              key={child.href}
-                              href={localizePath(child.href, locale)}
-                              onClick={() => setOpenDropdown(null)}
-                              className="nav-dropdown-item block border-b border-brand-dark/30 px-7 py-3.5 text-sm font-bold uppercase text-white last:border-b-0 hover:bg-brand-dark"
+                      {navLabel(item)}
+                      {hasChildren ? (
+                        <ChevronDown
+                          aria-hidden="true"
+                          className={`size-3.5 shrink-0 transition-transform duration-200 ${
+                            dropdownOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      ) : null}
+                    </Link>
+
+                    {item.children ? (
+                      <div
+                        onPointerEnter={() => openDropdownNow(item.href)}
+                        className={`absolute left-0 top-full z-50 min-w-72 bg-brand shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-[opacity,visibility] duration-200 ease-out ${
+                          dropdownOpen
+                            ? "visible opacity-100"
+                            : "invisible opacity-0"
+                        }`}
+                      >
+                        {groupChildren(item.children).map(
+                          (group, groupIndex) => (
+                            <div
+                              key={group.heading ?? `group-${groupIndex}`}
+                              className={
+                                groupIndex > 0
+                                  ? "border-t border-brand-dark/40"
+                                  : undefined
+                              }
                             >
-                              {navLabel(child)}
-                            </Link>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-              );
-            })}
-          </nav>
+                              {group.heading ? (
+                                <p className="px-7 pb-1 pt-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/60">
+                                  {dictionary.navGroups[group.heading] ??
+                                    group.heading}
+                                </p>
+                              ) : null}
+                              {group.items.map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={localizePath(child.href, locale)}
+                                  onClick={() => setOpenDropdown(null)}
+                                  className="nav-dropdown-item block border-b border-brand-dark/30 px-7 py-3.5 text-sm font-bold uppercase text-white last:border-b-0 hover:bg-brand-dark"
+                                >
+                                  {navLabel(child)}
+                                </Link>
+                              ))}
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </nav>
 
-          {/* `ml-auto` đẩy cụm tìm kiếm về sát mép phải → luôn có khoảng trống
-              rõ ràng (spacer co giãn) giữa "LIÊN HỆ" và ô tìm kiếm. `min-w-0`
-              cho phép ô input co lại khi chật thay vì đẩy nav chồng lên nhau —
-              input là phần nhường chỗ, nav thì không. */}
-          <form
-            action={searchAction}
-            className="ml-auto hidden min-w-0 shrink items-center xl:flex"
-          >
-            <label className="sr-only" htmlFor="site-search">
-              {dictionary.header.searchLabel}
-            </label>
-            <input
-              id="site-search"
-              name="q"
-              type="search"
-              placeholder={dictionary.header.searchPlaceholder}
-              className="h-10 w-44 min-w-0 shrink border border-brand/30 bg-white px-3 text-sm text-ink outline-none transition placeholder:text-slate focus:border-brand"
+            {/* `ml-auto` đẩy cụm tìm kiếm về sát mép phải → luôn có khoảng trống
+              rõ ràng (spacer co giãn) giữa "LIÊN HỆ" và ô tìm kiếm. `min-w-0
+              shrink` cho phép ô input co lại khi chật thay vì đẩy nav chồng lên
+              nhau — input là phần nhường chỗ, nav thì không.
+
+              Hiện từ `lg` (KHÔNG phải `xl` như trước): drawer mobile và nút
+              hamburger đều tắt ở `lg`, nên để cụm này chờ tới `xl` sẽ tạo khoảng
+              1024–1279px **không có đường nào vào tìm kiếm lẫn đổi ngôn ngữ**.
+              Bề rộng thu hẹp ở `lg` để vừa chỗ cạnh nav tiếng Việt (dài hơn EN). */}
+            <HeaderSearchForm
+              action={searchAction}
+              labels={dictionary.header}
+              inputId="site-search-desktop"
+              className="ml-auto hidden w-44 min-w-0 shrink lg:flex xl:w-72"
             />
+
+            <LanguageSwitcher
+              locale={locale}
+              label={dictionary.common.languageSwitcher}
+              showIcon={false}
+              className="hidden shrink-0 lg:flex"
+            />
+
             <button
-              type="submit"
-              aria-label={dictionary.header.searchLabel}
-              className="button-polish grid h-10 w-10 shrink-0 place-items-center bg-brand text-white hover:bg-brand-dark"
+              type="button"
+              aria-label={
+                menuOpen
+                  ? dictionary.header.closeMenu
+                  : dictionary.header.openMenu
+              }
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((value) => !value)}
+              className="ml-auto grid size-11 shrink-0 place-items-center rounded-sm border-2 border-brand/35 text-brand-dark transition-colors duration-200 hover:bg-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
             >
-              <Search className="size-4" />
+              {menuOpen ? (
+                <X className="size-5" />
+              ) : (
+                <Menu className="size-5" />
+              )}
             </button>
-          </form>
-
-          <LanguageSwitcher
-            locale={locale}
-            label={dictionary.common.languageSwitcher}
-            className="hidden shrink-0 xl:flex"
-          />
-
-          <button
-            type="button"
-            aria-label={menuOpen ? dictionary.header.closeMenu : dictionary.header.openMenu}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((value) => !value)}
-            className="ml-auto grid size-11 shrink-0 place-items-center rounded-sm border-2 border-brand/35 text-brand-dark transition-colors duration-200 hover:bg-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
-          >
-            {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
-        </div>
+          </div>
 
           <div
             aria-hidden={!menuOpen}
@@ -414,92 +434,89 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               className="mobile-menu-backdrop absolute inset-0 h-full w-full bg-ink/40"
             />
             <div className="mobile-menu-sheet absolute inset-x-0 top-0 max-h-full overflow-y-auto overscroll-contain border-t border-black/10 bg-white px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-xl">
-            <nav className="mx-auto grid max-w-site gap-1 py-4">
-              {mainNavigation.map((item) => {
-                if (!item.children?.length) {
+              {/* Tìm kiếm đặt NGAY ĐẦU drawer. Trước đây nó nằm dưới toàn bộ danh
+                sách điều hướng nên trên máy 320px vẫn phải cuộn qua 6 nhóm menu
+                mới thấy — tìm kiếm là lối tắt, không phải mục cuối danh sách. */}
+              <HeaderSearchForm
+                action={searchAction}
+                labels={dictionary.header}
+                inputId="site-search-mobile"
+                className="mx-auto mt-4 flex w-full max-w-site"
+              />
+
+              <nav className="mx-auto grid max-w-site gap-1 py-4">
+                {mainNavigation.map((item) => {
+                  if (!item.children?.length) {
+                    return (
+                      <Link
+                        key={item.href}
+                        href={localizePath(item.href, locale)}
+                        onClick={() => setMenuOpen(false)}
+                        className="flex min-h-11 items-center justify-between border-b border-brand/15 text-sm font-bold uppercase text-ink"
+                      >
+                        {navLabel(item)}
+                      </Link>
+                    );
+                  }
+
+                  const expanded = mobileExpanded === item.href;
+
                   return (
-                    <Link
-                      key={item.href}
-                      href={localizePath(item.href, locale)}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex min-h-11 items-center justify-between border-b border-brand/15 text-sm font-bold uppercase text-ink"
-                    >
-                      {navLabel(item)}
-                    </Link>
-                  );
-                }
-
-                const expanded = mobileExpanded === item.href;
-
-                return (
-                  <div key={item.href}>
-                    <button
-                      type="button"
-                      aria-expanded={expanded}
-                      onClick={() =>
-                        setMobileExpanded(expanded ? null : item.href)
-                      }
-                      className="flex min-h-11 w-full items-center justify-between border-b border-brand/15 text-left text-sm font-bold uppercase text-ink"
-                    >
-                      {navLabel(item)}
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={`size-4 shrink-0 text-brand-dark transition-transform duration-200 ${
-                          expanded ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                      <div className={`mobile-submenu grid ${expanded ? "is-open" : ""}`}>
+                    <div key={item.href}>
+                      <button
+                        type="button"
+                        aria-expanded={expanded}
+                        onClick={() =>
+                          setMobileExpanded(expanded ? null : item.href)
+                        }
+                        className="flex min-h-11 w-full items-center justify-between border-b border-brand/15 text-left text-sm font-bold uppercase text-ink"
+                      >
+                        {navLabel(item)}
+                        <ChevronDown
+                          aria-hidden="true"
+                          className={`size-4 shrink-0 text-brand-dark transition-transform duration-200 ${
+                            expanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      <div
+                        className={`mobile-submenu grid ${expanded ? "is-open" : ""}`}
+                      >
                         <div className="min-h-0 overflow-hidden border-b border-brand/15 bg-gold-soft">
-                        <Link
-                          href={localizePath(item.href, locale)}
-                          onClick={() => setMenuOpen(false)}
-                          className="flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-brand-dark hover:text-brand"
-                        >
-                          {dictionary.navOverviewLabels[item.href] ??
-                            item.overviewLabel ??
-                            navLabel(item)}
-                        </Link>
-                        {item.children.map((child) => (
                           <Link
-                            key={child.href}
-                            href={localizePath(child.href, locale)}
+                            href={localizePath(item.href, locale)}
                             onClick={() => setMenuOpen(false)}
                             className="flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-brand-dark hover:text-brand"
                           >
-                            {navLabel(child)}
+                            {dictionary.navOverviewLabels[item.href] ??
+                              item.overviewLabel ??
+                              navLabel(item)}
                           </Link>
-                        ))}
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={localizePath(child.href, locale)}
+                              onClick={() => setMenuOpen(false)}
+                              className="flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-brand-dark hover:text-brand"
+                            >
+                              {navLabel(child)}
+                            </Link>
+                          ))}
                         </div>
                       </div>
-                  </div>
-                );
-              })}
-            </nav>
-            <form action={searchAction} className="mx-auto flex max-w-site">
-              <input
-                name="q"
-                type="search"
-                placeholder={dictionary.header.searchPlaceholder}
-                className="h-11 min-w-0 flex-1 border border-brand/30 px-4 text-sm text-ink outline-none focus:border-brand"
-              />
-              <button
-                type="submit"
-                aria-label={dictionary.header.searchLabel}
-                className="grid h-11 w-12 place-items-center bg-brand text-white"
-              >
-                <Search className="size-5" />
-              </button>
-            </form>
+                    </div>
+                  );
+                })}
+              </nav>
 
-            <LanguageSwitcher
-              locale={locale}
-              label={dictionary.common.languageSwitcher}
-              className="mt-4"
-            />
+              <LanguageSwitcher
+                locale={locale}
+                label={dictionary.common.languageSwitcher}
+                className="mt-4"
+              />
             </div>
           </div>
-      </div>
+        </div>
       </header>
     </>
   );

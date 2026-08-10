@@ -79,13 +79,13 @@ export function CooperationSlider({
 
   return (
     <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
             <p className="text-eyebrow mb-4 text-brand">
               {labels.eyebrow}
             </p>
-            <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+            <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
               {labels.title}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate sm:mt-5 sm:text-lg sm:leading-8">
@@ -127,7 +127,7 @@ export function CooperationSlider({
           {projects.map((project) => (
             <article
               key={project.name}
-              className={`hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-6 md:p-8 ${
+              className={`hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-5 md:p-7 ${
                 singleProject ? "md:w-full" : "md:w-[calc(50%-0.625rem)]"
               }`}
             >

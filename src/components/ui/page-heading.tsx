@@ -2,19 +2,34 @@ type PageHeadingProps = {
   eyebrow?: string;
   title: string;
   description?: string;
+  /**
+   * Bỏ container riêng (`max-w-site` + padding) để tiêu đề nằm gọn trong một
+   * cột do trang bên ngoài dựng sẵn — dùng cho bố cục hai cột có rail bên phải.
+   *
+   * Không có tuỳ chọn này thì tiêu đề buộc phải đứng trên lưới, và rail bắt đầu
+   * thấp hơn nó một đoạn → chừa một mảng trống lớn ở góc trên bên phải.
+   */
+  bare?: boolean;
 };
 
-export function PageHeading({ eyebrow, title, description }: PageHeadingProps) {
+export function PageHeading({
+  eyebrow,
+  title,
+  description,
+  bare = false,
+}: PageHeadingProps) {
   return (
-    <section className="mx-auto max-w-site px-4 py-6 sm:px-6 sm:py-8">
+    <section
+      className={bare ? "" : "mx-auto max-w-site px-4 py-6 sm:px-6 sm:py-8"}
+    >
       {eyebrow ? (
         <p className="text-eyebrow mb-3 text-brand sm:mb-4">{eyebrow}</p>
       ) : null}
-      <h1 className="max-w-4xl text-3xl font-semibold leading-[1.12] sm:text-4xl md:text-5xl">
+      <h1 className="max-w-4xl text-2xl font-semibold leading-[1.15] sm:text-3xl md:text-4xl">
         {title}
       </h1>
       {description ? (
-        <p className="mt-4 max-w-3xl text-base leading-7 text-slate sm:text-lg sm:leading-8">
+        <p className="text-justified mt-4 max-w-3xl text-sm leading-6 text-slate sm:text-base sm:leading-7">
           {description}
         </p>
       ) : null}

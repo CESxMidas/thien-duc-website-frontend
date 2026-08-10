@@ -9,8 +9,9 @@
     "languageSwitcher": "Chọn ngôn ngữ"
   },
   "header": {
-    "searchPlaceholder": "Tìm tin tức...",
+    "searchPlaceholder": "Tìm tin tức",
     "searchLabel": "Tìm kiếm tin tức",
+    "searchSubmit": "Tìm",
     "openMenu": "Mở menu",
     "closeMenu": "Đóng menu"
   },
@@ -19,8 +20,8 @@
     "email": "Email",
     "office": "Trụ sở",
     "contact": "Liên hệ",
-    "rights": "Bảo lưu mọi quyền.",
-    "taxCode": "Mã số thuế"
+    "rights": "",
+    "taxCode": "MST"
   },
   "home": {
     "featuredEyebrow": "Dự án tiêu biểu",
@@ -35,6 +36,13 @@
     "title": "Dự án của Thiên Đức",
     "description": "Tổng hợp các dự án Thiên Đức đang triển khai, đã hoàn thành hoặc đang chuẩn bị phát triển trong lĩnh vực bất động sản và xây dựng.",
     "searchResultsTitle": "Kết quả tìm kiếm dự án",
+    "carousel": {
+      "regionLabel": "Danh sách dự án",
+      "ariaPrevious": "Dự án trước",
+      "ariaNext": "Dự án tiếp theo",
+      "ariaGoTo": "Chuyển tới vị trí {index}",
+      "status": "Vị trí {current} trên {total}"
+    },
     "emptyTitle": "Chưa có dự án phù hợp",
     "emptyDescription": "Hiện chưa có dự án trong nhóm trạng thái này. Bạn có thể quay lại danh sách tất cả dự án để xem các thông tin đang có.",
     "ctaEyebrow": "Thông tin dự án",
@@ -47,6 +55,14 @@
     "description": "Thông tin doanh nghiệp, tiến độ dự án và các hoạt động mới từ Thiên Đức.",
     "searchResultsTitle": "Kết quả tìm kiếm",
     "searchResultsDescription": "Hiển thị bài viết phù hợp với từ khóa \"{query}\".",
+    "searchCountOne": "Hiển thị 1 kết quả cho “{query}”",
+    "searchCountMany": "Hiển thị {count} kết quả cho “{query}”",
+    "searchInvalidTitle": "Từ khóa chưa hợp lệ",
+    "searchTooShort": "Vui lòng nhập ít nhất 2 ký tự để tìm kiếm.",
+    "searchTooLong": "Từ khóa quá dài — vui lòng rút ngắn còn tối đa 200 ký tự.",
+    "searchErrorTitle": "Không thực hiện được tìm kiếm",
+    "searchErrorDescription": "Hệ thống tìm kiếm tạm thời không phản hồi. Bạn có thể thử lại, hoặc xem toàn bộ tin tức.",
+    "searchErrorRetry": "Thử lại",
     "notFoundTitle": "Không tìm thấy bài viết",
     "notFoundDescription": "Không có kết quả phù hợp với \"{query}\". Thử từ khóa khác hoặc xem toàn bộ tin tức.",
     "emptyTitle": "Chưa có bài viết",
@@ -166,6 +182,12 @@
     "ariaGoTo": "Chuyển tới dự án {name}",
     "imageAlt": "Ảnh phối cảnh {name}"
   },
+  "contentSidebar": {
+    "newsTitle": "Tin mới nhất",
+    "projectsTitle": "Dự án tiêu biểu",
+    "newsEmpty": "Chưa có tin tức được đăng.",
+    "projectsEmpty": "Chưa có dự án được đăng."
+  },
   "homeContact": {
     "eyebrow": "Liên hệ Thiên Đức",
     "title": "Trao đổi về dự án, hợp tác hoặc nhu cầu tư vấn",
@@ -224,7 +246,8 @@
       "Giai đoạn 2014 - 2018 đánh dấu bước ngoặt khi công ty hợp tác chiến lược cùng tập đoàn bất động sản quốc tế CapitaLand, triển khai và bàn giao thành công các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
       "Từ năm 2018 đến nay, Thiên Đức mở rộng quỹ đất và vai trò chủ đầu tư sang các tỉnh thành phía Nam, tiêu biểu là khu đô thị quy mô lớn tại tỉnh Bến Tre."
     ],
-    "motto": "Khách hàng hài lòng - Thiên Đức thành công",
+    "motto": "Khách hàng hài lòng — Thiên Đức thành công",
+    "mottoLabel": "Phương châm hoạt động",
     "imageAlt": "Dự án bất động sản Thiên Đức phát triển",
     "foundedLabel": "Thành lập",
     "foundedValue": "2010",
@@ -241,11 +264,7 @@
         "label": "Đại dự án phức hợp",
         "note": "Cùng nhiều công trình hạ tầng dân dụng"
       },
-      {
-        "value": "1.152",
-        "label": "Căn hộ Vista Verde",
-        "note": "4 tòa tháp, đồng chủ đầu tư cùng CapitaLand"
-      },
+      
       {
         "value": "11,25 ha",
         "label": "Khu đô thị Hưng Phú",
@@ -260,11 +279,7 @@
         "title": "Thành lập",
         "description": "Đội ngũ chuyên gia, kiến trúc sư và kỹ sư nhiều năm kinh nghiệm trong ngành xây dựng Việt Nam cùng sáng lập công ty."
       },
-      {
-        "period": "2014 - 2018",
-        "title": "Hợp tác quốc tế",
-        "description": "Bắt tay hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), triển khai và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM."
-      },
+      
       {
         "period": "2018 - nay",
         "title": "Mở rộng vai trò chủ đầu tư",
@@ -291,6 +306,13 @@
     "fieldsTitle": "Ngành nghề kinh doanh đã đăng ký",
     "fieldsDescription": "Các lĩnh vực được trình bày theo nhóm ngành nghề trong mục tiêu hoạt động và ngành nghề kinh doanh của Công ty Thiên Đức.",
     "fieldCodeLabel": "Mã",
+    "fieldsCarousel": {
+      "regionLabel": "Danh sách ngành nghề kinh doanh",
+      "ariaPrevious": "Ngành nghề trước",
+      "ariaNext": "Ngành nghề tiếp theo",
+      "ariaGoTo": "Chuyển tới vị trí {index}",
+      "status": "Vị trí {current} trên {total}"
+    },
     "fields": [
       {
         "code": "6810",

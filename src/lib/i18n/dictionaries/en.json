@@ -9,8 +9,9 @@
     "languageSwitcher": "Select language"
   },
   "header": {
-    "searchPlaceholder": "Search news...",
+    "searchPlaceholder": "Search news",
     "searchLabel": "Search news",
+    "searchSubmit": "Search",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -35,6 +36,13 @@
     "title": "Thien Duc projects",
     "description": "An overview of the projects Thien Duc is developing, has completed, or is preparing to launch in real estate and construction.",
     "searchResultsTitle": "Project search results",
+    "carousel": {
+      "regionLabel": "Project list",
+      "ariaPrevious": "Previous project",
+      "ariaNext": "Next project",
+      "ariaGoTo": "Go to position {index}",
+      "status": "Position {current} of {total}"
+    },
     "emptyTitle": "No matching projects",
     "emptyDescription": "There are no projects with this status yet. Go back to the full project list to see what is currently available.",
     "ctaEyebrow": "Project information",
@@ -46,6 +54,14 @@
     "title": "News and updates",
     "description": "Company information, project progress, and the latest activities from Thien Duc.",
     "searchResultsTitle": "Search results",
+    "searchCountOne": "Showing 1 result for “{query}”",
+    "searchCountMany": "Showing {count} results for “{query}”",
+    "searchInvalidTitle": "Invalid keyword",
+    "searchTooShort": "Please enter at least 2 characters to search.",
+    "searchTooLong": "The keyword is too long — please shorten it to 200 characters or fewer.",
+    "searchErrorTitle": "Search could not be completed",
+    "searchErrorDescription": "The search service is temporarily unavailable. You can try again, or browse all news.",
+    "searchErrorRetry": "Try again",
     "searchResultsDescription": "Showing articles matching \"{query}\".",
     "notFoundTitle": "No articles found",
     "notFoundDescription": "No results match \"{query}\". Try a different keyword or browse all news.",
@@ -166,6 +182,12 @@
     "ariaGoTo": "Go to project {name}",
     "imageAlt": "Rendering of {name}"
   },
+  "contentSidebar": {
+    "newsTitle": "Latest news",
+    "projectsTitle": "Featured projects",
+    "newsEmpty": "No news has been published yet.",
+    "projectsEmpty": "No projects have been published yet."
+  },
   "homeContact": {
     "eyebrow": "Contact Thien Duc",
     "title": "Discuss projects, partnerships, or advisory needs",
@@ -224,7 +246,8 @@
       "The 2014-2018 period marked a turning point when the company formed a strategic partnership with the international real estate group CapitaLand, successfully developing and delivering international-standard premium apartment complexes in Ho Chi Minh City.",
       "From 2018 to today, Thien Duc has expanded its land bank and developer role into the southern provinces, notably a large-scale urban area in Ben Tre province."
     ],
-    "motto": "Satisfied customers - Thien Duc's success",
+    "motto": "Satisfied customers — Thien Duc's success",
+    "mottoLabel": "Our guiding motto",
     "imageAlt": "A real estate project developed by Thien Duc",
     "foundedLabel": "Established",
     "foundedValue": "2010",
@@ -291,6 +314,13 @@
     "fieldsTitle": "Registered business lines",
     "fieldsDescription": "The areas are presented by business line group within the operating objectives and registered business lines of Thien Duc Company.",
     "fieldCodeLabel": "Code",
+    "fieldsCarousel": {
+      "regionLabel": "Registered business lines",
+      "ariaPrevious": "Previous business line",
+      "ariaNext": "Next business line",
+      "ariaGoTo": "Go to position {index}",
+      "status": "Position {current} of {total}"
+    },
     "fields": [
       {
         "code": "6810",

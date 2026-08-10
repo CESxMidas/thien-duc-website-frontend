@@ -86,7 +86,7 @@ export default async function NewsDetailPage({
       />
 
       {post.image ? (
-        <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6">
+        <section className="reveal-section mx-auto max-w-site px-4 pb-6 sm:px-6">
           <div className="image-reveal relative aspect-video max-h-140 overflow-hidden border border-black/10 bg-surface">
             <Image
               src={post.image}
@@ -100,8 +100,8 @@ export default async function NewsDetailPage({
         </section>
       ) : null}
 
-      <section className="reveal-section mx-auto grid max-w-site gap-6 px-4 pb-8 sm:px-6 sm:pb-14 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <article className="hover-card border border-black/10 bg-white p-6 md:p-8">
+      <section className="reveal-section mx-auto grid max-w-site gap-6 px-4 pb-5 sm:px-6 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <article className="hover-card border border-black/10 bg-white p-5 md:p-7">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
             {post.category ? <span>{post.category}</span> : null}
             <span>{formatDate(post.publishedAt, locale)}</span>

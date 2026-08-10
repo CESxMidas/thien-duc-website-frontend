@@ -26,7 +26,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
 
   return (
     <section className="reveal-section bg-cream">
-      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-eyebrow mb-4 text-brand">
@@ -45,7 +45,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
         </div>
 
         <div
-          className={`stagger-list mt-10 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
+          className={`stagger-list mt-8 grid gap-5 ${singleProject ? "md:grid-cols-1" : "md:grid-cols-3"}`}
         >
           {featuredProjects.map((project) => {
             const apiCopy = {

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
+import { ProjectsCarousel } from "@/components/sections/projects-carousel";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getProjects } from "@/lib/api/projects";
 import { search } from "@/lib/api/search";
@@ -75,7 +75,7 @@ export default async function ProjectsPage({
         />
 
         {query ? null : (
-          <section className="mx-auto max-w-site px-4 pb-8 sm:px-6">
+          <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
             <div className="reveal-from-left flex flex-wrap gap-2">
               {projectStatusFilterValues.map((value) => {
                 const active = activeStatus === value;
@@ -119,79 +119,17 @@ export default async function ProjectsPage({
           </section>
         )}
 
-        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
+        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
           {filteredProjects.length > 0 ? (
-            <div
-              className={`grid gap-5 ${
-                filteredProjects.length === 1
-                  ? "md:grid-cols-1"
-                  : "stagger-sides md:grid-cols-2"
-              }`}
-            >
-              {filteredProjects.map((project) => (
-                <Link
-                  key={project.slug}
-                  href={localizePath(
-                    `${routes.projects}/${project.slug}`,
-                    locale,
-                  )}
-                  className={`hover-card group overflow-hidden border border-black/10 bg-white hover:border-brand ${
-                    filteredProjects.length === 1
-                      ? "reveal-sides-pair md:grid md:grid-cols-[1.08fr_0.92fr]"
-                      : ""
-                  }`}
-                >
-                  {project.image ? (
-                    <div
-                      className={`image-reveal relative overflow-hidden bg-surface ${
-                        filteredProjects.length === 1
-                          ? "reveal-from-left aspect-16/10 md:aspect-auto md:min-h-80"
-                          : "aspect-3/2"
-                      }`}
-                    >
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : null}
-                  <div
-                    className={`flex flex-col justify-center p-5 md:p-6 ${
-                      filteredProjects.length === 1 ? "reveal-from-right" : ""
-                    }`}
-                  >
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                      {project.location ? (
-                        <span>{project.location}</span>
-                      ) : null}
-                      {project.location ? (
-                        <span className="h-1 w-1 rounded-full bg-gold" />
-                      ) : null}
-                      <span>{dictionary.projectStatus[project.status]}</span>
-                    </div>
-                    <h2 className="mt-3 text-2xl font-semibold leading-tight">
-                      {project.title}
-                    </h2>
-                    {project.category ? (
-                      <p className="mt-2 text-sm font-semibold text-slate">
-                        {project.category}
-                      </p>
-                    ) : null}
-                    <p className="mt-4 text-sm leading-6 text-slate">
-                      {project.summary}
-                    </p>
-                    <span className="link-arrow mt-6 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
-                      {dictionary.common.viewDetail}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <ProjectsCarousel
+              projects={filteredProjects}
+              locale={locale}
+              labels={dictionary.projects.carousel}
+              statusLabels={dictionary.projectStatus}
+              detailLabel={dictionary.common.viewDetail}
+            />
           ) : (
-            <div className="reveal-section border border-black/10 bg-white p-8 text-center">
+            <div className="reveal-section border border-black/10 bg-white p-6 text-center">
               <h2 className="text-2xl font-semibold">
                 {dictionary.projects.emptyTitle}
               </h2>
@@ -208,8 +146,8 @@ export default async function ProjectsPage({
           )}
         </section>
 
-        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
-          <div className="reveal-sides-pair grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+          <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold-soft">
                 {dictionary.projects.ctaEyebrow}

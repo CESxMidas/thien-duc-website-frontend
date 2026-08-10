@@ -21,7 +21,11 @@ export type Dictionary = {
   };
   header: {
     searchPlaceholder: string;
+    /** Nhãn của Ô NHẬP. Phải khác `searchSubmit` — hai control cạnh nhau không
+        được đọc lên cùng một tên. */
     searchLabel: string;
+    /** Nhãn của NÚT gửi. */
+    searchSubmit: string;
     openMenu: string;
     closeMenu: string;
   };
@@ -46,6 +50,14 @@ export type Dictionary = {
     title: string;
     description: string;
     searchResultsTitle: string;
+    /** Điều hướng slider danh sách dự án. */
+    carousel: {
+      regionLabel: string;
+      ariaPrevious: string;
+      ariaNext: string;
+      ariaGoTo: string;
+      status: string;
+    };
     emptyTitle: string;
     emptyDescription: string;
     ctaEyebrow: string;
@@ -58,6 +70,16 @@ export type Dictionary = {
     description: string;
     searchResultsTitle: string;
     searchResultsDescription: string;
+    /** Đếm theo ĐÚNG số phần tử API trả về — API chặn ở 20, nên không được
+        diễn đạt thành "tổng số kết quả trên toàn site". */
+    searchCountOne: string;
+    searchCountMany: string;
+    searchInvalidTitle: string;
+    searchTooShort: string;
+    searchTooLong: string;
+    searchErrorTitle: string;
+    searchErrorDescription: string;
+    searchErrorRetry: string;
     notFoundTitle: string;
     notFoundDescription: string;
     emptyTitle: string;
@@ -176,6 +198,13 @@ export type Dictionary = {
     ariaGoTo: string;
     imageAlt: string;
   };
+  /** Rail phải dùng chung cho các trang nội dung (`ContentSidebar`). */
+  contentSidebar: {
+    newsTitle: string;
+    projectsTitle: string;
+    newsEmpty: string;
+    projectsEmpty: string;
+  };
   homeContact: {
     eyebrow: string;
     title: string;
@@ -227,6 +256,8 @@ export type Dictionary = {
     overviewTitle: string;
     overviewParagraphs: string[];
     motto: string;
+    /** Nhãn eyebrow cho khối phương châm (`BrandMotto`). */
+    mottoLabel: string;
     imageAlt: string;
     foundedLabel: string;
     foundedValue: string;
@@ -243,6 +274,14 @@ export type Dictionary = {
     fieldsTitle: string;
     fieldsDescription: string;
     fieldCodeLabel: string;
+    /** Điều hướng slider ngành nghề (khối "Lĩnh vực hoạt động"). */
+    fieldsCarousel: {
+      regionLabel: string;
+      ariaPrevious: string;
+      ariaNext: string;
+      ariaGoTo: string;
+      status: string;
+    };
     fields: Array<{ code: string; title: string; description: string }>;
     ctaEyebrow: string;
     ctaTitle: string;

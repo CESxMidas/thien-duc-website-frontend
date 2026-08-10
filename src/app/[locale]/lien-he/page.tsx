@@ -72,8 +72,8 @@ export default async function ContactPage({
         description={heading.description}
       />
 
-      <section className="reveal-section mx-auto grid max-w-site gap-8 px-4 pb-8 pt-4 sm:px-6 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="hover-card border border-black/10 bg-white p-6 md:p-8">
+      <section className="reveal-section mx-auto grid max-w-site gap-8 px-4 pb-5 pt-4 sm:px-6 sm:pb-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="hover-card border border-black/10 bg-white p-5 md:p-7">
           <p className="text-eyebrow mb-4 text-brand">
             {contact.formEyebrow}
           </p>
@@ -131,7 +131,7 @@ export default async function ContactPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
             <p className="text-eyebrow mb-4 text-brand">

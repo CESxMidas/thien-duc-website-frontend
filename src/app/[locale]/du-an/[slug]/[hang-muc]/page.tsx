@@ -134,7 +134,7 @@ export default async function ProjectItemPage({
             ) : null}
 
             <article
-              className={`reveal-from-right hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-6 md:p-8 ${
+              className={`reveal-from-right hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7 ${
                 galleryImages.length === 0 ? "lg:col-span-2" : ""
               }`}
             >
@@ -214,7 +214,7 @@ export default async function ProjectItemPage({
         ) : null}
 
         {siblings.length > 0 ? (
-          <section className="mx-auto max-w-site px-4 py-8 sm:px-6 sm:py-12">
+          <section className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
             <p className="text-eyebrow mb-4 text-brand">
               {dictionary.projectItem.siblingsEyebrow}
             </p>
@@ -250,8 +250,8 @@ export default async function ProjectItemPage({
           </section>
         ) : null}
 
-        <section className="mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
-          <div className="reveal-sides-pair grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+          <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold-soft">
                 {dictionary.projectItem.ctaEyebrow}

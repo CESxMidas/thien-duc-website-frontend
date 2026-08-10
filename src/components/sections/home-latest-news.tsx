@@ -23,13 +23,13 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
 
   return (
     <section className="reveal-section bg-cream">
-      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-eyebrow mb-4 text-brand">
               {dictionary.home.latestEyebrow}
             </p>
-            <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+            <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
               {dictionary.home.latestTitle}
             </h2>
           </div>

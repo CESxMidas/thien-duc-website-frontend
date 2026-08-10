@@ -24,6 +24,15 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/ksnntvmu/**",
       },
+      // 17 bài tin nhập từ site cũ (`prisma/seed-news-thienduccons.js`) giữ
+      // nguyên URL ảnh gốc trên `thienduccons.vn` thay vì tải về/upload lại.
+      // Giới hạn đúng `/img_data/**` — đó là thư mục ảnh duy nhất site cũ dùng.
+      // TODO: khi ảnh tin tức được đưa hết lên Cloudinary qua Admin, gỡ mục này.
+      {
+        protocol: "https",
+        hostname: "thienduccons.vn",
+        pathname: "/img_data/**",
+      },
     ],
     // Next 16 yêu cầu allowlist các mức `quality`. Mặc định chỉ có 75; thêm 90
     // để ảnh hero/banner (nguồn 1920×640 bị phóng to trên màn hình lớn) nét hơn,

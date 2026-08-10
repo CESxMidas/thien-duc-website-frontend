@@ -60,12 +60,12 @@ export default async function CareersPage({
         description={t.heroDescription}
       />
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-12">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="stagger-list grid gap-4 md:grid-cols-3">
           {t.values.map((value) => (
             <article
               key={value.title}
-              className="hover-card border border-black/10 bg-white p-6 hover:border-brand/35"
+              className="hover-card border border-black/10 bg-white p-5 hover:border-brand/35"
             >
               <h2 className="text-xl font-semibold">{value.title}</h2>
               <p className="mt-4 text-sm leading-6 text-slate">
@@ -76,18 +76,18 @@ export default async function CareersPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-12">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {t.openEyebrow}
           </p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
             {t.openTitle}
           </h2>
         </div>
 
         {openPositions.length > 0 ? (
-          <div className="stagger-list mt-10 grid gap-4">
+          <div className="stagger-list mt-8 grid gap-4">
             {openPositions.map((position) => (
               <article
                 key={position.title}
@@ -152,7 +152,7 @@ export default async function CareersPage({
             ))}
           </div>
         ) : (
-          <div className="reveal-section mt-10 border border-black/10 bg-white p-8">
+          <div className="reveal-section mt-10 border border-black/10 bg-white p-6">
             <h3 className="text-2xl font-semibold">
               {t.emptyTitle}
             </h3>
@@ -169,17 +169,17 @@ export default async function CareersPage({
         )}
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {t.processEyebrow}
           </p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
             {t.processTitle}
           </h2>
         </div>
 
-        <ol className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
+        <ol className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
           {t.process.map((step) => (
             <li
               key={step.step}

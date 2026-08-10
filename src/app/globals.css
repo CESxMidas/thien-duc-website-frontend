@@ -3,7 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --site-header-height: 8.75rem;
+  /* Giá trị dự phòng trước khi JS đo thật (ResizeObserver trong SiteHeader):
+     top-strip 36px + viền 1px + header chính 72px + viền vàng 3px ≈ 7rem. */
+  --site-header-height: 7rem;
 
   /* ------------------------------------------------------------------
      Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
@@ -71,6 +73,20 @@
      gọn hơn 7xl (80rem) cũ, cho cảm giác nội dung tập trung, cao cấp mà lưới
      3–4 cột vẫn thoải mái. */
   --container-site: 70rem;
+
+  /* Bề rộng riêng của DẢI HEADER (top strip + hàng logo/nav/tìm kiếm) — sinh
+     utility `max-w-header`. Rộng hơn `--container-site` vì header phải nhét
+     cùng lúc logo + 6 mục nav tiếng Việt + ô tìm kiếm + đổi ngôn ngữ trên MỘT
+     hàng, trong khi nội dung trang chỉ cần bề ngang dễ đọc.
+
+     Dùng 70rem cho header khiến ô tìm kiếm bị `shrink` bóp lại và cắt cụt
+     placeholder ở dải 1024–1280px. 80rem trả lại ~160px ở màn 1280+ mà vẫn
+     không kéo header ra sát mép màn hình.
+
+     Đánh đổi có chủ đích: từ ~1280px trở lên, header rộng hơn khối nội dung
+     bên dưới ~80px mỗi bên. Muốn hai bên thẳng lề tuyệt đối thì đổi giá trị này
+     về 70rem — nhưng ô tìm kiếm sẽ chật lại. */
+  --container-header: 80rem;
 
   /* Màu ngữ nghĩa cho trạng thái form (mục 8 handoff spec). */
   --color-danger: #9b2c2c;
@@ -146,17 +162,40 @@ h2 {
 }
 
 /* Nhịp đọc cho khối văn bản dài (bài viết, giới thiệu): giới hạn bề rộng dòng
-   ~68ch và thụt dòng đầu 1.5em từ đoạn thứ hai trở đi (đoạn mở đầu để phẳng
-   theo lối canh lề trái). Chỉ dùng cho vùng prose nhiều đoạn — KHÔNG áp cho
-   nút, tiêu đề, nav, thẻ nhãn ngắn, số liệu hay form. Dùng `p + p` nên hoạt
-   động cả khi các đoạn nằm trong grid/flex; không gây layout shift vì chỉ đẩy
-   ký tự đầu dòng, không đổi chiều cao khối. */
+   ~68ch. Chỉ dùng cho vùng prose — KHÔNG áp cho nút, tiêu đề, nav, thẻ nhãn
+   ngắn, số liệu hay form. */
 .prose-content {
   max-width: var(--measure-prose);
 }
 
-.prose-content > p + p {
+/* Thụt dòng đầu 1.5em cho **mọi** đoạn, kể cả đoạn mở đầu và đoạn đứng một mình
+   (`text-justified`), theo lối trình bày văn bản hành chính tiếng Việt. Bản
+   trước chỉ thụt từ đoạn thứ hai (`p + p`) theo quy ước typography phương Tây,
+   nhưng khối một đoạn duy nhất khi đó không thụt dòng nào.
+   Không gây layout shift: chỉ đẩy ký tự đầu dòng, không đổi chiều cao khối. */
+.prose-content > p,
+.text-justified {
   text-indent: 1.5em;
+}
+
+/* Căn đều hai bên (justify) cho khối văn bản dài — khối prose nhiều đoạn và
+   những đoạn đơn lẻ được đánh dấu `text-justified`.
+
+   Chỉ bật từ 640px trở lên: dưới ngưỡng đó dòng chỉ còn ~30–40 ký tự, mà tiếng
+   Việt trình duyệt không tách được âm tiết (`hyphens: auto` vô tác dụng vì
+   không có từ điển vi), nên để justify sẽ phải giãn khoảng trắng rất rộng, tạo
+   "dòng sông trắng" chạy dọc đoạn — khó đọc hơn hẳn canh trái.
+
+   KHÔNG áp cho copy dẫn dắt 1–2 dòng (deck dưới tiêu đề section, mô tả hero,
+   CTA) hay chữ trong thẻ nhỏ: đoạn hai dòng chỉ có duy nhất dòng đầu bị kéo
+   giãn, nhìn lệch chứ không "cân". */
+@media (min-width: 40rem) {
+  .prose-content,
+  .text-justified {
+    /* Không kèm `text-justify: inter-word` — Chrome/Safari không hỗ trợ thuộc
+       tính này và giãn theo khoảng trắng vốn đã là hành vi mặc định. */
+    text-align: justify;
+  }
 }
 
 html {
@@ -900,6 +939,52 @@ textarea {
 :focus-visible {
   outline: 2px solid #9f5a0f;
   outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Ô tìm kiếm ở header (`.search-field`, xem `components/layout/header-search-form.tsx`).
+
+   Mọi rule dưới đây **giới hạn trong `.search-field`** — quy tắc `:focus-visible`
+   toàn cục ở trên và style form của phần còn lại của site không bị đụng tới.
+
+   1) Chuẩn hoá `type="search"`. Chromium/WebKit tự vẽ nút xoá "×" bên trong ô,
+      chỉ hiện khi đã có chữ: nó nằm sát ngay nút "Tìm" (hai affordance chỏi
+      nhau) và làm bề rộng dùng được của ô nhảy khi đang gõ. Safari còn áp
+      `-webkit-appearance: searchfield` tạo hộp lõm riêng bên trong đường viền
+      chung. Tắt cả hai.
+
+   2) Mô hình focus. Ô nhập KHÔNG tự vẽ viền focus riêng — nếu vẽ, người dùng
+      thấy hai hình chữ nhật lồng nhau. Thay vào đó cả cụm sáng lên một vòng
+      focus duy nhất, dùng đúng màu nâu đồng #9f5a0f của rule toàn cục.
+      Dùng `:has(input:focus-visible)` chứ không phải `:focus-within`: chỉ bàn
+      phím mới bật vòng focus, bấm chuột thì không — giữ đúng ngữ nghĩa
+      `:focus-visible` mà site đang dùng ở mọi nơi khác.
+      NÚT gửi cố ý không nằm trong luật này: nó giữ vòng focus toàn cục của
+      riêng nó, nhờ vậy người dùng phân biệt được focus đang ở ô nhập hay ở nút.
+   --------------------------------------------------------------------------- */
+.search-field input[type="search"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-field input[type="search"]::-webkit-search-decoration,
+.search-field input[type="search"]::-webkit-search-cancel-button,
+.search-field input[type="search"]::-webkit-search-results-button,
+.search-field input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.search-field input[type="search"]:focus,
+.search-field input[type="search"]:focus-visible {
+  outline: none;
+}
+
+.search-field:has(input[type="search"]:focus-visible) {
+  outline: 2px solid #9f5a0f;
+  outline-offset: 2px;
+  border-color: #9f5a0f;
 }
 
 .skip-link {

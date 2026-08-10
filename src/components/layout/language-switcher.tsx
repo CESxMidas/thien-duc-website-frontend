@@ -15,6 +15,13 @@ type LanguageSwitcherProps = {
   locale: Locale;
   label: string;
   className?: string;
+  /**
+   * Hiện icon quả cầu. Icon **chỉ để trang trí** (nhóm đã có `aria-label`), nên
+   * bản trên thanh header tắt nó đi để nhường ~22px cho ô tìm kiếm ở dải
+   * 1024–1279px — dải chật nhất, nơi ô tìm kiếm từng bị bóp cụt placeholder.
+   * Bản trong drawer mobile giữ icon vì ở đó thừa chỗ.
+   */
+  showIcon?: boolean;
 };
 
 /**
@@ -28,6 +35,7 @@ export function LanguageSwitcher({
   locale,
   label,
   className = "",
+  showIcon = true,
 }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
@@ -38,10 +46,12 @@ export function LanguageSwitcher({
       role="group"
       aria-label={label}
     >
-      <Globe
-        className="ml-1.5 mr-0.5 size-3.5 shrink-0 text-brand/70"
-        aria-hidden="true"
-      />
+      {showIcon ? (
+        <Globe
+          className="ml-1.5 mr-0.5 size-3.5 shrink-0 text-brand/70"
+          aria-hidden="true"
+        />
+      ) : null}
       {locales.map((item) => {
         const active = item === locale;
 

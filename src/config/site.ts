@@ -7,7 +7,7 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
-  address: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
+  address: "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
 };
 
 export const legalInfo = {
@@ -71,11 +71,11 @@ export const taxAuthorityName: Record<Locale, string> = {
 /** Hai phần địa chỉ cho JSON-LD PostalAddress (street + locality). */
 export const addressParts: Record<Locale, { street: string; locality: string }> = {
   vi: {
-    street: "1D Trần Não, Phường Bình Trưng, Thành Phố Thủ Đức",
+    street: "1D Trần Não, Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức",
     locality: "Thành phố Hồ Chí Minh",
   },
   en: {
-    street: "1D Tran Nao, Binh Trung Ward, Thu Duc City",
+    street: "1D Tran Nao, Khu Phố 5, Binh Trung Ward, Thu Duc City",
     locality: "Ho Chi Minh City",
   },
 };

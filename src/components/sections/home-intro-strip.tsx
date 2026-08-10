@@ -19,7 +19,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-site px-4 py-12 sm:px-6 sm:py-16">
+      <div className="relative mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
         <div className="max-w-3xl">
           <p className="inline-flex min-h-11 items-center gap-3 bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(176,102,19,0.22)] sm:px-5 sm:text-sm sm:tracking-[0.24em]">
             {eyebrow}
@@ -29,7 +29,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {strengths.map((item, index) => {
             const Icon = strengthIcons[index];
 

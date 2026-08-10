@@ -53,7 +53,7 @@ export default async function MemberCompaniesPage({
         description={t.description}
       />
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-12">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="hover-card grid gap-6 border border-black/10 bg-white p-6 md:grid-cols-[auto_1fr] md:items-center md:p-8">
           <div className="grid size-14 place-items-center rounded-full bg-gold-soft">
             <UserRound className="size-7 text-brand" aria-hidden="true" />
@@ -72,21 +72,21 @@ export default async function MemberCompaniesPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-12">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {t.listEyebrow}
           </p>
-          <h2 className="text-3xl font-semibold leading-tight md:text-4xl">
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
             {t.listTitle}
           </h2>
         </div>
 
-        <ul className="stagger-list mt-10 grid gap-4 md:grid-cols-3">
+        <ul className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
           {memberCompanies.map((company) => (
             <li
               key={company.name}
-              className="hover-card flex flex-col border border-black/10 bg-white p-6 hover:border-brand/35"
+              className="hover-card flex flex-col border border-black/10 bg-white p-5 hover:border-brand/35"
             >
               <Building2
                 className="icon-badge mb-5 size-8 text-brand"
@@ -116,8 +116,8 @@ export default async function MemberCompaniesPage({
         </p>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-8 sm:px-6 sm:pb-14">
-        <div className="grid gap-6 bg-brand p-6 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+        <div className="grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
           <div>
             <p className="text-eyebrow mb-4 text-gold-soft">
               {t.ctaEyebrow}
