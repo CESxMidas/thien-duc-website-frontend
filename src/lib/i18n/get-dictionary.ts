@@ -217,6 +217,9 @@ export type Dictionary = {
     ariaPrevious: string;
     ariaNext: string;
     ariaGoTo: string;
+    /** Nhãn nút tạm dừng / chạy tiếp tự chuyển slide (WCAG 2.2.2). */
+    ariaPause: string;
+    ariaPlay: string;
   };
   contactForm: {
     fields: {

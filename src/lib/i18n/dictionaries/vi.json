@@ -198,7 +198,9 @@
     "regionLabel": "Banner dự án nổi bật",
     "ariaPrevious": "Banner trước",
     "ariaNext": "Banner tiếp theo",
-    "ariaGoTo": "Chuyển tới banner {index}"
+    "ariaGoTo": "Chuyển tới banner {index}",
+    "ariaPause": "Tạm dừng chuyển banner tự động",
+    "ariaPlay": "Tiếp tục chuyển banner tự động"
   },
   "contactForm": {
     "fields": {

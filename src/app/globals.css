@@ -322,8 +322,12 @@ textarea {
   animation: bannerCopyIn 680ms var(--ease-out-expo) both;
 }
 
+/* Giá trị dự phòng phải khớp `AUTOPLAY_MS` trong
+   `components/sections/home-banner-slider.tsx` — component luôn truyền
+   `animationDuration` inline nên biến này chỉ dùng khi có nơi khác tái dùng
+   class; để lệch sẽ thành hai nguồn sự thật. */
 .banner-progress {
-  animation: bannerProgress var(--banner-autoplay-duration, 4000ms) linear both;
+  animation: bannerProgress var(--banner-autoplay-duration, 4500ms) linear both;
   transform-origin: left;
 }
 

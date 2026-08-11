@@ -198,7 +198,9 @@
     "regionLabel": "Featured project banners",
     "ariaPrevious": "Previous banner",
     "ariaNext": "Next banner",
-    "ariaGoTo": "Go to banner {index}"
+    "ariaGoTo": "Go to banner {index}",
+    "ariaPause": "Pause automatic banner rotation",
+    "ariaPlay": "Resume automatic banner rotation"
   },
   "contactForm": {
     "fields": {
