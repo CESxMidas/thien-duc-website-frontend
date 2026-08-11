@@ -245,7 +245,17 @@ export default async function ProjectDetailPage({
               {/* Địa chỉ + nút Google Maps cố ý bỏ ở đây: khối bản đồ ngay dưới
                   đã có đủ địa chỉ và nút chỉ đường, nhắc lại là thừa và làm cột
                   này dài hơn hẳn cột bên trái. */}
-              <p className="mt-5 line-clamp-6 text-base leading-7 text-slate">
+              {/* `text-justified` (thụt dòng đầu + căn đều từ 640px) CHỈ áp khi
+                  có mô tả thật từ CMS: đây là văn bản dài do biên tập viên
+                  soạn. Câu dự phòng chỉ dài một dòng — thụt và căn đều một dòng
+                  là vô nghĩa, nên nó giữ canh trái.
+                  `line-clamp-6` GIỮ NGUYÊN: nó là thứ cân chiều cao hai panel
+                  Thông tin nhanh / Tổng quan (xem quy ước ở `AGENTS.md`). */}
+              <p
+                className={`mt-5 line-clamp-6 text-base leading-7 text-slate ${
+                  project.description ? "text-justified" : ""
+                }`}
+              >
                 {project.description ??
                   dictionary.projectDetail.overviewFallbackDescription}
               </p>

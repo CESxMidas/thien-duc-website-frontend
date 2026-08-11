@@ -178,7 +178,10 @@ export default async function NewsPage({
             </div>
           </div>
         ) : posts.length > 0 ? (
-          <div className="stagger-list grid gap-5 md:grid-cols-3">
+          // Ba cột chỉ từ `lg`. Ở `md` (768px) ba cột cho thẻ rộng ~240px —
+          // hẹp hơn cả một cột ở màn 375px, tiêu đề bài vỡ 4–5 dòng. Bậc trung
+          // gian hai cột giữ thẻ ~294px ở 640px và ~360px ở 768px.
+          <div className="stagger-list grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <Link
                 key={post.slug}
@@ -191,7 +194,8 @@ export default async function NewsPage({
                       src={post.image}
                       alt={post.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      // Khớp đúng bậc cột mới của lưới (1 → 2 → 3 cột).
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover"
                     />
                   </div>
@@ -210,7 +214,12 @@ export default async function NewsPage({
                       thường giữ nguyên bố cục cũ (ảnh + tiêu đề) để lưới 3 cột
                       không cao thấp so le. Clamp 3 dòng cho tóm tắt dài. */}
                   {isSearch && post.summary ? (
-                    <p className="text-justified mt-3 line-clamp-3 text-sm leading-6 text-slate">
+                    // Canh TRÁI, không justify: thẻ nằm trong lưới 3 cột nên bề
+                    // ngang thực chỉ ~330px (~42 ký tự/dòng) — hẹp hơn cả màn
+                    // 375px. Justify ở bề rộng đó tạo "dòng sông trắng" chạy
+                    // dọc, và `text-indent` đi kèm làm dòng đầu thụt vào giữa
+                    // thẻ. Đây là chữ trong thẻ nhỏ, không phải văn bản dài.
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate">
                       {post.summary}
                     </p>
                   ) : null}

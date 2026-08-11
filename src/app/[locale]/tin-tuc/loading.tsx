@@ -26,9 +26,10 @@ export default function NewsLoading() {
         <div className="mt-4 h-4 w-full max-w-2xl animate-pulse bg-black/5" />
       </div>
 
-      {/* Lưới thẻ tin — cùng nhịp `gap-5` + `md:grid-cols-3` với lưới thật để
-          nội dung về không làm giật bố cục. */}
-      <div className="grid gap-5 pb-8 sm:pb-14 md:grid-cols-3">
+      {/* Lưới thẻ tin — phải khớp ĐÚNG bậc cột của lưới thật
+          (`sm:grid-cols-2 lg:grid-cols-3`, xem `tin-tuc/page.tsx`) để nội dung
+          về không làm giật bố cục. Lệch một bậc là có CLS ở dải 640–1023px. */}
+      <div className="grid gap-5 pb-8 sm:grid-cols-2 sm:pb-14 lg:grid-cols-3">
         {Array.from({ length: 6 }, (_, index) => (
           <div key={index} className="border border-black/10 bg-white">
             <div className="aspect-video animate-pulse bg-surface" />

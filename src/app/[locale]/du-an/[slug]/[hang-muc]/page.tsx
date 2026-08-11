@@ -152,7 +152,13 @@ export default async function ProjectItemPage({
                   title: item.title,
                 })}
               </h2>
-              <p className="mt-5 text-base leading-7 text-slate">
+              {/* Cùng quy tắc với mô tả dự án: chỉ văn bản thật từ CMS mới được
+                  thụt dòng + căn đều, câu dự phòng một dòng thì không. */}
+              <p
+                className={`mt-5 text-base leading-7 text-slate ${
+                  item.description ? "text-justified" : ""
+                }`}
+              >
                 {item.description ??
                   dictionary.projectItem.descriptionFallback}
               </p>

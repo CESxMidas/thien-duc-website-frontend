@@ -29,7 +29,11 @@ export function PageHeading({
         {title}
       </h1>
       {description ? (
-        <p className="text-justified mt-4 max-w-3xl text-sm leading-6 text-slate sm:text-base sm:leading-7">
+        // Cố ý KHÔNG `text-justified`: đây là copy dẫn dắt 1–3 dòng dưới tiêu
+        // đề, đúng loại mà chính comment của `.text-justified` trong
+        // `globals.css` đã loại trừ. Đoạn hai dòng khi justify chỉ có DÒNG ĐẦU
+        // bị kéo giãn, nhìn lệch chứ không "cân". Canh trái, giới hạn bề rộng.
+        <p className="mt-4 max-w-3xl text-sm leading-6 text-slate sm:text-base sm:leading-7">
           {description}
         </p>
       ) : null}
