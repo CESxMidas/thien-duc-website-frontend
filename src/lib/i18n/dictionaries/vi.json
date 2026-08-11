@@ -66,7 +66,13 @@
     "notFoundTitle": "Không tìm thấy bài viết",
     "notFoundDescription": "Không có kết quả phù hợp với \"{query}\". Thử từ khóa khác hoặc xem toàn bộ tin tức.",
     "emptyTitle": "Chưa có bài viết",
-    "emptyDescription": "Nội dung tin tức sẽ được cập nhật khi có thông tin chính thức từ Thiên Đức."
+    "emptyDescription": "Nội dung tin tức sẽ được cập nhật khi có thông tin chính thức từ Thiên Đức.",
+    "filterLabel": "Lọc tin theo chuyên mục",
+    "filterAll": "Tất cả",
+    "categoryTitle": "{category}",
+    "categoryDescription": "Các bài viết thuộc chuyên mục {category} của Thiên Đức.",
+    "categoryEmptyTitle": "Chuyên mục chưa có bài viết",
+    "categoryEmptyDescription": "Chuyên mục {category} chưa có bài nào được đăng. Xem toàn bộ tin tức để không bỏ lỡ cập nhật mới."
   },
   "projectStatus": {
     "all": "Tất cả",

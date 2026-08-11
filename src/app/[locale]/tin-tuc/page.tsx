@@ -3,9 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
+import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
 import { PageHeading } from "@/components/ui/page-heading";
 import { Pagination } from "@/components/ui/pagination";
-import { getNewsPage, NEWS_PAGE_SIZE } from "@/lib/api/news";
+import {
+  getNewsCategories,
+  getNewsPage,
+  NEWS_PAGE_SIZE,
+} from "@/lib/api/news";
 import { searchSafe } from "@/lib/api/search";
 import { formatDate } from "@/lib/format";
 import { isLocale, localizePath } from "@/lib/i18n/config";
@@ -74,13 +79,16 @@ export default async function NewsPage({
   // trang: kết quả tìm kiếm đã bị API giới hạn số lượng.
   // Không có → lấy đúng một trang từ backend.
   const outcome = query ? await searchSafe(query, locale, "news") : null;
-  const newsPage =
+  const [newsPage, categories] = await Promise.all([
     query || requestedPage === null
       ? null
-      : await getNewsPage(locale, {
+      : getNewsPage(locale, {
           page: requestedPage,
           limit: NEWS_PAGE_SIZE,
-        });
+        }),
+    // Chuyên mục nạp song song với danh sách bài — không nối tiếp hai lượt chờ.
+    getNewsCategories(locale),
+  ]);
 
   // Trang vượt quá trang cuối → đưa về trang cuối có thật thay vì trang trắng.
   if (newsPage && newsPage.totalPages > 0 && requestedPage !== null) {
@@ -110,6 +118,20 @@ export default async function NewsPage({
             : dictionary.news.description
         }
       />
+      {/* Bộ lọc chuyên mục chỉ hiện ở danh sách thường. Ở chế độ tìm kiếm, kết
+          quả đã xếp theo độ liên quan — chồng thêm bộ lọc lên trên sẽ là hai
+          mô hình chọn lọc đánh nhau. */}
+      {isSearch ? null : (
+        <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+          <NewsCategoryFilter
+            categories={categories}
+            locale={locale}
+            allLabel={dictionary.news.filterAll}
+            regionLabel={dictionary.news.filterLabel}
+          />
+        </section>
+      )}
+
       <section
         id="danh-sach-tin"
         className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8"
@@ -202,7 +224,7 @@ export default async function NewsPage({
                 ) : null}
                 <div className="p-5">
                   <p className="text-sm font-medium text-slate">
-                    {[post.category, formatDate(post.publishedAt, locale)]
+                    {[post.category?.name, formatDate(post.publishedAt, locale)]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>

@@ -173,7 +173,11 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     summary: localized(dto.summary, locale),
     publishedAt: dto.publishedAt?.slice(0, 10) ?? "",
     eventDate: dto.eventDate?.slice(0, 10),
-    category: localized(dto.category?.name, locale),
+    // Giữ nguyên cặp {slug, name}: `slug` dựng link trang danh mục, `name` để
+    // hiển thị. Rút gọn về mỗi tên là đánh mất thông tin backend đã trả.
+    category: dto.category
+      ? { slug: dto.category.slug, name: localized(dto.category.name, locale) }
+      : undefined,
     content: dto.content?.map((item) => localized(item, locale)),
     author: localizeAuthor(dto.author, locale),
     image: dto.image ?? undefined,

@@ -103,7 +103,20 @@ export default async function NewsDetailPage({
       <section className="reveal-section mx-auto grid max-w-site gap-6 px-4 pb-5 sm:px-6 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="hover-card border border-black/10 bg-white p-5 md:p-7">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
-            {post.category ? <span>{post.category}</span> : null}
+            {/* Chuyên mục dẫn sang trang danh mục — đây là đường liên kết nội
+                bộ duy nhất từ bài viết ngược lên chủ đề của nó. Bản sidebar bên
+                dưới cố ý để chữ thường, không lặp lại link cùng đích. */}
+            {post.category ? (
+              <Link
+                href={localizePath(
+                  `${routes.newsCategory}/${post.category.slug}`,
+                  locale,
+                )}
+                className="font-semibold text-brand hover:text-brand-dark"
+              >
+                {post.category.name}
+              </Link>
+            ) : null}
             <span>{formatDate(post.publishedAt, locale)}</span>
           </div>
 
@@ -124,7 +137,7 @@ export default async function NewsDetailPage({
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   {dictionary.newsDetail.categoryLabel}
                 </dt>
-                <dd className="mt-1 text-slate">{post.category}</dd>
+                <dd className="mt-1 text-slate">{post.category.name}</dd>
               </div>
             ) : null}
             <div>

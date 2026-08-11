@@ -84,6 +84,14 @@ export type Dictionary = {
     notFoundDescription: string;
     emptyTitle: string;
     emptyDescription: string;
+    /** Nhãn a11y của vùng chip lọc chuyên mục + nhãn chip "Tất cả". */
+    filterLabel: string;
+    filterAll: string;
+    /** Tiêu đề/mô tả trang đích chuyên mục — nhận biến `{category}`. */
+    categoryTitle: string;
+    categoryDescription: string;
+    categoryEmptyTitle: string;
+    categoryEmptyDescription: string;
   };
   /** Nhãn `ProjectStatus` + khóa "all" cho chip lọc danh sách dự án. */
   projectStatus: Record<string, string>;

@@ -65,6 +65,12 @@
     "searchResultsDescription": "Showing articles matching \"{query}\".",
     "notFoundTitle": "No articles found",
     "notFoundDescription": "No results match \"{query}\". Try a different keyword or browse all news.",
+    "filterLabel": "Filter news by category",
+    "filterAll": "All",
+    "categoryTitle": "{category}",
+    "categoryDescription": "Articles in the {category} category from Thien Duc.",
+    "categoryEmptyTitle": "No articles in this category yet",
+    "categoryEmptyDescription": "The {category} category has no published articles yet. Browse all news so you do not miss the latest updates.",
     "emptyTitle": "No articles yet",
     "emptyDescription": "News content will be published once official information is available from Thien Duc."
   },

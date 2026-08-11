@@ -81,13 +81,25 @@ export type ProjectItem = {
   gallery?: string[];
 };
 
+/**
+ * Chuyên mục tin — giữ CẢ `slug` lẫn `name`.
+ *
+ * Trước đây mapper rút gọn về mỗi tên hiển thị, nên chuyên mục chỉ là chữ chết
+ * trong dòng metadata: không dựng được link tới trang danh mục dù backend luôn
+ * trả `slug` kèm theo.
+ */
+export type NewsCategory = {
+  slug: string;
+  name: string;
+};
+
 export type NewsPost = {
   title: string;
   slug: string;
   summary: string;
   publishedAt: string;
   eventDate?: string;
-  category?: string;
+  category?: NewsCategory;
   content?: string[];
   author?: string;
   image?: string;

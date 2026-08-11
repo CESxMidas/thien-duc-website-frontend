@@ -1,8 +1,31 @@
-import type { NewsPost } from "@/types/content";
+import type { NewsCategory, NewsPost } from "@/types/content";
 import { apiFetch, apiFetchOptional } from "@/lib/api/client";
-import { mapNewsPost } from "@/lib/api/mappers";
-import type { NewsPostDto, PaginatedDto } from "@/lib/api/types";
+import { localized, mapNewsPost } from "@/lib/api/mappers";
+import type { LocalizedText, NewsPostDto, PaginatedDto } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n/config";
+
+type NewsCategoryDto = {
+  slug: string;
+  name: LocalizedText;
+  order: number;
+};
+
+/**
+ * Danh sách chuyên mục tin (`GET /news/categories`) — backend sắp theo `order`
+ * rồi `slug`, giữ nguyên thứ tự đó: đây là thứ tự biên tập viên đặt trong Admin.
+ *
+ * Cố ý KHÔNG trả về số bài mỗi chuyên mục: backend chưa lọc `_count` theo trạng
+ * thái PUBLISHED nên con số đó sẽ tính cả bài nháp.
+ */
+export async function getNewsCategories(
+  locale: Locale,
+): Promise<NewsCategory[]> {
+  const data = await apiFetch<NewsCategoryDto[]>("/news/categories");
+  return data.map((dto) => ({
+    slug: dto.slug,
+    name: localized(dto.name, locale),
+  }));
+}
 
 /** Số bài mỗi trang ở `/tin-tuc` — khớp lưới 3 cột × 3 hàng trên desktop. */
 export const NEWS_PAGE_SIZE = 9;
@@ -33,12 +56,19 @@ export async function getNewsPosts(locale: Locale): Promise<NewsPost[]> {
  */
 export async function getNewsPage(
   locale: Locale,
-  { page = 1, limit = NEWS_PAGE_SIZE }: { page?: number; limit?: number } = {},
+  {
+    page = 1,
+    limit = NEWS_PAGE_SIZE,
+    categorySlug,
+  }: { page?: number; limit?: number; categorySlug?: string } = {},
 ): Promise<NewsPage> {
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
   });
+  // Chỉ gắn khi có giá trị: backend bật `forbidNonWhitelisted` và từ chối
+  // `?categorySlug=` rỗng bằng 400 — gửi tham số rỗng là làm hỏng trang.
+  if (categorySlug) query.set("categorySlug", categorySlug);
   const data = await apiFetch<PaginatedDto<NewsPostDto>>(`/news?${query}`);
 
   return {

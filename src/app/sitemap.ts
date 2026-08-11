@@ -65,5 +65,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
   );
 
-  return [...staticEntries, ...projectEntries, ...newsEntries];
+  /**
+   * Trang đích chuyên mục — chỉ những chuyên mục **thật sự có bài đã đăng**.
+   *
+   * Danh sách suy ra từ chính `newsPosts` chứ không gọi thêm
+   * `GET /news/categories`: chuyên mục xuất hiện trên một bài đã đăng thì đương
+   * nhiên vừa tồn tại vừa không rỗng — đúng hai điều kiện cần, mà không tốn
+   * thêm một lượt gọi mạng lúc build.
+   *
+   * Cố ý KHÔNG đưa vào sitemap: URL phân trang chuyên mục (`?page=N`), chuyên
+   * mục rỗng (đang `noindex`), và mọi URL tìm kiếm.
+   */
+  const categorySlugs = [
+    ...new Set(
+      newsPosts
+        .map((post) => post.category?.slug)
+        .filter((slug): slug is string => Boolean(slug)),
+    ),
+  ];
+  const categoryEntries = categorySlugs.map((slug) =>
+    entry(`${routes.newsCategory}/${slug}`, "weekly", 0.6),
+  );
+
+  return [
+    ...staticEntries,
+    ...projectEntries,
+    ...categoryEntries,
+    ...newsEntries,
+  ];
 }

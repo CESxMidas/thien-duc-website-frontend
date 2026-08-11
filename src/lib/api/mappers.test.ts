@@ -3,8 +3,8 @@
  * `{ vi, en }` chọn đúng ngôn ngữ; fact cũ dạng chuỗi thuần lùi về nguyên văn ở
  * cả hai locale; không sinh `[object Object]`.
  */
-import { mapProject } from "./mappers";
-import type { ProjectDto } from "./types";
+import { mapNewsPost, mapProject } from "./mappers";
+import type { NewsPostDto, ProjectDto } from "./types";
 
 const baseDto: ProjectDto = {
   id: "p1",
@@ -138,5 +138,51 @@ describe("mapProject gallery source (PROJECT-GALLERY-IMAGES-FIX-M1)", () => {
   it("không có quan hệ lẫn gallery phẳng → undefined (không render khối trống)", () => {
     const project = mapProject({ ...baseDto, gallery: [] }, "vi");
     expect(project.gallery).toBeUndefined();
+  });
+});
+
+/**
+ * Chuyên mục tin phải giữ **cả** `slug` lẫn `name`.
+ *
+ * Bản trước rút gọn về mỗi tên hiển thị, nên chuyên mục chỉ là chữ chết trong
+ * dòng metadata — không dựng được link tới trang danh mục dù backend vẫn luôn
+ * trả `slug` kèm theo.
+ */
+describe("mapNewsPost — chuyên mục", () => {
+  const baseNews: NewsPostDto = {
+    id: "n1",
+    slug: "bai-viet-mau",
+    title: { vi: "Tiêu đề", en: "Title" },
+    summary: { vi: "Tóm tắt", en: "Summary" },
+  };
+
+  it("giữ nguyên cặp {slug, name}, tên đã phân giải theo locale", () => {
+    const post = mapNewsPost(
+      {
+        ...baseNews,
+        category: { slug: "tin-du-an", name: { vi: "Tin dự án", en: "Project news" } },
+      },
+      "vi",
+    );
+
+    expect(post.category).toEqual({ slug: "tin-du-an", name: "Tin dự án" });
+  });
+
+  it("locale en lấy tên tiếng Anh nhưng slug KHÔNG đổi theo ngôn ngữ", () => {
+    const post = mapNewsPost(
+      {
+        ...baseNews,
+        category: { slug: "tin-du-an", name: { vi: "Tin dự án", en: "Project news" } },
+      },
+      "en",
+    );
+
+    expect(post.category).toEqual({ slug: "tin-du-an", name: "Project news" });
+  });
+
+  it("bài không có chuyên mục → undefined, không phải object rỗng", () => {
+    expect(mapNewsPost(baseNews, "vi").category).toBeUndefined();
+    expect(mapNewsPost({ ...baseNews, category: null }, "vi").category)
+      .toBeUndefined();
   });
 });
