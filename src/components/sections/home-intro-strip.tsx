@@ -34,9 +34,13 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
             (~41 ký tự), tức chữa desktop bằng cách làm hỏng tablet. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:items-start lg:gap-10">
           <div>
-            <p className="inline-flex min-h-11 items-center gap-3 bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[0_8px_24px_rgba(176,102,19,0.22)] sm:px-5 sm:text-sm sm:tracking-[0.24em]">
-              {eyebrow}
-            </p>
+            {/* Nhãn mục biên tập, KHÔNG tương tác. Bản trước dùng khối chữ nhật
+                nền `bg-brand` đặc + `min-h-11` (đúng bằng kích thước vùng chạm
+                tối thiểu của nút) + shadow nổi → đọc ra như một CTA bấm được,
+                trong khi nó chỉ là chữ. Nay dùng đúng utility `.text-eyebrow`
+                mà 17 file khác trong site đã dùng cho vai trò này. Không hover,
+                không con trỏ, không ngữ nghĩa nút. */}
+            <p className="text-eyebrow text-brand">{eyebrow}</p>
             <h2 className="mt-3 text-3xl font-semibold leading-[1.15] text-brand-dark md:text-[2.5rem]">
               {title}
             </h2>
@@ -46,7 +50,14 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
               vốn đã ~65ch nên nó không ràng buộc, chỉ có tác dụng nếu sau này
               `--container-site` được nới rộng. `mt-6` cũ đã bỏ — khoảng cách
               giữa hai khối nay do `gap` của grid quản. */}
-          <p className="max-w-[72ch] border-l-4 border-gold bg-white/70 py-1 pl-5 text-base leading-8 text-slate lg:text-lg">
+          {/* `text-justified` = thụt dòng đầu (1.5em mobile / 2em từ 640px) +
+              căn đều hai bên, theo lối văn bản hành chính. Đây là đoạn giới
+              thiệu doanh nghiệp — TYPE A body paragraph, không phải deck dẫn
+              dắt hay copy trong thẻ. Trước đây đoạn này nằm NGOÀI hệ prose nên
+              không nhận thụt dòng nào, dù `.text-justified` đã tồn tại sẵn.
+              `pl-5` là khoảng cách tới đường kẻ vàng bên trái — độc lập với
+              `text-indent`, nên thụt dòng vẫn chỉ tác động dòng đầu. */}
+          <p className="text-justified max-w-[72ch] border-l-4 border-gold bg-white/70 py-1 pl-5 text-base leading-8 text-slate lg:text-lg">
             {description}
           </p>
         </div>

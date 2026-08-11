@@ -178,6 +178,23 @@ h2 {
   text-indent: 1.5em;
 }
 
+/* Tiêu đề/danh sách/blockquote lọt vào trong `.prose-content` KHÔNG thụt dòng —
+   chỉ đoạn văn mới thụt. Cần khai báo tường minh vì `.prose-content > p` ở trên
+   không chặn được các thẻ khác thừa kế `text-indent` từ khối cha khi nội dung
+   do CMS sinh ra bọc thêm một lớp. */
+.prose-content > h1,
+.prose-content > h2,
+.prose-content > h3,
+.prose-content > h4,
+.prose-content > ul,
+.prose-content > ol,
+.prose-content > li,
+.prose-content > blockquote,
+.prose-content > figure,
+.prose-content > figcaption {
+  text-indent: 0;
+}
+
 /* Căn đều hai bên (justify) cho khối văn bản dài — khối prose nhiều đoạn và
    những đoạn đơn lẻ được đánh dấu `text-justified`.
 
@@ -195,6 +212,14 @@ h2 {
     /* Không kèm `text-justify: inter-word` — Chrome/Safari không hỗ trợ thuộc
        tính này và giãn theo khoảng trắng vốn đã là hành vi mặc định. */
     text-align: justify;
+  }
+
+  /* Thụt dòng đậm hơn (2em) từ 640px: đây là mức đọc ra rõ như nhấn Tab trong
+     văn bản hành chính. Dưới ngưỡng đó giữ 1.5em — trên màn 320px, 2em đã
+     chiếm ~10% bề ngang dòng nên nhìn như lỗi thụt lề. */
+  .prose-content > p,
+  .text-justified {
+    text-indent: 2em;
   }
 }
 
