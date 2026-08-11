@@ -9,8 +9,8 @@
     "languageSwitcher": "Select language"
   },
   "header": {
-    "searchPlaceholder": "Search news",
-    "searchLabel": "Search news",
+    "searchPlaceholder": "Search...",
+    "searchLabel": "Search projects and news",
     "searchSubmit": "Search",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -199,6 +199,29 @@
     "eyebrow": "Contact Thien Duc",
     "title": "Discuss projects, partnerships, or advisory needs",
     "description": "The Thien Duc team is ready to receive information from customers, partners, and anyone interested in our projects."
+  },
+  "search": {
+    "eyebrow": "Search",
+    "title": "Search results",
+    "titleWithQuery": "Search results for “{query}”",
+    "description": "Search published projects and news from Thien Duc.",
+    "descriptionWithQuery": "Matches for “{query}” across projects and news.",
+    "groupProjects": "Projects",
+    "groupNews": "News",
+    "countOne": "1 result",
+    "countMany": "{count} results",
+    "summaryOne": "Found 1 result for “{query}”",
+    "summaryMany": "Found {count} results for “{query}”",
+    "emptyQueryTitle": "Enter a keyword to start",
+    "emptyQueryDescription": "You can search by project name, location, or article content.",
+    "invalidTitle": "Keyword is not valid",
+    "tooShort": "Please enter at least 2 characters to search.",
+    "tooLong": "Keyword is too long — please keep it to 200 characters or fewer.",
+    "notFoundTitle": "No results found",
+    "notFoundDescription": "No project or article matches “{query}”. Try a different keyword, or browse all projects and news.",
+    "errorTitle": "Search could not be completed",
+    "errorDescription": "The search service is temporarily unavailable. Please try again in a few minutes.",
+    "errorRetry": "Try again"
   },
   "homeBanner": {
     "regionLabel": "Featured project banners",

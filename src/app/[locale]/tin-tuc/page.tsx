@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -11,7 +11,6 @@ import {
   getNewsPage,
   NEWS_PAGE_SIZE,
 } from "@/lib/api/news";
-import { searchSafe } from "@/lib/api/search";
 import { formatDate } from "@/lib/format";
 import { isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
@@ -61,145 +60,67 @@ export default async function NewsPage({
   const dictionary = await getDictionary(locale);
   const basePath = localizePath(routes.news, locale);
 
-  // `?q=` rỗng/toàn khoảng trắng → về URL sạch. Không giả vờ vừa tìm kiếm xong
-  // trong khi thực tế đang hiện nguyên danh sách tin.
+  // Tìm kiếm đã chuyển hẳn sang `/tim-kiem` (dự án + tin tức trong một lượt).
+  // `/tin-tuc?q=...` là URL cũ có thể đã được chia sẻ hoặc lập chỉ mục, nên
+  // chuyển hướng **vĩnh viễn (308)** và GIỮ NGUYÊN từ khóa — người đi theo link
+  // cũ phải thấy đúng thứ họ định tìm, không phải một trang danh sách trắng.
+  if (query) {
+    permanentRedirect(
+      `${localizePath(routes.search, locale)}?q=${encodeURIComponent(query)}`,
+    );
+  }
+
+  // `?q=` rỗng/toàn khoảng trắng → về URL sạch. Không chuyển sang trang tìm
+  // kiếm với từ khóa rỗng: URL nói đã tìm mà thực tế chẳng tìm gì.
   if (hasBlankSearchParam(q)) {
     redirect(basePath);
   }
 
   // `?page=` không hợp lệ (0, âm, chữ, 1) → chuyển hướng về URL chuẩn, không
-  // render nội dung dưới một URL sai. Chỉ áp dụng cho danh sách thường: ở chế
-  // độ tìm kiếm không có phân trang, và redirect ở đây sẽ làm **mất từ khóa**.
+  // render nội dung dưới một URL sai.
   const requestedPage = parsePageParam(pageParam);
-  if (!query && requestedPage === null) {
+  if (requestedPage === null) {
     redirect(basePath);
   }
 
-  // Có từ khóa → hỏi thẳng API full-text (đã xếp theo độ liên quan), không phân
-  // trang: kết quả tìm kiếm đã bị API giới hạn số lượng.
-  // Không có → lấy đúng một trang từ backend.
-  const outcome = query ? await searchSafe(query, locale, "news") : null;
   const [newsPage, categories] = await Promise.all([
-    query || requestedPage === null
-      ? null
-      : getNewsPage(locale, {
-          page: requestedPage,
-          limit: NEWS_PAGE_SIZE,
-        }),
+    getNewsPage(locale, { page: requestedPage, limit: NEWS_PAGE_SIZE }),
     // Chuyên mục nạp song song với danh sách bài — không nối tiếp hai lượt chờ.
     getNewsCategories(locale),
   ]);
 
   // Trang vượt quá trang cuối → đưa về trang cuối có thật thay vì trang trắng.
-  if (newsPage && newsPage.totalPages > 0 && requestedPage !== null) {
+  if (newsPage.totalPages > 0) {
     const safePage = clampPage(requestedPage, newsPage.totalPages);
     if (safePage !== requestedPage) {
       redirect(buildPageHref(basePath, safePage));
     }
   }
 
-  const isSearch = Boolean(query);
-  const posts =
-    outcome?.status === "ok" ? outcome.results.news : (newsPage?.items ?? []);
-  // Đếm theo **đúng mảng API trả về**. API chặn ở 20 bản ghi nên câu chữ là
-  // "Hiển thị N kết quả", không phải "tìm thấy N kết quả trên toàn site".
-  const resultCount = posts.length;
+  const posts = newsPage.items;
 
   return (
     <SiteShell locale={locale}>
       <PageHeading
         eyebrow={dictionary.news.eyebrow}
-        title={
-          query ? dictionary.news.searchResultsTitle : dictionary.news.title
-        }
-        description={
-          query
-            ? interpolate(dictionary.news.searchResultsDescription, { query })
-            : dictionary.news.description
-        }
+        title={dictionary.news.title}
+        description={dictionary.news.description}
       />
-      {/* Bộ lọc chuyên mục chỉ hiện ở danh sách thường. Ở chế độ tìm kiếm, kết
-          quả đã xếp theo độ liên quan — chồng thêm bộ lọc lên trên sẽ là hai
-          mô hình chọn lọc đánh nhau. */}
-      {isSearch ? null : (
-        <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
-          <NewsCategoryFilter
-            categories={categories}
-            locale={locale}
-            allLabel={dictionary.news.filterAll}
-            regionLabel={dictionary.news.filterLabel}
-          />
-        </section>
-      )}
+
+      <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+        <NewsCategoryFilter
+          categories={categories}
+          locale={locale}
+          allLabel={dictionary.news.filterAll}
+          regionLabel={dictionary.news.filterLabel}
+        />
+      </section>
 
       <section
         id="danh-sach-tin"
         className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8"
       >
-        {/* Số kết quả — trả lời câu "tôi vừa tìm được bao nhiêu bài?" ngay trên
-            đầu lưới. Tách hai chuỗi ít/nhiều để tiếng Anh không ra "1 results". */}
-        {isSearch && outcome?.status === "ok" && resultCount > 0 ? (
-          <p
-            data-testid="news-search-count"
-            className="mb-5 text-sm font-semibold text-slate"
-          >
-            {interpolate(
-              resultCount === 1
-                ? dictionary.news.searchCountOne
-                : dictionary.news.searchCountMany,
-              { count: String(resultCount), query },
-            )}
-          </p>
-        ) : null}
-
-        {/* Từ khóa không đạt hợp đồng backend (1 ký tự / quá 200 ký tự). Nói rõ
-            LÝ DO thay vì hiện "không tìm thấy bài viết" — người dùng đang bị
-            chặn ở ô nhập, không phải kho nội dung rỗng. */}
-        {outcome?.status === "invalid" ? (
-          <div className="border border-black/10 bg-white p-6">
-            <h2 className="text-2xl font-semibold">
-              {dictionary.news.searchInvalidTitle}
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              {outcome.reason === "too-short"
-                ? dictionary.news.searchTooShort
-                : dictionary.news.searchTooLong}
-            </p>
-            <Link
-              href={localizePath(routes.news, locale)}
-              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
-            >
-              {dictionary.common.viewAllNews}
-            </Link>
-          </div>
-        ) : outcome?.status === "error" ? (
-          /* Lỗi gọi API tìm kiếm: chỉ khối này hỏng, phần khung site vẫn dùng
-             được. "Thử lại" là link về đúng URL hiện tại — gọi lại server, không
-             cần thêm state phía client. */
-          <div className="border border-danger/25 bg-white p-6">
-            <h2 className="text-2xl font-semibold">
-              {dictionary.news.searchErrorTitle}
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              {dictionary.news.searchErrorDescription}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href={`${basePath}?q=${encodeURIComponent(query)}`}
-                prefetch={false}
-                className="button-polish inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
-              >
-                {dictionary.news.searchErrorRetry}
-              </Link>
-              <Link
-                href={localizePath(routes.news, locale)}
-                className="button-polish inline-flex h-11 items-center border border-brand/30 px-5 text-sm font-semibold text-brand hover:border-brand"
-              >
-                {dictionary.common.viewAllNews}
-              </Link>
-            </div>
-          </div>
-        ) : posts.length > 0 ? (
+        {posts.length > 0 ? (
           // Ba cột chỉ từ `lg`. Ở `md` (768px) ba cột cho thẻ rộng ~240px —
           // hẹp hơn cả một cột ở màn 375px, tiêu đề bài vỡ 4–5 dòng. Bậc trung
           // gian hai cột giữ thẻ ~294px ở 640px và ~360px ở 768px.
@@ -231,41 +152,16 @@ export default async function NewsPage({
                   <h2 className="mt-3 text-xl font-semibold leading-snug">
                     {post.title}
                   </h2>
-                  {/* Tóm tắt CHỈ hiện ở chế độ tìm kiếm: người dùng cần đoạn
-                      trích để đoán bài nào đúng ý trước khi mở. Danh sách tin
-                      thường giữ nguyên bố cục cũ (ảnh + tiêu đề) để lưới 3 cột
-                      không cao thấp so le. Clamp 3 dòng cho tóm tắt dài. */}
-                  {isSearch && post.summary ? (
-                    // Canh TRÁI, không justify: thẻ nằm trong lưới 3 cột nên bề
-                    // ngang thực chỉ ~330px (~42 ký tự/dòng) — hẹp hơn cả màn
-                    // 375px. Justify ở bề rộng đó tạo "dòng sông trắng" chạy
-                    // dọc, và `text-indent` đi kèm làm dòng đầu thụt vào giữa
-                    // thẻ. Đây là chữ trong thẻ nhỏ, không phải văn bản dài.
-                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate">
-                      {post.summary}
-                    </p>
-                  ) : null}
+                  {/* Cố ý KHÔNG hiện tóm tắt ở danh sách tin: lưới giữ bố cục
+                      ảnh + tiêu đề để các thẻ không cao thấp so le. Đoạn trích
+                      là thứ cần cho KẾT QUẢ TÌM KIẾM, và nó nay nằm ở
+                      `/tim-kiem` (xem `components/sections/search-results.tsx`). */}
                   <span className="link-arrow mt-5 text-sm font-semibold text-brand">
                     {dictionary.common.readArticle}
                   </span>
                 </div>
               </Link>
             ))}
-          </div>
-        ) : query ? (
-          <div className="border border-black/10 bg-white p-6">
-            <h2 className="text-2xl font-semibold">
-              {dictionary.news.notFoundTitle}
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              {interpolate(dictionary.news.notFoundDescription, { query })}
-            </p>
-            <Link
-              href={localizePath(routes.news, locale)}
-              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
-            >
-              {dictionary.common.viewAllNews}
-            </Link>
           </div>
         ) : (
           <div className="border border-black/10 bg-white p-6">
@@ -278,20 +174,18 @@ export default async function NewsPage({
           </div>
         )}
 
-        {/* Chỉ phân trang cho danh sách đầy đủ; kết quả tìm kiếm không phân trang. */}
-        {newsPage ? (
-          <Pagination
-            currentPage={newsPage.page}
-            totalPages={newsPage.totalPages}
-            // Neo về đầu danh sách để sang trang không phải cuộn lại từ header.
-            buildHref={(page) =>
-              page <= 1
-                ? `${basePath}#danh-sach-tin`
-                : `${basePath}?page=${page}#danh-sach-tin`
-            }
-            labels={dictionary.pagination}
-          />
-        ) : null}
+        {/* `Pagination` tự ẩn khi chỉ có một trang. */}
+        <Pagination
+          currentPage={newsPage.page}
+          totalPages={newsPage.totalPages}
+          // Neo về đầu danh sách để sang trang không phải cuộn lại từ header.
+          buildHref={(page) =>
+            page <= 1
+              ? `${basePath}#danh-sach-tin`
+              : `${basePath}?page=${page}#danh-sach-tin`
+          }
+          labels={dictionary.pagination}
+        />
       </section>
     </SiteShell>
   );

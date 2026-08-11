@@ -135,7 +135,13 @@ describe("SiteHeader — tìm kiếm", () => {
     ).toBeTruthy();
   });
 
-  it("submit đúng route tin tức theo locale", () => {
+  /**
+   * Ô tìm kiếm ở header phải trỏ vào trang tìm kiếm HỢP NHẤT, không phải trang
+   * tin. Bản cũ submit vào `/tin-tuc` và bị ép phạm vi `news`, nên gõ tên một
+   * dự án ra "không tìm thấy bài viết" — dù backend trả được cả hai loại trong
+   * cùng một lượt gọi.
+   */
+  it("submit vào /tim-kiem chứ KHÔNG phải /tin-tuc, đúng theo locale", () => {
     const { unmount } = render(
       <SiteHeader locale="vi" dictionary={dictionary} />,
     );
@@ -143,7 +149,7 @@ describe("SiteHeader — tìm kiếm", () => {
     const viForms = screen.getAllByRole("search");
     expect(viForms).toHaveLength(2);
     for (const form of viForms) {
-      expect(form).toHaveAttribute("action", "/tin-tuc");
+      expect(form).toHaveAttribute("action", "/tim-kiem");
     }
     unmount();
 
@@ -152,7 +158,7 @@ describe("SiteHeader — tìm kiếm", () => {
     const enForms = screen.getAllByRole("search");
     expect(enForms).toHaveLength(2);
     for (const form of enForms) {
-      expect(form).toHaveAttribute("action", "/en/tin-tuc");
+      expect(form).toHaveAttribute("action", "/en/tim-kiem");
     }
   });
 });

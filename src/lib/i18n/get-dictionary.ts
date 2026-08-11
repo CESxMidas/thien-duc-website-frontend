@@ -220,6 +220,33 @@ export type Dictionary = {
     title: string;
     description: string;
   };
+  /** Trang tìm kiếm hợp nhất `/tim-kiem` (dự án + tin tức). */
+  search: {
+    eyebrow: string;
+    title: string;
+    /** Nhận biến `{query}`. */
+    titleWithQuery: string;
+    description: string;
+    descriptionWithQuery: string;
+    groupProjects: string;
+    groupNews: string;
+    /** Số kết quả TRONG MỘT NHÓM — nhận biến `{count}`. */
+    countOne: string;
+    countMany: string;
+    /** Tổng số kết quả trên toàn trang — nhận `{count}` và `{query}`. */
+    summaryOne: string;
+    summaryMany: string;
+    emptyQueryTitle: string;
+    emptyQueryDescription: string;
+    invalidTitle: string;
+    tooShort: string;
+    tooLong: string;
+    notFoundTitle: string;
+    notFoundDescription: string;
+    errorTitle: string;
+    errorDescription: string;
+    errorRetry: string;
+  };
   homeBanner: {
     regionLabel: string;
     ariaPrevious: string;

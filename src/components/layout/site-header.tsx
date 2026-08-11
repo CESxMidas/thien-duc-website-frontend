@@ -115,7 +115,11 @@ type SiteHeaderProps = {
 export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
-  const searchAction = localizePath(routes.news, locale);
+  // Ô tìm kiếm ở header trỏ vào trang tìm kiếm HỢP NHẤT, không phải trang tin.
+  // Trước đây nó submit vào `/tin-tuc` và bị ép phạm vi `news`, nên gõ tên một
+  // dự án ra "không tìm thấy bài viết" — trong khi backend trả được cả dự án
+  // lẫn tin tức trong cùng một lượt gọi.
+  const searchAction = localizePath(routes.search, locale);
 
   /** Nhãn điều hướng dịch theo `href`; thiếu bản dịch thì giữ nguyên tiếng Việt. */
   const navLabel = (item: NavItem) =>

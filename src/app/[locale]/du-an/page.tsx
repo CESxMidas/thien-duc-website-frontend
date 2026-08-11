@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Check } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ProjectsCarousel } from "@/components/sections/projects-carousel";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getProjects } from "@/lib/api/projects";
-import { search } from "@/lib/api/search";
 import { isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { projectStatusFilterValues } from "@/lib/project-status";
@@ -46,18 +45,24 @@ export default async function ProjectsPage({
   if (!isLocale(locale)) notFound();
 
   const { status, q } = await searchParams;
-  const activeStatus = getStatusFilter(status);
   const query = getSearchQuery(q);
-  const dictionary = await getDictionary(locale);
 
-  // Tìm kiếm và lọc trạng thái là hai chế độ tách biệt: khi có từ khóa, kết quả
-  // đã xếp theo độ liên quan nên không chồng thêm bộ lọc lên trên.
-  const projects = query
-    ? (await search(query, locale, "projects")).projects
-    : await getProjects(locale);
+  // Tìm kiếm đã chuyển hẳn sang `/tim-kiem` (dự án + tin tức trong một lượt).
+  // `/du-an?q=...` là URL cũ, chuyển hướng **vĩnh viễn (308)** và giữ nguyên từ
+  // khóa. Chỉ chuyển khi THẬT SỰ có từ khóa — `?status=` và danh sách thường
+  // không bị đụng tới.
+  if (query) {
+    permanentRedirect(
+      `${localizePath(routes.search, locale)}?q=${encodeURIComponent(query)}`,
+    );
+  }
+
+  const activeStatus = getStatusFilter(status);
+  const dictionary = await getDictionary(locale);
+  const projects = await getProjects(locale);
 
   const filteredProjects =
-    query || activeStatus === "all"
+    activeStatus === "all"
       ? projects
       : projects.filter((project) => project.status === activeStatus);
 
@@ -66,58 +71,48 @@ export default async function ProjectsPage({
       <div className="projects-motion">
         <PageHeading
           eyebrow={dictionary.projects.eyebrow}
-          title={
-            query
-              ? dictionary.projects.searchResultsTitle
-              : dictionary.projects.title
-          }
+          title={dictionary.projects.title}
           description={dictionary.projects.description}
         />
 
-        {query ? null : (
-          <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
-            <div className="reveal-from-left flex flex-wrap gap-2">
-              {projectStatusFilterValues.map((value) => {
-                const active = activeStatus === value;
-                const href =
-                  value === "all"
-                    ? localizePath(routes.projects, locale)
-                    : localizePath(
-                        `${routes.projects}?status=${value}`,
-                        locale,
-                      );
-                const count =
-                  value === "all"
-                    ? projects.length
-                    : projects.filter(
-                        (project) => project.status === value,
-                      ).length;
+        <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+          <div className="reveal-from-left flex flex-wrap gap-2">
+            {projectStatusFilterValues.map((value) => {
+              const active = activeStatus === value;
+              const href =
+                value === "all"
+                  ? localizePath(routes.projects, locale)
+                  : localizePath(`${routes.projects}?status=${value}`, locale);
+              const count =
+                value === "all"
+                  ? projects.length
+                  : projects.filter((project) => project.status === value)
+                      .length;
 
-                return (
-                  <Link
-                    key={value}
-                    href={href}
-                    scroll={false}
-                    aria-current={active ? "page" : undefined}
-                    className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
-                      active
-                        ? "border-brand bg-brand text-white"
-                        : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
-                    }`}
-                  >
-                    {active ? (
-                      <Check className="size-4 shrink-0" aria-hidden="true" />
-                    ) : null}
-                    {dictionary.projectStatus[value]}
-                    <span className={active ? "text-white/80" : "text-slate"}>
-                      ({count})
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        )}
+              return (
+                <Link
+                  key={value}
+                  href={href}
+                  scroll={false}
+                  aria-current={active ? "page" : undefined}
+                  className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
+                    active
+                      ? "border-brand bg-brand text-white"
+                      : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
+                  }`}
+                >
+                  {active ? (
+                    <Check className="size-4 shrink-0" aria-hidden="true" />
+                  ) : null}
+                  {dictionary.projectStatus[value]}
+                  <span className={active ? "text-white/80" : "text-slate"}>
+                    ({count})
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
 
         <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
           {filteredProjects.length > 0 ? (

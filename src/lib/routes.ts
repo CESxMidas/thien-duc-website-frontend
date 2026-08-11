@@ -9,4 +9,8 @@ export const routes = {
   members: "/cong-ty-thanh-vien",
   careers: "/tuyen-dung",
   contact: "/lien-he",
+  /** Tìm kiếm hợp nhất (dự án + tin tức). Trang riêng chứ không nhờ trang tin:
+   *  chính sách `noindex` gom về một chỗ, còn `/tin-tuc` giữ đúng vai trò danh
+   *  mục có phân trang và lọc chuyên mục. */
+  search: "/tim-kiem",
 };

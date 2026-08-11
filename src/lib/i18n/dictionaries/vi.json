@@ -9,8 +9,8 @@
     "languageSwitcher": "Chọn ngôn ngữ"
   },
   "header": {
-    "searchPlaceholder": "Tìm tin tức",
-    "searchLabel": "Tìm kiếm tin tức",
+    "searchPlaceholder": "Tìm kiếm...",
+    "searchLabel": "Tìm kiếm dự án và tin tức",
     "searchSubmit": "Tìm",
     "openMenu": "Mở menu",
     "closeMenu": "Đóng menu"
@@ -199,6 +199,29 @@
     "eyebrow": "Liên hệ Thiên Đức",
     "title": "Trao đổi về dự án, hợp tác hoặc nhu cầu tư vấn",
     "description": "Đội ngũ Thiên Đức sẵn sàng tiếp nhận thông tin từ khách hàng, đối tác và các bên quan tâm đến dự án."
+  },
+  "search": {
+    "eyebrow": "Tìm kiếm",
+    "title": "Kết quả tìm kiếm",
+    "titleWithQuery": "Kết quả tìm kiếm cho “{query}”",
+    "description": "Tìm trong dự án và tin tức đã đăng của Thiên Đức.",
+    "descriptionWithQuery": "Kết quả phù hợp với từ khóa “{query}” trong dự án và tin tức.",
+    "groupProjects": "Dự án",
+    "groupNews": "Tin tức",
+    "countOne": "1 kết quả",
+    "countMany": "{count} kết quả",
+    "summaryOne": "Tìm thấy 1 kết quả cho “{query}”",
+    "summaryMany": "Tìm thấy {count} kết quả cho “{query}”",
+    "emptyQueryTitle": "Nhập từ khóa để bắt đầu",
+    "emptyQueryDescription": "Bạn có thể tìm theo tên dự án, địa điểm hoặc nội dung bài viết.",
+    "invalidTitle": "Từ khóa chưa hợp lệ",
+    "tooShort": "Vui lòng nhập ít nhất 2 ký tự để tìm kiếm.",
+    "tooLong": "Từ khóa quá dài — vui lòng rút ngắn còn tối đa 200 ký tự.",
+    "notFoundTitle": "Không tìm thấy kết quả",
+    "notFoundDescription": "Không có dự án hay bài viết nào phù hợp với “{query}”. Thử từ khóa khác, hoặc xem toàn bộ dự án và tin tức.",
+    "errorTitle": "Không thực hiện được tìm kiếm",
+    "errorDescription": "Hệ thống tìm kiếm tạm thời không phản hồi. Bạn có thể thử lại sau ít phút.",
+    "errorRetry": "Thử lại"
   },
   "homeBanner": {
     "regionLabel": "Banner dự án nổi bật",
