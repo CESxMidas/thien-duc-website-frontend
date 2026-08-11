@@ -182,6 +182,8 @@ export type Dictionary = {
   };
   homeIntro: {
     eyebrow: string;
+    /** Tiêu đề `<h2>` của dải giới thiệu — cột trái của bố cục biên tập. */
+    title: string;
     description: string;
     strengths: Array<{ title: string; description: string }>;
   };
