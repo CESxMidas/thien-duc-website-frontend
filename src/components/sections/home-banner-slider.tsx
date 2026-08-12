@@ -285,11 +285,16 @@ export function HomeBannerSlider({
               {/* Chỉ số slide nằm CÙNG HÀNG với eyebrow. Trước đây nó là một cột
                   riêng bên trái, ăn ~60px bề ngang của MỌI dòng chữ kể cả tiêu
                   đề — thông tin phụ chiếm chỗ của thông tin chính. */}
-              <div className="mb-4 flex items-center gap-4">
+              {/* Bỏ vạch kẻ mảnh trang trí (`h-px flex-1 bg-white/25`) vốn nằm
+                  giữa eyebrow và số thứ tự slide: nó không mang trạng thái hay
+                  tiến trình nào, chỉ lấp chỗ. `justify-between` thay nó làm việc
+                  giãn cách, nên bố cục giữ nguyên mà bớt một nét trang trí.
+                  KHÔNG đụng thanh tiến trình `.banner-progress` hay chấm
+                  `aria-current` — đó là chỉ báo trạng thái thật. */}
+              <div className="mb-4 flex items-center justify-between gap-4">
                 <p className="text-eyebrow text-gold">
                   {activeBanner.eyebrow}
                 </p>
-                <span className="h-px flex-1 bg-white/25" aria-hidden="true" />
                 <p className="hidden shrink-0 text-sm font-semibold text-white/70 sm:block">
                   {String(activeIndex + 1).padStart(2, "0")}
                   <span className="mx-2 text-white/30">/</span>

@@ -6,8 +6,10 @@
  * **một** component để cả site hiển thị giống nhau và đủ đậm:
  *
  * - Câu gồm hai vế nhân — quả (khách hàng hài lòng → Thiên Đức thành công), nên
- *   tách hai vế xuống hai dòng, chèn một vạch vàng ở giữa làm bản lề. Vế kết quả
- *   tô vàng thương hiệu để mắt dừng đúng chỗ.
+ *   tách hai vế xuống hai dòng. Vế kết quả tô vàng thương hiệu để mắt dừng đúng
+ *   chỗ. Phân vế thể hiện bằng **xuống dòng + tương phản màu**, không dùng vạch
+ *   trang trí: bản trước chèn một vạch vàng ở giữa, đọc ra như đồ trang sức thừa
+ *   giữa hai vế của một câu liền mạch.
  * - Chữ dùng `font-display` (Playfair) cỡ lớn — khác hẳn body sans xung quanh.
  */
 /**
@@ -58,13 +60,7 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
       >
         <span className="block text-balance">{first}</span>
         {second ? (
-          <>
-            <span
-              aria-hidden="true"
-              className="my-2 block h-0.5 w-12 bg-gold sm:my-3 sm:w-14"
-            />
-            <span className="block text-balance text-gold">{second}</span>
-          </>
+          <span className="mt-1 block text-balance text-gold">{second}</span>
         ) : null}
       </blockquote>
     </figure>
@@ -72,22 +68,21 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
 }
 
 /**
- * Biến thể gọn cho footer: nền đã là nâu đậm nên bỏ tấm biển, chỉ giữ vạch vàng
- * bản lề + tương phản trắng/vàng giữa hai vế.
+ * Biến thể gọn cho footer: nền đã là nâu đậm nên bỏ tấm biển, phân vế bằng
+ * tương phản trắng/vàng. Không vạch trang trí — cả vạch vàng giữa hai vế lẫn
+ * đường kẻ phía trên khối đều đã bỏ; khoảng cách với đoạn tagline phía trên do
+ * `className` bên ngoài (`mt-5` ở footer) quản, đủ tách nhóm mà không cần kẻ.
  */
 export function BrandMottoCompact({ motto, className }: BrandMottoProps) {
   const { first, second } = splitMotto(motto);
 
   return (
     <blockquote
-      className={`border-t border-gold/35 pt-4 font-display text-lg font-bold leading-snug text-white sm:text-xl ${className ?? ""}`}
+      className={`font-display text-lg font-bold leading-snug text-white sm:text-xl ${className ?? ""}`}
     >
       <span className="block">{first}</span>
       {second ? (
-        <>
-          <span aria-hidden="true" className="my-2 block h-0.5 w-10 bg-gold" />
-          <span className="block text-gold">{second}</span>
-        </>
+        <span className="mt-1 block text-gold">{second}</span>
       ) : null}
     </blockquote>
   );

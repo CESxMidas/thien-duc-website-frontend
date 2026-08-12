@@ -77,7 +77,11 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
                 {/* `h3` chứ không phải `h2`: từ khi dải có tiêu đề mục `<h2>`,
                     tiêu đề thẻ là cấp con của nó. Thuần ngữ nghĩa — class giữ
                     nguyên nên hiển thị không đổi. */}
-                <h3 className="mt-4 inline-block border-b-2 border-gold/80 pb-0.5 text-base font-bold text-brand">
+                {/* Bỏ gạch chân vàng trang trí (`inline-block border-b-2
+                    border-gold/80 pb-0.5`): tiêu đề đã đủ phân cấp nhờ đậm +
+                    màu brand + cỡ chữ. `inline-block`/`pb-0.5` cũng bỏ theo vì
+                    chúng chỉ tồn tại để bó gạch chân vừa bề ngang chữ. */}
+                <h3 className="mt-4 text-base font-bold text-brand">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-slate">
