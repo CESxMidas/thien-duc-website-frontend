@@ -173,6 +173,73 @@ describe("HomeBannerSlider", () => {
    * cú bấm vào nút tạm dừng/tiến/lùi — Playwright bắt được đúng lỗi này:
    * "…intercepts pointer events".
    */
+  it("khối chữ KHÔNG còn dùng backdrop blur (ảnh phải giữ được chi tiết)", () => {
+    const { container } = renderSlider();
+
+    expect(container.querySelector(".backdrop-blur-sm")).toBeNull();
+  });
+
+  it("phụ đề clamp 2 dòng ở MỌI breakpoint", () => {
+    renderSlider();
+
+    const subtitle = screen.getByText("Mô tả banner 1");
+
+    expect(subtitle.className).toContain("line-clamp-2");
+    // Bản cũ nới lên 3 dòng từ `sm` — đó là thứ đẩy khối chữ cao lên.
+    expect(subtitle.className).not.toContain("line-clamp-3");
+  });
+
+  it("tiêu đề vẫn clamp 2 dòng", () => {
+    renderSlider();
+
+    const heading = screen.getByRole("heading", { level: 1 });
+
+    expect(heading.className).toContain("line-clamp-2");
+  });
+
+  it("CTA chính là nút đặc, CTA phụ là liên kết chữ nhẹ hơn", () => {
+    renderSlider();
+
+    const primary = screen.getByRole("link", { name: "Xem dự án" });
+    const secondary = screen.getByRole("link", { name: "Liên hệ" });
+
+    // Chính: nền đặc.
+    expect(primary.className).toContain("bg-gold");
+    // Phụ: treatment liên kết của hệ thống, KHÔNG phải nút đặc thứ hai.
+    expect(secondary.className).toContain("link-arrow");
+    expect(secondary.className).not.toContain("bg-gold");
+    expect(secondary.className).not.toContain("border");
+    // Vẫn phải giữ vùng chạm và có focus ring thấy được trên nền ảnh.
+    expect(secondary.className).toContain("h-11");
+    expect(secondary.className).toContain("focus-visible:outline-2");
+  });
+
+  it("CTA phụ vẫn trỏ tới trang liên hệ", () => {
+    renderSlider();
+
+    expect(
+      screen.getByRole("link", { name: "Liên hệ" }).getAttribute("href"),
+    ).toBe("/lien-he");
+  });
+
+  it("KHÔNG có vạch kẻ trang trí nào quay lại trong khối chữ", () => {
+    const { container } = renderSlider();
+
+    expect(container.querySelector(".h-px")).toBeNull();
+  });
+
+  it("khung định vị khối chữ không chặn chuột của cụm điều khiển", () => {
+    const { container } = renderSlider();
+
+    const wrapper = container.querySelector(".bottom-18");
+
+    expect(wrapper?.className).toContain("pointer-events-none");
+    // Nhưng chính khối chữ phải bắt được chuột, nếu không CTA bấm không được.
+    expect(
+      wrapper?.querySelector(".pointer-events-auto"),
+    ).not.toBeNull();
+  });
+
   it("khung căn giữa hàng chấm không được chặn chuột của cụm nút", () => {
     const { container } = renderSlider();
     const dotsFrame = container.querySelector(".absolute.inset-x-0.bottom-5");

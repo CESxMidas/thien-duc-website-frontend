@@ -240,12 +240,18 @@ export function HomeBannerSlider({
           );
         })}
 
-        {/* Lớp phủ nhẹ hơn hẳn bản cũ (0.72 → 0.5): khối chữ bên dưới đã có nền
-            ink/28 + backdrop-blur riêng nên vẫn đọc rõ, còn ảnh banner sáng và
-            trong trẻo hơn thay vì bị tối. Vẫn giữ độ tối phía trái để mép thẻ
-            chữ hoà vào nền, nhạt dần về phải để lộ chi tiết ảnh. */}
-        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)]" />
-        <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_78%,rgba(253,205,4,0.16),transparent_32%)]" />
+        {/* Lớp phủ CỤC BỘ theo phía đặt chữ — không tối đều cả ảnh.
+            Tổng độ tối giữ nguyên mức hiện tại (đỉnh 0.5, nhạt dần về 0.04);
+            chỉ đổi HƯỚNG để vùng tối nằm đúng sau khối chữ, trả lại chi tiết
+            cho nửa còn lại của ảnh.
+
+            Dưới `xl` chữ nằm trái → tối bên trái (giữ nguyên như cũ).
+            Từ `xl` chữ chuyển sang phải → gradient lật 270deg.
+            Vệt vàng radial cũng lật theo cho ăn khớp với khối chữ. */}
+        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)] xl:hidden" />
+        <div className="absolute inset-0 z-20 hidden bg-[linear-gradient(270deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)] xl:block" />
+        <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_78%,rgba(253,205,4,0.16),transparent_32%)] xl:hidden" />
+        <div className="absolute inset-0 z-20 hidden bg-[radial-gradient(circle_at_82%_78%,rgba(253,205,4,0.16),transparent_32%)] xl:block" />
 
         {autoplayEnabled ? (
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
@@ -274,11 +280,31 @@ export function HomeBannerSlider({
 
             Vẫn thấp hơn bản cũ ở desktop (80px), và ở mobile phần thu gọn thật
             sự đến từ `line-clamp-2` chứ không phải từ việc hạ khối chữ. */}
-        <div className="absolute inset-x-0 bottom-18 z-30 px-4 sm:px-6">
+        {/* `pointer-events-none` ở khung định vị, `pointer-events-auto` ở khối
+            chữ: khung này trải hết bề ngang (`inset-x-0`) ở cùng `z-30` với cụm
+            điều khiển. Từ `xl` khối chữ chuyển sang PHẢI — cùng phía với nút
+            tạm dừng/tiến/lùi — nên phải khoá sự kiện chuột của khung, đúng cách
+            đã áp cho hàng chấm sau lần hồi quy "intercepts pointer events". */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-18 z-30 px-4 sm:px-6">
           <div className="mx-auto max-w-site">
             <div
               key={activeBanner.title}
-              className={`flex max-w-136 flex-col justify-between border border-white/15 bg-ink/28 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm sm:p-7 ${
+              // Bỏ `backdrop-blur-sm`: đây là thứ XOÁ SẠCH chi tiết ảnh phía sau
+              // khối chữ (khác lớp phủ tối, vốn còn thấy hình khối). Bỏ luôn
+              // `border-white/15` vì viền là thứ khiến khối đọc ra như một tấm
+              // thẻ nổi thay vì chữ đặt trên ảnh.
+              //
+              // Nền nâng `bg-ink/28` → `/38` sau khi ĐO trên trình duyệt thật: bỏ
+              // blur làm mất lớp san phẳng điểm sáng, nên 1% pixel sáng nhất sau
+              // chữ chỉ còn 3.4–3.7:1 trên cả 4 banner — đủ cho tiêu đề 44px
+              // (ngưỡng chữ lớn 3:1) nhưng THIẾU cho phụ đề 18px (cần 4.5:1).
+              // Tăng đúng lớp nền cục bộ này là cách tối thiểu: chỉ ảnh hưởng
+              // vùng ngay sau chữ, KHÔNG đụng pixel nào của phần ảnh còn lại
+              // (khác hẳn việc làm tối gradient toàn slide).
+              // `xl:ml-auto` đẩy khối sang phải trong container ở desktop rộng:
+              // tiêu điểm ảnh thực tế đang lệch trái (35%/45%), để chữ bên phải
+              // là nhường lại đúng phần chủ thể kiến trúc.
+              className={`pointer-events-auto flex max-w-lg flex-col justify-between bg-ink/38 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] sm:p-7 xl:ml-auto ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}
             >
@@ -305,21 +331,31 @@ export function HomeBannerSlider({
                 <h1 className="line-clamp-2 text-[1.6rem] font-semibold leading-[1.15] sm:text-4xl lg:text-[2.75rem]">
                   {activeBanner.title}
                 </h1>
-                {/* Clamp 2 dòng ở mobile: ở 320px hero chỉ cao 512px, dòng thứ
-                    ba của phụ đề là phần đẩy khối chữ che gần hết khung ảnh. */}
-                <p className="mt-3 line-clamp-2 max-w-xl text-sm leading-6 text-white/85 sm:line-clamp-3 sm:text-base lg:text-lg">
+                {/* Clamp 2 dòng ở MỌI breakpoint (trước đây `sm:line-clamp-3`).
+                    Phụ đề thật dài 92–113 ký tự — đó là tóm tắt dự án, không
+                    phải phụ đề; dòng thứ ba là phần đẩy khối chữ cao lên mà
+                    không thêm thông tin quyết định. Nội dung đầy đủ vẫn ở trang
+                    chi tiết dự án qua CTA chính. Không cắt dữ liệu CMS. */}
+                <p className="mt-3 line-clamp-2 max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg">
                   {activeBanner.subtitle}
                 </p>
-                <div className="mt-5 grid gap-3 min-[420px]:flex min-[420px]:flex-wrap sm:mt-6">
+                {/* Phân cấp hành động: nút đặc cho việc chính, liên kết chữ cho
+                    việc phụ. Hai nút đặc như bản cũ khiến hàng CTA nặng ngang
+                    bằng tiêu đề. `link-arrow` là treatment liên kết có sẵn của
+                    hệ thống (mũi tên `→`, dùng ở 9 nơi khác) — không dựng bộ
+                    icon mới. Giữ `h-11` để vẫn đủ vùng chạm, và focus ring
+                    tường minh vì nền ảnh không đảm bảo tương phản outline mặc
+                    định. Đích đến Liên hệ giữ nguyên. */}
+                <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-6">
                   <Link
                     href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex h-11 items-center justify-center px-4 text-center text-sm font-semibold text-ink transition bg-gold hover:bg-white sm:px-5"
+                    className="button-polish inline-flex h-11 items-center justify-center bg-gold px-4 text-center text-sm font-semibold text-ink transition hover:bg-white sm:px-5"
                   >
                     {activeBanner.ctaLabel}
                   </Link>
                   <Link
                     href={localizePath(routes.contact, locale)}
-                    className="button-polish inline-flex h-11 items-center justify-center border border-white/60 px-4 text-center text-sm font-semibold text-white transition hover:border-white hover:bg-white hover:text-ink sm:px-5"
+                    className="link-arrow inline-flex h-11 items-center gap-2 text-sm font-semibold text-white underline-offset-4 transition hover:text-gold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
                   >
                     {contactCtaLabel}
                   </Link>
