@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
 import { PageHeading } from "@/components/ui/page-heading";
 import { Pagination } from "@/components/ui/pagination";
@@ -128,6 +129,22 @@ export default async function NewsCategoryPage({
 
   return (
     <SiteShell locale={locale}>
+      {/* Cùng component (và cùng JSON-LD BreadcrumbList) với trang bài viết —
+          trước đây trang chuyên mục là cấp duy nhất trong cây `/tin-tuc` không
+          có breadcrumb. */}
+      <Breadcrumb
+        items={[
+          {
+            label: dictionary.breadcrumb.home,
+            href: localizePath(routes.home, locale),
+          },
+          {
+            label: dictionary.breadcrumb.news,
+            href: localizePath(routes.news, locale),
+          },
+          { label: category.name },
+        ]}
+      />
       <PageHeading
         eyebrow={dictionary.news.eyebrow}
         title={interpolate(dictionary.news.categoryTitle, {

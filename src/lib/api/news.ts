@@ -8,14 +8,15 @@ type NewsCategoryDto = {
   slug: string;
   name: LocalizedText;
   order: number;
+  publishedCount: number;
 };
 
 /**
  * Danh sách chuyên mục tin (`GET /news/categories`) — backend sắp theo `order`
  * rồi `slug`, giữ nguyên thứ tự đó: đây là thứ tự biên tập viên đặt trong Admin.
  *
- * Cố ý KHÔNG trả về số bài mỗi chuyên mục: backend chưa lọc `_count` theo trạng
- * thái PUBLISHED nên con số đó sẽ tính cả bài nháp.
+ * Kèm `publishedCount` — số bài **đã đăng**. Route công khai cố ý không trả
+ * tổng số bài (nó gộp cả bài nháp, là thông tin nội bộ).
  */
 export async function getNewsCategories(
   locale: Locale,
@@ -24,6 +25,9 @@ export async function getNewsCategories(
   return data.map((dto) => ({
     slug: dto.slug,
     name: localized(dto.name, locale),
+    // Backend cũ chưa có field này → coi như 0, chuyên mục sẽ bị ẩn thay vì
+    // dẫn người dùng vào một trang có thể rỗng.
+    publishedCount: dto.publishedCount ?? 0,
   }));
 }
 

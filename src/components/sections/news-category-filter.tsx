@@ -26,8 +26,9 @@ type NewsCategoryFilterProps = {
  * trạng thái đang chọn diễn đạt bằng `aria-current="page"` — đúng thứ trình đọc
  * màn hình đã hiểu, không phải ARIA thừa.
  *
- * Cố ý CHƯA hiện số bài mỗi chuyên mục: backend chưa đếm riêng bài đã đăng nên
- * con số sẽ tính cả bài nháp. Thà không có số còn hơn có số sai.
+ * Số bài đã đăng được DÙNG để lọc chuyên mục rỗng nhưng cố ý KHÔNG hiện lên
+ * chip: đây là điều hướng của một website doanh nghiệp, không phải bộ lọc
+ * thương mại điện tử — con số bên cạnh nhãn chỉ thêm nhiễu.
  */
 export function NewsCategoryFilter({
   categories,
@@ -36,12 +37,25 @@ export function NewsCategoryFilter({
   allLabel,
   regionLabel,
 }: NewsCategoryFilterProps) {
-  // Không có chuyên mục nào thì không render khung lọc rỗng.
-  if (categories.length === 0) return null;
+  /**
+   * Chỉ hiện chuyên mục ĐÃ CÓ bài đăng.
+   *
+   * Chuyên mục rỗng vẫn truy cập được bằng URL trực tiếp (200 + `noindex`, để
+   * link cũ không chết), nhưng không được xuất hiện ở đây: chip dẫn vào trang
+   * trống là ngõ cụt cho người đọc, và là liên kết nội bộ trỏ vào một trang
+   * `noindex` — hai tín hiệu SEO tự mâu thuẫn.
+   *
+   * Hệ quả có chủ đích: chuyên mục vừa tạo trong Admin chưa hiện ngay ở đây,
+   * nó xuất hiện khi bài đầu tiên được xuất bản.
+   */
+  const visible = categories.filter((category) => category.publishedCount > 0);
+
+  // Không còn chuyên mục nào để lọc thì không render khung lọc rỗng.
+  if (visible.length === 0) return null;
 
   const items = [
     { slug: undefined, name: allLabel, href: routes.news },
-    ...categories.map((category) => ({
+    ...visible.map((category) => ({
       slug: category.slug,
       name: category.name,
       href: `${routes.newsCategory}/${category.slug}`,

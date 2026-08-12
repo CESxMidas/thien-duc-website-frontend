@@ -88,9 +88,28 @@ export type ProjectItem = {
  * trong dòng metadata: không dựng được link tới trang danh mục dù backend luôn
  * trả `slug` kèm theo.
  */
-export type NewsCategory = {
+export type NewsCategoryRef = {
   slug: string;
   name: string;
+};
+
+/**
+ * Một mục trong danh sách chuyên mục (`GET /news/categories`).
+ *
+ * Khác `NewsCategoryRef` — thứ gắn kèm mỗi bài viết — ở chỗ có thêm số đếm.
+ * Tách hai kiểu để TypeScript chặn việc lỡ tay lọc chip bằng dữ liệu chuyên mục
+ * lấy từ một bài viết (vốn không mang số đếm nào).
+ */
+export type NewsCategory = NewsCategoryRef & {
+  /**
+   * Số bài **đã đăng**. Website dùng nó để ẩn chuyên mục rỗng khỏi bộ lọc: chip
+   * dẫn vào trang trống vừa là ngõ cụt cho người đọc, vừa là liên kết nội bộ
+   * trỏ vào một trang `noindex`.
+   *
+   * Cố ý KHÔNG có `totalCount` — route công khai không trả con số đó (nó gộp cả
+   * bài nháp), và website cũng không có việc gì cần đến nó.
+   */
+  publishedCount: number;
 };
 
 export type NewsPost = {
@@ -99,7 +118,7 @@ export type NewsPost = {
   summary: string;
   publishedAt: string;
   eventDate?: string;
-  category?: NewsCategory;
+  category?: NewsCategoryRef;
   content?: string[];
   author?: string;
   image?: string;
