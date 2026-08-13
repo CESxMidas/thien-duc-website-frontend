@@ -37,6 +37,15 @@ export type Dictionary = {
     rights: string;
     taxCode: string;
   };
+  /** Kênh liên hệ Zalo (nút nổi toàn site, footer, trang liên hệ). */
+  zalo: {
+    /** Tên kênh, dùng cho nhãn `sr-only` cạnh số hiển thị. */
+    label: string;
+    /** Tên truy cập đầy đủ của link — KHÔNG dùng URL thô làm tên. */
+    ariaLabel: string;
+    /** Nhãn tiêu đề khối Zalo ở trang liên hệ. */
+    contactVia: string;
+  };
   home: {
     featuredEyebrow: string;
     featuredTitle: string;

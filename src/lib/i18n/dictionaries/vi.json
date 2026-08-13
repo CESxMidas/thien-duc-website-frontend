@@ -23,6 +23,11 @@
     "rights": "",
     "taxCode": "MST"
   },
+  "zalo": {
+    "label": "Zalo",
+    "ariaLabel": "Liên hệ Thiên Đức qua Zalo",
+    "contactVia": "Liên hệ qua Zalo"
+  },
   "home": {
     "featuredEyebrow": "Dự án tiêu biểu",
     "featuredTitle": "Không gian phát triển đô thị do Thiên Đức đồng hành triển khai",

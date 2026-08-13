@@ -23,6 +23,11 @@
     "rights": "All rights reserved.",
     "taxCode": "Tax code"
   },
+  "zalo": {
+    "label": "Zalo",
+    "ariaLabel": "Contact Thiên Đức via Zalo",
+    "contactVia": "Contact via Zalo"
+  },
   "home": {
     "featuredEyebrow": "Featured projects",
     "featuredTitle": "Urban developments delivered alongside Thien Duc",

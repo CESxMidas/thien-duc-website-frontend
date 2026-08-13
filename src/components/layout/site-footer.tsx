@@ -7,8 +7,11 @@ import {
   legalInfo,
   siteConfig,
   taxAuthorityName,
+  zaloDisplayValue,
+  zaloHref,
 } from "@/config/site";
 import { BrandMottoCompact } from "@/components/ui/brand-motto";
+import { ZaloContactLink } from "@/components/ui/zalo-contact-link";
 import { footerSections } from "@/data/footer";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -135,6 +138,22 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                   </span>
                 </span>
               </a>
+            </li>
+            {/* Zalo đứng ngay sau điện thoại: cùng là kênh gọi/nhắn trực tiếp.
+                Giữ đúng khuôn `icon + nhãn sr-only + giá trị` của ba mục kia,
+                cỡ chữ như nhau — không phải CTA lớn, nút nổi toàn site đã lo
+                phần hiện diện cao. */}
+            <li>
+              <ZaloContactLink
+                variant="inline"
+                href={zaloHref()}
+                ariaLabel={dictionary.zalo.ariaLabel}
+                label={dictionary.zalo.label}
+                displayValue={zaloDisplayValue()}
+                className={`${footerLinkClassName} flex items-start gap-2.5`}
+                iconClassName="mt-1 h-3 w-auto shrink-0 text-gold"
+                valueClassName="font-semibold text-white"
+              />
             </li>
             <li>
               <a

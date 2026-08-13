@@ -9,8 +9,14 @@
 import { render, screen, within } from "@testing-library/react";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { SiteShell } from "./site-shell";
 import { footerSections } from "@/data/footer";
-import { legalInfo, siteConfig } from "@/config/site";
+import {
+  legalInfo,
+  siteConfig,
+  zaloDisplayValue,
+  zaloHref,
+} from "@/config/site";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
@@ -59,6 +65,38 @@ describe("HeaderTopStrip", () => {
   });
 });
 
+describe("SiteShell — nút Zalo nổi theo route", () => {
+  /** `SiteShell` là Server Component `async`: gọi rồi render phần tử trả về. */
+  const renderShell = async (props?: { showFloatingContact?: boolean }) =>
+    render(
+      await SiteShell({ locale: "vi", children: <p>nội dung</p>, ...props }),
+    );
+
+  const floating = () =>
+    document.querySelector<HTMLAnchorElement>("a.floating-zalo");
+
+  it("mặc định (trang chủ, dự án, tin tức) có render nút nổi", async () => {
+    await renderShell();
+
+    const link = floating();
+    expect(link).not.toBeNull();
+    expect(link).toHaveAttribute("href", zaloHref());
+    expect(link).toHaveAccessibleName(dictionary.zalo.ariaLabel);
+  });
+
+  it("trang tắt kênh nổi thì KHÔNG render nó — không phải chỉ ẩn bằng CSS", async () => {
+    await renderShell({ showFloatingContact: false });
+
+    expect(floating()).toBeNull();
+    // Không còn bất kỳ link Zalo nào ngoài footer.
+    const zaloLinks = screen.getAllByRole("link", {
+      name: dictionary.zalo.ariaLabel,
+    });
+    expect(zaloLinks).toHaveLength(1);
+    expect(zaloLinks[0].closest("footer")).not.toBeNull();
+  });
+});
+
 describe("SiteFooter", () => {
   it("giữ landmark contentinfo và toàn bộ link điều hướng", () => {
     render(<SiteFooter locale="vi" dictionary={dictionary} />);
@@ -93,6 +131,24 @@ describe("SiteFooter", () => {
     expect(
       within(contactColumn).getByRole("link", { name: /tel|điện thoại/i }),
     ).toHaveAttribute("href", `tel:${phoneDigits}`);
+  });
+
+  it("có mục liên hệ Zalo trong cột liên hệ, cùng khuôn với điện thoại/email", () => {
+    render(<SiteFooter locale="vi" dictionary={dictionary} />);
+
+    const contactHeading = screen.getByRole("heading", {
+      name: dictionary.footer.contact,
+    });
+    const contactColumn = contactHeading.parentElement as HTMLElement;
+    const zaloLink = within(contactColumn).getByRole("link", {
+      name: dictionary.zalo.ariaLabel,
+    });
+
+    expect(zaloLink).toHaveAttribute("href", zaloHref());
+    expect(zaloLink).toHaveAttribute("target", "_blank");
+    expect(zaloLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(within(zaloLink).getByText(zaloDisplayValue() as string))
+      .toBeInTheDocument();
   });
 
   it("giữ thông tin pháp lý và bản quyền trong khối đáy", () => {

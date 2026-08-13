@@ -10,6 +10,47 @@ export const siteConfig = {
   address: "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
 };
 
+/**
+ * Định danh Zalo của công ty. `kind` là điểm chuyển đổi đã dự trù: hiện dùng số
+ * điện thoại, sau này đổi sang Official Account chỉ cần sửa đúng object này —
+ * `zaloHref`/`zaloDisplayValue` và mọi component đọc qua hai hàm đó nên không
+ * phải viết lại.
+ *
+ * `0941383007` đang là **số thử nghiệm**, chưa phải Zalo chính thức của công ty.
+ */
+export type ZaloContact = {
+  kind: "phone" | "oa";
+  value: string;
+};
+
+export const zaloContact: ZaloContact = {
+  kind: "phone",
+  value: "0941383007",
+};
+
+/**
+ * `zalo.me/<định danh>` phục vụ cả số điện thoại lẫn OA id, nên hai `kind` hiện
+ * cho ra cùng một dạng URL. Vẫn đi qua hàm này (không nối chuỗi tại chỗ) để khi
+ * Zalo tách đường dẫn theo loại thì chỉ sửa ở đây.
+ *
+ * Số phải ở dạng nội địa, liền, không dấu cách và không tiền tố `+84`.
+ */
+export function zaloHref(contact: ZaloContact = zaloContact): string {
+  return `https://zalo.me/${contact.value}`;
+}
+
+/**
+ * Chuỗi hiển thị cho người đọc (footer, trang liên hệ): số điện thoại tách nhóm
+ * kiểu Việt Nam `0941 383 007`. OA id không phải số để đọc nên trả `undefined` —
+ * nơi gọi tự bỏ phần hiển thị giá trị, chỉ còn nhãn "Zalo".
+ */
+export function zaloDisplayValue(
+  contact: ZaloContact = zaloContact,
+): string | undefined {
+  if (contact.kind !== "phone") return undefined;
+  return contact.value.replace(/^(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3");
+}
+
 export const legalInfo = {
   legalName: "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC",
   taxCode: "0309910290",

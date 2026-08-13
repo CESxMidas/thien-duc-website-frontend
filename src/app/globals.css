@@ -899,6 +899,43 @@ textarea {
   }
 }
 
+/* Menu mobile mở thì nút Zalo nổi phải rời hẳn khỏi luồng tab, không chỉ bị
+   che. Drawer không bẫy tiêu điểm, nên chỉ dựa vào z-index thì Tab vẫn chạm
+   tới một link nằm dưới lớp phủ — người dùng bàn phím lạc ra ngoài menu.
+   `visibility: hidden` gỡ khỏi cả tab order lẫn cây trợ năng, dùng đúng cờ
+   `.is-open` sẵn có và lối `:has()` đã dùng ở `.search-field` — không thêm
+   state React hay khung modal mới. Giới hạn dưới `lg` vì trên đó overlay đã
+   `display: none`. */
+@media (width < 64rem) {
+  body:has(.mobile-menu-overlay.is-open) .floating-zalo {
+    visibility: hidden;
+  }
+}
+
+/* Khung nhìn rất thấp (≤ 620px): banner trang chủ tràn XUỐNG DƯỚI mép gập nên
+   hàng CTA của banner tụt vào đúng góc trái dưới — chỗ nút Zalo đứng. Đo ở
+   320×568: CTA "Liên hệ tư vấn" nằm ở 40–84px tính từ đáy, chồng lên nút một
+   vùng 28×24px.
+
+   Không có giá trị `bottom` tĩnh nào thoát được: vị trí hàng CTA trôi tuyến
+   tính theo chiều cao khung nhìn (va chạm với mọi chiều cao trong khoảng
+   512–600px), còn đẩy nút lên đủ cao để vượt CTA thì nó lại đè lên chữ mô tả
+   của banner. Vì vậy ẩn nút khi trang chủ CHƯA cuộn; cuộn 96px là hàng CTA đã
+   dịch lên đủ xa và nút hiện lại.
+
+   Dùng luôn cờ `data-scrolled` mà header đã đặt sẵn — KHÔNG thêm
+   IntersectionObserver, không thêm JS, cùng lối `:has()` như quy tắc drawer ở
+   trên. Chỉ khớp khi phần tử đầu của `<main>` là carousel banner, tức chỉ
+   trang chủ; trang khác không có va chạm này nên không bị ẩn. */
+@media (height <= 620px) {
+  body:has(#main-content > section[aria-roledescription="carousel"]:first-child):has(
+      #site-header:not([data-scrolled])
+    )
+    .floating-zalo {
+    visibility: hidden;
+  }
+}
+
 @keyframes projectGalleryKenBurns {
   0% {
     transform: scale(1);
