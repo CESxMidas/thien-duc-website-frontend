@@ -70,10 +70,21 @@ jest.mock("@/lib/api/projects", () => ({
 }));
 
 import sitemap, { revalidate } from "./sitemap";
+import { getNewsPosts } from "@/lib/api/news";
+import { getProjects } from "@/lib/api/projects";
+import { ApiError } from "@/lib/api/client";
 
 async function urls() {
   const entries = await sitemap();
   return entries.map((entry) => entry.url);
+}
+
+const mockNews = getNewsPosts as jest.MockedFunction<typeof getNewsPosts>;
+const mockProjects = getProjects as jest.MockedFunction<typeof getProjects>;
+
+/** Đúng hình dạng lỗi undici ném ra khi không mở được kết nối tới backend. */
+function backendDown() {
+  return new TypeError("fetch failed");
 }
 
 describe("sitemap", () => {
@@ -168,5 +179,179 @@ describe("sitemap — tin lên lịch", () => {
         "url",
       ]);
     }
+  });
+});
+
+/**
+ * Backend không phản hồi.
+ *
+ * Sự cố đã đo được trên code trước bản sửa này: Render Free ngủ sau 15 phút,
+ * `next build` trúng lúc đó thì `/sitemap.xml` ném `TypeError: fetch failed` và
+ * **cả bản deploy hỏng** (`Export encountered an error on /sitemap.xml/route`).
+ * Mọi route khác đã tự hạ cấp êm qua `staticParamsSafe` / `isApiReachableAtBuild`;
+ * sitemap là chỗ duy nhất còn sót.
+ *
+ * Hai pha xử lý **ngược nhau**, và đó là điểm mấu chốt:
+ * - **Build**: chưa có cache nào để giữ, ném là hỏng deploy → hạ cấp.
+ * - **Chạy (ISR)**: đã có sitemap tốt trong cache, ném để Next tiếp tục phục vụ
+ *   bản cũ và thử lại sau. Nuốt lỗi ở đây sẽ ghi đè sitemap đầy đủ bằng bản
+ *   thiếu URL và khoá nguyên một giờ.
+ */
+describe("sitemap — backend không phản hồi", () => {
+  const realPhase = process.env.NEXT_PHASE;
+
+  /** Giả lập đang trong `next build`. */
+  function asBuild() {
+    process.env.NEXT_PHASE = "phase-production-build";
+  }
+
+  /** Giả lập đang phục vụ request (ISR regeneration). */
+  function asRuntime() {
+    delete process.env.NEXT_PHASE;
+  }
+
+  afterEach(() => {
+    // Trả env về đúng giá trị ban đầu, kể cả khi ban đầu nó không tồn tại.
+    if (realPhase === undefined) delete process.env.NEXT_PHASE;
+    else process.env.NEXT_PHASE = realPhase;
+    jest.clearAllMocks();
+  });
+
+  describe("lúc BUILD — ưu tiên deploy được", () => {
+    beforeEach(() => {
+      asBuild();
+      // Cảnh báo hạ cấp là hành vi có chủ đích; chặn ở đây để log test sạch.
+      jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it("cả hai nguồn hỏng: vẫn trả sitemap hợp lệ, chỉ còn URL tĩnh", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+      mockProjects.mockRejectedValueOnce(backendDown());
+
+      const list = await urls();
+
+      expect(list.length).toBeGreaterThan(0);
+      expect(list.some((url) => url.endsWith("/gioi-thieu"))).toBe(true);
+      expect(list.some((url) => url.endsWith("/tin-tuc"))).toBe(true);
+      expect(list.some((url) => url.endsWith("/du-an"))).toBe(true);
+    });
+
+    it("cả hai nguồn hỏng: KHÔNG đoán URL nội dung nào", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+      mockProjects.mockRejectedValueOnce(backendDown());
+
+      for (const url of await urls()) {
+        // Không có slug bài, slug dự án hay slug chuyên mục nào — backend chưa
+        // xác nhận được thì không được phép suy đoán từ trí nhớ.
+        expect(url).not.toContain("/tin-tuc/");
+        expect(url).not.toContain("/du-an/");
+      }
+    });
+
+    it("cả hai nguồn hỏng: entry vẫn đúng hình dạng, không lộ field lạ", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+      mockProjects.mockRejectedValueOnce(backendDown());
+
+      for (const item of await sitemap()) {
+        expect(Object.keys(item).sort()).toEqual([
+          "alternates",
+          "changeFrequency",
+          "lastModified",
+          "priority",
+          "url",
+        ]);
+      }
+    });
+
+    it("chỉ tin tức hỏng: giữ URL dự án, bỏ bài + chuyên mục", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+
+      const list = await urls();
+
+      expect(
+        list.some((url) => url.endsWith("/du-an/khu-do-thi-hung-phu")),
+      ).toBe(true);
+      expect(list.some((url) => url.includes("/tin-tuc/danh-muc/"))).toBe(false);
+      expect(list.some((url) => url.endsWith("/tin-tuc/bai-a"))).toBe(false);
+    });
+
+    it("chỉ dự án hỏng: giữ URL bài + chuyên mục, bỏ dự án", async () => {
+      mockProjects.mockRejectedValueOnce(backendDown());
+
+      const list = await urls();
+
+      expect(list.some((url) => url.endsWith("/tin-tuc/bai-a"))).toBe(true);
+      expect(
+        list.some((url) => url.endsWith("/tin-tuc/danh-muc/tin-du-an")),
+      ).toBe(true);
+      expect(
+        list.some((url) => url.endsWith("/du-an/khu-do-thi-hung-phu")),
+      ).toBe(false);
+    });
+
+    it("backend trả envelope lỗi (ApiError) cũng được coi là không sẵn sàng", async () => {
+      mockNews.mockRejectedValueOnce(
+        new ApiError("INTERNAL", "Lỗi máy chủ", 500),
+      );
+      mockProjects.mockRejectedValueOnce(
+        new ApiError("INTERNAL", "Lỗi máy chủ", 500),
+      );
+
+      await expect(sitemap()).resolves.toBeDefined();
+    });
+  });
+
+  describe("lúc CHẠY (ISR) — ưu tiên giữ sitemap tốt đã cache", () => {
+    beforeEach(asRuntime);
+
+    it("backend hỏng: ném lỗi để Next giữ bản cache cũ", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+      mockProjects.mockRejectedValueOnce(backendDown());
+
+      // Theo docs ISR: "the last successfully generated data will continue to
+      // be served from the cache. On the next subsequent request, Next.js will
+      // retry revalidating the data."
+      await expect(sitemap()).rejects.toThrow("fetch failed");
+    });
+
+    it("một nguồn hỏng cũng ném — không tự hạ cấp sitemap đang tốt", async () => {
+      mockNews.mockRejectedValueOnce(backendDown());
+
+      await expect(sitemap()).rejects.toThrow("fetch failed");
+    });
+
+    it("backend bình thường: vẫn dựng sitemap đầy đủ như cũ", async () => {
+      const list = await urls();
+
+      expect(list.some((url) => url.endsWith("/tin-tuc/bai-a"))).toBe(true);
+      expect(
+        list.some((url) => url.endsWith("/du-an/khu-do-thi-hung-phu")),
+      ).toBe(true);
+    });
+  });
+
+  describe("lỗi lập trình KHÔNG bị nuốt", () => {
+    it("lỗi không phải mạng vẫn ném ra, kể cả lúc build", async () => {
+      asBuild();
+      // Bug thật (vd. mapper đọc field của `undefined`) không được hoá trang
+      // thành "backend hỏng" — nuốt nó đi thì sitemap chỉ âm thầm thiếu URL và
+      // không ai biết để sửa.
+      mockNews.mockRejectedValueOnce(
+        new TypeError("Cannot read properties of undefined (reading 'slug')"),
+      );
+
+      await expect(sitemap()).rejects.toThrow("Cannot read properties");
+    });
+
+    it("lỗi lạ (không phải Error) vẫn ném ra", async () => {
+      asBuild();
+      mockProjects.mockRejectedValueOnce("hỏng bất thường");
+
+      await expect(sitemap()).rejects.toBe("hỏng bất thường");
+    });
   });
 });

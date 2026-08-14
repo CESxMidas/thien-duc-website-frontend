@@ -1,12 +1,49 @@
 import type { MetadataRoute } from "next";
-import { isApiConfigured } from "@/lib/api/client";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { ApiError, isApiConfigured } from "@/lib/api/client";
 import { getNewsPosts } from "@/lib/api/news";
 import { getProjects } from "@/lib/api/projects";
+import type { NewsPost, Project } from "@/types/content";
 import { defaultLocale } from "@/lib/i18n/config";
 import { routes } from "@/lib/routes";
 import { absoluteUrl, buildAlternates } from "@/lib/seo";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
+
+/**
+ * Đang chạy trong `next build` hay đang phục vụ request?
+ *
+ * `NEXT_PHASE` do chính Next đặt, đúng **một** chỗ duy nhất trong toàn bộ
+ * framework: `next/dist/build/index.js`. Không có đoạn nào ở `server/` hay
+ * `cli/` gán nó, và bản thân Next dùng đúng phép so này ở runtime
+ * (`server/web/globals.js`, `router-utils/instrumentation-globals.external.js`)
+ * để phân biệt hai pha — nên đây là cơ chế của framework, không phải nội bộ
+ * riêng tư. Hằng số nhập từ `next/constants`, một module công khai.
+ *
+ * Vì sao cần phân biệt: xem `sitemap()` bên dưới — hai pha cần hai cách xử lý
+ * **ngược nhau** khi backend không phản hồi.
+ */
+function isProductionBuild(): boolean {
+  return process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD;
+}
+
+/**
+ * Lỗi này là "backend không với tới được" hay là bug của chính mình?
+ *
+ * Chỉ hai hình dạng được coi là backend hỏng:
+ * - `ApiError` — backend có trả lời, nhưng trả envelope lỗi.
+ * - `TypeError: fetch failed` — undici ném khi không mở được kết nối
+ *   (ECONNREFUSED, ENOTFOUND, timeout ở tầng socket). Đây đúng là lỗi đã đo
+ *   được khi Render Free đang ngủ.
+ *
+ * Mọi thứ khác — lỗi mapper, `undefined.map`, sai kiểu — **phải nổ ra ngoài**.
+ * Nuốt hết bằng `catch {}` sẽ biến một bug thành "sitemap tự nhiên thiếu URL",
+ * loại lỗi âm thầm và rất khó lần ra sau này.
+ */
+function isBackendUnavailable(error: unknown): boolean {
+  if (error instanceof ApiError) return true;
+  return error instanceof TypeError && error.message === "fetch failed";
+}
 
 /**
  * Dựng lại sitemap tối đa mỗi giờ. Thiếu dòng này, `sitemap.ts` là Route Handler
@@ -39,12 +76,54 @@ function entry(
   };
 }
 
+/**
+ * Lấy một nguồn dữ liệu công khai, chịu được việc backend không phản hồi.
+ *
+ * `label` chỉ dùng cho cảnh báo — không log payload, không log stack.
+ */
+async function loadOrDegrade<T>(
+  label: string,
+  load: () => Promise<T[]>,
+): Promise<T[]> {
+  try {
+    return await load();
+  } catch (error) {
+    // Bug của chính mình thì phải lộ ra, không được hoá trang thành "backend hỏng".
+    if (!isBackendUnavailable(error)) throw error;
+
+    // Lúc CHẠY: ném tiếp. Next giữ nguyên sitemap tốt đã cache và thử lại ở
+    // request sau (docs `incremental-static-regeneration.md`: "the last
+    // successfully generated data will continue to be served from the cache").
+    // Nuốt lỗi ở đây sẽ ghi đè một sitemap đầy đủ bằng bản thiếu URL và khoá nó
+    // lại nguyên một giờ — mỗi lần Render Free ngủ là một lần mất URL khỏi index.
+    if (!isProductionBuild()) throw error;
+
+    // Lúc BUILD: chưa có cache nào để giữ, và ném ở đây là **hỏng cả bản
+    // deploy** — đúng sự cố đã đo được (`Export encountered an error on
+    // /sitemap.xml/route`). Bỏ qua phần dữ liệu này để build đi tiếp.
+    const reason = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[sitemap] ${label}: không lấy được dữ liệu công khai (${reason}). ` +
+        `Bỏ qua nhóm URL này trong sitemap của bản build.`,
+    );
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Slug không phụ thuộc ngôn ngữ — lấy một lần theo locale mặc định.
   // Build không có API (vd. CI) → sitemap chỉ gồm route tĩnh; production
   // (env đã đặt) vẫn đủ dự án + tin tức như cũ.
-  const [projects, newsPosts] = isApiConfigured
-    ? await Promise.all([getProjects(defaultLocale), getNewsPosts(defaultLocale)])
+  //
+  // Hai nguồn lấy độc lập nhau: một bên hỏng không kéo bên kia mất theo. Dữ
+  // liệu công khai lấy về được thì tin được, nên vẫn nên có mặt trong sitemap.
+  // Việc bọc lỗi CHỈ quanh phần gọi mạng — toàn bộ đoạn dựng entry bên dưới
+  // nằm ngoài, nên một bug ở đó vẫn nổ ra bình thường thay vì bị nuốt.
+  const [projects, newsPosts]: [Project[], NewsPost[]] = isApiConfigured
+    ? await Promise.all([
+        loadOrDegrade("dự án", () => getProjects(defaultLocale)),
+        loadOrDegrade("tin tức", () => getNewsPosts(defaultLocale)),
+      ])
     : [[], []];
 
   // Cố ý bỏ các route trong `placeholderPaths` (tuyển dụng, đào tạo…): chúng
