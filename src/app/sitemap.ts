@@ -9,6 +9,15 @@ import { absoluteUrl, buildAlternates } from "@/lib/seo";
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
 /**
+ * Dựng lại sitemap tối đa mỗi giờ. Thiếu dòng này, `sitemap.ts` là Route Handler
+ * **được cache vô thời hạn** (`initialRevalidateSeconds: false`): một bài lên
+ * theo lịch tuy đã công khai ngay ở API vẫn không có mặt trong `sitemap.xml`
+ * cho tới lần deploy kế tiếp. Một giờ là đủ — HTML đã tự làm mới mỗi 60 giây,
+ * và công cụ tìm kiếm không đọc lại sitemap theo từng phút.
+ */
+export const revalidate = 3600;
+
+/**
  * Mỗi URL khai báo một lần theo bản tiếng Việt (canonical) kèm `alternates` trỏ
  * sang bản tiếng Anh — Google gom hai bản thành một trang có hai ngôn ngữ, thay
  * vì hai trang trùng nội dung.
