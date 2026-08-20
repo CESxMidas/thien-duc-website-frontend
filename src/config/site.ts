@@ -1,10 +1,33 @@
 import type { Locale } from "@/lib/i18n/config";
+import { resolveSiteUrl } from "@/lib/site-url";
+
+/**
+ * Đọc từng biến bằng **member expression nguyên văn** `process.env.NEXT_PUBLIC_X`
+ * chứ không truyền cả `process.env` vào resolver: Next thay thế biến
+ * `NEXT_PUBLIC_*` bằng giá trị literal lúc build, và chỉ nhận ra dạng viết này.
+ * Truyền cả `process.env` thì bundle trình duyệt không có gì để đọc (file này đi
+ * vào client qua `site-header.tsx`, `contact-form.tsx`) → server và client dựng
+ * ra hai base URL khác nhau.
+ */
+const siteUrl = resolveSiteUrl({
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
+  NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+  NODE_ENV: process.env.NODE_ENV,
+});
 
 export const siteConfig = {
   name: "Công ty Thiên Đức",
   shortName: "Thiên Đức",
   description: "Website giới thiệu công ty, dự án và tin tức của Thiên Đức.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  /**
+   * Base URL tuyệt đối, đã chuẩn hoá và **không có `/` cuối** — xem
+   * `lib/site-url.ts`. Không đọc thẳng `process.env` ở đây nữa: biến được khai
+   * báo nhưng để trống cho ra base `""`, và `new URL(path, "")` ném
+   * `TypeError: Invalid URL` làm hỏng prerender `/robots.txt` lúc build.
+   */
+  url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
   address: "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
