@@ -30,7 +30,8 @@ export const siteConfig = {
   url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
-  address: "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
+  address:
+    "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
 };
 
 /**
@@ -39,7 +40,7 @@ export const siteConfig = {
  * `zaloHref`/`zaloDisplayValue` và mọi component đọc qua hai hàm đó nên không
  * phải viết lại.
  *
- * `0941383007` đang là **số thử nghiệm**, chưa phải Zalo chính thức của công ty.
+ * `0909768001` đang là **số thử nghiệm**, chưa phải Zalo chính thức của công ty.
  */
 export type ZaloContact = {
   kind: "phone" | "oa";
@@ -48,7 +49,7 @@ export type ZaloContact = {
 
 export const zaloContact: ZaloContact = {
   kind: "phone",
-  value: "0941383007",
+  value: "0909768001",
 };
 
 /**
@@ -133,7 +134,10 @@ export const taxAuthorityName: Record<Locale, string> = {
 };
 
 /** Hai phần địa chỉ cho JSON-LD PostalAddress (street + locality). */
-export const addressParts: Record<Locale, { street: string; locality: string }> = {
+export const addressParts: Record<
+  Locale,
+  { street: string; locality: string }
+> = {
   vi: {
     street: "1D Trần Não, Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức",
     locality: "Thành phố Hồ Chí Minh",

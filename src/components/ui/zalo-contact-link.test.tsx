@@ -16,12 +16,12 @@ import {
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 import enDictionary from "@/lib/i18n/dictionaries/en.json";
 
-const CANONICAL_HREF = "https://zalo.me/0941383007";
+const CANONICAL_HREF = "https://zalo.me/0909768001";
 
 describe("cấu hình Zalo", () => {
   it("dùng kind `phone` và số thử nghiệm ở dạng nội địa liền", () => {
     expect(zaloContact.kind).toBe("phone");
-    expect(zaloContact.value).toBe("0941383007");
+    expect(zaloContact.value).toBe("0909768001");
   });
 
   it("dựng đúng URL canonical — không `+84`, không dấu cách", () => {
@@ -31,7 +31,7 @@ describe("cấu hình Zalo", () => {
   });
 
   it("hiển thị số theo cách nhóm của tiếng Việt", () => {
-    expect(zaloDisplayValue()).toBe("0941 383 007");
+    expect(zaloDisplayValue()).toBe("0909 768 001");
   });
 
   it("đổi sang Official Account không phải sửa component: href vẫn dựng được, phần số hiển thị tự tắt", () => {
@@ -43,29 +43,29 @@ describe("cấu hình Zalo", () => {
 });
 
 describe("ZaloContactLink", () => {
-  it.each([
-    ["floating"] as const,
-    ["inline"] as const,
-  ])("biến thể %s là link thật, mở tab mới an toàn", (variant) => {
-    render(
-      <ZaloContactLink
-        variant={variant}
-        href={zaloHref()}
-        ariaLabel={viDictionary.zalo.ariaLabel}
-        label={viDictionary.zalo.label}
-        displayValue={zaloDisplayValue()}
-      />,
-    );
+  it.each([["floating"] as const, ["inline"] as const])(
+    "biến thể %s là link thật, mở tab mới an toàn",
+    (variant) => {
+      render(
+        <ZaloContactLink
+          variant={variant}
+          href={zaloHref()}
+          ariaLabel={viDictionary.zalo.ariaLabel}
+          label={viDictionary.zalo.label}
+          displayValue={zaloDisplayValue()}
+        />,
+      );
 
-    const link = screen.getByRole("link", {
-      name: viDictionary.zalo.ariaLabel,
-    });
+      const link = screen.getByRole("link", {
+        name: viDictionary.zalo.ariaLabel,
+      });
 
-    expect(link.tagName).toBe("A");
-    expect(link).toHaveAttribute("href", CANONICAL_HREF);
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  });
+      expect(link.tagName).toBe("A");
+      expect(link).toHaveAttribute("href", CANONICAL_HREF);
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    },
+  );
 
   it("đặt tên truy cập tiếng Việt, không phơi URL thô làm tên", () => {
     render(
