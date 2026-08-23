@@ -43,9 +43,16 @@ describe("next.config.ts — security headers (SEC-XSS-001)", () => {
     it("whitelist ảnh Cloudinary và API backend", () => {
       const csp = headerValue("Content-Security-Policy-Report-Only");
       expect(csp).toContain("img-src 'self' https://res.cloudinary.com data:");
+      // Nguồn CSP là ORIGIN, KHÔNG kèm đường dẫn. Theo CSP Level 3, một source
+      // có path không kết thúc bằng "/" phải khớp CHÍNH XÁC path đó — nên
+      // ".../api" chỉ cho phép đúng request tới "/api" và sẽ chặn
+      // "/api/contact", "/api/news"… Biến ứng dụng NEXT_PUBLIC_API_URL vẫn giữ
+      // hậu tố "/api"; hai thứ đó cố ý khác nhau.
       expect(csp).toContain(
-        "connect-src 'self' https://thien-duc-website-backend.onrender.com",
+        "connect-src 'self' https://thien-duc-website-backend-w1du.onrender.com;",
       );
+      expect(csp).not.toContain("onrender.com/api");
+      expect(csp).not.toContain("https://thien-duc-website-backend.onrender.com");
     });
   });
 

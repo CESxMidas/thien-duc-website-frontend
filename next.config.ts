@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
-import { isSentryUploadEnabled, resolveSentryRelease } from "./src/lib/sentry-build";
+import {
+  isSentryUploadEnabled,
+  resolveSentryRelease,
+} from "./src/lib/sentry-build";
 
 const nextConfig: NextConfig = {
   // Cho phép HMR/dev assets khi truy cập qua IP LAN (điện thoại, máy khác cùng Wi-Fi).
@@ -58,7 +61,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'; " +
               "img-src 'self' https://res.cloudinary.com data:; " +
               "font-src 'self' data:; " +
-              "connect-src 'self' https://thien-duc-website-backend.onrender.com; " +
+              "connect-src 'self' https://thien-duc-website-backend-w1du.onrender.com; " +
               "frame-ancestors 'none'; " +
               "base-uri 'self'; " +
               "object-src 'none'; " +
@@ -149,7 +152,10 @@ export default sentryUploadEnabled
       },
       // Upload hỏng KHÔNG được làm đổ build.
       errorHandler: (err) => {
-        console.warn("[sentry] upload source map thất bại, bỏ qua:", err.message);
+        console.warn(
+          "[sentry] upload source map thất bại, bỏ qua:",
+          err.message,
+        );
       },
     })
   : nextConfig;
