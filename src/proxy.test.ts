@@ -20,7 +20,7 @@
  * Trình duyệt vẫn đi tiếp, nhưng bot không nhận được 308 và URL cũ mất link
  * equity. Middleware chạy trước mọi render nên luôn phát được 308 thật.
  */
-import { proxy } from "./proxy";
+import { proxy, config } from "./proxy";
 import { NextRequest } from "next/server";
 
 function run(url: string) {
@@ -109,5 +109,72 @@ describe("proxy — định tuyến locale (hành vi cũ, không được phá)"
 
   it("`/en/...` đi thẳng, không chuyển hướng", () => {
     expect(run("/en/du-an").location).toBeNull();
+  });
+});
+
+
+/**
+ * Batch 15B — Admin CMS (Vercel project riêng) phục vụ dưới `/admin`.
+ *
+ * `next.config.ts` rewrite `/admin/:path*` sang project đó, NHƯNG thứ tự
+ * pipeline của Next là `proxy -> rewrites`: proxy chạy TRƯỚC. Nếu matcher không
+ * loại trừ `admin/`, nhánh catch-all sẽ rewrite `/admin/dang-nhap` thành
+ * `/vi/admin/dang-nhap` và rewrite ngoại vi không bao giờ chạy → 404.
+ *
+ * Test này kiểm THẲNG chuỗi matcher (thứ Next thực thi) chứ không gọi `proxy()`,
+ * vì matcher mới là nơi quyết định proxy có được gọi hay không — gọi `proxy()`
+ * rồi khẳng định kết quả sẽ kiểm nhầm tầng.
+ */
+describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
+  /** Dựng lại đúng regex mà Next dùng để quyết định có chạy middleware không. */
+  const matcher = new RegExp(`^${config.matcher[0]}$`);
+
+  /** `true` = middleware CHẠY cho path này. */
+  function runsMiddleware(pathname: string): boolean {
+    return matcher.test(pathname);
+  }
+
+  it.each([
+    "/admin",
+    "/admin/",
+    "/admin/dang-nhap",
+    "/admin/du-an",
+    "/admin/tin-tuc/chuyen-muc",
+  ])("%s KHÔNG đi qua định tuyến locale", (pathname) => {
+    expect(runsMiddleware(pathname)).toBe(false);
+  });
+
+  /**
+   * `/admin` TRẦN là URL người dùng gõ tay nhiều nhất, và là case dễ sót nhất:
+   * mệnh đề `admin/` (có dấu gạch) KHÔNG phủ nó. Sót thì `/admin` bị rewrite
+   * thành `/vi/admin` và trả 404 — trong khi mọi deep link lại chạy tốt, nên
+   * rất dễ tưởng là lỗi lẻ.
+   */
+  it("/admin trần cũng phải thoát (mệnh đề `admin$`)", () => {
+    expect(runsMiddleware("/admin")).toBe(false);
+  });
+
+  it("route công khai VẪN đi qua định tuyến locale", () => {
+    for (const pathname of ["/", "/du-an", "/tin-tuc", "/en/du-an", "/vi/du-an"]) {
+      expect(runsMiddleware(pathname)).toBe(true);
+    }
+  });
+
+  /**
+   * Loại trừ phải hẹp: chỉ đúng cây `/admin/`. Một trang công khai có slug bắt
+   * đầu bằng chữ "admin" vẫn phải được định tuyến locale bình thường.
+   */
+  it("KHÔNG loại trừ nhầm slug công khai chỉ trùng tiền tố", () => {
+    expect(runsMiddleware("/administrator-example")).toBe(true);
+    expect(runsMiddleware("/admin-noi-bo")).toBe(true);
+  });
+
+  it("giữ nguyên các loại trừ cũ", () => {
+    expect(runsMiddleware("/_next/static/chunk.js")).toBe(false);
+    expect(runsMiddleware("/api/health")).toBe(false);
+    expect(runsMiddleware("/images/logo.png")).toBe(false);
+    expect(runsMiddleware("/sitemap.xml")).toBe(false);
+    expect(runsMiddleware("/robots.txt")).toBe(false);
+    expect(runsMiddleware("/favicon.ico")).toBe(false);
   });
 });

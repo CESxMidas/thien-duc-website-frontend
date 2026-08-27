@@ -27,4 +27,24 @@ describe("robots.txt", () => {
     expect(disallow).toContain("/tuyen-dung");
     expect(disallow).toContain("/en/tuyen-dung");
   });
+
+  /**
+   * Batch 15B — Admin CMS phục vụ dưới `/admin` của chính domain này.
+   *
+   * Chỉ dẫn SEO, KHÔNG phải bảo mật (robots.txt là file công khai). Hai lớp có
+   * tác dụng thật là `X-Robots-Tag` ở `next.config.ts` và thẻ `<meta robots>`
+   * trong `index.html` của Admin; chốt quyền vẫn nằm ở backend.
+   */
+  it("chặn /admin (CMS không được vào chỉ mục)", () => {
+    const rules = Array.isArray(result.rules) ? result.rules[0] : result.rules;
+    const disallow = rules?.disallow as string[];
+    expect(disallow).toContain("/admin");
+  });
+
+  it("KHÔNG gắn tiền tố locale cho /admin (không phải trang Next)", () => {
+    const rules = Array.isArray(result.rules) ? result.rules[0] : result.rules;
+    const disallow = rules?.disallow as string[];
+    expect(disallow).not.toContain("/en/admin");
+    expect(disallow).not.toContain("/vi/admin");
+  });
 });

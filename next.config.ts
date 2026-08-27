@@ -5,6 +5,17 @@ import {
   resolveSentryRelease,
 } from "./src/lib/sentry-build";
 
+/**
+ * Origin của Vercel project Admin — đích của rewrite `/admin`.
+ *
+ * Cố định vào production thay vì suy theo môi trường: preview của FE sẽ proxy
+ * tới Admin production. Đó là lựa chọn CÓ Ý — Admin là app tách rời, preview
+ * của FE dùng để soát website công khai, còn Admin có preview URL riêng của nó.
+ * Đổi lại, người mở preview FE mà bấm `/admin` sẽ thao tác trên CMS THẬT.
+ * Khi nào có Admin staging riêng thì chuyển hằng số này sang biến môi trường.
+ */
+const ADMIN_ORIGIN = "https://thien-duc-website-admin.vercel.app";
+
 const nextConfig: NextConfig = {
   // Cho phép HMR/dev assets khi truy cập qua IP LAN (điện thoại, máy khác cùng Wi-Fi).
   //
@@ -45,9 +56,53 @@ const nextConfig: NextConfig = {
   // Định tuyến locale (`/vi` → `/`, rewrite `/du-an` → `/vi/du-an`) nằm ở
   // `src/proxy.ts` vì cần đọc pathname của từng request.
 
+  /**
+   * Admin CMS lộ ra dưới `/admin` của chính domain này (Batch 15B).
+   *
+   * Admin là **Vercel project RIÊNG** (Vite SPA) — không gộp vào đây. Next chỉ
+   * đứng làm proxy: rewrite giữ nguyên URL trên thanh địa chỉ
+   * (`www.thienduccons.vn/admin/...`), KHÔNG phải redirect sang `*.vercel.app`.
+   *
+   * Nhờ đi qua cùng một origin, trình duyệt coi JS/CSS của Admin là `'self'`,
+   * và token đăng nhập của Admin nằm trong storage của origin này.
+   *
+   * TIỀN TỐ ĐƯỢC GIỮ NGUYÊN ở cả hai đầu: Admin build với `base: '/admin/'` và
+   * `outDir: 'dist/admin'`, nên `/admin/assets/x.js` ở đây khớp đúng file thật
+   * `dist/admin/assets/x.js` bên kia. Cắt tiền tố ở một đầu là hỏng.
+   *
+   * Hai rule vì `:path*` không phủ `/admin` trần (không có dấu `/` cuối).
+   *
+   * LƯU Ý: `src/proxy.ts` PHẢI loại trừ `admin/` khỏi matcher, nếu không proxy
+   * chạy trước và nuốt mất `/admin/*` — xem chú thích ở đó.
+   */
+  async rewrites() {
+    return [
+      { source: "/admin", destination: `${ADMIN_ORIGIN}/admin` },
+      { source: "/admin/:path*", destination: `${ADMIN_ORIGIN}/admin/:path*` },
+    ];
+  },
+
   // SEC-XSS-001: Add security headers (CSP Report-Only mode for monitoring)
   async headers() {
     return [
+      /**
+       * CMS tuyệt đối không được vào chỉ mục tìm kiếm. Đặt TRƯỚC rule chung vì
+       * `headers()` của Next CỘNG DỒN mọi rule khớp — đây là header thêm, không
+       * phải thay thế, nên `/admin` vẫn nhận đủ bộ header bảo mật bên dưới.
+       *
+       * Dùng header thay vì chỉ trông vào `<meta name="robots">` trong
+       * `index.html` của Admin: header phủ được cả response không phải HTML và
+       * cả bot chỉ đọc header. `robots.ts` là lớp thứ ba, nhưng không lớp nào
+       * trong ba lớp này là biện pháp BẢO MẬT — chốt quyền vẫn nằm ở backend.
+       */
+      {
+        source: "/admin/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/admin",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
       {
         source: "/:path*",
         headers: [

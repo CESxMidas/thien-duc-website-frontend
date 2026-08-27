@@ -69,8 +69,34 @@ export const config = {
    * Bỏ qua nội bộ Next, file tĩnh và các route metadata sinh ở gốc `app/`
    * (`sitemap.xml`, `robots.txt`) — chúng không nằm dưới `[locale]`, rewrite vào
    * `/vi/sitemap.xml` sẽ thành 404.
+   *
+   * `admin/` (Batch 15B) — LOẠI TRỪ BẮT BUỘC, không phải tối ưu.
+   *
+   * Admin CMS là một Vercel project RIÊNG; `next.config.ts` rewrite
+   * `/admin/:path*` sang đó. Nhưng thứ tự pipeline của Next là:
+   *
+   *     headers -> redirects -> **proxy (file này)** -> rewrites -> filesystem
+   *
+   * tức proxy chạy TRƯỚC `rewrites()`. Không loại trừ thì nhánh catch-all cuối
+   * hàm `proxy()` sẽ rewrite `/admin/dang-nhap` thành `/vi/admin/dang-nhap`
+   * TRƯỚC KHI rule `/admin/:path*` kịp so khớp, nên rewrite ngoại vi không bao
+   * giờ chạy va tra 404.
+   *
+   * Triệu chứng rất dễ chẩn đoán nhầm: asset `/admin/assets/*.js` vẫn tải được
+   * (đã thoát sẵn nhờ mệnh đề đuôi mở rộng ở cuối matcher) trong khi mọi route
+   * TRANG lại 404 — trông như lỗi SPA fallback chứ không giống lỗi locale.
+   *
+   * PHẢI loại trừ CẢ HAI dạng `admin$` và `admin/`:
+   * - `admin/` phủ cây con (`/admin/dang-nhap`, `/admin/du-an`…);
+   * - `admin$` phủ `/admin` TRẦN — chính là URL người dùng gõ tay nhiều nhất.
+   *   Chỉ có `admin/` thì `/admin` vẫn lọt qua matcher, bị rewrite thành
+   *   `/vi/admin` và rule `/admin` trong `next.config.ts` không bao giờ khớp.
+   *
+   * Đồng thời loại trừ phải HẸP: một trang công khai `/administrator-example`
+   * hay `/admin-noi-bo` vẫn đi qua định tuyến locale bình thường — `admin$`
+   * neo cuối chuỗi và `admin/` đòi dấu gạch, nên không nuốt nhầm.
    */
   matcher: [
-    "/((?!_next/|api/|images/|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.[a-zA-Z0-9]+$).*)",
+    "/((?!_next/|api/|admin$|admin/|images/|favicon\\.ico|sitemap\\.xml|robots\\.txt|.*\\.[a-zA-Z0-9]+$).*)",
   ],
 };
