@@ -40,3 +40,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Khóa riêng / chứng chỉ / file credential — bổ sung cho `*.pem` đã có ở trên
+# (audit Batch 14A: repo chưa từng chứa file nào loại này).
+*.key
+*.p12
+*.pfx
+*credentials*.json
+service-account*.json
+service_account*.json
