@@ -37,6 +37,8 @@ jobs:
 
       - run: npm run lint
 
+      - run: npm run typecheck
+
       - run: npm test
 
       # HỢP ĐỒNG BUILD TƯỜNG MINH (AUDIT-M2 / D10).

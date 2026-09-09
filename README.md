@@ -1,67 +1,70 @@
-# Thiên Đức Frontend
+# Thiên Đức — Website công khai
 
-Frontend website cho Công ty Thiên Đức, xây dựng bằng Next.js App Router.
+Next.js 16 App Router + React 19 + TypeScript + Tailwind CSS v4 cho
+`https://www.thienduccons.vn`.
 
-## Stack
+## Local Development
 
-- Next.js 16
-- React 19
-- TypeScript
-- Tailwind CSS
-- ESLint
+### Yêu cầu và cài đặt
 
-## Chạy project
+- Node.js **22.x LTS** (nguồn chuẩn: `.nvmrc` và `package.json#engines`).
+- npm với `package-lock.json`; Backend cần chạy để dùng dữ liệu nghiệp vụ thật.
 
 ```bash
-npm install
+nvm use
+npm ci
+cp .env.example .env.local
 npm run dev
 ```
 
-Mở `http://localhost:3000`.
+Mở `http://localhost:3000`. Cấu hình tối thiểu:
 
-## Cấu trúc thư mục
-
-```txt
-src/
-  app/                    Route pages của Next.js App Router
-    page.tsx              Trang chủ
-    gioi-thieu/           Trang giới thiệu
-    du-an/                Danh sách và chi tiết dự án
-    tin-tuc/              Danh sách và chi tiết tin tức
-    cong-ty-thanh-vien/   Trang công ty thành viên
-    tuyen-dung/           Trang tuyển dụng
-    lien-he/              Trang liên hệ
-  components/
-    layout/               Header, footer, shell layout
-    sections/             Section theo từng trang
-    ui/                   Component UI dùng chung
-  config/                 Cấu hình site, màu sắc, thông tin công ty
-  data/                   Dữ liệu tạm thời trước khi kết nối CMS/API
-  lib/                    Helper, route constants, utilities
-  types/                  TypeScript types dùng chung
-public/
-  images/
-    brand/                Logo, favicon
-    banners/home/         Banner trang chủ
-    projects/hung-phu/    Hình ảnh dự án Hưng Phú
-    news/                 Hình ảnh tin tức
+```dotenv
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-## Ghi chú phát triển
+`NEXT_PUBLIC_API_URL` bắt buộc ở runtime; không có mock fallback.
+`NEXT_PUBLIC_SITE_URL` tạo canonical, Open Graph, JSON-LD, sitemap và robots.
+Các biến `NEXT_PUBLIC_*` là công khai và được đóng vào bundle lúc build.
+`NEXT_PUBLIC_SENTRY_DSN` là tùy chọn; `SENTRY_AUTH_TOKEN` là secret build-only,
+không bao giờ thêm tiền tố `NEXT_PUBLIC_` hoặc commit.
 
-- Quy ước code dùng chung cho frontend / admin / backend: `../AGENTS.md`.
-- Dữ liệu động lấy qua `src/lib/api/*` (`getProjects`, `getNewsPosts`…). Khi chưa
-  đặt `NEXT_PUBLIC_API_URL` (kiểm tra bằng `isApiConfigured` trong
-  `lib/api/client.ts`), `next build` bỏ prerender cây `/[locale]` + sitemap chỉ
-  gồm route tĩnh — build chạy được không cần API (vd. CI); trang render
-  on-demand lúc chạy. (Chế độ mock từ `src/data/*` trước đây đã gỡ.)
-- `src/data/` còn hai loại file: **mock của CMS** (`projects.ts`, `news.ts`,
-  `banners.ts`, `about.ts`, `contact.ts`) và **copy tĩnh của UI** (`home.ts`,
-  `navigation.ts`, `footer.ts`, `business-fields.ts`). Chỉ loại đầu sẽ bị thay
-  dần bằng API; loại sau giữ nguyên.
-- Còn tồn: `home-banner-slider.tsx` chưa gọi `getBanners()`; `gioi-thieu` và
-  `lien-he` chưa đọc từ module `pages`. Xem `../thien-duc-website-docs/04-implementation/implementation-plan.md`.
-- Tài liệu dự án (kế hoạch coding, câu hỏi xác nhận, báo cáo kỹ thuật, sơ đồ) nằm ở `../thien-duc-website-docs/` (cấp workspace, dùng chung cho frontend, admin và backend).
-- Báo cáo phương án kỹ thuật: `../thien-duc-website-docs/01-requirements/technical-proposal-pa2.docx`.
-- Tạo lại file Word: `npm run report:docx` (có trang bìa, mục lục tự động, số trang). Sau khi mở Word: **Ctrl+A → F9** để cập nhật mục lục; xem ở chế độ **Bố cục Trang in** (Print Layout).
-- Ảnh gốc 8K cần xuất bản bản web-optimized trước khi dùng rộng trong UI production.
+### Kiểm tra và build
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run start
+```
+
+CI có thể build với `NEXT_PUBLIC_API_URL` rỗng để kiểm tra compile mà không cần
+Backend; production bắt buộc đặt URL API thật. Khi đồng bộ ảnh từ kho resources,
+chạy `npm run sync:images` theo hướng dẫn dự án.
+
+## CI/CD
+
+`.github/workflows/ci.yml` chạy trên push lên `main` và pull request vào `main`:
+`npm ci` → lint → typecheck → Jest → production build. Build CI cố ý không gọi
+Backend; đường full-stack được kiểm tra bởi Playwright ở repo Admin.
+
+CI không chứa secret và không trực tiếp deploy. Vercel triển khai từ Git
+integration; required status checks/branch protection phải cấu hình ở GitHub và
+Vercel. Xem [CI/CD](../thien-duc-website-docs/07-deployment/ci-cd.md).
+
+## Deployment / Handover
+
+- Production: `https://www.thienduccons.vn`.
+- Vercel: Framework Next.js, root `./`, install `npm ci`, build `npm run build`.
+- Production bắt buộc `NEXT_PUBLIC_API_URL` và `NEXT_PUBLIC_SITE_URL`; thay env
+  build-time phải redeploy.
+- Frontend proxy `/admin` sang Vercel project Admin; không biến nó thành route
+  Next.js hoặc bỏ tiền tố `/admin`.
+- Sau deploy kiểm tra trang chủ, `/du-an`, `/tin-tuc`, `/lien-he`,
+  `/sitemap.xml`, `/robots.txt`, canonical và `/admin`.
+
+Quy trình chi tiết, rollback và checklist nằm trong
+[hướng dẫn deploy](../thien-duc-website-docs/07-deployment/deployment-guide.md)
+và [checklist bàn giao](../thien-duc-website-docs/09-handover/handover-checklist.md).
