@@ -208,7 +208,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       {/* Một dải pháp lý duy nhất (trước là hai dải py-5 tách rời): tên pháp
           nhân + mã số thuế bên trái, bản quyền bên phải. */}
       <div className="border-t border-white/15">
-        <div className="mx-auto flex max-w-site flex-col gap-1.5 px-4 py-4 text-xs leading-5 text-white/70 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="mx-auto flex max-w-site flex-col gap-1.5 px-4 py-4 text-xs leading-5 text-white/75 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
             <span className="font-semibold uppercase tracking-[0.1em] text-white/85">
               {legalDisplayName[locale]}
