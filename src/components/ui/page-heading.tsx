@@ -20,12 +20,12 @@ export function PageHeading({
 }: PageHeadingProps) {
   return (
     <section
-      className={bare ? "" : "mx-auto max-w-site px-4 py-6 sm:px-6 sm:py-8"}
+      className={bare ? "" : "mx-auto max-w-site px-4 py-10 sm:px-6 sm:py-14"}
     >
       {eyebrow ? (
-        <p className="text-eyebrow mb-3 text-brand sm:mb-4">{eyebrow}</p>
+        <p className="text-eyebrow mb-4 text-earth">{eyebrow}</p>
       ) : null}
-      <h1 className="max-w-4xl text-2xl font-semibold leading-[1.15] sm:text-3xl md:text-4xl">
+      <h1 className="max-w-4xl text-[2.5rem] font-medium leading-[1.05] text-charcoal sm:text-[3.5rem] md:text-[4.25rem]">
         {title}
       </h1>
       {description ? (
@@ -33,7 +33,7 @@ export function PageHeading({
         // đề, đúng loại mà chính comment của `.text-justified` trong
         // `globals.css` đã loại trừ. Đoạn hai dòng khi justify chỉ có DÒNG ĐẦU
         // bị kéo giãn, nhìn lệch chứ không "cân". Canh trái, giới hạn bề rộng.
-        <p className="mt-4 max-w-3xl text-sm leading-6 text-slate sm:text-base sm:leading-7">
+        <p className="mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
           {description}
         </p>
       ) : null}

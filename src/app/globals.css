@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f4ef;
+  --foreground: #292929;
   /* Giá trị dự phòng trước khi JS đo thật (ResizeObserver trong SiteHeader):
      top-strip 36px + viền 1px + header chính 72px + viền vàng 3px ≈ 7rem. */
-  --site-header-height: 7rem;
+  --site-header-height: 5rem;
 
   /* ------------------------------------------------------------------
      Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
@@ -26,8 +26,8 @@
 
   /* Playfair có dáng cao, dấu tiếng Việt nặng → tracking hơi âm cho khít, còn
      eyebrow uppercase cần giãn vừa phải (0.18em thay vì 0.24em vốn hơi thô). */
-  --tracking-display: -0.012em;
-  --tracking-eyebrow: 0.18em;
+  --tracking-display: -0.018em;
+  --tracking-eyebrow: 0.16em;
   --measure-prose: 68ch;
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -52,27 +52,32 @@
   /* Nâu đồng — làm đậm nhẹ từ #b06613 (chỉ 4.41:1) xuống #9f5a0f để trắng trên
      brand ≥ 4.5:1 (nút/panel) và brand trên nền trắng/ấm ≥ 4.5:1 (link, eyebrow),
      đạt WCAG 2.1 AA. Cùng tông đồng, chỉ sâu hơn chút. (A11Y-CONTRAST-M2) */
-  --color-brand: #9f5a0f;
-  --color-brand-soft: #c99248;
-  --color-brand-dark: #7f4b0d;
-  --color-gold: #fdcd04;
+  --color-ivory: #f6f4ef;
+  --color-charcoal: #292929;
+  --color-warm-grey: #b8b5ae;
+  --color-earth: #8b735e;
+  --color-olive: #485244;
+  --color-brand: #76604f;
+  --color-brand-soft: #a89482;
+  --color-brand-dark: #485244;
+  --color-gold: #8b735e;
   /* Vàng nhạt. Dùng làm NỀN (thẻ liên hệ) và làm CHỮ trên nền nâu đồng: vàng
      đậm `--color-gold` trên `--color-brand` chỉ đạt 3.53:1, dưới ngưỡng 4.5:1
      của WCAG AA cho chữ thường; `--color-gold-soft` đạt 4.84:1 mà vẫn cùng họ
      màu. Mọi eyebrow trong panel `bg-brand` dùng `text-gold-soft`. */
-  --color-gold-soft: #fff4cf;
-  --color-ink: #191919;
-  --color-ink-soft: #1d2428;
-  --color-slate: #59646a;
-  --color-cream: #fff8ea;
-  --color-surface: #f2f2f2;
-  --color-surface-warm: #f6f3ee;
+  --color-gold-soft: #ebe5de;
+  --color-ink: #292929;
+  --color-ink-soft: #343532;
+  --color-slate: #66655f;
+  --color-cream: #f6f4ef;
+  --color-surface: #e9e6df;
+  --color-surface-warm: #f6f4ef;
 
   /* Bề rộng tối đa của khối nội dung mọi section (header, footer, page). Gom về
      một token để đổi một chỗ — sinh sẵn utility `max-w-site`. 70rem ≈ 1120px:
      gọn hơn 7xl (80rem) cũ, cho cảm giác nội dung tập trung, cao cấp mà lưới
      3–4 cột vẫn thoải mái. */
-  --container-site: 70rem;
+  --container-site: 76rem;
 
   /* Bề rộng riêng của DẢI HEADER (top strip + hàng logo/nav/tìm kiếm) — sinh
      utility `max-w-header`. Rộng hơn `--container-site` vì header phải nhét
@@ -94,7 +99,7 @@
   --color-success-strong: #14532d;
   --color-warning: #92400e;
   --color-warning-soft: #fef3c7;
-  --color-map: #0c5b3f;
+  --color-map: #485244;
 }
 
 @theme inline {
@@ -102,15 +107,15 @@
   --color-foreground: var(--foreground);
   /* Be Vietnam Pro = mặc định (font-sans). Playfair Display = font-display cho
      tiêu đề lớn — sinh sẵn utility `font-display` để dùng trong component. */
-  --font-sans: var(--font-be-vietnam);
-  --font-display: var(--font-playfair);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-cormorant);
   --animate-map-ripple: map-ripple 2s ease-out infinite;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-be-vietnam), "Segoe UI", system-ui, sans-serif;
+  font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);
   /* Nét chữ mượt hơn trên nền sáng, đặc biệt với Playfair có stroke mảnh. */
   -webkit-font-smoothing: antialiased;
@@ -123,7 +128,7 @@ body {
    quyết font-size/line-height; đây chỉ set font-family + tracking. */
 h1,
 h2 {
-  font-family: var(--font-playfair), "Times New Roman", serif;
+  font-family: var(--font-cormorant), "Times New Roman", serif;
   letter-spacing: var(--tracking-display);
 }
 
@@ -149,7 +154,7 @@ h2 {
 }
 
 .text-eyebrow {
-  font-family: var(--font-be-vietnam), system-ui, sans-serif;
+  font-family: var(--font-manrope), system-ui, sans-serif;
   font-size: var(--text-eyebrow);
   font-weight: 600;
   letter-spacing: var(--tracking-eyebrow);
@@ -1070,4 +1075,59 @@ textarea {
   top: 1rem;
   /* Nền skip-link chính là nâu đồng, nên viền focus phải đổi sang trắng. */
   outline-color: #ffffff;
+}
+
+/* Hệ thị giác 2026 — Contemporary Architectural Luxury.
+   Các lớp tương thích cũ được giữ tên để không làm thay đổi hợp đồng component,
+   nhưng hiệu ứng được giảm về đường kẻ, màu phẳng và chuyển động tiết chế. */
+.project-detail-hero,
+.project-detail-band,
+.project-detail-panel,
+.project-detail-panel-accent,
+.project-detail-highlight {
+  background: var(--color-ivory);
+  box-shadow: none;
+}
+
+.project-detail-panel,
+.project-detail-panel-accent,
+.project-detail-highlight {
+  border-color: color-mix(in srgb, var(--color-charcoal) 14%, transparent);
+}
+
+.hover-card:hover,
+.interactive-card:hover,
+.project-gallery-card:hover,
+.stagger-sides.is-revealed > .project-gallery-card.hover-card:hover {
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.button-polish::before,
+.image-reveal::before,
+.image-reveal::after,
+.project-gallery-stage::before {
+  display: none;
+}
+
+.button-polish:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.group:hover .image-reveal img,
+.image-reveal:hover img {
+  transform: scale(1.025);
+}
+
+.projects-motion {
+  --duration-reveal-sides: 680ms;
+  --duration-stagger-sides: 620ms;
+  --reveal-sides-distance: 24px;
+  --reveal-sides-pair-delay: 100ms;
+  --stagger-sides-step: 90ms;
+}
+
+:focus-visible {
+  outline-color: var(--color-earth);
 }

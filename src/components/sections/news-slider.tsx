@@ -172,7 +172,7 @@ export function NewsSlider({
                 <Link
                   href={localizePath(`${routes.news}/${post.slug}`, locale)}
                   tabIndex={isVisible ? undefined : -1}
-                  className="hover-card group flex h-full flex-col border border-brand/10 bg-white shadow-[0_10px_28px_rgba(25,25,25,0.05)] hover:border-brand"
+                  className="hover-card group flex h-full flex-col border border-brand/10 bg-white hover:border-brand"
                 >
                   {post.image ? (
                     <div className="image-reveal relative aspect-video overflow-hidden bg-surface">

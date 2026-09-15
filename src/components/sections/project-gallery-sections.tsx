@@ -90,7 +90,7 @@ function ProjectGallerySlider({
 
   return (
     <article
-      className="project-gallery-card group hover-card overflow-hidden border border-brand/18 bg-white shadow-[0_12px_28px_rgba(127,75,13,0.1)]"
+      className="project-gallery-card group hover-card overflow-hidden border border-brand/18 bg-white"
       onMouseEnter={() => {
         setIsPaused(true);
         setIsHovered(true);
@@ -108,10 +108,10 @@ function ProjectGallerySlider({
           compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
         }`}
       >
-        <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-linear-to-b from-gold to-brand transition-transform duration-500 ease-out group-hover:scale-y-100" />
+        <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-earth transition-transform duration-500 ease-out group-hover:scale-y-100" />
         <div className={`flex items-start ${compact ? "gap-3" : "gap-4"}`}>
           <span
-            className={`project-gallery-icon grid shrink-0 place-items-center rounded-sm border border-brand/20 bg-white text-brand shadow-sm transition duration-500 group-hover:scale-105 group-hover:border-gold group-hover:bg-gold group-hover:text-ink ${
+            className={`project-gallery-icon grid shrink-0 place-items-center rounded-sm border border-brand/20 bg-white text-brand transition duration-500 group-hover:scale-105 group-hover:border-gold group-hover:bg-gold group-hover:text-ink ${
               compact ? "size-9" : "size-11"
             }`}
           >
@@ -185,8 +185,8 @@ function ProjectGallerySlider({
           );
         })}
 
-        <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(25,25,25,0.05)_0%,rgba(25,25,25,0)_38%,rgba(25,25,25,0.42)_100%)] opacity-80 transition duration-500 group-hover:opacity-100" />
-        <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_12%,rgba(253,205,4,0.22),transparent_34%)] opacity-0 transition duration-500 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 z-20 bg-transparent opacity-80 transition duration-500 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 z-20 bg-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
         {imageCount > 1 ? (
           <>
@@ -222,7 +222,7 @@ function ProjectGallerySlider({
                 type="button"
                 aria-label={`Ảnh trước — ${section.title}`}
                 onClick={goToPrevious}
-                className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink ${
+                className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink ${
                   compact ? "size-8" : "size-10"
                 }`}
               >
@@ -232,7 +232,7 @@ function ProjectGallerySlider({
                 type="button"
                 aria-label={`Ảnh tiếp theo — ${section.title}`}
                 onClick={goToNext}
-                className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink ${
+                className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink ${
                   compact ? "size-8" : "size-10"
                 }`}
               >
@@ -241,7 +241,7 @@ function ProjectGallerySlider({
             </div>
 
             {!compact ? (
-              <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/25 bg-ink/25 px-3 py-2 backdrop-blur transition duration-300 group-hover:bg-ink/40">
+              <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/25 bg-ink/25 px-3 py-2 transition duration-300 group-hover:bg-ink/40">
                 {images.map((image, slideIndex) => (
                   <button
                     key={image}
@@ -258,13 +258,13 @@ function ProjectGallerySlider({
                 ))}
               </div>
             ) : (
-              <div className="absolute bottom-3 left-3 z-30 rounded-sm border border-white/25 bg-ink/35 px-2 py-1 text-[10px] font-semibold text-white/90 backdrop-blur">
+              <div className="absolute bottom-3 left-3 z-30 rounded-sm border border-white/25 bg-ink/35 px-2 py-1 text-[10px] font-semibold text-white/90">
                 {String(activeIndex + 1).padStart(2, "0")}/{String(imageCount).padStart(2, "0")}
               </div>
             )}
           </>
         ) : (
-          <div className="absolute bottom-4 left-5 z-30 rounded-sm border border-white/25 bg-ink/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/90 backdrop-blur transition duration-300 group-hover:border-gold/60 group-hover:bg-ink/45">
+          <div className="absolute bottom-4 left-5 z-30 rounded-sm border border-white/25 bg-ink/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white/90 transition duration-300 group-hover:border-gold/60 group-hover:bg-ink/45">
             {section.title}
           </div>
         )}

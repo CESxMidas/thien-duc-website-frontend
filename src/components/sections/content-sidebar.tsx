@@ -133,7 +133,7 @@ export function ContentSidebar({
                         />
                       </span>
                     )}
-                    <span className="absolute left-0 top-0 bg-ink/70 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur">
+                    <span className="absolute left-0 top-0 bg-ink/70 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white">
                       {statusLabels[project.status]}
                     </span>
                   </span>

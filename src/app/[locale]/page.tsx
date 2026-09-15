@@ -4,6 +4,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { HomeBannerSection } from "@/components/sections/home-banner-section";
 import { HomeContactCta } from "@/components/sections/home-contact-cta";
 import { HomeCooperation } from "@/components/sections/home-cooperation";
+import { HomeFacts } from "@/components/sections/home-facts";
 import { HomeFeaturedProjects } from "@/components/sections/home-featured-projects";
 import { HomeIntroStrip } from "@/components/sections/home-intro-strip";
 import { HomeLatestNews } from "@/components/sections/home-latest-news";
@@ -58,8 +59,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <SiteShell locale={locale}>
       <HomeBannerSection locale={locale} />
-      <HomeFeaturedProjects locale={locale} />
+      <HomeFacts locale={locale} />
       <HomeIntroStrip locale={locale} />
+      <HomeFeaturedProjects locale={locale} />
       <HomeCooperation locale={locale} />
       <HomeLatestNews locale={locale} />
       <HomeContactCta locale={locale} />

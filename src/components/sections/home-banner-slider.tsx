@@ -248,10 +248,7 @@ export function HomeBannerSlider({
             Dưới `xl` chữ nằm trái → tối bên trái (giữ nguyên như cũ).
             Từ `xl` chữ chuyển sang phải → gradient lật 270deg.
             Vệt vàng radial cũng lật theo cho ăn khớp với khối chữ. */}
-        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)] xl:hidden" />
-        <div className="absolute inset-0 z-20 hidden bg-[linear-gradient(270deg,rgba(25,25,25,0.5)_0%,rgba(25,25,25,0.26)_45%,rgba(25,25,25,0.04)_100%)] xl:block" />
-        <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_18%_78%,rgba(253,205,4,0.16),transparent_32%)] xl:hidden" />
-        <div className="absolute inset-0 z-20 hidden bg-[radial-gradient(circle_at_82%_78%,rgba(253,205,4,0.16),transparent_32%)] xl:block" />
+        <div className="absolute inset-0 z-20 bg-charcoal/45" />
 
         {autoplayEnabled ? (
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
@@ -304,7 +301,7 @@ export function HomeBannerSlider({
               // `xl:ml-auto` đẩy khối sang phải trong container ở desktop rộng:
               // tiêu điểm ảnh thực tế đang lệch trái (35%/45%), để chữ bên phải
               // là nhường lại đúng phần chủ thể kiến trúc.
-              className={`pointer-events-auto flex max-w-lg flex-col justify-between bg-ink/38 p-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.22)] sm:p-7 xl:ml-auto ${
+              className={`pointer-events-auto flex max-w-2xl flex-col justify-between border-l border-white/45 pl-5 text-white sm:pl-7 ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}
             >
@@ -349,13 +346,13 @@ export function HomeBannerSlider({
                 <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-6">
                   <Link
                     href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex h-11 items-center justify-center bg-gold px-4 text-center text-sm font-semibold text-ink transition hover:bg-white sm:px-5"
+                    className="button-polish inline-flex h-11 items-center justify-center bg-ivory px-4 text-center text-sm font-semibold text-charcoal transition hover:bg-white sm:px-5"
                   >
                     {activeBanner.ctaLabel}
                   </Link>
                   <Link
                     href={localizePath(routes.contact, locale)}
-                    className="link-arrow inline-flex h-11 items-center gap-2 text-sm font-semibold text-white underline-offset-4 transition hover:text-gold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                    className="link-arrow inline-flex h-11 items-center gap-2 text-sm font-semibold text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
                   >
                     {contactCtaLabel}
                   </Link>
@@ -388,7 +385,7 @@ export function HomeBannerSlider({
               data-paused={userStopped}
               aria-label={userStopped ? labels.ariaPlay : labels.ariaPause}
               onClick={toggleAutoplay}
-              className={`button-polish grid size-11 place-items-center border backdrop-blur transition-colors md:size-11 ${
+              className={`button-polish grid size-11 place-items-center border transition-colors md:size-11 ${
                 userStopped
                   ? "border-gold bg-gold text-ink"
                   : "border-white/40 bg-ink/30 text-white hover:border-gold hover:bg-gold hover:text-ink"
@@ -409,7 +406,7 @@ export function HomeBannerSlider({
                nút tạm dừng thì KHÔNG được ẩn — cảm ứng không rê chuột được nên
                ở đó nó là cơ chế dừng duy nhất. Vì vậy `hidden sm:grid` chuyển
                từ khối cha xuống riêng hai nút này. */
-            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
+            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -417,7 +414,7 @@ export function HomeBannerSlider({
             type="button"
             aria-label={labels.ariaNext}
             onClick={goToNext}
-            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
+            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
           >
             <ChevronRight className="size-5" />
           </button>
@@ -433,7 +430,7 @@ export function HomeBannerSlider({
             tạm dừng / tiến / lùi — đã đo được bằng trình duyệt thật:
             "…intercepts pointer events". Chỉ viên chấm bên trong mới bắt chuột. */}
         <div className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center pl-4 pr-14 sm:px-0">
-          <div className="pointer-events-auto flex items-center rounded-full border border-white/20 bg-ink/25 px-1 backdrop-blur">
+          <div className="pointer-events-auto flex items-center border border-white/25 bg-ink/35 px-1">
             {banners.map((banner, index) => (
               <button
                 key={banner.image}

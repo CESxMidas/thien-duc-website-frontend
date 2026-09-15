@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import { brandName, brandShortName, siteConfig } from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
@@ -16,8 +16,8 @@ import "../globals.css";
 // Body/UI: Be Vietnam Pro — font Việt bản địa, hiển thị dấu tiếng Việt hoàn hảo,
 // đồng bộ với heading của Admin. Chỉ nạp các weight thực dùng (400 body, 500
 // nav/button, 600–700 nhấn) — mục 9 UI-UX-HANDOFF: tiết kiệm băng thông.
-const beVietnamPro = Be_Vietnam_Pro({
-  variable: "--font-be-vietnam",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -25,8 +25,8 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 // Display/heading: Playfair Display serif — tạo chất "modern luxury real estate".
 // Chỉ dùng cho tiêu đề lớn (H1/H2, hero), không dùng cho đoạn văn dài (mục 3).
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair",
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin", "vietnamese"],
   weight: ["500", "600", "700"],
   display: "swap",
@@ -114,7 +114,7 @@ export default async function RootLayout({
   return (
     <html
       lang={localeHtmlLang[locale]}
-      className={`${beVietnamPro.variable} ${playfairDisplay.variable} h-full antialiased`}
+      className={`${manrope.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         {/* Organization JSON-LD toàn site (task →7) — NewsArticle tham chiếu qua @id. */}

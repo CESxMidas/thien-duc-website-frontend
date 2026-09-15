@@ -63,7 +63,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="group hover-card relative min-w-0 flex-1 overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]">
+      <div className="group hover-card relative min-w-0 flex-1 overflow-hidden border border-brand/18 bg-surface">
         <div className="project-gallery-stage relative aspect-16/10 h-full min-h-18rem">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
@@ -88,7 +88,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
             );
           })}
 
-          <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(25,25,25,0)_62%,rgba(25,25,25,0.32)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 z-20 bg-transparent" />
 
           {multiple ? (
             <>
@@ -116,7 +116,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
                   type="button"
                   aria-label="Ảnh trước"
                   onClick={goToPrevious}
-                  className="button-polish grid size-9 place-items-center border border-white/50 bg-ink/35 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink"
+                  className="button-polish grid size-9 place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink"
                 >
                   <ChevronLeft className="size-4" />
                 </button>
@@ -124,13 +124,13 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
                   type="button"
                   aria-label="Ảnh tiếp theo"
                   onClick={goToNext}
-                  className="button-polish grid size-9 place-items-center border border-white/50 bg-ink/35 text-white backdrop-blur hover:border-gold hover:bg-gold hover:text-ink"
+                  className="button-polish grid size-9 place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink"
                 >
                   <ChevronRight className="size-4" />
                 </button>
               </div>
 
-              <div className="absolute bottom-3 left-3 z-30 rounded-sm border border-white/25 bg-ink/35 px-2.5 py-1 text-xs font-semibold text-white/90 backdrop-blur">
+              <div className="absolute bottom-3 left-3 z-30 rounded-sm border border-white/25 bg-ink/35 px-2.5 py-1 text-xs font-semibold text-white/90">
                 {String(activeIndex + 1).padStart(2, "0")}
                 <span className="mx-1 text-white/45">/</span>
                 {String(count).padStart(2, "0")}

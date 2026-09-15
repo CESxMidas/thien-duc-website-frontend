@@ -3,7 +3,7 @@ import { displayAddress, siteConfig } from "@/config/site";
 import type { Locale } from "@/lib/i18n/config";
 
 const cardClassName =
-  "interactive-card flex gap-3 rounded border border-brand/30 bg-gold-soft p-4 text-ink shadow-[0_4px_14px_rgba(127,75,13,0.16)] hover:border-brand hover:bg-gold";
+  "interactive-card flex gap-3 rounded border border-brand/30 bg-gold-soft p-4 text-ink hover:border-brand hover:bg-gold";
 
 /**
  * Khối chữ trong thẻ là **flex item**, mà flex item mặc định `min-width: auto`

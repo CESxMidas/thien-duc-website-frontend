@@ -41,7 +41,7 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
       // Khối này nay nằm trong CỘT TRÁI hẹp (đã trừ rail 19rem) chứ không còn
       // chiếm nửa trang như lúc mới dựng. Padding và cỡ chữ hạ một nấc để nó
       // không đội chiều cao cả khối tổng quan lên — nội dung giữ nguyên.
-      className={`relative overflow-hidden bg-brand-dark px-6 py-6 text-white shadow-[0_16px_40px_rgba(127,75,13,0.18)] sm:px-8 sm:py-8 ${className ?? ""}`}
+      className={`relative overflow-hidden bg-brand-dark px-6 py-6 text-white sm:px-8 sm:py-8 ${className ?? ""}`}
     >
       <span
         aria-hidden="true"

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Globe } from "lucide-react";
 import {
   localeNameIn,
   locales,
@@ -44,16 +43,11 @@ export function LanguageSwitcher({
     <div
       // `h-11` khớp đúng chiều cao nút mở tìm kiếm (size-11) đứng ngay cạnh —
       // trước đây cụm này chỉ ~38px nên hai control lệch nhau ~6px.
-      className={`inline-flex h-11 items-center gap-0.5 rounded-md border border-brand/25 bg-cream/70 p-0.5 ${className}`}
+      className={`inline-flex h-11 items-center gap-0.5 ${className}`}
       role="group"
       aria-label={label}
     >
-      {showIcon ? (
-        <Globe
-          className="ml-1.5 mr-0.5 size-3.5 shrink-0 text-brand/70"
-          aria-hidden="true"
-        />
-      ) : null}
+      {showIcon ? <span className="mr-1 text-warm-grey" aria-hidden="true">/</span> : null}
       {locales.map((item) => {
         const active = item === locale;
 
@@ -63,10 +57,10 @@ export function LanguageSwitcher({
             href={localizePath(path, item)}
             hrefLang={item}
             aria-current={active ? "true" : undefined}
-            className={`grid h-full min-w-9 place-items-center rounded px-2.5 text-xs font-bold uppercase tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+            className={`grid h-full min-w-9 place-items-center px-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-earth ${
               active
-                ? "bg-brand text-white shadow-sm"
-                : "text-slate hover:bg-brand/10 hover:text-brand-dark"
+                ? "text-earth underline decoration-earth/45 underline-offset-4"
+                : "text-charcoal/55 hover:text-charcoal"
             }`}
           >
             <span className="sr-only">{localeNameIn[locale][item]}</span>

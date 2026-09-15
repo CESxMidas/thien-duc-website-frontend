@@ -204,10 +204,10 @@ describe("HomeBannerSlider", () => {
     const secondary = screen.getByRole("link", { name: "Liên hệ" });
 
     // Chính: nền đặc.
-    expect(primary.className).toContain("bg-gold");
+    expect(primary.className).toContain("bg-ivory");
     // Phụ: treatment liên kết của hệ thống, KHÔNG phải nút đặc thứ hai.
     expect(secondary.className).toContain("link-arrow");
-    expect(secondary.className).not.toContain("bg-gold");
+    expect(secondary.className).not.toContain("bg-ivory");
     expect(secondary.className).not.toContain("border");
     // Vẫn phải giữ vùng chạm và có focus ring thấy được trên nền ảnh.
     expect(secondary.className).toContain("h-11");

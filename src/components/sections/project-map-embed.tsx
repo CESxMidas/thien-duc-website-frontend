@@ -39,7 +39,7 @@ export function ProjectMapEmbed({
         >
           {aerialImage ? (
             <div
-              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]"
+              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface"
               style={{ aspectRatio: "1024 / 683" }}
             >
               <Image
@@ -53,7 +53,7 @@ export function ProjectMapEmbed({
           ) : null}
 
           <div
-            className="relative w-full overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.12)]"
+            className="relative w-full overflow-hidden border border-brand/18 bg-surface"
             style={{ aspectRatio: aerialImage ? "1024 / 683" : "1024 / 460" }}
           >
             <iframe

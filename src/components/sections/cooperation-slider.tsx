@@ -78,17 +78,17 @@ export function CooperationSlider({
   }, [activeIndex, canSlide, isPaused, scrollToIndex]);
 
   return (
-    <section className="reveal-section bg-white">
-      <div className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+    <section className="bg-white">
+      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-eyebrow mb-4 text-brand">
+            <p className="text-eyebrow mb-4 text-earth">
               {labels.eyebrow}
             </p>
-            <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            <h2 className="text-[2.1rem] font-medium leading-[1.08] text-charcoal sm:text-[3rem]">
               {labels.title}
             </h2>
-            <p className="mt-4 text-base leading-7 text-slate sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="mt-5 text-base leading-8 text-charcoal/72 sm:text-lg">
               {labels.description}
             </p>
           </div>
@@ -99,7 +99,7 @@ export function CooperationSlider({
                 type="button"
                 aria-label={labels.ariaPrevious}
                 onClick={() => scrollToIndex(activeIndex - 1)}
-                className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
+                className="button-polish grid size-10 place-items-center border border-earth/30 bg-white text-earth hover:border-earth hover:bg-ivory hover:text-charcoal"
               >
                 <ChevronLeft className="size-4" />
               </button>
@@ -107,7 +107,7 @@ export function CooperationSlider({
                 type="button"
                 aria-label={labels.ariaNext}
                 onClick={() => scrollToIndex(activeIndex + 1)}
-                className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand hover:border-brand hover:bg-gold hover:text-ink"
+                className="button-polish grid size-10 place-items-center border border-earth/30 bg-white text-earth hover:border-earth hover:bg-ivory hover:text-charcoal"
               >
                 <ChevronRight className="size-4" />
               </button>
@@ -127,16 +127,16 @@ export function CooperationSlider({
           {projects.map((project) => (
             <article
               key={project.name}
-              className={`hover-card group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden bg-brand-dark p-5 text-white sm:w-[70%] sm:p-5 md:p-7 ${
+              className={`group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden border border-black/10 bg-olive p-5 text-ivory sm:w-[70%] sm:p-5 md:p-7 ${
                 singleProject ? "md:w-full" : "md:w-[calc(50%-0.625rem)]"
               }`}
             >
               <div
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(253,205,4,0.18),transparent_46%)]"
+                className="pointer-events-none absolute inset-0 bg-transparent"
                 aria-hidden="true"
               />
               <Building2
-                className="pointer-events-none absolute -bottom-8 -right-6 size-44 text-white/6 transition-transform duration-500 group-hover:scale-105"
+                className="pointer-events-none absolute -bottom-8 -right-6 size-44 text-white/6"
                 aria-hidden="true"
               />
 
@@ -151,7 +151,7 @@ export function CooperationSlider({
                 >
                   {/* Chuyển màu về nền thẻ để chữ phía dưới luôn đọc rõ. */}
                   <div
-                    className="absolute inset-0 bg-linear-to-t from-brand-dark via-brand-dark/30 to-transparent"
+                    className="absolute inset-0 bg-transparent"
                     aria-hidden="true"
                   />
                 </div>
@@ -160,7 +160,7 @@ export function CooperationSlider({
               {/* Khối chữ kẹp số dòng (line-clamp) để nội dung dài không kéo
                   giãn thẻ — mọi thẻ giữ đúng một khung, rê chuột đọc toàn văn. */}
               <div className="relative">
-                <p className="text-eyebrow inline-flex items-center gap-2 text-gold">
+                <p className="text-eyebrow inline-flex items-center gap-2 text-warm-grey">
                   <Handshake className="size-4" aria-hidden="true" />
                   {labels.cardBadge}
                 </p>
@@ -173,16 +173,16 @@ export function CooperationSlider({
                 {/* Cố định 2 dòng (min-h theo line-height) — thẻ có mô tả 1
                     dòng hay 2 dòng đều cao bằng nhau. */}
                 <p
-                  className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-white/70"
+                  className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-ivory/70"
                   title={`${project.location} · ${project.scale}`}
                 >
                   {project.location} · {project.scale}
                 </p>
               </div>
 
-              <dl className="relative mt-8 grid gap-4 border-t border-white/15 pt-6 text-sm sm:grid-cols-3">
+              <dl className="relative mt-8 grid gap-4 border-t border-ivory/15 pt-6 text-sm sm:grid-cols-3">
                 <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
                     {labels.roleLabel}
                   </dt>
                   <dd
@@ -193,7 +193,7 @@ export function CooperationSlider({
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
                     {labels.partnerLabel}
                   </dt>
                   <dd
@@ -204,7 +204,7 @@ export function CooperationSlider({
                   </dd>
                 </div>
                 <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
                     {labels.statusLabel}
                   </dt>
                   <dd
@@ -232,8 +232,8 @@ export function CooperationSlider({
                 onClick={() => scrollToIndex(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex
-                    ? "w-8 bg-brand"
-                    : "w-2.5 bg-brand/25 hover:bg-brand/45"
+                    ? "w-8 bg-earth"
+                    : "w-2.5 bg-earth/25 hover:bg-earth/45"
                 }`}
               />
             ))}

@@ -33,7 +33,7 @@ export function ProjectLocationMap({
         <div className="grid w-full gap-4 lg:grid-cols-2 lg:items-stretch">
           {aerialImage ? (
             <div
-              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface shadow-[0_16px_36px_rgba(127,75,13,0.1)]"
+              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface"
               style={{ aspectRatio: "1024 / 683" }}
             >
               <Image
@@ -47,7 +47,7 @@ export function ProjectLocationMap({
           ) : null}
 
           <div
-            className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-map shadow-[0_16px_36px_rgba(127,75,13,0.12)]"
+            className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-map"
             style={{ aspectRatio: "1024 / 683" }}
           >
             <div className="absolute inset-0 overflow-hidden">

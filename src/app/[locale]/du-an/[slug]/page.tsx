@@ -20,7 +20,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 function ProjectFactCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
+    <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4">
       <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
         {label}
       </dt>
@@ -175,7 +175,7 @@ export default async function ProjectDetailPage({
 
         {project.image && !hasMap ? (
           <section className="mx-auto max-w-site px-4 pb-5 pt-4 sm:px-6 sm:pb-8">
-            <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface shadow-[0_20px_48px_rgba(127,75,13,0.12)]">
+            <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -195,7 +195,7 @@ export default async function ProjectDetailPage({
         <section className="project-detail-band py-12">
           <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7">
-              <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
+              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
               <p className="text-eyebrow mb-4 text-brand">
                 {dictionary.projectDetail.quickInfoEyebrow}
               </p>
@@ -210,7 +210,7 @@ export default async function ProjectDetailPage({
                   label={dictionary.projectDetail.locationLabel}
                   value={project.location ?? dictionary.projectDetail.updating}
                 />
-                <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
+                <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4">
                   <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
                     {dictionary.projectDetail.statusLabel}
                   </dt>
@@ -350,7 +350,7 @@ export default async function ProjectDetailPage({
         <section className="project-detail-band py-12">
           <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-5 md:p-7">
-              <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
+              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
               <p className="text-eyebrow mb-4 text-brand">
                 {dictionary.projectDetail.highlightsEyebrow}
               </p>
@@ -368,7 +368,7 @@ export default async function ProjectDetailPage({
                   key={highlight}
                   className="hover-card project-detail-highlight p-5"
                 >
-                  <div className="mb-4 h-1 w-14 bg-linear-to-r from-gold to-brand" />
+                  <div className="mb-4 h-1 w-14 bg-earth" />
                   <p className="text-sm leading-6 text-slate">{highlight}</p>
                 </div>
               ))}
@@ -389,7 +389,7 @@ export default async function ProjectDetailPage({
                 {dictionary.projectDetail.ctaDescription}
               </p>
             </div>
-            <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)] md:self-center">
+            <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 md:self-center">
               <Link
                 href={localizePath(routes.contact, locale)}
                 className="button-polish inline-flex h-11 items-center justify-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white"

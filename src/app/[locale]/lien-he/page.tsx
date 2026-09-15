@@ -5,13 +5,7 @@ import { MapPin } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ContactForm } from "@/components/sections/contact-form";
 import { PageHeading } from "@/components/ui/page-heading";
-import { ZaloContactLink } from "@/components/ui/zalo-contact-link";
-import {
-  displayAddress,
-  siteConfig,
-  zaloDisplayValue,
-  zaloHref,
-} from "@/config/site";
+import { displayAddress, siteConfig } from "@/config/site";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -34,7 +28,7 @@ const metaCopy: Record<Locale, { title: string; description: string }> = {
 };
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
+const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 export async function generateMetadata({
   params,
@@ -74,7 +68,7 @@ export default async function ContactPage({
     // Không render nút Zalo nổi ở đây: kênh Zalo đã nằm nội dòng ngay dưới số
     // điện thoại, nút nổi chỉ nhân đôi CTA trên đúng trang có mục đích là liên
     // hệ — và đo được là nó phủ lên mép ô nhập/vùng nhập nội dung của biểu mẫu.
-    <SiteShell locale={locale} showFloatingContact={false}>
+    <SiteShell locale={locale}>
       <PageHeading
         eyebrow={contact.heroEyebrow}
         title={heading.title}
@@ -101,23 +95,6 @@ export default async function ContactPage({
               {siteConfig.phone}
             </a>
             .
-          </p>
-
-          {/* Zalo là kênh liên hệ ngang hàng với điện thoại, đặt ngay dưới dòng
-              "gọi ngay" nên đọc liền mạch — không dựng lại khối thẻ liên hệ,
-              không thay thế điện thoại hay biểu mẫu. */}
-          <p className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-slate">
-            <span>{dictionary.zalo.contactVia}:</span>
-            <ZaloContactLink
-              variant="inline"
-              href={zaloHref()}
-              ariaLabel={dictionary.zalo.ariaLabel}
-              label={dictionary.zalo.label}
-              displayValue={zaloDisplayValue()}
-              className="interactive-card inline-flex min-h-11 items-center gap-2.5 rounded border border-brand/30 bg-gold-soft px-4 text-ink hover:border-brand hover:bg-gold"
-              iconClassName="h-3 w-auto shrink-0 text-[#0068ff]"
-              valueClassName="font-semibold text-ink"
-            />
           </p>
 
           <div className="mt-8">
@@ -182,7 +159,7 @@ export default async function ContactPage({
             </Link>
           </div>
 
-          <div className="relative overflow-hidden border border-black/10 bg-white shadow-sm">
+          <div className="relative overflow-hidden border border-black/10 bg-white">
             {/* Skeleton nền khung bản đồ: iframe Google Maps trong suốt cho tới
                 khi tiles vẽ xong, nên lớp này lộ ra trong lúc chờ thay vì khung
                 trắng trơ. Không dùng chữ để khỏi phải i18n; tôn trọng

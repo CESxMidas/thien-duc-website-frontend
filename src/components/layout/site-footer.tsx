@@ -7,11 +7,8 @@ import {
   legalInfo,
   siteConfig,
   taxAuthorityName,
-  zaloDisplayValue,
-  zaloHref,
 } from "@/config/site";
 import { BrandMottoCompact } from "@/components/ui/brand-motto";
-import { ZaloContactLink } from "@/components/ui/zalo-contact-link";
 import { footerSections } from "@/data/footer";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -19,10 +16,10 @@ import { routes } from "@/lib/routes";
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
 const emailHref = `mailto:${siteConfig.email}`;
-const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address)}`;
+const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
-  "inline-flex min-h-10 items-center rounded-sm text-sm text-white/85 transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:min-h-0";
+  "inline-flex min-h-10 items-center text-sm text-ivory/78 transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory sm:min-h-0";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -41,7 +38,7 @@ function FooterNavSection({
 }) {
   return (
     <div>
-      <h2 className="text-eyebrow text-gold">
+      <h2 className="text-eyebrow text-ivory/55">
         {dictionary.footerSectionTitles[section.title] ?? section.title}
       </h2>
       <ul className="mt-3 space-y-0.5 sm:space-y-2.5">
@@ -67,7 +64,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     // Nền brand-dark (#7f4b0d): brand-soft (#c99248) quá sáng khiến chữ
     // trắng/vàng chỉ đạt ~1.8–2.7:1 (dưới ngưỡng WCAG AA). Nâu đậm đưa chữ
     // trắng lên ~7:1, vàng lên ~4.8:1, giữ đúng tông thương hiệu.
-    <footer className="mt-auto border-t border-brand/25 bg-brand-dark text-white">
+    <footer className="mt-auto border-t border-charcoal/15 bg-olive text-ivory">
       {/* Desktop: **một hàng** 5 cột. Xếp 3 nhóm link chồng lên nhau (bố cục 4
           cột) khiến cột đó cao gấp đôi và để lại ~200px trống dưới các cột
           ngắn — đúng cảm giác "footer rỗng" cần bỏ. Tỉ lệ 1.4/1/1/1/1.5 với
@@ -77,7 +74,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         <div className="sm:col-span-2 lg:col-span-1">
           <Link
             href={localizePath(routes.home, locale)}
-            className="inline-flex size-14 items-center justify-center rounded-lg border border-white/20 bg-white p-2 shadow-sm"
+            className="inline-flex size-14 items-center justify-center bg-ivory p-2"
             aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
@@ -115,7 +112,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         </div>
 
         <div className="sm:col-span-2 lg:col-span-1">
-          <h2 className="text-eyebrow text-gold">
+          <h2 className="text-eyebrow text-ivory/55">
             {dictionary.footer.contact}
           </h2>
           {/* Nhãn "Điện thoại/Email/Văn phòng" chuyển sang `sr-only`: icon đã
@@ -128,7 +125,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 className={`${footerLinkClassName} flex items-start gap-2.5`}
               >
                 <Phone
-                  className="mt-0.5 size-4 shrink-0 text-gold"
+                  className="mt-0.5 size-4 shrink-0 text-earth"
                   aria-hidden="true"
                 />
                 <span className="min-w-0">
@@ -139,29 +136,13 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 </span>
               </a>
             </li>
-            {/* Zalo đứng ngay sau điện thoại: cùng là kênh gọi/nhắn trực tiếp.
-                Giữ đúng khuôn `icon + nhãn sr-only + giá trị` của ba mục kia,
-                cỡ chữ như nhau — không phải CTA lớn, nút nổi toàn site đã lo
-                phần hiện diện cao. */}
-            <li>
-              <ZaloContactLink
-                variant="inline"
-                href={zaloHref()}
-                ariaLabel={dictionary.zalo.ariaLabel}
-                label={dictionary.zalo.label}
-                displayValue={zaloDisplayValue()}
-                className={`${footerLinkClassName} flex items-start gap-2.5`}
-                iconClassName="mt-1 h-3 w-auto shrink-0 text-gold"
-                valueClassName="font-semibold text-white"
-              />
-            </li>
             <li>
               <a
                 href={emailHref}
                 className={`${footerLinkClassName} flex items-start gap-2.5`}
               >
                 <Mail
-                  className="mt-0.5 size-4 shrink-0 text-gold"
+                  className="mt-0.5 size-4 shrink-0 text-earth"
                   aria-hidden="true"
                 />
                 <span className="min-w-0">
@@ -180,7 +161,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 className={`${footerLinkClassName} flex items-start gap-2.5`}
               >
                 <MapPin
-                  className="mt-0.5 size-4 shrink-0 text-gold"
+                  className="mt-0.5 size-4 shrink-0 text-earth"
                   aria-hidden="true"
                 />
                 <span className="min-w-0">
@@ -197,7 +178,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               footer — đọc liền mạch "thông tin liên hệ → hành động". */}
           <Link
             href={localizePath(routes.contact, locale)}
-            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-sm bg-gold px-4 text-sm font-semibold text-brand-dark transition hover:bg-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 border border-ivory/55 px-4 text-sm font-semibold text-ivory transition hover:bg-ivory hover:text-olive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             {dictionary.common.contactCta}
             <span aria-hidden="true">→</span>

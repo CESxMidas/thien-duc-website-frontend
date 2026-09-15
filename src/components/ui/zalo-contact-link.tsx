@@ -41,7 +41,7 @@ const floatingClassName = [
   "inline-flex h-11 w-11 items-center justify-center rounded-full md:h-11 md:w-auto md:gap-2 md:rounded-full md:px-5",
   // Xanh Zalo chính thức + chữ trắng: giữ nhận diện của dịch vụ bên thứ ba,
   // không nhuộm sang nâu/vàng thương hiệu.
-  "bg-[#0068ff] text-white shadow-[0_4px_16px_rgba(0,104,255,0.32)]",
+  "bg-[#0068ff] text-white",
   // Chỉ chuyển động NỀN. `transition-colors` gộp cả `outline-color`, khiến viền
   // focus mờ dần từ `currentColor` (trắng) trong 200ms — đo được là viền gần
   // như tàng hình ngay lúc vừa Tab tới, đúng khoảnh khắc cần thấy nó nhất.
@@ -59,7 +59,7 @@ const floatingClassName = [
   // `outline-offset-4` (giá trị trong thang) chứ không phải `-[3px]` tuỳ ý —
   // bản tuỳ ý biên dịch hụt, viền rơi về offset 2px và đè lên vòng trắng.
   "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand",
-  "focus-visible:shadow-[0_0_0_3px_#ffffff,0_4px_16px_rgba(0,104,255,0.32)]",
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
 ].join(" ");
 
 export function ZaloContactLink({

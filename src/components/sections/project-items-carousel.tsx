@@ -72,7 +72,7 @@ export function ProjectItemsCarousel({
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="hover-card relative overflow-hidden border border-brand/18 bg-white shadow-[0_16px_36px_rgba(127,75,13,0.1)]">
+      <div className="hover-card relative overflow-hidden border border-brand/18 bg-white">
         {autoplay ? (
           <div className="absolute inset-x-0 top-0 z-30 h-1 bg-brand/12">
             {!isPaused ? (
@@ -124,20 +124,20 @@ export function ProjectItemsCarousel({
                         className="object-cover transition duration-700 ease-out group-hover/slide:scale-105"
                       />
                     ) : (
-                      <div className="grid h-full place-items-center bg-linear-to-br from-gold-soft via-white to-gold-soft/60">
+                      <div className="grid h-full place-items-center bg-ivory">
                         <Building2
                           className="size-14 text-brand/35"
                           aria-hidden="true"
                         />
                       </div>
                     )}
-                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(25,25,25,0)_55%,rgba(25,25,25,0.28)_100%)]" />
-                    <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
+                    <div className="pointer-events-none absolute inset-0 bg-transparent" />
+                    <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
                       {statusLabels[item.status ?? projectStatus]}
                     </span>
                   </div>
 
-                  <div className="flex flex-col justify-center gap-4 bg-linear-to-br from-white to-gold-soft/35 p-6 md:p-10">
+                  <div className="flex flex-col justify-center gap-4 bg-white p-6 md:p-10">
                     <p className="text-eyebrow text-brand">{labels.badge}</p>
                     <h3 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
                       {item.title}

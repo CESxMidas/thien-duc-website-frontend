@@ -57,7 +57,7 @@ export async function generateMetadata({
 
 function ProjectFactCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-sm border border-brand/12 bg-white/85 p-4 shadow-sm">
+    <div className="rounded-sm border border-brand/12 bg-white/85 p-4">
       <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
         {label}
       </dt>
@@ -138,7 +138,7 @@ export default async function ProjectItemPage({
                 galleryImages.length === 0 ? "lg:col-span-2" : ""
               }`}
             >
-              <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-gold via-brand-soft to-brand" />
+              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
               <div className="flex flex-wrap items-center gap-3">
                 <p className="text-eyebrow text-brand">
                   {dictionary.projectItem.overviewEyebrow}
@@ -271,7 +271,7 @@ export default async function ProjectItemPage({
                 })}
               </p>
             </div>
-            <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 shadow-[0_4px_14px_rgba(127,75,13,0.16)] md:self-center">
+            <div className="reveal-from-right flex flex-wrap gap-3 self-start rounded border border-brand/30 bg-gold-soft p-3 md:self-center">
               <Link
                 href={localizePath(routes.contact, locale)}
                 className="button-polish inline-flex h-11 items-center justify-center bg-gold px-5 text-sm font-semibold text-ink transition hover:bg-white"

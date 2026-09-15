@@ -163,7 +163,7 @@ export default async function AboutPage({
                 chữ dài hơn hẳn nên dưới thẻ ảnh hở một mảng trắng lớn. Ảnh là
                 toà tháp đứng nên khung dọc lại hợp hơn khung 4:3.
                 Dưới `xl` (một cột) giữ nguyên tỉ lệ 4:3 như cũ. */}
-            <div className="hover-card flex flex-col overflow-hidden border border-black/10 bg-white shadow-sm">
+            <div className="hover-card flex flex-col overflow-hidden border border-black/10 bg-white">
               <div className="image-reveal relative aspect-4/3 xl:aspect-auto xl:min-h-72 xl:flex-1">
                 <Image
                   src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
@@ -318,7 +318,7 @@ export default async function AboutPage({
       </section>
 
       <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
-        <div className="rounded-sm bg-brand p-5 text-white shadow-[0_8px_28px_rgba(176,102,19,0.18)] md:p-10">
+        <div className="rounded-sm bg-brand p-5 text-white md:p-10">
           <p className="text-eyebrow mb-4 text-gold-soft">{about.ctaEyebrow}</p>
           <h2 className="max-w-2xl text-2xl font-semibold leading-tight md:text-3xl">
             {about.ctaTitle}
