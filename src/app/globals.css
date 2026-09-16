@@ -5,7 +5,7 @@
   --foreground: #292929;
   /* Giá trị dự phòng trước khi JS đo thật (ResizeObserver trong SiteHeader):
      top-strip 36px + viền 1px + header chính 72px + viền vàng 3px ≈ 7rem. */
-  --site-header-height: 5rem;
+  --site-header-height: 6rem;
 
   /* ------------------------------------------------------------------
      Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
@@ -526,6 +526,9 @@ textarea {
   .reveal-section,
   .reveal-from-left,
   .reveal-from-right,
+  /* Lặp class để tăng specificity: rule gốc `.stagger-list > *` nằm phía sau
+     media query này trong file, nếu cùng độ ưu tiên thì nó sẽ đặt lại opacity 0. */
+  .stagger-list.stagger-list > *,
   .stagger-sides > * {
     opacity: 1;
     transform: none;

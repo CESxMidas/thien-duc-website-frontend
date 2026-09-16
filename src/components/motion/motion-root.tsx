@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 const REVEAL_SELECTOR =
@@ -48,9 +48,12 @@ export function MotionRoot({ children }: { children: ReactNode }) {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  useLayoutEffect(() => {
+  // Gắn class reveal sau khi hydration hoàn tất. Dùng useLayoutEffect ở đây sẽ
+  // sửa className trong lúc React còn đối chiếu HTML server và phát cảnh báo
+  // hydration mismatch trên các trang có stagger-list/image-reveal.
+  useEffect(() => {
     const observed = new WeakSet<Element>();
-    const timeouts: number[] = [];
+    let mutationObserver: MutationObserver | undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -89,23 +92,20 @@ export function MotionRoot({ children }: { children: ReactNode }) {
       });
     };
 
-    scan();
-
-    const frame = requestAnimationFrame(scan);
-    timeouts.push(window.setTimeout(scan, 100));
-    timeouts.push(window.setTimeout(scan, 500));
-
-    const mutationObserver = new MutationObserver(scan);
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-    window.addEventListener("load", scan);
+    // Next/React có thể hydrate từng Suspense boundary sau khi effect của wrapper
+    // đã chạy. Trì hoãn lần quét đầu để không sửa className bên trong boundary
+    // khi React vẫn đang đối chiếu HTML server.
+    const start = () => {
+      scan();
+      mutationObserver = new MutationObserver(scan);
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
+    };
+    const startTimeout = window.setTimeout(start, 600);
 
     return () => {
-      cancelAnimationFrame(frame);
-      timeouts.forEach((timeout) => window.clearTimeout(timeout));
-      window.removeEventListener("load", scan);
+      window.clearTimeout(startTimeout);
       observer.disconnect();
-      mutationObserver.disconnect();
+      mutationObserver?.disconnect();
     };
   }, [pathname]);
 

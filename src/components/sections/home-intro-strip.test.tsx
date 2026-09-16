@@ -6,50 +6,56 @@ describe("HomeIntroStrip", () => {
     render(await HomeIntroStrip({ locale: "vi" }));
   }
 
-  it("render section giới thiệu dạng editorial với ảnh kiến trúc thật", async () => {
+  it("render khối giới thiệu dạng editorial ngang với logo thương hiệu", async () => {
     await renderStrip();
 
-    const image = document.querySelector("img");
-
-    expect(image?.getAttribute("src")).toContain(
-      "hung-phu-master-plan-aerial-03.jpg",
+    expect(screen.getByAltText("Logo Thiên Đức")).toHaveAttribute(
+      "src",
+      expect.stringContaining("logo-thien-duc.png"),
     );
-    expect(screen.getByRole("heading", { level: 2 })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 2,
+        name: /hơn một công trình/i,
+      }),
+    ).toBeInTheDocument();
   });
 
-  it("nhãn mục không phải nút/link và không có nền đặc kiểu CTA", async () => {
+  it("hiển thị motto bên phải như một quote thương hiệu", async () => {
+    await renderStrip();
+
+    const motto = screen
+      .getAllByText(/khách hàng hài lòng/i)
+      .find((node) => node.tagName === "BLOCKQUOTE");
+
+    expect(motto).toBeDefined();
+  });
+
+  it("có dải lĩnh vực hoạt động 3 ô ảnh đánh số", async () => {
     await renderStrip();
 
     expect(
-      screen.queryByRole("button", { name: /công ty thiên đức/i }),
-    ).toBeNull();
-    expect(screen.queryByRole("link", { name: /công ty thiên đức/i })).toBeNull();
-
-    const eyebrow = screen
-      .getAllByText(/công ty thiên đức/i)
-      .find((node) => node.className.includes("text-eyebrow"));
-
-    expect(eyebrow).toBeDefined();
-    expect(eyebrow!.tagName).toBe("P");
-    expect(eyebrow!.className).not.toContain("bg-brand");
-    expect(eyebrow!.className).not.toContain("shadow-");
-    expect(eyebrow!.className).not.toContain("min-h-11");
-  });
-
-  it("các thế mạnh/lĩnh vực hiển thị dạng hàng đánh số, không phải icon-card", async () => {
-    await renderStrip();
-
+      screen.getByRole("heading", { level: 3, name: /lĩnh vực hoạt động/i }),
+    ).toBeInTheDocument();
     expect(screen.getByText("01")).toBeInTheDocument();
     expect(screen.getByText("02")).toBeInTheDocument();
     expect(screen.getByText("03")).toBeInTheDocument();
-    expect(document.querySelector(".icon-badge")).toBeNull();
+    expect(
+      screen.getByRole("link", { name: /đầu tư & phát triển dự án/i }),
+    ).toHaveAttribute("href", "/du-an");
+    expect(
+      screen.getByRole("link", { name: /xây dựng & thi công/i }),
+    ).toHaveAttribute("href", "/du-an");
+    expect(
+      screen.getByRole("link", { name: /phát triển đô thị/i }),
+    ).toHaveAttribute("href", "/du-an");
   });
 
-  it("có link điều hướng sang trang giới thiệu", async () => {
+  it("giữ link điều hướng sang trang giới thiệu", async () => {
     await renderStrip();
 
     expect(
-      screen.getByRole("link", { name: /tìm hiểu thiên đức/i }),
+      screen.getByRole("link", { name: /tìm hiểu thêm/i }),
     ).toHaveAttribute("href", "/gioi-thieu");
   });
 });

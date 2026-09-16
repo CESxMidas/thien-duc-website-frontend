@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { mainNavigation } from "@/data/navigation";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
@@ -12,11 +12,39 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import type { NavItem } from "@/types/content";
 
-const primaryNavigation = mainNavigation.filter((item) =>
-  ["/", "/gioi-thieu", "/du-an", "/tin-tuc", "/lien-he"].includes(item.href),
-);
+const primaryNavigation: NavItem[] = [
+  { label: "Trang chủ", href: "/" },
+  { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Lĩnh vực", href: "/#linh-vuc-hoat-dong" },
+  { label: "Dự án", href: "/du-an" },
+  { label: "Tin tức", href: "/tin-tuc" },
+  { label: "Nhân sự", href: "/tuyen-dung" },
+  { label: "Liên hệ", href: "/lien-he" },
+];
+
+const headerLabels: Record<Locale, Record<string, string>> = {
+  vi: {
+    "/": "Trang chủ",
+    "/gioi-thieu": "Giới thiệu",
+    "/#linh-vuc-hoat-dong": "Lĩnh vực",
+    "/du-an": "Dự án",
+    "/tin-tuc": "Tin tức",
+    "/tuyen-dung": "Nhân sự",
+    "/lien-he": "Liên hệ",
+  },
+  en: {
+    "/": "Home",
+    "/gioi-thieu": "About",
+    "/#linh-vuc-hoat-dong": "Fields",
+    "/du-an": "Projects",
+    "/tin-tuc": "News",
+    "/tuyen-dung": "People",
+    "/lien-he": "Contact",
+  },
+};
 
 function isActive(path: string, item: NavItem) {
+  if (item.href.includes("#")) return false;
   return item.href === "/"
     ? path === "/"
     : path === item.href || path.startsWith(`${item.href}/`);
@@ -31,43 +59,49 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const navLabel = (item: NavItem) =>
-    dictionary.navLabels[item.href] ?? item.label;
+    headerLabels[locale][item.href] ?? dictionary.navLabels[item.href] ?? item.label;
 
   useEffect(() => {
-    if (!menuOpen) return;
     const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
-  }, [menuOpen]);
+  }, []);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    searchInputRef.current?.focus();
+  }, [searchOpen]);
 
   return (
     <header
       id="site-header"
-      className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory/95 text-charcoal"
+      className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory/95 text-charcoal backdrop-blur-md"
     >
-      <div className="mx-auto flex h-18 max-w-header items-center px-4 sm:px-6 lg:h-20">
+      <div className="grid h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-24 lg:px-20 xl:px-28">
         <Link
           href={localizePath(routes.home, locale)}
-          className="flex shrink-0 items-center gap-3"
+          className="flex shrink-0 items-center"
           aria-label={dictionary.shared.homeAriaLabel}
         >
           <Image
             src="/images/brand/logo-thien-duc.png"
             alt={dictionary.shared.logoAlt}
-            width={52}
-            height={52}
+            width={126}
+            height={80}
             preload
-            className="size-11 object-contain lg:size-12"
+            className="h-[4.5rem] w-auto object-contain lg:h-[5.75rem]"
           />
-          <span className="hidden border-l border-charcoal/15 pl-3 font-display text-xl font-semibold tracking-[0.03em] xl:block">
-            {dictionary.shared.companyName}
-          </span>
         </Link>
 
-        <nav className="ml-auto hidden h-full items-center lg:flex" aria-label="Primary">
+        <nav className="hidden h-full items-center justify-center lg:flex" aria-label="Primary">
           {primaryNavigation.map((item) => {
             const active = isActive(path, item);
             return (
@@ -75,7 +109,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 key={item.href}
                 href={localizePath(item.href, locale)}
                 aria-current={active ? "page" : undefined}
-                className={`flex h-full items-center border-b-2 px-3 text-[0.72rem] font-semibold uppercase tracking-[0.16em] transition-colors xl:px-4 ${
+                className={`flex h-full items-center border-b-2 px-3 text-[0.72rem] font-bold uppercase tracking-[0.16em] transition-colors xl:px-5 ${
                   active
                     ? "border-earth text-earth"
                     : "border-transparent text-charcoal/75 hover:border-earth/45 hover:text-charcoal"
@@ -87,14 +121,20 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1.5 lg:ml-4">
-          <Link
-            href={localizePath(routes.search, locale)}
+        <div className="relative ml-auto flex items-center justify-end gap-1 lg:ml-0">
+          <button
+            type="button"
             aria-label={dictionary.header.searchLabel}
-            className="grid size-11 place-items-center text-charcoal/70 transition-colors hover:text-earth"
+            aria-expanded={searchOpen}
+            aria-controls="header-search-panel"
+            onClick={() => {
+              setSearchOpen((open) => !open);
+              setMenuOpen(false);
+            }}
+            className="grid size-10 place-items-center text-charcoal/70 transition-colors hover:text-earth"
           >
             <Search className="size-4.5" aria-hidden="true" />
-          </Link>
+          </button>
           <LanguageSwitcher
             locale={locale}
             label={dictionary.common.languageSwitcher}
@@ -111,6 +151,42 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
+
+          {searchOpen ? (
+            <form
+              id="header-search-panel"
+              role="search"
+              action={localizePath(routes.search, locale)}
+              className="absolute right-0 top-[calc(100%+0.75rem)] z-50 flex w-[min(22rem,calc(100vw-2.5rem))] items-center overflow-hidden border border-earth/25 bg-ivory shadow-[0_18px_50px_rgba(41,41,41,0.16)]"
+            >
+              <label htmlFor="header-search-input" className="sr-only">
+                {dictionary.header.searchLabel}
+              </label>
+              <input
+                ref={searchInputRef}
+                id="header-search-input"
+                name="q"
+                type="search"
+                placeholder={dictionary.header.searchPlaceholder}
+                className="h-12 min-w-0 flex-1 bg-transparent px-4 text-sm text-charcoal outline-none placeholder:text-charcoal/45"
+              />
+              <button
+                type="submit"
+                aria-label={dictionary.header.searchSubmit}
+                className="grid h-12 w-12 shrink-0 place-items-center bg-earth text-ivory transition hover:bg-charcoal"
+              >
+                <Search className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label={dictionary.header.closeMenu}
+                onClick={() => setSearchOpen(false)}
+                className="grid h-12 w-12 shrink-0 place-items-center text-charcoal/55 transition hover:text-charcoal"
+              >
+                <X className="size-4" aria-hidden="true" />
+              </button>
+            </form>
+          ) : null}
         </div>
       </div>
 

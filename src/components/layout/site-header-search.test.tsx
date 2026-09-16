@@ -15,31 +15,61 @@ function openDrawer() {
   );
 }
 
+function openSearch() {
+  const trigger = screen.getByRole("button", {
+    name: dictionary.header.searchLabel,
+  });
+  fireEvent.click(trigger);
+  return trigger;
+}
+
 describe("SiteHeader — tìm kiếm", () => {
-  it("header compact có link tìm kiếm trực tiếp, không render form search inline", () => {
+  it("nút search mở form GET tìm kiếm trong header", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
-    expect(
-      screen.getByRole("link", { name: dictionary.header.searchLabel }),
-    ).toHaveAttribute("href", "/tim-kiem");
+    const trigger = screen.getByRole("button", {
+      name: dictionary.header.searchLabel,
+    });
+
+    expect(screen.queryByRole("search")).toBeNull();
+    fireEvent.click(trigger);
+
+    const form = screen.getByRole("search");
+    expect(form).toHaveAttribute("action", "/tim-kiem");
+    expect(within(form).getByRole("searchbox")).toHaveAttribute("name", "q");
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("form tìm kiếm đúng theo locale tiếng Anh", () => {
+    render(<SiteHeader locale="en" dictionary={dictionary} />);
+
+    openSearch();
+
+    expect(screen.getByRole("search")).toHaveAttribute(
+      "action",
+      "/en/tim-kiem",
+    );
+  });
+
+  it("nút đóng ẩn form tìm kiếm", () => {
+    render(<SiteHeader locale="vi" dictionary={dictionary} />);
+
+    openSearch();
+    expect(screen.getByRole("search")).toBeInTheDocument();
+
+    fireEvent.click(
+      within(screen.getByRole("search")).getByRole("button", {
+        name: dictionary.header.closeMenu,
+      }),
+    );
+
     expect(screen.queryByRole("search")).toBeNull();
   });
 
-  it("link tìm kiếm đúng theo locale tiếng Anh", () => {
-    render(<SiteHeader locale="en" dictionary={dictionary} />);
-
-    expect(
-      screen.getByRole("link", { name: dictionary.header.searchLabel }),
-    ).toHaveAttribute("href", "/en/tim-kiem");
-  });
-
-  it("drawer mobile vẫn giữ link tìm kiếm ở thanh header và không nhân bản form", () => {
+  it("drawer mobile không nhân bản form tìm kiếm khi mở menu", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
     openDrawer();
 
-    expect(
-      screen.getByRole("link", { name: dictionary.header.searchLabel }),
-    ).toHaveAttribute("href", "/tim-kiem");
     expect(screen.queryByRole("search")).toBeNull();
   });
 
@@ -52,7 +82,8 @@ describe("SiteHeader — tìm kiếm", () => {
     });
 
     expect(switchers).toHaveLength(2);
-    expect(within(switchers[0]).getByRole("link", { name: "English" }))
-      .toHaveAttribute("href", "/en");
+    expect(
+      within(switchers[0]).getByRole("link", { name: "English" }),
+    ).toHaveAttribute("href", "/en");
   });
 });

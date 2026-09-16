@@ -123,4 +123,14 @@ describe("HomeFeaturedProjects", () => {
       "Hung Phu Urban Area",
     );
   });
+
+  it("tên dự án dùng font display theo brief thiết kế", async () => {
+    getProjectsMock.mockResolvedValue([makeProject()]);
+
+    render(await HomeFeaturedProjects({ locale: "vi" }));
+
+    expect(screen.getByRole("heading", { level: 3 })).toHaveClass(
+      "font-display",
+    );
+  });
 });

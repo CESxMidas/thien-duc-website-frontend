@@ -43,29 +43,33 @@ export function LanguageSwitcher({
     <div
       // `h-11` khớp đúng chiều cao nút mở tìm kiếm (size-11) đứng ngay cạnh —
       // trước đây cụm này chỉ ~38px nên hai control lệch nhau ~6px.
-      className={`inline-flex h-11 items-center gap-0.5 ${className}`}
+      className={`inline-flex h-10 items-center gap-2 ${className}`}
       role="group"
       aria-label={label}
     >
       {showIcon ? <span className="mr-1 text-warm-grey" aria-hidden="true">/</span> : null}
-      {locales.map((item) => {
+      {locales.map((item, index) => {
         const active = item === locale;
 
         return (
-          <Link
-            key={item}
-            href={localizePath(path, item)}
-            hrefLang={item}
-            aria-current={active ? "true" : undefined}
-            className={`grid h-full min-w-9 place-items-center px-2 text-xs font-semibold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-earth ${
-              active
-                ? "text-earth underline decoration-earth/45 underline-offset-4"
-                : "text-charcoal/55 hover:text-charcoal"
-            }`}
-          >
-            <span className="sr-only">{localeNameIn[locale][item]}</span>
-            <span aria-hidden="true">{item}</span>
-          </Link>
+          <span key={item} className="inline-flex h-full items-center gap-2">
+            {index > 0 ? (
+              <span className="text-charcoal/35" aria-hidden="true">
+                |
+              </span>
+            ) : null}
+            <Link
+              href={localizePath(path, item)}
+              hrefLang={item}
+              aria-current={active ? "true" : undefined}
+              className={`inline-flex h-full items-center text-xs font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-earth ${
+                active ? "text-earth" : "text-charcoal/55 hover:text-charcoal"
+              }`}
+            >
+              <span className="sr-only">{localeNameIn[locale][item]}</span>
+              <span aria-hidden="true">{item}</span>
+            </Link>
+          </span>
         );
       })}
     </div>

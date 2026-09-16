@@ -113,3 +113,27 @@ describe("Bundle analyzer — không bao giờ chạy trong build thường", ()
     expect(script).not.toMatch(/@next\/bundle-analyzer/);
   });
 });
+
+describe("Reduced motion — nội dung stagger không bị ẩn", () => {
+  const css = readSource("app/globals.css");
+  const reducedMotionBlock = css.match(
+    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?\/\* M2-R2/,
+  )?.[0];
+
+  it("hiện trực tiếp phần tử con của stagger-list", () => {
+    expect(reducedMotionBlock).toContain(".stagger-list.stagger-list > *");
+    expect(reducedMotionBlock).toMatch(
+      /\.stagger-list\.stagger-list > \*[\s\S]*?opacity:\s*1;[\s\S]*?transform:\s*none;/,
+    );
+  });
+});
+
+describe("Motion reveal — không can thiệp vào hydration", () => {
+  const code = readSource("components/motion/motion-root.tsx");
+
+  it("khởi tạo IntersectionObserver trong useEffect", () => {
+    expect(code).toMatch(
+      /useEffect\(\(\) => \{[\s\S]*?new IntersectionObserver/,
+    );
+  });
+});

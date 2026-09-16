@@ -116,7 +116,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
                       </div>
                     ) : null}
                     <h3
-                      className={`mt-4 font-medium leading-tight text-charcoal ${
+                      className={`mt-4 font-display font-medium leading-tight text-charcoal ${
                         isPrimary ? "text-3xl sm:text-4xl" : "text-xl"
                       }`}
                     >
