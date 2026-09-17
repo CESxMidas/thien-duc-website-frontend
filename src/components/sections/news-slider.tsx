@@ -10,21 +10,12 @@ import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
-/**
- * Số thẻ nhìn thấy cùng lúc theo khung nhìn. Ngưỡng khớp `md`/`lg` của Tailwind
- * để lớp CSS (`md:w-1/2 lg:w-1/3`) và phép tính JS không bao giờ lệch nhau.
- */
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
-/** Khoảng cách giữa hai thẻ, tính bằng px — bằng `gap-5` của Tailwind. */
 const GAP_PX = 20;
 
-/**
- * Quá số này thì thay dãy chấm bằng bộ đếm "3 / 16". Trang chủ nay nạp toàn bộ
- * kho tin nên số vị trí trượt tăng theo số bài, không còn cố định như khi giới
- * hạn 8 bài.
- */
+
 const MAX_DOTS = 8;
 
 function visibleCountFor(width: number): number {
@@ -33,19 +24,7 @@ function visibleCountFor(width: number): number {
   return 1;
 }
 
-/**
- * Giá trị `transform` dịch track sang trái `activeIndex` bước.
- *
- * Viết thành **một** biểu thức `calc()` phẳng và **tự mang dấu âm**.
- *
- * KHÔNG được viết `translateX(-calc(...))`: dấu trừ đặt ngay trước `calc()` là
- * cú pháp CSS không hợp lệ, trình duyệt bỏ nguyên khai báo `transform` — nút bấm
- * vẫn đổi state, chấm vẫn sáng, mà thẻ đứng im. Đây từng là lỗi thật; test
- * `news-slider-transform.test.ts` khoá lại.
- *
- * Phần trăm tính theo bề rộng của chính track, mà track rộng đúng bằng khung
- * chứa, nên phép tính khớp với bề rộng thẻ.
- */
+
 export function trackTransform(
   activeIndex: number,
   visibleCount: number,
@@ -62,22 +41,11 @@ export function trackTransform(
 type NewsSliderProps = {
   posts: NewsPost[];
   locale: Locale;
-  /** Nhãn do server truyền xuống — client component không nạp dictionary async được. */
   labels: Dictionary["newsSlider"];
   detailLabel: string;
 };
 
-/**
- * Slider tin mới ở trang chủ: 3 thẻ/lần trên desktop, 2 trên tablet, 1 trên
- * mobile, trượt **một thẻ** mỗi lần bấm.
- *
- * Tự viết theo đúng pattern `ProjectItemsCarousel` đang dùng trong dự án (state
- * chỉ số + `translateX`), không thêm thư viện carousel nào.
- *
- * **Không autoplay**, khác các slider khác của site: khối này là điểm điều
- * hướng chứ không phải banner, và tin tự trôi khiến người đọc mất bài đang xem.
- * Bỏ autoplay cũng khiến test e2e tất định mà không cần chế độ test riêng.
- */
+
 export function NewsSlider({
   posts,
   locale,
@@ -86,10 +54,7 @@ export function NewsSlider({
 }: NewsSliderProps) {
   const count = posts.length;
   const [rawActiveIndex, setActiveIndex] = useState(0);
-  // Giá trị đầu phải GIỐNG NHAU ở server và lần render đầu phía client, nếu
-  // không sẽ lệch hydration. Lần render đầu luôn ở `activeIndex = 0` nên
-  // transform là 0 bất kể `visibleCount`; hiệu ứng bên dưới chỉnh lại ngay sau
-  // khi gắn vào DOM.
+
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
@@ -101,19 +66,14 @@ export function NewsSlider({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
-  // Chỉ số lớn nhất để thẻ cuối cùng dừng đúng mép phải, không trượt vào khoảng
-  // trống. Ít thẻ hơn số ô nhìn thấy → không trượt được (maxIndex = 0).
   const maxIndex = Math.max(0, count - visibleCount);
 
-  // Mở rộng khung nhìn làm `maxIndex` nhỏ đi, nên chỉ số đang giữ có thể vượt
-  // giới hạn mới. Kẹp lại **khi render** thay vì bằng một effect gọi setState —
-  // đây là giá trị dẫn xuất, không phải trạng thái cần đồng bộ.
+
   const activeIndex = Math.min(rawActiveIndex, maxIndex);
 
   const canGoPrevious = activeIndex > 0;
   const canGoNext = activeIndex < maxIndex;
   const isInteractive = maxIndex > 0;
-  /** Số vị trí trượt được (kể cả vị trí đầu). */
   const positionCount = maxIndex + 1;
 
   function goToPrevious() {
@@ -135,7 +95,6 @@ export function NewsSlider({
     }
   }
 
-  // Mỗi thẻ rộng `(100% - tổng gap) / số ô`; bước trượt = bề rộng thẻ + một gap.
   const trackGaps = (visibleCount - 1) * GAP_PX;
   const slideWidth = `calc((100% - ${trackGaps}px) / ${visibleCount})`;
   const transform = trackTransform(activeIndex, visibleCount);
@@ -155,8 +114,7 @@ export function NewsSlider({
           style={{ transform }}
         >
           {posts.map((post, index) => {
-            // Thẻ nằm ngoài cửa sổ đang hiện bị ẩn khỏi thứ tự Tab và khỏi trình
-            // đọc màn hình — nếu không, Tab sẽ nhảy vào thẻ khuất bên phải.
+    
             const isVisible =
               index >= activeIndex && index < activeIndex + visibleCount;
 
@@ -205,9 +163,7 @@ export function NewsSlider({
 
       {isInteractive ? (
         <div className="mt-6 flex items-center justify-between gap-4">
-          {/* Kho tin lớn sinh ra hàng chục vị trí trượt. Quá ngưỡng thì đổi dãy
-              chấm sang bộ đếm gọn: 20 chấm bé xíu vừa rối mắt vừa không bấm
-              trúng trên mobile, lại nhồi 20 nút vào thứ tự Tab. */}
+         
           {positionCount <= MAX_DOTS ? (
             <div data-testid="news-slider-dots" className="flex items-center gap-2">
               {Array.from({ length: positionCount }, (_, index) => (
@@ -265,7 +221,6 @@ export function NewsSlider({
         </div>
       ) : null}
 
-      {/* Thông báo vị trí cho trình đọc màn hình; không hiện trên màn hình. */}
       <p aria-live="polite" className="sr-only">
         {interpolate(labels.status, {
           current: String(activeIndex + 1),

@@ -1,12 +1,5 @@
 import { buildPageHref, clampPage, parsePageParam } from "@/lib/pagination";
 
-/**
- * THIEN-DUC-NEWS-SLIDER-AND-PAGINATION-M1 — chuẩn hoá `?page=`.
- *
- * `null` nghĩa là "URL không chuẩn, hãy chuyển hướng"; số nghĩa là trang cần
- * render. Trang 1 cố ý trả `null` để `/tin-tuc?page=1` không tồn tại song song
- * với `/tin-tuc`.
- */
 describe("parsePageParam", () => {
   it("không có tham số → trang 1", () => {
     expect(parsePageParam(undefined)).toBe(1);

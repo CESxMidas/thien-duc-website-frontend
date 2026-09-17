@@ -1,8 +1,4 @@
-/**
- * Test phân giải quickFacts song ngữ theo locale (EN-FULL-C3): fact mới
- * `{ vi, en }` chọn đúng ngôn ngữ; fact cũ dạng chuỗi thuần lùi về nguyên văn ở
- * cả hai locale; không sinh `[object Object]`.
- */
+
 import { mapNewsPost, mapProject } from "./mappers";
 import type { NewsPostDto, ProjectDto } from "./types";
 
@@ -15,14 +11,11 @@ const baseDto: ProjectDto = {
   gallery: [],
   order: 0,
   quickFacts: [
-    // Fact song ngữ (mới): mỗi locale lấy đúng bản của mình.
     {
       label: { vi: "Tổng diện tích", en: "Total area" },
       value: { vi: "11,25 ha", en: "11.25 ha" },
     },
-    // Fact cũ (chuỗi thuần): cả VI lẫn EN lùi về nguyên văn tiếng Việt.
     { label: "Pháp lý", value: "Sổ hồng lâu dài" },
-    // Fact có en rỗng: EN cũng lùi về VI (coi rỗng như thiếu).
     {
       label: { vi: "Chủ đầu tư", en: "" },
       value: { vi: "Công ty Thiên Đức", en: "" },
@@ -59,19 +52,18 @@ describe("mapProject mapLocation prose (EN-FULL-C5a)", () => {
       image: "/map.webp",
       googleMapsUrl: "https://maps.example/?q=x",
       heading: { vi: "Tọa lạc trung tâm", en: "In the city center" },
-      description: "", // rỗng ở cả hai → không hiển thị
-      address: "Phường Phú Tân", // dữ liệu cũ dạng chuỗi
+      description: "", 
+      address: "Phường Phú Tân", 
       markerLeft: 65,
       markerTop: 27,
       labels: [
-        // Nhãn song ngữ (C5b): EN chọn bản dịch, giữ nguyên left/top/kind.
+
         {
           text: { vi: "Hướng đi chợ Lách", en: "To Cho Lach" },
           left: 22,
           top: 9,
           kind: "direction",
         },
-        // Nhãn cũ dạng chuỗi: lùi nguyên văn tiếng Việt ở cả hai locale.
         { text: "QL.60", left: 49, top: 14, kind: "road" },
       ],
     },
@@ -81,14 +73,12 @@ describe("mapProject mapLocation prose (EN-FULL-C5a)", () => {
     const ml = mapProject(dto, "en").mapLocation;
     expect(ml?.heading).toBe("In the city center");
     expect(ml?.address).toBe("Phường Phú Tân");
-    // Nhãn song ngữ → tiếng Anh, vị trí/kiểu giữ nguyên.
     expect(ml?.labels?.[0]).toEqual({
       text: "To Cho Lach",
       left: 22,
       top: 9,
       kind: "direction",
     });
-    // Nhãn cũ (chuỗi) → giữ nguyên văn, không phải [object Object].
     expect(ml?.labels?.[1].text).toBe("QL.60");
   });
 
@@ -111,7 +101,6 @@ describe("mapProject gallery source (PROJECT-GALLERY-IMAGES-FIX-M1)", () => {
         gallery: ["/legacy.webp"],
         galleryImages: [
           { id: "g1", url: "/proj-a.webp", order: 0, projectItemId: null },
-          // Ảnh hạng mục — phải bị loại khỏi thư viện cấp dự án.
           { id: "g2", url: "/item.webp", order: 1, projectItemId: "item-1" },
           { id: "g3", url: "/proj-b.webp", order: 2, projectItemId: null },
         ],
@@ -141,13 +130,6 @@ describe("mapProject gallery source (PROJECT-GALLERY-IMAGES-FIX-M1)", () => {
   });
 });
 
-/**
- * Chuyên mục tin phải giữ **cả** `slug` lẫn `name`.
- *
- * Bản trước rút gọn về mỗi tên hiển thị, nên chuyên mục chỉ là chữ chết trong
- * dòng metadata — không dựng được link tới trang danh mục dù backend vẫn luôn
- * trả `slug` kèm theo.
- */
 describe("mapNewsPost — chuyên mục", () => {
   const baseNews: NewsPostDto = {
     id: "n1",

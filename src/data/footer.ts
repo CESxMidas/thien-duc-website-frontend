@@ -10,10 +10,6 @@ export type FooterSection = {
   links: FooterLink[];
 };
 
-// Tagline + motto thương hiệu đã chuyển sang dictionary song ngữ
-// (`dictionary.footerBrand`, i18n-B2). Ở đây chỉ còn cấu trúc điều hướng — nhãn
-// link/tiêu đề nhóm dịch qua `footerLabels`/`footerSectionTitles` (keyed theo
-// href/title trong dictionary).
 export const footerSections: FooterSection[] = [
   {
     title: "Công ty",

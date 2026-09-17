@@ -1,13 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { PageHeading } from "./page-heading";
 
-/**
- * Chốt phân loại nội dung: mô tả của `PageHeading` là **deck dẫn dắt** (TYPE B)
- * chứ không phải đoạn văn hành chính (TYPE A) — nên KHÔNG thụt dòng đầu và
- * KHÔNG căn đều. Đoạn 1–3 dòng khi justify chỉ bị kéo giãn dòng đầu, nhìn lệch.
- *
- * Test này giữ ranh giới đó khỏi bị "thụt dòng toàn site" quét qua.
- */
 describe("PageHeading", () => {
   it("mô tả dưới tiêu đề KHÔNG nhận kiểu đoạn văn hành chính", () => {
     render(

@@ -16,17 +16,11 @@ type ProjectItemsCarouselProps = {
   projectSlug: string;
   projectStatus: ProjectStatus;
   locale: Locale;
-  /** Nhãn trạng thái + copy carousel do server truyền vào (client component
-      không tự nạp dictionary async được). */
+
   statusLabels: Dictionary["projectStatus"];
   labels: Dictionary["itemsCarousel"];
 };
 
-/**
- * Gộp các hạng mục con thành một showcase tự chạy — thay cho lưới thẻ tĩnh cộng
- * khối gallerySections lặp lại cùng nội dung. Mỗi slide là một hạng mục (ảnh +
- * thông tin) dẫn tới trang chi tiết hạng mục.
- */
 export function ProjectItemsCarousel({
   items,
   projectSlug,

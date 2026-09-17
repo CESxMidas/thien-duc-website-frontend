@@ -6,12 +6,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 export async function HomeLatestNews({ locale }: { locale: Locale }) {
-  // Nạp TOÀN BỘ bài đã đăng để slider trang chủ trượt hết kho tin (yêu cầu sản
-  // phẩm 2026-07-30, thay cho mốc 8 bài trước đó).
-  //
-  // Không sắp lại ở đây: backend đã trả đúng thứ tự `publishedAt desc, id desc`.
-  // Endpoint phẳng `/news` cố ý được dùng thay cho bản phân trang vì `limit` của
-  // API bị chặn trần 50 — muốn "hết" thì phải đi đường này.
+
   const [latestNews, dictionary] = await Promise.all([
     getNewsPosts(locale),
     getDictionary(locale),

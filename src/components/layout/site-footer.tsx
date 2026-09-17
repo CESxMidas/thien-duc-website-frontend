@@ -61,15 +61,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    // Nền brand-dark (#7f4b0d): brand-soft (#c99248) quá sáng khiến chữ
-    // trắng/vàng chỉ đạt ~1.8–2.7:1 (dưới ngưỡng WCAG AA). Nâu đậm đưa chữ
-    // trắng lên ~7:1, vàng lên ~4.8:1, giữ đúng tông thương hiệu.
+
     <footer className="mt-auto border-t border-charcoal/15 bg-olive text-ivory">
-      {/* Desktop: **một hàng** 5 cột. Xếp 3 nhóm link chồng lên nhau (bố cục 4
-          cột) khiến cột đó cao gấp đôi và để lại ~200px trống dưới các cột
-          ngắn — đúng cảm giác "footer rỗng" cần bỏ. Tỉ lệ 1.4/1/1/1/1.5 với
-          gap 24px cho mỗi cột link ~165px: đủ rộng để nhãn dài nhất
-          ("Công ty thành viên", "Chính sách nhân sự") không ngắt dòng. */}
+     
       <div className="mx-auto grid max-w-site gap-x-6 gap-y-10 px-4 py-12 sm:grid-cols-2 sm:px-6 sm:py-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.5fr]">
         <div className="sm:col-span-2 lg:col-span-1">
           <Link
@@ -97,9 +91,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           />
         </div>
 
-        {/* `lg:contents` xoá lớp bọc ở desktop để 3 nhóm thành cột trực tiếp
-            của lưới cha; dưới `lg` lớp bọc mới tự xếp 2 cột (mobile) / 3 cột
-            (tablet), tránh mỗi nhóm chiếm trọn một hàng cao lêu nghêu. */}
+      
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:col-span-2 sm:grid-cols-3 lg:contents">
           {footerSections.map((section) => (
             <FooterNavSection
@@ -115,9 +107,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           <h2 className="text-eyebrow text-ivory/55">
             {dictionary.footer.contact}
           </h2>
-          {/* Nhãn "Điện thoại/Email/Văn phòng" chuyển sang `sr-only`: icon đã
-              phân biệt được bằng mắt, còn trình đọc màn hình vẫn nghe đủ nhãn.
-              Mỗi mục còn một dòng thay vì hai → cột liên hệ gọn hơn ~60px. */}
+         
           <ul className="mt-3 space-y-1 sm:space-y-2.5">
             <li>
               <a
@@ -174,8 +164,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </li>
           </ul>
 
-          {/* CTA nằm ngay dưới thông tin liên hệ thay vì trôi ở góc phải đáy
-              footer — đọc liền mạch "thông tin liên hệ → hành động". */}
+         
           <Link
             href={localizePath(routes.contact, locale)}
             className="mt-5 inline-flex min-h-11 items-center gap-2 border border-ivory/55 px-4 text-sm font-semibold text-ivory transition hover:bg-ivory hover:text-olive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -186,8 +175,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         </div>
       </div>
 
-      {/* Một dải pháp lý duy nhất (trước là hai dải py-5 tách rời): tên pháp
-          nhân + mã số thuế bên trái, bản quyền bên phải. */}
+    
       <div className="border-t border-white/15">
         <div className="mx-auto flex max-w-site flex-col gap-1.5 px-4 py-4 text-xs leading-5 text-white/75 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>

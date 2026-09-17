@@ -1,14 +1,4 @@
-/**
- * Đồng bộ ảnh từ kho nguồn `thien-duc-website-resources/images/` sang
- * `public/images/`.
- *
- * Một chiều, có chủ đích: kho nguồn là nguồn sự thật, `public/` là bản sao phục
- * vụ web. Script **không xóa** file thừa trong `public/` — có `.gitkeep` và ảnh
- * chỉ dùng tạm; muốn bỏ ảnh nào thì xóa tay để biết mình đang xóa gì.
- *
- *   node scripts/sync-images.mjs           # xem trước, không ghi
- *   node scripts/sync-images.mjs --write   # ghi thật
- */
+
 import { createHash } from "node:crypto";
 import { cp, mkdir, readdir, readFile, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -46,8 +36,6 @@ for await (const file of walk(source)) {
   const rel = relative(source, file);
   const dest = join(target, rel);
 
-  // So sánh bằng hash nội dung, không dùng mtime: sau mỗi lần chép, bản đích
-  // luôn mới hơn bản nguồn nên mọi lượt chạy sau đều chép lại vô ích.
   if (existsSync(dest)) {
     const [a, b] = await Promise.all([stat(file), stat(dest)]);
     if (a.size === b.size && (await sha1(file)) === (await sha1(dest))) {

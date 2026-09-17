@@ -36,7 +36,6 @@ describe("Breadcrumb", () => {
         name: "Dự án",
         item: `${siteConfig.url}/du-an`,
       },
-      // Trang hiện tại: có name nhưng không có item (không href)
       { "@type": "ListItem", position: 3, name: "Khu dân cư Hưng Phú" },
     ]);
   });
@@ -48,7 +47,6 @@ describe("Breadcrumb", () => {
     expect(current).toHaveAttribute("aria-current", "page");
     expect(current.tagName).not.toBe("A");
 
-    // Các cấp trước là link bấm được
     expect(screen.getByRole("link", { name: "Dự án" })).toHaveAttribute(
       "href",
       "/du-an",
@@ -71,12 +69,10 @@ describe("Breadcrumb", () => {
     ];
     render(<Breadcrumb items={fourLevels} />);
 
-    // Cấp giữa (index 1) thu gọn trên mobile nhưng vẫn là link bấm được
     const middle = screen.getByRole("link", { name: "Dự án" });
     expect(middle.className).toContain("hidden");
     expect(middle.className).toContain("sm:inline");
 
-    // Cấp đầu và 2 cấp cuối không thu gọn
     expect(
       screen.getByRole("link", { name: "Trang chủ" }).className,
     ).not.toContain("hidden");

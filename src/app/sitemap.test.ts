@@ -1,14 +1,4 @@
-/**
- * Hợp đồng sitemap.
- *
- * Ba điều dễ hỏng nhất:
- * - **URL tìm kiếm không bao giờ được vào sitemap** — trang kết quả là
- *   `noindex`, đưa vào sitemap là gửi hai tín hiệu ngược nhau.
- * - **Chuyên mục rỗng không vào sitemap** — chúng đang `noindex` vì là trang
- *   mỏng; cùng lý do trên.
- * - **Không có URL phân trang** — trang 2 trở đi tự trỏ canonical về chính nó
- *   nhưng không cần được liệt kê.
- */
+
 import type { NewsPost } from "@/types/content";
 
 const newsPosts: NewsPost[] = [
@@ -32,11 +22,7 @@ const newsPosts: NewsPost[] = [
     summary: "Tóm tắt",
     publishedAt: "2026-05-01",
   },
-  /**
-   * Bài lên lịch ĐÃ TỚI HẠN. Với frontend nó không khác gì một bài đã đăng:
-   * backend đã cho nó vào `GET /news` theo luật hiển thị của mình, còn ở đây
-   * không có field nào để phân biệt — đúng như thiết kế.
-   */
+
   {
     title: "Bài lên lịch đã tới hạn",
     slug: "bai-len-lich-da-toi-gio",
@@ -46,7 +32,6 @@ const newsPosts: NewsPost[] = [
   },
 ];
 
-/** Bài đang hẹn giờ ở TƯƠNG LAI — backend không trả về, nên sitemap không thấy. */
 const futureScheduledSlug = "bai-hen-gio-tuong-lai";
 
 jest.mock("@/lib/api/client", () => ({
@@ -82,7 +67,6 @@ async function urls() {
 const mockNews = getNewsPosts as jest.MockedFunction<typeof getNewsPosts>;
 const mockProjects = getProjects as jest.MockedFunction<typeof getProjects>;
 
-/** Đúng hình dạng lỗi undici ném ra khi không mở được kết nối tới backend. */
 function backendDown() {
   return new TypeError("fetch failed");
 }
@@ -106,7 +90,6 @@ describe("sitemap", () => {
       url.endsWith("/tin-tuc/danh-muc/tin-du-an"),
     );
 
-    // Hai bài cùng chuyên mục → vẫn chỉ một URL chuyên mục.
     expect(matched).toHaveLength(1);
   });
 
@@ -129,22 +112,12 @@ describe("sitemap", () => {
   });
 });
 
-/**
- * Sitemap được cache **vô thời hạn** nếu không khai báo gì (Route Handler tĩnh):
- * bài lên lịch tuy đã công khai ở API vẫn vắng mặt cho tới lần deploy kế tiếp.
- * Giá trị này là thứ duy nhất ngăn điều đó, nên khoá lại bằng test.
- */
 describe("sitemap — làm mới lúc chạy", () => {
   it("khai báo revalidate = 3600 (một giờ)", () => {
     expect(revalidate).toBe(3600);
   });
 });
 
-/**
- * Ranh giới trách nhiệm: quyết định bài nào công khai là việc của **backend**.
- * Frontend chỉ dựng URL cho những gì `GET /news` trả về — không đọc `scheduledAt`,
- * không so đồng hồ máy, không biết bài đó là PUBLISHED hay lịch đã tới hạn.
- */
 describe("sitemap — tin lên lịch", () => {
   it("bài API trả về (kể cả lịch đã tới hạn) CÓ URL trong sitemap", async () => {
     const list = await urls();
@@ -182,36 +155,19 @@ describe("sitemap — tin lên lịch", () => {
   });
 });
 
-/**
- * Backend không phản hồi.
- *
- * Sự cố đã đo được trên code trước bản sửa này: Render Free ngủ sau 15 phút,
- * `next build` trúng lúc đó thì `/sitemap.xml` ném `TypeError: fetch failed` và
- * **cả bản deploy hỏng** (`Export encountered an error on /sitemap.xml/route`).
- * Mọi route khác đã tự hạ cấp êm qua `staticParamsSafe` / `isApiReachableAtBuild`;
- * sitemap là chỗ duy nhất còn sót.
- *
- * Hai pha xử lý **ngược nhau**, và đó là điểm mấu chốt:
- * - **Build**: chưa có cache nào để giữ, ném là hỏng deploy → hạ cấp.
- * - **Chạy (ISR)**: đã có sitemap tốt trong cache, ném để Next tiếp tục phục vụ
- *   bản cũ và thử lại sau. Nuốt lỗi ở đây sẽ ghi đè sitemap đầy đủ bằng bản
- *   thiếu URL và khoá nguyên một giờ.
- */
 describe("sitemap — backend không phản hồi", () => {
   const realPhase = process.env.NEXT_PHASE;
 
-  /** Giả lập đang trong `next build`. */
   function asBuild() {
     process.env.NEXT_PHASE = "phase-production-build";
   }
 
-  /** Giả lập đang phục vụ request (ISR regeneration). */
   function asRuntime() {
     delete process.env.NEXT_PHASE;
   }
 
   afterEach(() => {
-    // Trả env về đúng giá trị ban đầu, kể cả khi ban đầu nó không tồn tại.
+
     if (realPhase === undefined) delete process.env.NEXT_PHASE;
     else process.env.NEXT_PHASE = realPhase;
     jest.clearAllMocks();
@@ -220,7 +176,6 @@ describe("sitemap — backend không phản hồi", () => {
   describe("lúc BUILD — ưu tiên deploy được", () => {
     beforeEach(() => {
       asBuild();
-      // Cảnh báo hạ cấp là hành vi có chủ đích; chặn ở đây để log test sạch.
       jest.spyOn(console, "warn").mockImplementation(() => undefined);
     });
 
@@ -245,8 +200,7 @@ describe("sitemap — backend không phản hồi", () => {
       mockProjects.mockRejectedValueOnce(backendDown());
 
       for (const url of await urls()) {
-        // Không có slug bài, slug dự án hay slug chuyên mục nào — backend chưa
-        // xác nhận được thì không được phép suy đoán từ trí nhớ.
+
         expect(url).not.toContain("/tin-tuc/");
         expect(url).not.toContain("/du-an/");
       }
@@ -312,9 +266,6 @@ describe("sitemap — backend không phản hồi", () => {
       mockNews.mockRejectedValueOnce(backendDown());
       mockProjects.mockRejectedValueOnce(backendDown());
 
-      // Theo docs ISR: "the last successfully generated data will continue to
-      // be served from the cache. On the next subsequent request, Next.js will
-      // retry revalidating the data."
       await expect(sitemap()).rejects.toThrow("fetch failed");
     });
 
@@ -337,9 +288,7 @@ describe("sitemap — backend không phản hồi", () => {
   describe("lỗi lập trình KHÔNG bị nuốt", () => {
     it("lỗi không phải mạng vẫn ném ra, kể cả lúc build", async () => {
       asBuild();
-      // Bug thật (vd. mapper đọc field của `undefined`) không được hoá trang
-      // thành "backend hỏng" — nuốt nó đi thì sitemap chỉ âm thầm thiếu URL và
-      // không ai biết để sửa.
+
       mockNews.mockRejectedValueOnce(
         new TypeError("Cannot read properties of undefined (reading 'slug')"),
       );

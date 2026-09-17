@@ -18,16 +18,6 @@ import { buildPageMetadata } from "@/lib/seo";
 
 const PAGE_SLUG = "gioi-thieu";
 
-/**
- * Số mục trong rail phải. Đây cũng là **cần gạt để cân chiều cao hai cột**:
- * rail cao xấp xỉ cột trái thì khoảng dư mà `justify-between` phải nuốt càng
- * nhỏ, hai bên nhìn càng đều. Tăng/giảm ở đây trước khi nghĩ tới việc độn thêm
- * khối nội dung vào rail.
- *
- * Con số hiện tại tính cho cột trái chỉ còn **tiêu đề + tổng quan + số liệu**
- * (chặng đường phát triển và giá trị nền tảng đã tách ra chiếm hết bề ngang).
- * Đưa thêm khối nào vào lưới hai cột thì phải nâng hai số này lên theo.
- */
 const SIDEBAR_NEWS_COUNT = 4;
 const SIDEBAR_PROJECT_COUNT = 2;
 
@@ -46,17 +36,6 @@ const metaCopy: Record<Locale, { title: string; description: string }> = {
 
 const principleIcons = [Target, Handshake, ShieldCheck];
 
-/**
- * Số cột bám theo số phần tử THẬT của dictionary. Trước đây lưới hardcode
- * `lg:grid-cols-4` / `md:grid-cols-3`: bỏ bớt một mốc thời gian hay một số liệu
- * (ví dụ khi gỡ nội dung CapitaLand khỏi `vi.json`) là lòi ra một cột trống,
- * và VI/EN lệch số phần tử thì mỗi ngôn ngữ vỡ một kiểu.
- *
- * Chuỗi class phải viết NGUYÊN VĂN trong file — Tailwind quét mã nguồn theo
- * chữ, class ghép động lúc chạy sẽ không được sinh ra.
- */
-// Mốc `xl` chứ không phải `lg`: từ `lg` khối số liệu nằm trong CỘT TRÁI hẹp
-// (đã trừ rail phải 19rem), 3–4 cột ở đó chỉ còn ~150px mỗi ô.
 const statsColumns = [
   "",
   "",
@@ -87,12 +66,6 @@ export default async function AboutPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  // Phần chữ do CMS quản lý (`GET /pages/gioi-thieu`): đoạn đầu là mô tả dưới
-  // tiêu đề, các đoạn sau là nội dung khối "Định hướng phát triển". Các khối có
-  // bố cục riêng (giá trị cốt lõi, ngành nghề) vẫn là UI tĩnh.
-  //
-  // Tin tức + dự án nạp cho rail phải. Gọi song song để rail không nối thêm độ
-  // trễ vào thời gian hiện nội dung chính.
   const [page, dictionary, newsPage, projects] = await Promise.all([
     getPageBySlug(PAGE_SLUG, locale),
     getDictionary(locale),
@@ -113,20 +86,9 @@ export default async function AboutPage({
 
   return (
     <SiteShell locale={locale}>
-      {/* Bố cục hai cột: nội dung bên trái, rail tin tức + dự án bên phải.
-          Tách ở `lg` — dưới ngưỡng đó rail xuống dưới nội dung, đúng thứ tự đọc
-          (giới thiệu trước, gợi ý sau). Rail rộng cố định 19rem để cột chữ bên
-          trái không co giãn thất thường giữa các breakpoint.
 
-          Tiêu đề trang nằm TRONG cột trái (`bare`) chứ không đứng trên lưới:
-          để nó ở ngoài thì rail bắt đầu thấp hơn tiêu đề một đoạn, chừa một
-          mảng trắng lớn ở góc trên bên phải. */}
       <div className="mx-auto grid max-w-site gap-8 px-4 py-5 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
-        {/* `content-between` là bản đối xứng của `justify-between` bên rail:
-            cột nào NGẮN hơn thì tự dàn phần dư vào khoảng cách giữa các khối
-            của chính nó, nên đáy hai cột luôn trùng nhau — bất kể bên nào dài
-            hơn. Trước đây cột này `content-start` nên khi rail dài hơn thì khối
-            số liệu dừng lửng ở giữa, lệch hẳn so với widget dự án bên cạnh. */}
+      
         <div className="grid content-between gap-8 sm:gap-10">
           <PageHeading
             bare
@@ -135,9 +97,6 @@ export default async function AboutPage({
             description={heading.description}
           />
 
-          {/* Tỉ lệ nghiêng về cột chữ (1.15 : 0.85 thay vì 1 : 0.9): cột chữ
-              rộng thêm ~30px là bớt được vài dòng gãy, mà ảnh toà tháp vốn
-              đứng nên hẹp lại không sao. Cả khối vì thế thấp xuống. */}
           <section className="reveal-section grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
             <div>
               <p className="text-eyebrow mb-3 text-brand">
@@ -158,11 +117,6 @@ export default async function AboutPage({
               />
             </div>
 
-            {/* Thẻ ảnh cao BẰNG cột chữ bên cạnh: bỏ `items-start`, cho thẻ
-                thành flex dọc rồi để ảnh `flex-1` ăn hết phần dư. Trước đây cột
-                chữ dài hơn hẳn nên dưới thẻ ảnh hở một mảng trắng lớn. Ảnh là
-                toà tháp đứng nên khung dọc lại hợp hơn khung 4:3.
-                Dưới `xl` (một cột) giữ nguyên tỉ lệ 4:3 như cũ. */}
             <div className="hover-card flex flex-col overflow-hidden border border-black/10 bg-white">
               <div className="image-reveal relative aspect-4/3 xl:aspect-auto xl:min-h-72 xl:flex-1">
                 <Image
@@ -227,11 +181,6 @@ export default async function AboutPage({
         />
       </div>
 
-      {/* Từ đây trở xuống nằm NGOÀI lưới hai cột, chiếm hết bề ngang.
-          Chặng đường phát triển + Giá trị nền tảng là lưới 2–3 thẻ ngang hàng —
-          nhét vào cột trái đã trừ rail thì mỗi thẻ chỉ còn ~200px, chữ vỡ vụn.
-          Slider ngành nghề còn một lý do nữa: nó tính số thẻ theo bề rộng cửa
-          sổ (`window.innerWidth`) chứ không theo bề rộng khối chứa. */}
       <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">

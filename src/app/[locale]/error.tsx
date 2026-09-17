@@ -4,11 +4,6 @@ import * as Sentry from "@sentry/nextjs";
 import Link from "next/link";
 import { useEffect } from "react";
 
-/**
- * Error boundary theo segment (task →5): bắt lỗi render của mọi trang dưới
- * [locale], gửi lên Sentry và hiện UI lỗi thương hiệu thay vì màn hình mặc
- * định của Next. `reset()` cho người dùng thử tải lại đoạn bị lỗi.
- */
 export default function LocaleError({
   error,
   reset,
@@ -17,7 +12,6 @@ export default function LocaleError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Thiếu DSN thì captureException là no-op — không cần guard.
     Sentry.captureException(error);
   }, [error]);
 

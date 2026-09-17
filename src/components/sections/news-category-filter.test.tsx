@@ -1,14 +1,3 @@
-/**
- * Khoá hành vi bộ lọc chuyên mục tin.
- *
- * Ba điều dễ hỏng nhất:
- * - **Phải là link, không phải nút**: mỗi chuyên mục là một URL thật. Đổi sang
- *   `<button>` là mất khả năng mở tab mới, mất liên kết nội bộ cho SEO và làm
- *   Back/Forward chạy sai.
- * - **`aria-current="page"`, không phải `aria-selected`**: đây là điều hướng
- *   trang, không phải tab đổi nội dung tại chỗ.
- * - **Tiền tố locale**: `/en/...` cho tiếng Anh, không tiền tố cho tiếng Việt.
- */
 import { render, screen } from "@testing-library/react";
 import { NewsCategoryFilter } from "./news-category-filter";
 import type { NewsCategory } from "@/types/content";
@@ -114,8 +103,7 @@ describe("NewsCategoryFilter", () => {
     expect(screen.queryByTestId("news-category-filter")).toBeNull();
   });
 
-  // Số đếm được DÙNG để lọc chuyên mục rỗng, nhưng cố ý không HIỆN trên chip:
-  // đây là điều hướng của website doanh nghiệp, không phải bộ lọc thương mại điện tử.
+
   it("KHÔNG hiện số bài trên chip", () => {
     renderFilter();
 
@@ -124,11 +112,7 @@ describe("NewsCategoryFilter", () => {
     );
   });
 
-  /**
-   * Chuyên mục chưa có bài đăng KHÔNG được lên chip: trang của nó là
-   * `noindex` và rỗng, nên chip sẽ vừa là ngõ cụt cho người đọc vừa là liên
-   * kết nội bộ trỏ vào trang không cho lập chỉ mục.
-   */
+
   it("ẩn chuyên mục chưa có bài đã đăng", () => {
     renderFilter({
       categories: [

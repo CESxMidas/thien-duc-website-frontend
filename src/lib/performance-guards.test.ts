@@ -1,21 +1,4 @@
-/**
- * THIEN-DUC-OPTIONAL-BACKLOG-CODING-COMPLETION-M2 — hàng rào chống HỒI QUY hiệu
- * năng (backlog §6 "G4 — tối ưu hiệu năng còn lại", mục 4C).
- *
- * Đây KHÔNG phải test đo hiệu năng — không đo thời gian, không dựng trình
- * duyệt, không phụ thuộc máy chạy nhanh hay chậm. Chúng đọc MÃ NGUỒN và khoá
- * lại vài quyết định đã trả giá để tìm ra, để lần sau không ai vô tình đạp lại:
- *
- *   1. `quality={100}` ở ảnh bản đồ từng làm `/_next/image` trả HTTP 400 (D8) —
- *      ảnh hỏng trên MỌI trang chi tiết dự án, không chỉ "lệch cấu hình".
- *   2. Chỉ slide banner ĐẦU TIÊN được preload; preload tất cả thì mấy ảnh nền
- *      full-bleed cùng tranh băng thông với LCP.
- *   3. Các slide sau phải `lazy` — bỏ `lazy` là kéo toàn bộ ảnh banner ngay từ
- *      lần tải đầu.
- *
- * Cố ý KHÔNG bám vào tên chunk hay hash sinh ra lúc build (giòn, đổi mỗi lần
- * build). Chúng bám vào chính dòng mã mà lập trình viên sẽ sửa.
- */
+
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -25,15 +8,6 @@ function readSource(relative: string): string {
   return readFileSync(path.join(SRC, relative), "utf8");
 }
 
-/**
- * Gỡ chú thích để khẳng định chạy trên MÃ THẬT, không dính chữ trong comment.
- *
- * Khối chú thích BẮT BUỘC phải mở ở đầu dòng. Bản đầu tiên của helper này bắt
- * mọi `/*` ở bất kỳ đâu và đã nuốt nhầm cả khối `images` — vì chuỗi
- * `pathname: "/ksnntvmu/**"` (allowlist Cloudinary) có chứa `/*`, khiến regex
- * tưởng là mở chú thích rồi xoá tới `*​/` kế tiếp. Mọi khối chú thích thật
- * trong các file này đều bắt đầu ở đầu dòng, nên ràng buộc đó là đủ và an toàn.
- */
 function stripComments(source: string): string {
   return source.replace(/^[ \t]*\/\*[\s\S]*?\*\//gm, "").replace(/^\s*\/\/.*$/gm, "");
 }
@@ -61,7 +35,6 @@ describe("Banner trang chủ — chỉ slide đầu được ưu tiên tải", (
 
   it("preload có ĐIỀU KIỆN theo index === 0, không phải preload vô điều kiện", () => {
     expect(code).toMatch(/preload=\{index === 0\}/);
-    // `preload` hoặc `priority` trần (luôn bật) là hồi quy.
     expect(code).not.toMatch(/<Image[^>]*\spreload(\s|\/|>)/);
     expect(code).not.toMatch(/\bpriority(\s*=\s*\{true\}|\s*\/?>)/);
   });
@@ -71,8 +44,7 @@ describe("Banner trang chủ — chỉ slide đầu được ưu tiên tải", (
   });
 
   it("đúng MỘT ảnh banner được khai báo (một <Image> lặp theo slide)", () => {
-    // Nhiều <Image> nghĩa là ai đó đã tách nhánh render — lúc đó phải xem lại
-    // hai khẳng định trên vì chúng chỉ soi được một nhánh.
+
     expect((code.match(/<Image\b/g) ?? []).length).toBe(1);
   });
 

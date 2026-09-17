@@ -11,11 +11,7 @@ type ProjectItemGalleryProps = {
   title: string;
 };
 
-/**
- * Bộ ảnh của một hạng mục: ảnh đại diện lớn ở trên, danh sách ảnh con chạy
- * ngay bên dưới. Ảnh lớn tự chuyển; bấm ảnh con để chọn. Cột này đứng ngang với
- * khối thông tin và cùng chiều cao (`h-full`).
- */
+
 export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
   const count = images.length;
   const [activeIndex, setActiveIndex] = useState(0);

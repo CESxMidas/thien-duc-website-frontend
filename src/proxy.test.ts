@@ -1,25 +1,4 @@
-/**
- * @jest-environment node
- *
- * Chạy ở môi trường `node` chứ không phải `jsdom`: `next/server` cần các global
- * Web API (`Request`, `Response`) mà jsdom không cung cấp. Middleware vốn cũng
- * chạy trên runtime edge/node, nên đây mới là môi trường đúng.
- */
 
-/**
- * Chuyển hướng URL tìm kiếm cũ phải xảy ra ở **middleware**, không phải trong page.
- *
- * Lý do (đã đo trên server thật, không phải suy đoán): `tin-tuc/loading.tsx`
- * đặt cả cây `/tin-tuc/**` vào chế độ streaming. Response bị cam kết trước khi
- * code trang chạy, nên `permanentRedirect()` trong page KHÔNG đổi được HTTP
- * status — Next nhúng lệnh chuyển hướng vào payload và trả **200**:
- *
- *     /tin-tuc?q=Hung Phu  ->  HTTP 200  (payload chứa "tim-kiem?q=...;308;")
- *     /du-an?q=Hung Phu    ->  HTTP 308  (nhánh này không có loading.tsx)
- *
- * Trình duyệt vẫn đi tiếp, nhưng bot không nhận được 308 và URL cũ mất link
- * equity. Middleware chạy trước mọi render nên luôn phát được 308 thật.
- */
 import { proxy, config } from "./proxy";
 import { NextRequest } from "next/server";
 
@@ -60,7 +39,6 @@ describe("proxy — chuyển hướng tìm kiếm cũ", () => {
     const { status, location } = run("/vi/tin-tuc?q=hung");
 
     expect(status).toBe(308);
-    // Không phải `/vi/tim-kiem` — nếu vậy sẽ tốn thêm một lượt 308 nữa.
     expect(new URL(location!).pathname).toBe("/tim-kiem");
   });
 
@@ -112,24 +90,9 @@ describe("proxy — định tuyến locale (hành vi cũ, không được phá)"
   });
 });
 
-
-/**
- * Batch 15B — Admin CMS (Vercel project riêng) phục vụ dưới `/admin`.
- *
- * `next.config.ts` rewrite `/admin/:path*` sang project đó, NHƯNG thứ tự
- * pipeline của Next là `proxy -> rewrites`: proxy chạy TRƯỚC. Nếu matcher không
- * loại trừ `admin/`, nhánh catch-all sẽ rewrite `/admin/dang-nhap` thành
- * `/vi/admin/dang-nhap` và rewrite ngoại vi không bao giờ chạy → 404.
- *
- * Test này kiểm THẲNG chuỗi matcher (thứ Next thực thi) chứ không gọi `proxy()`,
- * vì matcher mới là nơi quyết định proxy có được gọi hay không — gọi `proxy()`
- * rồi khẳng định kết quả sẽ kiểm nhầm tầng.
- */
 describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
-  /** Dựng lại đúng regex mà Next dùng để quyết định có chạy middleware không. */
   const matcher = new RegExp(`^${config.matcher[0]}$`);
 
-  /** `true` = middleware CHẠY cho path này. */
   function runsMiddleware(pathname: string): boolean {
     return matcher.test(pathname);
   }
@@ -144,12 +107,6 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
     expect(runsMiddleware(pathname)).toBe(false);
   });
 
-  /**
-   * `/admin` TRẦN là URL người dùng gõ tay nhiều nhất, và là case dễ sót nhất:
-   * mệnh đề `admin/` (có dấu gạch) KHÔNG phủ nó. Sót thì `/admin` bị rewrite
-   * thành `/vi/admin` và trả 404 — trong khi mọi deep link lại chạy tốt, nên
-   * rất dễ tưởng là lỗi lẻ.
-   */
   it("/admin trần cũng phải thoát (mệnh đề `admin$`)", () => {
     expect(runsMiddleware("/admin")).toBe(false);
   });
@@ -160,10 +117,6 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
     }
   });
 
-  /**
-   * Loại trừ phải hẹp: chỉ đúng cây `/admin/`. Một trang công khai có slug bắt
-   * đầu bằng chữ "admin" vẫn phải được định tuyến locale bình thường.
-   */
   it("KHÔNG loại trừ nhầm slug công khai chỉ trùng tiền tố", () => {
     expect(runsMiddleware("/administrator-example")).toBe(true);
     expect(runsMiddleware("/admin-noi-bo")).toBe(true);

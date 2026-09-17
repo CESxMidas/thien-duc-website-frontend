@@ -15,15 +15,9 @@ const sectionIcons: Record<string, typeof Hotel> = {
 type ProjectGallerySectionsProps = {
   sections: ProjectGallerySection[];
   projectTitle: string;
-  /**
-   * Nhãn đứng trên tiêu đề mỗi khối. Mặc định "Hạng mục" cho dự án có hạng mục
-   * con; dự án chỉ có một thư viện ảnh chung thì truyền nhãn khác.
-   */
+
   sectionLabel?: string;
-  /**
-   * Ẩn hoàn toàn phần đầu thẻ (nhãn + tiêu đề khối). Dùng cho dự án chỉ có một
-   * thư viện ảnh phẳng: tên dự án đã nằm ở tiêu đề trang nên nhắc lại là thừa.
-   */
+  
   hideHeader?: boolean;
 };
 
@@ -57,7 +51,6 @@ function ProjectGallerySlider({
   sectionIndex: number;
   compact: boolean;
   sectionLabel: string;
-  /** Chỉ đánh số khi có nhiều khối — "Thư viện 01" đứng một mình là vô nghĩa. */
   showIndex: boolean;
   hideHeader: boolean;
 }) {

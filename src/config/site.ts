@@ -1,14 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { resolveSiteUrl } from "@/lib/site-url";
 
-/**
- * Đọc từng biến bằng **member expression nguyên văn** `process.env.NEXT_PUBLIC_X`
- * chứ không truyền cả `process.env` vào resolver: Next thay thế biến
- * `NEXT_PUBLIC_*` bằng giá trị literal lúc build, và chỉ nhận ra dạng viết này.
- * Truyền cả `process.env` thì bundle trình duyệt không có gì để đọc (file này đi
- * vào client qua `site-header.tsx`, `contact-form.tsx`) → server và client dựng
- * ra hai base URL khác nhau.
- */
 const siteUrl = resolveSiteUrl({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:
@@ -21,12 +13,7 @@ export const siteConfig = {
   name: "Công ty Thiên Đức",
   shortName: "Thiên Đức",
   description: "Website giới thiệu công ty, dự án và tin tức của Thiên Đức.",
-  /**
-   * Base URL tuyệt đối, đã chuẩn hoá và **không có `/` cuối** — xem
-   * `lib/site-url.ts`. Không đọc thẳng `process.env` ở đây nữa: biến được khai
-   * báo nhưng để trống cho ra base `""`, và `new URL(path, "")` ném
-   * `TypeError: Invalid URL` làm hỏng prerender `/robots.txt` lúc build.
-   */
+
   url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
@@ -34,14 +21,7 @@ export const siteConfig = {
     "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
 };
 
-/**
- * Định danh Zalo của công ty. `kind` là điểm chuyển đổi đã dự trù: hiện dùng số
- * điện thoại, sau này đổi sang Official Account chỉ cần sửa đúng object này —
- * `zaloHref`/`zaloDisplayValue` và mọi component đọc qua hai hàm đó nên không
- * phải viết lại.
- *
- * `0909768001` đang là **số thử nghiệm**, chưa phải Zalo chính thức của công ty.
- */
+
 export type ZaloContact = {
   kind: "phone" | "oa";
   value: string;
@@ -52,22 +32,12 @@ export const zaloContact: ZaloContact = {
   value: "0909768001",
 };
 
-/**
- * `zalo.me/<định danh>` phục vụ cả số điện thoại lẫn OA id, nên hai `kind` hiện
- * cho ra cùng một dạng URL. Vẫn đi qua hàm này (không nối chuỗi tại chỗ) để khi
- * Zalo tách đường dẫn theo loại thì chỉ sửa ở đây.
- *
- * Số phải ở dạng nội địa, liền, không dấu cách và không tiền tố `+84`.
- */
+
 export function zaloHref(contact: ZaloContact = zaloContact): string {
   return `https://zalo.me/${contact.value}`;
 }
 
-/**
- * Chuỗi hiển thị cho người đọc (footer, trang liên hệ): số điện thoại tách nhóm
- * kiểu Việt Nam `0941 383 007`. OA id không phải số để đọc nên trả `undefined` —
- * nơi gọi tự bỏ phần hiển thị giá trị, chỉ còn nhãn "Zalo".
- */
+
 export function zaloDisplayValue(
   contact: ZaloContact = zaloContact,
 ): string | undefined {
@@ -85,14 +55,6 @@ export const legalInfo = {
   mainBusiness: "Xây dựng nhà các loại (mã ngành 4100)",
 };
 
-/**
- * Hiển thị thương hiệu / pháp lý / địa chỉ theo locale cho **nội dung
- * người dùng thấy** trên route `/en` (EN-FULL-A). Bản `vi` giữ **byte-identical**
- * với `siteConfig`/`legalInfo` để route tiếng Việt không đổi; bản `en` là dạng
- * hiển thị tiếng Anh (bỏ dấu, không phải bản đăng ký pháp lý gốc tiếng Việt).
- * Địa chỉ trong query Google Maps (`?q=`) vẫn dùng `siteConfig.address` gốc để
- * geocode chính xác — đó là tham số URL, không phải nội dung hiển thị.
- */
 export const brandName: Record<Locale, string> = {
   vi: siteConfig.name,
   en: "Thien Duc Company",
@@ -103,18 +65,6 @@ export const brandShortName: Record<Locale, string> = {
   en: "Thien Duc",
 };
 
-/**
- * Byline bài viết hiển thị theo locale (EN-FULL-C4). Tác giả bài tin trong CMS
- * thường chính là thương hiệu site ("Thiên Đức") — chuỗi này phải hiện
- * "Thien Duc" trên `/en` thay vì để nguyên tiếng Việt có dấu. Tên tác giả là
- * người thật (vd. "Nguyễn Văn A") **giữ nguyên**, không phiên âm/dịch. Chuỗi
- * rỗng/null → `undefined`; mọi byline khác thương hiệu trả về nguyên văn nên
- * route tiếng Việt và các byline không phải thương hiệu không đổi một chữ.
- *
- * `author` vẫn là `string` (không đổi schema/DTO): cột này còn nuôi full-text
- * search (`news_search_document`) và JSON-LD `Person.name`, nên chỉ bản đồ hiển
- * thị theo locale ở tầng frontend là đủ và an toàn nhất.
- */
 export function localizeAuthor(
   author: string | null | undefined,
   locale: Locale,
@@ -133,7 +83,6 @@ export const taxAuthorityName: Record<Locale, string> = {
   en: "Ho Chi Minh City Tax Department",
 };
 
-/** Hai phần địa chỉ cho JSON-LD PostalAddress (street + locality). */
 export const addressParts: Record<
   Locale,
   { street: string; locality: string }
@@ -148,10 +97,7 @@ export const addressParts: Record<
   },
 };
 
-/**
- * Địa chỉ một dòng để hiển thị (footer, trang liên hệ). Bản `vi` bằng đúng
- * `siteConfig.address` cũ (street + ", " + locality) nên không đổi output VI.
- */
+
 export function displayAddress(locale: Locale): string {
   const { street, locality } = addressParts[locale];
   return `${street}, ${locality}`;

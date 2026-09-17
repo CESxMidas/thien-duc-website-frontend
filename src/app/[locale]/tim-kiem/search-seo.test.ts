@@ -1,17 +1,7 @@
-/**
- * Chính sách SEO của trang tìm kiếm và của các URL tìm kiếm cũ.
- *
- * Ba điều phải giữ:
- * 1. `/tim-kiem` là **noindex, follow** — không đưa trang kết quả vào chỉ mục,
- *    nhưng link bên trong vẫn dẫn tới dự án và bài viết thật nên phải đi tiếp.
- * 2. Canonical trỏ về trang tìm kiếm **sạch**, không kèm `?q=`: mỗi từ khóa
- *    khác nhau không được sinh một URL riêng trong chỉ mục.
- * (Việc sitemap không chứa URL tìm kiếm được khoá riêng ở `app/sitemap.test.ts`.)
- */
+
 import { generateMetadata } from "./page";
 import { siteConfig } from "@/config/site";
 
-/** `PageProps` của Next là promise — bọc lại cho gọn. */
 function props(locale: string) {
   return {
     params: Promise.resolve({ locale }),

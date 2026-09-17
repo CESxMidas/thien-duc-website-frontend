@@ -20,16 +20,6 @@ import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 import type { NewsCategory } from "@/types/content";
 
-/**
- * Trang đích của một chuyên mục tin.
- *
- * URL dạng path (`/tin-tuc/danh-muc/<slug>`) chứ không phải query param: mỗi
- * chuyên mục cần một URL ổn định, đặt được title/description/canonical riêng và
- * nhận được liên kết nội bộ. Query param chỉ dùng cho phân trang — nhờ vậy số
- * URL lập chỉ mục vẫn hữu hạn và đếm được.
- */
-
-/** Tìm chuyên mục theo slug; không có → `undefined` để trang gọi `notFound()`. */
 async function findCategory(
   slug: string,
   locale: Locale,
@@ -49,8 +39,6 @@ export async function generateMetadata({
   const category = await findCategory(slug, locale);
   if (!category) notFound();
 
-  // Cùng quy tắc canonical với `/tin-tuc`: mỗi trang phân trang tự trỏ về chính
-  // nó, trang 1 giữ URL sạch (không `?page=1`) nên không sinh URL trùng nội dung.
   const { page: pageParam } = await searchParams;
   const page = parsePageParam(pageParam);
   const basePath = `${routes.newsCategory}/${category.slug}`;
@@ -60,9 +48,6 @@ export async function generateMetadata({
     category: category.name,
   });
 
-  // Chuyên mục hợp lệ nhưng chưa có bài nào → `noindex, follow`. Trang mỏng bị
-  // lập chỉ mục kéo điểm cả site xuống, nhưng link trong đó vẫn nên được đi tiếp.
-  // Đây là cùng chính sách đã áp cho `placeholderPaths`.
   const newsPage = await getNewsPage(locale, {
     page: 1,
     limit: 1,
@@ -97,8 +82,7 @@ export default async function NewsCategoryPage({
   ]);
 
   const category = categories.find((item) => item.slug === slug);
-  // Slug không tồn tại là 404 thật, không phải danh sách rỗng: URL này không
-  // tương ứng với nội dung nào cả.
+
   if (!category) notFound();
 
   const basePath = localizePath(
@@ -106,8 +90,6 @@ export default async function NewsCategoryPage({
     locale,
   );
 
-  // `?page=` không hợp lệ (0, âm, chữ, hoặc chính `1`) → về URL chuẩn thay vì
-  // render nội dung dưới một URL sai. Cùng hành vi với `/tin-tuc`.
   const requestedPage = parsePageParam(pageParam);
   if (requestedPage === null) redirect(basePath);
 
@@ -117,7 +99,6 @@ export default async function NewsCategoryPage({
     categorySlug: category.slug,
   });
 
-  // Trang vượt quá trang cuối → đưa về trang cuối có thật, không để trang trắng.
   if (newsPage.totalPages > 0) {
     const safePage = clampPage(requestedPage, newsPage.totalPages);
     if (safePage !== requestedPage) {
@@ -129,9 +110,7 @@ export default async function NewsCategoryPage({
 
   return (
     <SiteShell locale={locale}>
-      {/* Cùng component (và cùng JSON-LD BreadcrumbList) với trang bài viết —
-          trước đây trang chuyên mục là cấp duy nhất trong cây `/tin-tuc` không
-          có breadcrumb. */}
+   
       <Breadcrumb
         items={[
           {
@@ -223,11 +202,9 @@ export default async function NewsCategoryPage({
           </div>
         )}
 
-        {/* `Pagination` tự ẩn khi chỉ có một trang. */}
         <Pagination
           currentPage={newsPage.page}
           totalPages={newsPage.totalPages}
-          // Neo về đầu danh sách để sang trang không phải cuộn lại từ header.
           buildHref={(page) =>
             page <= 1
               ? `${basePath}#danh-sach-tin`

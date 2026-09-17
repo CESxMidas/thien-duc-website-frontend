@@ -1,11 +1,4 @@
-/**
- * Khoá lại đúng sự cố đã làm đỏ deploy Vercel: `NEXT_PUBLIC_SITE_URL` được khai
- * báo nhưng **để trống** → base `""` → `new URL("/sitemap.xml", "")` ném
- * `TypeError: Invalid URL` khi prerender `/robots.txt`.
- *
- * Bất biến phải giữ: `resolveSiteUrl` LUÔN trả về base tuyệt đối hợp lệ, với
- * mọi hình dạng env — kể cả env rỗng hoàn toàn.
- */
+
 import { FALLBACK_SITE_URL, resolveSiteUrl } from "./site-url";
 
 const PROD = "https://thien-duc.example";
@@ -20,7 +13,6 @@ describe("resolveSiteUrl", () => {
     (empty) => {
       const url = resolveSiteUrl({ NEXT_PUBLIC_SITE_URL: empty });
       expect(url).not.toBe("");
-      // Điều thật sự quan trọng: chỗ gọi phía sau không được ném nữa.
       expect(new URL("/sitemap.xml", url).toString()).toBe(
         `${FALLBACK_SITE_URL}/sitemap.xml`,
       );
@@ -66,12 +58,6 @@ describe("resolveSiteUrl", () => {
     ).toBe("https://thien-duc-abc123.vercel.app");
   });
 
-  /**
-   * Chốt này từng thủng: `normalize` gắn `https://` trước rồi mới kiểm tra
-   * `protocol`, nên `ftp://evil.example` thành `https://ftp://evil.example` —
-   * chuỗi đó PARSE ĐƯỢC (host `ftp`, path `//evil.example`) và qua lọt chốt
-   * `protocol`, cho ra base URL rác `https://ftp//evil.example`.
-   */
   it.each([
     "ftp://evil.example",
     "file:///etc/passwd",
@@ -109,10 +95,6 @@ describe("resolveSiteUrl", () => {
     expect(() => new URL("/sitemap.xml", resolveSiteUrl({}))).not.toThrow();
   });
 
-  /**
-   * Bất biến bao trùm: với MỌI hình dạng env, kết quả luôn dùng được làm base
-   * của `new URL` — đây chính là điều `/robots.txt` cần lúc prerender.
-   */
   it.each([
     {},
     { NEXT_PUBLIC_SITE_URL: "" },
@@ -135,12 +117,10 @@ describe("resolveSiteUrl", () => {
       expect(warn).toHaveBeenCalledTimes(1);
       expect(warn.mock.calls[0][0]).toContain("NEXT_PUBLIC_SITE_URL");
 
-      // Cấu hình đúng thì tuyệt đối không ồn.
       warn.mockClear();
       resolveSiteUrl({ NEXT_PUBLIC_SITE_URL: PROD, NODE_ENV: "production" });
       expect(warn).not.toHaveBeenCalled();
 
-      // `next dev` không cấu hình gì là bình thường — không cảnh báo.
       resolveSiteUrl({ NODE_ENV: "development" });
       expect(warn).not.toHaveBeenCalled();
     } finally {

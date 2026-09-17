@@ -47,10 +47,6 @@ export default async function ProjectsPage({
   const { status, q } = await searchParams;
   const query = getSearchQuery(q);
 
-  // Tìm kiếm đã chuyển hẳn sang `/tim-kiem` (dự án + tin tức trong một lượt).
-  // `/du-an?q=...` là URL cũ, chuyển hướng **vĩnh viễn (308)** và giữ nguyên từ
-  // khóa. Chỉ chuyển khi THẬT SỰ có từ khóa — `?status=` và danh sách thường
-  // không bị đụng tới.
   if (query) {
     permanentRedirect(
       `${localizePath(routes.search, locale)}?q=${encodeURIComponent(query)}`,

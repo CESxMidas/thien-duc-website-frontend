@@ -5,7 +5,6 @@ import { MapPin } from "lucide-react";
 type MapLocationMarkerProps = {
   href: string;
   label: string;
-  /** Nhãn chip khi hover, theo locale (EN-FULL-A). */
   detailLabel: string;
   left: number;
   top: number;

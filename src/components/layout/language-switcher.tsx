@@ -14,22 +14,10 @@ type LanguageSwitcherProps = {
   locale: Locale;
   label: string;
   className?: string;
-  /**
-   * Hiện icon quả cầu. Icon **chỉ để trang trí** (nhóm đã có `aria-label`), nên
-   * bản trên thanh header tắt nó đi để nhường ~22px cho ô tìm kiếm ở dải
-   * 1024–1279px — dải chật nhất, nơi ô tìm kiếm từng bị bóp cụt placeholder.
-   * Bản trong drawer mobile giữ icon vì ở đó thừa chỗ.
-   */
+
   showIcon?: boolean;
 };
 
-/**
- * Chuyển ngôn ngữ giữ nguyên trang đang xem (`/du-an` ↔ `/en/du-an`).
- *
- * Cố ý **không** đọc `useSearchParams`: header nằm trong shell dùng chung, hook
- * đó sẽ ép mọi trang tĩnh rơi vào render động. Đổi ngôn ngữ do đó bỏ query
- * (ví dụ bộ lọc `?status=`) — chấp nhận được, và người dùng vẫn ở đúng trang.
- */
 export function LanguageSwitcher({
   locale,
   label,
@@ -41,8 +29,7 @@ export function LanguageSwitcher({
 
   return (
     <div
-      // `h-11` khớp đúng chiều cao nút mở tìm kiếm (size-11) đứng ngay cạnh —
-      // trước đây cụm này chỉ ~38px nên hai control lệch nhau ~6px.
+     
       className={`inline-flex h-10 items-center gap-2 ${className}`}
       role="group"
       aria-label={label}

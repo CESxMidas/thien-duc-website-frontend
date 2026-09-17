@@ -3,7 +3,6 @@ import { BusinessFieldIcon } from "@/components/ui/business-field-icon";
 type BusinessFieldCardProps = {
   item: { title: string; code: string; description: string };
   index: number;
-  /** Nhãn "Mã"/"Code" song ngữ (i18n-B4). */
   codeLabel: string;
 };
 

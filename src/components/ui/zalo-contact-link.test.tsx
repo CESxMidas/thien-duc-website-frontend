@@ -1,9 +1,4 @@
-/**
- * Chốt phần dễ vỡ của kênh liên hệ Zalo: URL sinh ra đúng dạng canonical, hai
- * biến thể đều là `<a>` thật có tên truy cập song ngữ, icon không bị đọc thành
- * tên thứ hai, và số điện thoại không bị chép cứng ra ngoài `config/site.ts`.
- * Không kiểm pixel.
- */
+
 import { render, screen } from "@testing-library/react";
 import { ZaloContactLink } from "./zalo-contact-link";
 import { ZaloIcon } from "./zalo-icon";
@@ -109,13 +104,6 @@ describe("ZaloContactLink", () => {
       />,
     );
 
-    // Lấy từ `zaloDisplayValue()` thay vì chép cứng số: chính việc chép cứng ở
-    // đây đã khiến ca này trôi lại phía sau khi `ffb9179` đổi số liên hệ — ba
-    // chỗ khác trong file được cập nhật, riêng dòng này bị bỏ sót. Giá trị
-    // chuẩn vẫn được GHIM ở test riêng phía trên
-    // (`expect(zaloDisplayValue()).toBe("0909 768 001")`), nên khẳng định ở đây
-    // không hề yếu đi: nó kiểm đúng thứ biến thể `inline` phải làm — in ra
-    // `displayValue` được truyền vào.
     const displayValue = zaloDisplayValue();
     expect(displayValue).toBeDefined();
     expect(screen.getByText(displayValue as string)).toBeInTheDocument();

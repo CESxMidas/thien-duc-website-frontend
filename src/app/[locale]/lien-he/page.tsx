@@ -11,9 +11,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
-
 const PAGE_SLUG = "lien-he";
-
 const metaCopy: Record<Locale, { title: string; description: string }> = {
   vi: {
     title: "Liên hệ Thiên Đức | Tư vấn dự án và hợp tác",
@@ -65,9 +63,7 @@ export default async function ContactPage({
   )}&hl=${locale}&z=15&output=embed`;
 
   return (
-    // Không render nút Zalo nổi ở đây: kênh Zalo đã nằm nội dòng ngay dưới số
-    // điện thoại, nút nổi chỉ nhân đôi CTA trên đúng trang có mục đích là liên
-    // hệ — và đo được là nó phủ lên mép ô nhập/vùng nhập nội dung của biểu mẫu.
+
     <SiteShell locale={locale}>
       <PageHeading
         eyebrow={contact.heroEyebrow}
@@ -160,10 +156,6 @@ export default async function ContactPage({
           </div>
 
           <div className="relative overflow-hidden border border-black/10 bg-white">
-            {/* Skeleton nền khung bản đồ: iframe Google Maps trong suốt cho tới
-                khi tiles vẽ xong, nên lớp này lộ ra trong lúc chờ thay vì khung
-                trắng trơ. Không dùng chữ để khỏi phải i18n; tôn trọng
-                prefers-reduced-motion (tắt nhấp nháy). */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 z-0 grid place-items-center bg-surface-warm"

@@ -4,14 +4,6 @@ import { BrandMotto, BrandMottoCompact } from "./brand-motto";
 const VI_MOTTO = "Khách hàng hài lòng — Thiên Đức thành công";
 const EN_MOTTO = "Satisfied customers — Thien Duc succeeds";
 
-/**
- * Phương châm phân vế bằng **xuống dòng + tương phản màu**, KHÔNG bằng vạch
- * trang trí. Bản trước chèn một vạch vàng (`h-0.5 w-12 bg-gold`) giữa hai vế;
- * test này giữ cho nó không quay lại.
- *
- * Vạch dọc bên trái của biến thể lớn là quy tắc cấu trúc (TYPE F) nên vẫn còn —
- * kiểm riêng để không xoá nhầm khi dọn vạch ngang.
- */
 describe("BrandMotto", () => {
   it("render đủ hai vế phương châm", () => {
     render(<BrandMotto motto={VI_MOTTO} />);
@@ -23,7 +15,6 @@ describe("BrandMotto", () => {
   it("KHÔNG còn vạch ngang trang trí giữa hai vế", () => {
     const { container } = render(<BrandMotto motto={VI_MOTTO} />);
 
-    // Không phần tử rỗng nào đóng vai vạch ngang (cao 0.5, rộng cố định).
     expect(container.querySelector(".h-0\\.5")).toBeNull();
   });
 

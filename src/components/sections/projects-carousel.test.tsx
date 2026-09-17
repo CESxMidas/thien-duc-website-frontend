@@ -1,17 +1,4 @@
-/**
- * Khoá hành vi slider dự án.
- *
- * Hai điều dễ hỏng nhất và đã được cân nhắc kỹ:
- * - **Không nhân bản thẻ**: mỗi dự án đúng một lần trong DOM. Nhân bản là cách
- *   duy nhất để lặp vòng liền mạch, nhưng nó tạo link trùng cho SEO và cho
- *   trình đọc màn hình.
- * - **Có giới hạn hai đầu**: thẻ cuối dừng sát mép phải, nút mờ đi. Không nhảy
- *   ngược về đầu.
- *
- * jsdom không có layout engine nên `window.innerWidth` mặc định 1024 →
- * `visibleCount = 3`, khớp desktop. Test bám vào state (`data-index`,
- * `data-visible`) chứ không đo pixel.
- */
+
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ProjectsCarousel } from "./projects-carousel";
 import type { Project } from "@/types/content";
@@ -73,7 +60,6 @@ describe("ProjectsCarousel", () => {
 
   it("thẻ cuối dừng sát mép phải, không trượt vào khoảng trống", () => {
     renderCarousel(5);
-    // 5 thẻ, 3 thẻ/lần → chỉ số lớn nhất là 2.
     next();
     next();
     expect(indexOf()).toBe(2);
@@ -89,7 +75,6 @@ describe("ProjectsCarousel", () => {
     expect(screen.getByLabelText(labels.ariaNext)).toBeDisabled();
     expect(screen.getByLabelText(labels.ariaPrevious)).not.toBeDisabled();
 
-    // Bấm thêm ở vị trí cuối không được làm gì cả.
     next();
     expect(indexOf()).toBe(2);
   });
@@ -107,7 +92,6 @@ describe("ProjectsCarousel", () => {
 
   it("một chấm cho một VỊ TRÍ TRƯỢT, không phải cho một dự án", () => {
     renderCarousel(5);
-    // 5 thẻ, 3 thẻ/lần → 3 vị trí + 2 nút tiến/lùi.
     expect(screen.getAllByRole("button")).toHaveLength(5);
   });
 

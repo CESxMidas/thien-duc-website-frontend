@@ -13,9 +13,6 @@ import {
 } from "@/lib/seo";
 import "../globals.css";
 
-// Body/UI: Be Vietnam Pro — font Việt bản địa, hiển thị dấu tiếng Việt hoàn hảo,
-// đồng bộ với heading của Admin. Chỉ nạp các weight thực dùng (400 body, 500
-// nav/button, 600–700 nhấn) — mục 9 UI-UX-HANDOFF: tiết kiệm băng thông.
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin", "vietnamese"],
@@ -23,8 +20,6 @@ const manrope = Manrope({
   display: "swap",
 });
 
-// Display/heading: Playfair Display serif — tạo chất "modern luxury real estate".
-// Chỉ dùng cho tiêu đề lớn (H1/H2, hero), không dùng cho đoạn văn dài (mục 3).
 const cormorantGaramond = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin", "vietnamese"],
@@ -46,24 +41,11 @@ const rootCopy: Record<Locale, { title: string; description: string }> = {
 };
 
 export async function generateStaticParams() {
-  // Cổng DUY NHẤT quyết định có prerender cây /[locale] hay không.
-  //
-  // Thiếu API (vd. CI) → trả rỗng: prerender trang chủ/gioi-thieu/lien-he đều
-  // cần fetch CMS, thiếu API là nổ `Failed to parse URL`.
-  //
-  // AUDIT-M2 / D10: backend CÓ cấu hình nhưng KHÔNG phản hồi (Render Free ngủ
-  // sau 15′) cũng phải rỗng. Trước đây trường hợp này làm `next build` chết hẳn
-  // với `connect ECONNREFUSED` → `Failed to collect page data`. Nay bỏ prerender
-  // và render on-demand lúc chạy (ISR bên dưới) — hành vi runtime không đổi.
+
   if (!(await isApiReachableAtBuild("[locale]/layout"))) return [];
   return locales.map((locale) => ({ locale }));
 }
 
-// ISR cho toàn bộ trang dưới [locale]: trang tĩnh được dựng lại tối đa mỗi 60s
-// khi có lượt truy cập. Thiếu dòng này, HTML prerender lúc `next build` bị cache
-// vô thời hạn — nội dung sửa trong Admin (dự án hợp tác, tin tức, banner…) chỉ
-// hiện sau lần deploy kế tiếp, gây "cập nhật chậm". Giá trị phải là literal
-// (Next yêu cầu phân tích tĩnh), không viết `60 * 1`.
 export const revalidate = 60;
 
 export async function generateMetadata({
@@ -106,9 +88,7 @@ export default async function RootLayout({
   params,
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
-  // `proxy.ts` chỉ để lọt `vi`/`en`, nhưng route vẫn có thể bị gọi trực tiếp lúc
-  // build hoặc từ một liên kết hỏng — không chặn ở đây thì `localeHtmlLang[...]`
-  // trả undefined và trang render với `lang` rỗng.
+
   if (!isLocale(locale)) notFound();
 
   return (

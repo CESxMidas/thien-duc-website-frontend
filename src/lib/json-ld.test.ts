@@ -1,12 +1,5 @@
 import { serializeJsonLd } from "./json-ld";
 
-/**
- * AUDIT-M2 / XSS-01 — hồi quy cho lỗ hổng XSS lưu trữ đã tái hiện được.
- *
- * Tiêu đề tin do CMS nhập được nhúng vào `<script type="application/ld+json">`.
- * `JSON.stringify` không escape `<`, nên `</script>` trong tiêu đề đóng sớm thẻ
- * script và phần còn lại được phân giải thành HTML thật.
- */
 
 const LINE_SEPARATOR = String.fromCharCode(0x2028);
 const PARAGRAPH_SEPARATOR = String.fromCharCode(0x2029);

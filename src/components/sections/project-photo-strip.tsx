@@ -11,14 +11,6 @@ type ProjectPhotoStripProps = {
   title: string;
 };
 
-/**
- * Thư viện ảnh cho dự án **không chia hạng mục**: xếp ảnh thành hàng (tối đa 3
- * ảnh mỗi khung nhìn) và tự trượt khi có nhiều ảnh hơn số cột. Ít ảnh (≤ 3) thì
- * hiện lưới tĩnh gọn gàng thay vì slider trống điều hướng.
- *
- * Dùng scroll-snap thay vì tính translateX: responsive theo `flex-basis`, cuộn
- * mượt trên cả chuột lẫn cảm ứng, không phải đoán số cột đang hiển thị.
- */
 export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
   const count = images.length;
   const trackRef = useRef<HTMLDivElement>(null);

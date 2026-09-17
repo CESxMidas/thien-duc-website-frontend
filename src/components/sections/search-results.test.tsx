@@ -1,11 +1,4 @@
-/**
- * Khoá bố cục kết quả tìm kiếm hợp nhất.
- *
- * Điều quan trọng nhất và là lý do thiết kế: **không trộn** dự án với tin tức
- * vào một danh sách xếp theo độ liên quan. `ts_rank` của hai loại được tính
- * trên hai tsvector khác bảng nên không so sánh được với nhau — trộn theo rank
- * sẽ tạo ra một thứ tự trông có căn cứ nhưng thực chất không có.
- */
+
 import { render, screen, within } from "@testing-library/react";
 import { SearchResults } from "./search-results";
 import type { SearchResults as SearchResultsData } from "@/lib/api/search";
@@ -85,7 +78,6 @@ describe("SearchResults", () => {
     expect(
       within(projectGroup).getByRole("heading", { level: 3 }),
     ).toHaveTextContent("Khu đô thị Hưng Phú");
-    // Không có h1 trong component — h1 thuộc về trang.
     expect(screen.queryAllByRole("heading", { level: 1 })).toHaveLength(0);
   });
 

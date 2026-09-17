@@ -6,14 +6,8 @@ import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { trackTransform } from "@/components/sections/news-slider";
 
-/**
- * Số thẻ nhìn thấy cùng lúc. Ngưỡng trùng `md`/`lg` của Tailwind để phép tính JS
- * và bề rộng thẻ không bao giờ lệch nhau — cùng quy ước với `NewsSlider`.
- */
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
-
-/** Khoảng cách giữa hai thẻ, tính bằng px — bằng `gap-4` của Tailwind. */
 const GAP_PX = 16;
 
 function visibleCountFor(width: number): number {
@@ -25,23 +19,9 @@ function visibleCountFor(width: number): number {
 type BusinessFieldsCarouselProps = {
   fields: Dictionary["about"]["fields"];
   codeLabel: string;
-  /** Nhãn do server truyền xuống — client component không nạp dictionary async được. */
   labels: Dictionary["about"]["fieldsCarousel"];
 };
 
-/**
- * Slider ngành nghề kinh doanh: 3 thẻ/lần trên desktop, 2 trên tablet, 1 trên
- * mobile, trượt **một thẻ** mỗi lần bấm.
- *
- * Khác `NewsSlider` ở đúng một điểm: điều hướng **vòng tròn** — ở vị trí cuối
- * bấm tiếp quay về đầu, ở vị trí đầu bấm lùi nhảy xuống cuối. Vì thế hai nút
- * không bao giờ `disabled`. Đây là vòng lặp theo chỉ số (nhảy về đầu), không
- * phải băng chuyền vô tận nhân bản thẻ — ít mã hơn, không sinh key trùng, và
- * đúng với hành vi người dùng mong đợi ở một danh sách ngắn 6 mục.
- *
- * **Không autoplay**: đây là nội dung để đọc (mô tả ngành nghề dài 2–3 dòng),
- * tự trôi sẽ cắt ngang người đang đọc.
- */
 export function BusinessFieldsCarousel({
   fields,
   codeLabel,
@@ -49,9 +29,6 @@ export function BusinessFieldsCarousel({
 }: BusinessFieldsCarouselProps) {
   const count = fields.length;
   const [rawActiveIndex, setActiveIndex] = useState(0);
-  // Giá trị đầu phải GIỐNG NHAU ở server và lần render đầu phía client, nếu
-  // không sẽ lệch hydration. Lần render đầu luôn ở `activeIndex = 0` nên
-  // transform là 0 bất kể `visibleCount`.
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
@@ -63,17 +40,9 @@ export function BusinessFieldsCarousel({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
-  // Chỉ số lớn nhất để thẻ cuối dừng đúng mép phải, không trượt vào khoảng
-  // trống. Ít thẻ hơn số ô nhìn thấy → không trượt được (maxIndex = 0).
   const maxIndex = Math.max(0, count - visibleCount);
-
-  // Mở rộng khung nhìn làm `maxIndex` nhỏ đi, nên chỉ số đang giữ có thể vượt
-  // giới hạn mới. Kẹp lại **khi render** thay vì bằng effect gọi setState —
-  // đây là giá trị dẫn xuất, không phải trạng thái cần đồng bộ.
   const activeIndex = Math.min(rawActiveIndex, maxIndex);
-
   const isInteractive = maxIndex > 0;
-  /** Số vị trí trượt được (kể cả vị trí đầu). */
   const positionCount = maxIndex + 1;
 
   function goToPrevious() {
@@ -95,7 +64,6 @@ export function BusinessFieldsCarousel({
     }
   }
 
-  // Mỗi thẻ rộng `(100% - tổng gap) / số ô`; bước trượt = bề rộng thẻ + một gap.
   const trackGaps = (visibleCount - 1) * GAP_PX;
   const slideWidth = `calc((100% - ${trackGaps}px) / ${visibleCount})`;
   const transform = trackTransform(activeIndex, visibleCount, GAP_PX);
@@ -115,11 +83,8 @@ export function BusinessFieldsCarousel({
           style={{ transform }}
         >
           {fields.map((item, index) => {
-            // Thẻ ngoài cửa sổ đang hiện bị ẩn khỏi thứ tự Tab và khỏi trình đọc
-            // màn hình — nếu không, Tab sẽ nhảy vào thẻ khuất bên phải.
             const isVisible =
               index >= activeIndex && index < activeIndex + visibleCount;
-
             return (
               <li
                 key={item.title}
@@ -163,7 +128,6 @@ export function BusinessFieldsCarousel({
             ))}
           </div>
 
-          {/* Không `disabled`: điều hướng vòng tròn nên hai nút luôn bấm được. */}
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -187,7 +151,6 @@ export function BusinessFieldsCarousel({
         </div>
       ) : null}
 
-      {/* Thông báo vị trí cho trình đọc màn hình; không hiện trên màn hình. */}
       <p aria-live="polite" className="sr-only">
         {interpolate(labels.status, {
           current: String(activeIndex + 1),

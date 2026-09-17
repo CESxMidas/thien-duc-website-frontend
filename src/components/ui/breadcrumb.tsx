@@ -12,11 +12,6 @@ type BreadcrumbProps = {
   items: BreadcrumbItem[];
 };
 
-/**
- * Breadcrumb dùng chung cho các trang cấp ≥ 2 (UI-UX-HANDOFF-SPEC.md mục H5).
- * Kèm JSON-LD BreadcrumbList cho SEO. Trên mobile, khi > 3 cấp thì các cấp
- * giữa thu gọn thành "…" (vẫn bấm được).
- */
 export function Breadcrumb({ items }: BreadcrumbProps) {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -41,7 +36,6 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 leading-6">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
-          // Mobile: giữ cấp đầu + 2 cấp cuối, các cấp giữa thu thành "…"
           const collapseOnMobile =
             items.length > 3 && index > 0 && index < items.length - 2;
 

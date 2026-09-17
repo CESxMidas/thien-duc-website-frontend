@@ -14,7 +14,6 @@ export type ContactSubmissionDto = ContactSubmissionInput & {
   createdAt: string;
 };
 
-/** Gửi form liên hệ về backend (`POST /contact`). */
 export async function submitContactForm(
   input: ContactSubmissionInput,
 ): Promise<ContactSubmissionDto> {

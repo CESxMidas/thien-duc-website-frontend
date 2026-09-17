@@ -2,13 +2,6 @@ type PageHeadingProps = {
   eyebrow?: string;
   title: string;
   description?: string;
-  /**
-   * Bỏ container riêng (`max-w-site` + padding) để tiêu đề nằm gọn trong một
-   * cột do trang bên ngoài dựng sẵn — dùng cho bố cục hai cột có rail bên phải.
-   *
-   * Không có tuỳ chọn này thì tiêu đề buộc phải đứng trên lưới, và rail bắt đầu
-   * thấp hơn nó một đoạn → chừa một mảng trống lớn ở góc trên bên phải.
-   */
   bare?: boolean;
 };
 
@@ -29,10 +22,7 @@ export function PageHeading({
         {title}
       </h1>
       {description ? (
-        // Cố ý KHÔNG `text-justified`: đây là copy dẫn dắt 1–3 dòng dưới tiêu
-        // đề, đúng loại mà chính comment của `.text-justified` trong
-        // `globals.css` đã loại trừ. Đoạn hai dòng khi justify chỉ có DÒNG ĐẦU
-        // bị kéo giãn, nhìn lệch chứ không "cân". Canh trái, giới hạn bề rộng.
+       
         <p className="mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
           {description}
         </p>

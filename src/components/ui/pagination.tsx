@@ -2,13 +2,6 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
-/**
- * Dãy trang rút gọn quanh trang hiện tại. `null` là dấu lược (…).
- *
- * Luôn giữ trang đầu, trang cuối và một trang liền kề mỗi bên; phần bị bỏ giữa
- * thay bằng dấu lược. Chỉ chèn dấu lược khi thực sự **nhảy cách** ≥ 2 trang —
- * nếu không sẽ thấy `1 … 3` trong khi lẽ ra phải là `1 2 3`.
- */
 export function buildPageList(
   currentPage: number,
   totalPages: number,
@@ -41,7 +34,6 @@ export function buildPageList(
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
-  /** Dựng href cho một trang. Trang 1 nên trả về URL **không có** `?page=1`. */
   buildHref: (page: number) => string;
   labels: Dictionary["pagination"];
 };
@@ -49,16 +41,7 @@ type PaginationProps = {
 const CONTROL_BASE =
   "button-polish inline-flex h-11 items-center gap-1 border px-4 text-sm font-semibold transition";
 
-/**
- * Điều hướng trang cho danh sách tin.
- *
- * Mọi trang là **thẻ `a` thật** (`next/link`) chứ không phải nút bấm chạy JS:
- * trang hiện tại nằm trong URL nên chia sẻ được, Back/Forward chạy đúng, và bot
- * tìm kiếm bò được sang trang sau.
- *
- * Không render gì khi chỉ có một trang — bộ điều khiển vô nghĩa còn tệ hơn là
- * không có.
- */
+
 export function Pagination({
   currentPage,
   totalPages,
@@ -87,8 +70,7 @@ export function Pagination({
           {labels.previous}
         </Link>
       ) : (
-        // Nút vô hiệu là <span aria-disabled> chứ không phải <a> chết: thẻ `a`
-        // không có href vẫn nằm trong thứ tự Tab nhưng bấm không làm gì.
+        
         <span
           aria-disabled="true"
           data-testid="pagination-previous"
@@ -99,8 +81,7 @@ export function Pagination({
         </span>
       )}
 
-      {/* Danh sách số trang: ẩn trên mobile, thay bằng tóm tắt "Trang x / y"
-          để hàng điều khiển không tràn ngang màn hình hẹp. */}
+
       <ul className="hidden list-none items-center gap-1 p-0 sm:flex">
         {buildPageList(currentPage, totalPages).map((page, index) =>
           page === null ? (

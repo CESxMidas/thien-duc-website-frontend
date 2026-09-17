@@ -8,11 +8,6 @@ export type StaticPageContent = {
   paragraphs: string[];
 };
 
-/**
- * Nội dung trang tĩnh do CMS quản lý. Trả `undefined` khi backend chưa có bản
- * ghi (`404`) hoặc trang còn ở trạng thái nháp — trang gọi hàm này tự dùng nội
- * dung dự phòng trong `src/data/*` thay vì hiển thị trang trống.
- */
 export async function getPageBySlug(
   slug: string,
   locale: Locale,

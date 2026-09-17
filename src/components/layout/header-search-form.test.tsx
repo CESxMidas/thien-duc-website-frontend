@@ -1,14 +1,4 @@
-/**
- * Khoá lại hợp đồng trợ năng của ô tìm kiếm dùng chung.
- *
- * Ba lỗi đã từng xảy ra thật và test này chặn tái diễn:
- * 1. Bản mobile mất `<label>`, chỉ còn placeholder → trình đọc màn hình đọc
- *    "edit text, blank".
- * 2. Ô nhập và nút gửi cùng mang một tên truy cập ("Tìm kiếm tin tức") → nghe
- *    hai control giống hệt nhau.
- * 3. Hai bản (desktop + drawer) cùng nằm trong DOM và trùng `id`, khiến
- *    `<label htmlFor>` trỏ nhầm phần tử.
- */
+
 import { render, screen, within } from "@testing-library/react";
 import { HeaderSearchForm } from "./header-search-form";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -61,16 +51,13 @@ describe("HeaderSearchForm", () => {
     );
 
     const form = screen.getByRole("search");
-    // `method` rỗng = GET mặc định của trình duyệt. Có `method="post"` nghĩa là
-    // ai đó đã đổi sang cơ chế khác — từ khóa sẽ không còn nằm trên URL.
+
     expect(form.getAttribute("method")).toBeNull();
-    // `input[type=search]` mang role `searchbox`, không phải `textbox`.
     expect(within(form).getByRole("searchbox")).toBeInTheDocument();
   });
 
   it("lớp gọi quyết định `display`, component không tự khai", () => {
-    // Desktop và drawer dùng hai `display` khác nhau ở hai breakpoint khác nhau;
-    // nếu component tự gắn `flex` thì utility của lớp gọi sẽ chọi nhau.
+
     render(
       <HeaderSearchForm
         action="/tin-tuc"

@@ -10,14 +10,6 @@ type ProjectMapEmbedProps = {
   aerialImage?: string;
 };
 
-/**
- * Bản đồ vị trí dùng iframe Google Maps cho các dự án chưa có ảnh bản đồ minh
- * hoạ riêng (khác Khu đô thị Hưng Phú dùng `ProjectLocationMap`). Đặt cùng bố
- * cục hai cột (ảnh dự án | bản đồ) để đồng nhất giao diện giữa các dự án.
- *
- * `output=embed` không cần API key. Không có ảnh dự án thì bản đồ chiếm trọn
- * chiều ngang, tránh để nửa khung trống.
- */
 export function ProjectMapEmbed({
   query,
   title,

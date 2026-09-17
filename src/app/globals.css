@@ -3,29 +3,18 @@
 :root {
   --background: #f6f4ef;
   --foreground: #292929;
-  /* Giá trị dự phòng trước khi JS đo thật (ResizeObserver trong SiteHeader):
-     top-strip 36px + viền 1px + header chính 72px + viền vàng 3px ≈ 7rem. */
   --site-header-height: 6rem;
-
-  /* ------------------------------------------------------------------
-     Type scale responsive (mục 3 UI-UX-HANDOFF) — dùng clamp() để co giãn
-     mượt từ mobile → desktop, không cần media query rải rác. Đơn vị rem để
-     tôn trọng cỡ chữ hệ thống. Áp qua utility .text-display/.text-h1… và
-     rule heading mặc định bên dưới.
-     ------------------------------------------------------------------ */
-  --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem); /* 36 → 72px */
-  --text-h1: clamp(2rem, 1.5rem + 2.1vw, 3.5rem); /* 32 → 56px */
-  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.625rem); /* 28 → 42px */
-  --text-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem); /* 22 → 30px */
-  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); /* 17 → 20px */
-  --text-eyebrow: 0.8125rem; /* 13px label ngắn */
+  --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+  --text-h1: clamp(2rem, 1.5rem + 2.1vw, 3.5rem);
+  --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.625rem);
+  --text-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem);
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-eyebrow: 0.8125rem;
 
   --leading-hero: 1.08;
   --leading-heading: 1.22;
   --leading-body: 1.7;
 
-  /* Playfair có dáng cao, dấu tiếng Việt nặng → tracking hơi âm cho khít, còn
-     eyebrow uppercase cần giãn vừa phải (0.18em thay vì 0.24em vốn hơi thô). */
   --tracking-display: -0.018em;
   --tracking-eyebrow: 0.16em;
   --measure-prose: 68ch;
@@ -43,15 +32,7 @@
   --ease-reveal-sides: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ==========================================================================
-   Bảng màu thương hiệu Thiên Đức (UI-UX-HANDOFF-SPEC.md — giữ nguyên, không đổi)
-   Khai báo ở @theme để Tailwind sinh sẵn text-brand / bg-gold / border-ink…
-   Dùng token thay vì gõ hex trong component: đổi màu một chỗ, áp dụng toàn site.
-   ========================================================================== */
 @theme {
-  /* Nâu đồng — làm đậm nhẹ từ #b06613 (chỉ 4.41:1) xuống #9f5a0f để trắng trên
-     brand ≥ 4.5:1 (nút/panel) và brand trên nền trắng/ấm ≥ 4.5:1 (link, eyebrow),
-     đạt WCAG 2.1 AA. Cùng tông đồng, chỉ sâu hơn chút. (A11Y-CONTRAST-M2) */
   --color-ivory: #f6f4ef;
   --color-charcoal: #292929;
   --color-warm-grey: #b8b5ae;
@@ -61,10 +42,6 @@
   --color-brand-soft: #a89482;
   --color-brand-dark: #485244;
   --color-gold: #8b735e;
-  /* Vàng nhạt. Dùng làm NỀN (thẻ liên hệ) và làm CHỮ trên nền nâu đồng: vàng
-     đậm `--color-gold` trên `--color-brand` chỉ đạt 3.53:1, dưới ngưỡng 4.5:1
-     của WCAG AA cho chữ thường; `--color-gold-soft` đạt 4.84:1 mà vẫn cùng họ
-     màu. Mọi eyebrow trong panel `bg-brand` dùng `text-gold-soft`. */
   --color-gold-soft: #ebe5de;
   --color-ink: #292929;
   --color-ink-soft: #343532;
@@ -72,28 +49,8 @@
   --color-cream: #f6f4ef;
   --color-surface: #e9e6df;
   --color-surface-warm: #f6f4ef;
-
-  /* Bề rộng tối đa của khối nội dung mọi section (header, footer, page). Gom về
-     một token để đổi một chỗ — sinh sẵn utility `max-w-site`. 70rem ≈ 1120px:
-     gọn hơn 7xl (80rem) cũ, cho cảm giác nội dung tập trung, cao cấp mà lưới
-     3–4 cột vẫn thoải mái. */
   --container-site: 76rem;
-
-  /* Bề rộng riêng của DẢI HEADER (top strip + hàng logo/nav/tìm kiếm) — sinh
-     utility `max-w-header`. Rộng hơn `--container-site` vì header phải nhét
-     cùng lúc logo + 6 mục nav tiếng Việt + ô tìm kiếm + đổi ngôn ngữ trên MỘT
-     hàng, trong khi nội dung trang chỉ cần bề ngang dễ đọc.
-
-     Dùng 70rem cho header khiến ô tìm kiếm bị `shrink` bóp lại và cắt cụt
-     placeholder ở dải 1024–1280px. 80rem trả lại ~160px ở màn 1280+ mà vẫn
-     không kéo header ra sát mép màn hình.
-
-     Đánh đổi có chủ đích: từ ~1280px trở lên, header rộng hơn khối nội dung
-     bên dưới ~80px mỗi bên. Muốn hai bên thẳng lề tuyệt đối thì đổi giá trị này
-     về 70rem — nhưng ô tìm kiếm sẽ chật lại. */
   --container-header: 80rem;
-
-  /* Màu ngữ nghĩa cho trạng thái form (mục 8 handoff spec). */
   --color-danger: #9b2c2c;
   --color-success: #166534;
   --color-success-strong: #14532d;
@@ -105,8 +62,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  /* Be Vietnam Pro = mặc định (font-sans). Playfair Display = font-display cho
-     tiêu đề lớn — sinh sẵn utility `font-display` để dùng trong component. */
   --font-sans: var(--font-manrope);
   --font-display: var(--font-cormorant);
   --animate-map-ripple: map-ripple 2s ease-out infinite;
@@ -117,22 +72,16 @@ body {
   color: var(--foreground);
   font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);
-  /* Nét chữ mượt hơn trên nền sáng, đặc biệt với Playfair có stroke mảnh. */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Chỉ H1/H2 (tiêu đề trang & tiêu đề section) dùng serif Playfair để tạo chất
-   cao cấp — dùng có tiết chế. H3 trở xuống (card title, sub-label) giữ Be
-   Vietnam Pro đậm cho dễ đọc và giữ tông "corporate premium". Component tự
-   quyết font-size/line-height; đây chỉ set font-family + tracking. */
 h1,
 h2 {
   font-family: var(--font-cormorant), "Times New Roman", serif;
   letter-spacing: var(--tracking-display);
 }
 
-/* Utility gọn cho type scale — dùng khi muốn áp size token thay vì cỡ cứng. */
 .text-hero {
   font-size: var(--text-hero);
   line-height: var(--leading-hero);
@@ -161,32 +110,19 @@ h2 {
   text-transform: uppercase;
 }
 
-/* Giới hạn độ rộng đoạn văn 60–75 ký tự cho dễ đọc (mục 3, mục 5). */
 .measure {
   max-width: var(--measure-prose);
 }
 
-/* Nhịp đọc cho khối văn bản dài (bài viết, giới thiệu): giới hạn bề rộng dòng
-   ~68ch. Chỉ dùng cho vùng prose — KHÔNG áp cho nút, tiêu đề, nav, thẻ nhãn
-   ngắn, số liệu hay form. */
 .prose-content {
   max-width: var(--measure-prose);
 }
 
-/* Thụt dòng đầu 1.5em cho **mọi** đoạn, kể cả đoạn mở đầu và đoạn đứng một mình
-   (`text-justified`), theo lối trình bày văn bản hành chính tiếng Việt. Bản
-   trước chỉ thụt từ đoạn thứ hai (`p + p`) theo quy ước typography phương Tây,
-   nhưng khối một đoạn duy nhất khi đó không thụt dòng nào.
-   Không gây layout shift: chỉ đẩy ký tự đầu dòng, không đổi chiều cao khối. */
 .prose-content > p,
 .text-justified {
   text-indent: 1.5em;
 }
 
-/* Tiêu đề/danh sách/blockquote lọt vào trong `.prose-content` KHÔNG thụt dòng —
-   chỉ đoạn văn mới thụt. Cần khai báo tường minh vì `.prose-content > p` ở trên
-   không chặn được các thẻ khác thừa kế `text-indent` từ khối cha khi nội dung
-   do CMS sinh ra bọc thêm một lớp. */
 .prose-content > h1,
 .prose-content > h2,
 .prose-content > h3,
@@ -200,28 +136,12 @@ h2 {
   text-indent: 0;
 }
 
-/* Căn đều hai bên (justify) cho khối văn bản dài — khối prose nhiều đoạn và
-   những đoạn đơn lẻ được đánh dấu `text-justified`.
-
-   Chỉ bật từ 640px trở lên: dưới ngưỡng đó dòng chỉ còn ~30–40 ký tự, mà tiếng
-   Việt trình duyệt không tách được âm tiết (`hyphens: auto` vô tác dụng vì
-   không có từ điển vi), nên để justify sẽ phải giãn khoảng trắng rất rộng, tạo
-   "dòng sông trắng" chạy dọc đoạn — khó đọc hơn hẳn canh trái.
-
-   KHÔNG áp cho copy dẫn dắt 1–2 dòng (deck dưới tiêu đề section, mô tả hero,
-   CTA) hay chữ trong thẻ nhỏ: đoạn hai dòng chỉ có duy nhất dòng đầu bị kéo
-   giãn, nhìn lệch chứ không "cân". */
 @media (min-width: 40rem) {
   .prose-content,
   .text-justified {
-    /* Không kèm `text-justify: inter-word` — Chrome/Safari không hỗ trợ thuộc
-       tính này và giãn theo khoảng trắng vốn đã là hành vi mặc định. */
     text-align: justify;
   }
 
-  /* Thụt dòng đậm hơn (2em) từ 640px: đây là mức đọc ra rõ như nhấn Tab trong
-     văn bản hành chính. Dưới ngưỡng đó giữ 1.5em — trên màn 320px, 2em đã
-     chiếm ~10% bề ngang dòng nên nhìn như lỗi thụt lề. */
   .prose-content > p,
   .text-justified {
     text-indent: 2em;
@@ -231,12 +151,6 @@ h2 {
 html {
   overflow-x: clip;
   scroll-padding-top: var(--site-header-height);
-  /* Header sticky co/giãn top-strip theo scroll (đổi chiều cao ~40px). Khi lướt
-     lên gần đỉnh, top-strip giãn lại làm main reflow; scroll-anchoring mặc định
-     sẽ bù scrollY từng frame trong lúc animation 260ms chạy, giằng co với đà
-     cuộn tay → header giật/nhấp nháy. Tắt anchoring để height header đổi mà
-     không kéo scrollY. An toàn vì ảnh trong trang đều đặt sẵn width/height
-     (next/image) nên không có nội dung tải muộn làm nhảy layout. */
   overflow-anchor: none;
 }
 
@@ -342,8 +256,7 @@ textarea {
 
   to {
     opacity: 1;
-    /* `none` (không phải translateY(0)) để trạng thái nghỉ KHÔNG giữ transform —
-       tránh tạo containing block làm hỏng position: fixed của menu mobile. */
+
     transform: none;
   }
 }
@@ -352,10 +265,6 @@ textarea {
   animation: bannerCopyIn 680ms var(--ease-out-expo) both;
 }
 
-/* Giá trị dự phòng phải khớp `AUTOPLAY_MS` trong
-   `components/sections/home-banner-slider.tsx` — component luôn truyền
-   `animationDuration` inline nên biến này chỉ dùng khi có nơi khác tái dùng
-   class; để lệch sẽ thành hai nguồn sự thật. */
 .banner-progress {
   animation: bannerProgress var(--banner-autoplay-duration, 4500ms) linear both;
   transform-origin: left;
@@ -383,10 +292,6 @@ textarea {
 }
 
 .page-transition {
-  /* `backwards` (không phải `both`): chống nháy trạng thái đầu, nhưng SAU khi
-     animation xong không giữ transform — nếu giữ (both), trình duyệt resolve
-     transform thành matrix và tạo containing block, làm position: fixed của menu
-     mobile bị neo vào đây thay vì viewport. */
   animation: pageTransitionIn 420ms var(--ease-out-expo) backwards;
 }
 
@@ -444,13 +349,13 @@ textarea {
 }
 
 .reveal-from-left.is-revealed {
-  animation: projectSlideFromLeft var(--duration-reveal-sides) var(--ease-reveal-sides)
-    both;
+  animation: projectSlideFromLeft var(--duration-reveal-sides)
+    var(--ease-reveal-sides) both;
 }
 
 .reveal-from-right.is-revealed {
-  animation: projectSlideFromRight var(--duration-reveal-sides) var(--ease-reveal-sides)
-    both;
+  animation: projectSlideFromRight var(--duration-reveal-sides)
+    var(--ease-reveal-sides) both;
 }
 
 .reveal-sides-pair .reveal-from-right.is-revealed {
@@ -479,13 +384,13 @@ textarea {
 }
 
 .stagger-sides.is-revealed > *:nth-child(odd) {
-  animation: projectSlideFromLeft var(--duration-stagger-sides) var(--ease-reveal-sides)
-    both;
+  animation: projectSlideFromLeft var(--duration-stagger-sides)
+    var(--ease-reveal-sides) both;
 }
 
 .stagger-sides.is-revealed > *:nth-child(even) {
-  animation: projectSlideFromRight var(--duration-stagger-sides) var(--ease-reveal-sides)
-    both;
+  animation: projectSlideFromRight var(--duration-stagger-sides)
+    var(--ease-reveal-sides) both;
 }
 
 .stagger-sides.is-revealed > *:nth-child(1) {
@@ -512,10 +417,6 @@ textarea {
   animation-delay: calc(var(--stagger-sides-step) * 5);
 }
 
-/* Reduced motion: tắt toàn bộ animation vào trang / reveal — nội dung hiện
-   ngay, đủ opacity, không transform. Các transition hover (border/box-shadow)
-   không phải chuyển động nên giữ nguyên. Đây cũng là lưới an toàn cho việc
-   đo hiệu năng: nội dung không bao giờ bị kẹt ở opacity 0. */
 @media (prefers-reduced-motion: reduce) {
   .page-transition,
   .banner-copy-in,
@@ -526,8 +427,6 @@ textarea {
   .reveal-section,
   .reveal-from-left,
   .reveal-from-right,
-  /* Lặp class để tăng specificity: rule gốc `.stagger-list > *` nằm phía sau
-     media query này trong file, nếu cùng độ ưu tiên thì nó sẽ đặt lại opacity 0. */
   .stagger-list.stagger-list > *,
   .stagger-sides > * {
     opacity: 1;
@@ -540,16 +439,6 @@ textarea {
     animation: none;
   }
 
-  /* M2-R2 — `.stagger-sides` KHÔNG được trung hoà bởi bốn luật ở trên vì độ ưu
-     tiên (specificity), không phải thứ tự:
-       `.stagger-sides > *:nth-child(odd)`            = 0,2,0  (đặt transform)
-       `.stagger-sides.is-revealed > *:nth-child(odd)`= 0,3,0  (đặt animation)
-     đều CAO HƠN `.stagger-sides > *` (0,1,0) và `.stagger-sides.is-revealed > *`
-     (0,2,0). Vì vậy người chọn giảm chuyển động vẫn thấy thẻ trượt ngang 128px.
-     Cách sửa: lặp lại ĐÚNG hình dạng selector để thắng ở cùng mức specificity
-     (thắng nhờ đứng sau) — KHÔNG dùng `!important`, KHÔNG tắt animation toàn
-     cục, và KHÔNG đụng tới `:hover` (0,3,0) nên nhấc thẻ 5px khi rê chuột vẫn
-     còn: đó là phản hồi tương tác, không phải chuyển động tự phát. */
   .stagger-sides > *:nth-child(odd),
   .stagger-sides > *:nth-child(even) {
     opacity: 1;
@@ -806,8 +695,6 @@ textarea {
     padding-left var(--duration-fast) var(--ease-out-expo);
 }
 
-/* Thụt lề chữ khi hover thay vì dịch cả khối (translateX): giữ nền nằm gọn
-   trong panel, không lồi ra mép phải. */
 .nav-dropdown-item:hover {
   padding-left: 2.25rem;
 }
@@ -824,19 +711,15 @@ textarea {
     transform: none;
   }
 
-  /* Mobile: khối .projects-motion dùng offset trượt ngang lớn (128px). Các phần
-     tử chưa reveal bên dưới màn hình bị đẩy sang phải → tràn ngang, zoom-out ở
-     viewport 390px. Vô hiệu offset ngang ở mobile (giữ fade opacity), desktop
-     và reduced-motion không đổi. */
   .projects-motion {
     --reveal-sides-distance: 0px;
   }
 }
 
-/* Header: collapse secondary information after the page starts scrolling. */
 .header-top-strip {
   grid-template-rows: 1fr;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-brand) 25%, transparent);
   opacity: 1;
   transition:
     grid-template-rows 260ms var(--ease-out-quart),
@@ -850,8 +733,6 @@ textarea {
   opacity: 0;
 }
 
-/* Menu mobile là overlay cố định (fixed): luôn phủ đè lên nội dung, không phụ
-   thuộc vị trí cuộn hay chiều cao header sticky. */
 .mobile-menu-overlay {
   visibility: hidden;
   opacity: 0;
@@ -907,38 +788,16 @@ textarea {
   }
 }
 
-/* Menu mobile mở thì nút Zalo nổi phải rời hẳn khỏi luồng tab, không chỉ bị
-   che. Drawer không bẫy tiêu điểm, nên chỉ dựa vào z-index thì Tab vẫn chạm
-   tới một link nằm dưới lớp phủ — người dùng bàn phím lạc ra ngoài menu.
-   `visibility: hidden` gỡ khỏi cả tab order lẫn cây trợ năng, dùng đúng cờ
-   `.is-open` sẵn có và lối `:has()` đã dùng ở `.search-field` — không thêm
-   state React hay khung modal mới. Giới hạn dưới `lg` vì trên đó overlay đã
-   `display: none`. */
 @media (width < 64rem) {
   body:has(.mobile-menu-overlay.is-open) .floating-zalo {
     visibility: hidden;
   }
 }
 
-/* Khung nhìn rất thấp (≤ 620px): banner trang chủ tràn XUỐNG DƯỚI mép gập nên
-   hàng CTA của banner tụt vào đúng góc trái dưới — chỗ nút Zalo đứng. Đo ở
-   320×568: CTA "Liên hệ tư vấn" nằm ở 40–84px tính từ đáy, chồng lên nút một
-   vùng 28×24px.
-
-   Không có giá trị `bottom` tĩnh nào thoát được: vị trí hàng CTA trôi tuyến
-   tính theo chiều cao khung nhìn (va chạm với mọi chiều cao trong khoảng
-   512–600px), còn đẩy nút lên đủ cao để vượt CTA thì nó lại đè lên chữ mô tả
-   của banner. Vì vậy ẩn nút khi trang chủ CHƯA cuộn; cuộn 96px là hàng CTA đã
-   dịch lên đủ xa và nút hiện lại.
-
-   Dùng luôn cờ `data-scrolled` mà header đã đặt sẵn — KHÔNG thêm
-   IntersectionObserver, không thêm JS, cùng lối `:has()` như quy tắc drawer ở
-   trên. Chỉ khớp khi phần tử đầu của `<main>` là carousel banner, tức chỉ
-   trang chủ; trang khác không có va chạm này nên không bị ẩn. */
 @media (height <= 620px) {
-  body:has(#main-content > section[aria-roledescription="carousel"]:first-child):has(
-      #site-header:not([data-scrolled])
-    )
+  body:has(
+      #main-content > section[aria-roledescription="carousel"]:first-child
+    ):has(#site-header:not([data-scrolled]))
     .floating-zalo {
     visibility: hidden;
   }
@@ -1006,36 +865,11 @@ textarea {
   }
 }
 
-/* A11y toàn cục (UI-UX-HANDOFF-SPEC.md mục 7, 8).
-   Viền focus dùng nâu đồng #9f5a0f: vàng #fdcd04 trên nền trắng chỉ đạt 1.5:1,
-   dưới ngưỡng 3:1 của WCAG 2.4.11. Nâu đồng #9f5a0f đạt 5.33:1 trên trắng và
-   3.30:1 trên nền đen #191919 — hợp lệ trên cả nền sáng lẫn nền tối. */
 :focus-visible {
   outline: 2px solid #9f5a0f;
   outline-offset: 2px;
 }
 
-/* ---------------------------------------------------------------------------
-   Ô tìm kiếm ở header (`.search-field`, xem `components/layout/header-search-form.tsx`).
-
-   Mọi rule dưới đây **giới hạn trong `.search-field`** — quy tắc `:focus-visible`
-   toàn cục ở trên và style form của phần còn lại của site không bị đụng tới.
-
-   1) Chuẩn hoá `type="search"`. Chromium/WebKit tự vẽ nút xoá "×" bên trong ô,
-      chỉ hiện khi đã có chữ: nó nằm sát ngay nút "Tìm" (hai affordance chỏi
-      nhau) và làm bề rộng dùng được của ô nhảy khi đang gõ. Safari còn áp
-      `-webkit-appearance: searchfield` tạo hộp lõm riêng bên trong đường viền
-      chung. Tắt cả hai.
-
-   2) Mô hình focus. Ô nhập KHÔNG tự vẽ viền focus riêng — nếu vẽ, người dùng
-      thấy hai hình chữ nhật lồng nhau. Thay vào đó cả cụm sáng lên một vòng
-      focus duy nhất, dùng đúng màu nâu đồng #9f5a0f của rule toàn cục.
-      Dùng `:has(input:focus-visible)` chứ không phải `:focus-within`: chỉ bàn
-      phím mới bật vòng focus, bấm chuột thì không — giữ đúng ngữ nghĩa
-      `:focus-visible` mà site đang dùng ở mọi nơi khác.
-      NÚT gửi cố ý không nằm trong luật này: nó giữ vòng focus toàn cục của
-      riêng nó, nhờ vậy người dùng phân biệt được focus đang ở ô nhập hay ở nút.
-   --------------------------------------------------------------------------- */
 .search-field input[type="search"] {
   -webkit-appearance: none;
   appearance: none;
@@ -1076,13 +910,9 @@ textarea {
 
 .skip-link:focus-visible {
   top: 1rem;
-  /* Nền skip-link chính là nâu đồng, nên viền focus phải đổi sang trắng. */
   outline-color: #ffffff;
 }
 
-/* Hệ thị giác 2026 — Contemporary Architectural Luxury.
-   Các lớp tương thích cũ được giữ tên để không làm thay đổi hợp đồng component,
-   nhưng hiệu ứng được giảm về đường kẻ, màu phẳng và chuyển động tiết chế. */
 .project-detail-hero,
 .project-detail-band,
 .project-detail-panel,

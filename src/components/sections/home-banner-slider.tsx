@@ -15,27 +15,12 @@ import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
-/* ---------------------------------------------------------------------------
-   Nhóm hằng số thời gian — để CẠNH NHAU có chủ đích.
-
-   Ba giá trị này ràng buộc nhau: đổi một mà quên hai cái kia là lỗi đã từng
-   xảy ra (chu kỳ 7000ms, còn Ken Burns bị chôn trong class Tailwind
-   `duration-7200`, nên sửa chu kỳ là hiệu ứng phóng ảnh lệch pha ngay).
-
-   - AUTOPLAY_MS   : chu kỳ tự chuyển slide (đồng hồ đếm CHÍNH là thanh tiến trình).
-   - TRANSITION_MS : thời lượng mờ chồng giữa hai slide. KHÁC chu kỳ — đây là
-                     hiệu ứng chuyển cảnh, không phải nhịp chuyển.
-   - KEN_BURNS_MS  : SUY RA từ chu kỳ, dài hơn một nhịp ngắn để ảnh không kết
-                     thúc cú phóng đúng lúc slide đổi (sẽ thấy khựng).
-   --------------------------------------------------------------------------- */
 const AUTOPLAY_MS = 4500;
 const TRANSITION_MS = 600;
 const KEN_BURNS_MS = AUTOPLAY_MS + 200;
 
 const MANUAL_PAUSE_MS = 12000;
 const SWIPE_THRESHOLD_PX = 48;
-
-/** Đánh dấu nút tạm dừng/tiếp tục để luật focus bên dưới loại trừ được nó. */
 const AUTOPLAY_TOGGLE_ATTR = "data-banner-autoplay-toggle";
 
 function isAutoplayToggle(target: EventTarget | null): boolean {
@@ -48,14 +33,9 @@ type HomeBannerSliderProps = {
   banners: HomeBanner[];
   locale: Locale;
   contactCtaLabel: string;
-  /** Nhãn a11y song ngữ do server truyền vào (client không nạp dictionary). */
   labels: Dictionary["homeBanner"];
 };
 
-/**
- * Banner do CMS quản lý — dữ liệu nạp ở server (`HomeBannerSection`) rồi truyền
- * xuống đây, vì carousel cần state và sự kiện chuột/bàn phím.
- */
 export function HomeBannerSlider({
   banners,
   locale,
@@ -67,12 +47,7 @@ export function HomeBannerSlider({
   const [hoverPaused, setHoverPaused] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
   const [manualPaused, setManualPaused] = useState(false);
-  /**
-   * Người dùng bấm nút "Tạm dừng" — khác hẳn `manualPaused` (tạm dừng 12 giây
-   * sau khi bấm tiến/lùi rồi tự chạy lại). Trạng thái này **giữ nguyên cho tới
-   * khi bấm "Tiếp tục"**: đó là điều WCAG 2.2.2 đòi hỏi, tạm dừng có hạn không
-   * được tính là cơ chế dừng.
-   */
+
   const [userStopped, setUserStopped] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const manualPauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -98,7 +73,6 @@ export function HomeBannerSlider({
     };
   }, []);
 
-  /** Người dùng tự điều khiển → tạm dừng autoplay 12s rồi chạy tiếp. */
   function pauseForManualInteraction() {
     setManualPaused(true);
     if (manualPauseTimer.current) clearTimeout(manualPauseTimer.current);
@@ -123,19 +97,10 @@ export function HomeBannerSlider({
     setActiveIndex(index);
   }
 
-  /**
-   * Bật/tắt tự chuyển slide. Khi bấm "Tiếp tục" phải **xoá luôn** khoảng tạm
-   * dừng 12 giây của thao tác tay: người dùng vừa yêu cầu chạy tiếp, để nó đứng
-   * im thêm mười giây nữa thì nút trông như hỏng.
-   */
   function toggleAutoplay() {
     const resuming = userStopped;
     setUserStopped(!userStopped);
 
-    // Gọi setState KHÁC bên trong hàm cập nhật của `setUserStopped` là tác dụng
-    // phụ trong một hàm phải thuần — React được phép chạy hàm đó hai lần (chế
-    // độ Strict lúc dev) nên hành vi sẽ không xác định. Tính trước rồi gọi tuần
-    // tự; hai lệnh setState trong cùng một handler vẫn được gộp một lần render.
     if (resuming) {
       if (manualPauseTimer.current) clearTimeout(manualPauseTimer.current);
       setManualPaused(false);
@@ -174,8 +139,6 @@ export function HomeBannerSlider({
     else goToPrevious();
   }
 
-  // Banner đến từ CMS: biên tập viên có thể tắt hết, khi đó không render gì.
-  // Hook phải khai báo xong trước lần return sớm này.
   if (bannerCount === 0 || !activeBanner) {
     return null;
   }
@@ -187,11 +150,7 @@ export function HomeBannerSlider({
       aria-roledescription="carousel"
       onPointerEnter={() => setHoverPaused(true)}
       onPointerLeave={() => setHoverPaused(false)}
-      /* Tạm dừng khi focus rơi vào banner — TRỪ chính nút tạm dừng/tiếp tục.
-         Bấm một nút luôn làm nó nhận focus, nên nếu không loại trừ thì nút
-         "Tiếp tục" tự vô hiệu hoá chính nó: bấm xong autoplay vẫn đứng im cho
-         tới khi focus rời đi. Đã đo trên trình duyệt thật — sau khi bấm tiếp
-         tục và rời chuột, `animationPlayState` vẫn là "paused" suốt 6 giây. */
+
       onFocus={(event) => {
         if (!isAutoplayToggle(event.target)) setHoverPaused(true);
       }}
@@ -232,7 +191,6 @@ export function HomeBannerSlider({
                 }`}
                 style={{
                   objectPosition: banner.objectPosition ?? "center center",
-                  // Suy từ AUTOPLAY_MS, không gõ số cứng: xem khối hằng số ở đầu file.
                   transitionDuration: `${KEN_BURNS_MS}ms`,
                 }}
               />
@@ -240,15 +198,8 @@ export function HomeBannerSlider({
           );
         })}
 
-        {/* Lớp phủ CỤC BỘ theo phía đặt chữ — không tối đều cả ảnh.
-            Tổng độ tối giữ nguyên mức hiện tại (đỉnh 0.5, nhạt dần về 0.04);
-            chỉ đổi HƯỚNG để vùng tối nằm đúng sau khối chữ, trả lại chi tiết
-            cho nửa còn lại của ảnh.
-
-            Dưới `xl` chữ nằm trái → tối bên trái (giữ nguyên như cũ).
-            Từ `xl` chữ chuyển sang phải → gradient lật 270deg.
-            Vệt vàng radial cũng lật theo cho ăn khớp với khối chữ. */}
-        <div className="absolute inset-0 z-20 bg-charcoal/45" />
+        {}
+        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.70)_0%,rgba(41,41,41,0.46)_30%,rgba(41,41,41,0.08)_64%,rgba(41,41,41,0.16)_100%)]" />
 
         {autoplayEnabled ? (
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
@@ -264,95 +215,41 @@ export function HomeBannerSlider({
           </div>
         ) : null}
 
-        {/* Khối chữ cố ý hẹp hơn bản cũ (`max-w-2xl` = 672px → 544px) và hạ thấp
-            hơn (`bottom-16/20` → `bottom-12/16`): ảnh banner là nội dung chính,
-            chữ chỉ dẫn vào nó. Đệm `p-5 sm:p-7` GIỮ NGUYÊN — đó là thứ giữ chữ
-            đọc được trên nền ảnh, thu nó lại là đánh đổi sai.
-
-            `bottom-18` (72px) là giá trị ĐO ĐƯỢC, không phải ước lượng: dải
-            điều khiển dưới đáy (hàng chấm ở `bottom-5`, cao thật 46px kể cả
-            viền) chiếm 20–66px. Mọi giá trị nhỏ hơn 66px làm mép dưới thẻ chữ
-            chui xuống dưới hàng chấm — đã đo thấy chồng 10px ở 320/390px và
-            2px ở 768/1440px. 72px chừa 6px thở.
-
-            Vẫn thấp hơn bản cũ ở desktop (80px), và ở mobile phần thu gọn thật
-            sự đến từ `line-clamp-2` chứ không phải từ việc hạ khối chữ. */}
-        {/* `pointer-events-none` ở khung định vị, `pointer-events-auto` ở khối
-            chữ: khung này trải hết bề ngang (`inset-x-0`) ở cùng `z-30` với cụm
-            điều khiển. Từ `xl` khối chữ chuyển sang PHẢI — cùng phía với nút
-            tạm dừng/tiến/lùi — nên phải khoá sự kiện chuột của khung, đúng cách
-            đã áp cho hàng chấm sau lần hồi quy "intercepts pointer events". */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-18 z-30 px-4 sm:px-6">
-          <div className="mx-auto max-w-site">
+       
+        <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,14svh,8.5rem)] z-30 px-6 sm:px-10 lg:px-16 xl:px-20">
+          <div className="max-w-[34rem]">
             <div
               key={activeBanner.title}
-              // Bỏ `backdrop-blur-sm`: đây là thứ XOÁ SẠCH chi tiết ảnh phía sau
-              // khối chữ (khác lớp phủ tối, vốn còn thấy hình khối). Bỏ luôn
-              // `border-white/15` vì viền là thứ khiến khối đọc ra như một tấm
-              // thẻ nổi thay vì chữ đặt trên ảnh.
-              //
-              // Nền nâng `bg-ink/28` → `/38` sau khi ĐO trên trình duyệt thật: bỏ
-              // blur làm mất lớp san phẳng điểm sáng, nên 1% pixel sáng nhất sau
-              // chữ chỉ còn 3.4–3.7:1 trên cả 4 banner — đủ cho tiêu đề 44px
-              // (ngưỡng chữ lớn 3:1) nhưng THIẾU cho phụ đề 18px (cần 4.5:1).
-              // Tăng đúng lớp nền cục bộ này là cách tối thiểu: chỉ ảnh hưởng
-              // vùng ngay sau chữ, KHÔNG đụng pixel nào của phần ảnh còn lại
-              // (khác hẳn việc làm tối gradient toàn slide).
-              // `xl:ml-auto` đẩy khối sang phải trong container ở desktop rộng:
-              // tiêu điểm ảnh thực tế đang lệch trái (35%/45%), để chữ bên phải
-              // là nhường lại đúng phần chủ thể kiến trúc.
-              className={`pointer-events-auto flex max-w-2xl flex-col justify-between border-l border-white/45 pl-5 text-white sm:pl-7 ${
+             
+              className={`pointer-events-auto flex flex-col justify-between text-white ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}
             >
-              {/* Chỉ số slide nằm CÙNG HÀNG với eyebrow. Trước đây nó là một cột
-                  riêng bên trái, ăn ~60px bề ngang của MỌI dòng chữ kể cả tiêu
-                  đề — thông tin phụ chiếm chỗ của thông tin chính. */}
-              {/* Bỏ vạch kẻ mảnh trang trí (`h-px flex-1 bg-white/25`) vốn nằm
-                  giữa eyebrow và số thứ tự slide: nó không mang trạng thái hay
-                  tiến trình nào, chỉ lấp chỗ. `justify-between` thay nó làm việc
-                  giãn cách, nên bố cục giữ nguyên mà bớt một nét trang trí.
-                  KHÔNG đụng thanh tiến trình `.banner-progress` hay chấm
-                  `aria-current` — đó là chỉ báo trạng thái thật. */}
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <p className="text-eyebrow text-gold">
+             
+              <div className="mb-5">
+                <p className="text-eyebrow text-white/75">
                   {activeBanner.eyebrow}
-                </p>
-                <p className="hidden shrink-0 text-sm font-semibold text-white/70 sm:block">
-                  {String(activeIndex + 1).padStart(2, "0")}
-                  <span className="mx-2 text-white/30">/</span>
-                  {String(bannerCount).padStart(2, "0")}
                 </p>
               </div>
               <div className="flex flex-col justify-between gap-4">
-                <h1 className="line-clamp-2 text-[1.6rem] font-semibold leading-[1.15] sm:text-4xl lg:text-[2.75rem]">
+                <h1 className="line-clamp-3 font-display text-[2.35rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] sm:text-[3.35rem] lg:text-[4rem]">
                   {activeBanner.title}
                 </h1>
-                {/* Clamp 2 dòng ở MỌI breakpoint (trước đây `sm:line-clamp-3`).
-                    Phụ đề thật dài 92–113 ký tự — đó là tóm tắt dự án, không
-                    phải phụ đề; dòng thứ ba là phần đẩy khối chữ cao lên mà
-                    không thêm thông tin quyết định. Nội dung đầy đủ vẫn ở trang
-                    chi tiết dự án qua CTA chính. Không cắt dữ liệu CMS. */}
-                <p className="mt-3 line-clamp-2 max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg">
+            
+                <p className="mt-2 line-clamp-3 max-w-[31rem] text-sm font-medium leading-7 text-white/86 sm:text-base lg:text-lg">
                   {activeBanner.subtitle}
                 </p>
-                {/* Phân cấp hành động: nút đặc cho việc chính, liên kết chữ cho
-                    việc phụ. Hai nút đặc như bản cũ khiến hàng CTA nặng ngang
-                    bằng tiêu đề. `link-arrow` là treatment liên kết có sẵn của
-                    hệ thống (mũi tên `→`, dùng ở 9 nơi khác) — không dựng bộ
-                    icon mới. Giữ `h-11` để vẫn đủ vùng chạm, và focus ring
-                    tường minh vì nền ảnh không đảm bảo tương phản outline mặc
-                    định. Đích đến Liên hệ giữ nguyên. */}
-                <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-6">
+             
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-7">
                   <Link
                     href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex h-11 items-center justify-center bg-ivory px-4 text-center text-sm font-semibold text-charcoal transition hover:bg-white sm:px-5"
+                    className="button-polish inline-flex h-12 items-center justify-center border border-white/75 px-6 text-center text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white hover:text-charcoal"
                   >
                     {activeBanner.ctaLabel}
                   </Link>
                   <Link
                     href={localizePath(routes.contact, locale)}
-                    className="link-arrow inline-flex h-11 items-center gap-2 text-sm font-semibold text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+                    className="link-arrow inline-flex h-12 items-center gap-2 text-sm font-bold uppercase tracking-[0.1em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
                   >
                     {contactCtaLabel}
                   </Link>
@@ -362,21 +259,8 @@ export function HomeBannerSlider({
           </div>
         </div>
 
-        <div className="absolute bottom-5 right-5 z-30 flex items-center gap-2">
-          {/* WCAG 2.2.2 (Pause, Stop, Hide — mức A): nội dung tự chuyển động
-              phải có cơ chế DỪNG dùng được. Tạm dừng khi rê chuột KHÔNG tính —
-              bàn phím và cảm ứng không rê được. Nút này giữ trạng thái cho tới
-              khi bấm lại, khác với khoảng nghỉ 12 giây sau thao tác tiến/lùi.
-
-              Chỉ render khi autoplay thật sự chạy: ở `prefers-reduced-motion`
-              autoplay vốn đã tắt, hiện một nút "Tạm dừng" ở đó là nói dối về
-              trạng thái của carousel.
-
-              Không đặt `aria-pressed`: nhãn của nút đã đổi theo trạng thái
-              ("Tạm dừng" ↔ "Tiếp tục") đúng theo mẫu Carousel của WAI-ARIA APG.
-              Gắn thêm `aria-pressed` sẽ khiến trình đọc màn hình đọc "Tiếp tục,
-              nút chuyển, đã bật" — hai tín hiệu trạng thái chồng nhau, ngược
-              nhau. Trạng thái nhìn thấy được thể hiện bằng biểu tượng + màu. */}
+        <div className="absolute bottom-6 right-5 z-30 flex items-center gap-2 sm:bottom-7 sm:right-7">
+        
           {autoplayEnabled ? (
             <button
               type="button"
@@ -402,10 +286,7 @@ export function HomeBannerSlider({
             type="button"
             aria-label={labels.ariaPrevious}
             onClick={goToPrevious}
-            /* Nút tiến/lùi vẫn ẩn ở mobile (đã có vuốt + chấm chỉ báo), nhưng
-               nút tạm dừng thì KHÔNG được ẩn — cảm ứng không rê chuột được nên
-               ở đó nó là cơ chế dừng duy nhất. Vì vậy `hidden sm:grid` chuyển
-               từ khối cha xuống riêng hai nút này. */
+          
             className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
           >
             <ChevronLeft className="size-5" />
@@ -420,17 +301,9 @@ export function HomeBannerSlider({
           </button>
         </div>
 
-        {/* Hàng chấm chỉ báo căn giữa TRONG một hộp có chừa lề phải ở mobile:
-            nút tạm dừng nằm ở góc phải dưới và ở 320px, hàng chấm căn giữa
-            nguyên bản sẽ chui xuống dưới nó. Ở `sm` trở lên hộp bỏ lề, chấm về
-            đúng chính giữa như cũ. */}
-        {/* `pointer-events-none` trên khung căn giữa là BẮT BUỘC: khung này
-            trải hết bề ngang (`inset-x-0`) ở cùng `z-30` và đứng SAU cụm nút
-            trong DOM, nên nếu nhận sự kiện chuột nó sẽ nuốt mọi cú bấm vào nút
-            tạm dừng / tiến / lùi — đã đo được bằng trình duyệt thật:
-            "…intercepts pointer events". Chỉ viên chấm bên trong mới bắt chuột. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-5 z-30 flex justify-center pl-4 pr-14 sm:px-0">
-          <div className="pointer-events-auto flex items-center border border-white/25 bg-ink/35 px-1">
+       
+        <div className="pointer-events-none absolute inset-x-0 bottom-7 z-30 flex justify-start px-6 pr-28 sm:px-10 lg:px-16 xl:px-20">
+          <div className="pointer-events-auto flex items-center gap-3 text-white">
             {banners.map((banner, index) => (
               <button
                 key={banner.image}
@@ -440,19 +313,16 @@ export function HomeBannerSlider({
                 })}
                 aria-current={index === activeIndex}
                 onClick={() => goToSlide(index)}
-                // 36px ngang ở mobile (vẫn vượt ngưỡng 24px của WCAG 2.5.8) để
-                // cả hàng không đụng nút tạm dừng; 44px từ `sm` như cũ.
-                className="grid min-h-11 min-w-9 place-items-center sm:min-w-11"
+                className={`min-h-10 text-sm font-semibold transition-colors ${
+                  index === activeIndex
+                    ? "text-white"
+                    : "text-white/58 hover:text-white"
+                }`}
               >
-                <span
-                  className={`block h-2.5 rounded-full transition-all ${
-                    index === activeIndex
-                      ? "w-9 bg-gold"
-                      : "w-2.5 bg-white/70 hover:bg-white"
-                  }`}
-                />
+                {String(index + 1).padStart(2, "0")}
               </button>
             ))}
+            <span className="ml-2 h-px w-28 bg-white/55" aria-hidden="true" />
           </div>
         </div>
       </div>

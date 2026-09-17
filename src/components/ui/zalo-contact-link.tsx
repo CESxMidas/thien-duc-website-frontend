@@ -1,21 +1,13 @@
 import { ZaloIcon } from "@/components/ui/zalo-icon";
 
 type ZaloContactLinkProps = {
-  /** URL đã dựng sẵn (`zaloHref`) — component KHÔNG tự đọc config để sau này
-      thay bằng dữ liệu CMS chỉ cần đổi nơi truyền prop. */
   href: string;
-  /** Tên truy cập đầy đủ, vd. "Liên hệ Thiên Đức qua Zalo". */
   ariaLabel: string;
-  /** Nhãn kênh ("Zalo") — dùng cho `sr-only` ở biến thể inline. */
   label: string;
   variant: "floating" | "inline";
-  /** Chỉ dùng ở biến thể inline: số hiển thị `0941 383 007`. OA không có số
-      thì bỏ trống, khối chỉ còn wordmark + nhãn. */
   displayValue?: string;
   className?: string;
   iconClassName?: string;
-  /** Style của phần số hiển thị, để khớp với các dòng liên hệ xung quanh
-      (footer dùng chữ trắng đậm, trang liên hệ dùng màu brand). */
   valueClassName?: string;
 };
 

@@ -1,7 +1,4 @@
-/**
- * Xuất báo cáo Word có trang bìa, mục lục tự động (cập nhật bằng F9), số trang, heading chuẩn.
- * Nguồn: docs/BAO-CAO-PHUONG-AN-KI-THUAT-WEBSITE.md
- */
+
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

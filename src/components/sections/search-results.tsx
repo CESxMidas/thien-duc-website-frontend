@@ -13,21 +13,6 @@ type SearchResultsProps = {
   statusLabels: Dictionary["projectStatus"];
 };
 
-/**
- * Kết quả tìm kiếm **nhóm theo loại nội dung**, khớp đúng hình dạng backend trả
- * về (`{ projects, news }`).
- *
- * Cố ý KHÔNG trộn hai loại vào một danh sách xếp theo độ liên quan: `ts_rank`
- * của dự án và của tin tức được tính trên hai tsvector khác bảng, độ dài tài
- * liệu khác nhau — 0.08 của một dự án KHÔNG có nghĩa là kém liên quan hơn 0.12
- * của một bài viết. Trộn theo rank sẽ trình bày một thứ tự trông có căn cứ
- * nhưng thực chất không có.
- *
- * Phân cấp tiêu đề: `h1` (trang) → `h2` (nhóm) → `h3` (từng kết quả).
- *
- * Dựng theo MẢNG nhóm chứ không viết cứng hai khối: thêm loại nội dung thứ ba
- * về sau chỉ là thêm một phần tử, không phải sửa bố cục.
- */
 export function SearchResults({
   results,
   locale,
@@ -89,9 +74,7 @@ export function SearchResults({
                       </div>
                     ) : null}
                     <div className="flex flex-1 flex-col p-5">
-                      {/* Metadata riêng của dự án: trạng thái + địa điểm. Đây là
-                          lý do nhóm theo loại — thẻ giữ được thông tin đặc thù
-                          thay vì phải nhồi chung một khuôn với tin tức. */}
+                   
                       <p className="text-sm font-medium text-slate">
                         {[statusLabels[project.status], project.location]
                           .filter(Boolean)
@@ -138,8 +121,7 @@ export function SearchResults({
                       <h3 className="mt-3 text-xl font-semibold leading-snug">
                         {post.title}
                       </h3>
-                      {/* Canh trái, KHÔNG justify: thẻ trong lưới 3 cột chỉ
-                          rộng ~330px. */}
+                  
                       {post.summary ? (
                         <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate">
                           {post.summary}

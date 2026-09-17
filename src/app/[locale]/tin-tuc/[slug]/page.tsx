@@ -14,9 +14,7 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildNewsArticleJsonLd, buildPageMetadata } from "@/lib/seo";
 
-/** Slug không phụ thuộc ngôn ngữ — locale do `generateStaticParams` của layout sinh. */
 export async function generateStaticParams() {
-  // Build không có API (CI) → bỏ prerender, bài render on-demand (xem client.ts).
   return staticParamsSafe('tin-tuc/[slug]', async () => {
     const newsPosts = await getNewsPosts(defaultLocale);
     return newsPosts.map((post) => ({ slug: post.slug }));
@@ -64,7 +62,6 @@ export default async function NewsDetailPage({
 
   return (
     <SiteShell locale={locale}>
-      {/* NewsArticle JSON-LD (task →7) — publisher/author trỏ Organization ở layout. */}
       <JsonLd data={buildNewsArticleJsonLd(post, locale)} />
       <Breadcrumb
         items={[
@@ -103,9 +100,7 @@ export default async function NewsDetailPage({
       <section className="reveal-section mx-auto grid max-w-site gap-6 px-4 pb-5 sm:px-6 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="hover-card border border-black/10 bg-white p-5 md:p-7">
           <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
-            {/* Chuyên mục dẫn sang trang danh mục — đây là đường liên kết nội
-                bộ duy nhất từ bài viết ngược lên chủ đề của nó. Bản sidebar bên
-                dưới cố ý để chữ thường, không lặp lại link cùng đích. */}
+        
             {post.category ? (
               <Link
                 href={localizePath(

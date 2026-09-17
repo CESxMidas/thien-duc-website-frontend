@@ -19,10 +19,8 @@ describe("getSearchQuery", () => {
 
 describe("hasBlankSearchParam", () => {
   it("phân biệt 'không có ?q=' với '?q= rỗng'", () => {
-    // Không có tham số: đây là trang tin bình thường, không phải lượt tìm kiếm.
     expect(hasBlankSearchParam(undefined)).toBe(false);
-    // Có tham số nhưng rỗng: URL nói đã tìm, nội dung lại là danh sách đầy đủ →
-    // trang phải chuyển hướng về URL sạch.
+
     expect(hasBlankSearchParam("")).toBe(true);
     expect(hasBlankSearchParam("   ")).toBe(true);
   });
@@ -54,7 +52,7 @@ describe("câu chữ đếm kết quả tìm kiếm", () => {
   });
 
   it("KHÔNG hứa hẹn tổng số toàn site — API chặn ở 20 bản ghi", () => {
-    // Câu chữ phải là "hiển thị N", không phải "tìm thấy N".
+
     expect(vi.searchCountMany).toMatch(/^Hiển thị /);
     expect(en.searchCountMany).toMatch(/^Showing /);
   });

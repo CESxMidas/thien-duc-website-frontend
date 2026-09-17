@@ -1,16 +1,4 @@
-/**
- * URL tìm kiếm cũ phải sống tiếp.
- *
- * `/tin-tuc?q=` và `/du-an?q=` đã được chia sẻ và có thể đã nằm trong chỉ mục.
- * Sau khi tìm kiếm chuyển sang `/tim-kiem`, hai URL đó phải chuyển hướng
- * **vĩnh viễn (308)** và **giữ nguyên từ khóa** — người đi theo link cũ phải
- * thấy đúng thứ họ định tìm, không phải một danh sách trắng.
- *
- * Đồng thời KHÔNG được chuyển hướng nhầm: `/tin-tuc` thường, `/tin-tuc?page=2`
- * và `/du-an?status=...` phải chạy như cũ.
- */
 
-/** `permanentRedirect` thật sẽ ném; bản giả ném lỗi có gắn URL để bắt lại. */
 class RedirectSignal extends Error {
   constructor(readonly url: string) {
     super(`REDIRECT:${url}`);
@@ -32,7 +20,6 @@ jest.mock("next/navigation", () => ({
   redirect: (url: string) => redirect(url),
 }));
 
-// Dữ liệu nghiệp vụ không phải thứ test này quan tâm — chặn mọi lượt gọi mạng.
 jest.mock("@/lib/api/news", () => ({
   NEWS_PAGE_SIZE: 9,
   getNewsPage: jest.fn(async () => ({
@@ -53,7 +40,6 @@ jest.mock("@/lib/api/projects", () => ({
 import NewsPage from "./[locale]/tin-tuc/page";
 import ProjectsPage from "./[locale]/du-an/page";
 
-/** Chạy một trang và trả về URL nó chuyển hướng tới, hoặc `null` nếu không. */
 async function redirectedTo(
   page: (props: never) => Promise<unknown>,
   locale: string,

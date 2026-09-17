@@ -7,19 +7,12 @@ import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const AUTOPLAY_MS = 5200;
 
-/**
- * Dự án hợp tác — slider một hàng ngang tự chạy. Dùng scroll-snap để hiển thị
- * nhiều thẻ trên cùng một hàng (mobile lộ mép thẻ kế tiếp gợi ý vuốt, desktop
- * xếp cạnh nhau). Tự chạy tôn trọng `prefers-reduced-motion` và tạm dừng khi
- * hover/focus. Không mượn ảnh — mỗi thẻ là một tấm nền thương hiệu đối tác.
- * Dữ liệu do server truyền vào (từ API `/cooperation`).
- */
 export function CooperationSlider({
   projects,
   labels,
 }: {
   projects: CooperationProject[];
-  /** Copy song ngữ do server truyền vào (client không nạp dictionary async). */
+ 
   labels: Dictionary["homeCooperation"];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -27,8 +20,7 @@ export function CooperationSlider({
   const [isPaused, setIsPaused] = useState(false);
   const count = projects.length;
   const canSlide = count > 1;
-  // Một dự án hợp tác: thẻ 50% để trống nửa hàng bên phải trên desktop → cho
-  // thẻ trải full chiều rộng để khối cân đối. Nhiều dự án giữ nguyên hàng slider.
+
   const singleProject = count === 1;
 
   const scrollToIndex = useCallback(
@@ -48,7 +40,6 @@ export function CooperationSlider({
     [count],
   );
 
-  // Cập nhật chấm chỉ báo theo thẻ đang gần mép trái nhất khi người dùng vuốt.
   function handleScroll() {
     const track = trackRef.current;
     if (!track) return;
@@ -149,7 +140,6 @@ export function CooperationSlider({
                   style={{ backgroundImage: `url(${project.image})` }}
                   className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-center md:-mx-8 md:-mt-8 md:h-52"
                 >
-                  {/* Chuyển màu về nền thẻ để chữ phía dưới luôn đọc rõ. */}
                   <div
                     className="absolute inset-0 bg-transparent"
                     aria-hidden="true"
@@ -157,8 +147,6 @@ export function CooperationSlider({
                 </div>
               ) : null}
 
-              {/* Khối chữ kẹp số dòng (line-clamp) để nội dung dài không kéo
-                  giãn thẻ — mọi thẻ giữ đúng một khung, rê chuột đọc toàn văn. */}
               <div className="relative">
                 <p className="text-eyebrow inline-flex items-center gap-2 text-warm-grey">
                   <Handshake className="size-4" aria-hidden="true" />
@@ -170,8 +158,6 @@ export function CooperationSlider({
                 >
                   {project.name}
                 </h3>
-                {/* Cố định 2 dòng (min-h theo line-height) — thẻ có mô tả 1
-                    dòng hay 2 dòng đều cao bằng nhau. */}
                 <p
                   className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-ivory/70"
                   title={`${project.location} · ${project.scale}`}

@@ -63,9 +63,7 @@ function ProjectOverviewHighlights({
   );
 }
 
-/** Slug không phụ thuộc ngôn ngữ — locale do `generateStaticParams` của layout sinh. */
 export async function generateStaticParams() {
-  // Build không có API (CI) → bỏ prerender, trang render on-demand (xem client.ts).
   return staticParamsSafe('du-an/[slug]', async () => {
     const projects = await getProjects(defaultLocale);
     return projects.map((project) => ({ slug: project.slug }));
@@ -111,13 +109,6 @@ export default async function ProjectDetailPage({
   const overviewHighlights = project.highlights ?? [];
   const items = project.items ?? [];
 
-  // Hưng Phú dùng bản đồ minh hoạ (`mapLocation`); các dự án khác nhúng Google
-  // Maps nếu suy ra được địa chỉ (ưu tiên quickFact "Địa chỉ", không thì
-  // "tên dự án + địa danh"). Có bản đồ thì ảnh dự án hiện trong khối bản đồ,
-  // không lặp lại ở hero phía trên.
-  // quickFacts đã được phân giải theo locale (EN-FULL-C3), nên khớp cả nhãn
-  // tiếng Việt ("Địa chỉ") lẫn bản dịch tiếng Anh ("Address") để trang `/en`
-  // vẫn suy ra được địa chỉ nhúng Google Maps khi dự án không có `mapLocation`.
   const addressFact = (project.quickFacts ?? []).find((fact) =>
     /địa chỉ|address/i.test(fact.label),
   );
@@ -127,11 +118,6 @@ export default async function ProjectDetailPage({
   const hasEmbedMap = !project.mapLocation && Boolean(mapQuery);
   const hasMap = Boolean(project.mapLocation) || hasEmbedMap;
 
-  // PROJECT-GALLERY-IMAGES-FIX-M1: dự án có **cả** hạng mục (`items`) lẫn thư
-  // viện ảnh cấp dự án (`gallery`) thì ảnh dự án được đưa lên ngay dưới ảnh
-  // chính (main image / bản đồ), rồi mới tới carousel hạng mục — thay vì bị ẩn
-  // hoàn toàn như trước (khối ảnh cũ loại trừ lẫn nhau: chỉ 1 trong 3). Dự án
-  // chỉ có một trong hai giữ nguyên bố cục cũ (xem khối ở cuối trang).
   const showGalleryUnderMain = items.length > 0 && gallery.length > 0;
   const galleryStrip = showGalleryUnderMain ? (
     <section className="project-detail-band py-8">
@@ -202,9 +188,7 @@ export default async function ProjectDetailPage({
               <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                 {dictionary.projectDetail.quickInfoTitle}
               </h2>
-              {/* `flex-1 auto-rows-fr` để lưới thông số giãn đều lấp hết chiều
-                  cao panel — hai cột luôn bằng nhau mà không để lại khoảng
-                  trống thừa ở đáy cột trái. */}
+
               <dl className="mt-6 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
                 <ProjectFactCell
                   label={dictionary.projectDetail.locationLabel}
@@ -242,15 +226,7 @@ export default async function ProjectDetailPage({
                 {project.mapLocation?.heading ??
                   dictionary.projectDetail.overviewFallbackTitle}
               </h2>
-              {/* Địa chỉ + nút Google Maps cố ý bỏ ở đây: khối bản đồ ngay dưới
-                  đã có đủ địa chỉ và nút chỉ đường, nhắc lại là thừa và làm cột
-                  này dài hơn hẳn cột bên trái. */}
-              {/* `text-justified` (thụt dòng đầu + căn đều từ 640px) CHỈ áp khi
-                  có mô tả thật từ CMS: đây là văn bản dài do biên tập viên
-                  soạn. Câu dự phòng chỉ dài một dòng — thụt và căn đều một dòng
-                  là vô nghĩa, nên nó giữ canh trái.
-                  `line-clamp-6` GIỮ NGUYÊN: nó là thứ cân chiều cao hai panel
-                  Thông tin nhanh / Tổng quan (xem quy ước ở `AGENTS.md`). */}
+           
               <p
                 className={`mt-5 line-clamp-6 text-base leading-7 text-slate ${
                   project.description ? "text-justified" : ""
@@ -289,8 +265,6 @@ export default async function ProjectDetailPage({
           />
         ) : null}
 
-        {/* Case C, dự án có bản đồ: ảnh chính (ảnh trên không) nằm trong khối
-            bản đồ ở trên, thư viện ảnh dự án nằm ngay dưới nó. */}
         {hasMap ? galleryStrip : null}
 
         {items.length > 0 ? (
@@ -307,8 +281,6 @@ export default async function ProjectDetailPage({
                 </h2>
               </div>
 
-              {/* Một showcase tự chạy duy nhất — trước đây hạng mục hiện hai lần
-                  (lưới thẻ + khối gallerySections cùng tên) gây trùng lặp. */}
               <ProjectItemsCarousel
                 items={items}
                 projectSlug={project.slug}
@@ -339,9 +311,7 @@ export default async function ProjectDetailPage({
                   {dictionary.projectDetail.galleryTitle}
                 </h2>
               </div>
-              {/* Dự án không chia hạng mục: xếp ảnh thành hàng (tối đa 3) và tự
-                  trượt khi đủ ảnh — song song với carousel hạng mục của dự án
-                  có hạng mục, để bố cục giữa các dự án đồng nhất. */}
+          
               <ProjectPhotoStrip images={gallery} title={project.title} />
             </div>
           </section>

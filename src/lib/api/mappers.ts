@@ -22,18 +22,6 @@ import type {
   ProjectStatusDto,
 } from "@/lib/api/types";
 
-/**
- * Chuyển DTO (schema backend) về đúng các type UI trong `src/types/content.ts`
- * để component không phải biết shape của backend.
- */
-
-/**
- * Chọn bản dịch theo locale, **fallback về tiếng Việt** khi thiếu `en`.
- *
- * Bản dịch tiếng Anh do biên tập viên nhập dần qua Admin CMS (câu 19 chưa chốt),
- * nên phần lớn field `en` hiện còn trống — trang tiếng Anh vẫn phải hiển thị
- * được nội dung thay vì để khoảng trắng. Chuỗi `en` rỗng cũng coi như thiếu.
- */
 export function localized(text: LocalizedText, locale: Locale): string;
 export function localized(
   text: LocalizedText | null | undefined,
@@ -48,11 +36,6 @@ export function localized(
   return text.vi;
 }
 
-/**
- * Như `localized()` nhưng nhận thêm `string` — dùng cho các field vừa chuyển
- * sang song ngữ (location/category, EN-FULL-C2): dữ liệu cũ có thể còn là chuỗi
- * tiếng Việt thuần, khi đó hiện nguyên văn ở cả hai locale.
- */
 function localizedLoose(
   value: LocalizedText | string | null | undefined,
   locale: Locale,
@@ -62,12 +45,6 @@ function localizedLoose(
   return localized(value, locale);
 }
 
-/**
- * Quick-fact song ngữ → cặp chuỗi theo locale (EN-FULL-C3). `label`/`value` có
- * thể là `{ vi, en? }` (mới) hoặc chuỗi tiếng Việt thuần (dữ liệu cũ);
- * `localizedLoose` lo cả hai và lùi về `vi` khi thiếu `en`, nên `/en` không bao
- * giờ render `[object Object]` và route tiếng Việt giữ nguyên nội dung.
- */
 function localizeFact(fact: ProjectFactDto, locale: Locale): ProjectFact {
   return {
     label: localizedLoose(fact.label, locale) ?? "",
@@ -75,12 +52,6 @@ function localizeFact(fact: ProjectFactDto, locale: Locale): ProjectFact {
   };
 }
 
-/**
- * Phân giải khối bản đồ theo locale. Prose (EN-FULL-C5a) + nhãn overlay
- * (EN-FULL-C5b): `heading`/`description`/`address` và `labels[].text` là
- * `{ vi, en? }` (mới) hoặc chuỗi cũ — `localizedLoose` lo cả hai và lùi về `vi`.
- * Vị trí/kiểu của nhãn (`left`/`top`/`kind`) và `image`/`markers` giữ nguyên.
- */
 function mapMapLocation(
   dto: ProjectMapLocationDto,
   locale: Locale,
@@ -88,8 +59,7 @@ function mapMapLocation(
   return {
     image: dto.image,
     googleMapsUrl: dto.googleMapsUrl,
-    // Chuỗi rỗng coi như thiếu (→ undefined) để heading lùi về tiêu đề mặc định
-    // và mô tả/địa chỉ trống không render ô rỗng.
+
     heading: localizedLoose(dto.heading, locale) || undefined,
     description: localizedLoose(dto.description, locale) || undefined,
     address: localizedLoose(dto.address, locale) || undefined,
@@ -102,15 +72,6 @@ function mapMapLocation(
   };
 }
 
-/**
- * Ảnh **cấp dự án** (ảnh con của chính dự án, không thuộc hạng mục nào).
- *
- * Ưu tiên quan hệ `galleryImages` do Admin upload — GET /projects/:slug trả về
- * *tất cả* ảnh (cả ảnh hạng mục), nên lọc lấy ảnh có `projectItemId == null`
- * để **không** lẫn ảnh hạng mục vào thư viện cấp dự án. Quan hệ rỗng thì lùi về
- * `gallery` phẳng (dữ liệu cũ). Trả `undefined` khi không có ảnh để trang không
- * render khối thư viện trống.
- */
 function mapProjectGallery(dto: ProjectDto): string[] | undefined {
   const relationImages = dto.galleryImages
     ?.filter((image) => image.projectItemId == null)
@@ -173,8 +134,7 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     summary: localized(dto.summary, locale),
     publishedAt: dto.publishedAt?.slice(0, 10) ?? "",
     eventDate: dto.eventDate?.slice(0, 10),
-    // Giữ nguyên cặp {slug, name}: `slug` dựng link trang danh mục, `name` để
-    // hiển thị. Rút gọn về mỗi tên là đánh mất thông tin backend đã trả.
+
     category: dto.category
       ? { slug: dto.category.slug, name: localized(dto.category.name, locale) }
       : undefined,

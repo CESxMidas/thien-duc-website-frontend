@@ -28,8 +28,6 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/dao-tao">): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-
-  // Nội dung thật còn chờ công ty cung cấp (câu 5) → chưa cho lập chỉ mục.
   return buildPageMetadata({ ...copy[locale], path: PATH, locale, noIndex: true });
 }
 

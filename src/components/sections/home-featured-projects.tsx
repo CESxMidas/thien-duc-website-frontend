@@ -32,114 +32,146 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
     primaryProject,
     ...projects.filter((project) => project.slug !== primaryProject.slug),
   ].slice(0, 4);
+  const secondaryProjects = featuredProjects.slice(1);
+
+  const displayFor = (project: Project) => {
+    const apiCopy = {
+      title: project.title,
+      location: project.location,
+      summary: project.summary,
+    };
+
+    return locale === defaultLocale
+      ? (homeFeaturedProjectCopy[
+          project.slug as keyof typeof homeFeaturedProjectCopy
+        ] ?? apiCopy)
+      : apiCopy;
+  };
+
+  const primaryDisplay = displayFor(primaryProject);
+  const primaryMeta = [
+    primaryDisplay.location,
+    dictionary.projectStatus[primaryProject.status],
+  ].filter((part): part is string => Boolean(part));
+  const sectionTitle =
+    locale === defaultLocale
+      ? "Những không gian được kiến tạo"
+      : "Spaces shaped for growth";
+  const exploreLabel =
+    locale === defaultLocale ? "Khám phá dự án" : dictionary.common.viewDetail;
 
   return (
-    <section className="bg-ivory">
-      <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:py-16">
-        <div className="flex flex-col gap-5 border-b border-black/10 pb-8 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-eyebrow mb-4 text-earth">
-              {dictionary.home.featuredEyebrow}
-            </p>
-            <h2 className="max-w-3xl text-[2.1rem] font-medium leading-[1.08] text-charcoal sm:text-[3rem]">
-              {dictionary.home.featuredTitle}
-            </h2>
+    <section className="bg-ivory py-12 sm:py-16">
+      <div className="mx-auto max-w-site px-4 sm:px-6">
+        <div className="grid gap-5 lg:grid-cols-[0.85fr_2.1fr]">
+          <div className="flex flex-col items-start justify-between gap-8 border-earth/15 lg:border-r lg:pr-8">
+            <div>
+              <p className="text-eyebrow mb-4 text-earth">
+                {dictionary.home.featuredEyebrow}
+              </p>
+              <h2 className="max-w-sm font-display text-[2.35rem] font-medium uppercase leading-[1.08] text-charcoal sm:text-[3.25rem]">
+                {sectionTitle}
+              </h2>
+            </div>
+            <Link
+              href={localizePath(routes.projects, locale)}
+              className="button-polish inline-flex h-11 items-center border border-earth/40 px-5 text-xs font-bold uppercase tracking-[0.12em] text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
+            >
+              {dictionary.common.viewAllProjects}
+            </Link>
           </div>
+
           <Link
-            href={localizePath(routes.projects, locale)}
-            className="link-arrow inline-flex h-11 items-center self-start border-b border-earth text-sm font-semibold uppercase tracking-[0.14em] text-earth md:self-auto"
+            href={localizePath(`${routes.projects}/${primaryProject.slug}`, locale)}
+            className="group grid overflow-hidden lg:grid-cols-[1.45fr_1fr]"
           >
-            {dictionary.common.viewAllProjects}
+            <div className="relative min-h-[18rem] overflow-hidden bg-surface sm:min-h-[23rem] lg:min-h-[18rem]">
+              {primaryProject.image ? (
+                <Image
+                  src={primaryProject.image}
+                  alt={primaryDisplay.title}
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                />
+              ) : null}
+            </div>
+            <div className="flex flex-col justify-between bg-ivory px-5 py-6 sm:px-7 lg:py-4">
+              <div>
+                <h3 className="font-display text-3xl font-medium uppercase leading-[1.08] text-charcoal sm:text-4xl">
+                  {primaryDisplay.title}
+                </h3>
+                {primaryMeta.length > 0 ? (
+                  <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-bold uppercase leading-5 text-earth/75">
+                    {primaryMeta.map((part, partIndex) => (
+                      <Fragment key={part}>
+                        {partIndex > 0 ? (
+                          <span className="h-px w-6 bg-earth/35" />
+                        ) : null}
+                        <span>{part}</span>
+                      </Fragment>
+                    ))}
+                  </div>
+                ) : null}
+                {primaryDisplay.summary ? (
+                  <p className="mt-5 line-clamp-4 text-sm leading-7 text-charcoal/72">
+                    {primaryDisplay.summary}
+                  </p>
+                ) : null}
+              </div>
+              <span className="link-arrow mt-6 inline-flex w-fit text-sm font-bold uppercase tracking-[0.12em] text-earth">
+                {exploreLabel}
+              </span>
+            </div>
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-4 lg:auto-rows-[18rem]">
-          {featuredProjects.map((project, index) => {
-            const apiCopy = {
-              title: project.title,
-              location: project.location,
-              summary: project.summary,
-            };
-            const display =
-              locale === defaultLocale
-                ? (homeFeaturedProjectCopy[
-                    project.slug as keyof typeof homeFeaturedProjectCopy
-                  ] ?? apiCopy)
-                : apiCopy;
-            const isPrimary = index === 0;
-            const metaParts = [
-              display.location,
-              dictionary.projectStatus[project.status],
-            ].filter((part): part is string => Boolean(part));
+        {secondaryProjects.length > 0 ? (
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {secondaryProjects.map((project) => {
+              const display = displayFor(project);
+              const metaParts = [
+                display.location,
+                dictionary.projectStatus[project.status],
+              ].filter((part): part is string => Boolean(part));
 
-            return (
-              <Link
-                key={project.slug}
-                href={localizePath(`${routes.projects}/${project.slug}`, locale)}
-                className={`group grid overflow-hidden border border-black/10 bg-white transition-colors hover:border-earth ${
-                  isPrimary
-                    ? "lg:col-span-2 lg:row-span-2"
-                    : "lg:col-span-2 lg:grid-cols-[0.95fr_1fr]"
-                }`}
-              >
-                <div
-                  className={`relative overflow-hidden bg-surface ${
-                    isPrimary ? "min-h-[20rem]" : "min-h-[15rem] lg:min-h-0"
-                  }`}
+              return (
+                <Link
+                  key={project.slug}
+                  href={localizePath(`${routes.projects}/${project.slug}`, locale)}
+                  className="group relative min-h-[12.5rem] overflow-hidden bg-surface p-5 text-charcoal"
                 >
                   {project.image ? (
                     <Image
                       src={project.image}
                       alt={display.title}
                       fill
-                      sizes={
-                        isPrimary
-                          ? "(min-width: 1024px) 50vw, 100vw"
-                          : "(min-width: 1024px) 25vw, 100vw"
-                      }
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover opacity-72 transition duration-500 group-hover:scale-[1.035] group-hover:opacity-86"
                     />
                   ) : null}
-                </div>
-                <div className="flex flex-col justify-between p-5 sm:p-6">
-                  <div>
-                    {metaParts.length > 0 ? (
-                      <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
-                        {metaParts.map((part, partIndex) => (
-                          <Fragment key={part}>
-                            {partIndex > 0 ? (
-                              <span className="h-px w-6 bg-warm-grey" />
-                            ) : null}
-                            <span>{part}</span>
-                          </Fragment>
-                        ))}
-                      </div>
-                    ) : null}
-                    <h3
-                      className={`mt-4 font-display font-medium leading-tight text-charcoal ${
-                        isPrimary ? "text-3xl sm:text-4xl" : "text-xl"
-                      }`}
-                    >
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-r from-ivory via-ivory/80 to-ivory/10"
+                  />
+                  <span className="relative z-10 flex h-full flex-col justify-end">
+                    <h3 className="max-w-48 font-display text-xl font-medium uppercase leading-tight text-charcoal">
                       {display.title}
                     </h3>
-                    {display.summary ? (
-                      <p
-                        className={`mt-4 text-sm leading-6 text-charcoal/70 ${
-                          isPrimary ? "line-clamp-5" : "line-clamp-3"
-                        }`}
-                      >
-                        {display.summary}
-                      </p>
+                    {metaParts.length > 0 ? (
+                      <span className="mt-2 line-clamp-1 text-[0.68rem] font-bold uppercase leading-5 text-earth/75">
+                        {metaParts.join(" | ")}
+                      </span>
                     ) : null}
-                  </div>
-                  <span className="link-arrow mt-6 inline-flex w-fit border-b border-earth text-sm font-semibold uppercase tracking-[0.14em] text-earth">
-                    {dictionary.common.viewDetail}
+                    <span className="absolute bottom-0 right-0 grid size-9 place-items-center rounded-full bg-earth/85 text-ivory transition group-hover:bg-charcoal">
+                      →
+                    </span>
                   </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     </section>
   );

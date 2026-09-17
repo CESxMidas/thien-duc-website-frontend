@@ -1,8 +1,4 @@
-/**
- * Test JSON-LD + metadata builders (task →7, bảo vệ bởi task →8).
- * Không hardcode host: mọi URL kỳ vọng dựng từ `siteConfig.url` để test chạy
- * đúng dù `NEXT_PUBLIC_SITE_URL` có được đặt hay không.
- */
+
 import {
   brandName,
   legalDisplayName,
@@ -68,7 +64,6 @@ describe("buildOrganizationJsonLd (→7)", () => {
   });
 
   it("đổi operatingSince dd/mm/yyyy → foundingDate ISO 8601", () => {
-    // legalInfo.operatingSince = "05/04/2010"
     expect(org.foundingDate).toBe("2010-04-05");
   });
 
@@ -157,7 +152,6 @@ describe("buildPageMetadata", () => {
       locale: "vi-VN",
     });
     expect(metadata.twitter).toMatchObject({ card: "summary_large_image" });
-    // Mặc định không noindex
     expect(metadata.robots).toBeUndefined();
   });
 

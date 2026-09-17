@@ -18,10 +18,6 @@ function makePosts(count: number): NewsPost[] {
   }));
 }
 
-/**
- * jsdom báo `innerWidth` mặc định 1024px. Slider đọc giá trị này trong effect
- * để chọn số thẻ hiển thị, nên test đặt bề rộng TRƯỚC khi render.
- */
 function setViewportWidth(width: number) {
   Object.defineProperty(window, "innerWidth", {
     value: width,
@@ -45,7 +41,6 @@ function renderSlider(
   );
 }
 
-/** Thẻ đang nằm trong cửa sổ hiển thị (không bị ẩn khỏi Tab/trình đọc). */
 function visibleSlides() {
   return screen
     .getAllByTestId("news-slide")
@@ -215,8 +210,6 @@ describe("NewsSlider — trường hợp biên", () => {
     fireEvent.click(screen.getByTestId("news-slider-next"));
     expect(within(visibleSlides()[0]).getByText("Bài viết 4")).toBeInTheDocument();
 
-    // Sang desktop: 3 ô hiện → chỉ số tối đa chỉ còn 1, phải bị kẹp lại, nếu
-    // không sẽ trượt quá dãy và để lộ khoảng trắng bên phải.
     act(() => {
       setViewportWidth(1280);
       window.dispatchEvent(new Event("resize"));
@@ -230,11 +223,6 @@ describe("NewsSlider — trường hợp biên", () => {
   });
 });
 
-/**
- * Ngưỡng hiện điều khiển, tách riêng vì đây chính là thứ gây hiểu nhầm "slider
- * hỏng": desktop có đúng 3 bài thì KHÔNG có nút — đúng thiết kế, vì không còn
- * gì để trượt tới.
- */
 describe("NewsSlider — ngưỡng hiện nút theo breakpoint", () => {
   const cases = [
     { name: "desktop", width: 1280, slots: 3 },
@@ -305,7 +293,6 @@ describe("NewsSlider — vị trí và khả năng nhìn thấy của điều kh
     const previous = screen.getByTestId("news-slider-previous");
     const next = screen.getByTestId("news-slider-next");
 
-    // Node.DOCUMENT_POSITION_FOLLOWING = 4 → next nằm sau previous.
     expect(previous.compareDocumentPosition(next) & 4).toBeTruthy();
   });
 
@@ -329,14 +316,10 @@ describe("NewsSlider — vị trí và khả năng nhìn thấy của điều kh
   });
 });
 
-/**
- * Trang chủ nay nạp TOÀN BỘ bài đã đăng, nên số vị trí trượt tăng theo kho tin.
- */
 describe("NewsSlider — kho tin lớn", () => {
   it("trượt được tới tận bài cuối của kho", () => {
     renderSlider(makePosts(20), { width: 1280 });
 
-    // 20 bài / 3 ô → 17 bước.
     for (let step = 0; step < 17; step += 1) {
       fireEvent.click(screen.getByTestId("news-slider-next"));
     }
@@ -353,7 +336,6 @@ describe("NewsSlider — kho tin lớn", () => {
   });
 
   it("ít vị trí → hiện dãy chấm", () => {
-    // 10 bài / 3 ô → 8 vị trí, đúng ngưỡng.
     renderSlider(makePosts(10), { width: 1280 });
 
     expect(screen.getByTestId("news-slider-dots")).toBeInTheDocument();
@@ -361,7 +343,6 @@ describe("NewsSlider — kho tin lớn", () => {
   });
 
   it("nhiều vị trí → đổi sang bộ đếm, không nhồi hàng chục chấm vào Tab", () => {
-    // 20 bài / 3 ô → 18 vị trí, vượt ngưỡng 8.
     renderSlider(makePosts(20), { width: 1280 });
 
     expect(screen.queryByTestId("news-slider-dots")).not.toBeInTheDocument();
@@ -375,7 +356,6 @@ describe("NewsSlider — kho tin lớn", () => {
   it("bộ đếm không lặp lại thông tin cho trình đọc màn hình", () => {
     renderSlider(makePosts(20), { width: 1280 });
 
-    // Vùng aria-live đã báo vị trí; bộ đếm chỉ là phần nhìn.
     expect(screen.getByTestId("news-slider-counter")).toHaveAttribute(
       "aria-hidden",
       "true",

@@ -16,18 +16,6 @@ type ContentSidebarProps = {
   statusLabels: Dictionary["projectStatus"];
 };
 
-/**
- * Rail phải của các trang nội dung: tin mới nhất + dự án tiêu biểu.
- *
- * Về hình thức: mẫu tham chiếu (bản website cũ) dùng hộp viền dày với thanh tiêu
- * đề đỏ. Ở đây giữ đúng **cấu trúc thông tin** đó — hai widget xếp dọc, mỗi
- * widget một thanh tiêu đề màu — nhưng nói bằng ngôn ngữ đã có sẵn của site:
- * panel `bg-brand` + eyebrow `text-gold-soft` (giống khối CTA), viền hairline
- * `brand/12` thay cho viền dày, không đổ bóng. Không thêm màu mới ngoài token.
- *
- * Server Component: chỉ nhận dữ liệu qua props, không state, không JS phía
- * client — rail này không được phép làm nặng trang nội dung.
- */
 export function ContentSidebar({
   news,
   projects,
@@ -37,10 +25,7 @@ export function ContentSidebar({
   statusLabels,
 }: ContentSidebarProps) {
   return (
-    // Rail là một ô của lưới nên đã cao bằng cả hàng (`align-items: stretch`).
-    // `justify-between` đẩy widget cuối xuống sát đáy, phần dư rơi vào KHOẢNG
-    // CÁCH giữa hai widget thay vì dồn thành một mảng trống ở đáy — hai cột kết
-    // thúc cùng một đường kẻ mà không phải độn thêm nội dung giả.
+
     <aside className="flex flex-col justify-between gap-6">
       <Widget
         title={labels.newsTitle}
@@ -57,8 +42,7 @@ export function ContentSidebar({
                   href={localizePath(`${routes.news}/${post.slug}`, locale)}
                   className="group flex gap-3 p-3 transition-colors hover:bg-cream"
                 >
-                  {/* Ảnh 64px cố định: đủ để nhận ra bài, không cạnh tranh với
-                      tiêu đề — thứ người đọc thực sự quét trong một rail hẹp. */}
+                 
                   <span className="relative size-16 shrink-0 overflow-hidden bg-surface">
                     {post.image ? (
                       <Image
@@ -114,8 +98,7 @@ export function ContentSidebar({
                   )}
                   className="group grid gap-2"
                 >
-                  {/* Dự án dùng ảnh rộng thay vì thumbnail vuông: ở đây ảnh mới
-                      là thứ phân biệt các dự án với nhau, khác tin tức. */}
+                 
                   <span className="relative block aspect-16/10 overflow-hidden bg-surface">
                     {project.image ? (
                       <Image
@@ -175,9 +158,7 @@ function Widget({
 }) {
   return (
     <section className="overflow-hidden border border-brand/12 bg-white">
-      {/* `.text-eyebrow` là selector class nên thắng rule `h1,h2 { Playfair }`
-          toàn cục — tiêu đề rail cố ý dùng Be Vietnam Pro hoa nhỏ, serif ở bề
-          ngang 300px sẽ nặng nề và tranh vai với tiêu đề trang. */}
+   
       <h2 className="text-eyebrow flex items-center gap-2 bg-brand px-4 py-3 text-gold-soft">
         {icon}
         {title}

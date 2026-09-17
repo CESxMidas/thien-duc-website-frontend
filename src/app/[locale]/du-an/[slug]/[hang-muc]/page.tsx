@@ -14,12 +14,8 @@ import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
-// Thư mục route dùng tên tiếng Việt `[hang-muc]` cho khớp URL công khai
-// `/du-an/khu-do-thi-hung-phu/fancy-tower`.
-
 export async function generateStaticParams() {
-  // Thiếu API (CI) HOẶC backend không phản hồi → bỏ prerender, render on-demand.
-  // Xem `staticParamsSafe` trong `lib/api/client.ts` (AUDIT-M2 / D10).
+
   return staticParamsSafe("du-an/[slug]/[hang-muc]", async () => {
     const projects = await getProjects(defaultLocale);
     return projects.flatMap((project) =>
@@ -85,8 +81,7 @@ export default async function ProjectItemPage({
   const projectHref = localizePath(`${routes.projects}/${project.slug}`, locale);
   const gallery = item.gallery ?? [];
   const gallerySections = item.gallerySections ?? [];
-  // Ảnh đại diện đứng đầu, gộp cùng ảnh trong gallery và khử trùng lặp (ảnh bìa
-  // thường cũng nằm trong gallery).
+
   const galleryImages = [
     ...new Set([item.image, ...gallery].filter(Boolean) as string[]),
   ];
@@ -152,8 +147,7 @@ export default async function ProjectItemPage({
                   title: item.title,
                 })}
               </h2>
-              {/* Cùng quy tắc với mô tả dự án: chỉ văn bản thật từ CMS mới được
-                  thụt dòng + căn đều, câu dự phòng một dòng thì không. */}
+          
               <p
                 className={`mt-5 text-base leading-7 text-slate ${
                   item.description ? "text-justified" : ""
@@ -163,8 +157,7 @@ export default async function ProjectItemPage({
                   dictionary.projectItem.descriptionFallback}
               </p>
 
-              {/* Thông tin nhanh gộp chung vào khối tổng quan thay vì tách panel
-                  riêng — hai phần này ngắn, để ngang với ảnh cho cân đối. */}
+            
               <dl className="mt-6 grid gap-4 sm:grid-cols-2">
                 <ProjectFactCell
                   label={dictionary.projectItem.parentProjectLabel}
@@ -206,8 +199,6 @@ export default async function ProjectItemPage({
           </div>
         </section>
 
-        {/* Hạng mục hiếm khi chia nhiều thư viện con; nếu có thì giữ nguyên
-            slider nhiều khối bên dưới bố cục hai cột. */}
         {gallerySections.length > 0 ? (
           <section className="project-detail-band pb-12">
             <div className="mx-auto max-w-site px-4 sm:px-6">
