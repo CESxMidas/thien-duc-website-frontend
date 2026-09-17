@@ -1,12 +1,4 @@
-/**
- * `searchSafe` là ranh giới giữa "từ khóa xấu / API hỏng" và giao diện.
- *
- * Hai hành vi quan trọng nhất được khoá ở đây:
- * - Từ khóa không hợp lệ **không được gọi mạng** (trước đây 1 ký tự vẫn đi tới
- *   nhánh trả mảng rỗng và hiển thị y như "không tìm thấy bài viết nào").
- * - Lỗi API **không được ném ra ngoài** — ném ra là cả trang rơi vào error
- *   boundary chung, mất luôn header/footer.
- */
+
 import {
   MAX_SEARCH_LENGTH,
   MIN_SEARCH_LENGTH,

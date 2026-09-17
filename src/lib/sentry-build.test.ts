@@ -1,8 +1,4 @@
-/**
- * Kiểm cổng upload source map Sentry mà KHÔNG build, KHÔNG gọi mạng, KHÔNG
- * cần token thật. Điều quan trọng nhất phải khoá: **thiếu token thì build vẫn
- * chạy** và **không bao giờ upload nhầm project**.
- */
+
 import {
   REQUIRED_SENTRY_UPLOAD_VARS,
   isSentryUploadEnabled,

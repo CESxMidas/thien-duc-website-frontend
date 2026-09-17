@@ -1,30 +1,8 @@
-/**
- * THIEN-DUC-OPTIONAL-BACKLOG-REPO-WORK-M1 — kiểm **hình dạng** dữ liệu có cấu
- * trúc (backlog §6, mục G4-c "validator.schema.org xác nhận Organization").
- *
- * Test này KHÔNG thay cho validator ngoài của Google/schema.org — nó khoá những
- * bất biến mà validator hay bắt lỗi, để một thay đổi vô ý không âm thầm phá
- * structured data giữa hai lần kiểm thủ công:
- *   - JSON hợp lệ sau khi qua `serializeJsonLd` (không vỡ vì `<`, `</script>`)
- *   - `@context` / `@type` đúng
- *   - `@id` ổn định (không đổi theo locale) — Google dùng nó để nối thực thể
- *   - mọi URL là tuyệt đối
- *   - KHÔNG có giá trị giữ chỗ / bịa (lorem, example.com, TODO, CHANGEME…)
- *   - song ngữ đổi đúng phần được phép đổi
- *
- * `BreadcrumbList` KHÔNG lặp lại ở đây: nó được dựng bên trong component
- * `Breadcrumb` và đã có test riêng (`components/ui/breadcrumb.test.tsx`) —
- * export nội bộ ra chỉ để test là lộ ruột component không cần thiết.
- *
- * Các loại mở rộng (`RealEstateListing`, `Product`, `LocalBusiness`, `sameAs`)
- * CỐ Ý chưa cài: repo không có giá/offer, giờ mở cửa, toạ độ hay URL mạng xã
- * hội thật. Bảng dữ liệu còn thiếu nằm trong báo cáo phiên.
- */
+
 import { buildNewsArticleJsonLd, buildOrganizationJsonLd } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/json-ld";
 import type { NewsPost } from "@/types/content";
 
-/** Giá trị giữ chỗ hay lọt vào structured data khi copy mẫu. */
 const PLACEHOLDER_PATTERNS = [
   /lorem\s*ipsum/i,
   /example\.(com|org|net)/i,
@@ -36,7 +14,6 @@ const PLACEHOLDER_PATTERNS = [
   /xxx+/i,
 ];
 
-/** Gom mọi giá trị chuỗi trong một object lồng nhau. */
 function collectStrings(value: unknown, out: string[] = []): string[] {
   if (typeof value === "string") out.push(value);
   else if (Array.isArray(value)) value.forEach((item) => collectStrings(item, out));
@@ -46,7 +23,6 @@ function collectStrings(value: unknown, out: string[] = []): string[] {
   return out;
 }
 
-/** Gom mọi giá trị trông như URL/đường dẫn. */
 function collectUrlish(value: unknown): string[] {
   return collectStrings(value).filter(
     (s) => s.startsWith("http") || s.startsWith("/") || /^www\./.test(s),
@@ -189,7 +165,7 @@ describe("Chống XSS breakout trong JSON-LD", () => {
   const hostile = {
     ...samplePost,
     title: 'BREAKOUT</script><img src=x onerror=alert(1)>',
-    summary: "Ký tự nguy hiểm: < > &    ",
+    summary: "Ký tự nguy hiểm: < > &  ",
   } as NewsPost;
 
   const serialized = serializeJsonLd(buildNewsArticleJsonLd(hostile, "vi"));
@@ -198,7 +174,7 @@ describe("Chống XSS breakout trong JSON-LD", () => {
     expect(serialized.toLowerCase()).not.toContain("</script");
   });
 
-  it.each(["<", ">", " ", " "])("ký tự %j được escape, không xuất hiện thô", (ch) => {
+  it.each(["<", ">", "", ""])("ký tự %j được escape, không xuất hiện thô", (ch) => {
     expect(serialized).not.toContain(ch);
   });
 

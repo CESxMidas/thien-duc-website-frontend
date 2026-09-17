@@ -1,8 +1,4 @@
-/**
- * THIEN-DUC-BANNER-CONTENT-IMPLEMENTATION-M1 — `mapBanner` phân giải nội dung
- * banner theo locale. Dữ liệu mẫu lấy đúng shape banner đã seed
- * (`backend/prisma/banner-content.json`): mọi field chữ đều có cả `vi` lẫn `en`.
- */
+
 import { mapBanner } from "./mappers";
 import type { BannerDto } from "./types";
 
@@ -43,7 +39,6 @@ describe("mapBanner theo locale", () => {
     expect(en.title).toBe("Hung Phu Urban Area, Ben Tre City");
     expect(en.subtitle).toBe("On Nguyen Thi Dinh Street in Phu Tan ward.");
     expect(en.ctaLabel).toBe("Explore the project");
-    // href KHÔNG nhúng locale — `localizePath` thêm tiền tố `/en` lúc render.
     expect(en.href).toBe("/du-an/khu-do-thi-hung-phu");
   });
 

@@ -215,12 +215,10 @@ export function HomeBannerSlider({
           </div>
         ) : null}
 
-       
         <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,14svh,8.5rem)] z-30 px-6 sm:px-10 lg:px-16 xl:px-20">
           <div className="max-w-[34rem]">
             <div
               key={activeBanner.title}
-             
               className={`pointer-events-auto flex flex-col justify-between text-white ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}

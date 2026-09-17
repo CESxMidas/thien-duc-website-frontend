@@ -18,11 +18,6 @@ export async function getProjectBySlug(
   );
   return data ? mapProject(data, locale) : undefined;
 }
-
-/**
- * Một hạng mục con của dự án (ví dụ `du-an/khu-do-thi-hung-phu/fancy-tower`).
- * Backend trả kèm ảnh của riêng hạng mục qua `GET /projects/:slug/:itemSlug`.
- */
 export async function getProjectItem(
   projectSlug: string,
   itemSlug: string,

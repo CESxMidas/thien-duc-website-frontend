@@ -52,8 +52,7 @@ export async function getNewsPage(
     page: String(page),
     limit: String(limit),
   });
-  // Chỉ gắn khi có giá trị: backend bật `forbidNonWhitelisted` và từ chối
-  // `?categorySlug=` rỗng bằng 400 — gửi tham số rỗng là làm hỏng trang.
+
   if (categorySlug) query.set("categorySlug", categorySlug);
   const data = await apiFetch<PaginatedDto<NewsPostDto>>(`/news?${query}`);
 
@@ -71,8 +70,7 @@ export async function getNewsPostBySlug(
   slug: string,
   locale: Locale,
 ): Promise<NewsPost | undefined> {
-  // `apiFetchOptional` để 404 trả `undefined` cho `notFound()`, còn lỗi mạng/5xx
-  // vẫn ném ra — nếu dùng `apiFetch` thì bài không tồn tại sẽ thành lỗi 500.
+
   const data = await apiFetchOptional<NewsPostDto>(
     `/news/${encodeURIComponent(slug)}`,
   );
