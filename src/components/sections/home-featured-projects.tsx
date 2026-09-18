@@ -1,11 +1,14 @@
 import { Fragment } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import { getProjects } from "@/lib/api/projects";
 import { defaultLocale, localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { homeFeaturedProjectCopy } from "@/data/home";
+
 import type { Project } from "@/types/content";
 
 export function selectPrimaryFeaturedProject(
@@ -22,6 +25,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
     getProjects(locale),
     getDictionary(locale),
   ]);
+
   const primaryProject = selectPrimaryFeaturedProject(projects);
 
   if (!primaryProject) {
@@ -32,6 +36,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
     primaryProject,
     ...projects.filter((project) => project.slug !== primaryProject.slug),
   ].slice(0, 4);
+
   const secondaryProjects = featuredProjects.slice(1);
 
   const displayFor = (project: Project) => {
@@ -49,87 +54,117 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
   };
 
   const primaryDisplay = displayFor(primaryProject);
+
   const primaryMeta = [
     primaryDisplay.location,
     dictionary.projectStatus[primaryProject.status],
   ].filter((part): part is string => Boolean(part));
+
   const sectionTitle =
     locale === defaultLocale
       ? "Những không gian được kiến tạo"
       : "Spaces shaped for growth";
+
   const exploreLabel =
     locale === defaultLocale ? "Khám phá dự án" : dictionary.common.viewDetail;
 
   return (
-    <section className="bg-ivory py-12 sm:py-16">
-      <div className="mx-auto max-w-site px-4 sm:px-6">
-        <div className="grid gap-5 lg:grid-cols-[0.85fr_2.1fr]">
-          <div className="flex flex-col items-start justify-between gap-8 border-earth/15 lg:border-r lg:pr-8">
+    <section className="bg-ivory py-10 sm:py-12 lg:py-14">
+      {/*
+        Không dùng max-w-site nữa.
+        Dùng cùng padding ngang với header để section trải rộng.
+      */}
+      <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
+        {/* ==========================================
+            TOP FEATURED PROJECT
+        =========================================== */}
+        <div className="grid gap-5 lg:grid-cols-[0.88fr_2.35fr] lg:gap-6">
+          {/* LEFT HEADING */}
+          <div className="flex flex-col items-start justify-between gap-7 border-earth/15 lg:border-r lg:pr-7">
             <div>
-              <p className="text-eyebrow mb-4 text-earth">
+              <p className="mb-4 text-[0.68rem] font-bold uppercase tracking-[0.15em] text-earth">
                 {dictionary.home.featuredEyebrow}
               </p>
-              <h2 className="max-w-sm font-display text-[2.35rem] font-medium uppercase leading-[1.08] text-charcoal sm:text-[3.25rem]">
+
+              <h2 className="max-w-[15rem] font-display text-[2.35rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.7rem] lg:text-[2.8rem] xl:text-[3rem]">
                 {sectionTitle}
               </h2>
             </div>
+
             <Link
               href={localizePath(routes.projects, locale)}
-              className="button-polish inline-flex h-11 items-center border border-earth/40 px-5 text-xs font-bold uppercase tracking-[0.12em] text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
+              className="button-polish inline-flex h-10 items-center gap-4 border border-earth/40 px-5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
             >
               {dictionary.common.viewAllProjects}
+
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
 
+          {/* PRIMARY PROJECT */}
           <Link
-            href={localizePath(`${routes.projects}/${primaryProject.slug}`, locale)}
-            className="group grid overflow-hidden lg:grid-cols-[1.45fr_1fr]"
+            href={localizePath(
+              `${routes.projects}/${primaryProject.slug}`,
+              locale,
+            )}
+            className="group grid overflow-hidden lg:grid-cols-[1.55fr_1fr]"
           >
-            <div className="relative min-h-[18rem] overflow-hidden bg-surface sm:min-h-[23rem] lg:min-h-[18rem]">
+            {/* MAIN IMAGE */}
+            <div className="relative min-h-[17rem] overflow-hidden bg-surface sm:min-h-[20rem] lg:min-h-[17rem]">
               {primaryProject.image ? (
                 <Image
                   src={primaryProject.image}
                   alt={primaryDisplay.title}
                   fill
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                  sizes="(min-width: 1024px) 48vw, 100vw"
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
                 />
               ) : null}
             </div>
-            <div className="flex flex-col justify-between bg-ivory px-5 py-6 sm:px-7 lg:py-4">
+
+            {/* PRIMARY CONTENT */}
+            <div className="flex flex-col justify-between bg-ivory px-5 py-5 sm:px-7 lg:px-6 lg:py-4 xl:px-7">
               <div>
-                <h3 className="font-display text-3xl font-medium uppercase leading-[1.08] text-charcoal sm:text-4xl">
+                <h3 className="max-w-[14rem] font-display text-[1.9rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.2rem]">
                   {primaryDisplay.title}
                 </h3>
+
                 {primaryMeta.length > 0 ? (
-                  <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-bold uppercase leading-5 text-earth/75">
+                  <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.63rem] font-bold uppercase leading-5 text-earth/75">
                     {primaryMeta.map((part, partIndex) => (
                       <Fragment key={part}>
                         {partIndex > 0 ? (
-                          <span className="h-px w-6 bg-earth/35" />
+                          <span className="h-px w-5 bg-earth/35" />
                         ) : null}
+
                         <span>{part}</span>
                       </Fragment>
                     ))}
                   </div>
                 ) : null}
+
                 {primaryDisplay.summary ? (
-                  <p className="mt-5 line-clamp-4 text-sm leading-7 text-charcoal/72">
+                  <p className="mt-5 max-w-[31rem] text-[0.78rem] leading-[1.75] text-charcoal/70">
                     {primaryDisplay.summary}
                   </p>
                 ) : null}
               </div>
-              <span className="link-arrow mt-6 inline-flex w-fit text-sm font-bold uppercase tracking-[0.12em] text-earth">
+
+              <span className="link-arrow mt-5 inline-flex w-fit text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth">
                 {exploreLabel}
               </span>
             </div>
           </Link>
         </div>
 
+        {/* ==========================================
+            SECONDARY PROJECTS
+        =========================================== */}
         {secondaryProjects.length > 0 ? (
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
+          <div className="mt-4 grid gap-3 md:grid-cols-3 lg:ml-[calc(25%+0.25rem)]">
             {secondaryProjects.map((project) => {
               const display = displayFor(project);
+
               const metaParts = [
                 display.location,
                 dictionary.projectStatus[project.status],
@@ -138,32 +173,40 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
               return (
                 <Link
                   key={project.slug}
-                  href={localizePath(`${routes.projects}/${project.slug}`, locale)}
-                  className="group relative min-h-[12.5rem] overflow-hidden bg-surface p-5 text-charcoal"
+                  href={localizePath(
+                    `${routes.projects}/${project.slug}`,
+                    locale,
+                  )}
+                  className="group relative min-h-[10.5rem] overflow-hidden bg-surface text-charcoal"
                 >
                   {project.image ? (
                     <Image
                       src={project.image}
                       alt={display.title}
                       fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover opacity-72 transition duration-500 group-hover:scale-[1.035] group-hover:opacity-86"
+                      sizes="(min-width: 768px) 30vw, 100vw"
+                      className="object-cover object-center transition duration-700 group-hover:scale-[1.035]"
                     />
                   ) : null}
+
+                  {/* Overlay sáng từ trái sang phải */}
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-r from-ivory via-ivory/80 to-ivory/10"
+                    className="absolute inset-0 bg-gradient-to-r from-ivory/95 via-ivory/55 to-ivory/5"
                   />
-                  <span className="relative z-10 flex h-full flex-col justify-end">
-                    <h3 className="max-w-48 font-display text-xl font-medium uppercase leading-tight text-charcoal">
+
+                  <span className="relative z-10 flex min-h-[10.5rem] flex-col justify-end px-5 py-4">
+                    <h3 className="max-w-[11rem] font-display text-[1.05rem] font-medium uppercase leading-[1.25] text-charcoal sm:text-[1.1rem]">
                       {display.title}
                     </h3>
+
                     {metaParts.length > 0 ? (
-                      <span className="mt-2 line-clamp-1 text-[0.68rem] font-bold uppercase leading-5 text-earth/75">
+                      <span className="mt-2 max-w-[13rem] line-clamp-1 text-[0.58rem] font-bold uppercase leading-4 text-earth/75">
                         {metaParts.join(" | ")}
                       </span>
                     ) : null}
-                    <span className="absolute bottom-0 right-0 grid size-9 place-items-center rounded-full bg-earth/85 text-ivory transition group-hover:bg-charcoal">
+
+                    <span className="absolute bottom-4 right-4 grid size-8 place-items-center rounded-full bg-earth/80 text-sm text-ivory transition group-hover:bg-charcoal">
                       →
                     </span>
                   </span>
