@@ -62,7 +62,9 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navLabel = (item: NavItem) =>
-    headerLabels[locale][item.href] ?? dictionary.navLabels[item.href] ?? item.label;
+    headerLabels[locale][item.href] ??
+    dictionary.navLabels[item.href] ??
+    item.label;
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
@@ -101,7 +103,10 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
           />
         </Link>
 
-        <nav className="hidden h-full items-center justify-center lg:flex" aria-label="Primary">
+        <nav
+          className="hidden h-full items-center justify-center lg:flex"
+          aria-label="Primary"
+        >
           {primaryNavigation.map((item) => {
             const active = isActive(path, item);
             return (
@@ -146,7 +151,11 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            aria-label={menuOpen ? dictionary.header.closeMenu : dictionary.header.openMenu}
+            aria-label={
+              menuOpen
+                ? dictionary.header.closeMenu
+                : dictionary.header.openMenu
+            }
             className="grid size-11 place-items-center lg:hidden"
           >
             {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}

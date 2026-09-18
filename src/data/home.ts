@@ -1,4 +1,3 @@
-
 export type CooperationProject = {
   name: string;
   location: string;
@@ -8,7 +7,6 @@ export type CooperationProject = {
   status: string;
   image?: string;
 };
-
 
 export const homeFeaturedProjectCopy = {
   "khu-do-thi-hung-phu": {

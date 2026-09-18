@@ -16,7 +16,6 @@ export function HeaderSearchForm({
 }: HeaderSearchFormProps) {
   return (
     <form
-
       role="search"
       action={action}
       className={`search-field h-11 items-center overflow-hidden rounded-md border border-brand/30 bg-white transition-colors ${className}`}
@@ -24,7 +23,7 @@ export function HeaderSearchForm({
       <label htmlFor={inputId} className="sr-only">
         {labels.searchLabel}
       </label>
-     
+
       <input
         id={inputId}
         name="q"
