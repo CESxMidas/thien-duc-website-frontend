@@ -1,4 +1,3 @@
-
 import { buildNewsArticleJsonLd, buildOrganizationJsonLd } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/json-ld";
 import type { NewsPost } from "@/types/content";
@@ -16,9 +15,12 @@ const PLACEHOLDER_PATTERNS = [
 
 function collectStrings(value: unknown, out: string[] = []): string[] {
   if (typeof value === "string") out.push(value);
-  else if (Array.isArray(value)) value.forEach((item) => collectStrings(item, out));
+  else if (Array.isArray(value))
+    value.forEach((item) => collectStrings(item, out));
   else if (value && typeof value === "object") {
-    Object.values(value as Record<string, unknown>).forEach((item) => collectStrings(item, out));
+    Object.values(value as Record<string, unknown>).forEach((item) =>
+      collectStrings(item, out),
+    );
   }
   return out;
 }
@@ -46,39 +48,53 @@ const payloads = [
 ] as const;
 
 describe("Structured data — bất biến hình dạng", () => {
-  it.each(payloads)("%s: qua serializeJsonLd vẫn là JSON hợp lệ", (_label, payload) => {
-    const serialized = serializeJsonLd(payload);
-    expect(() => JSON.parse(serialized)).not.toThrow();
-    expect(JSON.parse(serialized)).toEqual(payload);
-  });
+  it.each(payloads)(
+    "%s: qua serializeJsonLd vẫn là JSON hợp lệ",
+    (_label, payload) => {
+      const serialized = serializeJsonLd(payload);
+      expect(() => JSON.parse(serialized)).not.toThrow();
+      expect(JSON.parse(serialized)).toEqual(payload);
+    },
+  );
 
   it.each(payloads)("%s: có @context schema.org đúng", (_label, payload) => {
     expect(payload["@context"]).toBe("https://schema.org");
   });
 
-  it.each(payloads)("%s: mọi URL đều TUYỆT ĐỐI (https/http đầy đủ)", (_label, payload) => {
-    const relative = collectUrlish(payload).filter((url) => !/^https?:\/\//.test(url));
-    expect(relative).toEqual([]);
-  });
+  it.each(payloads)(
+    "%s: mọi URL đều TUYỆT ĐỐI (https/http đầy đủ)",
+    (_label, payload) => {
+      const relative = collectUrlish(payload).filter(
+        (url) => !/^https?:\/\//.test(url),
+      );
+      expect(relative).toEqual([]);
+    },
+  );
 
-  it.each(payloads)("%s: KHÔNG chứa giá trị giữ chỗ / bịa", (_label, payload) => {
-    const offenders = collectStrings(payload).filter((text) =>
-      PLACEHOLDER_PATTERNS.some((pattern) => pattern.test(text)),
-    );
-    expect(offenders).toEqual([]);
-  });
+  it.each(payloads)(
+    "%s: KHÔNG chứa giá trị giữ chỗ / bịa",
+    (_label, payload) => {
+      const offenders = collectStrings(payload).filter((text) =>
+        PLACEHOLDER_PATTERNS.some((pattern) => pattern.test(text)),
+      );
+      expect(offenders).toEqual([]);
+    },
+  );
 
-  it.each(payloads)("%s: không field nào rỗng / null / undefined", (_label, payload) => {
-    const empty = Object.entries(payload)
-      .filter(
-        ([, value]) =>
-          value === undefined ||
-          value === null ||
-          (typeof value === "string" && value.trim() === ""),
-      )
-      .map(([key]) => key);
-    expect(empty).toEqual([]);
-  });
+  it.each(payloads)(
+    "%s: không field nào rỗng / null / undefined",
+    (_label, payload) => {
+      const empty = Object.entries(payload)
+        .filter(
+          ([, value]) =>
+            value === undefined ||
+            value === null ||
+            (typeof value === "string" && value.trim() === ""),
+        )
+        .map(([key]) => key);
+      expect(empty).toEqual([]);
+    },
+  );
 });
 
 describe("Organization — field bắt buộc và @id ổn định", () => {
@@ -113,7 +129,13 @@ describe("Organization — field bắt buộc và @id ổn định", () => {
   });
 
   it("CỐ Ý không có sameAs / openingHours / geo / priceRange (chưa có dữ liệu thật)", () => {
-    for (const field of ["sameAs", "openingHours", "geo", "priceRange", "aggregateRating"]) {
+    for (const field of [
+      "sameAs",
+      "openingHours",
+      "geo",
+      "priceRange",
+      "aggregateRating",
+    ]) {
       expect(vi).not.toHaveProperty(field);
     }
   });
@@ -134,16 +156,24 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
   });
 
   it("publisher trỏ tới Organization qua @id (không lặp lại toàn bộ)", () => {
-    expect(article.publisher).toEqual({ "@id": buildOrganizationJsonLd("vi")["@id"] });
+    expect(article.publisher).toEqual({
+      "@id": buildOrganizationJsonLd("vi")["@id"],
+    });
   });
 
   it("có tác giả → Person; không tác giả → quy về Organization", () => {
     expect(article.author).toEqual({ "@type": "Person", name: "Ban biên tập" });
     const anonymous = buildNewsArticleJsonLd(
-      { slug: samplePost.slug, title: samplePost.title, summary: samplePost.summary } as NewsPost,
+      {
+        slug: samplePost.slug,
+        title: samplePost.title,
+        summary: samplePost.summary,
+      } as NewsPost,
       "vi",
     );
-    expect(anonymous.author).toEqual({ "@id": buildOrganizationJsonLd("vi")["@id"] });
+    expect(anonymous.author).toEqual({
+      "@id": buildOrganizationJsonLd("vi")["@id"],
+    });
   });
 
   it("mainEntityOfPage khác nhau giữa vi và en (đúng canonical từng bản)", () => {
@@ -153,7 +183,11 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
 
   it("bài không có ảnh/ngày thì BỎ HẲN field, không để null", () => {
     const bare = buildNewsArticleJsonLd(
-      { slug: samplePost.slug, title: samplePost.title, summary: samplePost.summary } as NewsPost,
+      {
+        slug: samplePost.slug,
+        title: samplePost.title,
+        summary: samplePost.summary,
+      } as NewsPost,
       "vi",
     );
     expect(bare).not.toHaveProperty("image");
@@ -164,22 +198,32 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
 describe("Chống XSS breakout trong JSON-LD", () => {
   const hostile = {
     ...samplePost,
-    title: 'BREAKOUT</script><img src=x onerror=alert(1)>',
-    summary: "Ký tự nguy hiểm: < > &  ",
+    title: "BREAKOUT</script><img src=x onerror=alert(1)>",
+    summary: "Ký tự nguy hiểm: < > & ",
   } as NewsPost;
 
   const serialized = serializeJsonLd(buildNewsArticleJsonLd(hostile, "vi"));
 
-  it("không còn chuỗi `</script` thô trong output", () => {
+  it("không còn chuỗi </script thô trong output", () => {
     expect(serialized.toLowerCase()).not.toContain("</script");
   });
 
-  it.each(["<", ">", "", ""])("ký tự %j được escape, không xuất hiện thô", (ch) => {
-    expect(serialized).not.toContain(ch);
+  it.each([
+    ["<", "\\u003c"],
+    [">", "\\u003e"],
+    ["&", "\\u0026"],
+  ])("ký tự %j được escape thành %j và không xuất hiện thô", (raw, escaped) => {
+    expect(serialized).not.toContain(raw);
+    expect(serialized).toContain(escaped);
   });
 
   it("vẫn là JSON hợp lệ và round-trip nguyên văn tiêu đề", () => {
-    const parsed = JSON.parse(serialized) as { headline: string };
+    const parsed = JSON.parse(serialized) as {
+      headline: string;
+      description: string;
+    };
+
     expect(parsed.headline).toBe(hostile.title);
+    expect(parsed.description).toBe(hostile.summary);
   });
 });

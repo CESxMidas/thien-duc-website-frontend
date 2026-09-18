@@ -1,9 +1,10 @@
-
 import { proxy, config } from "./proxy";
 import { NextRequest } from "next/server";
 
 function run(url: string) {
-  const response = proxy(new NextRequest(new URL(url, "http://localhost:3000")));
+  const response = proxy(
+    new NextRequest(new URL(url, "http://localhost:3000")),
+  );
   return {
     status: response.status,
     location: response.headers.get("location"),
@@ -112,7 +113,13 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
   });
 
   it("route công khai VẪN đi qua định tuyến locale", () => {
-    for (const pathname of ["/", "/du-an", "/tin-tuc", "/en/du-an", "/vi/du-an"]) {
+    for (const pathname of [
+      "/",
+      "/du-an",
+      "/tin-tuc",
+      "/en/du-an",
+      "/vi/du-an",
+    ]) {
       expect(runsMiddleware(pathname)).toBe(true);
     }
   });
