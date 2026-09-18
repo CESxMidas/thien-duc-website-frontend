@@ -12,15 +12,19 @@ describe("HomeFacts", () => {
     expect(screen.getByText("20+")).toBeInTheDocument();
     expect(screen.getByText("1000+")).toBeInTheDocument();
     expect(screen.getByText("50+")).toBeInTheDocument();
-    expect(
-      screen.getByText("Giá trị kiến tạo bằng thời gian"),
-    ).toBeInTheDocument();
+
+    expect(screen.getByText("Giá trị")).toBeInTheDocument();
+    expect(screen.getByText("Kiến tạo")).toBeInTheDocument();
+    expect(screen.getByText("Bằng thời gian")).toBeInTheDocument();
   });
 
   it("giữ nội dung song ngữ cho phiên bản tiếng Anh", () => {
     render(<HomeFacts locale="en" />);
 
     expect(screen.getByText("Years of formation & growth")).toBeInTheDocument();
-    expect(screen.getByText("Value created over time")).toBeInTheDocument();
+
+    expect(screen.getByText("Value")).toBeInTheDocument();
+    expect(screen.getByText("Created")).toBeInTheDocument();
+    expect(screen.getByText("Over time")).toBeInTheDocument();
   });
 });

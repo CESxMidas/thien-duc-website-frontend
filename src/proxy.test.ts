@@ -1,3 +1,5 @@
+/** @jest-environment node */
+
 import { proxy, config } from "./proxy";
 import { NextRequest } from "next/server";
 
@@ -5,6 +7,7 @@ function run(url: string) {
   const response = proxy(
     new NextRequest(new URL(url, "http://localhost:3000")),
   );
+
   return {
     status: response.status,
     location: response.headers.get("location"),
@@ -16,7 +19,9 @@ describe("proxy — chuyển hướng tìm kiếm cũ", () => {
     const { status, location } = run("/tin-tuc?q=Hung Phu");
 
     expect(status).toBe(308);
+
     expect(new URL(location!).pathname).toBe("/tim-kiem");
+
     expect(new URL(location!).searchParams.get("q")).toBe("Hung Phu");
   });
 
@@ -24,14 +29,18 @@ describe("proxy — chuyển hướng tìm kiếm cũ", () => {
     const { status, location } = run("/du-an?q=Hung Phu");
 
     expect(status).toBe(308);
+
     expect(new URL(location!).pathname).toBe("/tim-kiem");
+
     expect(new URL(location!).searchParams.get("q")).toBe("Hung Phu");
   });
 
   it("giữ locale EN", () => {
     for (const path of ["/en/tin-tuc?q=hung", "/en/du-an?q=hung"]) {
       const { status, location } = run(path);
+
       expect(status).toBe(308);
+
       expect(new URL(location!).pathname).toBe("/en/tim-kiem");
     }
   });
@@ -40,6 +49,7 @@ describe("proxy — chuyển hướng tìm kiếm cũ", () => {
     const { status, location } = run("/vi/tin-tuc?q=hung");
 
     expect(status).toBe(308);
+
     expect(new URL(location!).pathname).toBe("/tim-kiem");
   });
 
@@ -65,7 +75,9 @@ describe("proxy — chuyển hướng tìm kiếm cũ", () => {
       "/tin-tuc/danh-muc/tin-du-an",
     ]) {
       const { status, location } = run(path);
-      // Rewrite nội bộ sang `/vi/...` là hành vi cũ, không phải redirect.
+
+      // Rewrite nội bộ sang `/vi/...` là hành vi cũ,
+      // không phải redirect.
       expect(status).not.toBe(308);
       expect(location).toBeNull();
     }
@@ -83,6 +95,7 @@ describe("proxy — định tuyến locale (hành vi cũ, không được phá)"
     const { status, location } = run("/vi/du-an");
 
     expect(status).toBe(308);
+
     expect(new URL(location!).pathname).toBe("/du-an");
   });
 
@@ -126,15 +139,21 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
 
   it("KHÔNG loại trừ nhầm slug công khai chỉ trùng tiền tố", () => {
     expect(runsMiddleware("/administrator-example")).toBe(true);
+
     expect(runsMiddleware("/admin-noi-bo")).toBe(true);
   });
 
   it("giữ nguyên các loại trừ cũ", () => {
     expect(runsMiddleware("/_next/static/chunk.js")).toBe(false);
+
     expect(runsMiddleware("/api/health")).toBe(false);
+
     expect(runsMiddleware("/images/logo.png")).toBe(false);
+
     expect(runsMiddleware("/sitemap.xml")).toBe(false);
+
     expect(runsMiddleware("/robots.txt")).toBe(false);
+
     expect(runsMiddleware("/favicon.ico")).toBe(false);
   });
 });

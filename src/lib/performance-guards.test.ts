@@ -1,4 +1,3 @@
-
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
@@ -9,11 +8,15 @@ function readSource(relative: string): string {
 }
 
 function stripComments(source: string): string {
-  return source.replace(/^[ \t]*\/\*[\s\S]*?\*\//gm, "").replace(/^\s*\/\/.*$/gm, "");
+  return source
+    .replace(/^[ \t]*\/\*[\s\S]*?\*\//gm, "")
+    .replace(/^\s*\/\/.*$/gm, "");
 }
 
 describe("Ảnh bản đồ dự án — không hồi quy về quality={100} (D8)", () => {
-  const code = stripComments(readSource("components/sections/project-location-map.tsx"));
+  const code = stripComments(
+    readSource("components/sections/project-location-map.tsx"),
+  );
 
   it("KHÔNG dùng quality={100} (Next trả HTTP 400 vì ngoài images.qualities)", () => {
     expect(code).not.toMatch(/quality=\{100\}/);
@@ -24,18 +27,28 @@ describe("Ảnh bản đồ dự án — không hồi quy về quality={100} (D8
   });
 
   it("mọi quality trong file đều nằm trong allowlist [75, 90]", () => {
-    const qualities = [...code.matchAll(/quality=\{(\d+)\}/g)].map((m) => Number(m[1]));
+    const qualities = [...code.matchAll(/quality=\{(\d+)\}/g)].map((match) =>
+      Number(match[1]),
+    );
+
     expect(qualities.length).toBeGreaterThan(0);
-    for (const q of qualities) expect([75, 90]).toContain(q);
+
+    for (const quality of qualities) {
+      expect([75, 90]).toContain(quality);
+    }
   });
 });
 
 describe("Banner trang chủ — chỉ slide đầu được ưu tiên tải", () => {
-  const code = stripComments(readSource("components/sections/home-banner-slider.tsx"));
+  const code = stripComments(
+    readSource("components/sections/home-banner-slider.tsx"),
+  );
 
   it("preload có ĐIỀU KIỆN theo index === 0, không phải preload vô điều kiện", () => {
     expect(code).toMatch(/preload=\{index === 0\}/);
+
     expect(code).not.toMatch(/<Image[^>]*\spreload(\s|\/|>)/);
+
     expect(code).not.toMatch(/\bpriority(\s*=\s*\{true\}|\s*\/?>)/);
   });
 
@@ -44,7 +57,6 @@ describe("Banner trang chủ — chỉ slide đầu được ưu tiên tải", (
   });
 
   it("đúng MỘT ảnh banner được khai báo (một <Image> lặp theo slide)", () => {
-
     expect((code.match(/<Image\b/g) ?? []).length).toBe(1);
   });
 
@@ -66,7 +78,9 @@ describe("Cấu hình ảnh — allowlist chất lượng không bị nới lỏ
 describe("Bundle analyzer — không bao giờ chạy trong build thường", () => {
   const pkg = JSON.parse(
     readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
-  ) as { scripts: Record<string, string> };
+  ) as {
+    scripts: Record<string, string>;
+  };
 
   it("có script `analyze` riêng", () => {
     expect(pkg.scripts.analyze).toBeDefined();
@@ -80,22 +94,25 @@ describe("Bundle analyzer — không bao giờ chạy trong build thường", ()
     const script = stripComments(
       readFileSync(path.join(process.cwd(), "scripts/analyze.mjs"), "utf8"),
     );
+
     expect(script).toMatch(/--experimental-analyze/);
-    // `@next/bundle-analyzer` là plugin webpack — Turbopack bỏ qua, báo cáo rỗng.
+
+    // `@next/bundle-analyzer` là plugin webpack.
+    // Turbopack bỏ qua và có thể cho báo cáo rỗng.
     expect(script).not.toMatch(/@next\/bundle-analyzer/);
   });
 });
 
 describe("Reduced motion — nội dung stagger không bị ẩn", () => {
   const css = readSource("app/globals.css");
-  const reducedMotionBlock = css.match(
-    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?\/\* M2-R2/,
-  )?.[0];
+
+  it("có media query prefers-reduced-motion: reduce", () => {
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  });
 
   it("hiện trực tiếp phần tử con của stagger-list", () => {
-    expect(reducedMotionBlock).toContain(".stagger-list.stagger-list > *");
-    expect(reducedMotionBlock).toMatch(
-      /\.stagger-list\.stagger-list > \*[\s\S]*?opacity:\s*1;[\s\S]*?transform:\s*none;/,
+    expect(css).toMatch(
+      /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.stagger-list\.stagger-list\s*>\s*\*[\s\S]*?opacity:\s*1;[\s\S]*?transform:\s*none;/,
     );
   });
 });

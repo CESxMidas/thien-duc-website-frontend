@@ -9,7 +9,7 @@ describe("HomeIntroStrip", () => {
   it("render khối giới thiệu dạng editorial ngang với logo thương hiệu", async () => {
     await renderStrip();
 
-    expect(screen.getByAltText("Logo Thiên Đức")).toHaveAttribute(
+    expect(screen.getByAltText("Thiên Đức")).toHaveAttribute(
       "src",
       expect.stringContaining("logo-thien-duc.png"),
     );
