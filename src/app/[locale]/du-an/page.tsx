@@ -71,7 +71,7 @@ export default async function ProjectsPage({
           description={dictionary.projects.description}
         />
 
-        <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+        <section className="page-container pb-6">
           <div className="reveal-from-left flex flex-wrap gap-2">
             {projectStatusFilterValues.map((value) => {
               const active = activeStatus === value;
@@ -110,7 +110,7 @@ export default async function ProjectsPage({
           </div>
         </section>
 
-        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+        <section className="page-container pb-5 sm:pb-8">
           {filteredProjects.length > 0 ? (
             <ProjectsCarousel
               projects={filteredProjects}
@@ -137,7 +137,7 @@ export default async function ProjectsPage({
           )}
         </section>
 
-        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+        <section className="page-container pb-5 sm:pb-8">
           <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold-soft">

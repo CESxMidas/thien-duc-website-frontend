@@ -134,7 +134,7 @@ export default async function NewsCategoryPage({
         })}
       />
 
-      <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+      <section className="page-container pb-6">
         <NewsCategoryFilter
           categories={categories}
           activeSlug={category.slug}
@@ -146,7 +146,7 @@ export default async function NewsCategoryPage({
 
       <section
         id="danh-sach-tin"
-        className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8"
+        className="reveal-section page-container pb-5 sm:pb-8"
       >
         {posts.length > 0 ? (
           <div className="stagger-list grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

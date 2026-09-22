@@ -16,7 +16,7 @@ const phoneDigits = siteConfig.phone.replace(/[^\d+]/g, "");
 const mapsDestination = encodeURIComponent(siteConfig.address);
 
 describe("SiteHeader", () => {
-  it("dùng thanh điều hướng compact theo mockup header với 7 mục chính", () => {
+  it("dùng thanh điều hướng compact theo mockup header với 6 mục chính", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
     const primary = screen.getByRole("navigation", { name: "Primary" });
@@ -28,16 +28,13 @@ describe("SiteHeader", () => {
       "Lĩnh vực",
       "Dự án",
       "Tin tức",
-      "Nhân sự",
       "Liên hệ",
     ]);
     expect(primaryLinks[2]).toHaveAttribute("href", "/#linh-vuc-hoat-dong");
     expect(
       screen.queryByRole("link", { name: new RegExp(siteConfig.phone) }),
     ).toBeNull();
-    expect(
-      screen.queryByRole("link", { name: siteConfig.email }),
-    ).toBeNull();
+    expect(screen.queryByRole("link", { name: siteConfig.email })).toBeNull();
   });
 });
 

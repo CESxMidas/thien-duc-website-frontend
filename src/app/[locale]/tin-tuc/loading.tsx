@@ -1,7 +1,7 @@
 
 export default function NewsLoading() {
   return (
-    <div aria-hidden="true" className="mx-auto max-w-site px-4 sm:px-6">
+    <div aria-hidden="true" className="page-container">
       <div className="py-10 sm:py-14">
         <div className="h-3 w-28 animate-pulse bg-brand/15" />
         <div className="mt-5 h-9 w-2/3 max-w-xl animate-pulse bg-brand/10" />

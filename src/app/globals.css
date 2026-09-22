@@ -114,6 +114,29 @@ h2 {
   max-width: var(--measure-prose);
 }
 
+.page-container {
+  width: 100%;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .page-container {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .page-container {
+    padding-inline: 5rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .page-container {
+    padding-inline: 7rem;
+  }
+}
+
 .prose-content {
   max-width: var(--measure-prose);
 }

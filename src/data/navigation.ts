@@ -31,24 +31,5 @@ export const mainNavigation: NavItem[] = [
     ],
   },
   { label: "Tin tức", href: "/tin-tuc" },
-  {
-    label: "Tuyển dụng & Nhân sự",
-    href: "/tuyen-dung",
-    overviewLabel: "Tuyển dụng",
-    children: [
-      {
-        label: "Công ty thành viên",
-        href: "/cong-ty-thanh-vien",
-        group: "Công ty",
-      },
-      {
-        label: "Sơ đồ tổ chức công ty",
-        href: "/so-do-to-chuc-cong-ty",
-        group: "Nhân sự",
-      },
-      { label: "Đào tạo", href: "/dao-tao", group: "Nhân sự" },
-      { label: "Chính sách nhân sự", href: "/chinh-sach-nhan-su", group: "Nhân sự" },
-    ],
-  },
   { label: "Liên hệ", href: "/lien-he" },
 ];

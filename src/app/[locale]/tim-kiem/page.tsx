@@ -65,7 +65,7 @@ export default async function SearchPage({
         }
       />
 
-      <section className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+      <section className="reveal-section page-container pb-5 sm:pb-8">
         {!query ? (
           <div className="border border-black/10 bg-white p-6">
             <h2 className="text-2xl font-semibold">{labels.emptyQueryTitle}</h2>

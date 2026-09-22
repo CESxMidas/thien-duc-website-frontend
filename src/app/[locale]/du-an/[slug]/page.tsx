@@ -121,7 +121,7 @@ export default async function ProjectDetailPage({
   const showGalleryUnderMain = items.length > 0 && gallery.length > 0;
   const galleryStrip = showGalleryUnderMain ? (
     <section className="project-detail-band py-8">
-      <div className="mx-auto max-w-site px-4 sm:px-6">
+      <div className="page-container">
         <div className="reveal-from-left mb-6">
           <p className="text-eyebrow mb-3 text-brand">
             {dictionary.projectDetail.galleryEyebrow}
@@ -160,7 +160,7 @@ export default async function ProjectDetailPage({
         </section>
 
         {project.image && !hasMap ? (
-          <section className="mx-auto max-w-site px-4 pb-5 pt-4 sm:px-6 sm:pb-8">
+          <section className="page-container pb-5 pt-4 sm:pb-8">
             <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface">
               <Image
                 src={project.image}
@@ -179,7 +179,7 @@ export default async function ProjectDetailPage({
         {!hasMap ? galleryStrip : null}
 
         <section className="project-detail-band py-12">
-          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7">
               <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
               <p className="text-eyebrow mb-4 text-brand">
@@ -269,7 +269,7 @@ export default async function ProjectDetailPage({
 
         {items.length > 0 ? (
           <section className="project-detail-band py-12">
-            <div className="mx-auto max-w-site px-4 sm:px-6">
+            <div className="page-container">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
                   {dictionary.projectDetail.itemsEyebrow}
@@ -293,7 +293,7 @@ export default async function ProjectDetailPage({
           </section>
         ) : gallerySections.length > 0 ? (
           <section className="project-detail-band py-12">
-            <div className="mx-auto max-w-site px-4 sm:px-6">
+            <div className="page-container">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={project.title}
@@ -302,7 +302,7 @@ export default async function ProjectDetailPage({
           </section>
         ) : gallery.length > 0 ? (
           <section className="project-detail-band py-12">
-            <div className="mx-auto max-w-site px-4 sm:px-6">
+            <div className="page-container">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
                   {dictionary.projectDetail.galleryEyebrow}
@@ -318,7 +318,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         <section className="project-detail-band py-12">
-          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
             <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-5 md:p-7">
               <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
               <p className="text-eyebrow mb-4 text-brand">
@@ -346,7 +346,7 @@ export default async function ProjectDetailPage({
           </div>
         </section>
 
-        <section className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+        <section className="page-container py-5 sm:py-8">
           <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold-soft">

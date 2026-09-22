@@ -18,7 +18,6 @@ const primaryNavigation: NavItem[] = [
   { label: "Lĩnh vực", href: "/#linh-vuc-hoat-dong" },
   { label: "Dự án", href: "/du-an" },
   { label: "Tin tức", href: "/tin-tuc" },
-  { label: "Nhân sự", href: "/tuyen-dung" },
   { label: "Liên hệ", href: "/lien-he" },
 ];
 
@@ -29,7 +28,6 @@ const headerLabels: Record<Locale, Record<string, string>> = {
     "/#linh-vuc-hoat-dong": "Lĩnh vực",
     "/du-an": "Dự án",
     "/tin-tuc": "Tin tức",
-    "/tuyen-dung": "Nhân sự",
     "/lien-he": "Liên hệ",
   },
   en: {
@@ -38,7 +36,6 @@ const headerLabels: Record<Locale, Record<string, string>> = {
     "/#linh-vuc-hoat-dong": "Fields",
     "/du-an": "Projects",
     "/tin-tuc": "News",
-    "/tuyen-dung": "People",
     "/lien-he": "Contact",
   },
 };
@@ -104,7 +101,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
         </Link>
 
         <nav
-          className="hidden h-full items-center justify-center lg:flex"
+          className="hidden items-center justify-center gap-4 lg:flex xl:gap-5"
           aria-label="Primary"
         >
           {primaryNavigation.map((item) => {
@@ -114,10 +111,10 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 key={item.href}
                 href={localizePath(item.href, locale)}
                 aria-current={active ? "page" : undefined}
-                className={`flex h-full items-center border-b-2 px-3 text-[0.72rem] font-bold uppercase tracking-[0.16em] transition-colors xl:px-5 ${
+                className={`relative flex h-12 items-center overflow-hidden rounded-[6px] border px-5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-6 ${
                   active
-                    ? "border-earth text-earth"
-                    : "border-transparent text-charcoal/75 hover:border-earth/45 hover:text-charcoal"
+                    ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
+                    : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
                 }`}
               >
                 {navLabel(item)}
@@ -210,7 +207,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 <Link
                   href={localizePath(item.href, locale)}
                   onClick={() => setMenuOpen(false)}
-                  className="flex min-h-12 items-center justify-between py-3 text-sm font-semibold uppercase tracking-[0.12em]"
+                  className="my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/18 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-earth"
                 >
                   {navLabel(item)}
                   <span aria-hidden="true">↗</span>

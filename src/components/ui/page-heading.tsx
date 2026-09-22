@@ -13,7 +13,7 @@ export function PageHeading({
 }: PageHeadingProps) {
   return (
     <section
-      className={bare ? "" : "mx-auto max-w-site px-4 py-10 sm:px-6 sm:py-14"}
+      className={bare ? "" : "page-container py-10 sm:py-14"}
     >
       {eyebrow ? (
         <p className="text-eyebrow mb-4 text-earth">{eyebrow}</p>

@@ -27,7 +27,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="mx-auto max-w-site px-4 pt-4 text-[13px] font-medium sm:px-6 sm:pt-6"
+      className="page-container pt-4 text-[13px] font-medium sm:pt-6"
     >
       <script
         type="application/ld+json"

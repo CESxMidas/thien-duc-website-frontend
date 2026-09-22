@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { BrandMotto, BrandMottoCompact } from "./brand-motto";
 
-const VI_MOTTO = "Khách hàng hài lòng — Thiên Đức thành công";
-const EN_MOTTO = "Satisfied customers — Thien Duc succeeds";
+const VI_MOTTO = "Khách hàng hài lòng Thiên Đức thành công";
+const EN_MOTTO = "Satisfied customers Thien Duc succeeds";
 
 describe("BrandMotto", () => {
   it("render đủ hai vế phương châm", () => {

@@ -26,9 +26,10 @@ describe("HomeIntroStrip", () => {
 
     const motto = screen
       .getAllByText(/khách hàng hài lòng/i)
-      .find((node) => node.tagName === "BLOCKQUOTE");
+      .find((node) => node.tagName === "SPAN")
+      ?.closest("blockquote");
 
-    expect(motto).toBeDefined();
+    expect(motto).toHaveTextContent(/thiên đức thành công/i);
   });
 
   it("có dải lĩnh vực hoạt động 3 ô ảnh đánh số", async () => {

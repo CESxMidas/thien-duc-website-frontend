@@ -107,25 +107,29 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
               `${routes.projects}/${primaryProject.slug}`,
               locale,
             )}
-            className="group grid overflow-hidden lg:grid-cols-[1.55fr_1fr]"
+            className="group grid overflow-hidden outline-none lg:grid-cols-[1.55fr_1fr]"
           >
             {/* MAIN IMAGE */}
-            <div className="relative min-h-[17rem] overflow-hidden bg-surface sm:min-h-[20rem] lg:min-h-[17rem]">
+            <div className="relative min-h-[17rem] overflow-hidden border border-earth/15 bg-surface shadow-[0_18px_42px_rgba(41,41,41,0.08)] sm:min-h-[20rem] lg:min-h-[17rem]">
               {primaryProject.image ? (
                 <Image
                   src={primaryProject.image}
                   alt={primaryDisplay.title}
                   fill
                   sizes="(min-width: 1024px) 48vw, 100vw"
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
+                  className="object-cover object-center contrast-[1.06] saturate-[1.08] transition duration-700 group-hover:scale-[1.018] group-hover:contrast-[1.12] group-hover:saturate-[1.14]"
                 />
               ) : null}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 border border-white/25 opacity-80 transition group-hover:border-earth/25"
+              />
             </div>
 
             {/* PRIMARY CONTENT */}
             <div className="flex flex-col justify-between bg-ivory px-5 py-5 sm:px-7 lg:px-6 lg:py-4 xl:px-7">
               <div>
-                <h3 className="max-w-[14rem] font-display text-[1.9rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.2rem]">
+                <h3 className="inline-flex max-w-[16rem] border border-earth/25 bg-white/65 px-4 py-3 font-display text-[1.75rem] font-semibold uppercase leading-[1.02] text-charcoal shadow-[0_12px_28px_rgba(41,41,41,0.08)] transition group-hover:-translate-y-0.5 group-hover:border-earth/45 group-hover:bg-earth group-hover:text-ivory group-focus-visible:-translate-y-0.5 group-focus-visible:border-earth/45 group-focus-visible:bg-earth group-focus-visible:text-ivory sm:text-[2.05rem]">
                   {primaryDisplay.title}
                 </h3>
 
@@ -150,7 +154,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
                 ) : null}
               </div>
 
-              <span className="link-arrow mt-5 inline-flex w-fit text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth">
+              <span className="mt-5 inline-flex w-fit items-center gap-3 border border-earth/35 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition group-hover:border-earth group-hover:bg-earth group-hover:text-ivory group-focus-visible:border-earth group-focus-visible:bg-earth group-focus-visible:text-ivory">
                 {exploreLabel}
               </span>
             </div>
@@ -177,7 +181,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
                     `${routes.projects}/${project.slug}`,
                     locale,
                   )}
-                  className="group relative min-h-[10.5rem] overflow-hidden bg-surface text-charcoal"
+                  className="group relative min-h-[10.5rem] overflow-hidden border border-earth/12 bg-surface text-charcoal shadow-[0_12px_28px_rgba(41,41,41,0.07)] outline-none transition hover:border-earth/28 hover:shadow-[0_18px_36px_rgba(41,41,41,0.12)]"
                 >
                   {project.image ? (
                     <Image
@@ -185,28 +189,32 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
                       alt={display.title}
                       fill
                       sizes="(min-width: 768px) 30vw, 100vw"
-                      className="object-cover object-center transition duration-700 group-hover:scale-[1.035]"
+                      className="object-cover object-center contrast-[1.06] saturate-[1.08] transition duration-700 group-hover:scale-[1.025] group-hover:contrast-[1.13] group-hover:saturate-[1.16]"
                     />
                   ) : null}
 
                   {/* Overlay sáng từ trái sang phải */}
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-r from-ivory/95 via-ivory/55 to-ivory/5"
+                    className="absolute inset-0 bg-gradient-to-r from-ivory/80 via-ivory/24 to-transparent transition duration-500 group-hover:from-ivory/68 group-hover:via-ivory/16"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-charcoal/42 via-charcoal/8 to-transparent transition duration-500 group-hover:from-charcoal/34"
                   />
 
                   <span className="relative z-10 flex min-h-[10.5rem] flex-col justify-end px-5 py-4">
-                    <h3 className="max-w-[11rem] font-display text-[1.05rem] font-medium uppercase leading-[1.25] text-charcoal sm:text-[1.1rem]">
+                    <h3 className="inline-flex w-fit max-w-[13rem] border border-earth/25 bg-ivory/88 px-3.5 py-2.5 font-display text-[1rem] font-semibold uppercase leading-[1.18] text-charcoal shadow-[0_10px_24px_rgba(41,41,41,0.12)] transition group-hover:-translate-y-1 group-hover:border-earth group-hover:bg-earth group-hover:text-ivory group-focus-visible:-translate-y-1 group-focus-visible:border-earth group-focus-visible:bg-earth group-focus-visible:text-ivory sm:text-[1.05rem]">
                       {display.title}
                     </h3>
 
                     {metaParts.length > 0 ? (
-                      <span className="mt-2 max-w-[13rem] line-clamp-1 text-[0.58rem] font-bold uppercase leading-4 text-earth/75">
+                      <span className="mt-2 w-fit max-w-[13rem] border-l-2 border-earth/55 bg-ivory/72 px-2.5 py-1 text-[0.58rem] font-bold uppercase leading-4 text-olive/80">
                         {metaParts.join(" | ")}
                       </span>
                     ) : null}
 
-                    <span className="absolute bottom-4 right-4 grid size-8 place-items-center rounded-full bg-earth/80 text-sm text-ivory transition group-hover:bg-charcoal">
+                    <span className="absolute bottom-4 right-4 grid size-8 place-items-center rounded-full bg-earth/90 text-sm text-ivory shadow-[0_10px_22px_rgba(41,41,41,0.18)] transition group-hover:translate-x-1 group-hover:bg-charcoal group-focus-visible:translate-x-1 group-focus-visible:bg-charcoal">
                       →
                     </span>
                   </span>

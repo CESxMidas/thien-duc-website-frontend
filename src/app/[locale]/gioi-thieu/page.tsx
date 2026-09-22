@@ -2,17 +2,27 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Handshake, ShieldCheck, Target } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  CalendarClock,
+  Handshake,
+  MapPin,
+  ShieldCheck,
+  Target,
+} from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { BusinessFieldsCarousel } from "@/components/sections/business-fields-carousel";
 import { ContentSidebar } from "@/components/sections/content-sidebar";
+import { siteConfig } from "@/config/site";
+import { openPositions } from "@/data/careers";
 import { getNewsPage } from "@/lib/api/news";
 import { getProjects } from "@/lib/api/projects";
+import { formatDate } from "@/lib/format";
 import { BrandMotto } from "@/components/ui/brand-motto";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -73,6 +83,16 @@ export default async function AboutPage({
     getProjects(locale),
   ]);
   const about = dictionary.about;
+  const careers = dictionary.careers;
+  const hrPages = dictionary.hrPages;
+  const applyHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+    careers.applySubject,
+  )}`;
+  const peopleHighlights = [
+    hrPages.orgChart,
+    hrPages.training,
+    hrPages.hrPolicy,
+  ];
   const [heroDescription, ...overviewParagraphs] = page?.paragraphs ?? [];
 
   const heading = {
@@ -87,7 +107,7 @@ export default async function AboutPage({
   return (
     <SiteShell locale={locale}>
 
-      <div className="mx-auto grid max-w-site gap-8 px-4 py-5 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
       
         <div className="grid content-between gap-8 sm:gap-10">
           <PageHeading
@@ -181,7 +201,7 @@ export default async function AboutPage({
         />
       </div>
 
-      <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+      <section className="reveal-section page-container py-5 sm:py-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {about.timelineEyebrow}
@@ -215,7 +235,7 @@ export default async function AboutPage({
         </ol>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+      <section className="reveal-section page-container py-5 sm:py-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
             {about.principlesEyebrow}
@@ -248,7 +268,7 @@ export default async function AboutPage({
         </div>
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+      <section className="reveal-section page-container py-5 sm:py-8">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">{about.fieldsEyebrow}</p>
           <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
@@ -266,7 +286,170 @@ export default async function AboutPage({
         />
       </section>
 
-      <section className="reveal-section mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+      <section className="reveal-section page-container py-5 sm:py-8">
+        <div className="max-w-3xl">
+          <p className="text-eyebrow mb-4 text-brand">{careers.eyebrow}</p>
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            {careers.heroTitle}
+          </h2>
+          <p className="text-justified mt-5 text-base leading-7 text-slate">
+            {careers.heroDescription}
+          </p>
+        </div>
+
+        <div className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
+          {careers.values.map((value) => (
+            <article
+              key={value.title}
+              className="hover-card border border-black/10 bg-white p-5 hover:border-brand/35"
+            >
+              <h3 className="text-xl font-semibold">{value.title}</h3>
+              <p className="text-justified mt-4 text-sm leading-6 text-slate">
+                {value.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="reveal-section page-container py-5 sm:py-8">
+        <div className="stagger-list grid gap-4 md:grid-cols-3">
+          {peopleHighlights.map((item) => (
+            <article
+              key={item.title}
+              className="hover-card border border-black/10 bg-white p-5 hover:border-brand/35"
+            >
+              <p className="text-eyebrow mb-3 text-brand">
+                {hrPages.eyebrow}
+              </p>
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <p className="text-justified mt-4 text-sm leading-6 text-slate">
+                {item.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="reveal-section page-container py-5 sm:py-8">
+        <div className="max-w-3xl">
+          <p className="text-eyebrow mb-4 text-brand">
+            {careers.openEyebrow}
+          </p>
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            {careers.openTitle}
+          </h2>
+        </div>
+
+        {openPositions.length > 0 ? (
+          <div className="stagger-list mt-8 grid gap-4">
+            {openPositions.map((position) => (
+              <article
+                key={position.title}
+                className="hover-card border border-black/10 bg-white p-6 hover:border-brand md:p-8"
+              >
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+                  <span className="inline-flex items-center gap-1.5">
+                    <BriefcaseBusiness className="size-4" aria-hidden="true" />
+                    {position.department}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin className="size-4" aria-hidden="true" />
+                    {position.location}
+                  </span>
+                  <span>{position.type}</span>
+                  {position.deadline ? (
+                    <span className="inline-flex items-center gap-1.5 text-slate">
+                      <CalendarClock className="size-4" aria-hidden="true" />
+                      {careers.deadlineLabel}{" "}
+                      {formatDate(position.deadline, locale)}
+                    </span>
+                  ) : null}
+                </div>
+
+                <h3 className="mt-3 text-2xl font-semibold leading-tight">
+                  {position.title}
+                </h3>
+
+                <div className="mt-6 grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
+                      {careers.responsibilitiesLabel}
+                    </h4>
+                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
+                      {position.responsibilities.map((item) => (
+                        <li key={item} className="border-l-2 border-gold pl-3">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
+                      {careers.requirementsLabel}
+                    </h4>
+                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
+                      {position.requirements.map((item) => (
+                        <li key={item} className="border-l-2 border-gold pl-3">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <a
+                  href={applyHref}
+                  className="button-polish mt-7 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                >
+                  {careers.applyCta}
+                </a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8 border border-black/10 bg-white p-6">
+            <h3 className="text-2xl font-semibold">{careers.emptyTitle}</h3>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+              {careers.emptyBody}
+            </p>
+            <a
+              href={applyHref}
+              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            >
+              {careers.emptyCta}
+            </a>
+          </div>
+        )}
+      </section>
+
+      <section className="reveal-section page-container py-5 sm:py-8">
+        <div className="max-w-3xl">
+          <p className="text-eyebrow mb-4 text-brand">
+            {careers.processEyebrow}
+          </p>
+          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+            {careers.processTitle}
+          </h2>
+        </div>
+
+        <ol className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
+          {careers.process.map((step) => (
+            <li
+              key={step.step}
+              className="hover-card border border-black/10 bg-white p-6"
+            >
+              <p className="text-sm font-semibold text-brand">{step.step}</p>
+              <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
+              <p className="text-justified mt-3 text-sm leading-6 text-slate">
+                {interpolate(step.description, { email: siteConfig.email })}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="reveal-section page-container py-5 sm:py-8">
         <div className="rounded-sm bg-brand p-5 text-white md:p-10">
           <p className="text-eyebrow mb-4 text-gold-soft">{about.ctaEyebrow}</p>
           <h2 className="max-w-2xl text-2xl font-semibold leading-tight md:text-3xl">

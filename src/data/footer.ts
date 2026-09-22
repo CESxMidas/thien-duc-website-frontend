@@ -29,13 +29,4 @@ export const footerSections: FooterSection[] = [
       { label: "Dự án đã bàn giao", href: "/du-an?status=da-ban-giao" },
     ],
   },
-  {
-    title: "Nhân sự",
-    links: [
-      { label: "Tuyển dụng", href: routes.careers },
-      { label: "Sơ đồ tổ chức", href: "/so-do-to-chuc-cong-ty" },
-      { label: "Đào tạo", href: "/dao-tao" },
-      { label: "Chính sách nhân sự", href: "/chinh-sach-nhan-su" },
-    ],
-  },
 ];

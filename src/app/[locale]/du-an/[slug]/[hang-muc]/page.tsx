@@ -121,7 +121,7 @@ export default async function ProjectItemPage({
         </section>
 
         <section className="project-detail-band py-12">
-          <div className="reveal-sides-pair mx-auto grid max-w-site gap-6 px-4 sm:px-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
               <div className="reveal-from-left h-full min-w-0">
                 <ProjectItemGallery images={galleryImages} title={item.title} />
@@ -201,7 +201,7 @@ export default async function ProjectItemPage({
 
         {gallerySections.length > 0 ? (
           <section className="project-detail-band pb-12">
-            <div className="mx-auto max-w-site px-4 sm:px-6">
+            <div className="page-container">
               <ProjectGallerySections
                 sections={gallerySections}
                 projectTitle={item.title}
@@ -211,7 +211,7 @@ export default async function ProjectItemPage({
         ) : null}
 
         {siblings.length > 0 ? (
-          <section className="mx-auto max-w-site px-4 py-5 sm:px-6 sm:py-8">
+          <section className="page-container py-5 sm:py-8">
             <p className="text-eyebrow mb-4 text-brand">
               {dictionary.projectItem.siblingsEyebrow}
             </p>
@@ -247,7 +247,7 @@ export default async function ProjectItemPage({
           </section>
         ) : null}
 
-        <section className="mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8">
+        <section className="page-container pb-5 sm:pb-8">
           <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
             <div className="reveal-from-left">
               <p className="text-eyebrow mb-4 text-gold-soft">

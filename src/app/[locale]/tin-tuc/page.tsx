@@ -92,7 +92,7 @@ export default async function NewsPage({
         description={dictionary.news.description}
       />
 
-      <section className="mx-auto max-w-site px-4 pb-6 sm:px-6">
+      <section className="page-container pb-6">
         <NewsCategoryFilter
           categories={categories}
           locale={locale}
@@ -103,7 +103,7 @@ export default async function NewsPage({
 
       <section
         id="danh-sach-tin"
-        className="reveal-section mx-auto max-w-site px-4 pb-5 sm:px-6 sm:pb-8"
+        className="reveal-section page-container pb-5 sm:pb-8"
       >
         {posts.length > 0 ? (
 
