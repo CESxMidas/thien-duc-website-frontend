@@ -35,7 +35,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
 
   return (
     <section className="border-y border-earth/15 bg-ivory text-charcoal">
-      <div className="mx-auto grid max-w-site gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:py-16">
+      <div className="grid gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:px-20 lg:py-16 xl:px-28">
         <div className="flex flex-col justify-center">
           <p className="text-eyebrow mb-4 text-earth">
             {dictionary.homeContact.eyebrow}
