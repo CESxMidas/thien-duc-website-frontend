@@ -300,7 +300,7 @@ export function HomeBannerSlider({
         </div>
 
        
-        <div className="pointer-events-none absolute inset-x-0 bottom-7 z-30 hidden justify-start px-20 2xl:flex">
+        <div className="pointer-events-none absolute inset-x-0 bottom-2 z-30 hidden justify-start px-20 2xl:flex">
           <div className="pointer-events-auto flex items-center gap-3 text-white">
             {banners.map((banner, index) => (
               <button

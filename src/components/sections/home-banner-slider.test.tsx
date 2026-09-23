@@ -191,7 +191,7 @@ describe("HomeBannerSlider", () => {
 
   it("khung số slide đáy trái không được chặn chuột của cụm nút", () => {
     const { container } = renderSlider();
-    const dotsFrame = container.querySelector(".absolute.inset-x-0.bottom-7");
+    const dotsFrame = container.querySelector(".absolute.inset-x-0.bottom-2");
     expect(dotsFrame).toHaveClass("hidden");
     expect(dotsFrame).toHaveClass("2xl:flex");
     expect(dotsFrame).toHaveClass("pointer-events-none");
