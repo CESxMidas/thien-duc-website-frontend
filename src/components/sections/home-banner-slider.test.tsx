@@ -160,7 +160,7 @@ describe("HomeBannerSlider", () => {
     expect(secondary.className).not.toContain("bg-ivory");
     expect(secondary.className).not.toContain("border");
     expect(secondary.className).toContain("min-h-11");
-    expect(secondary.className).toContain("lg:min-h-12");
+    expect(secondary.className).toContain("xl:min-h-12");
     expect(secondary.className).toContain("focus-visible:outline-2");
   });
 
@@ -193,7 +193,7 @@ describe("HomeBannerSlider", () => {
     const { container } = renderSlider();
     const dotsFrame = container.querySelector(".absolute.inset-x-0.bottom-7");
     expect(dotsFrame).toHaveClass("hidden");
-    expect(dotsFrame).toHaveClass("lg:flex");
+    expect(dotsFrame).toHaveClass("2xl:flex");
     expect(dotsFrame).toHaveClass("pointer-events-none");
     expect(dotsFrame!.firstElementChild).toHaveClass("pointer-events-auto");
   });

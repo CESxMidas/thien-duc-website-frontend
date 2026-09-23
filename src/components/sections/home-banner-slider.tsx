@@ -238,16 +238,16 @@ export function HomeBannerSlider({
                   {activeBanner.subtitle}
                 </p>
              
-                <div className="mt-5 flex w-full flex-col items-start gap-3 sm:mt-7 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-5">
+                <div className="mt-5 flex w-full flex-col items-start gap-3 sm:mt-7 xl:flex-row xl:flex-wrap xl:items-center xl:gap-x-6">
                   <Link
                     href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal lg:px-6 lg:text-sm lg:tracking-[0.1em]"
+                    className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal xl:px-6 xl:text-sm xl:tracking-[0.1em]"
                   >
                     {activeBanner.ctaLabel}
                   </Link>
                   <Link
                     href={localizePath(routes.contact, locale)}
-                    className="link-arrow inline-flex min-h-11 items-center gap-2 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory lg:min-h-12 lg:text-sm lg:tracking-[0.1em]"
+                    className="link-arrow inline-flex min-h-11 items-center gap-2 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
                   >
                     {contactCtaLabel}
                   </Link>
@@ -300,7 +300,7 @@ export function HomeBannerSlider({
         </div>
 
        
-        <div className="pointer-events-none absolute inset-x-0 bottom-7 z-30 hidden justify-start px-6 pr-28 lg:flex lg:px-16 xl:px-20">
+        <div className="pointer-events-none absolute inset-x-0 bottom-7 z-30 hidden justify-start px-20 2xl:flex">
           <div className="pointer-events-auto flex items-center gap-3 text-white">
             {banners.map((banner, index) => (
               <button
