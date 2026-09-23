@@ -1,7 +1,7 @@
 
 import { FALLBACK_SITE_URL, resolveSiteUrl } from "./site-url";
 
-const PROD = "https://thien-duc.example";
+const PROD = "https://www.thienduccons.vn";
 
 describe("resolveSiteUrl", () => {
   it("có NEXT_PUBLIC_SITE_URL → dùng đúng giá trị đó", () => {
@@ -45,7 +45,7 @@ describe("resolveSiteUrl", () => {
   });
 
   it("host trần được gắn https://; giá trị không parse được thì bỏ qua, không ném", () => {
-    expect(resolveSiteUrl({ NEXT_PUBLIC_SITE_URL: "thien-duc.example" })).toBe(PROD);
+    expect(resolveSiteUrl({ NEXT_PUBLIC_SITE_URL: "www.thienduccons.vn" })).toBe(PROD);
     expect(
       resolveSiteUrl({ NEXT_PUBLIC_SITE_URL: "http://", NEXT_PUBLIC_VERCEL_URL: "" }),
     ).toBe(FALLBACK_SITE_URL);

@@ -44,6 +44,11 @@ const nextConfig: NextConfig = {
       // TODO: khi ảnh tin tức được đưa hết lên Cloudinary qua Admin, gỡ mục này.
       {
         protocol: "https",
+        hostname: "www.thienduccons.vn",
+        pathname: "/img_data/**",
+      },
+      {
+        protocol: "https",
         hostname: "thienduccons.vn",
         pathname: "/img_data/**",
       },

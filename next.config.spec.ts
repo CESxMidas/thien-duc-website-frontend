@@ -92,6 +92,11 @@ describe("next.config.ts — ảnh remote", () => {
       },
       {
         protocol: "https",
+        hostname: "www.thienduccons.vn",
+        pathname: "/img_data/**",
+      },
+      {
+        protocol: "https",
         hostname: "thienduccons.vn",
         pathname: "/img_data/**",
       },

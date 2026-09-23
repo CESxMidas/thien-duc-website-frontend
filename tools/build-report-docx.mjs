@@ -200,7 +200,7 @@ function coverSection() {
       center("Phương án 2 (PA2)", 26, false, "333333"),
       center("Ngày cập nhật: 26/06/2026", 24, false, "666666"),
       new Paragraph({ spacing: { before: 400 } }),
-      center("Demo: thien-duc-website-frontend.vercel.app", 22, false, "666666"),
+      center("Demo: www.thienduccons.vn", 22, false, "666666"),
       new Paragraph({
         children: [new PageBreak()],
       }),
