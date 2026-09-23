@@ -153,11 +153,14 @@ describe("HomeBannerSlider", () => {
     const primary = screen.getByRole("link", { name: "Xem dự án" });
     const secondary = screen.getByRole("link", { name: "Liên hệ" });
     expect(primary.className).toContain("border-white/75");
+    expect(primary.className).toContain("min-h-12");
+    expect(primary.className).toContain("max-w-full");
     expect(primary.className).not.toContain("bg-ivory");
     expect(secondary.className).toContain("link-arrow");
     expect(secondary.className).not.toContain("bg-ivory");
     expect(secondary.className).not.toContain("border");
-    expect(secondary.className).toContain("h-12");
+    expect(secondary.className).toContain("min-h-11");
+    expect(secondary.className).toContain("sm:min-h-12");
     expect(secondary.className).toContain("focus-visible:outline-2");
   });
 

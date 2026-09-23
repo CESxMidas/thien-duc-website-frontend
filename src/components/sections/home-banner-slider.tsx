@@ -215,8 +215,8 @@ export function HomeBannerSlider({
           </div>
         ) : null}
 
-        <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,14svh,8.5rem)] z-30 px-6 sm:px-10 lg:px-16 xl:px-20">
-          <div className="max-w-[34rem]">
+        <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,13svh,8.25rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
+          <div className="w-full max-w-[36rem]">
             <div
               key={activeBanner.title}
               className={`pointer-events-auto flex flex-col justify-between text-white ${
@@ -224,30 +224,30 @@ export function HomeBannerSlider({
               }`}
             >
              
-              <div className="mb-5">
+              <div className="mb-4 sm:mb-5">
                 <p className="text-eyebrow text-white/75">
                   {activeBanner.eyebrow}
                 </p>
               </div>
-              <div className="flex flex-col justify-between gap-4">
-                <h1 className="line-clamp-3 font-display text-[2.35rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] sm:text-[3.35rem] lg:text-[4rem]">
+              <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
+                <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2.1rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.45rem] sm:max-w-[13ch] sm:text-[3.2rem] lg:text-[3.85rem]">
                   {activeBanner.title}
                 </h1>
             
-                <p className="mt-2 line-clamp-3 max-w-[31rem] text-sm font-medium leading-7 text-white/86 sm:text-base lg:text-lg">
+                <p className="mt-1 line-clamp-3 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
                   {activeBanner.subtitle}
                 </p>
              
-                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-7">
+                <div className="mt-5 flex w-full flex-col items-start gap-3 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5">
                   <Link
                     href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex h-12 items-center justify-center border border-white/75 px-6 text-center text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white hover:text-charcoal"
+                    className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal sm:px-6 sm:text-sm sm:tracking-[0.1em]"
                   >
                     {activeBanner.ctaLabel}
                   </Link>
                   <Link
                     href={localizePath(routes.contact, locale)}
-                    className="link-arrow inline-flex h-12 items-center gap-2 text-sm font-bold uppercase tracking-[0.1em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+                    className="link-arrow inline-flex min-h-11 items-center gap-2 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory sm:min-h-12 sm:text-sm sm:tracking-[0.1em]"
                   >
                     {contactCtaLabel}
                   </Link>
