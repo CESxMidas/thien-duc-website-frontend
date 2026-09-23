@@ -160,7 +160,7 @@ describe("HomeBannerSlider", () => {
     expect(secondary.className).not.toContain("bg-ivory");
     expect(secondary.className).not.toContain("border");
     expect(secondary.className).toContain("min-h-11");
-    expect(secondary.className).toContain("sm:min-h-12");
+    expect(secondary.className).toContain("md:min-h-12");
     expect(secondary.className).toContain("focus-visible:outline-2");
   });
 
@@ -192,6 +192,8 @@ describe("HomeBannerSlider", () => {
   it("khung số slide đáy trái không được chặn chuột của cụm nút", () => {
     const { container } = renderSlider();
     const dotsFrame = container.querySelector(".absolute.inset-x-0.bottom-7");
+    expect(dotsFrame).toHaveClass("hidden");
+    expect(dotsFrame).toHaveClass("md:flex");
     expect(dotsFrame).toHaveClass("pointer-events-none");
     expect(dotsFrame!.firstElementChild).toHaveClass("pointer-events-auto");
   });
