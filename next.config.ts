@@ -125,7 +125,6 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'none'; " +
               "base-uri 'self'; " +
               "object-src 'none'; " +
-              "upgrade-insecure-requests; " +
               "report-uri /__csp-report",
           },
           // X-Content-Type-Options — prevent MIME sniffing

@@ -39,7 +39,7 @@ describe("next.config.ts — security headers (SEC-XSS-001)", () => {
       expect(csp).toContain("frame-ancestors 'none'");
       expect(csp).toContain("object-src 'none'");
       expect(csp).toContain("base-uri 'self'");
-      expect(csp).toContain("upgrade-insecure-requests");
+      expect(csp).not.toContain("upgrade-insecure-requests");
       expect(csp).toContain("report-uri /__csp-report");
     });
 

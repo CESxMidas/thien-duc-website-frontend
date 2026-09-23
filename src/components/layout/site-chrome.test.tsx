@@ -4,6 +4,7 @@ import { SiteHeader } from "./site-header";
 import { SiteShell } from "./site-shell";
 import { footerSections } from "@/data/footer";
 import { legalInfo, siteConfig } from "@/config/site";
+import { getVietnamCurrentYear } from "@/lib/format";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
@@ -108,7 +109,7 @@ describe("SiteFooter", () => {
       within(footer).getByText(new RegExp(legalInfo.taxCode)),
     ).toBeInTheDocument();
     expect(
-      within(footer).getByText(new RegExp(String(new Date().getFullYear()))),
+      within(footer).getByText(new RegExp(String(getVietnamCurrentYear()))),
     ).toBeInTheDocument();
   });
 });

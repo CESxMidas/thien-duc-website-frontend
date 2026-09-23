@@ -1,5 +1,9 @@
 import type { Locale } from "@/lib/i18n/config";
 
+export function getVietnamCurrentYear(date = new Date()) {
+  return new Date(date.getTime() + 7 * 60 * 60 * 1000).getUTCFullYear();
+}
+
 export function formatDate(value: string, locale: Locale = "vi") {
   const date = new Date(`${value}T00:00:00+07:00`);
 

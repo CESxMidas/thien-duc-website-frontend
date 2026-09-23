@@ -11,6 +11,7 @@ import {
 import { BrandMottoCompact } from "@/components/ui/brand-motto";
 import { footerSections } from "@/data/footer";
 import type { BrandingSettings } from "@/lib/api/settings";
+import { getVietnamCurrentYear } from "@/lib/format";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -60,7 +61,7 @@ function FooterNavSection({
 }
 
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
-  const currentYear = new Date().getFullYear();
+  const currentYear = getVietnamCurrentYear();
 
   return (
 
