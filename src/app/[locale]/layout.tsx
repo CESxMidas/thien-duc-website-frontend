@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { brandName, brandShortName, siteConfig } from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
 import { isApiReachableAtBuild } from "@/lib/api/client";
+import { getBrandingSettings } from "@/lib/api/settings";
 import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
 import {
   absoluteUrl,
@@ -54,6 +55,7 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const copy = rootCopy[locale];
+  const branding = await getBrandingSettings().catch(() => null);
 
   return {
     metadataBase: new URL(siteConfig.url),
@@ -64,7 +66,7 @@ export async function generateMetadata({
     description: copy.description,
     alternates: buildAlternates("/", locale),
     icons: {
-      icon: "/images/brand/favicon-thien-duc.png",
+      icon: branding?.faviconUrl || "/images/brand/favicon-thien-duc.png",
     },
     openGraph: {
       type: "website",

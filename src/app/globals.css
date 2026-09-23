@@ -284,6 +284,18 @@ textarea {
   }
 }
 
+@keyframes searchPopoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .banner-copy-in {
   animation: bannerCopyIn 680ms var(--ease-out-expo) both;
 }

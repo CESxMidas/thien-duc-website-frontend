@@ -7,6 +7,7 @@ import { Menu, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { mainNavigation } from "@/data/navigation";
+import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -50,9 +51,10 @@ function isActive(path: string, item: NavItem) {
 type SiteHeaderProps = {
   locale: Locale;
   dictionary: Dictionary;
+  branding?: BrandingSettings;
 };
 
-export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
+export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -84,15 +86,15 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
       id="site-header"
       className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory/95 text-charcoal backdrop-blur-md"
     >
-      <div className="grid h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-24 lg:px-20 xl:px-28">
+      <div className="grid h-24 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-28 lg:px-20 xl:px-28">
         <Link
           href={localizePath(routes.home, locale)}
           className="flex shrink-0 items-center"
           aria-label={dictionary.shared.homeAriaLabel}
         >
           <Image
-            src="/images/brand/logo-thien-duc.png"
-            alt={dictionary.shared.logoAlt}
+            src={branding?.logoUrl || "/images/brand/logo-thien-duc.png"}
+            alt={branding?.logoAlt || dictionary.shared.logoAlt}
             width={126}
             height={80}
             preload
@@ -111,7 +113,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 key={item.href}
                 href={localizePath(item.href, locale)}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex h-12 items-center overflow-hidden rounded-[6px] border px-5 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-6 ${
+                className={`relative flex h-14 items-center overflow-hidden rounded-[7px] border px-6 text-[0.86rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-7 ${
                   active
                     ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
                     : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
@@ -133,9 +135,13 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               setSearchOpen((open) => !open);
               setMenuOpen(false);
             }}
-            className="grid size-10 place-items-center text-charcoal/70 transition-colors hover:text-earth"
+            className={`relative grid size-12 place-items-center overflow-hidden rounded-[7px] text-earth shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
+              searchOpen
+                ? "bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory"
+                : "bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory"
+            }`}
           >
-            <Search className="size-4.5" aria-hidden="true" />
+            <Search className="relative size-5" aria-hidden="true" />
           </button>
           <LanguageSwitcher
             locale={locale}
@@ -163,23 +169,31 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
               id="header-search-panel"
               role="search"
               action={localizePath(routes.search, locale)}
-              className="absolute right-0 top-[calc(100%+0.75rem)] z-50 flex w-[min(22rem,calc(100vw-2.5rem))] items-center overflow-hidden border border-earth/25 bg-ivory shadow-[0_18px_50px_rgba(41,41,41,0.16)]"
+              className="absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md"
             >
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-earth/35 to-transparent"
+              />
               <label htmlFor="header-search-input" className="sr-only">
                 {dictionary.header.searchLabel}
               </label>
+              <Search
+                className="ml-4 size-4.5 shrink-0 text-earth/65"
+                aria-hidden="true"
+              />
               <input
                 ref={searchInputRef}
                 id="header-search-input"
                 name="q"
                 type="search"
                 placeholder={dictionary.header.searchPlaceholder}
-                className="h-12 min-w-0 flex-1 bg-transparent px-4 text-sm text-charcoal outline-none placeholder:text-charcoal/45"
+                className="h-14 min-w-0 flex-1 bg-transparent px-3.5 text-[0.9rem] font-medium text-charcoal outline-none placeholder:text-charcoal/42"
               />
               <button
                 type="submit"
                 aria-label={dictionary.header.searchSubmit}
-                className="grid h-12 w-12 shrink-0 place-items-center bg-earth text-ivory transition hover:bg-charcoal"
+                className="mr-1 grid h-12 w-12 shrink-0 place-items-center rounded-[6px] bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.16)] transition hover:-translate-y-0.5 hover:bg-earth hover:shadow-[0_14px_28px_rgba(139,115,94,0.2)]"
               >
                 <Search className="size-4" aria-hidden="true" />
               </button>
@@ -187,7 +201,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
                 type="button"
                 aria-label={dictionary.header.closeMenu}
                 onClick={() => setSearchOpen(false)}
-                className="grid h-12 w-12 shrink-0 place-items-center text-charcoal/55 transition hover:text-charcoal"
+                className="mr-1 grid h-12 w-10 shrink-0 place-items-center text-charcoal/45 transition hover:text-charcoal"
               >
                 <X className="size-4" aria-hidden="true" />
               </button>

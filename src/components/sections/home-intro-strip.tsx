@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { getBrandingSettings } from "@/lib/api/settings";
 import type { Locale } from "@/lib/i18n/config";
 import { localizePath } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -56,7 +57,10 @@ const introCopy: Record<
 };
 
 export async function HomeIntroStrip({ locale }: { locale: Locale }) {
-  const dictionary = await getDictionary(locale);
+  const [dictionary, branding] = await Promise.all([
+    getDictionary(locale),
+    getBrandingSettings().catch(() => null),
+  ]);
 
   const { description } = dictionary.homeIntro;
 
@@ -78,7 +82,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
           {/* IMAGE */}
           <div className="relative min-h-[17rem] overflow-hidden lg:min-h-[18rem]">
             <Image
-              src={brandLogoImage}
+              src={branding?.logoUrl || brandLogoImage}
               alt="Thiên Đức"
               fill
               sizes="(min-width: 1024px) 44vw, 100vw"

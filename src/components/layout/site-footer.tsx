@@ -10,6 +10,7 @@ import {
 } from "@/config/site";
 import { BrandMottoCompact } from "@/components/ui/brand-motto";
 import { footerSections } from "@/data/footer";
+import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -24,6 +25,7 @@ const footerLinkClassName =
 type SiteFooterProps = {
   locale: Locale;
   dictionary: Dictionary;
+  branding?: BrandingSettings;
 };
 
 /** Một nhóm link điều hướng trong footer (tiêu đề + danh sách). */
@@ -57,7 +59,7 @@ function FooterNavSection({
   );
 }
 
-export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
+export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -72,8 +74,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
-              src="/images/brand/logo-thien-duc.png"
-              alt={dictionary.shared.logoAlt}
+              src={branding?.logoUrl || "/images/brand/logo-thien-duc.png"}
+              alt={branding?.logoAlt || dictionary.shared.logoAlt}
               width={56}
               height={56}
               className="size-full object-contain"

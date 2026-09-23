@@ -96,7 +96,6 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
               className="button-polish inline-flex h-10 items-center gap-4 border border-earth/40 px-5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
             >
               {dictionary.common.viewAllProjects}
-
               <span aria-hidden="true">→</span>
             </Link>
           </div>
