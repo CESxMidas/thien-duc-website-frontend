@@ -77,7 +77,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
       {/* =====================================================
       ABOUT
   ====================================================== */}
-      <div className="w-full px-5 pb-5 sm:px-8 sm:pb-6 lg:px-20 lg:pb-8 xl:px-28">
+      <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <div className="grid w-full lg:grid-cols-[44%_40%_16%]">
           {/* IMAGE */}
           <div className="relative min-h-[17rem] overflow-hidden lg:min-h-[18rem]">
@@ -142,7 +142,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
       {/* =====================================================
       BUSINESS FIELDS
   ====================================================== */}
-      <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
+      <div className="w-full px-5 pb-5 sm:px-8 sm:pb-6 lg:px-20 lg:pb-8 xl:px-28">
         <div
           id="linh-vuc-hoat-dong"
           className="grid scroll-mt-[var(--site-header-height)] border-t border-earth/25 lg:grid-cols-[1fr_1fr_1fr_1fr]"
