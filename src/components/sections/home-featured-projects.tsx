@@ -69,7 +69,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
     locale === defaultLocale ? "Khám phá dự án" : dictionary.common.viewDetail;
 
   return (
-    <section className="bg-ivory py-10 sm:py-12 lg:py-14">
+    <section className="border-y border-earth/25 bg-ivory py-10 sm:py-12 lg:py-14">
       {/*
         Không dùng max-w-site nữa.
         Dùng cùng padding ngang với header để section trải rộng.
@@ -80,7 +80,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
         =========================================== */}
         <div className="grid gap-5 lg:grid-cols-[0.88fr_2.35fr] lg:gap-6">
           {/* LEFT HEADING */}
-          <div className="flex flex-col items-start justify-between gap-7 border-earth/15 lg:border-r lg:pr-7">
+          <div className="flex flex-col items-start justify-between gap-7 border-earth/25 lg:border-r lg:pr-7">
             <div>
               <p className="mb-4 text-[0.68rem] font-bold uppercase tracking-[0.15em] text-earth">
                 {dictionary.home.featuredEyebrow}

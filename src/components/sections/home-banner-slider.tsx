@@ -145,7 +145,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden bg-ink"
+      className="relative overflow-hidden border-b border-earth/25 bg-ink"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onPointerEnter={() => setHoverPaused(true)}

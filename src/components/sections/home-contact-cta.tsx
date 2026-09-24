@@ -34,7 +34,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <section className="border-y border-earth/15 bg-ivory text-charcoal">
+    <section className="border-y border-earth/25 bg-ivory text-charcoal">
       <div className="grid gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:px-20 lg:py-16 xl:px-28">
         <div className="flex flex-col justify-center">
           <p className="text-eyebrow mb-4 text-earth">
@@ -55,7 +55,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        <div className="grid overflow-hidden border border-earth/15 bg-white/70 shadow-[0_18px_42px_rgba(41,41,41,0.07)]">
+        <div className="grid overflow-hidden border border-earth/25 bg-white/70 shadow-[0_18px_42px_rgba(41,41,41,0.07)]">
           {contactItems.map((item) => {
             const Icon = item.icon;
 
@@ -65,7 +65,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                className="group grid gap-4 border-b border-earth/12 p-5 transition hover:bg-gold-soft/55 last:border-b-0 sm:grid-cols-[3rem_minmax(7rem,0.35fr)_minmax(0,1fr)] sm:items-center sm:p-6"
+                className="group grid gap-4 border-b border-earth/20 p-5 transition hover:bg-gold-soft/55 last:border-b-0 sm:grid-cols-[3rem_minmax(7rem,0.35fr)_minmax(0,1fr)] sm:items-center sm:p-6"
               >
                 <span className="grid size-12 place-items-center rounded-[7px] border border-earth/18 bg-gold-soft/65 text-earth shadow-[0_8px_18px_rgba(139,115,94,0.08)] transition group-hover:border-earth/35 group-hover:bg-earth group-hover:text-ivory">
                   <Icon className="size-5" aria-hidden="true" />

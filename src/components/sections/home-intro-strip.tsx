@@ -73,7 +73,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
       : motto.split(/\s+[—-]\s+/);
 
   return (
-    <section className="border-y border-earth/15 bg-ivory">
+    <section className="border-y border-earth/25 bg-ivory">
       {/* =====================================================
       ABOUT
   ====================================================== */}
@@ -115,7 +115,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
           </div>
 
           {/* QUOTE */}
-          <aside className="flex items-center border-t border-earth/15 px-6 py-8 lg:border-l lg:border-t-0 lg:px-7">
+          <aside className="flex items-center border-t border-earth/25 px-6 py-8 lg:border-l lg:border-t-0 lg:px-7">
             <blockquote className="font-sans text-[0.9rem] font-semibold leading-[1.75] tracking-[0.02em] text-earth/72">
               <span
                 aria-hidden="true"
@@ -145,7 +145,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
       <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <div
           id="linh-vuc-hoat-dong"
-          className="grid scroll-mt-[var(--site-header-height)] border-t border-earth/15 lg:grid-cols-[1fr_1fr_1fr_1fr]"
+          className="grid scroll-mt-[var(--site-header-height)] border-t border-earth/25 lg:grid-cols-[1fr_1fr_1fr_1fr]"
         >
           {/* TITLE */}
           <div className="flex min-h-[11rem] flex-col justify-center bg-white/35 px-6 py-7 sm:px-10 lg:px-10 xl:px-12">
@@ -163,7 +163,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
             <Link
               key={field}
               href={localizePath(routes.projects, locale)}
-              className="group relative min-h-[11rem] overflow-hidden border-t border-earth/15 outline-none lg:border-l lg:border-t-0"
+              className="group relative min-h-[11rem] overflow-hidden border-t border-earth/25 outline-none lg:border-l lg:border-t-0"
             >
               {/* IMAGE */}
               <Image

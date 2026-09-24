@@ -69,7 +69,7 @@ export function CooperationSlider({
   }, [activeIndex, canSlide, isPaused, scrollToIndex]);
 
   return (
-    <section className="bg-white">
+    <section className="border-y border-earth/25 bg-white">
       <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">

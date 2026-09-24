@@ -16,7 +16,7 @@ export async function HomeLatestNews({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section className="reveal-section bg-cream">
+    <section className="reveal-section border-y border-earth/25 bg-cream">
       <div className="w-full px-5 py-5 sm:px-8 sm:py-8 lg:px-20 xl:px-28">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
