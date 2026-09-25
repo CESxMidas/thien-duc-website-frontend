@@ -40,6 +40,22 @@ function renderSlider(count = 3) {
   );
 }
 
+function renderEmptyCopySlider() {
+  return render(
+    <HomeBannerSlider
+      banners={[
+        {
+          image: "/images/banner-empty.jpg",
+          href: "/du-an/hung-phu",
+        },
+      ]}
+      locale="vi"
+      contactCtaLabel="LiÃªn há»‡"
+      labels={labels}
+    />,
+  );
+}
+
 const toggle = () => screen.queryByTestId("banner-autoplay-toggle");
 const progressBar = () =>
   document.querySelector<HTMLElement>(".banner-progress");
@@ -169,6 +185,23 @@ describe("HomeBannerSlider", () => {
     expect(
       screen.getByRole("link", { name: "Liên hệ" }).getAttribute("href"),
     ).toBe("/lien-he");
+  });
+
+  it("banner khong co noi dung van giu lien he o vung day", () => {
+    const { container } = renderEmptyCopySlider();
+    expect(screen.getByRole("link", { name: "LiÃªn há»‡" })).toHaveAttribute(
+      "href",
+      "/lien-he",
+    );
+    expect(screen.queryByRole("link", { name: "Xem dá»± Ã¡n" })).toBeNull();
+    expect(screen.getByTestId("banner-contact-actions").className).toContain(
+      "bottom-[clamp",
+    );
+    expect(
+      Array.from(container.querySelectorAll("div")).some((node) =>
+        node.className.includes("top-[clamp"),
+      ),
+    ).toBe(false);
   });
 
   it("vạch ngang chỉ nằm ở cụm số slide, không nằm trong khối chữ", () => {
