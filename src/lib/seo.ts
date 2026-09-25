@@ -83,13 +83,18 @@ export function buildNewsArticleJsonLd(
   locale: Locale,
 ): Record<string, unknown> {
   const url = absoluteUrl(localizePath(`/tin-tuc/${post.slug}`, locale));
+  const images = post.gallery?.length
+    ? post.gallery
+    : post.image
+      ? [post.image]
+      : [];
 
   return {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: post.title,
     description: post.summary,
-    ...(post.image ? { image: [absoluteUrl(post.image)] } : {}),
+    ...(images.length > 0 ? { image: images.map(absoluteUrl) } : {}),
     ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
     inLanguage: localeHtmlLang[locale],
     mainEntityOfPage: { "@type": "WebPage", "@id": url },

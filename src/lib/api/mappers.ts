@@ -84,6 +84,15 @@ function mapProjectGallery(dto: ProjectDto): string[] | undefined {
   return dto.gallery.length > 0 ? dto.gallery : undefined;
 }
 
+function uniqueImageList(images: Array<string | null | undefined>) {
+  const unique = images.filter(
+    (image, index, list): image is string =>
+      Boolean(image) && list.indexOf(image) === index,
+  );
+
+  return unique.length > 0 ? unique : undefined;
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -141,6 +150,7 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     content: dto.content?.map((item) => localized(item, locale)),
     author: localizeAuthor(dto.author, locale),
     image: dto.image ?? undefined,
+    gallery: uniqueImageList([dto.image, ...(dto.gallery ?? [])]),
   };
 }
 

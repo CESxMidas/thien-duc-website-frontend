@@ -265,14 +265,14 @@ export function HomeBannerSlider({
             {hasPrimaryCta ? (
               <Link
                 href={localizePath(activeBanner.href, locale)}
-                className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal xl:px-6 xl:text-sm xl:tracking-[0.1em]"
+                className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-gold bg-gold px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-ink shadow-[0_14px_32px_rgba(41,41,41,0.26)] transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-charcoal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:px-6 xl:text-sm xl:tracking-[0.1em]"
               >
                 {activeBanner.ctaLabel}
               </Link>
             ) : null}
             <Link
               href={localizePath(routes.contact, locale)}
-              className="link-arrow inline-flex min-h-11 items-center gap-2 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
+              className="link-arrow inline-flex min-h-11 items-center gap-2 border border-white/55 bg-ink/45 px-5 py-3 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(41,41,41,0.22)] underline-offset-4 transition hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
             >
               {contactCtaLabel}
             </Link>

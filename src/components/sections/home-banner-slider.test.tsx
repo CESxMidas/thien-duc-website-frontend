@@ -164,17 +164,22 @@ describe("HomeBannerSlider", () => {
     expect(heading.className).toContain("uppercase");
   });
 
-  it("CTA chính là nút viền, CTA phụ là liên kết chữ nhẹ hơn", () => {
+  it("CTA chính và CTA liên hệ có màu nổi bật trên ảnh banner", () => {
     renderSlider();
     const primary = screen.getByRole("link", { name: "Xem dự án" });
     const secondary = screen.getByRole("link", { name: "Liên hệ" });
-    expect(primary.className).toContain("border-white/75");
+    expect(primary.className).toContain("border-gold");
+    expect(primary.className).toContain("bg-gold");
+    expect(primary.className).toContain("text-ink");
     expect(primary.className).toContain("min-h-12");
     expect(primary.className).toContain("max-w-full");
-    expect(primary.className).not.toContain("bg-ivory");
+    expect(primary.className).toContain("hover:bg-white");
+    expect(primary.className).toContain("focus-visible:outline-2");
     expect(secondary.className).toContain("link-arrow");
-    expect(secondary.className).not.toContain("bg-ivory");
-    expect(secondary.className).not.toContain("border");
+    expect(secondary.className).toContain("border-white/55");
+    expect(secondary.className).toContain("bg-ink/45");
+    expect(secondary.className).toContain("hover:bg-gold");
+    expect(secondary.className).toContain("hover:text-ink");
     expect(secondary.className).toContain("min-h-11");
     expect(secondary.className).toContain("xl:min-h-12");
     expect(secondary.className).toContain("focus-visible:outline-2");

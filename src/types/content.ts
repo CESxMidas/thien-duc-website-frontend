@@ -93,4 +93,5 @@ export type NewsPost = {
   content?: string[];
   author?: string;
   image?: string;
+  gallery?: string[];
 };

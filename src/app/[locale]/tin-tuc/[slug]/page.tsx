@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
+import { NewsDetailGallery } from "@/components/sections/news-detail-gallery";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHeading } from "@/components/ui/page-heading";
@@ -59,6 +59,11 @@ export default async function NewsDetailPage({
 
   const dictionary = await getDictionary(locale);
   const content = post.content?.length ? post.content : [post.summary];
+  const galleryImages = post.gallery?.length
+    ? post.gallery
+    : post.image
+      ? [post.image]
+      : [];
 
   return (
     <SiteShell locale={locale}>
@@ -82,20 +87,7 @@ export default async function NewsDetailPage({
         description={post.summary}
       />
 
-      {post.image ? (
-        <section className="reveal-section page-container pb-6">
-          <div className="image-reveal relative aspect-video max-h-140 overflow-hidden border border-black/10 bg-surface">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              preload
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover"
-            />
-          </div>
-        </section>
-      ) : null}
+      <NewsDetailGallery images={galleryImages} title={post.title} />
 
       <section className="page-container reveal-section grid gap-6 pb-5 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article className="hover-card border border-black/10 bg-white p-5 md:p-7">

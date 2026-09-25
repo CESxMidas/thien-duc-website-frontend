@@ -103,6 +103,7 @@ export type NewsPostDto = {
   content?: LocalizedText[] | null;
   author?: string | null;
   image?: string | null;
+  gallery?: string[] | null;
   eventDate?: string | null;
   publishedAt?: string | null;
   category?: { slug: string; name: LocalizedText } | null;

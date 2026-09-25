@@ -167,4 +167,25 @@ describe("mapNewsPost — chuyên mục", () => {
     expect(mapNewsPost({ ...baseNews, category: null }, "vi").category)
       .toBeUndefined();
   });
+
+  it("gom anh dai dien va gallery thanh danh sach khong trung lap", () => {
+    const post = mapNewsPost(
+      {
+        ...baseNews,
+        image: "/images/news/a.jpg",
+        gallery: [
+          "/images/news/a.jpg",
+          "/images/news/b.jpg",
+          "/images/news/c.jpg",
+        ],
+      },
+      "vi",
+    );
+
+    expect(post.gallery).toEqual([
+      "/images/news/a.jpg",
+      "/images/news/b.jpg",
+      "/images/news/c.jpg",
+    ]);
+  });
 });
