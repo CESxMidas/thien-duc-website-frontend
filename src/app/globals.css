@@ -3,7 +3,7 @@
 :root {
   --background: #f6f4ef;
   --foreground: #292929;
-  --site-header-height: 6rem;
+  --site-header-height: 7rem;
   --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
   --text-h1: clamp(2rem, 1.5rem + 2.1vw, 3.5rem);
   --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.625rem);
@@ -30,6 +30,12 @@
   --reveal-sides-pair-delay: 200ms;
   --stagger-sides-step: 160ms;
   --ease-reveal-sides: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --site-header-height: 8rem;
+  }
 }
 
 @theme {

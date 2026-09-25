@@ -86,7 +86,7 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
       id="site-header"
       className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory/95 text-charcoal backdrop-blur-md"
     >
-      <div className="grid h-24 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-28 lg:px-20 xl:px-28">
+      <div className="grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28">
         <Link
           href={localizePath(routes.home, locale)}
           className="flex shrink-0 items-center"
@@ -98,7 +98,7 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
             width={126}
             height={80}
             preload
-            className="h-[4.5rem] w-auto object-contain lg:h-[5.75rem]"
+            className="h-[5.25rem] w-auto object-contain mix-blend-multiply [clip-path:inset(0_0_2%_0)] lg:h-[6.75rem]"
           />
         </Link>
 

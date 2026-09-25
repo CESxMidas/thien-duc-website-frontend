@@ -54,6 +54,12 @@ export function HomeBannerSlider({
   const touchStartX = useRef<number | null>(null);
 
   const activeBanner = banners[activeIndex];
+  const hasActiveCopy = Boolean(
+    activeBanner?.eyebrow ||
+      activeBanner?.title ||
+      activeBanner?.subtitle ||
+      activeBanner?.ctaLabel,
+  );
   const autoplayEnabled = bannerCount > 1 && !reducedMotion;
   const isPaused = hoverPaused || tabHidden || manualPaused || userStopped;
 
@@ -180,7 +186,7 @@ export function HomeBannerSlider({
             >
               <Image
                 src={banner.image}
-                alt={banner.title}
+                alt={banner.title || labels.regionLabel}
                 fill
                 preload={index === 0}
                 loading={index === 0 ? undefined : "lazy"}
@@ -198,8 +204,11 @@ export function HomeBannerSlider({
           );
         })}
 
-        {}
-        <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.70)_0%,rgba(41,41,41,0.46)_30%,rgba(41,41,41,0.08)_64%,rgba(41,41,41,0.16)_100%)]" />
+        {hasActiveCopy ? (
+          <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.70)_0%,rgba(41,41,41,0.46)_30%,rgba(41,41,41,0.08)_64%,rgba(41,41,41,0.16)_100%)]" />
+        ) : null}
+
+        {!activeBanner.title ? <h1 className="sr-only">Thiên Đức</h1> : null}
 
         {autoplayEnabled ? (
           <div className="absolute inset-x-0 top-0 z-20 h-1 bg-white/20">
@@ -215,36 +224,45 @@ export function HomeBannerSlider({
           </div>
         ) : null}
 
+        {hasActiveCopy ? (
         <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,13svh,8.25rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
           <div className="w-full max-w-[36rem]">
             <div
-              key={activeBanner.title}
+              key={`${activeBanner.image}-${activeBanner.title ?? ""}`}
               className={`pointer-events-auto flex flex-col justify-between text-white ${
                 reducedMotion ? "" : "banner-copy-in"
               }`}
             >
              
-              <div className="mb-4 sm:mb-5">
-                <p className="text-eyebrow text-white/75">
-                  {activeBanner.eyebrow}
-                </p>
-              </div>
+              {activeBanner.eyebrow ? (
+                <div className="mb-4 sm:mb-5">
+                  <p className="text-eyebrow text-white/75">
+                    {activeBanner.eyebrow}
+                  </p>
+                </div>
+              ) : null}
               <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
-                <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2.1rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.45rem] sm:max-w-[13ch] sm:text-[2.85rem] md:text-[3.2rem] lg:text-[3.85rem]">
-                  {activeBanner.title}
-                </h1>
+                {activeBanner.title ? (
+                  <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2.1rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.45rem] sm:max-w-[13ch] sm:text-[2.85rem] md:text-[3.2rem] lg:text-[3.85rem]">
+                    {activeBanner.title}
+                  </h1>
+                ) : null}
             
-                <p className="mt-1 line-clamp-3 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
-                  {activeBanner.subtitle}
-                </p>
+                {activeBanner.subtitle ? (
+                  <p className="mt-1 line-clamp-3 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
+                    {activeBanner.subtitle}
+                  </p>
+                ) : null}
              
                 <div className="mt-5 flex w-full flex-col items-start gap-3 sm:mt-7 xl:flex-row xl:flex-wrap xl:items-center xl:gap-x-6">
-                  <Link
-                    href={localizePath(activeBanner.href, locale)}
-                    className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal xl:px-6 xl:text-sm xl:tracking-[0.1em]"
-                  >
-                    {activeBanner.ctaLabel}
-                  </Link>
+                  {activeBanner.ctaLabel ? (
+                    <Link
+                      href={localizePath(activeBanner.href, locale)}
+                      className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-white/75 px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white transition hover:border-white hover:bg-white hover:text-charcoal xl:px-6 xl:text-sm xl:tracking-[0.1em]"
+                    >
+                      {activeBanner.ctaLabel}
+                    </Link>
+                  ) : null}
                   <Link
                     href={localizePath(routes.contact, locale)}
                     className="link-arrow inline-flex min-h-11 items-center gap-2 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white underline-offset-4 transition hover:text-ivory hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
@@ -256,6 +274,7 @@ export function HomeBannerSlider({
             </div>
           </div>
         </div>
+        ) : null}
 
         <div className="absolute bottom-6 right-5 z-30 flex items-center gap-2 sm:bottom-7 sm:right-7">
         

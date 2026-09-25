@@ -163,7 +163,7 @@ export function mapBanner(dto: BannerDto, locale: Locale): HomeBanner {
   return {
     image: dto.image,
     eyebrow: localized(dto.eyebrow, locale) ?? "",
-    title: localized(dto.title, locale),
+    title: localized(dto.title, locale) ?? "",
     subtitle: localized(dto.subtitle, locale) ?? "",
     href: dto.href,
     ctaLabel: localized(dto.ctaLabel, locale) ?? "",

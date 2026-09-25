@@ -131,7 +131,7 @@ export type BannerDto = {
   id: string;
   image: string;
   eyebrow?: LocalizedText | null;
-  title: LocalizedText;
+  title?: LocalizedText | null;
   subtitle?: LocalizedText | null;
   href: string;
   ctaLabel?: LocalizedText | null;

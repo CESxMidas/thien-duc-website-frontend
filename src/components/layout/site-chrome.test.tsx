@@ -33,6 +33,9 @@ describe("SiteHeader", () => {
     ]);
     expect(primaryLinks[2]).toHaveAttribute("href", "/#linh-vuc-hoat-dong");
     expect(
+      screen.getByRole("img", { name: dictionary.shared.logoAlt }),
+    ).toHaveClass("mix-blend-multiply", "[clip-path:inset(0_0_2%_0)]");
+    expect(
       screen.queryByRole("link", { name: new RegExp(siteConfig.phone) }),
     ).toBeNull();
     expect(screen.queryByRole("link", { name: siteConfig.email })).toBeNull();
