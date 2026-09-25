@@ -84,7 +84,7 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
   return (
     <header
       id="site-header"
-      className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory/95 text-charcoal backdrop-blur-md"
+      className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory text-charcoal"
     >
       <div className="grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28">
         <Link
@@ -93,12 +93,15 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
           aria-label={dictionary.shared.homeAriaLabel}
         >
           <Image
-            src={branding?.logoUrl || "/images/brand/logo-thien-duc.png"}
+            src={
+              branding?.logoUrl ||
+              "/images/brand/logo-thien-duc-header-transparent.png"
+            }
             alt={branding?.logoAlt || dictionary.shared.logoAlt}
             width={126}
             height={80}
             preload
-            className="h-[5.25rem] w-auto object-contain mix-blend-multiply [clip-path:inset(0_0_2%_0)] lg:h-[6.75rem]"
+            className="h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
           />
         </Link>
 
