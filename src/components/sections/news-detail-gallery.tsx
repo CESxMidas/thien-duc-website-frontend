@@ -56,7 +56,6 @@ export function NewsDetailGallery({ images, title }: NewsDetailGalleryProps) {
         <div className="grid grid-cols-2 gap-3 lg:auto-rows-fr">
           {secondaryImages.map((image, index) => {
             const showMore = index === secondaryImages.length - 1 && hiddenCount > 0;
-
             return (
               <div
                 key={image}
