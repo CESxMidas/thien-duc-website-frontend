@@ -144,11 +144,20 @@ h2 {
 }
 
 .prose-content {
+  min-width: 0;
+  width: 100%;
   max-width: var(--measure-prose);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .prose-content > p,
 .text-justified {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   text-indent: 1.5em;
 }
 

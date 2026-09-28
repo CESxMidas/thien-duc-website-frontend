@@ -49,7 +49,7 @@ export function NewsDetailGallery({ images, title }: NewsDetailGalleryProps) {
           />
         </div>
 
-        <div className="grid max-h-[27rem] grid-cols-2 gap-3 overflow-y-auto pr-1">
+        <div className="grid grid-cols-2 gap-3">
           {secondaryImages.map((image, index) => (
             <div
               key={image}

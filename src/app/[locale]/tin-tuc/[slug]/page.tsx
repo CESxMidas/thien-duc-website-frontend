@@ -109,7 +109,12 @@ export default async function NewsDetailPage({
 
           <div className="prose-content mt-6 grid min-w-0 gap-5 break-words text-base leading-7 text-slate [overflow-wrap:anywhere] sm:mt-8 sm:leading-8">
             {content.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p
+                key={paragraph}
+                className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
+              >
+                {paragraph}
+              </p>
             ))}
           </div>
         </article>
