@@ -89,10 +89,9 @@ export default async function NewsDetailPage({
 
       <NewsDetailGallery images={galleryImages} title={post.title} />
 
-      <section className="page-container reveal-section grid items-start gap-6 pb-5 sm:pb-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <article className="hover-card min-w-0 overflow-hidden border border-black/10 bg-white p-5 md:p-7">
-          <div className="flex flex-wrap gap-3 text-sm font-medium text-slate">
-        
+      <section className="page-container reveal-section pb-5 sm:pb-8">
+        <article className="mx-auto max-w-5xl min-w-0 overflow-hidden">
+          <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium text-slate">
             {post.category ? (
               <Link
                 href={localizePath(
@@ -107,7 +106,7 @@ export default async function NewsDetailPage({
             <span>{formatDate(post.publishedAt, locale)}</span>
           </div>
 
-          <div className="prose-content mt-6 grid min-w-0 gap-5 break-words text-base leading-7 text-slate [overflow-wrap:anywhere] sm:mt-8 sm:leading-8">
+          <div className="prose-content mt-8 grid min-w-0 gap-5 break-words text-base leading-7 text-slate [max-width:100%] [overflow-wrap:anywhere] sm:mt-10 sm:leading-8">
             {content.map((paragraph) => (
               <p
                 key={paragraph}
@@ -119,20 +118,20 @@ export default async function NewsDetailPage({
           </div>
         </article>
 
-        <aside className="hover-card h-fit min-w-0 border border-black/10 bg-white p-6">
-          <h2 className="text-xl font-semibold">
+        <aside className="mx-auto mt-10 max-w-5xl border-t border-black/10 pt-6">
+          <h2 className="font-display text-xl font-semibold">
             {dictionary.newsDetail.infoTitle}
           </h2>
-          <dl className="mt-5 grid gap-4 text-sm">
+          <dl className="mt-5 grid gap-5 text-sm sm:grid-cols-2 lg:grid-cols-4">
             {post.category ? (
-              <div>
+              <div className="min-w-0">
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   {dictionary.newsDetail.categoryLabel}
                 </dt>
                 <dd className="mt-1 text-slate">{post.category.name}</dd>
               </div>
             ) : null}
-            <div>
+            <div className="min-w-0">
               <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                 {dictionary.newsDetail.publishedLabel}
               </dt>
@@ -141,7 +140,7 @@ export default async function NewsDetailPage({
               </dd>
             </div>
             {post.eventDate ? (
-              <div>
+              <div className="min-w-0">
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   {dictionary.newsDetail.eventDateLabel}
                 </dt>
@@ -151,7 +150,7 @@ export default async function NewsDetailPage({
               </div>
             ) : null}
             {post.author ? (
-              <div>
+              <div className="min-w-0">
                 <dt className="font-semibold uppercase tracking-[0.16em] text-brand">
                   {dictionary.newsDetail.sourceLabel}
                 </dt>
@@ -161,7 +160,7 @@ export default async function NewsDetailPage({
           </dl>
           <Link
             href={localizePath(routes.news, locale)}
-            className="button-polish mt-7 inline-flex h-11 w-full items-center justify-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="button-polish mt-7 inline-flex h-11 items-center justify-center bg-brand px-6 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             {dictionary.common.viewAllNews}
           </Link>
