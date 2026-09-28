@@ -1,14 +1,14 @@
 import Image from "next/image";
-
 const MAX_PREVIEW_IMAGES = 5;
-
 type NewsDetailGalleryProps = {
   images: string[];
   title: string;
 };
 
 function uniqueImages(images: string[]) {
-  return images.filter((image, index) => image && images.indexOf(image) === index);
+  return images.filter(
+    (image, index) => image && images.indexOf(image) === index,
+  );
 }
 
 export function NewsDetailGallery({ images, title }: NewsDetailGalleryProps) {
@@ -16,9 +16,7 @@ export function NewsDetailGallery({ images, title }: NewsDetailGalleryProps) {
   const mainImage = gallery[0];
   const secondaryImages = gallery.slice(1, MAX_PREVIEW_IMAGES);
   const hiddenCount = Math.max(gallery.length - MAX_PREVIEW_IMAGES, 0);
-
   if (!mainImage) return null;
-
   if (gallery.length === 1) {
     return (
       <section className="reveal-section page-container pb-6">
@@ -55,7 +53,8 @@ export function NewsDetailGallery({ images, title }: NewsDetailGalleryProps) {
 
         <div className="grid grid-cols-2 gap-3 lg:auto-rows-fr">
           {secondaryImages.map((image, index) => {
-            const showMore = index === secondaryImages.length - 1 && hiddenCount > 0;
+            const showMore =
+              index === secondaryImages.length - 1 && hiddenCount > 0;
             return (
               <div
                 key={image}
