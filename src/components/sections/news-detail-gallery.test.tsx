@@ -11,7 +11,7 @@ describe("NewsDetailGallery", () => {
     expect(screen.queryByLabelText("Hinh anh bai viet")).toBeNull();
   });
 
-  it("nhieu anh thi tao cum gallery va bao so anh con lai", () => {
+  it("nhieu anh thi hien thi du tat ca anh", () => {
     render(
       <NewsDetailGallery
         title="Tin mau"
@@ -28,8 +28,8 @@ describe("NewsDetailGallery", () => {
     );
 
     expect(screen.getByLabelText("Hinh anh bai viet")).toBeInTheDocument();
-    expect(screen.getAllByRole("img")).toHaveLength(5);
-    expect(screen.getByText("+2")).toBeInTheDocument();
+    expect(screen.getAllByRole("img")).toHaveLength(7);
+    expect(screen.queryByText("+2")).toBeNull();
   });
 
   it("khong lap lai anh trung nhau", () => {
