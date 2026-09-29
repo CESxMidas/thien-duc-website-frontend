@@ -4,7 +4,12 @@ import { NewsDetailGallery } from "./news-detail-gallery";
 describe("NewsDetailGallery", () => {
   it("mot anh thi hien thi anh lon don gian", () => {
     render(
-      <NewsDetailGallery images={["/images/news/a.jpg"]} title="Tin mau" />,
+      <NewsDetailGallery
+        images={["/images/news/a.jpg"]}
+        title="Tin mau"
+        galleryLabel="Hình ảnh bài viết"
+        imageLabel="Ảnh"
+      />,
     );
 
     expect(screen.getByRole("img", { name: "Tin mau" })).toBeInTheDocument();
@@ -15,6 +20,8 @@ describe("NewsDetailGallery", () => {
     render(
       <NewsDetailGallery
         title="Tin mau"
+        galleryLabel="Hình ảnh bài viết"
+        imageLabel="Ảnh"
         images={[
           "/images/news/a.jpg",
           "/images/news/b.jpg",
@@ -27,16 +34,23 @@ describe("NewsDetailGallery", () => {
       />,
     );
 
-    expect(screen.getByLabelText("Hinh anh bai viet")).toBeInTheDocument();
+    expect(screen.getByLabelText("Hình ảnh bài viết")).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(7);
     expect(screen.queryByText("+2")).toBeNull();
+    expect(screen.getByText("Ảnh 7")).toBeInTheDocument();
   });
 
   it("khong lap lai anh trung nhau", () => {
     render(
       <NewsDetailGallery
         title="Tin mau"
-        images={["/images/news/a.jpg", "/images/news/a.jpg", "/images/news/b.jpg"]}
+        galleryLabel="Hình ảnh bài viết"
+        imageLabel="Ảnh"
+        images={[
+          "/images/news/a.jpg",
+          "/images/news/a.jpg",
+          "/images/news/b.jpg",
+        ]}
       />,
     );
 

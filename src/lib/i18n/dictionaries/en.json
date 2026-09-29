@@ -147,7 +147,9 @@
     "categoryLabel": "Category",
     "publishedLabel": "Published on",
     "eventDateLabel": "Event date",
-    "sourceLabel": "Source"
+    "sourceLabel": "Source",
+    "galleryLabel": "Article images",
+    "imageLabel": "Image"
   },
   "shared": {
     "homeAriaLabel": "Thien Duc home",

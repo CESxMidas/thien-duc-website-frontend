@@ -147,7 +147,9 @@
     "categoryLabel": "Chuyên mục",
     "publishedLabel": "Ngày đăng",
     "eventDateLabel": "Ngày sự kiện",
-    "sourceLabel": "Nguồn"
+    "sourceLabel": "Nguồn",
+    "galleryLabel": "Hình ảnh bài viết",
+    "imageLabel": "Ảnh"
   },
   "shared": {
     "homeAriaLabel": "Trang chủ Thiên Đức",

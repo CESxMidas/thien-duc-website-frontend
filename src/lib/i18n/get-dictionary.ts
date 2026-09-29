@@ -187,6 +187,8 @@ export type Dictionary = {
     publishedLabel: string;
     eventDateLabel: string;
     sourceLabel: string;
+    galleryLabel: string;
+    imageLabel: string;
   };
   shared: {
     homeAriaLabel: string;
