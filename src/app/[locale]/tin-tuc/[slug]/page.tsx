@@ -82,7 +82,7 @@ export default async function NewsDetailPage({
         ]}
       />
 
-      <header className="page-container py-8 sm:py-12 lg:py-14">
+      <header className="page-container py-6 sm:py-9 lg:py-10">
         <div className="border-l-2 border-earth pl-5 sm:pl-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate">
             {post.category ? (
@@ -103,8 +103,8 @@ export default async function NewsDetailPage({
             </span>
           </div>
 
-          <div className="mt-4 grid items-end gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.75fr)] lg:gap-12 xl:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.65fr)]">
-            <h1 className="max-w-[22ch] text-[2.5rem] font-medium leading-[1.04] text-balance text-charcoal sm:text-[3.5rem] lg:text-[4.25rem]">
+          <div className="mt-3 grid items-end gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(18rem,0.92fr)] lg:gap-8 xl:grid-cols-[minmax(0,1.12fr)_minmax(20rem,0.88fr)]">
+            <h1 className="max-w-[18ch] text-[2.35rem] font-medium leading-[1.04] text-balance text-charcoal sm:text-[3.25rem] lg:text-[3.9rem]">
               {post.title}
             </h1>
             <p className="max-w-[65ch] text-base leading-7 text-charcoal/75 sm:text-lg sm:leading-8 lg:pb-1">
@@ -114,8 +114,8 @@ export default async function NewsDetailPage({
         </div>
       </header>
 
-      <section className="page-container reveal-section pb-10 sm:pb-16">
-        <div className="grid min-w-0 items-start gap-y-10 border-t border-charcoal/15 pt-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-x-16 lg:gap-y-12 lg:pt-12">
+      <section className="page-container reveal-section pb-8 sm:pb-12">
+        <div className="grid min-w-0 items-start gap-y-8 border-t border-charcoal/15 pt-6 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-x-8 lg:gap-y-8 lg:pt-8 xl:grid-cols-[minmax(0,1fr)_18rem] xl:gap-x-10">
           <NewsDetailGallery
             images={galleryImages}
             title={post.title}
@@ -127,7 +127,7 @@ export default async function NewsDetailPage({
             <h2 className="font-display text-2xl font-semibold text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
-            <dl className="mt-5 grid gap-5 text-sm sm:grid-cols-2 lg:grid-cols-1">
+            <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-1">
               {post.category ? (
                 <div className="min-w-0">
                   <dt className="flex items-center gap-2 font-semibold text-charcoal">
@@ -191,8 +191,8 @@ export default async function NewsDetailPage({
             </Link>
           </aside>
 
-          <article className="min-w-0 border-t border-charcoal/15 pt-8 sm:pt-10 lg:col-start-1">
-            <div className="grid max-w-[72ch] min-w-0 gap-6 break-words text-[1.0625rem] leading-8 text-charcoal/85 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
+          <article className="min-w-0 border-t border-charcoal/15 pt-6 sm:pt-8 lg:col-start-1">
+            <div className="grid max-w-[82ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/85 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
               {content.map((paragraph) => (
                 <p
                   key={paragraph}
