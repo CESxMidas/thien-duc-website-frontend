@@ -27,13 +27,13 @@ export function NewsDetailGallery({
   if (gallery.length === 1) {
     return (
       <section className="reveal-section page-container pb-8 sm:pb-12">
-        <div className="image-reveal relative mx-auto aspect-video max-w-6xl overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
+        <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
           <Image
             src={mainImage}
             alt={title}
             fill
             preload
-            sizes="(max-width: 1280px) 100vw, 1280px"
+            sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc(100vw - 4rem), calc(100vw - 14rem)"
             className="object-cover"
           />
         </div>
@@ -46,14 +46,14 @@ export function NewsDetailGallery({
       className="reveal-section page-container pb-8 sm:pb-12"
       aria-label={galleryLabel}
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
           <Image
             src={mainImage}
             alt={title}
             fill
             preload
-            sizes="(max-width: 1280px) 100vw, 1152px"
+            sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc(100vw - 4rem), calc(100vw - 14rem)"
             className="object-cover"
           />
         </div>

@@ -83,7 +83,7 @@ export default async function NewsDetailPage({
       />
 
       <header className="page-container py-8 sm:py-12 lg:py-14">
-        <div className="mx-auto max-w-6xl border-l-2 border-earth pl-5 sm:pl-8">
+        <div className="border-l-2 border-earth pl-5 sm:pl-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate">
             {post.category ? (
               <Link
@@ -103,12 +103,14 @@ export default async function NewsDetailPage({
             </span>
           </div>
 
-          <h1 className="mt-4 max-w-[19ch] text-[2.5rem] font-medium leading-[1.04] text-balance text-charcoal sm:text-[3.5rem] lg:text-[4.25rem]">
-            {post.title}
-          </h1>
-          <p className="mt-6 max-w-3xl text-base leading-7 text-charcoal/75 sm:text-lg sm:leading-8">
-            {post.summary}
-          </p>
+          <div className="mt-4 grid items-end gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(18rem,0.75fr)] lg:gap-12 xl:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.65fr)]">
+            <h1 className="max-w-[22ch] text-[2.5rem] font-medium leading-[1.04] text-balance text-charcoal sm:text-[3.5rem] lg:text-[4.25rem]">
+              {post.title}
+            </h1>
+            <p className="max-w-[65ch] text-base leading-7 text-charcoal/75 sm:text-lg sm:leading-8 lg:pb-1">
+              {post.summary}
+            </p>
+          </div>
         </div>
       </header>
 
@@ -120,7 +122,7 @@ export default async function NewsDetailPage({
       />
 
       <section className="page-container reveal-section pb-10 sm:pb-16">
-        <div className="mx-auto grid max-w-6xl items-start gap-10 border-t border-charcoal/15 pt-8 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-16 lg:pt-12">
+        <div className="grid items-start gap-10 border-t border-charcoal/15 pt-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-16 lg:pt-12">
           <article className="min-w-0">
             <div className="grid max-w-[72ch] min-w-0 gap-6 break-words text-[1.0625rem] leading-8 text-charcoal/85 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
               {content.map((paragraph) => (
