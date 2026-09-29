@@ -26,54 +26,50 @@ export function NewsDetailGallery({
 
   if (gallery.length === 1) {
     return (
-      <section className="reveal-section page-container pb-8 sm:pb-12">
-        <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
-          <Image
-            src={mainImage}
-            alt={title}
-            fill
-            preload
-            sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc(100vw - 4rem), calc(100vw - 14rem)"
-            className="object-cover"
-          />
-        </div>
-      </section>
+      <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
+        <Image
+          src={mainImage}
+          alt={title}
+          fill
+          preload
+          sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1023px) calc(100vw - 4rem), (max-width: 1279px) calc(100vw - 33rem), calc(100vw - 37rem)"
+          className="object-cover"
+        />
+      </div>
     );
   }
 
   return (
     <section
-      className="reveal-section page-container pb-8 sm:pb-12"
+      className="min-w-0"
       aria-label={galleryLabel}
     >
-      <div>
-        <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
-          <Image
-            src={mainImage}
-            alt={title}
-            fill
-            preload
-            sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) calc(100vw - 4rem), calc(100vw - 14rem)"
-            className="object-cover"
-          />
-        </div>
+      <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
+        <Image
+          src={mainImage}
+          alt={title}
+          fill
+          preload
+          sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1023px) calc(100vw - 4rem), (max-width: 1279px) calc(100vw - 33rem), calc(100vw - 37rem)"
+          className="object-cover"
+        />
+      </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-          {secondaryImages.map((image, index) => (
-            <div
-              key={image}
-              className="relative aspect-video min-w-0 overflow-hidden border border-charcoal/15 bg-surface"
-            >
-              <Image
-                src={image}
-                alt={`${title} — ${imageLabel} ${index + 2}`}
-                fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+        {secondaryImages.map((image, index) => (
+          <div
+            key={image}
+            className="relative aspect-video min-w-0 overflow-hidden border border-charcoal/15 bg-surface"
+          >
+            <Image
+              src={image}
+              alt={`${title} — ${imageLabel} ${index + 2}`}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1023px) 33vw, (max-width: 1279px) 16vw, 14vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
       </div>
     </section>
   );

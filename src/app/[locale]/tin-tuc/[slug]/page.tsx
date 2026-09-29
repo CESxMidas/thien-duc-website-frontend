@@ -114,29 +114,16 @@ export default async function NewsDetailPage({
         </div>
       </header>
 
-      <NewsDetailGallery
-        images={galleryImages}
-        title={post.title}
-        galleryLabel={dictionary.newsDetail.galleryLabel}
-        imageLabel={dictionary.newsDetail.imageLabel}
-      />
-
       <section className="page-container reveal-section pb-10 sm:pb-16">
-        <div className="grid items-start gap-10 border-t border-charcoal/15 pt-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-16 lg:pt-12">
-          <article className="min-w-0">
-            <div className="grid max-w-[72ch] min-w-0 gap-6 break-words text-[1.0625rem] leading-8 text-charcoal/85 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
-              {content.map((paragraph) => (
-                <p
-                  key={paragraph}
-                  className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </article>
+        <div className="grid min-w-0 items-start gap-y-10 border-t border-charcoal/15 pt-8 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-x-16 lg:gap-y-12 lg:pt-12">
+          <NewsDetailGallery
+            images={galleryImages}
+            title={post.title}
+            galleryLabel={dictionary.newsDetail.galleryLabel}
+            imageLabel={dictionary.newsDetail.imageLabel}
+          />
 
-          <aside className="border-t border-charcoal/20 pt-5 lg:sticky lg:top-36">
+          <aside className="border-t-2 border-earth pt-5 lg:sticky lg:top-36 lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <h2 className="font-display text-2xl font-semibold text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
@@ -203,6 +190,19 @@ export default async function NewsDetailPage({
               {dictionary.common.viewAllNews}
             </Link>
           </aside>
+
+          <article className="min-w-0 border-t border-charcoal/15 pt-8 sm:pt-10 lg:col-start-1">
+            <div className="grid max-w-[72ch] min-w-0 gap-6 break-words text-[1.0625rem] leading-8 text-charcoal/85 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
+              {content.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </article>
         </div>
       </section>
     </SiteShell>
