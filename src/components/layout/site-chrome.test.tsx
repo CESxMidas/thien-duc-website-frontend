@@ -3,7 +3,7 @@ import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SiteShell } from "./site-shell";
 import { footerSections } from "@/data/footer";
-import { legalInfo, siteConfig } from "@/config/site";
+import { legalInfo, siteConfig, zaloHref } from "@/config/site";
 import { getVietnamCurrentYear } from "@/lib/format";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
@@ -52,7 +52,9 @@ describe("SiteShell", () => {
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveTextContent("nội dung");
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
-    expect(document.querySelector("a.floating-zalo")).toBeNull();
+    expect(
+      screen.getByRole("link", { name: dictionary.zalo.ariaLabel }),
+    ).toHaveAttribute("href", zaloHref());
   });
 });
 
