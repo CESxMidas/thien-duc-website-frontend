@@ -37,7 +37,7 @@ describe("NewsDetailGallery", () => {
     expect(screen.getByLabelText("Hình ảnh bài viết")).toBeInTheDocument();
     expect(screen.getAllByRole("img")).toHaveLength(7);
     expect(screen.queryByText("+2")).toBeNull();
-    expect(screen.getByText("Ảnh 7")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Tin mau — Ảnh 7" })).toBeInTheDocument();
   });
 
   it("khong lap lai anh trung nhau", () => {

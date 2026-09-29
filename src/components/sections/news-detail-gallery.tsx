@@ -27,14 +27,14 @@ export function NewsDetailGallery({
   if (gallery.length === 1) {
     return (
       <section className="reveal-section page-container pb-8 sm:pb-12">
-        <div className="image-reveal relative mx-auto aspect-video max-w-6xl overflow-hidden border border-charcoal/15 bg-surface">
+        <div className="image-reveal relative mx-auto aspect-video max-w-6xl overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
           <Image
             src={mainImage}
             alt={title}
             fill
             preload
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-contain"
+            className="object-cover"
           />
         </div>
       </section>
@@ -47,33 +47,31 @@ export function NewsDetailGallery({
       aria-label={galleryLabel}
     >
       <div className="mx-auto max-w-6xl">
-        <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface">
+        <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[21/9]">
           <Image
             src={mainImage}
             alt={title}
             fill
             preload
             sizes="(max-width: 1280px) 100vw, 1152px"
-            className="object-contain"
+            className="object-cover"
           />
         </div>
 
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
           {secondaryImages.map((image, index) => (
-            <figure key={image} className="min-w-0">
-              <div className="relative aspect-[4/3] overflow-hidden border border-charcoal/15 bg-surface">
-                <Image
-                  src={image}
-                  alt={`${title} — ${imageLabel} ${index + 2}`}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 384px"
-                  className="object-contain"
-                />
-              </div>
-              <figcaption className="mt-2 text-xs text-slate">
-                {imageLabel} {index + 2}
-              </figcaption>
-            </figure>
+            <div
+              key={image}
+              className="relative aspect-video min-w-0 overflow-hidden border border-charcoal/15 bg-surface"
+            >
+              <Image
+                src={image}
+                alt={`${title} — ${imageLabel} ${index + 2}`}
+                fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover"
+              />
+            </div>
           ))}
         </div>
       </div>
