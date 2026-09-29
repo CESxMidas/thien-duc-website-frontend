@@ -123,68 +123,66 @@ export default async function NewsDetailPage({
             imageLabel={dictionary.newsDetail.imageLabel}
           />
 
-          <aside className="border-t-2 border-earth pt-5 lg:sticky lg:top-36 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          <aside className="border-t-2 border-earth pt-5 lg:sticky lg:top-36 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:min-h-[24rem] lg:flex-col">
             <h2 className="font-display text-2xl font-semibold text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
-            <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-1">
+            <dl className="mt-5 grid gap-5 text-sm lg:gap-7">
               {post.category ? (
-                <div className="min-w-0">
-                  <dt className="flex items-center gap-2 font-semibold text-charcoal">
+                <div className="flex min-w-0 items-start gap-2">
+                  <dt className="flex shrink-0 items-center gap-2 font-semibold text-charcoal">
                     <FolderOpen
                       className="size-4 text-earth"
                       aria-hidden="true"
                     />
-                    {dictionary.newsDetail.categoryLabel}
+                    {dictionary.newsDetail.categoryLabel}:
                   </dt>
-                  <dd className="mt-1.5 pl-6 text-slate">
-                    {post.category.name}
-                  </dd>
+                  <dd className="min-w-0 text-slate">{post.category.name}</dd>
                 </div>
               ) : null}
-              <div className="min-w-0">
-                <dt className="flex items-center gap-2 font-semibold text-charcoal">
+              <div className="flex min-w-0 items-start gap-2">
+                <dt className="flex shrink-0 items-center gap-2 font-semibold text-charcoal">
                   <CalendarDays
                     className="size-4 text-earth"
                     aria-hidden="true"
                   />
-                  {dictionary.newsDetail.publishedLabel}
+                  {dictionary.newsDetail.publishedLabel}:
                 </dt>
-                <dd className="mt-1.5 pl-6 text-slate">
+                <dd className="min-w-0 text-slate">
                   {formatDate(post.publishedAt, locale)}
                 </dd>
               </div>
               {post.eventDate ? (
-                <div className="min-w-0">
-                  <dt className="flex items-center gap-2 font-semibold text-charcoal">
+                <div className="flex min-w-0 items-start gap-2">
+                  <dt className="flex shrink-0 items-center gap-2 font-semibold text-charcoal">
                     <CalendarDays
                       className="size-4 text-earth"
                       aria-hidden="true"
                     />
-                    {dictionary.newsDetail.eventDateLabel}
+                    {dictionary.newsDetail.eventDateLabel}:
                   </dt>
-                  <dd className="mt-1.5 pl-6 text-slate">
+                  <dd className="min-w-0 text-slate">
                     {formatDate(post.eventDate, locale)}
                   </dd>
                 </div>
               ) : null}
               {post.author ? (
-                <div className="min-w-0">
-                  <dt className="flex items-center gap-2 font-semibold text-charcoal">
+                <div className="flex min-w-0 items-start gap-2">
+                  <dt className="flex shrink-0 items-center gap-2 font-semibold text-charcoal">
                     <UserRound
                       className="size-4 text-earth"
                       aria-hidden="true"
                     />
-                    {dictionary.newsDetail.sourceLabel}
+                    {dictionary.newsDetail.sourceLabel}:
                   </dt>
-                  <dd className="mt-1.5 pl-6 text-slate">{post.author}</dd>
+                  <dd className="min-w-0 text-slate">{post.author}</dd>
                 </div>
               ) : null}
             </dl>
 
             <Link
               href={localizePath(routes.news, locale)}
-              className="mt-7 inline-flex min-h-11 items-center gap-2 border-b border-earth pb-1 text-sm font-semibold text-olive transition-colors hover:text-earth"
+              className="mt-8 inline-flex min-h-11 w-fit items-center gap-2 border-b border-earth pb-1 text-sm font-semibold text-olive transition-colors hover:text-earth lg:mt-auto"
             >
               <ArrowLeft className="size-4" aria-hidden="true" />
               {dictionary.common.viewAllNews}
