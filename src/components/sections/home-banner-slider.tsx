@@ -149,7 +149,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden border-b border-earth/25 bg-ink"
+      className="relative -mt-0 overflow-hidden border-b border-earth/25 bg-ink"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onPointerEnter={() => setHoverPaused(true)}
@@ -165,7 +165,7 @@ export function HomeBannerSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-[clamp(32rem,75svh,51.25rem)]">
+      <div className="relative h-svh min-h-[40rem]">
         {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -224,7 +224,7 @@ export function HomeBannerSlider({
         ) : null}
 
         {hasTextCopy ? (
-          <div className="pointer-events-none absolute inset-x-0 top-[clamp(5rem,13svh,8.25rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
+          <div className="pointer-events-none absolute inset-x-0 top-[clamp(9.5rem,24svh,14rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
             <div className="w-full max-w-[36rem]">
               <div
                 key={`${activeBanner.image}-${activeBanner.title ?? ""}`}
@@ -259,7 +259,7 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-contact-actions"
-          className="pointer-events-none absolute inset-x-0 bottom-[clamp(4.75rem,9svh,6.5rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20"
+          className="pointer-events-none absolute inset-x-0 bottom-[clamp(5rem,10svh,7rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20"
         >
           <div className="pointer-events-auto flex w-fit max-w-[min(36rem,calc(100vw-2.5rem))] flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
             {hasPrimaryCta ? (

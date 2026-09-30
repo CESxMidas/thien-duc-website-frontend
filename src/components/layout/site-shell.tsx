@@ -10,12 +10,14 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 type SiteShellProps = {
   locale: Locale;
   children: ReactNode;
+  homeHeaderOverlay?: boolean;
 };
 
 
 export async function SiteShell({
   locale,
   children,
+  homeHeaderOverlay = false,
 }: SiteShellProps) {
   const [dictionary, branding] = await Promise.all([
     getDictionary(locale),
@@ -34,7 +36,12 @@ export async function SiteShell({
       <a href="#main-content" className="skip-link">
         {dictionary.common.skipToContent}
       </a>
-      <SiteHeader locale={locale} dictionary={dictionary} branding={branding} />
+      <SiteHeader
+        locale={locale}
+        dictionary={dictionary}
+        branding={branding}
+        variant={homeHeaderOverlay ? "home-overlay" : "default"}
+      />
       <main id="main-content" className="flex-1">
         {children}
       </main>

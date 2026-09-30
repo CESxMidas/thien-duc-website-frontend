@@ -123,6 +123,14 @@ describe("HomeBannerSlider", () => {
     expect(progressBar()).toHaveStyle({ animationDuration: "4500ms" });
   });
 
+  it("banner đầu trang chiếm trọn chiều cao màn hình", () => {
+    const { container } = renderSlider();
+    const stage = container.querySelector("section > div");
+
+    expect(stage).toHaveClass("h-svh");
+    expect(stage).toHaveClass("min-h-[40rem]");
+  });
+
   it("focus vào NÚT TẠM DỪNG không kích hoạt tạm-dừng-khi-focus", () => {
     renderSlider();
     fireEvent.focus(toggle()!);

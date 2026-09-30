@@ -43,6 +43,30 @@ describe("SiteHeader", () => {
     ).toBeNull();
     expect(screen.queryByRole("link", { name: siteConfig.email })).toBeNull();
   });
+
+  it("có biến thể overlay cho trang chủ với CTA, số điện thoại và menu trên banner", () => {
+    render(
+      <SiteHeader
+        locale="vi"
+        dictionary={dictionary}
+        variant="home-overlay"
+      />,
+    );
+
+    expect(screen.getByRole("banner")).toHaveAttribute(
+      "data-variant",
+      "home-overlay",
+    );
+    expect(
+      screen.getByRole("link", { name: /Liên hệ nhận ưu đãi/i }),
+    ).toHaveAttribute("href", "/lien-he");
+    expect(screen.getByRole("link", { name: /0909 768 001/i })).toHaveAttribute(
+      "href",
+      "tel:0909768001",
+    );
+    expect(screen.getByRole("button", { name: dictionary.header.openMenu }))
+      .toHaveTextContent("Menu");
+  });
 });
 
 describe("SiteShell", () => {

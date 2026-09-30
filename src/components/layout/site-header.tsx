@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, PhoneCall, Search, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { zaloContact, zaloDisplayValue } from "@/config/site";
 import { mainNavigation } from "@/data/navigation";
 import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
@@ -52,14 +53,21 @@ type SiteHeaderProps = {
   locale: Locale;
   dictionary: Dictionary;
   branding?: BrandingSettings;
+  variant?: "default" | "home-overlay";
 };
 
-export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
+export function SiteHeader({
+  locale,
+  dictionary,
+  branding,
+  variant = "default",
+}: SiteHeaderProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const overlay = variant === "home-overlay";
   const navLabel = (item: NavItem) =>
     headerLabels[locale][item.href] ??
     dictionary.navLabels[item.href] ??
@@ -84,9 +92,20 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
   return (
     <header
       id="site-header"
-      className="sticky top-0 z-40 border-b border-charcoal/12 bg-ivory text-charcoal"
+      data-variant={variant}
+      className={
+        overlay
+          ? "absolute inset-x-0 top-0 z-50 border-b border-white/14 bg-transparent text-white"
+          : "sticky top-0 z-40 border-b border-charcoal/12 bg-ivory text-charcoal"
+      }
     >
-      <div className="grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28">
+      <div
+        className={
+          overlay
+            ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-olive/88 px-4 shadow-[0_16px_42px_rgba(41,41,41,0.18)] backdrop-blur-sm sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
+            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28"
+        }
+      >
         <Link
           href={localizePath(routes.home, locale)}
           className="flex shrink-0 items-center"
@@ -101,12 +120,20 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
             width={126}
             height={80}
             preload
-            className="h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
+            className={
+              overlay
+                ? "h-14 w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.24)] sm:h-16 lg:h-[4.5rem]"
+              : "h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
+            }
           />
         </Link>
 
         <nav
-          className="hidden items-center justify-center gap-4 lg:flex xl:gap-5"
+          className={
+            overlay
+              ? "hidden items-center justify-center gap-2 xl:flex"
+              : "hidden items-center justify-center gap-4 lg:flex xl:gap-5"
+          }
           aria-label="Primary"
         >
           {primaryNavigation.map((item) => {
@@ -116,11 +143,19 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
                 key={item.href}
                 href={localizePath(item.href, locale)}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex h-14 items-center overflow-hidden rounded-[7px] border px-6 text-[0.86rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-7 ${
-                  active
-                    ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
-                    : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
-                }`}
+                className={
+                  overlay
+                    ? `relative flex h-11 items-center rounded-[6px] px-4 text-[0.74rem] font-extrabold uppercase tracking-[0.1em] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+                        active
+                          ? "bg-white/14 text-gold"
+                          : "text-white/84 hover:bg-white/10 hover:text-gold"
+                      }`
+                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-6 text-[0.86rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-7 ${
+                        active
+                          ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
+                          : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
+                      }`
+                }
               >
                 {navLabel(item)}
               </Link>
@@ -128,7 +163,36 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
           })}
         </nav>
 
-        <div className="relative ml-auto flex items-center justify-end gap-1 lg:ml-0">
+        <div
+          className={
+            overlay
+              ? "relative ml-auto flex min-w-0 items-center justify-end gap-2 sm:gap-3 lg:ml-0"
+              : "relative ml-auto flex items-center justify-end gap-1 lg:ml-0"
+          }
+        >
+          {overlay ? (
+            <>
+              <Link
+                href={localizePath(routes.contact, locale)}
+                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold uppercase tracking-[0.02em] text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold md:inline-flex"
+              >
+                <span className="grid size-10 place-items-center rounded-full border-2 border-gold text-gold">
+                  <Send className="size-5" aria-hidden="true" />
+                </span>
+                {locale === "vi" ? "Liên hệ nhận ưu đãi" : "Request offers"}
+              </Link>
+              <a
+                href={`tel:${zaloContact.value}`}
+                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:inline-flex"
+              >
+                <span className="grid size-10 place-items-center rounded-full border-2 border-gold text-gold">
+                  <PhoneCall className="size-5" aria-hidden="true" />
+                </span>
+                {zaloDisplayValue()}
+              </a>
+            </>
+          ) : null}
+
           <button
             type="button"
             aria-label={dictionary.header.searchLabel}
@@ -138,11 +202,17 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
               setSearchOpen((open) => !open);
               setMenuOpen(false);
             }}
-            className={`relative grid size-12 place-items-center overflow-hidden rounded-[7px] text-earth shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
-              searchOpen
-                ? "bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory"
-                : "bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory"
-            }`}
+            className={
+              overlay
+                ? `hidden size-11 place-items-center rounded-full border border-white/28 text-white transition hover:border-gold hover:text-gold sm:grid ${
+                    searchOpen ? "border-gold bg-white/12 text-gold" : ""
+                  }`
+                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] text-earth shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
+                    searchOpen
+                      ? "bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory"
+                      : "bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory"
+                  }`
+            }
           >
             <Search className="relative size-5" aria-hidden="true" />
           </button>
@@ -150,7 +220,8 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            className="hidden sm:inline-flex"
+            variant={overlay ? "light" : "default"}
+            className={overlay ? "hidden md:inline-flex" : "hidden sm:inline-flex"}
           />
           <button
             type="button"
@@ -162,9 +233,22 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
                 ? dictionary.header.closeMenu
                 : dictionary.header.openMenu
             }
-            className="grid size-11 place-items-center lg:hidden"
+            className={
+              overlay
+                ? "inline-flex min-h-12 items-center gap-2 text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                : "grid size-11 place-items-center lg:hidden"
+            }
           >
-            {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {menuOpen ? (
+              <X className={overlay ? "size-8" : "size-5"} />
+            ) : (
+              <Menu className={overlay ? "size-8" : "size-5"} />
+            )}
+            {overlay ? (
+              <span className="hidden text-[0.72rem] font-extrabold uppercase tracking-[0.14em] [writing-mode:vertical-rl] sm:inline">
+                Menu
+              </span>
+            ) : null}
           </button>
 
           {searchOpen ? (
@@ -172,7 +256,9 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
               id="header-search-panel"
               role="search"
               action={localizePath(routes.search, locale)}
-              className="absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md"
+              className={`absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md ${
+                overlay ? "top-[calc(100%+1.1rem)]" : ""
+              }`}
             >
               <span
                 aria-hidden="true"
@@ -215,16 +301,24 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
 
       <div
         id="mobile-navigation"
-        className={`border-t border-charcoal/10 bg-ivory lg:hidden ${menuOpen ? "block" : "hidden"}`}
+        className={`border-t ${
+          overlay
+            ? "border-white/15 bg-olive/95 text-white backdrop-blur-md"
+            : "border-charcoal/10 bg-ivory lg:hidden"
+        } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
-          <ul className="divide-y divide-charcoal/10">
+          <ul className={overlay ? "divide-y divide-white/12" : "divide-y divide-charcoal/10"}>
             {mainNavigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={localizePath(item.href, locale)}
                   onClick={() => setMenuOpen(false)}
-                  className="my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/18 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-earth"
+                  className={
+                    overlay
+                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/16 bg-white/8 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-white hover:border-gold hover:text-gold"
+                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/18 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-earth"
+                  }
                 >
                   {navLabel(item)}
                   <span aria-hidden="true">↗</span>
@@ -236,7 +330,11 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
                         <Link
                           href={localizePath(child.href, locale)}
                           onClick={() => setMenuOpen(false)}
-                          className="inline-flex min-h-10 items-center text-sm text-charcoal/65 hover:text-earth"
+                          className={
+                            overlay
+                              ? "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
+                              : "inline-flex min-h-10 items-center text-sm text-charcoal/65 hover:text-earth"
+                          }
                         >
                           {navLabel(child)}
                         </Link>
@@ -251,6 +349,7 @@ export function SiteHeader({ locale, dictionary, branding }: SiteHeaderProps) {
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
+            variant={overlay ? "light" : "default"}
             className="mt-5 sm:hidden"
           />
         </nav>

@@ -16,6 +16,7 @@ type LanguageSwitcherProps = {
   className?: string;
 
   showIcon?: boolean;
+  variant?: "default" | "light";
 };
 
 export function LanguageSwitcher({
@@ -23,6 +24,7 @@ export function LanguageSwitcher({
   label,
   className = "",
   showIcon = true,
+  variant = "default",
 }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const { path } = splitLocale(pathname);
@@ -37,11 +39,21 @@ export function LanguageSwitcher({
       {showIcon ? <span className="mr-1 text-warm-grey" aria-hidden="true">/</span> : null}
       {locales.map((item, index) => {
         const active = item === locale;
+        const linkClass =
+          variant === "light"
+            ? active
+              ? "text-gold"
+              : "text-white/72 hover:text-white"
+            : active
+              ? "text-earth"
+              : "text-charcoal/55 hover:text-charcoal";
+        const dividerClass =
+          variant === "light" ? "text-white/38" : "text-charcoal/35";
 
         return (
           <span key={item} className="inline-flex h-full items-center gap-2">
             {index > 0 ? (
-              <span className="text-charcoal/35" aria-hidden="true">
+              <span className={dividerClass} aria-hidden="true">
                 |
               </span>
             ) : null}
@@ -49,9 +61,7 @@ export function LanguageSwitcher({
               href={localizePath(path, item)}
               hrefLang={item}
               aria-current={active ? "true" : undefined}
-              className={`inline-flex h-full items-center text-xs font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-earth ${
-                active ? "text-earth" : "text-charcoal/55 hover:text-charcoal"
-              }`}
+              className={`inline-flex h-full items-center text-xs font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-earth ${linkClass}`}
             >
               <span className="sr-only">{localeNameIn[locale][item]}</span>
               <span aria-hidden="true">{item}</span>
