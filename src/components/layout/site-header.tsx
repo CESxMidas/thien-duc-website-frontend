@@ -53,7 +53,7 @@ type SiteHeaderProps = {
   locale: Locale;
   dictionary: Dictionary;
   branding?: BrandingSettings;
-  variant?: "default" | "home-overlay";
+  variant?: "default" | "home-after-banner";
 };
 
 export function SiteHeader({
@@ -67,7 +67,7 @@ export function SiteHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const overlay = variant === "home-overlay";
+  const homeAfterBanner = variant === "home-after-banner";
   const navLabel = (item: NavItem) =>
     headerLabels[locale][item.href] ??
     dictionary.navLabels[item.href] ??
@@ -94,15 +94,15 @@ export function SiteHeader({
       id="site-header"
       data-variant={variant}
       className={
-        overlay
-          ? "absolute inset-x-0 top-0 z-50 border-b border-white/14 bg-transparent text-white"
+        homeAfterBanner
+          ? "sticky top-0 z-40 border-b border-white/14 bg-olive text-white"
           : "sticky top-0 z-40 border-b border-charcoal/12 bg-ivory text-charcoal"
       }
     >
       <div
         className={
-          overlay
-            ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-olive/88 px-4 shadow-[0_16px_42px_rgba(41,41,41,0.18)] backdrop-blur-sm sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
+          homeAfterBanner
+            ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-olive px-4 shadow-[0_12px_32px_rgba(41,41,41,0.16)] sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
             : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28"
         }
       >
@@ -121,16 +121,16 @@ export function SiteHeader({
             height={80}
             preload
             className={
-              overlay
+              homeAfterBanner
                 ? "h-14 w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.24)] sm:h-16 lg:h-[4.5rem]"
-              : "h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
+                : "h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
             }
           />
         </Link>
 
         <nav
           className={
-            overlay
+            homeAfterBanner
               ? "hidden items-center justify-center gap-2 xl:flex"
               : "hidden items-center justify-center gap-4 lg:flex xl:gap-5"
           }
@@ -144,7 +144,7 @@ export function SiteHeader({
                 href={localizePath(item.href, locale)}
                 aria-current={active ? "page" : undefined}
                 className={
-                  overlay
+                  homeAfterBanner
                     ? `relative flex h-11 items-center rounded-[6px] px-4 text-[0.74rem] font-extrabold uppercase tracking-[0.1em] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
                         active
                           ? "bg-white/14 text-gold"
@@ -165,12 +165,12 @@ export function SiteHeader({
 
         <div
           className={
-            overlay
+            homeAfterBanner
               ? "relative ml-auto flex min-w-0 items-center justify-end gap-2 sm:gap-3 lg:ml-0"
               : "relative ml-auto flex items-center justify-end gap-1 lg:ml-0"
           }
         >
-          {overlay ? (
+          {homeAfterBanner ? (
             <>
               <Link
                 href={localizePath(routes.contact, locale)}
@@ -203,7 +203,7 @@ export function SiteHeader({
               setMenuOpen(false);
             }}
             className={
-              overlay
+              homeAfterBanner
                 ? `hidden size-11 place-items-center rounded-full border border-white/28 text-white transition hover:border-gold hover:text-gold sm:grid ${
                     searchOpen ? "border-gold bg-white/12 text-gold" : ""
                   }`
@@ -220,8 +220,12 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant={overlay ? "light" : "default"}
-            className={overlay ? "hidden md:inline-flex" : "hidden sm:inline-flex"}
+            variant={homeAfterBanner ? "light" : "default"}
+            className={
+              homeAfterBanner
+                ? "hidden md:inline-flex"
+                : "hidden sm:inline-flex"
+            }
           />
           <button
             type="button"
@@ -234,17 +238,17 @@ export function SiteHeader({
                 : dictionary.header.openMenu
             }
             className={
-              overlay
+              homeAfterBanner
                 ? "inline-flex min-h-12 items-center gap-2 text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
                 : "grid size-11 place-items-center lg:hidden"
             }
           >
             {menuOpen ? (
-              <X className={overlay ? "size-8" : "size-5"} />
+              <X className={homeAfterBanner ? "size-8" : "size-5"} />
             ) : (
-              <Menu className={overlay ? "size-8" : "size-5"} />
+              <Menu className={homeAfterBanner ? "size-8" : "size-5"} />
             )}
-            {overlay ? (
+            {homeAfterBanner ? (
               <span className="hidden text-[0.72rem] font-extrabold uppercase tracking-[0.14em] [writing-mode:vertical-rl] sm:inline">
                 Menu
               </span>
@@ -257,7 +261,7 @@ export function SiteHeader({
               role="search"
               action={localizePath(routes.search, locale)}
               className={`absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md ${
-                overlay ? "top-[calc(100%+1.1rem)]" : ""
+                homeAfterBanner ? "top-[calc(100%+1.1rem)]" : ""
               }`}
             >
               <span
@@ -302,20 +306,26 @@ export function SiteHeader({
       <div
         id="mobile-navigation"
         className={`border-t ${
-          overlay
+          homeAfterBanner
             ? "border-white/15 bg-olive/95 text-white backdrop-blur-md"
             : "border-charcoal/10 bg-ivory lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
-          <ul className={overlay ? "divide-y divide-white/12" : "divide-y divide-charcoal/10"}>
+          <ul
+            className={
+              homeAfterBanner
+                ? "divide-y divide-white/12"
+                : "divide-y divide-charcoal/10"
+            }
+          >
             {mainNavigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={localizePath(item.href, locale)}
                   onClick={() => setMenuOpen(false)}
                   className={
-                    overlay
+                    homeAfterBanner
                       ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/16 bg-white/8 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-white hover:border-gold hover:text-gold"
                       : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/18 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-earth"
                   }
@@ -331,7 +341,7 @@ export function SiteHeader({
                           href={localizePath(child.href, locale)}
                           onClick={() => setMenuOpen(false)}
                           className={
-                            overlay
+                            homeAfterBanner
                               ? "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
                               : "inline-flex min-h-10 items-center text-sm text-charcoal/65 hover:text-earth"
                           }
@@ -349,7 +359,7 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant={overlay ? "light" : "default"}
+            variant={homeAfterBanner ? "light" : "default"}
             className="mt-5 sm:hidden"
           />
         </nav>

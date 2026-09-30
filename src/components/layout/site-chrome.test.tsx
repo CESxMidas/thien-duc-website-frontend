@@ -44,18 +44,18 @@ describe("SiteHeader", () => {
     expect(screen.queryByRole("link", { name: siteConfig.email })).toBeNull();
   });
 
-  it("có biến thể overlay cho trang chủ với CTA, số điện thoại và menu trên banner", () => {
+  it("có biến thể header sau banner cho trang chủ với CTA, số điện thoại và menu", () => {
     render(
       <SiteHeader
         locale="vi"
         dictionary={dictionary}
-        variant="home-overlay"
+        variant="home-after-banner"
       />,
     );
 
     expect(screen.getByRole("banner")).toHaveAttribute(
       "data-variant",
-      "home-overlay",
+      "home-after-banner",
     );
     expect(
       screen.getByRole("link", { name: /Liên hệ nhận ưu đãi/i }),
@@ -64,8 +64,9 @@ describe("SiteHeader", () => {
       "href",
       "tel:0909768001",
     );
-    expect(screen.getByRole("button", { name: dictionary.header.openMenu }))
-      .toHaveTextContent("Menu");
+    expect(
+      screen.getByRole("button", { name: dictionary.header.openMenu }),
+    ).toHaveTextContent("Menu");
   });
 });
 
@@ -79,6 +80,28 @@ describe("SiteShell", () => {
     expect(
       screen.getByRole("link", { name: dictionary.zalo.ariaLabel }),
     ).toHaveAttribute("href", zaloHref());
+  });
+  it("renders home hero before the header when provided", async () => {
+    const { container } = render(
+      await SiteShell({
+        locale: "vi",
+        heroBeforeHeader: <section data-testid="home-hero">banner</section>,
+        children: <p>noi dung sau header</p>,
+      }),
+    );
+
+    const hero = screen.getByTestId("home-hero");
+    const header = screen.getByRole("banner");
+    const main = screen.getByRole("main");
+
+    expect(header).toHaveAttribute("data-variant", "home-after-banner");
+    expect(hero.compareDocumentPosition(header)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(header.compareDocumentPosition(main)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(container.firstElementChild).toContainElement(hero);
   });
 });
 

@@ -52,8 +52,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   if (!isLocale(locale)) notFound();
 
   return (
-    <SiteShell locale={locale} homeHeaderOverlay>
-      <HomeBannerSection locale={locale} />
+    <SiteShell
+      locale={locale}
+      heroBeforeHeader={<HomeBannerSection locale={locale} />}
+    >
       <HomeFacts locale={locale} />
       <HomeIntroStrip locale={locale} />
       <HomeFeaturedProjects locale={locale} />
