@@ -22,8 +22,8 @@ import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
-const AUTOPLAY_MS = 4500;
-const TRANSITION_MS = 600;
+const AUTOPLAY_MS = 7000;
+const TRANSITION_MS = 1200;
 const KEN_BURNS_MS = AUTOPLAY_MS + 200;
 
 const MANUAL_PAUSE_MS = 12000;
@@ -62,7 +62,7 @@ export function HomeBannerSlider({
 }: HomeBannerSliderProps) {
   const bannerCount = banners.length;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoverPaused, setHoverPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
   const [manualPaused, setManualPaused] = useState(false);
   const [utilityMenuOpen, setUtilityMenuOpen] = useState(false);
@@ -80,7 +80,7 @@ export function HomeBannerSlider({
   );
   const hasPrimaryCta = Boolean(activeBanner?.ctaLabel);
   const autoplayEnabled = bannerCount > 1 && !reducedMotion;
-  const isPaused = hoverPaused || tabHidden || manualPaused || userStopped;
+  const isPaused = focusPaused || tabHidden || manualPaused || userStopped;
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -191,14 +191,11 @@ export function HomeBannerSlider({
       className="relative -mt-0 overflow-hidden border-b border-earth/25 bg-ink"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
-      onPointerEnter={() => setHoverPaused(true)}
-      onPointerLeave={() => setHoverPaused(false)}
-
       onFocus={(event) => {
-        if (!isAutoplayToggle(event.target)) setHoverPaused(true);
+        if (!isAutoplayToggle(event.target)) setFocusPaused(true);
       }}
       onBlur={(event) => {
-        if (!isAutoplayToggle(event.target)) setHoverPaused(false);
+        if (!isAutoplayToggle(event.target)) setFocusPaused(false);
       }}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}

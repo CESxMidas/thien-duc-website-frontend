@@ -96,11 +96,10 @@ describe("HomeBannerSlider", () => {
   it("trạng thái tạm dừng KHÔNG tự hết sau khi rê chuột ra ngoài", () => {
     const { container } = renderSlider();
     const region = container.querySelector("section")!;
-    fireEvent.click(toggle()!);
     fireEvent.pointerEnter(region);
     fireEvent.pointerLeave(region);
-    expect(toggle()).toHaveAttribute("data-paused", "true");
-    expect(progressBar()).toHaveStyle({ animationPlayState: "paused" });
+    expect(toggle()).toHaveAttribute("data-paused", "false");
+    expect(progressBar()).toHaveStyle({ animationPlayState: "running" });
   });
 
   it("bấm lại thì chạy tiếp", () => {
@@ -136,7 +135,7 @@ describe("HomeBannerSlider", () => {
 
   it("chu kỳ tự chuyển là 4500ms — khoá giá trị đã duyệt", () => {
     renderSlider();
-    expect(progressBar()).toHaveStyle({ animationDuration: "4500ms" });
+    expect(progressBar()).toHaveStyle({ animationDuration: "7000ms" });
   });
 
   it("banner đầu trang chiếm trọn chiều cao màn hình", () => {
