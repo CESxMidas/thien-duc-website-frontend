@@ -33,12 +33,7 @@ export async function SiteShell({
         {dictionary.common.skipToContent}
       </a>
       {heroBeforeHeader}
-      <SiteHeader
-        locale={locale}
-        dictionary={dictionary}
-        branding={branding}
-        variant={heroBeforeHeader ? "home-after-banner" : "default"}
-      />
+      <SiteHeader locale={locale} dictionary={dictionary} branding={branding} />
       <main id="main-content" className="flex-1">
         {children}
       </main>

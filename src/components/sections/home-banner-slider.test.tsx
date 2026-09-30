@@ -3,8 +3,22 @@ import { HomeBannerSlider } from "./home-banner-slider";
 import type { HomeBanner } from "@/data/banners";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
+
+jest.mock("next/navigation", () => ({
+  usePathname: () => "/",
+}));
+
 const dictionary = viDictionary as unknown as Dictionary;
 const labels = dictionary.homeBanner;
+const utilityLabels = {
+  offerCta: "Lien he nhan uu dai",
+  languageSwitcher: dictionary.common.languageSwitcher,
+  searchLabel: dictionary.header.searchLabel,
+  searchPlaceholder: dictionary.header.searchPlaceholder,
+  searchSubmit: dictionary.header.searchSubmit,
+  closeMenu: dictionary.header.closeMenu,
+  openMenu: dictionary.header.openMenu,
+};
 
 function makeBanners(count: number): HomeBanner[] {
   return Array.from({ length: count }, (_, index) => ({
@@ -36,6 +50,7 @@ function renderSlider(count = 3) {
       locale="vi"
       contactCtaLabel="Liên hệ"
       labels={labels}
+      utilityLabels={utilityLabels}
     />,
   );
 }
@@ -52,6 +67,7 @@ function renderEmptyCopySlider() {
       locale="vi"
       contactCtaLabel="LiÃªn há»‡"
       labels={labels}
+      utilityLabels={utilityLabels}
     />,
   );
 }
@@ -242,5 +258,23 @@ describe("HomeBannerSlider", () => {
     expect(dotsFrame).toHaveClass("2xl:flex");
     expect(dotsFrame).toHaveClass("pointer-events-none");
     expect(dotsFrame!.firstElementChild).toHaveClass("pointer-events-auto");
+  });
+
+  it("dat thanh lien he/menu nam trong banner", () => {
+    renderSlider();
+    const bar = screen.getByTestId("banner-utility-bar");
+
+    expect(bar).toHaveClass("absolute");
+    expect(bar).toHaveClass("top-5");
+    expect(
+      screen.getByRole("link", { name: /Lien he nhan uu dai/i }),
+    ).toHaveAttribute("href", "/lien-he");
+    expect(screen.getByRole("link", { name: /0909 768 001/i })).toHaveAttribute(
+      "href",
+      "tel:0909768001",
+    );
+    expect(
+      screen.getByRole("button", { name: dictionary.header.openMenu }),
+    ).toHaveTextContent("Menu");
   });
 });

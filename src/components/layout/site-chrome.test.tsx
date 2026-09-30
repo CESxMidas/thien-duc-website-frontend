@@ -94,7 +94,7 @@ describe("SiteShell", () => {
     const header = screen.getByRole("banner");
     const main = screen.getByRole("main");
 
-    expect(header).toHaveAttribute("data-variant", "home-after-banner");
+    expect(header).toHaveAttribute("data-variant", "default");
     expect(hero.compareDocumentPosition(header)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
