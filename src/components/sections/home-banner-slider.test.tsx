@@ -266,6 +266,7 @@ describe("HomeBannerSlider", () => {
 
     expect(bar).toHaveClass("absolute");
     expect(bar).toHaveClass("top-5");
+    expect(bar).toHaveClass("banner-utility-in");
     expect(
       screen.getByRole("link", { name: /Lien he nhan uu dai/i }),
     ).toHaveAttribute("href", "/lien-he");

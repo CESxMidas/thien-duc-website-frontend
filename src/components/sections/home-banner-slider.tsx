@@ -264,7 +264,7 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-utility-bar"
-          className="absolute right-4 top-5 z-40 flex max-w-[calc(100vw-2rem)] items-center justify-end gap-2 rounded-[8px] bg-olive/92 px-3 py-2 text-white shadow-[0_18px_46px_rgba(41,41,41,0.24)] sm:right-6 sm:top-7 sm:px-4 lg:right-14 xl:right-20"
+          className="banner-utility-in absolute right-4 top-5 z-40 flex max-w-[calc(100vw-2rem)] items-center justify-end gap-2 rounded-[8px] bg-olive/92 px-3 py-2 text-white shadow-[0_18px_46px_rgba(41,41,41,0.24)] sm:right-6 sm:top-7 sm:px-4 lg:right-14 xl:right-20"
         >
           <Link
             href={localizePath(routes.contact, locale)}
