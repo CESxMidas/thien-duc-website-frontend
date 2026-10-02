@@ -1,30 +1,55 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { HomeFacts } from "./home-facts";
 
+function mockReducedMotion(matches: boolean) {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: () => ({
+      matches,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }),
+  });
+}
+
+beforeEach(() => mockReducedMotion(true));
+
 describe("HomeFacts", () => {
-  it("hiển thị dải số liệu sáng đúng tinh thần mockup Thiên Đức", () => {
+  it("hien thi 4 so lieu va bo khoi tagline ben phai", async () => {
     const { container } = render(<HomeFacts locale="vi" />);
 
     expect(container.firstElementChild).toHaveClass("bg-ivory");
     expect(container.firstElementChild).not.toHaveClass("bg-charcoal");
 
-    expect(screen.getByText("16+")).toBeInTheDocument();
-    expect(screen.getByText("20+")).toBeInTheDocument();
-    expect(screen.getByText("1000+")).toBeInTheDocument();
-    expect(screen.getByText("50+")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByLabelText("16+")).toHaveTextContent("16+");
+      expect(screen.getByLabelText("20+")).toHaveTextContent("20+");
+      expect(screen.getByLabelText("1000+")).toHaveTextContent("1000+");
+      expect(screen.getByLabelText("50+")).toHaveTextContent("50+");
+    });
 
-    expect(screen.getByText("Giá trị")).toBeInTheDocument();
-    expect(screen.getByText("Kiến tạo")).toBeInTheDocument();
-    expect(screen.getByText("Bằng thời gian")).toBeInTheDocument();
+    expect(screen.getByLabelText("16+")).toHaveAttribute("data-target", "16");
+    expect(screen.getByText("Năm hình thành & phát triển")).toBeInTheDocument();
+    expect(
+      screen.getByText("Dự án đầu tư & phát triển"),
+    ).toBeInTheDocument();
+
+    expect(screen.queryByText("Giá trị")).not.toBeInTheDocument();
+    expect(screen.queryByText("Kiến tạo")).not.toBeInTheDocument();
+    expect(screen.queryByText("Bằng thời gian")).not.toBeInTheDocument();
   });
 
-  it("giữ nội dung song ngữ cho phiên bản tiếng Anh", () => {
+  it("giu noi dung song ngu cho phien ban tieng Anh", async () => {
     render(<HomeFacts locale="en" />);
 
-    expect(screen.getByText("Years of formation & growth")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByLabelText("16+")).toHaveTextContent("16+");
+    });
 
-    expect(screen.getByText("Value")).toBeInTheDocument();
-    expect(screen.getByText("Created")).toBeInTheDocument();
-    expect(screen.getByText("Over time")).toBeInTheDocument();
+    expect(screen.getByText("Years of formation & growth")).toBeInTheDocument();
+    expect(screen.queryByText("Value")).not.toBeInTheDocument();
+    expect(screen.queryByText("Created")).not.toBeInTheDocument();
+    expect(screen.queryByText("Over time")).not.toBeInTheDocument();
   });
 });
