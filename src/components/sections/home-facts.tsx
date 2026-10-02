@@ -128,7 +128,7 @@ export function HomeFacts({ locale }: { locale: Locale }) {
         {facts.map((fact) => (
           <div
             key={fact.label}
-            className="border-b border-earth/20 py-5 pr-5 sm:even:border-l sm:even:pl-8 lg:border-b-0 lg:border-r lg:px-8 lg:py-0 lg:first:pl-0 lg:even:border-l-0 lg:last:border-r-0"
+            className="flex flex-col items-center border-b border-earth/20 px-4 py-5 text-center sm:even:border-l lg:border-b-0 lg:border-r lg:px-8 lg:py-0 lg:even:border-l-0 lg:last:border-r-0"
           >
             <p className="font-display text-[2.625rem] font-medium leading-none text-earth sm:text-5xl lg:text-[3.25rem]">
               <AnimatedNumber value={fact.value} suffix={fact.suffix} />

@@ -30,6 +30,12 @@ describe("HomeFacts", () => {
     });
 
     expect(screen.getByLabelText("16+")).toHaveAttribute("data-target", "16");
+    expect(screen.getByLabelText("16+").closest("div")).toHaveClass(
+      "items-center",
+    );
+    expect(screen.getByLabelText("16+").closest("div")).toHaveClass(
+      "text-center",
+    );
     expect(screen.getByText("Năm hình thành & phát triển")).toBeInTheDocument();
     expect(
       screen.getByText("Dự án đầu tư & phát triển"),
