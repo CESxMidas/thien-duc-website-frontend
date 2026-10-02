@@ -16,15 +16,6 @@ export async function HomeBannerSection({ locale }: { locale: Locale }) {
       locale={locale}
       contactCtaLabel={dictionary.common.contactCta}
       labels={dictionary.homeBanner}
-      utilityLabels={{
-        offerCta: locale === "vi" ? "Liên hệ nhận ưu đãi" : "Request offers",
-        languageSwitcher: dictionary.common.languageSwitcher,
-        searchLabel: dictionary.header.searchLabel,
-        searchPlaceholder: dictionary.header.searchPlaceholder,
-        searchSubmit: dictionary.header.searchSubmit,
-        closeMenu: dictionary.header.closeMenu,
-        openMenu: dictionary.header.openMenu,
-      }}
     />
   );
 }

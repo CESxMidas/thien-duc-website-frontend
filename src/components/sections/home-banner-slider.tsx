@@ -5,18 +5,10 @@ import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
-  Menu,
   Pause,
-  PhoneCall,
   Play,
-  Search,
-  Send,
-  X,
 } from "lucide-react";
 import { KeyboardEvent, TouchEvent, useEffect, useRef, useState } from "react";
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { zaloContact, zaloDisplayValue } from "@/config/site";
-import { mainNavigation } from "@/data/navigation";
 import type { HomeBanner } from "@/data/banners";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
@@ -41,15 +33,6 @@ type HomeBannerSliderProps = {
   locale: Locale;
   contactCtaLabel: string;
   labels: Dictionary["homeBanner"];
-  utilityLabels: {
-    offerCta: string;
-    languageSwitcher: string;
-    searchLabel: string;
-    searchPlaceholder: string;
-    searchSubmit: string;
-    closeMenu: string;
-    openMenu: string;
-  };
 };
 
 export function HomeBannerSlider({
@@ -57,20 +40,16 @@ export function HomeBannerSlider({
   locale,
   contactCtaLabel,
   labels,
-  utilityLabels,
 }: HomeBannerSliderProps) {
   const bannerCount = banners.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [focusPaused, setFocusPaused] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
   const [manualPaused, setManualPaused] = useState(false);
-  const [utilityMenuOpen, setUtilityMenuOpen] = useState(false);
-  const [utilitySearchOpen, setUtilitySearchOpen] = useState(false);
 
   const [userStopped, setUserStopped] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const manualPauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const utilitySearchInputRef = useRef<HTMLInputElement>(null);
   const touchStartX = useRef<number | null>(null);
 
   const activeBanner = banners[activeIndex];
@@ -96,22 +75,6 @@ export function HomeBannerSlider({
       if (manualPauseTimer.current) clearTimeout(manualPauseTimer.current);
     };
   }, []);
-
-  useEffect(() => {
-    const close = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setUtilityMenuOpen(false);
-        setUtilitySearchOpen(false);
-      }
-    };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
-  }, []);
-
-  useEffect(() => {
-    if (!utilitySearchOpen) return;
-    utilitySearchInputRef.current?.focus();
-  }, [utilitySearchOpen]);
 
   function pauseForManualInteraction() {
     setManualPaused(true);
@@ -254,147 +217,6 @@ export function HomeBannerSlider({
             />
           </div>
         ) : null}
-
-        <div
-          data-testid="banner-utility-bar"
-          className="banner-utility-in absolute right-4 top-5 z-40 flex max-w-[calc(100vw-2rem)] items-center justify-end gap-2 rounded-[8px] bg-olive/92 px-3 py-2 text-white shadow-[0_18px_46px_rgba(41,41,41,0.24)] sm:right-6 sm:top-7 sm:px-4 lg:right-14 xl:right-20"
-        >
-          <Link
-            href={localizePath(routes.contact, locale)}
-            className="hidden min-h-11 items-center gap-2 text-[0.78rem] font-extrabold uppercase tracking-[0.04em] text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold md:inline-flex"
-          >
-            <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-gold text-gold">
-              <Send className="size-4.5" aria-hidden="true" />
-            </span>
-            <span className="hidden lg:inline">{utilityLabels.offerCta}</span>
-          </Link>
-
-          <a
-            href={`tel:${zaloContact.value}`}
-            className="hidden min-h-11 items-center gap-2 text-sm font-extrabold text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:inline-flex"
-          >
-            <span className="grid size-9 shrink-0 place-items-center rounded-full border-2 border-gold text-gold">
-              <PhoneCall className="size-4.5" aria-hidden="true" />
-            </span>
-            <span>{zaloDisplayValue()}</span>
-          </a>
-
-          <div className="relative">
-            <button
-              type="button"
-              aria-label={utilityLabels.searchLabel}
-              aria-expanded={utilitySearchOpen}
-              aria-controls="banner-search-panel"
-              onClick={() => {
-                setUtilitySearchOpen((open) => !open);
-                setUtilityMenuOpen(false);
-              }}
-              className={`grid size-11 place-items-center rounded-full border border-white/32 text-white transition hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold ${
-                utilitySearchOpen ? "border-gold bg-white/12 text-gold" : ""
-              }`}
-            >
-              <Search className="size-5" aria-hidden="true" />
-            </button>
-
-            {utilitySearchOpen ? (
-              <form
-                id="banner-search-panel"
-                role="search"
-                action={localizePath(routes.search, locale)}
-                className="absolute right-0 top-[calc(100%+0.75rem)] flex w-[min(26rem,calc(100vw-2rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.18)] backdrop-blur-md"
-              >
-                <label htmlFor="banner-search-input" className="sr-only">
-                  {utilityLabels.searchLabel}
-                </label>
-                <Search
-                  className="ml-4 size-4.5 shrink-0 text-earth/65"
-                  aria-hidden="true"
-                />
-                <input
-                  ref={utilitySearchInputRef}
-                  id="banner-search-input"
-                  name="q"
-                  type="search"
-                  placeholder={utilityLabels.searchPlaceholder}
-                  className="h-14 min-w-0 flex-1 bg-transparent px-3.5 text-[0.9rem] font-medium text-charcoal outline-none placeholder:text-charcoal/42"
-                />
-                <button
-                  type="submit"
-                  aria-label={utilityLabels.searchSubmit}
-                  className="mr-1 grid h-12 w-12 shrink-0 place-items-center rounded-[6px] bg-earth text-ivory transition hover:bg-gold hover:text-ink"
-                >
-                  <Search className="size-4" aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  aria-label={utilityLabels.closeMenu}
-                  onClick={() => setUtilitySearchOpen(false)}
-                  className="mr-1 grid h-12 w-10 shrink-0 place-items-center text-charcoal/45 transition hover:text-charcoal"
-                >
-                  <X className="size-4" aria-hidden="true" />
-                </button>
-              </form>
-            ) : null}
-          </div>
-
-          <LanguageSwitcher
-            locale={locale}
-            label={utilityLabels.languageSwitcher}
-            showIcon={false}
-            variant="light"
-            className="hidden sm:inline-flex"
-          />
-
-          <div className="relative">
-            <button
-              type="button"
-              aria-label={
-                utilityMenuOpen
-                  ? utilityLabels.closeMenu
-                  : utilityLabels.openMenu
-              }
-              aria-expanded={utilityMenuOpen}
-              aria-controls="banner-navigation"
-              onClick={() => {
-                setUtilityMenuOpen((open) => !open);
-                setUtilitySearchOpen(false);
-              }}
-              className="inline-flex min-h-11 items-center gap-2 text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-            >
-              {utilityMenuOpen ? (
-                <X className="size-8" aria-hidden="true" />
-              ) : (
-                <Menu className="size-8" aria-hidden="true" />
-              )}
-              <span className="hidden text-[0.7rem] font-extrabold uppercase tracking-[0.14em] [writing-mode:vertical-rl] sm:inline">
-                Menu
-              </span>
-            </button>
-
-            {utilityMenuOpen ? (
-              <nav
-                id="banner-navigation"
-                className="absolute right-0 top-[calc(100%+0.75rem)] w-[min(19rem,calc(100vw-2rem))] rounded-[8px] border border-white/16 bg-olive/96 p-3 text-white shadow-[0_22px_60px_rgba(41,41,41,0.2)] backdrop-blur-md"
-                aria-label="Banner navigation"
-              >
-                <ul className="divide-y divide-white/12">
-                  {mainNavigation.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={localizePath(item.href, locale)}
-                        onClick={() => setUtilityMenuOpen(false)}
-                        className="flex min-h-11 items-center justify-between rounded-[6px] px-3 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] text-white transition hover:bg-white/10 hover:text-gold"
-                      >
-                        {item.label}
-                        <span aria-hidden="true">↗</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ) : null}
-          </div>
-        </div>
 
         {hasTextCopy ? (
           <div className="pointer-events-none absolute inset-x-0 top-[clamp(5.5rem,8vw,8rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">

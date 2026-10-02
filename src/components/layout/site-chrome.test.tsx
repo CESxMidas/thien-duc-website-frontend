@@ -81,7 +81,7 @@ describe("SiteShell", () => {
       screen.getByRole("link", { name: dictionary.zalo.ariaLabel }),
     ).toHaveAttribute("href", zaloHref());
   });
-  it("renders home hero before the header when provided", async () => {
+  it("renders the header before the home hero when provided", async () => {
     const { container } = render(
       await SiteShell({
         locale: "vi",
@@ -95,10 +95,10 @@ describe("SiteShell", () => {
     const main = screen.getByRole("main");
 
     expect(header).toHaveAttribute("data-variant", "default");
-    expect(hero.compareDocumentPosition(header)).toBe(
+    expect(header.compareDocumentPosition(hero)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
-    expect(header.compareDocumentPosition(main)).toBe(
+    expect(hero.compareDocumentPosition(main)).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(container.firstElementChild).toContainElement(hero);

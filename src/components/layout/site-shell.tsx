@@ -32,8 +32,8 @@ export async function SiteShell({
       <a href="#main-content" className="skip-link">
         {dictionary.common.skipToContent}
       </a>
-      {heroBeforeHeader}
       <SiteHeader locale={locale} dictionary={dictionary} branding={branding} />
+      {heroBeforeHeader}
       <main id="main-content" className="flex-1">
         {children}
       </main>
