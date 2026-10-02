@@ -138,12 +138,22 @@ describe("HomeBannerSlider", () => {
     expect(progressBar()).toHaveStyle({ animationDuration: "7000ms" });
   });
 
-  it("banner đầu trang chiếm trọn chiều cao màn hình", () => {
+  it("banner dau trang giu khung ngang chuan, khong chiem full man", () => {
     const { container } = renderSlider();
     const stage = container.querySelector("section > div");
 
-    expect(stage).toHaveClass("h-svh");
-    expect(stage).toHaveClass("min-h-[40rem]");
+    expect(stage).toHaveClass("h-[clamp(18rem,33.333vw,40rem)]");
+    expect(stage).not.toHaveClass("h-svh");
+    expect(stage).not.toHaveClass("min-h-[40rem]");
+  });
+
+  it("anh banner dung contain de khong cat chu trong anh thiet ke san", () => {
+    const { container } = renderSlider();
+    const image = container.querySelector("img");
+
+    expect(image?.className).toContain("object-contain");
+    expect(image?.className).not.toContain("object-cover");
+    expect(image?.className).not.toContain("scale-105");
   });
 
   it("focus vào NÚT TẠM DỪNG không kích hoạt tạm-dừng-khi-focus", () => {

@@ -24,7 +24,6 @@ import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 7000;
 const TRANSITION_MS = 1200;
-const KEN_BURNS_MS = AUTOPLAY_MS + 200;
 
 const MANUAL_PAUSE_MS = 12000;
 const SWIPE_THRESHOLD_PX = 48;
@@ -201,7 +200,7 @@ export function HomeBannerSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-svh min-h-[40rem]">
+      <div className="relative h-[clamp(18rem,33.333vw,40rem)]">
         {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -226,12 +225,9 @@ export function HomeBannerSlider({
                 loading={index === 0 ? undefined : "lazy"}
                 quality={90}
                 sizes="100vw"
-                className={`object-cover transition ease-out ${
-                  isActive && !reducedMotion ? "scale-105" : "scale-100"
-                }`}
+                className="object-contain"
                 style={{
                   objectPosition: banner.objectPosition ?? "center center",
-                  transitionDuration: `${KEN_BURNS_MS}ms`,
                 }}
               />
             </div>
@@ -401,8 +397,8 @@ export function HomeBannerSlider({
         </div>
 
         {hasTextCopy ? (
-          <div className="pointer-events-none absolute inset-x-0 top-[clamp(9.5rem,24svh,14rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
-            <div className="w-full max-w-[36rem]">
+          <div className="pointer-events-none absolute inset-x-0 top-[clamp(5.5rem,8vw,8rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
+            <div className="w-full max-w-[34rem]">
               <div
                 key={`${activeBanner.image}-${activeBanner.title ?? ""}`}
                 className={`pointer-events-auto flex flex-col justify-between text-white ${
@@ -418,7 +414,7 @@ export function HomeBannerSlider({
                 ) : null}
                 <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
                   {activeBanner.title ? (
-                    <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2.1rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.45rem] sm:max-w-[13ch] sm:text-[2.85rem] md:text-[3.2rem] lg:text-[3.85rem]">
+                    <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.2rem] sm:max-w-[13ch] sm:text-[2.6rem] md:text-[2.95rem] lg:text-[3.25rem]">
                       {activeBanner.title}
                     </h1>
                   ) : null}
@@ -436,7 +432,7 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-contact-actions"
-          className="pointer-events-none absolute inset-x-0 bottom-[clamp(5rem,10svh,7rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20"
+          className="pointer-events-none absolute inset-x-0 bottom-[clamp(2rem,5vw,4.5rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20"
         >
           <div className="pointer-events-auto flex w-fit max-w-[min(36rem,calc(100vw-2.5rem))] flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
             {hasPrimaryCta ? (
