@@ -40,10 +40,9 @@ export function HomeFeaturedProjectsShowcase({
     return null;
   }
 
-  const activeMeta = [
-    activeProject.location,
-    activeProject.statusLabel,
-  ].filter((part): part is string => Boolean(part));
+  const activeMeta = [activeProject.location, activeProject.statusLabel].filter(
+    (part): part is string => Boolean(part),
+  );
 
   return (
     <section
@@ -131,7 +130,10 @@ export function HomeFeaturedProjectsShowcase({
                 {activeMeta.length > 0 ? (
                   <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.64rem] font-bold uppercase leading-5 tracking-[0.08em] text-earth/75">
                     {activeMeta.map((part, partIndex) => (
-                      <span key={part} className="inline-flex items-center gap-2">
+                      <span
+                        key={part}
+                        className="inline-flex items-center gap-2"
+                      >
                         {partIndex > 0 ? (
                           <span
                             aria-hidden="true"
@@ -191,7 +193,9 @@ export function HomeFeaturedProjectsShowcase({
                     aria-hidden="true"
                     className={[
                       "absolute inset-x-0 top-0 z-20 h-1 bg-earth transition duration-[520ms] motion-reduce:transition-none",
-                      isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60",
+                      isActive
+                        ? "opacity-100"
+                        : "opacity-0 group-hover:opacity-60",
                     ].join(" ")}
                   />
 
