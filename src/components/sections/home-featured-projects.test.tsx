@@ -1,5 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+
 import type { Project, ProjectStatus } from "@/types/content";
+
 import {
   HomeFeaturedProjects,
   selectPrimaryFeaturedProject,
@@ -61,7 +63,7 @@ describe("HomeFeaturedProjects", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("hiển thị tối đa 4 dự án thật, với dự án ưu tiên đứng đầu", async () => {
+  it("hiển thị tối đa 4 selector dự án thật, với dự án ưu tiên active đầu tiên", async () => {
     getProjectsMock.mockResolvedValue([
       makeProject({ slug: "a", title: "A" }),
       makeProject({ slug: "b", title: "B", status: "dang-thi-cong" }),
@@ -72,24 +74,48 @@ describe("HomeFeaturedProjects", () => {
 
     render(await HomeFeaturedProjects({ locale: "en" }));
 
-    const cards = screen
-      .getAllByRole("link")
-      .filter((link) => link.getAttribute("href")?.includes("/du-an/"));
+    const selectors = screen.getAllByRole("button", {
+      name: /select project/i,
+    });
 
-    expect(cards).toHaveLength(4);
-    expect(cards[0]).toHaveAttribute("href", "/en/du-an/b");
-    expect(screen.queryByRole("heading", { name: "E" })).toBeNull();
+    expect(selectors).toHaveLength(4);
+    expect(selectors[0]).toHaveAttribute("aria-pressed", "true");
+    expect(
+      screen.getByRole("link", { name: /view details/i }),
+    ).toHaveAttribute("href", "/en/du-an/b");
+    expect(
+      screen.queryByRole("button", { name: "Select project: E" }),
+    ).toBeNull();
   });
 
-  it("thiếu location thì vẫn hiển thị trạng thái và không tạo vạch phân cách", async () => {
+  it("click selector đổi dự án active và cập nhật link chi tiết", async () => {
+    getProjectsMock.mockResolvedValue([
+      makeProject({ slug: "a", title: "A" }),
+      makeProject({ slug: "b", title: "B", status: "dang-thi-cong" }),
+      makeProject({ slug: "c", title: "C" }),
+    ]);
+
+    render(await HomeFeaturedProjects({ locale: "en" }));
+
+    fireEvent.click(screen.getByRole("button", { name: /select project: a/i }));
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "A" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /view details/i }),
+    ).toHaveAttribute("href", "/en/du-an/a");
+  });
+
+  it("thiếu location thì vẫn hiển thị trạng thái và không tạo separator dư", async () => {
     getProjectsMock.mockResolvedValue([
       makeProject({ slug: "khong-co-location", location: undefined }),
     ]);
 
-    const { container } = render(await HomeFeaturedProjects({ locale: "vi" }));
+    render(await HomeFeaturedProjects({ locale: "vi" }));
 
     expect(screen.getByText(/đã bàn giao/i)).toBeInTheDocument();
-    expect(container.querySelectorAll(".bg-warm-grey")).toHaveLength(0);
+    expect(screen.queryByText("undefined")).toBeNull();
   });
 
   it("locale VI vẫn dùng bản copy rút gọn viết tay cho Hưng Phú", async () => {
@@ -124,7 +150,7 @@ describe("HomeFeaturedProjects", () => {
     );
   });
 
-  it("tên dự án dùng font display theo brief thiết kế", async () => {
+  it("tên dự án active dùng font display theo brief thiết kế", async () => {
     getProjectsMock.mockResolvedValue([makeProject()]);
 
     render(await HomeFeaturedProjects({ locale: "vi" }));

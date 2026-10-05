@@ -6,38 +6,47 @@ describe("HomeIntroStrip", () => {
     render(await HomeIntroStrip({ locale: "vi" }));
   }
 
-  it("render khối giới thiệu dạng editorial ngang với logo thương hiệu", async () => {
+  it("doi khoi gioi thieu thanh banner quote ngang compact", async () => {
     await renderStrip();
 
-    expect(screen.getByAltText("Thiên Đức")).toHaveAttribute(
-      "src",
-      expect.stringContaining("logo-thien-duc.png"),
-    );
     expect(
       screen.getByRole("heading", {
         level: 2,
-        name: /hơn một công trình/i,
+        name: /khách hàng hài lòng - thiên đức thành công/i,
       }),
     ).toBeInTheDocument();
+    expect(screen.getByText("Thien Duc I&C")).toBeInTheDocument();
+    expect(screen.getByText("Investment")).toBeInTheDocument();
+    expect(screen.getByText("Construction")).toBeInTheDocument();
+    expect(screen.getByText("Development")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", {
+        level: 2,
+        name: /hơn một công trình/i,
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /^tìm hiểu thêm$/i }),
+    ).not.toBeInTheDocument();
   });
 
-  it("hiển thị motto bên phải như một quote thương hiệu", async () => {
-    await renderStrip();
+  it("co nen placeholder san sang thay bang anh background", async () => {
+    const { container } = render(await HomeIntroStrip({ locale: "vi" }));
+    const banner = container.querySelector<HTMLElement>(
+      "[style*='--home-intro-background']",
+    );
 
-    const motto = screen
-      .getAllByText(/khách hàng hài lòng/i)
-      .find((node) => node.tagName === "SPAN")
-      ?.closest("blockquote");
-
-    expect(motto).toHaveTextContent(/thiên đức thành công/i);
+    expect(banner).not.toBeNull();
+    expect(banner).toHaveClass("min-h-[8.5rem]");
   });
 
-  it("có dải lĩnh vực hoạt động 3 ô ảnh đánh số", async () => {
+  it("co section linh vuc hoat dong voi 3 card link lon", async () => {
     await renderStrip();
 
     expect(
-      screen.getByRole("heading", { level: 3, name: /lĩnh vực hoạt động/i }),
+      screen.getByRole("heading", { level: 2, name: /lĩnh vực hoạt động/i }),
     ).toBeInTheDocument();
+    expect(screen.getByText("Năng lực cốt lõi")).toBeInTheDocument();
     expect(screen.getByText("01")).toBeInTheDocument();
     expect(screen.getByText("02")).toBeInTheDocument();
     expect(screen.getByText("03")).toBeInTheDocument();
@@ -50,13 +59,6 @@ describe("HomeIntroStrip", () => {
     expect(
       screen.getByRole("link", { name: /phát triển đô thị/i }),
     ).toHaveAttribute("href", "/du-an");
-  });
-
-  it("giữ link điều hướng sang trang giới thiệu", async () => {
-    await renderStrip();
-
-    expect(
-      screen.getByRole("link", { name: /tìm hiểu thêm/i }),
-    ).toHaveAttribute("href", "/gioi-thieu");
+    expect(screen.getAllByText("Khám phá")).toHaveLength(3);
   });
 });
