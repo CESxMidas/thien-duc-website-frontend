@@ -1,9 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const GAP_PX = 12;
+
+function visibleCountFor(width: number): number {
+  if (width >= 1024) return 3;
+  if (width >= 768) return 2;
+  return 1;
+}
+
+function trackTransform(activeIndex: number, visibleCount: number): string {
+  if (activeIndex <= 0) return "translateX(0px)";
+
+  const trackGaps = (visibleCount - 1) * GAP_PX;
+  return `translateX(calc(${-activeIndex} * (100% - ${trackGaps}px) / ${visibleCount} - ${activeIndex * GAP_PX}px))`;
+}
 
 export type FeaturedProjectShowcaseItem = {
   id: string;
@@ -26,6 +42,8 @@ type HomeFeaturedProjectsShowcaseProps = {
     viewAllHref: string;
     otherProjects: string;
     selectProject: string;
+    previousProject: string;
+    nextProject: string;
   };
 };
 
@@ -34,7 +52,19 @@ export function HomeFeaturedProjectsShowcase({
   labels,
 }: HomeFeaturedProjectsShowcaseProps) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [rawCarouselIndex, setCarouselIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
   const activeProject = projects[activeProjectIndex] ?? projects[0];
+
+  useEffect(() => {
+    function syncVisibleCount() {
+      setVisibleCount(visibleCountFor(window.innerWidth));
+    }
+
+    syncVisibleCount();
+    window.addEventListener("resize", syncVisibleCount);
+    return () => window.removeEventListener("resize", syncVisibleCount);
+  }, []);
 
   if (!activeProject) {
     return null;
@@ -43,6 +73,11 @@ export function HomeFeaturedProjectsShowcase({
   const activeMeta = [activeProject.location, activeProject.statusLabel].filter(
     (part): part is string => Boolean(part),
   );
+  const maxCarouselIndex = Math.max(0, projects.length - visibleCount);
+  const carouselIndex = Math.min(rawCarouselIndex, maxCarouselIndex);
+  const canGoPrevious = carouselIndex > 0;
+  const canGoNext = carouselIndex < maxCarouselIndex;
+  const slideWidth = `calc((100% - ${(visibleCount - 1) * GAP_PX}px) / ${visibleCount})`;
 
   return (
     <section
@@ -171,89 +206,130 @@ export function HomeFeaturedProjectsShowcase({
 
         <div className="mt-5">
           <p className="sr-only">{labels.otherProjects}</p>
-          <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-            {projects.map((project, index) => {
-              const isActive = index === activeProjectIndex;
+          <div className="overflow-hidden">
+            <div
+              className="flex list-none gap-3 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+              style={{ transform: trackTransform(carouselIndex, visibleCount) }}
+            >
+              {projects.map((project, index) => {
+                const isActive = index === activeProjectIndex;
+                const isVisible =
+                  index >= carouselIndex &&
+                  index < carouselIndex + visibleCount;
 
-              return (
-                <Link
-                  key={project.slug}
-                  href={project.href}
-                  aria-current={isActive ? "true" : undefined}
-                  onFocus={() => setActiveProjectIndex(index)}
-                  onMouseEnter={() => setActiveProjectIndex(index)}
-                  className={[
-                    "group relative min-w-[16rem] snap-start overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none md:min-w-0",
-                    isActive
-                      ? "border-earth/55 opacity-100"
-                      : "border-earth/14 opacity-82 hover:border-earth/34 hover:opacity-100 focus-visible:border-earth/55 focus-visible:opacity-100",
-                  ].join(" ")}
-                >
-                  <span
-                    aria-hidden="true"
+                return (
+                  <Link
+                    key={project.slug}
+                    href={project.href}
+                    aria-current={isActive ? "true" : undefined}
+                    aria-hidden={isVisible ? undefined : "true"}
+                    tabIndex={isVisible ? undefined : -1}
+                    onFocus={() => setActiveProjectIndex(index)}
+                    onMouseEnter={() => setActiveProjectIndex(index)}
+                    style={{ width: slideWidth }}
                     className={[
-                      "absolute inset-x-0 top-0 z-20 h-1 bg-earth transition duration-[520ms] motion-reduce:transition-none",
+                      "group relative block shrink-0 overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none",
                       isActive
-                        ? "opacity-100"
-                        : "opacity-0 group-hover:opacity-60",
+                        ? "border-earth/55 opacity-100"
+                        : "border-earth/14 opacity-82 hover:border-earth/34 hover:opacity-100 focus-visible:border-earth/55 focus-visible:opacity-100",
                     ].join(" ")}
-                  />
-
-                  <span className="relative block h-36 overflow-hidden bg-surface sm:h-40 md:h-44 lg:h-48">
-                    {project.image ? (
-                      <Image
-                        src={project.image}
-                        alt=""
-                        fill
-                        sizes="(min-width: 768px) 24vw, 70vw"
-                        className={[
-                          "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
-                          isActive
-                            ? "scale-[1.025]"
-                            : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",
-                        ].join(" ")}
-                      />
-                    ) : (
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-earth/10"
-                      />
-                    )}
+                  >
                     <span
                       aria-hidden="true"
-                      className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.02)_10%,rgba(20,20,20,0.56)_100%)]"
+                      className={[
+                        "absolute inset-x-0 top-0 z-20 h-1 bg-earth transition duration-[520ms] motion-reduce:transition-none",
+                        isActive
+                          ? "opacity-100"
+                          : "opacity-0 group-hover:opacity-60",
+                      ].join(" ")}
                     />
-                    <span className="absolute bottom-3 left-3 font-display text-[1.4rem] leading-none text-ivory">
-                      {project.id}
-                    </span>
-                  </span>
 
-                  <span className="flex min-h-[7.25rem] flex-col justify-between px-4 py-4">
-                    <span>
-                      <span className="block font-display text-[1.1rem] font-medium uppercase leading-[1.1] text-charcoal sm:text-[1.18rem]">
-                        {project.title}
-                      </span>
-                      {project.location ? (
-                        <span className="mt-2 block text-[0.62rem] font-bold uppercase tracking-[0.08em] text-earth/68">
-                          {project.location}
-                        </span>
-                      ) : null}
-                    </span>
-
-                    <span className="mt-4 inline-flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-earth">
-                      {labels.explore}
+                    <span className="relative block h-36 overflow-hidden bg-surface sm:h-40 md:h-44 lg:h-48">
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt=""
+                          fill
+                          sizes="(min-width: 768px) 24vw, 70vw"
+                          className={[
+                            "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
+                            isActive
+                              ? "scale-[1.025]"
+                              : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",
+                          ].join(" ")}
+                        />
+                      ) : (
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-0 bg-earth/10"
+                        />
+                      )}
                       <span
                         aria-hidden="true"
-                        className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
-                      >
-                        →
+                        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.02)_10%,rgba(20,20,20,0.56)_100%)]"
+                      />
+                      <span className="absolute bottom-3 left-3 font-display text-[1.4rem] leading-none text-ivory">
+                        {project.id}
                       </span>
                     </span>
-                  </span>
-                </Link>
-              );
-            })}
+
+                    <span className="flex min-h-[7.25rem] flex-col justify-between px-4 py-4">
+                      <span>
+                        <span className="block font-display text-[1.1rem] font-medium uppercase leading-[1.1] text-charcoal sm:text-[1.18rem]">
+                          {project.title}
+                        </span>
+                        {project.location ? (
+                          <span className="mt-2 block text-[0.62rem] font-bold uppercase tracking-[0.08em] text-earth/68">
+                            {project.location}
+                          </span>
+                        ) : null}
+                      </span>
+
+                      <span className="mt-4 inline-flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-earth">
+                        {labels.explore}
+                        <span
+                          aria-hidden="true"
+                          className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
+                        >
+                          →
+                        </span>
+                      </span>
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
+          {maxCarouselIndex > 0 ? (
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                type="button"
+                aria-label={labels.previousProject}
+                disabled={!canGoPrevious}
+                onClick={() => {
+                  const nextIndex = carouselIndex - 1;
+                  setCarouselIndex(nextIndex);
+                  setActiveProjectIndex(nextIndex);
+                }}
+                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-earth/35 disabled:hover:bg-white disabled:hover:text-earth"
+              >
+                <ChevronLeft className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label={labels.nextProject}
+                disabled={!canGoNext}
+                onClick={() => {
+                  const nextIndex = carouselIndex + 1;
+                  setCarouselIndex(nextIndex);
+                  setActiveProjectIndex(nextIndex);
+                }}
+                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-earth/35 disabled:hover:bg-white disabled:hover:text-earth"
+              >
+                <ChevronRight className="size-4" aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

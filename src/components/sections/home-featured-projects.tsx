@@ -78,11 +78,20 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
       labels={{
         eyebrow: dictionary.home.featuredEyebrow,
         title: sectionTitle,
-        explore: locale === defaultLocale ? "Khám phá dự án" : dictionary.common.viewDetail,
+        explore:
+          locale === defaultLocale
+            ? "Khám phá dự án"
+            : dictionary.common.viewDetail,
         viewAll: dictionary.common.viewAllProjects,
         viewAllHref: localizePath(routes.projects, locale),
-        otherProjects: locale === defaultLocale ? "Chọn dự án" : "Select project",
-        selectProject: locale === defaultLocale ? "Chọn dự án" : "Select project",
+        otherProjects:
+          locale === defaultLocale ? "Chọn dự án" : "Select project",
+        selectProject:
+          locale === defaultLocale ? "Chọn dự án" : "Select project",
+        previousProject:
+          locale === defaultLocale ? "Dự án trước" : "Previous project",
+        nextProject:
+          locale === defaultLocale ? "Dự án tiếp theo" : "Next project",
       }}
     />
   );
