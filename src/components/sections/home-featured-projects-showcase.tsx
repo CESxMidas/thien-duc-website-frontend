@@ -244,7 +244,7 @@ export function HomeFeaturedProjectsShowcase({
                       ].join(" ")}
                     />
 
-                    <span className="relative block h-36 overflow-hidden bg-surface sm:h-40 md:h-44 lg:h-48">
+                    <span className="relative block h-44 overflow-hidden bg-surface sm:h-48 md:h-52 lg:h-56">
                       {project.image ? (
                         <Image
                           src={project.image}
