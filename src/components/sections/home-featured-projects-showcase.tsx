@@ -195,7 +195,7 @@ export function HomeFeaturedProjectsShowcase({
                     ].join(" ")}
                   />
 
-                  <span className="relative block h-24 overflow-hidden bg-surface sm:h-28">
+                  <span className="relative block h-36 overflow-hidden bg-surface sm:h-40 md:h-44 lg:h-48">
                     {project.image ? (
                       <Image
                         src={project.image}
@@ -203,7 +203,7 @@ export function HomeFeaturedProjectsShowcase({
                         fill
                         sizes="(min-width: 768px) 24vw, 70vw"
                         className={[
-                          "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
+                          "object-contain object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
                           isActive
                             ? "scale-[1.025]"
                             : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",
