@@ -64,10 +64,8 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   const currentYear = getVietnamCurrentYear();
 
   return (
-
     <footer className="mt-auto border-t border-charcoal/15 bg-olive text-ivory">
-     
-      <div className="mx-auto grid max-w-site gap-x-6 gap-y-10 px-4 py-12 sm:grid-cols-2 sm:px-6 sm:py-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.5fr]">
+      <div className="mx-auto grid max-w-site gap-x-6 gap-y-10 px-4 py-12 sm:grid-cols-2 sm:px-6 sm:py-14 lg:grid-cols-[1.4fr_1fr_1fr_1.5fr]">
         <div className="sm:col-span-2 lg:col-span-1">
           <Link
             href={localizePath(routes.home, locale)}
@@ -94,7 +92,6 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
           />
         </div>
 
-      
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:col-span-2 sm:grid-cols-3 lg:contents">
           {footerSections.map((section) => (
             <FooterNavSection
@@ -110,7 +107,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
           <h2 className="text-eyebrow text-ivory/55">
             {dictionary.footer.contact}
           </h2>
-         
+
           <ul className="mt-3 space-y-1 sm:space-y-2.5">
             <li>
               <a
@@ -167,7 +164,6 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             </li>
           </ul>
 
-         
           <Link
             href={localizePath(routes.contact, locale)}
             className="mt-5 inline-flex min-h-11 items-center gap-2 border border-ivory/55 px-4 text-sm font-semibold text-ivory transition hover:bg-ivory hover:text-olive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -178,7 +174,6 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
         </div>
       </div>
 
-    
       <div className="border-t border-white/15">
         <div className="mx-auto flex max-w-site flex-col gap-1.5 px-4 py-4 text-xs leading-5 text-white/75 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
