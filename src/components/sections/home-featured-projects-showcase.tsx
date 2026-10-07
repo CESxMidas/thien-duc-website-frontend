@@ -116,7 +116,7 @@ export function HomeFeaturedProjectsShowcase({
           <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(20rem,0.9fr)]">
             <div
               key={`${activeProject.slug}-image`}
-              className="relative min-h-[19rem] overflow-hidden bg-surface motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[24rem] lg:min-h-[clamp(22rem,30vw,30rem)]"
+              className="relative min-h-[23rem] overflow-hidden bg-surface motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] lg:min-h-[clamp(30rem,38vw,39rem)]"
             >
               {activeProject.image ? (
                 <Image
@@ -145,7 +145,7 @@ export function HomeFeaturedProjectsShowcase({
 
             <article
               key={`${activeProject.slug}-content`}
-              className="flex min-h-[20rem] flex-col justify-between border-t border-earth/15 bg-ivory px-5 py-6 motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:px-7 sm:py-7 lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
+              className="flex min-h-[23rem] flex-col justify-between border-t border-earth/15 bg-ivory px-5 py-6 motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
             >
               <div>
                 <div className="mb-5 flex items-center gap-4">
@@ -244,7 +244,7 @@ export function HomeFeaturedProjectsShowcase({
                       ].join(" ")}
                     />
 
-                    <span className="relative block h-52 overflow-hidden bg-surface sm:h-56 md:h-60 lg:h-64">
+                    <span className="relative block h-64 overflow-hidden bg-surface sm:h-72 md:h-80 lg:h-[22rem]">
                       {project.image ? (
                         <Image
                           src={project.image}
@@ -273,7 +273,7 @@ export function HomeFeaturedProjectsShowcase({
                       </span>
                     </span>
 
-                    <span className="flex min-h-[7.25rem] flex-col justify-between px-4 py-4">
+                    <span className="flex min-h-[8.75rem] flex-col justify-between px-4 py-4">
                       <span>
                         <span className="block font-display text-[1.1rem] font-medium uppercase leading-[1.1] text-charcoal sm:text-[1.18rem]">
                           {project.title}

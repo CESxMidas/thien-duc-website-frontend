@@ -13,6 +13,6 @@ export const homeFeaturedProjectCopy = {
     title: "Khu đô thị Hưng Phú",
     location: "Bến Tre",
     summary:
-      "Dự án đô thị tiêu biểu của Thiên Đức, đang được triển khai với định hướng hạ tầng đồng bộ và không gian sống bền vững.",
+      "Dự án đô thị tiêu biểu của Thiên Đức, đang được triển khai với định hướng hạ tầng đồng bộ và không gian sống lâu dài.",
   },
 };

@@ -120,7 +120,7 @@ export function NewsDetailGallery({
             >
               <Image
                 src={image}
-                alt={`${title} — ${imageLabel} ${index + 2}`}
+                alt={`${title}, ${imageLabel} ${index + 2}`}
                 fill
                 sizes="(max-width: 640px) 78vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 14vw"
                 className="object-cover"

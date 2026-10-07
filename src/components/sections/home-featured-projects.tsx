@@ -53,7 +53,7 @@ export async function HomeFeaturedProjects({ locale }: { locale: Locale }) {
 
   const sectionTitle =
     locale === defaultLocale
-      ? "Những không gian được kiến tạo"
+      ? "Các dự án tiêu biểu"
       : "Spaces shaped for growth";
 
   const projectsForShowcase: FeaturedProjectShowcaseItem[] =

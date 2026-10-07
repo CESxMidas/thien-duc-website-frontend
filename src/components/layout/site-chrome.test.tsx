@@ -31,7 +31,7 @@ describe("SiteHeader", () => {
       "Tin tức",
       "Liên hệ",
     ]);
-    expect(primaryLinks[2]).toHaveAttribute("href", "/#linh-vuc-hoat-dong");
+    expect(primaryLinks[2]).toHaveAttribute("href", "/linh-vuc-hoat-dong");
     expect(
       screen.getByRole("img", { name: dictionary.shared.logoAlt }),
     ).toHaveAttribute(

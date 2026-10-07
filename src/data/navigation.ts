@@ -3,6 +3,7 @@ import type { NavItem } from "@/types/content";
 export const mainNavigation: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Lĩnh vực", href: "/linh-vuc-hoat-dong" },
   {
     label: "Dự án",
     href: "/du-an",

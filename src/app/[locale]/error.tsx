@@ -24,7 +24,7 @@ export default function LocaleError({
         Rất tiếc, trang gặp sự cố khi hiển thị
       </h1>
       <p className="max-w-xl text-sm text-slate">
-        Sự cố đã được ghi nhận. Vui lòng thử lại — nếu vẫn lỗi, quay về trang
+        Sự cố đã được ghi nhận. Vui lòng thử lại. Nếu vẫn lỗi, quay về trang
         chủ hoặc liên hệ với chúng tôi.
       </p>
       <div className="mt-2 flex gap-3">

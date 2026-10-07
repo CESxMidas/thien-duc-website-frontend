@@ -1,6 +1,7 @@
 export const routes = {
   home: "/",
   about: "/gioi-thieu",
+  fields: "/linh-vuc-hoat-dong",
   projects: "/du-an",
   news: "/tin-tuc",
 

@@ -63,11 +63,6 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                   {item.label}
                 </span>
               )}
-              {collapseOnMobile ? (
-                <span aria-hidden="true" className="text-slate sm:hidden">
-                  …
-                </span>
-              ) : null}
             </li>
           );
         })}

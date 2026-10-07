@@ -16,6 +16,7 @@ export const footerSections: FooterSection[] = [
     links: [
       { label: "Trang chủ", href: routes.home },
       { label: "Giới thiệu", href: routes.about },
+      { label: "Lĩnh vực hoạt động", href: routes.fields },
       { label: "Công ty thành viên", href: routes.members },
       { label: "Tin tức", href: routes.news },
     ],

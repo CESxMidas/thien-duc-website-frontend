@@ -90,7 +90,7 @@ export function Pagination({
               aria-hidden="true"
               className="px-2 text-sm text-slate"
             >
-              …
+              <span className="block h-px w-5 bg-slate/45" />
             </li>
           ) : (
             <li key={page}>

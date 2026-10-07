@@ -70,6 +70,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = [
     entry(routes.home, "weekly", 1),
     entry(routes.about, "monthly", 0.8),
+    entry(routes.fields, "monthly", 0.75),
     entry(routes.projects, "weekly", 0.9),
     entry(routes.news, "daily", 0.8),
     entry(routes.members, "yearly", 0.6),

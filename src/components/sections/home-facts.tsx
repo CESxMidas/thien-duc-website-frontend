@@ -15,7 +15,7 @@ const labels: Record<
   vi: {
     years: "Năm hình thành & phát triển",
     projects: "Dự án đầu tư & phát triển",
-    customers: "Khách hàng & cư dân đồng hành",
+    customers: "Khách hàng & cư dân phục vụ",
     partners: "Đối tác uy tín",
   },
 

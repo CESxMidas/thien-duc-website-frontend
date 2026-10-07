@@ -9,7 +9,7 @@
     "languageSwitcher": "Chọn ngôn ngữ"
   },
   "header": {
-    "searchPlaceholder": "Tìm kiếm...",
+    "searchPlaceholder": "Tìm kiếm",
     "searchLabel": "Tìm kiếm dự án và tin tức",
     "searchSubmit": "Tìm",
     "openMenu": "Mở menu",
@@ -30,7 +30,7 @@
   },
   "home": {
     "featuredEyebrow": "Dự án tiêu biểu",
-    "featuredTitle": "Không gian phát triển đô thị do Thiên Đức đồng hành triển khai",
+    "featuredTitle": "Các dự án phát triển đô thị của Thiên Đức",
     "latestEyebrow": "Tin mới",
     "latestTitle": "Tin tức và hoạt động từ Thiên Đức",
     "allPosts": "Tất cả bài viết",
@@ -64,7 +64,7 @@
     "searchCountMany": "Hiển thị {count} kết quả cho “{query}”",
     "searchInvalidTitle": "Từ khóa chưa hợp lệ",
     "searchTooShort": "Vui lòng nhập ít nhất 2 ký tự để tìm kiếm.",
-    "searchTooLong": "Từ khóa quá dài — vui lòng rút ngắn còn tối đa 200 ký tự.",
+    "searchTooLong": "Từ khóa quá dài. Vui lòng rút ngắn còn tối đa 200 ký tự.",
     "searchErrorTitle": "Không thực hiện được tìm kiếm",
     "searchErrorDescription": "Hệ thống tìm kiếm tạm thời không phản hồi. Bạn có thể thử lại, hoặc xem toàn bộ tin tức.",
     "searchErrorRetry": "Thử lại",
@@ -157,13 +157,13 @@
     "companyName": "Công ty Thiên Đức"
   },
   "footerBrand": {
-    "tagline": "Đầu tư, xây dựng và phát triển bất động sản — đồng hành cùng sự phát triển đô thị bền vững.",
+    "tagline": "Đầu tư, xây dựng và phát triển bất động sản trong quá trình phát triển đô thị.",
     "motto": "Khách hàng hài lòng Thiên Đức thành công"
   },
   "homeIntro": {
     "eyebrow": "Công ty Thiên Đức",
     "title": "Công ty Thiên Đức",
-    "description": "Thành lập năm 2010, Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
+    "description": "Thành lập năm 2010, Công ty TNHH Đầu tư - Xây dựng - Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị. Với phương châm \"Khách hàng hài lòng Thiên Đức thành công\", doanh nghiệp tập trung vào tiến độ, chất lượng thực thi và giá trị sử dụng lâu dài cho từng dự án.",
     "strengths": [
       {
         "title": "Đầu tư & phát triển",
@@ -171,7 +171,7 @@
       },
       {
         "title": "Hợp tác chiến lược",
-        "description": "Kết nối cùng đối tác để mở rộng năng lực triển khai, tối ưu nguồn lực và tạo giá trị bền vững."
+        "description": "Hợp tác với đối tác để mở rộng năng lực triển khai, sử dụng hiệu quả nguồn lực và tạo giá trị lâu dài."
       },
       {
         "title": "Dự án tiêu biểu",
@@ -185,8 +185,8 @@
   },
   "homeCooperation": {
     "eyebrow": "Dự án hợp tác",
-    "title": "Đồng hành cùng đối tác phát triển bất động sản quốc tế",
-    "description": "Giai đoạn 2014 – 2018, Thiên Đức hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), đồng chủ đầu tư và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
+    "title": "Hợp tác với đối tác phát triển bất động sản quốc tế",
+    "description": "Giai đoạn 2014 - 2018, Thiên Đức hợp tác chiến lược cùng Tập đoàn CapitaLand (Singapore), đồng chủ đầu tư và bàn giao các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
     "cardBadge": "Hợp tác phát triển",
     "roleLabel": "Vai trò",
     "partnerLabel": "Đối tác",
@@ -223,7 +223,7 @@
     "emptyQueryDescription": "Bạn có thể tìm theo tên dự án, địa điểm hoặc nội dung bài viết.",
     "invalidTitle": "Từ khóa chưa hợp lệ",
     "tooShort": "Vui lòng nhập ít nhất 2 ký tự để tìm kiếm.",
-    "tooLong": "Từ khóa quá dài — vui lòng rút ngắn còn tối đa 200 ký tự.",
+    "tooLong": "Từ khóa quá dài. Vui lòng rút ngắn còn tối đa 200 ký tự.",
     "notFoundTitle": "Không tìm thấy kết quả",
     "notFoundDescription": "Không có dự án hay bài viết nào phù hợp với “{query}”. Thử từ khóa khác, hoặc xem toàn bộ dự án và tin tức.",
     "errorTitle": "Không thực hiện được tìm kiếm",
@@ -260,7 +260,7 @@
     },
     "note": "Thông tin của bạn chỉ dùng để phản hồi yêu cầu này và được bảo mật theo quy định.",
     "submitLabel": "Gửi yêu cầu",
-    "submitting": "Đang gửi...",
+    "submitting": "Đang gửi",
     "successTitle": "Đã gửi yêu cầu thành công",
     "successBody": "Cảm ơn bạn đã liên hệ. Thiên Đức sẽ phản hồi trong vòng 24 giờ làm việc qua số điện thoại hoặc email bạn cung cấp.",
     "successAgain": "Gửi yêu cầu khác",
@@ -271,7 +271,7 @@
       "inquiry": "Vui lòng chọn nội dung cần trao đổi.",
       "message": "Vui lòng mô tả nội dung yêu cầu (tối thiểu 10 ký tự).",
       "rateLimit": "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau 1 giờ hoặc gọi {phone}.",
-      "network": "Không gửi được yêu cầu. Vui lòng kiểm tra kết nối và thử lại — dữ liệu bạn nhập vẫn được giữ nguyên."
+      "network": "Không gửi được yêu cầu. Vui lòng kiểm tra kết nối và thử lại. Dữ liệu bạn nhập vẫn được giữ nguyên."
     }
   },
   "about": {
@@ -279,7 +279,7 @@
     "heroTitle": "Tổng quan về Công ty Thiên Đức",
     "heroDescription": "Công ty TNHH Đầu tư Xây dựng Thương mại Thiên Đức thành lập năm 2010, hoạt động trong lĩnh vực đầu tư, xây dựng, thương mại và phát triển bất động sản tại TP.HCM và các tỉnh phía Nam. Hơn 16 năm phát triển, từng hợp tác cùng CapitaLand và hiện là chủ đầu tư khu đô thị Hưng Phú tại Bến Tre.",
     "overviewEyebrow": "Định hướng phát triển",
-    "overviewTitle": "Đối tác đầu tư và phát triển dự án theo hướng thận trọng, bền vững",
+    "overviewTitle": "Đối tác đầu tư và phát triển dự án theo hướng thận trọng, dài hạn",
     "overviewParagraphs": [
       "Thiên Đức được thành lập năm 2010 bởi đội ngũ chuyên gia, kiến trúc sư và kỹ sư nhiều năm kinh nghiệm trong ngành xây dựng Việt Nam.",
       "Giai đoạn 2014 - 2018 đánh dấu bước ngoặt khi công ty hợp tác chiến lược cùng tập đoàn bất động sản quốc tế CapitaLand, triển khai và bàn giao thành công các tổ hợp căn hộ cao cấp chuẩn quốc tế tại TP.HCM.",
@@ -328,15 +328,15 @@
     "principles": [
       {
         "title": "Tầm nhìn",
-        "description": "Trở thành thương hiệu đầu tư và xây dựng bất động sản uy tín hàng đầu Việt Nam, kiến tạo các công trình có giải pháp kiến trúc đột phá, thẩm mỹ cao và bền vững theo thời gian."
+        "description": "Trở thành thương hiệu đầu tư và xây dựng bất động sản uy tín tại Việt Nam, phát triển các công trình có chất lượng kiến trúc, thẩm mỹ và giá trị sử dụng lâu dài."
       },
       {
         "title": "Sứ mệnh",
-        "description": "Mang lại giải pháp an cư và không gian sống đẳng cấp, an toàn tuyệt đối cho khách hàng; áp dụng kỹ thuật tiên tiến và vật liệu mới để tối ưu hiệu quả kinh tế cho đối tác; đồng hành cùng sự phát triển hạ tầng đô thị hiện đại của quốc gia."
+        "description": "Cung cấp sản phẩm nhà ở và không gian sống an toàn cho khách hàng; áp dụng kỹ thuật và vật liệu phù hợp để nâng cao hiệu quả kinh tế cho đối tác; tham gia vào quá trình phát triển hạ tầng đô thị."
       },
       {
         "title": "Giá trị cốt lõi",
-        "description": "Uy tín — Chất lượng — Đột phá — Bền vững: bốn giá trị nền tảng cho mọi hoạt động đầu tư, xây dựng và hợp tác của Thiên Đức."
+        "description": "Uy tín, chất lượng, đổi mới và ổn định là bốn giá trị nền tảng cho hoạt động đầu tư, xây dựng và hợp tác của Thiên Đức."
       }
     ],
     "fieldsEyebrow": "Lĩnh vực hoạt động",
@@ -357,7 +357,7 @@
         "description": "Kinh doanh bất động sản, quyền sử dụng đất thuộc sở hữu, chủ sử dụng hoặc đi thuê; cho thuê văn phòng, nhà xưởng."
       },
       {
-        "code": "4100–4330",
+        "code": "4100-4330",
         "title": "Xây dựng công trình",
         "description": "Xây dựng nhà các loại; công trình đường bộ và giao thông; công trình kỹ thuật dân dụng; chuẩn bị mặt bằng; hoàn thiện công trình xây dựng."
       },
@@ -367,12 +367,12 @@
         "description": "Giám sát công tác xây dựng và hoàn thiện công trình dân dụng, công nghiệp; thiết kế kết cấu công trình xây dựng dân dụng và công nghiệp."
       },
       {
-        "code": "4659–4662",
-        "title": "Thương mại vật tư – thiết bị",
+        "code": "4659-4662",
+        "title": "Thương mại vật tư, thiết bị",
         "description": "Bán buôn sắt, thép; máy móc, thiết bị và phụ tùng máy khai khoáng, xây dựng."
       },
       {
-        "code": "4933–5022",
+        "code": "4933-5022",
         "title": "Vận tải hàng hóa",
         "description": "Vận tải hàng hóa bằng đường bộ và đường thủy nội địa."
       },
@@ -425,7 +425,7 @@
   "careers": {
     "eyebrow": "Tuyển dụng",
     "heroTitle": "Cơ hội nghề nghiệp tại Thiên Đức",
-    "heroDescription": "Thiên Đức tìm kiếm những cộng sự cùng chia sẻ giá trị Uy tín — Chất lượng — Đột phá — Bền vững để đồng hành trong các dự án đầu tư, xây dựng và phát triển đô thị.",
+    "heroDescription": "Thiên Đức tìm kiếm những cộng sự cùng chia sẻ các giá trị uy tín, chất lượng, đổi mới và ổn định trong các dự án đầu tư, xây dựng và phát triển đô thị.",
     "values": [
       {
         "title": "Môi trường chuyên môn",

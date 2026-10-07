@@ -21,7 +21,7 @@ const homeCopy: Record<Locale, { title: string; description: string }> = {
   vi: {
     title: "Công ty Thiên Đức | Đầu tư & phát triển bất động sản TP.HCM",
     description:
-      "Công ty TNHH Đầu tư – Xây dựng – Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị.",
+      "Công ty TNHH Đầu tư - Xây dựng - Thương mại Thiên Đức hoạt động trong lĩnh vực bất động sản, đầu tư xây dựng và phát triển đô thị.",
   },
   en: {
     title: "Thien Duc Company | Real estate investment & development in HCMC",

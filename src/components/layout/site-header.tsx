@@ -17,7 +17,7 @@ import type { NavItem } from "@/types/content";
 const primaryNavigation: NavItem[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Giới thiệu", href: "/gioi-thieu" },
-  { label: "Lĩnh vực", href: "/#linh-vuc-hoat-dong" },
+  { label: "Lĩnh vực", href: routes.fields },
   { label: "Dự án", href: "/du-an" },
   { label: "Tin tức", href: "/tin-tuc" },
   { label: "Liên hệ", href: "/lien-he" },
@@ -27,7 +27,7 @@ const headerLabels: Record<Locale, Record<string, string>> = {
   vi: {
     "/": "Trang chủ",
     "/gioi-thieu": "Giới thiệu",
-    "/#linh-vuc-hoat-dong": "Lĩnh vực",
+    [routes.fields]: "Lĩnh vực",
     "/du-an": "Dự án",
     "/tin-tuc": "Tin tức",
     "/lien-he": "Liên hệ",
@@ -35,7 +35,7 @@ const headerLabels: Record<Locale, Record<string, string>> = {
   en: {
     "/": "Home",
     "/gioi-thieu": "About",
-    "/#linh-vuc-hoat-dong": "Fields",
+    [routes.fields]: "Fields",
     "/du-an": "Projects",
     "/tin-tuc": "News",
     "/lien-he": "Contact",

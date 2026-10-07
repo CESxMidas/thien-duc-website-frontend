@@ -60,7 +60,7 @@ describe("Breadcrumb", () => {
     ).toBeInTheDocument();
   });
 
-  it("> 3 cấp: các cấp giữa ẩn trên mobile (hidden sm:inline) kèm dấu …", () => {
+  it("> 3 cấp: các cấp giữa ẩn trên mobile (hidden sm:inline)", () => {
     const fourLevels: BreadcrumbItem[] = [
       { label: "Trang chủ", href: "/" },
       { label: "Dự án", href: "/du-an" },

@@ -9,7 +9,7 @@
     "languageSwitcher": "Select language"
   },
   "header": {
-    "searchPlaceholder": "Search...",
+    "searchPlaceholder": "Search",
     "searchLabel": "Search projects and news",
     "searchSubmit": "Search",
     "openMenu": "Open menu",
@@ -63,7 +63,7 @@
     "searchCountMany": "Showing {count} results for “{query}”",
     "searchInvalidTitle": "Invalid keyword",
     "searchTooShort": "Please enter at least 2 characters to search.",
-    "searchTooLong": "The keyword is too long — please shorten it to 200 characters or fewer.",
+    "searchTooLong": "The keyword is too long. Please shorten it to 200 characters or fewer.",
     "searchErrorTitle": "Search could not be completed",
     "searchErrorDescription": "The search service is temporarily unavailable. You can try again, or browse all news.",
     "searchErrorRetry": "Try again",
@@ -157,13 +157,13 @@
     "companyName": "Thien Duc Company"
   },
   "footerBrand": {
-    "tagline": "Real estate investment, construction, and development — accompanying sustainable urban growth.",
-    "motto": "Satisfied customers — Thien Duc's success"
+    "tagline": "Real estate investment, construction, and development for urban growth.",
+    "motto": "Satisfied customers, Thien Duc's success"
   },
   "homeIntro": {
     "eyebrow": "Thien Duc Company",
     "title": "Thien Duc Company",
-    "description": "Established in 2010, Thien Duc Investment - Construction - Trading Co., Ltd works in real estate, construction investment, and urban development. Guided by the motto \"Satisfied customers — Thien Duc's success\", the company focuses on schedule, execution quality, and lasting value for every project.",
+    "description": "Established in 2010, Thien Duc Investment - Construction - Trading Co., Ltd works in real estate, construction investment, and urban development. Guided by the motto \"Satisfied customers, Thien Duc's success\", the company focuses on schedule, execution quality, and lasting value for every project.",
     "strengths": [
       {
         "title": "Investment & development",
@@ -223,7 +223,7 @@
     "emptyQueryDescription": "You can search by project name, location, or article content.",
     "invalidTitle": "Keyword is not valid",
     "tooShort": "Please enter at least 2 characters to search.",
-    "tooLong": "Keyword is too long — please keep it to 200 characters or fewer.",
+    "tooLong": "Keyword is too long. Please keep it to 200 characters or fewer.",
     "notFoundTitle": "No results found",
     "notFoundDescription": "No project or article matches “{query}”. Try a different keyword, or browse all projects and news.",
     "errorTitle": "Search could not be completed",
@@ -260,7 +260,7 @@
     },
     "note": "Your information is used only to respond to this request and is kept confidential in accordance with regulations.",
     "submitLabel": "Send request",
-    "submitting": "Sending...",
+    "submitting": "Sending",
     "successTitle": "Request sent successfully",
     "successBody": "Thank you for reaching out. Thien Duc will respond within 24 business hours via the phone number or email you provided.",
     "successAgain": "Send another request",
@@ -271,7 +271,7 @@
       "inquiry": "Please select a topic.",
       "message": "Please describe your request (at least 10 characters).",
       "rateLimit": "You've sent too many requests. Please try again in an hour or call {phone}.",
-      "network": "The request couldn't be sent. Please check your connection and try again — your entered information is preserved."
+      "network": "The request couldn't be sent. Please check your connection and try again. Your entered information is preserved."
     }
   },
   "about": {
@@ -285,7 +285,7 @@
       "The 2014-2018 period marked a turning point when the company formed a strategic partnership with the international real estate group CapitaLand, successfully developing and delivering international-standard premium apartment complexes in Ho Chi Minh City.",
       "From 2018 to today, Thien Duc has expanded its land bank and developer role into the southern provinces, notably a large-scale urban area in Ben Tre province."
     ],
-    "motto": "Satisfied customers — Thien Duc's success",
+    "motto": "Satisfied customers, Thien Duc's success",
     "mottoLabel": "Our guiding motto",
     "imageAlt": "A real estate project developed by Thien Duc",
     "foundedLabel": "Established",
@@ -346,7 +346,7 @@
       },
       {
         "title": "Core values",
-        "description": "Reputation — Quality — Breakthrough — Sustainability: the four foundational values behind every investment, construction, and partnership activity of Thien Duc."
+        "description": "Reputation, quality, innovation, and stability are the four foundational values behind every investment, construction, and partnership activity of Thien Duc."
       }
     ],
     "fieldsEyebrow": "Areas of operation",
@@ -367,7 +367,7 @@
         "description": "Real estate business and land-use rights owned, held, or leased; leasing of offices and workshops."
       },
       {
-        "code": "4100–4330",
+        "code": "4100-4330",
         "title": "Construction works",
         "description": "Construction of all types of buildings; road and transport works; civil engineering works; site preparation; construction finishing."
       },
@@ -377,12 +377,12 @@
         "description": "Supervision of construction and finishing of civil and industrial works; structural design of civil and industrial construction works."
       },
       {
-        "code": "4659–4662",
+        "code": "4659-4662",
         "title": "Materials & equipment trading",
         "description": "Wholesale of iron and steel; machinery, equipment, and spare parts for mining and construction."
       },
       {
-        "code": "4933–5022",
+        "code": "4933-5022",
         "title": "Freight transport",
         "description": "Freight transport by road and inland waterway."
       },
@@ -435,7 +435,7 @@
   "careers": {
     "eyebrow": "Careers",
     "heroTitle": "Career opportunities at Thien Duc",
-    "heroDescription": "Thien Duc is looking for colleagues who share the values of Reputation — Quality — Breakthrough — Sustainability to accompany us across investment, construction, and urban development projects.",
+    "heroDescription": "Thien Duc is looking for colleagues who share the values of reputation, quality, innovation, and stability across investment, construction, and urban development projects.",
     "values": [
       {
         "title": "Professional environment",

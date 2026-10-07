@@ -58,7 +58,7 @@ export async function generateMetadata({
     title:
       page === null || page === 1
         ? title
-        : `${title} — ${interpolate(dictionary.pagination.summaryShort, { page: String(page) })}`,
+        : `${title}: ${interpolate(dictionary.pagination.summaryShort, { page: String(page) })}`,
     description: interpolate(dictionary.news.categoryDescription, {
       category: category.name,
     }),

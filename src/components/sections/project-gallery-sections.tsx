@@ -213,7 +213,7 @@ function ProjectGallerySlider({
             >
               <button
                 type="button"
-                aria-label={`Ảnh trước — ${section.title}`}
+                aria-label={`Ảnh trước, ${section.title}`}
                 onClick={goToPrevious}
                 className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink ${
                   compact ? "size-8" : "size-10"
@@ -223,7 +223,7 @@ function ProjectGallerySlider({
               </button>
               <button
                 type="button"
-                aria-label={`Ảnh tiếp theo — ${section.title}`}
+                aria-label={`Ảnh tiếp theo, ${section.title}`}
                 onClick={goToNext}
                 className={`button-polish grid place-items-center border border-white/50 bg-ink/35 text-white hover:border-gold hover:bg-gold hover:text-ink ${
                   compact ? "size-8" : "size-10"
@@ -239,7 +239,7 @@ function ProjectGallerySlider({
                   <button
                     key={image}
                     type="button"
-                    aria-label={`Chuyển tới ảnh ${slideIndex + 1} — ${section.title}`}
+                    aria-label={`Chuyển tới ảnh ${slideIndex + 1}, ${section.title}`}
                     aria-current={slideIndex === activeIndex}
                     onClick={() => goToSlide(slideIndex)}
                     className={`h-2 rounded-full transition-all duration-300 ${

@@ -34,7 +34,7 @@ export async function generateMetadata({
   const title =
     page === null || page === 1
       ? dictionary.news.title
-      : `${dictionary.news.title} — ${interpolate(dictionary.pagination.summaryShort, { page: String(page) })}`;
+      : `${dictionary.news.title}: ${interpolate(dictionary.pagination.summaryShort, { page: String(page) })}`;
 
   return buildPageMetadata({
     title,
