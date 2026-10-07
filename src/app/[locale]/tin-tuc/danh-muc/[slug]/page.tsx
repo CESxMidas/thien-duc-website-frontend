@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { Pagination } from "@/components/ui/pagination";
 import {
@@ -110,7 +110,6 @@ export default async function NewsCategoryPage({
 
   return (
     <SiteShell locale={locale}>
-   
       <Breadcrumb
         items={[
           {
@@ -154,7 +153,7 @@ export default async function NewsCategoryPage({
               <Link
                 key={post.slug}
                 href={localizePath(`${routes.news}/${post.slug}`, locale)}
-                className="hover-card group overflow-hidden border border-black/10 bg-white hover:border-brand"
+                className="hover-card group flex flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
               >
                 {post.image ? (
                   <div className="image-reveal relative aspect-video bg-surface">
@@ -167,16 +166,16 @@ export default async function NewsCategoryPage({
                     />
                   </div>
                 ) : null}
-                <div className="p-5">
-                  <p className="text-sm font-medium text-slate">
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="td-card-meta text-sm font-medium text-slate">
                     {[post.category?.name, formatDate(post.publishedAt, locale)]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
-                  <h2 className="mt-3 text-xl font-semibold leading-snug">
+                  <h2 className="td-card-title mt-3 text-xl font-semibold">
                     {post.title}
                   </h2>
-                  <span className="link-arrow mt-5 text-sm font-semibold text-brand">
+                  <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
                     {dictionary.common.readArticle}
                   </span>
                 </div>

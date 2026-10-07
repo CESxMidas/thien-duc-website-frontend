@@ -1,15 +1,14 @@
+import { homeFeaturedProjectCopy } from "@/data/home";
 import { getProjects } from "@/lib/api/projects";
 import { defaultLocale, localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
-import { homeFeaturedProjectCopy } from "@/data/home";
+import type { Project } from "@/types/content";
 
 import {
   HomeFeaturedProjectsShowcase,
   type FeaturedProjectShowcaseItem,
 } from "./home-featured-projects-showcase";
-
-import type { Project } from "@/types/content";
 
 export function selectPrimaryFeaturedProject(
   projects: Project[],

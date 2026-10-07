@@ -30,7 +30,11 @@ export function ProjectLocationMap({
   return (
     <section className="project-detail-band reveal-section overflow-hidden py-8">
       <div className="page-container">
-        <div className="grid w-full gap-4 lg:grid-cols-2 lg:items-stretch">
+        <div
+          className={`grid w-full gap-4 lg:items-stretch ${
+            aerialImage ? "lg:grid-cols-2" : "lg:grid-cols-1"
+          }`}
+        >
           {aerialImage ? (
             <div
               className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface"
@@ -55,7 +59,6 @@ export function ProjectLocationMap({
                 src={image}
                 alt={copy.mapAlt(title)}
                 fill
-              
                 quality={90}
                 sizes="(max-width: 1024px) 100vw, 640px"
                 className="object-cover"

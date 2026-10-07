@@ -74,19 +74,18 @@ export function SearchResults({
                       </div>
                     ) : null}
                     <div className="flex flex-1 flex-col p-5">
-                   
-                      <p className="text-sm font-medium text-slate">
+                      <p className="td-card-meta text-sm font-medium text-slate">
                         {[statusLabels[project.status], project.location]
                           .filter(Boolean)
                           .join(" · ")}
                       </p>
-                      <h3 className="mt-3 text-xl font-semibold leading-snug">
+                      <h3 className="td-card-title mt-3 text-xl font-semibold">
                         {project.title}
                       </h3>
-                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate">
+                      <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
                         {project.summary}
                       </p>
-                      <span className="link-arrow mt-5 text-sm font-semibold text-brand">
+                      <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
                         {labels.groupProjects}
                       </span>
                     </div>
@@ -110,7 +109,7 @@ export function SearchResults({
                       </div>
                     ) : null}
                     <div className="flex flex-1 flex-col p-5">
-                      <p className="text-sm font-medium text-slate">
+                      <p className="td-card-meta text-sm font-medium text-slate">
                         {[
                           post.category?.name,
                           formatDate(post.publishedAt, locale),
@@ -118,16 +117,16 @@ export function SearchResults({
                           .filter(Boolean)
                           .join(" · ")}
                       </p>
-                      <h3 className="mt-3 text-xl font-semibold leading-snug">
+                      <h3 className="td-card-title mt-3 text-xl font-semibold">
                         {post.title}
                       </h3>
-                  
-                      {post.summary ? (
-                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate">
-                          {post.summary}
-                        </p>
-                      ) : null}
-                      <span className="link-arrow mt-5 text-sm font-semibold text-brand">
+                      <p
+                        className="td-card-summary mt-3 text-sm leading-6 text-slate"
+                        aria-hidden={post.summary ? undefined : "true"}
+                      >
+                        {post.summary ?? ""}
+                      </p>
+                      <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
                         {labels.groupNews}
                       </span>
                     </div>

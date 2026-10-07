@@ -6,13 +6,15 @@ import { useEffect, useRef, useState } from "react";
 
 const AUTOPLAY_MS = 4500;
 
-type ProjectItemGalleryProps = {
+type ProjectImageGalleryProps = {
   images: string[];
   title: string;
 };
 
-
-export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
+export default function ProjectImageGallery({
+  images,
+  title,
+}: ProjectImageGalleryProps) {
   const count = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -53,7 +55,7 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
 
   return (
     <div
-      className="project-item-gallery flex h-full min-w-0 flex-col gap-4"
+      className="project-image-gallery flex h-full min-w-0 flex-col gap-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
@@ -172,3 +174,6 @@ export function ProjectItemGallery({ images, title }: ProjectItemGalleryProps) {
     </div>
   );
 }
+
+export const ProjectItemGallery = ProjectImageGallery;
+export { ProjectImageGallery };

@@ -144,10 +144,10 @@ export function NewsSlider({
                     </div>
                   ) : null}
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="text-sm text-slate">
+                    <p className="td-card-meta text-sm text-slate">
                       {formatDate(post.publishedAt, locale)}
                     </p>
-                    <h3 className="mt-3 line-clamp-3 text-xl font-semibold">
+                    <h3 className="td-card-title mt-3 text-xl font-semibold">
                       {post.title}
                     </h3>
                     <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">

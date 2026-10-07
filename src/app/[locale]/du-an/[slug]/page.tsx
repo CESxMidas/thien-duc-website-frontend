@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
-import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
+import ProjectImageGallery from "@/components/sections/project-item-gallery";
 import { ProjectItemsCarousel } from "@/components/sections/project-items-carousel";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
 import { ProjectMapEmbed } from "@/components/sections/project-map-embed";
-import { ProjectPhotoStrip } from "@/components/sections/project-photo-strip";
 import { staticParamsSafe } from "@/lib/api/client";
 import { getProjectBySlug, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
@@ -29,42 +27,12 @@ function ProjectFactCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ProjectOverviewHighlights({
-  highlights,
-  label,
-}: {
-  highlights: string[];
-  label: string;
-}) {
-  return (
-    <div className="mt-6 flex min-h-0 flex-1 flex-col">
-      {highlights.length > 0 ? (
-        <div className="flex flex-1 flex-col rounded-sm border border-brand/12 bg-gold-soft/55 p-5">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-            {label}
-          </p>
-          <ul className="grid gap-3">
-            {highlights.map((highlight) => (
-              <li
-                key={highlight}
-                className="flex items-start gap-3 text-sm leading-6 text-slate"
-              >
-                <CheckCircle2
-                  className="mt-0.5 size-4 shrink-0 text-brand"
-                  aria-hidden="true"
-                />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </div>
-  );
+function uniqueImages(images: Array<string | undefined>) {
+  return Array.from(new Set(images.filter(Boolean) as string[]));
 }
 
 export async function generateStaticParams() {
-  return staticParamsSafe('du-an/[slug]', async () => {
+  return staticParamsSafe("du-an/[slug]", async () => {
     const projects = await getProjects(defaultLocale);
     return projects.map((project) => ({ slug: project.slug }));
   });
@@ -83,7 +51,7 @@ export async function generateMetadata({
   }
 
   return buildPageMetadata({
-    title: `${project.title}`,
+    title: project.title,
     description: project.summary,
     path: `${routes.projects}/${project.slug}`,
     locale,
@@ -106,34 +74,23 @@ export default async function ProjectDetailPage({
   const dictionary = await getDictionary(locale);
   const gallery = project.gallery ?? [];
   const gallerySections = project.gallerySections ?? [];
+  const galleryImages = uniqueImages([
+    project.image,
+    ...gallery,
+    ...gallerySections.flatMap((section) => section.images),
+  ]);
   const overviewHighlights = project.highlights ?? [];
   const items = project.items ?? [];
+  const quickFacts = project.quickFacts ?? [];
+  const hasProjectGallery = galleryImages.length > 0;
 
-  const addressFact = (project.quickFacts ?? []).find((fact) =>
+  const addressFact = quickFacts.find((fact) =>
     /địa chỉ|address/i.test(fact.label),
   );
   const mapQuery =
     addressFact?.value ??
     (project.location ? `${project.title} ${project.location}` : undefined);
   const hasEmbedMap = !project.mapLocation && Boolean(mapQuery);
-  const hasMap = Boolean(project.mapLocation) || hasEmbedMap;
-
-  const showGalleryUnderMain = items.length > 0 && gallery.length > 0;
-  const galleryStrip = showGalleryUnderMain ? (
-    <section className="project-detail-band py-8">
-      <div className="page-container">
-        <div className="reveal-from-left mb-6">
-          <p className="text-eyebrow mb-3 text-brand">
-            {dictionary.projectDetail.galleryEyebrow}
-          </p>
-          <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-            {dictionary.projectDetail.galleryTitle}
-          </h2>
-        </div>
-        <ProjectPhotoStrip images={gallery} title={project.title} />
-      </div>
-    </section>
-  ) : null;
 
   return (
     <SiteShell locale={locale}>
@@ -159,113 +116,92 @@ export default async function ProjectDetailPage({
           />
         </section>
 
-        {project.image && !hasMap ? (
-          <section className="page-container pb-5 pt-4 sm:pb-8">
-            <div className="image-reveal reveal-from-left relative aspect-video max-h-130 overflow-hidden border border-brand/20 bg-surface">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                preload
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                className="object-cover"
-              />
-            </div>
-          </section>
-        ) : null}
-
-        {/* Case C, dự án không có bản đồ: ảnh chính là hero phía trên, thư viện
-            ảnh dự án nằm ngay dưới nó. */}
-        {!hasMap ? galleryStrip : null}
-
-        <section className="project-detail-band py-12">
-          <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
-            <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7">
-              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
-              <p className="text-eyebrow mb-4 text-brand">
-                {dictionary.projectDetail.quickInfoEyebrow}
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                {dictionary.projectDetail.quickInfoTitle}
-              </h2>
-
-              <dl className="mt-6 grid flex-1 auto-rows-fr gap-4 sm:grid-cols-2">
-                <ProjectFactCell
-                  label={dictionary.projectDetail.locationLabel}
-                  value={project.location ?? dictionary.projectDetail.updating}
+        <section className="project-detail-band py-8 sm:py-12">
+          <div
+            className={`page-container reveal-sides-pair grid gap-6 lg:items-stretch ${
+              hasProjectGallery
+                ? "lg:h-[42rem] lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)] xl:h-[46rem]"
+                : "lg:grid-cols-1"
+            }`}
+          >
+            {hasProjectGallery ? (
+              <div className="image-reveal reveal-from-left min-h-0 min-w-0">
+                <ProjectImageGallery
+                  images={galleryImages}
+                  title={project.title}
                 />
-                <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
-                    {dictionary.projectDetail.statusLabel}
-                  </dt>
-                  <dd className="mt-2">
-                    <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                      {dictionary.projectStatus[project.status]}
-                    </span>
-                  </dd>
+              </div>
+            ) : null}
+
+            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex min-h-0 flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
+              <div className="grid gap-6 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
+                <div>
+                  <p className="text-eyebrow mb-4 text-brand">
+                    {dictionary.projectDetail.overviewEyebrow}
+                  </p>
+                  <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+                    {project.mapLocation?.heading ??
+                      dictionary.projectDetail.overviewFallbackTitle}
+                  </h2>
+                  <p
+                    className={`mt-5 text-base leading-7 text-slate ${
+                      project.description ? "text-justified" : ""
+                    }`}
+                  >
+                    {project.description ??
+                      dictionary.projectDetail.overviewFallbackDescription}
+                  </p>
+                  {project.mapLocation?.description ? (
+                    <p className="mt-4 text-base leading-7 text-slate">
+                      {project.mapLocation.description}
+                    </p>
+                  ) : null}
                 </div>
-                <ProjectFactCell
-                  label={dictionary.projectDetail.categoryLabel}
-                  value={project.category ?? dictionary.projectDetail.updating}
-                />
-                {(project.quickFacts ?? []).map((fact) => (
-                  <ProjectFactCell
-                    key={fact.label}
-                    label={fact.label}
-                    value={fact.value}
-                  />
-                ))}
-              </dl>
-            </aside>
 
-            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex h-full flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
-              <p className="text-eyebrow mb-4 text-brand">
-                {dictionary.projectDetail.overviewEyebrow}
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                {project.mapLocation?.heading ??
-                  dictionary.projectDetail.overviewFallbackTitle}
-              </h2>
-           
-              <p
-                className={`mt-5 line-clamp-6 text-base leading-7 text-slate ${
-                  project.description ? "text-justified" : ""
-                }`}
-              >
-                {project.description ??
-                  dictionary.projectDetail.overviewFallbackDescription}
-              </p>
-              {project.mapLocation?.description ? (
-                <p className="mt-4 line-clamp-3 text-base leading-7 text-slate">
-                  {project.mapLocation.description}
-                </p>
-              ) : null}
+                <div className="border-t border-brand/12 pt-6">
+                  <p className="text-eyebrow mb-4 text-brand">
+                    {dictionary.projectDetail.quickInfoEyebrow}
+                  </p>
+                  <h3 className="text-xl font-semibold leading-tight text-ink">
+                    {dictionary.projectDetail.quickInfoTitle}
+                  </h3>
 
-              <ProjectOverviewHighlights
-                highlights={overviewHighlights}
-                label={dictionary.projectDetail.highlightsLabel}
-              />
+                  <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <ProjectFactCell
+                      label={dictionary.projectDetail.locationLabel}
+                      value={
+                        project.location ?? dictionary.projectDetail.updating
+                      }
+                    />
+                    <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4">
+                      <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
+                        {dictionary.projectDetail.statusLabel}
+                      </dt>
+                      <dd className="mt-2">
+                        <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                          {dictionary.projectStatus[project.status]}
+                        </span>
+                      </dd>
+                    </div>
+                    <ProjectFactCell
+                      label={dictionary.projectDetail.categoryLabel}
+                      value={
+                        project.category ?? dictionary.projectDetail.updating
+                      }
+                    />
+                    {quickFacts.map((fact) => (
+                      <ProjectFactCell
+                        key={fact.label}
+                        label={fact.label}
+                        value={fact.value}
+                      />
+                    ))}
+                  </dl>
+                </div>
+              </div>
             </article>
           </div>
         </section>
-
-        {project.mapLocation ? (
-          <ProjectLocationMap
-            mapLocation={project.mapLocation}
-            title={project.title}
-            locale={locale}
-            aerialImage={project.image}
-          />
-        ) : hasEmbedMap && mapQuery ? (
-          <ProjectMapEmbed
-            query={mapQuery}
-            title={project.title}
-            locale={locale}
-            aerialImage={project.image}
-          />
-        ) : null}
-
-        {hasMap ? galleryStrip : null}
 
         {items.length > 0 ? (
           <section className="project-detail-band py-12">
@@ -291,60 +227,57 @@ export default async function ProjectDetailPage({
               />
             </div>
           </section>
-        ) : gallerySections.length > 0 ? (
+        ) : null}
+
+        {project.mapLocation ? (
+          <ProjectLocationMap
+            mapLocation={project.mapLocation}
+            title={project.title}
+            locale={locale}
+            aerialImage={project.image}
+          />
+        ) : hasEmbedMap && mapQuery ? (
+          <ProjectMapEmbed
+            query={mapQuery}
+            title={project.title}
+            locale={locale}
+            aerialImage={project.image}
+          />
+        ) : null}
+
+        {overviewHighlights.length > 0 ? (
           <section className="project-detail-band py-12">
-            <div className="page-container">
-              <ProjectGallerySections
-                sections={gallerySections}
-                projectTitle={project.title}
-              />
-            </div>
-          </section>
-        ) : gallery.length > 0 ? (
-          <section className="project-detail-band py-12">
-            <div className="page-container">
-              <div className="reveal-from-left mb-8">
+            <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
+              <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-5 md:p-7">
+                <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
                 <p className="text-eyebrow mb-4 text-brand">
-                  {dictionary.projectDetail.galleryEyebrow}
+                  {dictionary.projectDetail.highlightsEyebrow}
                 </p>
-                <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                  {dictionary.projectDetail.galleryTitle}
+                <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+                  {dictionary.projectDetail.highlightsTitle}
                 </h2>
+                <p className="mt-5 text-sm leading-6 text-slate">
+                  {dictionary.projectDetail.highlightsDescription}
+                </p>
+              </aside>
+
+              <div className="reveal-from-right grid h-full gap-4 sm:grid-cols-2">
+                {overviewHighlights.map((highlight) => (
+                  <div
+                    key={highlight}
+                    className="hover-card project-detail-highlight flex items-start gap-3 p-5"
+                  >
+                    <CheckCircle2
+                      className="mt-0.5 size-4 shrink-0 text-brand"
+                      aria-hidden="true"
+                    />
+                    <p className="text-sm leading-6 text-slate">{highlight}</p>
+                  </div>
+                ))}
               </div>
-          
-              <ProjectPhotoStrip images={gallery} title={project.title} />
             </div>
           </section>
         ) : null}
-
-        <section className="project-detail-band py-12">
-          <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
-            <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-5 md:p-7">
-              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
-              <p className="text-eyebrow mb-4 text-brand">
-                {dictionary.projectDetail.highlightsEyebrow}
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-                {dictionary.projectDetail.highlightsTitle}
-              </h2>
-              <p className="mt-5 text-sm leading-6 text-slate">
-                {dictionary.projectDetail.highlightsDescription}
-              </p>
-            </aside>
-
-            <div className="reveal-from-right flex h-full flex-col justify-center gap-4">
-              {(project.highlights ?? []).map((highlight) => (
-                <div
-                  key={highlight}
-                  className="hover-card project-detail-highlight p-5"
-                >
-                  <div className="mb-4 h-1 w-14 bg-earth" />
-                  <p className="text-sm leading-6 text-slate">{highlight}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <section className="page-container py-5 sm:py-8">
           <div className="reveal-sides-pair grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">

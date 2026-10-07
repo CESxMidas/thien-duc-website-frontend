@@ -10,6 +10,7 @@ import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 5200;
+const ITEMS_PER_PAGE = 3;
 
 type ProjectItemsCarouselProps = {
   items: ProjectItem[];
@@ -30,6 +31,12 @@ export function ProjectItemsCarousel({
   labels,
 }: ProjectItemsCarouselProps) {
   const count = items.length;
+  const pages = Array.from(
+    { length: Math.ceil(count / ITEMS_PER_PAGE) },
+    (_, index) =>
+      items.slice(index * ITEMS_PER_PAGE, index * ITEMS_PER_PAGE + ITEMS_PER_PAGE),
+  );
+  const pageCount = pages.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useRef(false);
@@ -41,22 +48,22 @@ export function ProjectItemsCarousel({
   }, []);
 
   function goToPrevious() {
-    setActiveIndex((current) => (current === 0 ? count - 1 : current - 1));
+    setActiveIndex((current) => (current === 0 ? pageCount - 1 : current - 1));
   }
 
   function goToNext() {
-    setActiveIndex((current) => (current + 1) % count);
+    setActiveIndex((current) => (current + 1) % pageCount);
   }
 
   function handleProgressEnd() {
-    if (count <= 1 || isPaused || prefersReducedMotion.current) {
+    if (pageCount <= 1 || isPaused || prefersReducedMotion.current) {
       return;
     }
 
     goToNext();
   }
 
-  const autoplay = count > 1;
+  const autoplay = pageCount > 1;
 
   return (
     <div
@@ -80,7 +87,7 @@ export function ProjectItemsCarousel({
               <div
                 className="h-full bg-gold transition-transform duration-300"
                 style={{
-                  transform: `scaleX(${(activeIndex + 1) / count})`,
+                  transform: `scaleX(${(activeIndex + 1) / pageCount})`,
                   transformOrigin: "left",
                 }}
               />
@@ -93,74 +100,95 @@ export function ProjectItemsCarousel({
             className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
-            {items.map((item) => {
-              const href = localizePath(
-                `${routes.projects}/${projectSlug}/${item.slug}`,
-                locale,
-              );
+            {pages.map((page, pageIndex) => (
+              <div
+                key={page.map((item) => item.slug).join("|")}
+                className="grid w-full shrink-0 gap-4 p-4 md:grid-cols-2 md:p-5 xl:grid-cols-3"
+              >
+                {page.map((item) => {
+                  const href = localizePath(
+                    `${routes.projects}/${projectSlug}/${item.slug}`,
+                    locale,
+                  );
 
-              return (
-                <Link
-                  key={item.slug}
-                  href={href}
-                  aria-label={interpolate(labels.ariaView, {
-                    title: item.title,
-                  })}
-                  className="group/slide grid w-full shrink-0 grid-cols-1 md:grid-cols-2"
-                >
-                  <div className="relative aspect-16/10 overflow-hidden bg-surface md:aspect-auto md:min-h-22rem">
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover transition duration-700 ease-out group-hover/slide:scale-105"
-                      />
-                    ) : (
-                      <div className="grid h-full place-items-center bg-ivory">
-                        <Building2
-                          className="size-14 text-brand/35"
-                          aria-hidden="true"
-                        />
+                  return (
+                    <Link
+                      key={item.slug}
+                      href={href}
+                      aria-label={interpolate(labels.ariaView, {
+                        title: item.title,
+                      })}
+                      className="group/slide flex h-full min-w-0 flex-col overflow-hidden border border-brand/12 bg-white transition hover:border-brand/35 hover:shadow-[0_18px_34px_rgba(41,41,41,0.08)]"
+                    >
+                      <div className="relative aspect-16/10 overflow-hidden bg-surface">
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                            className="object-cover transition duration-700 ease-out group-hover/slide:scale-105"
+                          />
+                        ) : (
+                          <div className="grid h-full place-items-center bg-ivory">
+                            <Building2
+                              className="size-14 text-brand/35"
+                              aria-hidden="true"
+                            />
+                          </div>
+                        )}
+                        <div className="pointer-events-none absolute inset-0 bg-transparent" />
+                        <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+                          {statusLabels[item.status ?? projectStatus]}
+                        </span>
                       </div>
-                    )}
-                    <div className="pointer-events-none absolute inset-0 bg-transparent" />
-                    <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
-                      {statusLabels[item.status ?? projectStatus]}
-                    </span>
-                  </div>
 
-                  <div className="flex flex-col justify-center gap-4 bg-white p-6 md:p-10">
-                    <p className="text-eyebrow text-brand">{labels.badge}</p>
-                    <h3 className="text-2xl font-semibold leading-tight text-ink md:text-3xl">
-                      {item.title}
-                    </h3>
-                    {item.summary ? (
-                      <p className="text-sm leading-6 text-slate md:text-base md:leading-7">
-                        {item.summary}
-                      </p>
-                    ) : null}
-                    <span className="link-arrow mt-2 inline-flex h-11 w-fit items-center border border-brand/25 px-5 text-sm font-semibold text-brand transition group-hover/slide:border-brand group-hover/slide:bg-gold group-hover/slide:text-ink">
-                      {labels.viewItem}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+                      <div className="flex flex-1 flex-col gap-4 p-5">
+                        <p className="td-card-meta text-eyebrow text-brand">
+                          {labels.badge}
+                        </p>
+                        <h3 className="td-card-title text-xl font-semibold text-ink">
+                          {item.title}
+                        </h3>
+                        <p
+                          className="td-card-summary text-sm leading-6 text-slate"
+                          aria-hidden={item.summary ? undefined : "true"}
+                        >
+                          {item.summary ?? ""}
+                        </p>
+                        <span className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-brand/25 px-4 text-sm font-semibold text-brand transition group-hover/slide:border-brand group-hover/slide:bg-gold group-hover/slide:text-ink">
+                          {labels.viewItem}
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+                {pageIndex === pages.length - 1 &&
+                  page.length < ITEMS_PER_PAGE &&
+                  Array.from({ length: ITEMS_PER_PAGE - page.length }).map(
+                    (_, index) => (
+                      <div
+                        key={`placeholder-${index}`}
+                        aria-hidden="true"
+                        className="hidden xl:block"
+                      />
+                    ),
+                  )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {count > 1 ? (
+      {pageCount > 1 ? (
         <div className="mt-5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            {items.map((item, index) => (
+            {pages.map((page, index) => (
               <button
-                key={item.slug}
+                key={page.map((item) => item.slug).join("|")}
                 type="button"
                 aria-label={interpolate(labels.ariaGoTo, {
-                  title: item.title,
+                  title: page.map((item) => item.title).join(", "),
                 })}
                 aria-current={index === activeIndex}
                 onClick={() => setActiveIndex(index)}

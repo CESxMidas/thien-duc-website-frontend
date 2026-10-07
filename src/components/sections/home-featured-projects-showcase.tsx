@@ -107,7 +107,7 @@ export function HomeFeaturedProjectsShowcase({
               aria-hidden="true"
               className="transition duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
             >
-              →
+              &#8594;
             </span>
           </Link>
         </header>
@@ -197,7 +197,7 @@ export function HomeFeaturedProjectsShowcase({
                   aria-hidden="true"
                   className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
                 >
-                  →
+                  &#8594;
                 </span>
               </Link>
             </article>
@@ -218,12 +218,13 @@ export function HomeFeaturedProjectsShowcase({
                   index < carouselIndex + visibleCount;
 
                 return (
-                  <Link
+                  <button
                     key={project.slug}
-                    href={project.href}
-                    aria-current={isActive ? "true" : undefined}
-                    aria-hidden={isVisible ? undefined : "true"}
+                    type="button"
+                    aria-label={`${labels.selectProject}: ${project.title}`}
+                    aria-pressed={isActive}
                     tabIndex={isVisible ? undefined : -1}
+                    onClick={() => setActiveProjectIndex(index)}
                     onFocus={() => setActiveProjectIndex(index)}
                     onMouseEnter={() => setActiveProjectIndex(index)}
                     style={{ width: slideWidth }}
@@ -291,11 +292,11 @@ export function HomeFeaturedProjectsShowcase({
                           aria-hidden="true"
                           className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
                         >
-                          →
+                          &#8594;
                         </span>
                       </span>
                     </span>
-                  </Link>
+                  </button>
                 );
               })}
             </div>

@@ -13,7 +13,6 @@ import { routes } from "@/lib/routes";
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
-/** Khoảng cách giữa hai thẻ, tính bằng px — bằng `gap-5` của Tailwind. */
 const GAP_PX = 20;
 
 function visibleCountFor(width: number): number {
@@ -128,22 +127,23 @@ export function ProjectsCarousel({
                     </div>
                   ) : null}
                   <div className="flex flex-1 flex-col p-5">
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+                    <div className="td-card-meta flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                       {project.location ? <span>{project.location}</span> : null}
                       {project.location ? (
                         <span className="h-1 w-1 rounded-full bg-gold" />
                       ) : null}
                       <span>{statusLabels[project.status]}</span>
                     </div>
-                    <h2 className="mt-3 text-xl font-semibold leading-tight">
+                    <h2 className="td-card-title mt-3 text-xl font-semibold">
                       {project.title}
                     </h2>
-                    {project.category ? (
-                      <p className="mt-2 text-sm font-semibold text-slate">
-                        {project.category}
-                      </p>
-                    ) : null}
-                    <p className="mt-3 line-clamp-4 text-sm leading-6 text-slate">
+                    <p
+                      className="mt-2 min-h-5 text-sm font-semibold text-slate"
+                      aria-hidden={project.category ? undefined : "true"}
+                    >
+                      {project.category ?? ""}
+                    </p>
+                    <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
                       {project.summary}
                     </p>
                     <span className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">

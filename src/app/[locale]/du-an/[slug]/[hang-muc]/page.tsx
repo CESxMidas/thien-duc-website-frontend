@@ -5,8 +5,7 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
-import { ProjectGallerySections } from "@/components/sections/project-gallery-sections";
-import { ProjectItemGallery } from "@/components/sections/project-item-gallery";
+import ProjectImageGallery from "@/components/sections/project-item-gallery";
 import { staticParamsSafe } from "@/lib/api/client";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
 import { defaultLocale, isLocale, localizePath } from "@/lib/i18n/config";
@@ -62,6 +61,10 @@ function ProjectFactCell({ label, value }: { label: string; value: string }) {
   );
 }
 
+function uniqueImages(images: Array<string | undefined>) {
+  return Array.from(new Set(images.filter(Boolean) as string[]));
+}
+
 export default async function ProjectItemPage({
   params,
 }: PageProps<"/[locale]/du-an/[slug]/[hang-muc]">) {
@@ -81,10 +84,11 @@ export default async function ProjectItemPage({
   const projectHref = localizePath(`${routes.projects}/${project.slug}`, locale);
   const gallery = item.gallery ?? [];
   const gallerySections = item.gallerySections ?? [];
-
-  const galleryImages = [
-    ...new Set([item.image, ...gallery].filter(Boolean) as string[]),
-  ];
+  const galleryImages = uniqueImages([
+    item.image,
+    ...gallery,
+    ...gallerySections.flatMap((section) => section.images),
+  ]);
   const highlights = item.highlights ?? [];
   const quickFacts = item.quickFacts ?? [];
   // Hạng mục không đặt trạng thái riêng thì lấy theo dự án cha.
@@ -124,7 +128,7 @@ export default async function ProjectItemPage({
           <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
             {galleryImages.length > 0 ? (
               <div className="reveal-from-left h-full min-w-0">
-                <ProjectItemGallery images={galleryImages} title={item.title} />
+                <ProjectImageGallery images={galleryImages} title={item.title} />
               </div>
             ) : null}
 
@@ -199,17 +203,6 @@ export default async function ProjectItemPage({
           </div>
         </section>
 
-        {gallerySections.length > 0 ? (
-          <section className="project-detail-band pb-12">
-            <div className="page-container">
-              <ProjectGallerySections
-                sections={gallerySections}
-                projectTitle={item.title}
-              />
-            </div>
-          </section>
-        ) : null}
-
         {siblings.length > 0 ? (
           <section className="page-container py-5 sm:py-8">
             <p className="text-eyebrow mb-4 text-brand">
@@ -225,20 +218,21 @@ export default async function ProjectItemPage({
                 <Link
                   key={sibling.slug}
                   href={`${projectHref}/${sibling.slug}`}
-                  className="hover-card group border border-black/10 bg-white p-5 hover:border-brand"
+                  className="hover-card group flex h-full flex-col border border-black/10 bg-white p-5 hover:border-brand"
                 >
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+                  <span className="td-card-meta text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                     {dictionary.projectStatus[sibling.status ?? project.status]}
                   </span>
-                  <h3 className="mt-3 text-xl font-semibold leading-snug">
+                  <h3 className="td-card-title mt-3 text-xl font-semibold">
                     {sibling.title}
                   </h3>
-                  {sibling.summary ? (
-                    <p className="mt-3 text-sm leading-6 text-slate">
-                      {sibling.summary}
-                    </p>
-                  ) : null}
-                  <span className="link-arrow mt-5 inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
+                  <p
+                    className="td-card-summary mt-3 text-sm leading-6 text-slate"
+                    aria-hidden={sibling.summary ? undefined : "true"}
+                  >
+                    {sibling.summary ?? ""}
+                  </p>
+                  <span className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
                     {dictionary.projectItem.viewItem}
                   </span>
                 </Link>

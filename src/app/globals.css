@@ -128,6 +128,30 @@ h2 {
   text-wrap: pretty;
 }
 
+.td-card-meta {
+  min-height: 1.25rem;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.td-card-title {
+  min-height: 3.4rem;
+  display: -webkit-box;
+  overflow: hidden;
+  text-wrap: balance;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.td-card-summary {
+  min-height: 4.5rem;
+  display: -webkit-box;
+  overflow: hidden;
+  text-wrap: pretty;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .page-container {
   width: 100%;
   padding-inline: 1.25rem;
@@ -670,7 +694,7 @@ textarea {
 }
 
 .link-arrow::after {
-  content: "→";
+  content: "\2192";
   transition: transform var(--duration-base) var(--ease-out-expo);
 }
 
