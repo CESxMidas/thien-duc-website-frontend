@@ -106,6 +106,7 @@ export type NewsPostDto = {
   gallery?: string[] | null;
   eventDate?: string | null;
   publishedAt?: string | null;
+  createdAt?: string | null;
   category?: { slug: string; name: LocalizedText } | null;
 };
 

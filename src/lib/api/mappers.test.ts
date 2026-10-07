@@ -188,4 +188,20 @@ describe("mapNewsPost — chuyên mục", () => {
       "/images/news/c.jpg",
     ]);
   });
+
+  it("map du ngay published, event va created de frontend fallback dung", () => {
+    const post = mapNewsPost(
+      {
+        ...baseNews,
+        publishedAt: "2026-05-01T03:00:00.000Z",
+        eventDate: "2026-04-20T03:00:00.000Z",
+        createdAt: "2026-06-01T03:00:00.000Z",
+      },
+      "vi",
+    );
+
+    expect(post.publishedAt).toBe("2026-05-01");
+    expect(post.eventDate).toBe("2026-04-20");
+    expect(post.createdAt).toBe("2026-06-01");
+  });
 });

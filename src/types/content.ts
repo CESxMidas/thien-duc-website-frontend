@@ -89,6 +89,7 @@ export type NewsPost = {
   summary: string;
   publishedAt: string;
   eventDate?: string;
+  createdAt?: string;
   category?: NewsCategoryRef;
   content?: string[];
   author?: string;

@@ -143,6 +143,7 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     summary: localized(dto.summary, locale),
     publishedAt: dto.publishedAt?.slice(0, 10) ?? "",
     eventDate: dto.eventDate?.slice(0, 10),
+    createdAt: dto.createdAt?.slice(0, 10),
 
     category: dto.category
       ? { slug: dto.category.slug, name: localized(dto.category.name, locale) }
