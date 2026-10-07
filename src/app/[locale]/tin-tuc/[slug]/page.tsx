@@ -102,53 +102,71 @@ export default async function NewsDetailPage({
         ]}
       />
 
-      <header className="page-container py-7 sm:py-10 lg:py-12">
-        <div className="border-y border-charcoal/15 py-6 sm:py-8 lg:py-10">
-          <div className="grid items-end gap-7 lg:grid-cols-[minmax(0,1.42fr)_minmax(18rem,0.78fr)] lg:gap-10 xl:grid-cols-[minmax(0,1.5fr)_minmax(20rem,0.72fr)]">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
-                {post.category ? (
-                  <Link
-                    href={localizePath(
-                      `${routes.newsCategory}/${post.category.slug}`,
-                      locale,
-                    )}
-                    className="inline-flex min-h-9 items-center gap-2 transition-colors hover:text-brand"
-                  >
-                    <FolderOpen className="size-4" aria-hidden="true" />
-                    {post.category.name}
-                  </Link>
-                ) : null}
-                {displayDate ? (
-                  <span className="inline-flex min-h-9 items-center gap-2">
-                    <CalendarDays className="size-4" aria-hidden="true" />
-                    {formatDate(displayDate, locale)}
-                  </span>
-                ) : null}
-              </div>
-
-              <h1 className="mt-4 max-w-[16ch] text-[2.5rem] font-medium leading-[1.03] text-balance text-charcoal sm:text-[3.35rem] lg:text-[4.15rem] xl:text-[4.75rem]">
-                {post.title}
-              </h1>
+      <section className="page-container reveal-section py-7 sm:py-10 lg:py-12">
+        <div className="grid min-w-0 items-start gap-9 border-y border-charcoal/15 py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <article className="min-w-0">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
+              {post.category ? (
+                <Link
+                  href={localizePath(
+                    `${routes.newsCategory}/${post.category.slug}`,
+                    locale,
+                  )}
+                  className="inline-flex min-h-9 items-center gap-2 transition-colors hover:text-brand"
+                >
+                  <FolderOpen className="size-4" aria-hidden="true" />
+                  {post.category.name}
+                </Link>
+              ) : null}
+              {displayDate ? (
+                <span className="inline-flex min-h-9 items-center gap-2">
+                  <CalendarDays className="size-4" aria-hidden="true" />
+                  {formatDate(displayDate, locale)}
+                </span>
+              ) : null}
             </div>
 
-            <p className="max-w-[58ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8 lg:pb-2">
+            <h1 className="mt-4 max-w-[18ch] text-[clamp(2.2rem,3.2vw,4rem)] font-medium leading-[1.03] text-balance text-charcoal">
+              {post.title}
+            </h1>
+
+            <p className="mt-5 max-w-[66ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8">
               {post.summary}
             </p>
-          </div>
-        </div>
-      </header>
 
-      <section className="page-container reveal-section pb-10 sm:pb-14">
-        <div className="grid min-w-0 items-start gap-y-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-x-8 lg:gap-y-10 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-10">
-          <NewsDetailGallery
-            images={galleryImages}
-            title={post.title}
-            galleryLabel={dictionary.newsDetail.galleryLabel}
-            imageLabel={dictionary.newsDetail.imageLabel}
-          />
+            <div className="mt-8 sm:mt-10">
+              <NewsDetailGallery
+                images={galleryImages}
+                title={post.title}
+                galleryLabel={dictionary.newsDetail.galleryLabel}
+                imageLabel={dictionary.newsDetail.imageLabel}
+              />
+            </div>
 
-          <aside className="border-t border-charcoal/20 pt-5 lg:sticky lg:top-36 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:min-h-[24rem] lg:flex-col">
+            <div className="mt-8 border-t border-charcoal/15 pt-7 sm:mt-10 sm:pt-9">
+              <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
+                {content.map((paragraph) =>
+                  isArticleSubheading(paragraph) ? (
+                    <h2
+                      key={paragraph}
+                      className="mt-3 text-2xl font-semibold leading-tight text-charcoal sm:text-3xl"
+                    >
+                      {paragraph}
+                    </h2>
+                  ) : (
+                    <p
+                      key={paragraph}
+                      className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
+                    >
+                      {paragraph}
+                    </p>
+                  ),
+                )}
+              </div>
+            </div>
+          </article>
+
+          <aside className="self-start border-t border-charcoal/20 pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:flex lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:min-h-[24rem] lg:flex-col lg:overflow-y-auto">
             <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
@@ -220,28 +238,6 @@ export default async function NewsDetailPage({
               {dictionary.common.viewAllNews}
             </Link>
           </aside>
-
-          <article className="min-w-0 border-t border-charcoal/15 pt-7 sm:pt-9 lg:col-start-1">
-            <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
-              {content.map((paragraph) =>
-                isArticleSubheading(paragraph) ? (
-                  <h2
-                    key={paragraph}
-                    className="mt-3 text-2xl font-semibold leading-tight text-charcoal sm:text-3xl"
-                  >
-                    {paragraph}
-                  </h2>
-                ) : (
-                  <p
-                    key={paragraph}
-                    className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
-                  >
-                    {paragraph}
-                  </p>
-                ),
-              )}
-            </div>
-          </article>
         </div>
       </section>
 
