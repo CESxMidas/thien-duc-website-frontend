@@ -1,5 +1,16 @@
 
 function splitMotto(motto: string) {
+  for (const marker of ["Thiên Đức", "Thien Duc"]) {
+    const markerIndex = motto.indexOf(marker);
+
+    if (markerIndex > 0) {
+      return {
+        first: motto.slice(0, markerIndex).trim().replace(/,$/, ""),
+        second: motto.slice(markerIndex).trim(),
+      };
+    }
+  }
+
   const [first, ...rest] = motto.split(/\s*[—–]\s*|\s+-\s+/);
   return { first: first.trim(), second: rest.join(" ").trim() || undefined };
 }
@@ -16,7 +27,6 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
 
   return (
     <figure
-    
       className={`relative overflow-hidden bg-brand-dark px-6 py-6 text-white sm:px-8 sm:py-8 ${className ?? ""}`}
     >
       <span
@@ -29,7 +39,6 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
       ) : null}
 
       <blockquote
-      
         className={`font-display text-xl font-bold leading-[1.15] tracking-tight sm:text-2xl ${label ? "mt-3" : ""}`}
       >
         <span className="block text-balance">{first}</span>

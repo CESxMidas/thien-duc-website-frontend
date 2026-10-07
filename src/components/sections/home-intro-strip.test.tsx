@@ -15,10 +15,9 @@ describe("HomeIntroStrip", () => {
         name: /khách hàng hài lòng - thiên đức thành công/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Thien Duc I&C")).toBeInTheDocument();
-    expect(screen.getByText("Investment")).toBeInTheDocument();
-    expect(screen.getByText("Construction")).toBeInTheDocument();
-    expect(screen.getByText("Development")).toBeInTheDocument();
+    expect(screen.getByText("Thiên Đức")).toBeInTheDocument();
+    expect(screen.getByText("lắng nghe")).toBeInTheDocument();
+    expect(screen.getByText("Thấu hiểu từng nhu cầu")).toBeInTheDocument();
     expect(
       screen.queryByRole("heading", {
         level: 2,
@@ -40,25 +39,14 @@ describe("HomeIntroStrip", () => {
     expect(banner).toHaveClass("min-h-[8.5rem]");
   });
 
-  it("co section linh vuc hoat dong voi 3 card link lon", async () => {
-    await renderStrip();
+  it("giu logo trang tri trong cot phai cua layout cu", async () => {
+    const { container } = render(await HomeIntroStrip({ locale: "vi" }));
+    const logo = container.querySelector<HTMLImageElement>(
+      'img[src*="logo-thien-duc.png"]',
+    );
 
-    expect(
-      screen.getByRole("heading", { level: 2, name: /lĩnh vực hoạt động/i }),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Năng lực cốt lõi")).toBeInTheDocument();
-    expect(screen.getByText("01")).toBeInTheDocument();
-    expect(screen.getByText("02")).toBeInTheDocument();
-    expect(screen.getByText("03")).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /đầu tư & phát triển dự án/i }),
-    ).toHaveAttribute("href", "/du-an");
-    expect(
-      screen.getByRole("link", { name: /xây dựng & thi công/i }),
-    ).toHaveAttribute("href", "/du-an");
-    expect(
-      screen.getByRole("link", { name: /phát triển đô thị/i }),
-    ).toHaveAttribute("href", "/du-an");
-    expect(screen.getAllByText("Khám phá")).toHaveLength(3);
+    expect(logo).not.toBeNull();
+    expect(logo).toHaveAttribute("alt", "");
+    expect(logo?.closest("[aria-hidden='true']")).not.toBeNull();
   });
 });
