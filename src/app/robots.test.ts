@@ -16,11 +16,13 @@ describe("robots.txt", () => {
     expect(String(result.host)).toMatch(/^https?:\/\//);
   });
 
-  it("chặn các route khung chờ ở CẢ hai locale", () => {
+  it("chặn các route khung chờ ở cả hai locale, không chặn tuyển dụng", () => {
     const rules = Array.isArray(result.rules) ? result.rules[0] : result.rules;
     const disallow = rules?.disallow as string[];
-    expect(disallow).toContain("/tuyen-dung");
-    expect(disallow).toContain("/en/tuyen-dung");
+    expect(disallow).toContain("/so-do-to-chuc-cong-ty");
+    expect(disallow).toContain("/en/so-do-to-chuc-cong-ty");
+    expect(disallow).not.toContain("/tuyen-dung");
+    expect(disallow).not.toContain("/en/tuyen-dung");
   });
 
   it("chặn /admin (CMS không được vào chỉ mục)", () => {

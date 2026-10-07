@@ -9,7 +9,7 @@ import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
-const AUTOPLAY_MS = 7000;
+const AUTOPLAY_MS = 2000;
 const TRANSITION_MS = 1200;
 const MANUAL_PAUSE_MS = 12000;
 const SWIPE_THRESHOLD_PX = 48;

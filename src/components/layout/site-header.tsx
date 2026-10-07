@@ -20,6 +20,7 @@ const primaryNavigation: NavItem[] = [
   { label: "Lĩnh vực", href: routes.fields },
   { label: "Dự án", href: "/du-an" },
   { label: "Tin tức", href: "/tin-tuc" },
+  { label: "Tuyển dụng", href: routes.careers },
   { label: "Liên hệ", href: "/lien-he" },
 ];
 
@@ -30,6 +31,7 @@ const headerLabels: Record<Locale, Record<string, string>> = {
     [routes.fields]: "Lĩnh vực",
     "/du-an": "Dự án",
     "/tin-tuc": "Tin tức",
+    [routes.careers]: "Tuyển dụng",
     "/lien-he": "Liên hệ",
   },
   en: {
@@ -38,6 +40,7 @@ const headerLabels: Record<Locale, Record<string, string>> = {
     [routes.fields]: "Fields",
     "/du-an": "Projects",
     "/tin-tuc": "News",
+    [routes.careers]: "Careers",
     "/lien-he": "Contact",
   },
 };
@@ -96,14 +99,14 @@ export function SiteHeader({
       className={
         homeAfterBanner
           ? "sticky top-0 z-40 border-b border-white/14 bg-olive text-white"
-          : "sticky top-0 z-40 border-b border-charcoal/12 bg-ivory text-charcoal"
+          : "sticky top-0 z-40 border-b border-earth/18 bg-gold-soft/95 text-charcoal shadow-[0_10px_28px_rgba(41,41,41,0.06)] backdrop-blur-md"
       }
     >
       <div
         className={
           homeAfterBanner
             ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-olive px-4 shadow-[0_12px_32px_rgba(41,41,41,0.16)] sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
-            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:h-32 lg:px-20 xl:px-28"
+            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center bg-gold-soft/95 px-5 sm:px-8 lg:h-32 lg:px-14 xl:px-20"
         }
       >
         <Link
@@ -132,7 +135,7 @@ export function SiteHeader({
           className={
             homeAfterBanner
               ? "hidden items-center justify-center gap-2 xl:flex"
-              : "hidden items-center justify-center gap-4 lg:flex xl:gap-5"
+              : "hidden items-center justify-center gap-2 xl:flex 2xl:gap-4"
           }
           aria-label="Primary"
         >
@@ -150,7 +153,7 @@ export function SiteHeader({
                           ? "bg-white/14 text-gold"
                           : "text-white/84 hover:bg-white/10 hover:text-gold"
                       }`
-                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-6 text-[0.86rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 xl:px-7 ${
+                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
                         active
                           ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
                           : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
@@ -308,7 +311,7 @@ export function SiteHeader({
         className={`border-t ${
           homeAfterBanner
             ? "border-white/15 bg-olive/95 text-white backdrop-blur-md"
-            : "border-charcoal/10 bg-ivory lg:hidden"
+            : "border-earth/18 bg-gold-soft/98 lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">

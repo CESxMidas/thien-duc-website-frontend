@@ -43,7 +43,6 @@ export function buildAlternates(
 
 export const placeholderPaths: readonly string[] = [
   // `/cong-ty-thanh-vien` đã có nội dung thật (câu 6) → đã gỡ khỏi danh sách này.
-  "/tuyen-dung",
   "/so-do-to-chuc-cong-ty",
   "/dao-tao",
   "/chinh-sach-nhan-su",

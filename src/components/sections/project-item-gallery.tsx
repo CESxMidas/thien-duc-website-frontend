@@ -19,6 +19,7 @@ export default function ProjectImageGallery({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useRef(false);
+  const thumbnailTrackRef = useRef<HTMLDivElement | null>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
@@ -28,10 +29,18 @@ export default function ProjectImageGallery({
   }, []);
 
   useEffect(() => {
-    thumbRefs.current[activeIndex]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
+    const track = thumbnailTrackRef.current;
+    const thumb = thumbRefs.current[activeIndex];
+    if (!track || !thumb) return;
+
+    const targetLeft =
+      thumb.offsetLeft -
+      track.offsetLeft -
+      (track.clientWidth - thumb.clientWidth) / 2;
+
+    track.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: prefersReducedMotion.current ? "auto" : "smooth",
     });
   }, [activeIndex]);
 
@@ -139,7 +148,10 @@ export default function ProjectImageGallery({
       </div>
 
       {multiple ? (
-        <div className="flex min-w-0 gap-3 overflow-x-auto pb-1">
+        <div
+          ref={thumbnailTrackRef}
+          className="flex min-w-0 gap-3 overflow-x-auto pb-1"
+        >
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 

@@ -32,5 +32,6 @@ export const mainNavigation: NavItem[] = [
     ],
   },
   { label: "Tin tức", href: "/tin-tuc" },
+  { label: "Tuyển dụng", href: "/tuyen-dung" },
   { label: "Liên hệ", href: "/lien-he" },
 ];
