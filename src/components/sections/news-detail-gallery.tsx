@@ -48,7 +48,7 @@ export function NewsDetailGallery({
 
   if (gallery.length === 1) {
     return (
-      <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
+      <div className="relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
         <Image
           src={mainImage}
           alt={title}
@@ -63,7 +63,7 @@ export function NewsDetailGallery({
 
   return (
     <section className="min-w-0" aria-label={galleryLabel}>
-      <div className="image-reveal relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
+      <div className="relative aspect-video overflow-hidden border border-charcoal/15 bg-surface sm:aspect-[2/1] lg:aspect-[16/9]">
         <Image
           key={mainImage}
           src={mainImage}

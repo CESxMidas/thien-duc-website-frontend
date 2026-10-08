@@ -102,7 +102,7 @@ export default async function NewsDetailPage({
         ]}
       />
 
-      <section className="page-container reveal-section py-7 sm:py-10 lg:py-12">
+      <section className="page-container py-7 sm:py-10 lg:py-12">
         <div className="grid min-w-0 items-start gap-9 border-y border-charcoal/15 py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
           <article className="min-w-0">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
@@ -275,7 +275,7 @@ export default async function NewsDetailPage({
                     className="group grid min-w-0 gap-4 border-t border-charcoal/15 pt-4"
                   >
                     {relatedPost.image ? (
-                      <div className="image-reveal relative aspect-[16/10] overflow-hidden bg-surface">
+                      <div className="relative aspect-[16/10] overflow-hidden bg-surface">
                         <Image
                           src={relatedPost.image}
                           alt={relatedPost.title}
