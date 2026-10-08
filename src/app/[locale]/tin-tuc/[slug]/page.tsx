@@ -126,7 +126,7 @@ export default async function NewsDetailPage({
               ) : null}
             </div>
 
-            <h1 className="mt-4 max-w-[18ch] text-[clamp(2.2rem,3.2vw,4rem)] font-medium leading-[1.03] text-balance text-charcoal">
+            <h1 className="mt-4 w-full max-w-none text-[clamp(2.2rem,3.2vw,4rem)] font-medium leading-[1.02] text-balance text-charcoal">
               {post.title}
             </h1>
 
