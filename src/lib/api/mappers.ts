@@ -150,6 +150,7 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
       : undefined,
     content: dto.content?.map((item) => localized(item, locale)),
     author: localizeAuthor(dto.author, locale),
+    referenceUrl: dto.referenceUrl ?? undefined,
     image: dto.image ?? undefined,
     gallery: uniqueImageList([dto.image, ...(dto.gallery ?? [])]),
   };

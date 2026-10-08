@@ -102,6 +102,7 @@ export type NewsPostDto = {
   summary: LocalizedText;
   content?: LocalizedText[] | null;
   author?: string | null;
+  referenceUrl?: string | null;
   image?: string | null;
   gallery?: string[] | null;
   eventDate?: string | null;

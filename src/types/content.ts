@@ -93,6 +93,7 @@ export type NewsPost = {
   category?: NewsCategoryRef;
   content?: string[];
   author?: string;
+  referenceUrl?: string;
   image?: string;
   gallery?: string[];
 };

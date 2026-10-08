@@ -24,12 +24,16 @@ import {
   isArticleSubheading,
   selectRelatedNews,
 } from "@/lib/news-related";
-import {
-  extractArticleReferences,
-  splitTextByLinks,
-} from "@/lib/news-references";
 import { routes } from "@/lib/routes";
 import { buildNewsArticleJsonLd, buildPageMetadata } from "@/lib/seo";
+
+function getReferenceLabel(referenceUrl: string) {
+  try {
+    return new URL(referenceUrl).hostname.replace(/^www\./, "");
+  } catch {
+    return referenceUrl;
+  }
+}
 
 export async function generateStaticParams() {
   return staticParamsSafe("tin-tuc/[slug]", async () => {
@@ -84,7 +88,6 @@ export default async function NewsDetailPage({
     : post.image
       ? [post.image]
       : [];
-  const { articleParagraphs, references } = extractArticleReferences(content);
   const displayDate = getNewsDisplayDate(post);
   const relatedPosts = selectRelatedNews(allNewsPosts, post, 3);
   const relatedTitle =
@@ -92,6 +95,9 @@ export default async function NewsDetailPage({
   const relatedEyebrow = locale === "en" ? "Continue reading" : "Đọc tiếp";
 
   const referenceTitle = locale === "en" ? "References" : "Link tham khảo";
+  const referenceLabel = post.referenceUrl
+    ? getReferenceLabel(post.referenceUrl)
+    : "";
 
   return (
     <SiteShell locale={locale}>
@@ -153,7 +159,7 @@ export default async function NewsDetailPage({
 
             <div className="mt-8 border-t border-charcoal/15 pt-7 sm:mt-10 sm:pt-9">
               <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
-                {articleParagraphs.map((paragraph) =>
+                {content.map((paragraph) =>
                   isArticleSubheading(paragraph) ? (
                     <h2
                       key={paragraph}
@@ -166,30 +172,14 @@ export default async function NewsDetailPage({
                       key={paragraph}
                       className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
                     >
-                      {splitTextByLinks(paragraph).map((segment, index) =>
-                        segment.type === "link" ? (
-                          <a
-                            key={`${segment.href}-${index}`}
-                            href={segment.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold text-brand underline decoration-earth/45 underline-offset-4 transition-colors hover:text-earth"
-                          >
-                            {segment.text}
-                          </a>
-                        ) : (
-                          <span key={`${segment.text}-${index}`}>
-                            {segment.text}
-                          </span>
-                        ),
-                      )}
+                      {paragraph}
                     </p>
                   ),
                 )}
               </div>
             </div>
 
-            {references.length > 0 ? (
+            {post.referenceUrl ? (
               <section
                 aria-labelledby="news-references-title"
                 className="mt-8 max-w-[72ch] border-t border-charcoal/15 pt-6 sm:mt-10"
@@ -201,24 +191,22 @@ export default async function NewsDetailPage({
                   {referenceTitle}
                 </h2>
                 <ul className="mt-4 grid gap-3">
-                  {references.map((reference) => (
-                    <li key={reference.href} className="min-w-0">
-                      <a
-                        href={reference.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-w-0 items-start gap-2 text-sm font-semibold leading-6 text-charcoal underline decoration-earth/35 underline-offset-4 transition-colors hover:text-brand"
-                      >
-                        <ExternalLink
-                          className="mt-1 size-4 shrink-0 text-earth"
-                          aria-hidden="true"
-                        />
-                        <span className="min-w-0 break-words">
-                          {reference.label}
-                        </span>
-                      </a>
-                    </li>
-                  ))}
+                  <li className="min-w-0">
+                    <a
+                      href={post.referenceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-w-0 items-start gap-2 text-sm font-semibold leading-6 text-charcoal underline decoration-earth/35 underline-offset-4 transition-colors hover:text-brand"
+                    >
+                      <ExternalLink
+                        className="mt-1 size-4 shrink-0 text-earth"
+                        aria-hidden="true"
+                      />
+                      <span className="min-w-0 break-words">
+                        {referenceLabel}
+                      </span>
+                    </a>
+                  </li>
                 </ul>
               </section>
             ) : null}
