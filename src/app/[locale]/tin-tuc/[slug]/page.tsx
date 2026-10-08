@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowUpRight,
   CalendarDays,
+  ExternalLink,
   FolderOpen,
   UserRound,
 } from "lucide-react";
@@ -23,6 +24,10 @@ import {
   isArticleSubheading,
   selectRelatedNews,
 } from "@/lib/news-related";
+import {
+  extractArticleReferences,
+  splitTextByLinks,
+} from "@/lib/news-references";
 import { routes } from "@/lib/routes";
 import { buildNewsArticleJsonLd, buildPageMetadata } from "@/lib/seo";
 
@@ -79,11 +84,14 @@ export default async function NewsDetailPage({
     : post.image
       ? [post.image]
       : [];
+  const { articleParagraphs, references } = extractArticleReferences(content);
   const displayDate = getNewsDisplayDate(post);
   const relatedPosts = selectRelatedNews(allNewsPosts, post, 3);
   const relatedTitle =
     locale === "en" ? "Related news" : "Tin tức liên quan";
   const relatedEyebrow = locale === "en" ? "Continue reading" : "Đọc tiếp";
+
+  const referenceTitle = locale === "en" ? "References" : "Link tham khảo";
 
   return (
     <SiteShell locale={locale}>
@@ -145,7 +153,7 @@ export default async function NewsDetailPage({
 
             <div className="mt-8 border-t border-charcoal/15 pt-7 sm:mt-10 sm:pt-9">
               <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
-                {content.map((paragraph) =>
+                {articleParagraphs.map((paragraph) =>
                   isArticleSubheading(paragraph) ? (
                     <h2
                       key={paragraph}
@@ -158,12 +166,62 @@ export default async function NewsDetailPage({
                       key={paragraph}
                       className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
                     >
-                      {paragraph}
+                      {splitTextByLinks(paragraph).map((segment, index) =>
+                        segment.type === "link" ? (
+                          <a
+                            key={`${segment.href}-${index}`}
+                            href={segment.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-brand underline decoration-earth/45 underline-offset-4 transition-colors hover:text-earth"
+                          >
+                            {segment.text}
+                          </a>
+                        ) : (
+                          <span key={`${segment.text}-${index}`}>
+                            {segment.text}
+                          </span>
+                        ),
+                      )}
                     </p>
                   ),
                 )}
               </div>
             </div>
+
+            {references.length > 0 ? (
+              <section
+                aria-labelledby="news-references-title"
+                className="mt-8 max-w-[72ch] border-t border-charcoal/15 pt-6 sm:mt-10"
+              >
+                <h2
+                  id="news-references-title"
+                  className="text-sm font-semibold uppercase tracking-[0.14em] text-earth"
+                >
+                  {referenceTitle}
+                </h2>
+                <ul className="mt-4 grid gap-3">
+                  {references.map((reference) => (
+                    <li key={reference.href} className="min-w-0">
+                      <a
+                        href={reference.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-w-0 items-start gap-2 text-sm font-semibold leading-6 text-charcoal underline decoration-earth/35 underline-offset-4 transition-colors hover:text-brand"
+                      >
+                        <ExternalLink
+                          className="mt-1 size-4 shrink-0 text-earth"
+                          aria-hidden="true"
+                        />
+                        <span className="min-w-0 break-words">
+                          {reference.label}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
           </article>
 
           <aside className="self-start border-t border-charcoal/20 pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:flex lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:min-h-[24rem] lg:flex-col lg:overflow-y-auto">
