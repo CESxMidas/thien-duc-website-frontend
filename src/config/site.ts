@@ -17,8 +17,7 @@ export const siteConfig = {
   url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
-  address:
-    "1D Trần Não,Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh",
+  address: "1d Trần Não, An Khánh, Hồ Chí Minh, Việt Nam",
 };
 
 
@@ -88,12 +87,12 @@ export const addressParts: Record<
   { street: string; locality: string }
 > = {
   vi: {
-    street: "1D Trần Não, Khu Phố 5, Phường Bình Trưng, Thành Phố Thủ Đức",
-    locality: "Thành phố Hồ Chí Minh",
+    street: "1d Trần Não, An Khánh",
+    locality: "Hồ Chí Minh, Việt Nam",
   },
   en: {
-    street: "1D Tran Nao, Khu Phố 5, Binh Trung Ward, Thu Duc City",
-    locality: "Ho Chi Minh City",
+    street: "1d Tran Nao, An Khanh",
+    locality: "Ho Chi Minh City, Vietnam",
   },
 };
 
