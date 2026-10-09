@@ -194,10 +194,10 @@ export function HomeFeaturedProjectsShowcase({
 
             <article
               key={`${activeProject.slug}-content`}
-              className="flex min-h-[23rem] flex-col justify-between border-t border-earth/15 bg-ivory px-5 py-6 motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
+              className="flex min-h-[23rem] flex-col border-t border-earth/15 bg-ivory px-5 py-6 motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
             >
               <div>
-                <div className="mb-5 flex items-center gap-4">
+                <div className="mb-5 flex max-w-[18rem] items-center gap-4">
                   <span className="font-display text-[2.1rem] leading-none text-earth">
                     {activeProject.id}
                   </span>
@@ -207,7 +207,7 @@ export function HomeFeaturedProjectsShowcase({
                   />
                 </div>
 
-                <h3 className="font-display text-[2rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.45rem] lg:text-[2.35rem] xl:text-[2.65rem]">
+                <h3 className="font-display text-[1.9rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.3rem] lg:text-[2.18rem] xl:text-[2.45rem]">
                   {activeProject.title}
                 </h3>
 
@@ -231,24 +231,24 @@ export function HomeFeaturedProjectsShowcase({
                 ) : null}
 
                 {activeProject.summary ? (
-                  <p className="mt-5 max-w-[34rem] text-[0.83rem] leading-[1.75] text-charcoal/72">
+                  <p className="mt-5 max-w-[32rem] text-[0.9rem] leading-[1.82] text-charcoal/74">
                     {activeProject.summary}
                   </p>
                 ) : null}
-              </div>
 
-              <Link
-                href={activeProject.href}
-                className="group mt-7 inline-flex w-fit items-center gap-3 border border-earth/40 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition duration-300 hover:border-earth hover:bg-earth hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
-              >
-                {labels.explore}
-                <span
-                  aria-hidden="true"
-                  className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
+                <Link
+                  href={activeProject.href}
+                  className="group mt-9 inline-flex w-fit items-center gap-3 border border-earth/40 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition duration-300 hover:border-earth hover:bg-earth hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
                 >
-                  &#8594;
-                </span>
-              </Link>
+                  {labels.explore}
+                  <span
+                    aria-hidden="true"
+                    className="transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none"
+                  >
+                    &#8594;
+                  </span>
+                </Link>
+              </div>
             </article>
           </div>
         </div>
