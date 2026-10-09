@@ -296,7 +296,6 @@ export function HomeFeaturedProjectsShowcase({
                     tabIndex={isVisible && !isClone ? undefined : -1}
                     onClick={() => selectProject(realIndex)}
                     onFocus={() => selectProject(realIndex)}
-                    onMouseEnter={() => selectProject(realIndex)}
                     style={{ width: slideWidth }}
                     className={[
                       "group relative block shrink-0 overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none",
