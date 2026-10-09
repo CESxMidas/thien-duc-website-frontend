@@ -42,9 +42,11 @@ function renderSlider(
 }
 
 function visibleSlides() {
-  return screen
-    .getAllByTestId("news-slide")
-    .filter((slide) => slide.dataset.visible === "true");
+  return Array.from(
+    screen
+      .getByTestId("news-slider-track")
+      .querySelectorAll<HTMLLIElement>('li[data-visible="true"]'),
+  );
 }
 
 describe("NewsSlider — số thẻ hiển thị theo khung nhìn", () => {
@@ -108,22 +110,30 @@ describe("NewsSlider — điều khiển", () => {
     ).toBeInTheDocument();
   });
 
-  it("ở đầu dãy: Previous bị disabled", () => {
+  it("ở đầu dãy: Previous quay vòng tới cụm cuối", () => {
     renderSlider(makePosts(8));
-    expect(screen.getByTestId("news-slider-previous")).toBeDisabled();
+    fireEvent.click(screen.getByTestId("news-slider-previous"));
+
+    expect(
+      within(visibleSlides()[0]).getByText("Bài viết 8"),
+    ).toBeInTheDocument();
     expect(screen.getByTestId("news-slider-next")).toBeEnabled();
   });
 
-  it("ở cuối dãy: Next bị disabled, thẻ cuối vẫn nằm trong khung", () => {
+  it("ở cuối dãy: Next quay vòng về đầu", () => {
     renderSlider(makePosts(5));
 
     // 5 bài, 3 ô hiện → tối đa 2 bước.
     fireEvent.click(screen.getByTestId("news-slider-next"));
     fireEvent.click(screen.getByTestId("news-slider-next"));
 
-    expect(screen.getByTestId("news-slider-next")).toBeDisabled();
     expect(
       within(visibleSlides()[2]).getByText("Bài viết 5"),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("news-slider-next"));
+    expect(
+      within(visibleSlides()[2]).getByText("Bài viết 1"),
     ).toBeInTheDocument();
   });
 
@@ -217,9 +227,10 @@ describe("NewsSlider — trường hợp biên", () => {
 
     const slides = visibleSlides();
     expect(slides).toHaveLength(3);
-    expect(within(slides[0]).getByText("Bài viết 2")).toBeInTheDocument();
-    expect(within(slides[2]).getByText("Bài viết 4")).toBeInTheDocument();
-    expect(screen.getByTestId("news-slider-next")).toBeDisabled();
+    expect(within(slides[0]).getByText("Bài viết 4")).toBeInTheDocument();
+    expect(within(slides[1]).getByText("Bài viết 1")).toBeInTheDocument();
+    expect(within(slides[2]).getByText("Bài viết 2")).toBeInTheDocument();
+    expect(screen.getByTestId("news-slider-next")).toBeEnabled();
   });
 });
 
@@ -324,9 +335,13 @@ describe("NewsSlider — kho tin lớn", () => {
       fireEvent.click(screen.getByTestId("news-slider-next"));
     }
 
-    expect(screen.getByTestId("news-slider-next")).toBeDisabled();
     expect(
       within(visibleSlides()[2]).getByText("Bài viết 20"),
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId("news-slider-next"));
+    expect(
+      within(visibleSlides()[2]).getByText("Bài viết 1"),
     ).toBeInTheDocument();
   });
 
@@ -336,7 +351,7 @@ describe("NewsSlider — kho tin lớn", () => {
   });
 
   it("ít vị trí → hiện dãy chấm", () => {
-    renderSlider(makePosts(10), { width: 1280 });
+    renderSlider(makePosts(8), { width: 1280 });
 
     expect(screen.getByTestId("news-slider-dots")).toBeInTheDocument();
     expect(screen.queryByTestId("news-slider-counter")).not.toBeInTheDocument();
@@ -347,10 +362,10 @@ describe("NewsSlider — kho tin lớn", () => {
 
     expect(screen.queryByTestId("news-slider-dots")).not.toBeInTheDocument();
     const counter = screen.getByTestId("news-slider-counter");
-    expect(counter).toHaveTextContent("1 / 18");
+    expect(counter).toHaveTextContent("1 / 20");
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
-    expect(counter).toHaveTextContent("2 / 18");
+    expect(counter).toHaveTextContent("2 / 20");
   });
 
   it("bộ đếm không lặp lại thông tin cho trình đọc màn hình", () => {

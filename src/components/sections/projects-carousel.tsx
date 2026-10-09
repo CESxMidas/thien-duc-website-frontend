@@ -14,6 +14,7 @@ const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
 const GAP_PX = 20;
+const AUTOPLAY_INTERVAL_MS = 3000;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -38,6 +39,9 @@ export function ProjectsCarousel({
 }: ProjectsCarouselProps) {
   const count = projects.length;
   const [rawActiveIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -50,20 +54,48 @@ export function ProjectsCarousel({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setPrefersReducedMotion(media.matches);
+
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
   const maxIndex = Math.max(0, count - visibleCount);
-  const activeIndex = Math.min(rawActiveIndex, maxIndex);
-  const canGoPrevious = activeIndex > 0;
-  const canGoNext = activeIndex < maxIndex;
+  const activeIndex = Math.min(rawActiveIndex, count);
   const isInteractive = maxIndex > 0;
-  const positionCount = maxIndex + 1;
+  const positionCount = count;
+  const loopProjects = isInteractive
+    ? [...projects, ...projects.slice(0, visibleCount)]
+    : projects;
+  const displayIndex = count > 0 ? activeIndex % count : 0;
 
   function goToPrevious() {
-    setActiveIndex(Math.max(0, activeIndex - 1));
+    setIsTransitionEnabled(true);
+    setActiveIndex(displayIndex <= 0 ? count - 1 : displayIndex - 1);
   }
 
   function goToNext() {
-    setActiveIndex(Math.min(maxIndex, activeIndex + 1));
+    setIsTransitionEnabled(true);
+    setActiveIndex(activeIndex >= count ? 1 : activeIndex + 1);
   }
+
+  useEffect(() => {
+    if (!isInteractive || isPaused || prefersReducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => {
+        if (current >= count) return 1;
+        return current + 1;
+      });
+    }, AUTOPLAY_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, [count, isInteractive, isPaused, prefersReducedMotion]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (!isInteractive) return;
@@ -86,24 +118,41 @@ export function ProjectsCarousel({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
     >
       <div className="overflow-hidden">
         <ul
           data-testid="projects-carousel-track"
-          data-index={activeIndex}
-          className="flex list-none gap-5 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          data-index={displayIndex}
+          className={[
+            "flex list-none gap-5 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            isTransitionEnabled
+              ? "transition-transform duration-500"
+              : "transition-none",
+          ].join(" ")}
           style={{ transform: trackTransform(activeIndex, visibleCount, GAP_PX) }}
+          onTransitionEnd={() => {
+            if (activeIndex !== count) return;
+
+            setIsTransitionEnabled(false);
+            setActiveIndex(0);
+            window.requestAnimationFrame(() => {
+              window.requestAnimationFrame(() => setIsTransitionEnabled(true));
+            });
+          }}
         >
-          {projects.map((project, position) => {
+          {loopProjects.map((project, position) => {
+            const isClone = position >= count;
             const isVisible =
               position >= activeIndex && position < activeIndex + visibleCount;
 
             return (
               <li
-                key={project.slug}
-                data-testid="projects-carousel-slide"
+                key={`${project.slug}-${isClone ? "clone" : "slide"}-${position}`}
+                data-testid={isClone ? undefined : "projects-carousel-slide"}
                 data-visible={isVisible ? "true" : "false"}
-                aria-hidden={isVisible ? undefined : "true"}
+                aria-hidden={isVisible && !isClone ? undefined : "true"}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
@@ -112,7 +161,7 @@ export function ProjectsCarousel({
                     `${routes.projects}/${project.slug}`,
                     locale,
                   )}
-                  tabIndex={isVisible ? undefined : -1}
+                  tabIndex={isVisible && !isClone ? undefined : -1}
                   className="hover-card group flex h-full flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
                 >
                   {project.image ? (
@@ -167,10 +216,10 @@ export function ProjectsCarousel({
                 aria-label={interpolate(labels.ariaGoTo, {
                   index: String(position + 1),
                 })}
-                aria-current={position === activeIndex ? "true" : undefined}
+                aria-current={position === displayIndex ? "true" : undefined}
                 onClick={() => setActiveIndex(position)}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  position === activeIndex
+                  position === displayIndex
                     ? "w-8 bg-brand"
                     : "w-2.5 bg-brand/25 hover:bg-brand/45"
                 }`}
@@ -183,9 +232,8 @@ export function ProjectsCarousel({
               type="button"
               data-testid="projects-carousel-previous"
               aria-label={labels.ariaPrevious}
-              disabled={!canGoPrevious}
               onClick={goToPrevious}
-              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-brand/25 disabled:hover:bg-white disabled:hover:text-brand"
+              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
@@ -193,9 +241,8 @@ export function ProjectsCarousel({
               type="button"
               data-testid="projects-carousel-next"
               aria-label={labels.ariaNext}
-              disabled={!canGoNext}
               onClick={goToNext}
-              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-brand/25 disabled:hover:bg-white disabled:hover:text-brand"
+              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink"
             >
               <ChevronRight className="size-4" aria-hidden="true" />
             </button>
@@ -205,7 +252,7 @@ export function ProjectsCarousel({
 
       <p aria-live="polite" className="sr-only">
         {interpolate(labels.status, {
-          current: String(activeIndex + 1),
+          current: String(displayIndex + 1),
           total: String(positionCount),
         })}
       </p>

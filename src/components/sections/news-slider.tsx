@@ -17,6 +17,7 @@ const GAP_PX = 20;
 
 
 const MAX_DOTS = 8;
+const AUTOPLAY_INTERVAL_MS = 3000;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -54,6 +55,9 @@ export function NewsSlider({
 }: NewsSliderProps) {
   const count = posts.length;
   const [rawActiveIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const [visibleCount, setVisibleCount] = useState(3);
 
@@ -66,23 +70,51 @@ export function NewsSlider({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setPrefersReducedMotion(media.matches);
+
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
   const maxIndex = Math.max(0, count - visibleCount);
 
 
-  const activeIndex = Math.min(rawActiveIndex, maxIndex);
+  const activeIndex = Math.min(rawActiveIndex, count);
 
-  const canGoPrevious = activeIndex > 0;
-  const canGoNext = activeIndex < maxIndex;
   const isInteractive = maxIndex > 0;
-  const positionCount = maxIndex + 1;
+  const positionCount = count;
+  const loopSlides = isInteractive
+    ? [...posts, ...posts.slice(0, visibleCount)]
+    : posts;
+  const displayIndex = count > 0 ? activeIndex % count : 0;
 
   function goToPrevious() {
-    setActiveIndex(Math.max(0, activeIndex - 1));
+    setIsTransitionEnabled(true);
+    setActiveIndex(displayIndex <= 0 ? count - 1 : displayIndex - 1);
   }
 
   function goToNext() {
-    setActiveIndex(Math.min(maxIndex, activeIndex + 1));
+    setIsTransitionEnabled(true);
+    setActiveIndex(activeIndex >= count ? 1 : activeIndex + 1);
   }
+
+  useEffect(() => {
+    if (!isInteractive || isPaused || prefersReducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => {
+        if (current >= count) return 1;
+        return current + 1;
+      });
+    }, AUTOPLAY_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, [count, isInteractive, isPaused, prefersReducedMotion]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (!isInteractive) return;
@@ -106,30 +138,46 @@ export function NewsSlider({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
     >
       <div className="overflow-hidden">
         <ul
           data-testid="news-slider-track"
-          className="flex list-none gap-5 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          className={[
+            "flex list-none gap-5 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            isTransitionEnabled
+              ? "transition-transform duration-500"
+              : "transition-none",
+          ].join(" ")}
           style={{ transform }}
+          onTransitionEnd={() => {
+            if (activeIndex !== count) return;
+
+            setIsTransitionEnabled(false);
+            setActiveIndex(0);
+            window.requestAnimationFrame(() => {
+              window.requestAnimationFrame(() => setIsTransitionEnabled(true));
+            });
+          }}
         >
-          {posts.map((post, index) => {
-    
+          {loopSlides.map((post, index) => {
+            const isClone = index >= count;
             const isVisible =
               index >= activeIndex && index < activeIndex + visibleCount;
 
             return (
               <li
-                key={post.slug}
-                data-testid="news-slide"
+                key={`${post.slug}-${isClone ? "clone" : "slide"}-${index}`}
+                data-testid={isClone ? undefined : "news-slide"}
                 data-visible={isVisible ? "true" : "false"}
-                aria-hidden={isVisible ? undefined : "true"}
+                aria-hidden={isVisible && !isClone ? undefined : "true"}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
                 <Link
                   href={localizePath(`${routes.news}/${post.slug}`, locale)}
-                  tabIndex={isVisible ? undefined : -1}
+                  tabIndex={isVisible && !isClone ? undefined : -1}
                   className="hover-card group flex h-full flex-col border border-brand/10 bg-white hover:border-brand"
                 >
                   {post.image ? (
@@ -173,10 +221,10 @@ export function NewsSlider({
                   aria-label={interpolate(labels.ariaGoTo, {
                     index: String(index + 1),
                   })}
-                  aria-current={index === activeIndex ? "true" : undefined}
+                  aria-current={index === displayIndex ? "true" : undefined}
                   onClick={() => setActiveIndex(index)}
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    index === activeIndex
+                    index === displayIndex
                       ? "w-8 bg-brand"
                       : "w-2.5 bg-brand/25 hover:bg-brand/45"
                   }`}
@@ -190,7 +238,7 @@ export function NewsSlider({
               className="text-sm font-semibold tabular-nums text-slate"
             >
               {interpolate(labels.counter, {
-                current: String(activeIndex + 1),
+                current: String(displayIndex + 1),
                 total: String(positionCount),
               })}
             </p>
@@ -201,9 +249,8 @@ export function NewsSlider({
               type="button"
               data-testid="news-slider-previous"
               aria-label={labels.ariaPrevious}
-              disabled={!canGoPrevious}
               onClick={goToPrevious}
-              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-brand/25 disabled:hover:bg-white disabled:hover:text-brand"
+              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
@@ -211,9 +258,8 @@ export function NewsSlider({
               type="button"
               data-testid="news-slider-next"
               aria-label={labels.ariaNext}
-              disabled={!canGoNext}
               onClick={goToNext}
-              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-brand/25 disabled:hover:bg-white disabled:hover:text-brand"
+              className="button-polish grid size-10 place-items-center border border-brand/25 bg-white text-brand transition hover:border-brand hover:bg-gold hover:text-ink"
             >
               <ChevronRight className="size-4" aria-hidden="true" />
             </button>
@@ -223,7 +269,7 @@ export function NewsSlider({
 
       <p aria-live="polite" className="sr-only">
         {interpolate(labels.status, {
-          current: String(activeIndex + 1),
+          current: String(displayIndex + 1),
           total: String(count),
         })}
       </p>

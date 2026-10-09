@@ -34,8 +34,11 @@ const indexOf = () =>
   Number(screen.getByTestId("projects-carousel-track").dataset.index);
 const next = () => fireEvent.click(screen.getByLabelText(labels.ariaNext));
 const visibleTitles = () =>
-  slides()
-    .filter((li) => li.dataset.visible === "true")
+  Array.from(
+    screen
+      .getByTestId("projects-carousel-track")
+      .querySelectorAll<HTMLLIElement>('li[data-visible="true"]'),
+  )
     .map((li) => li.querySelector("h2")!.textContent);
 
 describe("ProjectsCarousel", () => {
@@ -66,17 +69,22 @@ describe("ProjectsCarousel", () => {
     expect(visibleTitles()).toEqual(["Dự án 3", "Dự án 4", "Dự án 5"]);
   });
 
-  it("hết dải thì nút mờ đi, KHÔNG nhảy ngược về đầu", () => {
+  it("hết dải thì Next quay vòng về đầu và Previous quay tới cuối", () => {
     renderCarousel(5);
 
-    expect(screen.getByLabelText(labels.ariaPrevious)).toBeDisabled();
-    next();
-    next();
-    expect(screen.getByLabelText(labels.ariaNext)).toBeDisabled();
-    expect(screen.getByLabelText(labels.ariaPrevious)).not.toBeDisabled();
+    fireEvent.click(screen.getByLabelText(labels.ariaPrevious));
+    expect(indexOf()).toBe(4);
+    expect(visibleTitles()).toEqual(["Dự án 5", "Dự án 1", "Dự án 2"]);
 
     next();
+    expect(indexOf()).toBe(0);
+    expect(visibleTitles()).toEqual(["Dự án 1", "Dự án 2", "Dự án 3"]);
+
+    next();
+    next();
     expect(indexOf()).toBe(2);
+    next();
+    expect(indexOf()).toBe(3);
   });
 
   it("thẻ khuất bị gỡ khỏi Tab và khỏi trình đọc màn hình", () => {
@@ -92,7 +100,9 @@ describe("ProjectsCarousel", () => {
 
   it("một chấm cho một VỊ TRÍ TRƯỢT, không phải cho một dự án", () => {
     renderCarousel(5);
-    expect(screen.getAllByRole("button")).toHaveLength(5);
+    expect(
+      screen.getAllByRole("button", { name: /Chuyển tới vị trí/ }),
+    ).toHaveLength(5);
   });
 
   it("phím mũi tên trái/phải cũng chuyển thẻ", () => {

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const GAP_PX = 12;
+const AUTOPLAY_INTERVAL_MS = 3000;
 
 function visibleCountFor(width: number): number {
   if (width >= 1024) return 3;
@@ -52,9 +53,13 @@ export function HomeFeaturedProjectsShowcase({
   labels,
 }: HomeFeaturedProjectsShowcaseProps) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [rawCarouselIndex, setCarouselIndex] = useState(0);
+  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
   const [visibleCount, setVisibleCount] = useState(3);
-  const activeProject = projects[activeProjectIndex] ?? projects[0];
+  const [isPaused, setIsPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const displayIndex =
+    projects.length > 0 ? activeProjectIndex % projects.length : 0;
+  const activeProject = projects[displayIndex] ?? projects[0];
 
   useEffect(() => {
     function syncVisibleCount() {
@@ -66,6 +71,53 @@ export function HomeFeaturedProjectsShowcase({
     return () => window.removeEventListener("resize", syncVisibleCount);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia) return;
+
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setPrefersReducedMotion(media.matches);
+
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  const isInteractive = projects.length > 1;
+  const loopProjects = isInteractive
+    ? [...projects, ...projects.slice(0, visibleCount)]
+    : projects;
+  const slideWidth = `calc((100% - ${(visibleCount - 1) * GAP_PX}px) / ${visibleCount})`;
+
+  function selectProject(index: number) {
+    if (projects.length === 0) return;
+    setIsTransitionEnabled(true);
+    setActiveProjectIndex(index);
+  }
+
+  function selectPreviousProject() {
+    const previousIndex =
+      displayIndex <= 0 ? projects.length - 1 : displayIndex - 1;
+    selectProject(previousIndex);
+  }
+
+  function selectNextProject() {
+    const nextIndex = activeProjectIndex >= projects.length ? 1 : activeProjectIndex + 1;
+    selectProject(nextIndex);
+  }
+
+  useEffect(() => {
+    if (!isInteractive || isPaused || prefersReducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      setActiveProjectIndex((current) => {
+        if (current >= projects.length) return 1;
+        return current + 1;
+      });
+    }, AUTOPLAY_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, [isInteractive, isPaused, prefersReducedMotion, projects.length]);
+
   if (!activeProject) {
     return null;
   }
@@ -73,16 +125,13 @@ export function HomeFeaturedProjectsShowcase({
   const activeMeta = [activeProject.location, activeProject.statusLabel].filter(
     (part): part is string => Boolean(part),
   );
-  const maxCarouselIndex = Math.max(0, projects.length - visibleCount);
-  const carouselIndex = Math.min(rawCarouselIndex, maxCarouselIndex);
-  const canGoPrevious = carouselIndex > 0;
-  const canGoNext = carouselIndex < maxCarouselIndex;
-  const slideWidth = `calc((100% - ${(visibleCount - 1) * GAP_PX}px) / ${visibleCount})`;
 
   return (
     <section
       aria-labelledby="featured-projects-title"
       className="border-y border-earth/18 bg-ivory py-10 sm:py-12 lg:py-14"
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
     >
       <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <header className="mb-7 flex flex-col gap-5 md:mb-8 lg:flex-row lg:items-end lg:justify-between">
@@ -123,7 +172,7 @@ export function HomeFeaturedProjectsShowcase({
                   src={activeProject.image}
                   alt={activeProject.title}
                   fill
-                  priority={activeProjectIndex === 0}
+                  priority={displayIndex === 0}
                   sizes="(min-width: 1024px) 58vw, 100vw"
                   className="object-cover object-center contrast-[1.06] saturate-[1.08] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:scale-[1.025] motion-reduce:transition-none motion-reduce:hover:scale-100"
                 />
@@ -208,25 +257,46 @@ export function HomeFeaturedProjectsShowcase({
           <p className="sr-only">{labels.otherProjects}</p>
           <div className="overflow-hidden">
             <div
-              className="flex list-none gap-3 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-              style={{ transform: trackTransform(carouselIndex, visibleCount) }}
+              className={[
+                "flex list-none gap-3 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                isTransitionEnabled
+                  ? "transition-transform duration-500"
+                  : "transition-none",
+              ].join(" ")}
+              style={{
+                transform: trackTransform(activeProjectIndex, visibleCount),
+              }}
+              onTransitionEnd={() => {
+                if (activeProjectIndex !== projects.length) return;
+
+                setIsTransitionEnabled(false);
+                setActiveProjectIndex(0);
+                window.requestAnimationFrame(() => {
+                  window.requestAnimationFrame(() =>
+                    setIsTransitionEnabled(true),
+                  );
+                });
+              }}
             >
-              {projects.map((project, index) => {
-                const isActive = index === activeProjectIndex;
+              {loopProjects.map((project, index) => {
+                const realIndex = index % projects.length;
+                const isClone = index >= projects.length;
+                const isActive = realIndex === displayIndex;
                 const isVisible =
-                  index >= carouselIndex &&
-                  index < carouselIndex + visibleCount;
+                  index >= activeProjectIndex &&
+                  index < activeProjectIndex + visibleCount;
 
                 return (
                   <button
-                    key={project.slug}
+                    key={`${project.slug}-${isClone ? "clone" : "slide"}-${index}`}
                     type="button"
                     aria-label={`${labels.selectProject}: ${project.title}`}
-                    aria-pressed={isActive}
-                    tabIndex={isVisible ? undefined : -1}
-                    onClick={() => setActiveProjectIndex(index)}
-                    onFocus={() => setActiveProjectIndex(index)}
-                    onMouseEnter={() => setActiveProjectIndex(index)}
+                    aria-hidden={isClone ? "true" : undefined}
+                    aria-pressed={!isClone && isActive}
+                    tabIndex={isVisible && !isClone ? undefined : -1}
+                    onClick={() => selectProject(realIndex)}
+                    onFocus={() => selectProject(realIndex)}
+                    onMouseEnter={() => selectProject(realIndex)}
                     style={{ width: slideWidth }}
                     className={[
                       "group relative block shrink-0 overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none",
@@ -301,31 +371,21 @@ export function HomeFeaturedProjectsShowcase({
               })}
             </div>
           </div>
-          {maxCarouselIndex > 0 ? (
+          {isInteractive ? (
             <div className="mt-4 flex justify-end gap-2">
               <button
                 type="button"
                 aria-label={labels.previousProject}
-                disabled={!canGoPrevious}
-                onClick={() => {
-                  const nextIndex = carouselIndex - 1;
-                  setCarouselIndex(nextIndex);
-                  setActiveProjectIndex(nextIndex);
-                }}
-                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-earth/35 disabled:hover:bg-white disabled:hover:text-earth"
+                onClick={selectPreviousProject}
+                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
               >
                 <ChevronLeft className="size-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
                 aria-label={labels.nextProject}
-                disabled={!canGoNext}
-                onClick={() => {
-                  const nextIndex = carouselIndex + 1;
-                  setCarouselIndex(nextIndex);
-                  setActiveProjectIndex(nextIndex);
-                }}
-                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-earth/35 disabled:hover:bg-white disabled:hover:text-earth"
+                onClick={selectNextProject}
+                className="grid size-10 place-items-center border border-earth/35 bg-white text-earth transition hover:border-earth hover:bg-earth hover:text-ivory"
               >
                 <ChevronRight className="size-4" aria-hidden="true" />
               </button>
