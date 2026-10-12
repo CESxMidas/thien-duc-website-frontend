@@ -6,6 +6,7 @@ import {
   HomeFeaturedProjects,
   selectPrimaryFeaturedProject,
 } from "./home-featured-projects";
+import { HomeFeaturedProjectsShowcase } from "./home-featured-projects-showcase";
 
 const getProjectsMock = jest.fn<Promise<Project[]>, [string]>();
 
@@ -158,5 +159,59 @@ describe("HomeFeaturedProjects", () => {
     expect(screen.getByRole("heading", { level: 3 })).toHaveClass(
       "font-display",
     );
+  });
+});
+
+describe("HomeFeaturedProjectsShowcase", () => {
+  const labels = {
+    eyebrow: "Featured projects",
+    title: "Featured projects",
+    explore: "View details",
+    viewAll: "View all",
+    viewAllHref: "/en/du-an",
+    otherProjects: "Select project",
+    selectProject: "Select project",
+    previousProject: "Previous project",
+    nextProject: "Next project",
+  };
+
+  function item(index: number) {
+    return {
+      id: String(index).padStart(2, "0"),
+      slug: `project-${index}`,
+      title: `Project ${index}`,
+      href: `/en/du-an/project-${index}`,
+      image: `/images/projects/project-${index}.jpg`,
+    };
+  }
+
+  it("nút next/previous chuyển page selector dự án tiêu biểu", () => {
+    render(
+      <HomeFeaturedProjectsShowcase
+        projects={[item(1), item(2), item(3), item(4)]}
+        labels={labels}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Next project" }));
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Project 2" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Select project: Project 2" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    expect(
+      screen.getByRole("button", { name: "Select project: Project 1" }),
+    ).toHaveAttribute("tabindex", "-1");
+    expect(
+      screen.getByRole("button", { name: "Select project: Project 4" }),
+    ).not.toHaveAttribute("tabindex");
+
+    fireEvent.click(screen.getByRole("button", { name: "Previous project" }));
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Project 1" }),
+    ).toBeInTheDocument();
   });
 });

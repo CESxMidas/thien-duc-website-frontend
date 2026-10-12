@@ -53,12 +53,16 @@ export function HomeFeaturedProjectsShowcase({
   labels,
 }: HomeFeaturedProjectsShowcaseProps) {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+  const [pageStartIndex, setPageStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const [isPaused, setIsPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const maxPageStartIndex = Math.max(projects.length - visibleCount, 0);
+  const safePageStartIndex = Math.min(pageStartIndex, maxPageStartIndex);
   const displayIndex =
-    projects.length > 0 ? activeProjectIndex % projects.length : 0;
+    projects.length > 0
+      ? Math.min(activeProjectIndex, projects.length - 1)
+      : 0;
   const activeProject = projects[displayIndex] ?? projects[0];
 
   useEffect(() => {
@@ -82,41 +86,61 @@ export function HomeFeaturedProjectsShowcase({
     return () => media.removeEventListener("change", sync);
   }, []);
 
-  const isInteractive = projects.length > 1;
-  const loopProjects = isInteractive
-    ? [...projects, ...projects.slice(0, visibleCount)]
-    : projects;
+  const isInteractive = projects.length > visibleCount;
   const slideWidth = `calc((100% - ${(visibleCount - 1) * GAP_PX}px) / ${visibleCount})`;
 
   function selectProject(index: number) {
     if (projects.length === 0) return;
-    setIsTransitionEnabled(true);
     setActiveProjectIndex(index);
+    setPageStartIndex((current) => {
+      if (index < current) return index;
+      if (index >= current + visibleCount) {
+        return Math.min(index - visibleCount + 1, maxPageStartIndex);
+      }
+      return current;
+    });
   }
 
   function selectPreviousProject() {
-    const previousIndex =
-      displayIndex <= 0 ? projects.length - 1 : displayIndex - 1;
-    selectProject(previousIndex);
+    const previousStart =
+      safePageStartIndex <= 0
+        ? maxPageStartIndex
+        : Math.max(safePageStartIndex - visibleCount, 0);
+    setPageStartIndex(previousStart);
+    setActiveProjectIndex(previousStart);
   }
 
   function selectNextProject() {
-    const nextIndex = activeProjectIndex >= projects.length ? 1 : activeProjectIndex + 1;
-    selectProject(nextIndex);
+    const nextStart =
+      safePageStartIndex >= maxPageStartIndex
+        ? 0
+        : Math.min(safePageStartIndex + visibleCount, maxPageStartIndex);
+    setPageStartIndex(nextStart);
+    setActiveProjectIndex(nextStart);
   }
 
   useEffect(() => {
     if (!isInteractive || isPaused || prefersReducedMotion) return;
 
     const timer = window.setInterval(() => {
-      setActiveProjectIndex((current) => {
-        if (current >= projects.length) return 1;
-        return current + 1;
+      setPageStartIndex((current) => {
+        const nextStart =
+          current >= maxPageStartIndex
+            ? 0
+            : Math.min(current + visibleCount, maxPageStartIndex);
+        setActiveProjectIndex(nextStart);
+        return nextStart;
       });
     }, AUTOPLAY_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [isInteractive, isPaused, prefersReducedMotion, projects.length]);
+  }, [
+    isInteractive,
+    isPaused,
+    maxPageStartIndex,
+    prefersReducedMotion,
+    visibleCount,
+  ]);
 
   if (!activeProject) {
     return null;
@@ -257,45 +281,26 @@ export function HomeFeaturedProjectsShowcase({
           <p className="sr-only">{labels.otherProjects}</p>
           <div className="overflow-hidden">
             <div
-              className={[
-                "flex list-none gap-3 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-                isTransitionEnabled
-                  ? "transition-transform duration-500"
-                  : "transition-none",
-              ].join(" ")}
+              className="flex list-none gap-3 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
               style={{
-                transform: trackTransform(activeProjectIndex, visibleCount),
-              }}
-              onTransitionEnd={() => {
-                if (activeProjectIndex !== projects.length) return;
-
-                setIsTransitionEnabled(false);
-                setActiveProjectIndex(0);
-                window.requestAnimationFrame(() => {
-                  window.requestAnimationFrame(() =>
-                    setIsTransitionEnabled(true),
-                  );
-                });
+                transform: trackTransform(safePageStartIndex, visibleCount),
               }}
             >
-              {loopProjects.map((project, index) => {
-                const realIndex = index % projects.length;
-                const isClone = index >= projects.length;
-                const isActive = realIndex === displayIndex;
+              {projects.map((project, index) => {
+                const isActive = index === displayIndex;
                 const isVisible =
-                  index >= activeProjectIndex &&
-                  index < activeProjectIndex + visibleCount;
+                  index >= safePageStartIndex &&
+                  index < safePageStartIndex + visibleCount;
 
                 return (
                   <button
-                    key={`${project.slug}-${isClone ? "clone" : "slide"}-${index}`}
+                    key={`${project.slug}-${index}`}
                     type="button"
                     aria-label={`${labels.selectProject}: ${project.title}`}
-                    aria-hidden={isClone ? "true" : undefined}
-                    aria-pressed={!isClone && isActive}
-                    tabIndex={isVisible && !isClone ? undefined : -1}
-                    onClick={() => selectProject(realIndex)}
-                    onFocus={() => selectProject(realIndex)}
+                    aria-pressed={isActive}
+                    tabIndex={isVisible ? undefined : -1}
+                    onClick={() => selectProject(index)}
+                    onFocus={() => selectProject(index)}
                     style={{ width: slideWidth }}
                     className={[
                       "group relative block shrink-0 overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none",
