@@ -38,9 +38,8 @@ export function ProjectsCarousel({
   detailLabel,
 }: ProjectsCarouselProps) {
   const count = projects.length;
-  const [rawActiveIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const [visibleCount, setVisibleCount] = useState(3);
@@ -65,23 +64,20 @@ export function ProjectsCarousel({
     return () => media.removeEventListener("change", sync);
   }, []);
 
-  const maxIndex = Math.max(0, count - visibleCount);
-  const activeIndex = Math.min(rawActiveIndex, count);
-  const isInteractive = maxIndex > 0;
+  const isInteractive = count > visibleCount;
   const positionCount = count;
-  const loopProjects = isInteractive
-    ? [...projects, ...projects.slice(0, visibleCount)]
-    : projects;
   const displayIndex = count > 0 ? activeIndex % count : 0;
+  const orderedProjects =
+    count > 0
+      ? projects.map((_, offset) => projects[(displayIndex + offset) % count])
+      : [];
 
   function goToPrevious() {
-    setIsTransitionEnabled(true);
     setActiveIndex(displayIndex <= 0 ? count - 1 : displayIndex - 1);
   }
 
   function goToNext() {
-    setIsTransitionEnabled(true);
-    setActiveIndex(activeIndex >= count ? 1 : activeIndex + 1);
+    setActiveIndex(displayIndex >= count - 1 ? 0 : displayIndex + 1);
   }
 
   useEffect(() => {
@@ -89,8 +85,8 @@ export function ProjectsCarousel({
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => {
-        if (current >= count) return 1;
-        return current + 1;
+        if (count <= 0) return 0;
+        return current >= count - 1 ? 0 : current + 1;
       });
     }, AUTOPLAY_INTERVAL_MS);
 
@@ -125,34 +121,18 @@ export function ProjectsCarousel({
         <ul
           data-testid="projects-carousel-track"
           data-index={displayIndex}
-          className={[
-            "flex list-none gap-5 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-            isTransitionEnabled
-              ? "transition-transform duration-500"
-              : "transition-none",
-          ].join(" ")}
-          style={{ transform: trackTransform(activeIndex, visibleCount, GAP_PX) }}
-          onTransitionEnd={() => {
-            if (activeIndex !== count) return;
-
-            setIsTransitionEnabled(false);
-            setActiveIndex(0);
-            window.requestAnimationFrame(() => {
-              window.requestAnimationFrame(() => setIsTransitionEnabled(true));
-            });
-          }}
+          className="flex list-none gap-5 p-0 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          style={{ transform: trackTransform(0, visibleCount, GAP_PX) }}
         >
-          {loopProjects.map((project, position) => {
-            const isClone = position >= count;
-            const isVisible =
-              position >= activeIndex && position < activeIndex + visibleCount;
+          {orderedProjects.map((project, position) => {
+            const isVisible = position < visibleCount;
 
             return (
               <li
-                key={`${project.slug}-${isClone ? "clone" : "slide"}-${position}`}
-                data-testid={isClone ? undefined : "projects-carousel-slide"}
+                key={project.slug}
+                data-testid="projects-carousel-slide"
                 data-visible={isVisible ? "true" : "false"}
-                aria-hidden={isVisible && !isClone ? undefined : "true"}
+                aria-hidden={isVisible ? undefined : "true"}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
@@ -161,7 +141,7 @@ export function ProjectsCarousel({
                     `${routes.projects}/${project.slug}`,
                     locale,
                   )}
-                  tabIndex={isVisible && !isClone ? undefined : -1}
+                  tabIndex={isVisible ? undefined : -1}
                   className="hover-card group flex h-full flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
                 >
                   {project.image ? (
