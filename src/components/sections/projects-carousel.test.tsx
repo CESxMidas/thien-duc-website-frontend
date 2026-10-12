@@ -125,9 +125,8 @@ describe("ProjectsCarousel", () => {
 
   it("link trỏ đúng route dự án theo locale", () => {
     renderCarousel(5);
-    expect(screen.getByRole("link", { name: /Dự án 1/ })).toHaveAttribute(
-      "href",
-      "/du-an/du-an-1",
-    );
+    expect(
+      screen.getByRole("link", { name: /Xem chi tiết: Dự án 1/i }),
+    ).toHaveAttribute("href", "/du-an/du-an-1");
   });
 });

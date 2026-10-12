@@ -136,14 +136,7 @@ export function ProjectsCarousel({
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
-                <Link
-                  href={localizePath(
-                    `${routes.projects}/${project.slug}`,
-                    locale,
-                  )}
-                  tabIndex={isVisible ? undefined : -1}
-                  className="hover-card group flex h-full flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
-                >
+                <article className="hover-card group flex h-full flex-col overflow-hidden border border-black/10 bg-white hover:border-brand">
                   {project.image ? (
                     <div className="image-reveal relative aspect-3/2 overflow-hidden bg-surface">
                       <Image
@@ -175,11 +168,19 @@ export function ProjectsCarousel({
                     <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
                       {project.summary}
                     </p>
-                    <span className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
+                    <Link
+                      href={localizePath(
+                        `${routes.projects}/${project.slug}`,
+                        locale,
+                      )}
+                      aria-label={`${detailLabel}: ${project.title}`}
+                      tabIndex={isVisible ? undefined : -1}
+                      className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand"
+                    >
                       {detailLabel}
-                    </span>
+                    </Link>
                   </div>
-                </Link>
+                </article>
               </li>
             );
           })}
