@@ -1058,6 +1058,11 @@ textarea {
   transform: scale(1.025);
 }
 
+.group:hover .image-reveal .project-image-gallery img,
+.image-reveal:hover .project-image-gallery img {
+  transform: none;
+}
+
 .projects-motion {
   --duration-reveal-sides: 680ms;
   --duration-stagger-sides: 620ms;
