@@ -120,7 +120,7 @@ export default async function ProjectDetailPage({
           <div
             className={`page-container reveal-sides-pair grid gap-6 lg:items-stretch ${
               hasProjectGallery
-                ? "lg:h-[42rem] lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.82fr)] xl:h-[46rem]"
+                ? "lg:h-[38rem] lg:grid-cols-[minmax(17rem,0.68fr)_minmax(24rem,1fr)] xl:h-[42rem]"
                 : "lg:grid-cols-1"
             }`}
           >
