@@ -9,9 +9,14 @@ import {
 import { HomeFeaturedProjectsShowcase } from "./home-featured-projects-showcase";
 
 const getProjectsMock = jest.fn<Promise<Project[]>, [string]>();
+const mockPush = jest.fn();
 
 jest.mock("@/lib/api/projects", () => ({
   getProjects: (locale: string) => getProjectsMock(locale),
+}));
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mockPush }),
 }));
 
 function makeProject(overrides: Partial<Project> = {}): Project {
@@ -28,6 +33,7 @@ function makeProject(overrides: Partial<Project> = {}): Project {
 
 beforeEach(() => {
   getProjectsMock.mockReset();
+  mockPush.mockClear();
 });
 
 describe("selectPrimaryFeaturedProject", () => {
@@ -81,9 +87,11 @@ describe("HomeFeaturedProjects", () => {
 
     expect(selectors).toHaveLength(4);
     expect(selectors[0]).toHaveAttribute("aria-pressed", "true");
-    expect(
-      screen.getByRole("link", { name: /view details/i }),
-    ).toHaveAttribute("href", "/en/du-an/b");
+    fireEvent.click(
+      screen.getAllByRole("button", { name: /view details: b/i })[0],
+    );
+
+    expect(mockPush).toHaveBeenCalledWith("/en/du-an/b");
     expect(
       screen.queryByRole("button", { name: "Select project: E" }),
     ).toBeNull();
@@ -103,9 +111,11 @@ describe("HomeFeaturedProjects", () => {
     expect(
       screen.getByRole("heading", { level: 3, name: "A" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /view details/i }),
-    ).toHaveAttribute("href", "/en/du-an/a");
+    fireEvent.click(
+      screen.getAllByRole("button", { name: /view details: a/i })[0],
+    );
+
+    expect(mockPush).toHaveBeenCalledWith("/en/du-an/a");
   });
 
   it("thiếu location thì vẫn hiển thị trạng thái và không tạo separator dư", async () => {
@@ -213,5 +223,20 @@ describe("HomeFeaturedProjectsShowcase", () => {
     expect(
       screen.getByRole("heading", { level: 3, name: "Project 1" }),
     ).toBeInTheDocument();
+  });
+
+  it("button xem chi tiet tren card du an chuyen sang trang chi tiet", () => {
+    render(
+      <HomeFeaturedProjectsShowcase
+        projects={[item(1), item(2), item(3)]}
+        labels={labels}
+      />,
+    );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "View details: Project 2" }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith("/en/du-an/project-2");
   });
 });

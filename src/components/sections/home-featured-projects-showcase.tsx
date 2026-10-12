@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const GAP_PX = 12;
 const AUTOPLAY_INTERVAL_MS = 3000;
@@ -52,6 +53,7 @@ export function HomeFeaturedProjectsShowcase({
   projects,
   labels,
 }: HomeFeaturedProjectsShowcaseProps) {
+  const router = useRouter();
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [pageStartIndex, setPageStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -260,8 +262,10 @@ export function HomeFeaturedProjectsShowcase({
                   </p>
                 ) : null}
 
-                <Link
-                  href={activeProject.href}
+                <button
+                  type="button"
+                  aria-label={`${labels.explore}: ${activeProject.title}`}
+                  onClick={() => router.push(activeProject.href)}
                   className="group mt-9 inline-flex w-fit items-center gap-3 border border-earth/40 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition duration-300 hover:border-earth hover:bg-earth hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
                 >
                   {labels.explore}
@@ -271,7 +275,7 @@ export function HomeFeaturedProjectsShowcase({
                   >
                     &#8594;
                   </span>
-                </Link>
+                </button>
               </div>
             </article>
           </div>
@@ -293,17 +297,11 @@ export function HomeFeaturedProjectsShowcase({
                   index < safePageStartIndex + visibleCount;
 
                 return (
-                  <button
+                  <article
                     key={`${project.slug}-${index}`}
-                    type="button"
-                    aria-label={`${labels.selectProject}: ${project.title}`}
-                    aria-pressed={isActive}
-                    tabIndex={isVisible ? undefined : -1}
-                    onClick={() => selectProject(index)}
-                    onFocus={() => selectProject(index)}
                     style={{ width: slideWidth }}
                     className={[
-                      "group relative block shrink-0 overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] outline-none transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none",
+                      "group relative flex shrink-0 flex-col overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
                       isActive
                         ? "border-earth/55 opacity-100"
                         : "border-earth/14 opacity-82 hover:border-earth/34 hover:opacity-100 focus-visible:border-earth/55 focus-visible:opacity-100",
@@ -319,37 +317,45 @@ export function HomeFeaturedProjectsShowcase({
                       ].join(" ")}
                     />
 
-                    <span className="relative block h-64 overflow-hidden bg-surface sm:h-72 md:h-80 lg:h-[22rem]">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt=""
-                          fill
-                          sizes="(min-width: 768px) 24vw, 70vw"
-                          className={[
-                            "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
-                            isActive
-                              ? "scale-[1.025]"
-                              : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",
-                          ].join(" ")}
-                        />
-                      ) : (
+                    <button
+                      type="button"
+                      aria-label={`${labels.selectProject}: ${project.title}`}
+                      aria-pressed={isActive}
+                      tabIndex={isVisible ? undefined : -1}
+                      onClick={() => selectProject(index)}
+                      onFocus={() => selectProject(index)}
+                      className="block w-full flex-1 text-left outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth"
+                    >
+                      <span className="relative block h-64 overflow-hidden bg-surface sm:h-72 md:h-80 lg:h-[22rem]">
+                        {project.image ? (
+                          <Image
+                            src={project.image}
+                            alt=""
+                            fill
+                            sizes="(min-width: 768px) 24vw, 70vw"
+                            className={[
+                              "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
+                              isActive
+                                ? "scale-[1.025]"
+                                : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",
+                            ].join(" ")}
+                          />
+                        ) : (
+                          <span
+                            aria-hidden="true"
+                            className="absolute inset-0 bg-earth/10"
+                          />
+                        )}
                         <span
                           aria-hidden="true"
-                          className="absolute inset-0 bg-earth/10"
+                          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.02)_10%,rgba(20,20,20,0.56)_100%)]"
                         />
-                      )}
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.02)_10%,rgba(20,20,20,0.56)_100%)]"
-                      />
-                      <span className="absolute bottom-3 left-3 font-display text-[1.4rem] leading-none text-ivory">
-                        {project.id}
+                        <span className="absolute bottom-3 left-3 font-display text-[1.4rem] leading-none text-ivory">
+                          {project.id}
+                        </span>
                       </span>
-                    </span>
 
-                    <span className="flex min-h-[8.75rem] flex-col justify-between px-4 py-4">
-                      <span>
+                      <span className="block px-4 pb-3 pt-4">
                         <span className="block font-display text-[1.1rem] font-medium uppercase leading-[1.1] text-charcoal sm:text-[1.18rem]">
                           {project.title}
                         </span>
@@ -359,8 +365,16 @@ export function HomeFeaturedProjectsShowcase({
                           </span>
                         ) : null}
                       </span>
+                    </button>
 
-                      <span className="mt-4 inline-flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-earth">
+                    <div className="mt-auto px-4 pb-4">
+                      <button
+                        type="button"
+                        aria-label={`${labels.explore}: ${project.title}`}
+                        tabIndex={isVisible ? undefined : -1}
+                        onClick={() => router.push(project.href)}
+                        className="inline-flex h-10 w-fit items-center gap-2 border border-transparent px-0 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-earth transition duration-300 hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
+                      >
                         {labels.explore}
                         <span
                           aria-hidden="true"
@@ -368,9 +382,9 @@ export function HomeFeaturedProjectsShowcase({
                         >
                           &#8594;
                         </span>
-                      </span>
-                    </span>
-                  </button>
+                      </button>
+                    </div>
+                  </article>
                 );
               })}
             </div>
