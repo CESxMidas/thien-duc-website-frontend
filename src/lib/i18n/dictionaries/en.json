@@ -9,7 +9,7 @@
     "languageSwitcher": "Select language"
   },
   "header": {
-    "searchPlaceholder": "Search",
+    "searchPlaceholder": "Search projects or news",
     "searchLabel": "Search projects and news",
     "searchSubmit": "Search",
     "openMenu": "Open menu",
@@ -247,9 +247,9 @@
       "message": "Request details"
     },
     "placeholders": {
-      "name": "e.g. John Smith",
-      "phone": "090x xxx xxx",
-      "email": "email@example.com",
+      "name": "Contact person's full name",
+      "phone": "0909 768 001",
+      "email": "name@company.com",
       "message": "Briefly describe your advisory needs, the project you're interested in, or what you'd like to discuss."
     },
     "inquiryPlaceholder": "Select a topic",

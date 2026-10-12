@@ -9,7 +9,7 @@
     "languageSwitcher": "Chọn ngôn ngữ"
   },
   "header": {
-    "searchPlaceholder": "Tìm kiếm",
+    "searchPlaceholder": "Tìm dự án hoặc tin tức",
     "searchLabel": "Tìm kiếm dự án và tin tức",
     "searchSubmit": "Tìm",
     "openMenu": "Mở menu",
@@ -247,9 +247,9 @@
       "message": "Nội dung yêu cầu"
     },
     "placeholders": {
-      "name": "Nguyễn Văn A",
-      "phone": "090x xxx xxx",
-      "email": "email@example.com",
+      "name": "Họ tên người liên hệ",
+      "phone": "0909 768 001",
+      "email": "ten@congty.com",
       "message": "Mô tả ngắn nhu cầu tư vấn, dự án quan tâm hoặc nội dung cần trao đổi."
     },
     "inquiryPlaceholder": "Chọn nội dung cần trao đổi",
