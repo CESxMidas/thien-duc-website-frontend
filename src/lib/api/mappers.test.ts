@@ -205,3 +205,44 @@ describe("mapNewsPost — chuyên mục", () => {
     expect(post.createdAt).toBe("2026-06-01");
   });
 });
+
+describe("mapProject gallerySections", () => {
+  it("filters empty or malformed gallery sections before prerender", () => {
+    const project = mapProject(
+      {
+        ...baseDto,
+        gallerySections: [
+          { title: "Empty", images: [] },
+          { title: "Malformed", images: undefined as unknown as string[] },
+          {
+            title: "Valid",
+            description: "Overview photos",
+            images: ["/images/projects/a.jpg", "", "/images/projects/b.jpg"],
+          },
+        ],
+      },
+      "vi",
+    );
+
+    expect(project.gallerySections).toEqual([
+      {
+        title: "Valid",
+        description: "Overview photos",
+        images: ["/images/projects/a.jpg", "/images/projects/b.jpg"],
+      },
+    ]);
+  });
+
+  it("returns undefined when no gallery section has usable images", () => {
+    expect(
+      mapProject({ ...baseDto, gallerySections: null }, "vi").gallerySections,
+    ).toBeUndefined();
+
+    expect(
+      mapProject(
+        { ...baseDto, gallerySections: [{ title: "Empty", images: [] }] },
+        "vi",
+      ).gallerySections,
+    ).toBeUndefined();
+  });
+});

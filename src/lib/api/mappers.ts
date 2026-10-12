@@ -4,6 +4,7 @@ import type {
   NewsPost,
   Project,
   ProjectFact,
+  ProjectGallerySection,
   ProjectItem,
   ProjectMapLocation,
   ProjectStatus,
@@ -93,6 +94,23 @@ function uniqueImageList(images: Array<string | null | undefined>) {
   return unique.length > 0 ? unique : undefined;
 }
 
+function mapGallerySections(
+  sections: ProjectGallerySection[] | null | undefined,
+): ProjectGallerySection[] | undefined {
+  if (!Array.isArray(sections)) return undefined;
+
+  const normalized = sections
+    .map((section) => ({
+      ...section,
+      images: Array.isArray(section.images)
+        ? section.images.filter((image): image is string => Boolean(image))
+        : [],
+    }))
+    .filter((section) => section.images.length > 0);
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 const statusFromDto: Record<ProjectStatusDto, ProjectStatus> = {
   DA_BAN_GIAO: "da-ban-giao",
   DANG_THI_CONG: "dang-thi-cong",
@@ -108,7 +126,7 @@ export function mapProject(dto: ProjectDto, locale: Locale): Project {
     location: localizedLoose(dto.location, locale),
     image: dto.image ?? undefined,
     gallery: mapProjectGallery(dto),
-    gallerySections: dto.gallerySections ?? undefined,
+    gallerySections: mapGallerySections(dto.gallerySections),
     category: localizedLoose(dto.category, locale),
     description: localized(dto.description, locale),
     highlights: dto.highlights?.map((item) => localized(item, locale)),
@@ -130,7 +148,7 @@ export function mapProjectItem(dto: ProjectItemDto, locale: Locale): ProjectItem
     image: dto.image ?? undefined,
     highlights: dto.highlights?.map((item) => localized(item, locale)),
     quickFacts: dto.quickFacts?.map((fact) => localizeFact(fact, locale)),
-    gallerySections: dto.gallerySections ?? undefined,
+    gallerySections: mapGallerySections(dto.gallerySections),
     // Ảnh hạng mục nằm ở bảng project_gallery, backend trả theo `order` tăng dần.
     gallery: dto.galleryImages?.map((image) => image.url),
   };
