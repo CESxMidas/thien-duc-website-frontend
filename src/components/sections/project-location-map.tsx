@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { MapLocationMarker } from "@/components/ui/map-location-marker";
+import { NaturalRatioImageFrame } from "@/components/ui/natural-ratio-image-frame";
 import type { Locale } from "@/lib/i18n/config";
 import { mapCopy } from "@/lib/map-copy";
 import type { ProjectMapLabelKind, ProjectMapLocation } from "@/types/content";
@@ -37,37 +37,25 @@ export function ProjectLocationMap({
           }`}
         >
           {aerialImage ? (
-            <div
-              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface"
-              style={{ aspectRatio: "1024 / 683" }}
-            >
-              <Image
-                src={aerialImage}
-                alt={copy.aerialAlt(title)}
-                fill
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-contain"
-              />
-            </div>
+            <NaturalRatioImageFrame
+              src={aerialImage}
+              alt={copy.aerialAlt(title)}
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="image-reveal border border-brand/18 bg-surface"
+              imageClassName="object-contain"
+              fallbackRatio={1024 / 683}
+            />
           ) : null}
 
-          <div
-            className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-map"
-            style={{ aspectRatio: "1024 / 683" }}
+          <NaturalRatioImageFrame
+            src={mapImage}
+            alt={copy.mapAlt(title)}
+            sizes="(max-width: 1024px) 100vw, 640px"
+            quality={90}
+            className="image-reveal border border-brand/18 bg-map"
+            imageClassName="object-cover"
+            fallbackRatio={1024 / 683}
           >
-            {mapImage ? (
-              <div className="absolute inset-0 overflow-hidden">
-                <Image
-                  src={mapImage}
-                  alt={copy.mapAlt(title)}
-                  fill
-                  quality={90}
-                  sizes="(max-width: 1024px) 100vw, 640px"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-
             <MapLocationMarker
               href={googleMapsUrl}
               label={copy.openInMaps(title)}
@@ -87,7 +75,7 @@ export function ProjectLocationMap({
                 {label.text}
               </span>
             ))}
-          </div>
+          </NaturalRatioImageFrame>
         </div>
       </div>
     </section>

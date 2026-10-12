@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { NaturalRatioImageFrame } from "@/components/ui/natural-ratio-image-frame";
 import type { Locale } from "@/lib/i18n/config";
 import { mapCopy } from "@/lib/map-copy";
 
@@ -30,18 +30,14 @@ export function ProjectMapEmbed({
           }`}
         >
           {aerialImage ? (
-            <div
-              className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-surface"
-              style={{ aspectRatio: "1024 / 683" }}
-            >
-              <Image
-                src={aerialImage}
-                alt={copy.imageAlt(title)}
-                fill
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-contain"
-              />
-            </div>
+            <NaturalRatioImageFrame
+              src={aerialImage}
+              alt={copy.imageAlt(title)}
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="image-reveal border border-brand/18 bg-surface"
+              imageClassName="object-contain"
+              fallbackRatio={1024 / 683}
+            />
           ) : null}
 
           <div
