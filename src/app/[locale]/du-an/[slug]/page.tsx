@@ -118,9 +118,9 @@ export default async function ProjectDetailPage({
 
         <section className="project-detail-band py-8 sm:py-12">
           <div
-            className={`page-container reveal-sides-pair grid gap-6 lg:items-stretch ${
+            className={`page-container reveal-sides-pair grid gap-6 lg:items-start ${
               hasProjectGallery
-                ? "lg:h-[38rem] lg:grid-cols-[minmax(17rem,0.68fr)_minmax(24rem,1fr)] xl:h-[42rem]"
+                ? "lg:grid-cols-[minmax(16rem,0.58fr)_minmax(26rem,1fr)]"
                 : "lg:grid-cols-1"
             }`}
           >
@@ -133,8 +133,8 @@ export default async function ProjectDetailPage({
               </div>
             ) : null}
 
-            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex min-h-0 flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
-              <div className="grid gap-6 lg:min-h-0 lg:overflow-y-auto lg:pr-2">
+            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
+              <div className="grid gap-6">
                 <div>
                   <p className="text-eyebrow mb-4 text-brand">
                     {dictionary.projectDetail.overviewEyebrow}

@@ -64,14 +64,14 @@ export default function ProjectImageGallery({
 
   return (
     <div
-      className="project-image-gallery flex h-full min-w-0 flex-col gap-4"
+      className="project-image-gallery flex min-w-0 flex-col gap-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="group hover-card relative min-w-0 flex-1 overflow-hidden border border-brand/18 bg-surface">
-        <div className="project-gallery-stage relative aspect-16/10 h-full min-h-18rem">
+      <div className="group hover-card relative min-w-0 overflow-hidden border border-brand/18 bg-surface">
+        <div className="project-gallery-stage relative aspect-4/3 min-h-18rem">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 
