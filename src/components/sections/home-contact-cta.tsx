@@ -19,17 +19,6 @@ function formatContactTitle(title: string): string[] {
   return [title];
 }
 
-function formatAddressLines(address: string): string[] {
-  const parts = address
-    .split(",")
-    .map((part) => part.trim())
-    .filter(Boolean);
-
-  if (parts.length <= 2) return [address];
-
-  return [parts.slice(0, 2).join(", "), parts.slice(2).join(", ")];
-}
-
 function renderContactTitle(locale: Locale, title: string) {
   if (locale === "vi") {
     return (
@@ -45,7 +34,7 @@ function renderContactTitle(locale: Locale, title: string) {
   }
 
   return formatContactTitle(title).map((line) => (
-    <span key={line} className="block text-balanced sm:whitespace-nowrap">
+    <span key={line} className="block text-balanced break-normal hyphens-none">
       {line}
     </span>
   ));
@@ -96,8 +85,32 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
         className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_42%,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0)_38%)]"
         aria-hidden="true"
       />
+      <div
+        className="pointer-events-none absolute -left-28 -top-8 z-0 hidden h-[18rem] w-[34rem] opacity-[0.16] mix-blend-multiply sm:block md:h-[21rem] lg:-left-24 lg:-top-10 lg:h-[25rem] lg:w-[42rem] xl:h-[29rem] xl:w-[50rem]"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 50rem, (min-width: 1024px) 42rem, 34rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="pointer-events-none absolute -right-36 bottom-0 z-0 hidden h-[18rem] w-[32rem] rotate-180 opacity-[0.12] mix-blend-multiply lg:block xl:h-[23rem] xl:w-[42rem]"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 42rem, 32rem"
+          className="object-contain object-left-top"
+        />
+      </div>
 
-      <div className="grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(420px,0.9fr)] lg:items-center lg:gap-14 lg:px-20 lg:py-14 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
+      <div className="relative z-10 grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(520px,1fr)] lg:items-center lg:gap-12 lg:px-20 lg:py-14 xl:gap-16 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
         <div className="flex min-w-0 flex-col justify-center">
           <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-earth/75">
             <span
@@ -106,7 +119,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
             />
             {dictionary.homeContact.eyebrow}
           </p>
-          <h2 className="max-w-[44rem] font-display text-[clamp(2.35rem,7vw,3.15rem)] font-normal uppercase leading-[0.94] tracking-[0.01em] text-charcoal sm:text-[clamp(3rem,5vw,3.85rem)] lg:text-[clamp(3.15rem,3.55vw,4.35rem)]">
+          <h2 className="max-w-[44rem] break-normal font-display text-[clamp(2.35rem,7vw,3.15rem)] font-normal uppercase leading-[0.94] tracking-[0.01em] text-charcoal hyphens-none sm:text-[clamp(3rem,5vw,3.85rem)] lg:text-[clamp(2.55rem,3.3vw,4.1rem)] xl:text-[clamp(3.15rem,3.55vw,4.35rem)]">
             {renderContactTitle(locale, dictionary.homeContact.title)}
           </h2>
           <p className="text-pretty-flow mt-5 max-w-[55ch] text-[1rem] leading-[1.76] text-charcoal/68">
@@ -121,11 +134,9 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        <div className="grid w-full max-w-[41rem] overflow-hidden rounded-[6px] border border-white/55 bg-white/58 shadow-[0_18px_46px_rgba(74,58,44,0.12)] backdrop-blur-[5px] lg:justify-self-end">
+        <div className="grid w-full max-w-[48rem] overflow-hidden rounded-[6px] border border-white/60 bg-white/62 shadow-[0_18px_46px_rgba(74,58,44,0.12)] backdrop-blur-[5px] lg:justify-self-end">
           {contactItems.map((item) => {
             const Icon = item.icon;
-            const valueLines =
-              item.id === "office" ? formatAddressLines(item.value) : [item.value];
 
             return (
               <a
@@ -133,7 +144,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                className="group grid gap-4 border-b border-earth/10 px-5 py-5 transition hover:bg-white/38 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-center sm:px-6 sm:py-5"
+                className="group grid gap-4 border-b border-earth/10 px-5 py-5 transition hover:bg-white/38 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-center sm:px-6 sm:py-5 lg:gap-5 lg:px-7"
               >
                 <span className="grid size-11 place-items-center rounded-full bg-ivory/78 text-earth shadow-[0_8px_18px_rgba(139,115,94,0.12)] transition group-hover:bg-earth group-hover:text-ivory">
                   <Icon className="size-4" aria-hidden="true" />
@@ -143,17 +154,15 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                     {item.label}
                   </span>
                   <span
-                    className={`text-pretty-flow mt-1 block min-w-0 [overflow-wrap:anywhere] ${
+                    className={`mt-1 block min-w-0 ${
                       item.id === "phone"
-                        ? "font-display text-[1.7rem] font-semibold leading-8 text-charcoal"
-                        : "text-[0.92rem] font-semibold leading-[1.6] text-charcoal/86"
+                        ? "font-sans text-[1.45rem] font-extrabold leading-8 text-charcoal [font-variant-numeric:lining-nums_tabular-nums] sm:text-[1.55rem]"
+                        : item.id === "email"
+                          ? "text-pretty-flow text-[0.92rem] font-semibold leading-[1.6] text-charcoal/86 [overflow-wrap:anywhere]"
+                          : "break-words text-[0.92rem] font-semibold leading-[1.6] text-charcoal/86"
                     }`}
                   >
-                    {valueLines.map((line) => (
-                      <span key={line} className="block">
-                        {line}
-                      </span>
-                    ))}
+                    {item.value}
                   </span>
                 </span>
               </a>

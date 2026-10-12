@@ -162,7 +162,7 @@ describe("SiteFooter", () => {
     expect(within(footer).getByRole("img", { name: dictionary.shared.logoAlt }))
       .toHaveAttribute(
         "src",
-        expect.stringContaining("logo-thien-duc-header-transparent.png"),
+        expect.stringContaining("logo-thien-duc-footer-champagne.png"),
       );
     expect(footer).toHaveClass("bg-[#56614f]");
   });
