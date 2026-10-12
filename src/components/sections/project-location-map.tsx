@@ -26,6 +26,7 @@ export function ProjectLocationMap({
 }: ProjectLocationMapProps) {
   const { image, googleMapsUrl, markerLeft, markerTop, labels } = mapLocation;
   const copy = mapCopy[locale];
+  const mapImage = image?.trim();
 
   return (
     <section className="project-detail-band reveal-section overflow-hidden py-8">
@@ -54,16 +55,18 @@ export function ProjectLocationMap({
             className="image-reveal relative w-full overflow-hidden border border-brand/18 bg-map"
             style={{ aspectRatio: "1024 / 683" }}
           >
-            <div className="absolute inset-0 overflow-hidden">
-              <Image
-                src={image}
-                alt={copy.mapAlt(title)}
-                fill
-                quality={90}
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-cover"
-              />
-            </div>
+            {mapImage ? (
+              <div className="absolute inset-0 overflow-hidden">
+                <Image
+                  src={mapImage}
+                  alt={copy.mapAlt(title)}
+                  fill
+                  quality={90}
+                  sizes="(max-width: 1024px) 100vw, 640px"
+                  className="object-cover"
+                />
+              </div>
+            ) : null}
 
             <MapLocationMarker
               href={googleMapsUrl}

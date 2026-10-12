@@ -22,7 +22,7 @@ export type ProjectMapLabel = {
 };
 
 export type ProjectMapLocation = {
-  image: string;
+  image?: string | null;
   googleMapsUrl: string;
   heading?: string;
   description?: string;

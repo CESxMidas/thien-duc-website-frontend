@@ -88,7 +88,7 @@ export default function ProjectImageGallery({
                   alt={`${title} - hình ${index + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
+                  className="object-contain"
                   priority={index === 0}
                 />
               </div>
