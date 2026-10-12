@@ -3,8 +3,7 @@ import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SiteShell } from "./site-shell";
 import { footerSections } from "@/data/footer";
-import { legalInfo, siteConfig, zaloHref } from "@/config/site";
-import { getVietnamCurrentYear } from "@/lib/format";
+import { siteConfig, zaloHref } from "@/config/site";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
@@ -142,7 +141,7 @@ describe("SiteFooter", () => {
         name: new RegExp(siteConfig.email),
       }),
     ).toHaveAttribute("href", `mailto:${siteConfig.email}`);
-    expect(within(footer).getByRole("link", { name: /1D/ })).toHaveAttribute(
+    expect(within(footer).getByRole("link", { name: /1d/i })).toHaveAttribute(
       "href",
       expect.stringContaining(
         `https://www.google.com/maps/dir/?api=1&destination=${mapsDestination}`,
@@ -151,21 +150,20 @@ describe("SiteFooter", () => {
     expect(within(footer).queryByRole("link", { name: /zalo/i })).toBeNull();
   });
 
-  it("giữ CTA liên hệ và thông tin pháp lý ở footer", () => {
+  it("dùng bố cục footer compact theo mockup mới", () => {
     render(<SiteFooter locale="vi" dictionary={dictionary} />);
     const footer = screen.getByRole("contentinfo");
 
     expect(
-      within(footer).getByRole("link", {
+      within(footer).queryByRole("link", {
         name: new RegExp(dictionary.common.contactCta),
       }),
-    ).toHaveAttribute("href", "/lien-he");
-    expect(within(footer).getByText(legalInfo.legalName)).toBeInTheDocument();
-    expect(
-      within(footer).getByText(new RegExp(legalInfo.taxCode)),
-    ).toBeInTheDocument();
-    expect(
-      within(footer).getByText(new RegExp(String(getVietnamCurrentYear()))),
-    ).toBeInTheDocument();
+    ).toBeNull();
+    expect(within(footer).getByRole("img", { name: dictionary.shared.logoAlt }))
+      .toHaveAttribute(
+        "src",
+        expect.stringContaining("logo-thien-duc-header-transparent.png"),
+      );
+    expect(footer).toHaveClass("bg-[#56614f]");
   });
 });
