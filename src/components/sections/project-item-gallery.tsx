@@ -18,6 +18,7 @@ export default function ProjectImageGallery({
   const count = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
   const prefersReducedMotion = useRef(false);
   const thumbnailTrackRef = useRef<HTMLDivElement | null>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -61,6 +62,18 @@ export default function ProjectImageGallery({
   }
 
   const multiple = count > 1;
+  const activeImage = images[activeIndex];
+  const activeRatio = imageRatios[activeImage] ?? 4 / 3;
+
+  function rememberImageRatio(image: string, element: HTMLImageElement) {
+    const { naturalWidth, naturalHeight } = element;
+    if (!naturalWidth || !naturalHeight) return;
+
+    const ratio = naturalWidth / naturalHeight;
+    setImageRatios((current) =>
+      current[image] === ratio ? current : { ...current, [image]: ratio },
+    );
+  }
 
   return (
     <div
@@ -71,7 +84,10 @@ export default function ProjectImageGallery({
       onBlurCapture={() => setIsPaused(false)}
     >
       <div className="group hover-card relative min-w-0 overflow-hidden border border-brand/18 bg-surface">
-        <div className="project-gallery-stage relative aspect-4/3 min-h-18rem">
+        <div
+          className="project-gallery-stage relative transition-[aspect-ratio] duration-300 ease-out"
+          style={{ aspectRatio: activeRatio }}
+        >
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 
@@ -90,6 +106,9 @@ export default function ProjectImageGallery({
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-contain"
                   priority={index === 0}
+                  onLoad={(event) =>
+                    rememberImageRatio(image, event.currentTarget)
+                  }
                 />
               </div>
             );
