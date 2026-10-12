@@ -46,7 +46,7 @@ export function ProjectLocationMap({
                 alt={copy.aerialAlt(title)}
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-cover"
+                className="object-contain"
               />
             </div>
           ) : null}

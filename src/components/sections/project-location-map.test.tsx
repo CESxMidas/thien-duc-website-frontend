@@ -37,4 +37,19 @@ describe("ProjectLocationMap", () => {
       expect.stringContaining("fancy-tower.jpg"),
     );
   });
+
+  it("anh du an ben trai hien tron, khong crop mat logo", () => {
+    render(
+      <ProjectLocationMap
+        mapLocation={{ ...baseMap, image: "" }}
+        title="Fancy Tower"
+        locale="en"
+        aerialImage="/images/projects/fancy-tower.jpg"
+      />,
+    );
+
+    expect(
+      screen.getByRole("img", { name: /Aerial view of Fancy Tower/i }),
+    ).toHaveClass("object-contain");
+  });
 });
