@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Project } from "@/types/content";
 import { trackTransform } from "@/components/sections/news-slider";
@@ -37,6 +37,7 @@ export function ProjectsCarousel({
   statusLabels,
   detailLabel,
 }: ProjectsCarouselProps) {
+  const router = useRouter();
   const count = projects.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -126,6 +127,10 @@ export function ProjectsCarousel({
         >
           {orderedProjects.map((project, position) => {
             const isVisible = position < visibleCount;
+            const projectHref = localizePath(
+              `${routes.projects}/${project.slug}`,
+              locale,
+            );
 
             return (
               <li
@@ -168,17 +173,15 @@ export function ProjectsCarousel({
                     <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
                       {project.summary}
                     </p>
-                    <Link
-                      href={localizePath(
-                        `${routes.projects}/${project.slug}`,
-                        locale,
-                      )}
+                    <button
+                      type="button"
                       aria-label={`${detailLabel}: ${project.title}`}
                       tabIndex={isVisible ? undefined : -1}
+                      onClick={() => router.push(projectHref)}
                       className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand"
                     >
                       {detailLabel}
-                    </Link>
+                    </button>
                   </div>
                 </article>
               </li>

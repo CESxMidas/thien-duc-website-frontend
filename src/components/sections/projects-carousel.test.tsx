@@ -5,6 +5,12 @@ import type { Project } from "@/types/content";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
+const mockPush = jest.fn();
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
 const dictionary = viDictionary as unknown as Dictionary;
 const labels = dictionary.projects.carousel;
 
@@ -29,6 +35,10 @@ function renderCarousel(count: number) {
   );
 }
 
+beforeEach(() => {
+  mockPush.mockClear();
+});
+
 const slides = () => screen.getAllByTestId("projects-carousel-slide");
 const indexOf = () =>
   Number(screen.getByTestId("projects-carousel-track").dataset.index);
@@ -46,7 +56,9 @@ describe("ProjectsCarousel", () => {
     renderCarousel(5);
 
     expect(slides()).toHaveLength(5);
-    expect(screen.getAllByRole("link", { name: /Dự án 1/ })).toHaveLength(1);
+    expect(
+      screen.getAllByRole("button", { name: /Xem chi tiết: Dự án 1/i }),
+    ).toHaveLength(1);
   });
 
   it("hiện 3 thẻ mỗi lần trên desktop", () => {
@@ -94,7 +106,7 @@ describe("ProjectsCarousel", () => {
     expect(hidden).toHaveLength(2);
     for (const li of hidden) {
       expect(li).toHaveAttribute("aria-hidden", "true");
-      expect(li.querySelector("a")).toHaveAttribute("tabindex", "-1");
+      expect(li.querySelector("button")).toHaveAttribute("tabindex", "-1");
     }
   });
 
@@ -123,10 +135,13 @@ describe("ProjectsCarousel", () => {
     expect(screen.queryByLabelText(labels.ariaPrevious)).toBeNull();
   });
 
-  it("link trỏ đúng route dự án theo locale", () => {
+  it("button khám phá dự án chuyển tới đúng route chi tiết", () => {
     renderCarousel(5);
-    expect(
-      screen.getByRole("link", { name: /Xem chi tiết: Dự án 1/i }),
-    ).toHaveAttribute("href", "/du-an/du-an-1");
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /Xem chi tiết: Dự án 1/i }),
+    );
+
+    expect(mockPush).toHaveBeenCalledWith("/du-an/du-an-1");
   });
 });
