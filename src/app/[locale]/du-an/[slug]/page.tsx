@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
+import { ProjectDetailMediaLayout } from "@/components/sections/project-detail-media-layout";
 import ProjectImageGallery from "@/components/sections/project-item-gallery";
 import { ProjectItemsCarousel } from "@/components/sections/project-items-carousel";
 import { ProjectLocationMap } from "@/components/sections/project-location-map";
@@ -117,24 +118,15 @@ export default async function ProjectDetailPage({
         </section>
 
         <section className="project-detail-band py-8 sm:py-12">
-          <div
-            className={`page-container reveal-sides-pair grid gap-6 lg:items-start ${
-              hasProjectGallery
-                ? "lg:grid-cols-[minmax(16rem,0.58fr)_minmax(26rem,1fr)]"
-                : "lg:grid-cols-1"
-            }`}
-          >
-            {hasProjectGallery ? (
-              <div className="image-reveal reveal-from-left min-h-0 min-w-0">
+          {hasProjectGallery ? (
+            <ProjectDetailMediaLayout
+              gallery={
                 <ProjectImageGallery
                   images={galleryImages}
                   title={project.title}
                 />
-              </div>
-            ) : null}
-
-            <article className="reveal-from-right hover-card project-detail-panel-accent relative flex flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
-              <div className="grid gap-6">
+              }
+            >
                 <div>
                   <p className="text-eyebrow mb-4 text-brand">
                     {dictionary.projectDetail.overviewEyebrow}
@@ -198,9 +190,78 @@ export default async function ProjectDetailPage({
                     ))}
                   </dl>
                 </div>
-              </div>
-            </article>
-          </div>
+            </ProjectDetailMediaLayout>
+          ) : (
+            <div className="page-container reveal-sides-pair grid gap-6">
+              <article className="reveal-from-right hover-card project-detail-panel-accent relative flex flex-col overflow-hidden border-l-4 border-l-gold p-5 md:p-7">
+                <div className="grid gap-6">
+                  <div>
+                    <p className="text-eyebrow mb-4 text-brand">
+                      {dictionary.projectDetail.overviewEyebrow}
+                    </p>
+                    <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
+                      {project.mapLocation?.heading ??
+                        dictionary.projectDetail.overviewFallbackTitle}
+                    </h2>
+                    <p
+                      className={`mt-5 text-base leading-7 text-slate ${
+                        project.description ? "text-justified" : ""
+                      }`}
+                    >
+                      {project.description ??
+                        dictionary.projectDetail.overviewFallbackDescription}
+                    </p>
+                    {project.mapLocation?.description ? (
+                      <p className="mt-4 text-base leading-7 text-slate">
+                        {project.mapLocation.description}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="border-t border-brand/12 pt-6">
+                    <p className="text-eyebrow mb-4 text-brand">
+                      {dictionary.projectDetail.quickInfoEyebrow}
+                    </p>
+                    <h3 className="text-xl font-semibold leading-tight text-ink">
+                      {dictionary.projectDetail.quickInfoTitle}
+                    </h3>
+
+                    <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                      <ProjectFactCell
+                        label={dictionary.projectDetail.locationLabel}
+                        value={
+                          project.location ?? dictionary.projectDetail.updating
+                        }
+                      />
+                      <div className="flex flex-col justify-center rounded-sm border border-brand/12 bg-white/85 p-4">
+                        <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
+                          {dictionary.projectDetail.statusLabel}
+                        </dt>
+                        <dd className="mt-2">
+                          <span className="inline-flex rounded-sm bg-brand px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                            {dictionary.projectStatus[project.status]}
+                          </span>
+                        </dd>
+                      </div>
+                      <ProjectFactCell
+                        label={dictionary.projectDetail.categoryLabel}
+                        value={
+                          project.category ?? dictionary.projectDetail.updating
+                        }
+                      />
+                      {quickFacts.map((fact) => (
+                        <ProjectFactCell
+                          key={fact.label}
+                          label={fact.label}
+                          value={fact.value}
+                        />
+                      ))}
+                    </dl>
+                  </div>
+                </div>
+              </article>
+            </div>
+          )}
         </section>
 
         {items.length > 0 ? (

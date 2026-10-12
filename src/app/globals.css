@@ -1063,6 +1063,18 @@ textarea {
   transform: none;
 }
 
+@media (min-width: 1024px) {
+  .project-detail-overview-panel {
+    max-height: var(--project-media-height);
+  }
+
+  .project-detail-overview-scroll {
+    max-height: calc(var(--project-media-height) - 3.5rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+}
+
 .projects-motion {
   --duration-reveal-sides: 680ms;
   --duration-stagger-sides: 620ms;
