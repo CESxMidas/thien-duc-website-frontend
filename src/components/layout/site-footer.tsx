@@ -57,7 +57,7 @@ function FooterNavSection({
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
     <footer className="mt-auto border-t border-white/20 bg-[#56614f] bg-[linear-gradient(90deg,rgba(86,97,79,0.94),rgba(67,79,63,0.9)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-12px_28px_rgba(41,41,41,0.10)]">
-      <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.62fr_0.88fr_1.02fr_1.78fr] lg:items-center lg:py-8">
+      <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.62fr_0.88fr_1.02fr_1.78fr] lg:items-start lg:py-8">
         <div className="flex items-center gap-5 sm:col-span-2 lg:col-span-1">
           <Link
             href={localizePath(routes.home, locale)}
