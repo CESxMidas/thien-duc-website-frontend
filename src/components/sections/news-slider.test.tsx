@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import { NewsSlider } from "@/components/sections/news-slider";
+import { formatDate } from "@/lib/format";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 import enDictionary from "@/lib/i18n/dictionaries/en.json";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -88,7 +89,9 @@ describe("NewsSlider — điều khiển", () => {
   it("Next đổi cụm thẻ đang hiện, không lặp thẻ", () => {
     renderSlider(makePosts(8));
 
-    expect(within(visibleSlides()[0]).getByText("Bài viết 1")).toBeInTheDocument();
+    expect(
+      within(visibleSlides()[0]).getByText("Bài viết 1"),
+    ).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
 
@@ -169,11 +172,55 @@ describe("NewsSlider — điều khiển", () => {
 });
 
 describe("NewsSlider — trường hợp biên", () => {
+  it("hiển thị ngày theo thứ tự eventDate, publishedAt, createdAt", () => {
+    renderSlider(
+      [
+        {
+          title: "Có ngày sự kiện",
+          slug: "co-ngay-su-kien",
+          summary: "",
+          eventDate: "2026-10-07",
+          publishedAt: "2026-01-01",
+          createdAt: "2026-09-01",
+        },
+        {
+          title: "Chỉ có ngày xuất bản",
+          slug: "chi-co-ngay-xuat-ban",
+          summary: "",
+          publishedAt: "2026-08-01",
+        },
+        {
+          title: "Dùng ngày tạo",
+          slug: "dung-ngay-tao",
+          summary: "",
+          publishedAt: "",
+          createdAt: "2026-07-01",
+        },
+      ],
+      { width: 1280 },
+    );
+
+    expect(
+      screen.getByText(formatDate("2026-10-07", "vi")),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(formatDate("2026-01-01", "vi")),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(formatDate("2026-08-01", "vi")),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(formatDate("2026-07-01", "vi")),
+    ).toBeInTheDocument();
+  });
+
   it("ít bài hơn số ô hiển thị → không render bộ điều khiển", () => {
     renderSlider(makePosts(2), { width: 1280 });
 
     expect(screen.queryByTestId("news-slider-next")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("news-slider-previous")).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("news-slider-previous"),
+    ).not.toBeInTheDocument();
   });
 
   it("đúng bằng số ô hiển thị → vẫn không có điều khiển", () => {
@@ -218,7 +265,9 @@ describe("NewsSlider — trường hợp biên", () => {
     fireEvent.click(screen.getByTestId("news-slider-next"));
     fireEvent.click(screen.getByTestId("news-slider-next"));
     fireEvent.click(screen.getByTestId("news-slider-next"));
-    expect(within(visibleSlides()[0]).getByText("Bài viết 4")).toBeInTheDocument();
+    expect(
+      within(visibleSlides()[0]).getByText("Bài viết 4"),
+    ).toBeInTheDocument();
 
     act(() => {
       setViewportWidth(1280);
@@ -310,8 +359,8 @@ describe("NewsSlider — vị trí và khả năng nhìn thấy của điều kh
   it("không đặt z-index âm hay display:none lên hàng điều khiển", () => {
     renderSlider(makePosts(8), { width: 1280 });
 
-    const controls = screen.getByTestId("news-slider-next").parentElement
-      ?.parentElement;
+    const controls =
+      screen.getByTestId("news-slider-next").parentElement?.parentElement;
     expect(controls?.className).not.toMatch(/hidden|invisible|z-\[-/);
   });
 

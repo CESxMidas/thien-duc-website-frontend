@@ -52,9 +52,7 @@ export async function generateMetadata({
     getNewsPostBySlug(slug, locale),
     getDictionary(locale),
   ]);
-  if (!post) {
-    return { title: dictionary.newsDetail.notFoundTitle };
-  }
+  if (!post) notFound();
 
   return buildPageMetadata({
     title: `${post.title} | ${dictionary.newsDetail.metaSuffix}`,

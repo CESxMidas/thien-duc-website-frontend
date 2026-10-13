@@ -1,110 +1,146 @@
 /** @jest-environment node */
 
-import { proxy, config } from "./proxy";
 import { NextRequest } from "next/server";
+import { proxy, config } from "./proxy";
 
-function run(url: string) {
-  const response = proxy(
-    new NextRequest(new URL(url, "http://localhost:3000")),
+async function run(url: string, init?: ConstructorParameters<typeof NextRequest>[1]) {
+  const response = await proxy(
+    new NextRequest(new URL(url, "http://localhost:3000"), init),
   );
 
   return {
     status: response.status,
     location: response.headers.get("location"),
+    body: await response.text(),
   };
 }
 
-describe("proxy — chuyển hướng tìm kiếm cũ", () => {
-  it("/tin-tuc?q= → 308 sang /tim-kiem, giữ từ khóa", () => {
-    const { status, location } = run("/tin-tuc?q=Hung Phu");
+describe("proxy - legacy search redirects", () => {
+  it("/tin-tuc?q= redirects to /tim-kiem and keeps the query", async () => {
+    const { status, location } = await run("/tin-tuc?q=Hung Phu");
 
     expect(status).toBe(308);
-
     expect(new URL(location!).pathname).toBe("/tim-kiem");
-
     expect(new URL(location!).searchParams.get("q")).toBe("Hung Phu");
   });
 
-  it("/du-an?q= → 308 sang /tim-kiem, giữ từ khóa", () => {
-    const { status, location } = run("/du-an?q=Hung Phu");
+  it("/du-an?q= redirects to /tim-kiem and keeps the query", async () => {
+    const { status, location } = await run("/du-an?q=Hung Phu");
 
     expect(status).toBe(308);
-
     expect(new URL(location!).pathname).toBe("/tim-kiem");
-
     expect(new URL(location!).searchParams.get("q")).toBe("Hung Phu");
   });
 
-  it("giữ locale EN", () => {
+  it("keeps the EN locale prefix", async () => {
     for (const path of ["/en/tin-tuc?q=hung", "/en/du-an?q=hung"]) {
-      const { status, location } = run(path);
+      const { status, location } = await run(path);
 
       expect(status).toBe(308);
-
       expect(new URL(location!).pathname).toBe("/en/tim-kiem");
     }
   });
 
-  it("`/vi/` gộp thẳng về URL chính tắc, KHÔNG chuyển hướng hai lần", () => {
-    const { status, location } = run("/vi/tin-tuc?q=hung");
+  it("/vi/ canonicalizes directly without a second redirect", async () => {
+    const { status, location } = await run("/vi/tin-tuc?q=hung");
 
     expect(status).toBe(308);
-
     expect(new URL(location!).pathname).toBe("/tim-kiem");
   });
 
-  it("từ khóa có ký tự đặc biệt được mã hoá an toàn", () => {
-    const { location } = run("/tin-tuc?q=a%26b%3Dc");
+  it("encodes special query characters safely", async () => {
+    const { location } = await run("/tin-tuc?q=a%26b%3Dc");
 
     expect(new URL(location!).searchParams.get("q")).toBe("a&b=c");
   });
 
-  it("`?q=` rỗng/khoảng trắng KHÔNG chuyển sang trang tìm kiếm", () => {
+  it("empty q does not redirect to search", async () => {
     for (const path of ["/tin-tuc?q=", "/tin-tuc?q=%20%20"]) {
-      expect(new URL(run(path).location ?? "http://x/").pathname).not.toBe(
-        "/tim-kiem",
-      );
+      const { location } = await run(path);
+      expect(new URL(location ?? "http://x/").pathname).not.toBe("/tim-kiem");
     }
   });
 
-  it("danh sách thường, phân trang, lọc trạng thái KHÔNG bị đụng", () => {
+  it("list, pagination, filters, and categories keep old internal rewrite behavior", async () => {
     for (const path of [
       "/tin-tuc",
       "/tin-tuc?page=2",
       "/du-an?status=dang-thi-cong",
       "/tin-tuc/danh-muc/tin-du-an",
     ]) {
-      const { status, location } = run(path);
+      const { status, location } = await run(path);
 
-      // Rewrite nội bộ sang `/vi/...` là hành vi cũ,
-      // không phải redirect.
       expect(status).not.toBe(308);
       expect(location).toBeNull();
     }
   });
 
-  it("trang con của tin tức KHÔNG bị nhận nhầm là URL tìm kiếm cũ", () => {
-    const { status } = run("/tin-tuc/bai-viet-nao-do?q=abc");
+  it("news child pages are not mistaken for legacy search URLs", async () => {
+    const { status } = await run("/tin-tuc/bai-viet-nao-do?q=abc");
 
     expect(status).not.toBe(308);
   });
 });
 
-describe("proxy — định tuyến locale (hành vi cũ, không được phá)", () => {
-  it("`/vi/...` → 308 về bản không tiền tố", () => {
-    const { status, location } = run("/vi/du-an");
+describe("proxy - news detail 404 precheck", () => {
+  const originalFetch = global.fetch;
 
-    expect(status).toBe(308);
-
-    expect(new URL(location!).pathname).toBe("/du-an");
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
-  it("`/en/...` đi thẳng, không chuyển hướng", () => {
-    expect(run("/en/du-an").location).toBeNull();
+  it("returns a hard 404 when the news API says the slug is missing", async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 404 }));
+
+    const { status, body } = await run("/tin-tuc/missing-slug");
+
+    expect(status).toBe(404);
+    expect(body).toContain("<title>404:");
+    expect(body).not.toContain("og:type");
+  });
+
+  it("also returns 404 for localized EN news detail routes", async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 404 }));
+
+    const { status, body } = await run("/en/tin-tuc/missing-slug");
+
+    expect(status).toBe(404);
+    expect(body).toContain('lang="en"');
+  });
+
+  it("lets valid news slugs continue to the app router", async () => {
+    global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 200 }));
+
+    const { status, location } = await run("/tin-tuc/valid-slug");
+
+    expect(status).not.toBe(404);
+    expect(location).toBeNull();
+  });
+
+  it("does not block the route when the API precheck is unavailable", async () => {
+    global.fetch = jest.fn().mockRejectedValue(new Error("offline"));
+
+    const { status, location } = await run("/tin-tuc/valid-while-offline");
+
+    expect(status).not.toBe(404);
+    expect(location).toBeNull();
   });
 });
 
-describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
+describe("proxy - locale routing legacy behavior", () => {
+  it("/vi/... redirects to the canonical non-prefixed URL", async () => {
+    const { status, location } = await run("/vi/du-an");
+
+    expect(status).toBe(308);
+    expect(new URL(location!).pathname).toBe("/du-an");
+  });
+
+  it("/en/... passes through without redirect", async () => {
+    expect((await run("/en/du-an")).location).toBeNull();
+  });
+});
+
+describe("proxy - matcher excludes /admin", () => {
   const matcher = new RegExp(`^${config.matcher[0]}$`);
 
   function runsMiddleware(pathname: string): boolean {
@@ -117,15 +153,15 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
     "/admin/dang-nhap",
     "/admin/du-an",
     "/admin/tin-tuc/chuyen-muc",
-  ])("%s KHÔNG đi qua định tuyến locale", (pathname) => {
+  ])("%s does not go through locale routing", (pathname) => {
     expect(runsMiddleware(pathname)).toBe(false);
   });
 
-  it("/admin trần cũng phải thoát (mệnh đề `admin$`)", () => {
+  it("bare /admin also exits via the admin$ clause", () => {
     expect(runsMiddleware("/admin")).toBe(false);
   });
 
-  it("route công khai VẪN đi qua định tuyến locale", () => {
+  it("public routes still go through locale routing", () => {
     for (const pathname of [
       "/",
       "/du-an",
@@ -137,23 +173,17 @@ describe("proxy — matcher loại trừ /admin (Batch 15B)", () => {
     }
   });
 
-  it("KHÔNG loại trừ nhầm slug công khai chỉ trùng tiền tố", () => {
+  it("does not exclude public slugs that only share the admin prefix", () => {
     expect(runsMiddleware("/administrator-example")).toBe(true);
-
     expect(runsMiddleware("/admin-noi-bo")).toBe(true);
   });
 
-  it("giữ nguyên các loại trừ cũ", () => {
+  it("keeps old exclusions", () => {
     expect(runsMiddleware("/_next/static/chunk.js")).toBe(false);
-
     expect(runsMiddleware("/api/health")).toBe(false);
-
     expect(runsMiddleware("/images/logo.png")).toBe(false);
-
     expect(runsMiddleware("/sitemap.xml")).toBe(false);
-
     expect(runsMiddleware("/robots.txt")).toBe(false);
-
     expect(runsMiddleware("/favicon.ico")).toBe(false);
   });
 });

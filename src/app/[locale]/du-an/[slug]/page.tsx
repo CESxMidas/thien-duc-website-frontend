@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({
           />
         </section>
 
-        <section className="project-detail-band py-8 sm:py-12">
+        <section className="project-detail-band overflow-x-clip py-8 sm:py-12">
           {hasProjectGallery ? (
             <ProjectDetailMediaLayout
               gallery={

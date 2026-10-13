@@ -83,22 +83,12 @@ describe("next.config.ts — security headers (SEC-XSS-001)", () => {
 });
 
 describe("next.config.ts — ảnh remote", () => {
-  it("chỉ cho phép Cloudinary cloud ksnntvmu và ảnh tin cũ trên thienduccons.vn", () => {
+  it("chỉ cho phép Cloudinary cloud ksnntvmu", () => {
     expect(nextConfig.images?.remotePatterns).toEqual([
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
         pathname: "/ksnntvmu/**",
-      },
-      {
-        protocol: "https",
-        hostname: "www.thienduccons.vn",
-        pathname: "/img_data/**",
-      },
-      {
-        protocol: "https",
-        hostname: "thienduccons.vn",
-        pathname: "/img_data/**",
       },
     ]);
   });

@@ -1075,6 +1075,15 @@ textarea {
   }
 }
 
+@media (max-width: 767px) {
+  .project-detail-band .reveal-from-left,
+  .project-detail-band .reveal-from-right {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
 .projects-motion {
   --duration-reveal-sides: 680ms;
   --duration-stagger-sides: 620ms;

@@ -6,14 +6,11 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
 import { PageHeading } from "@/components/ui/page-heading";
 import { Pagination } from "@/components/ui/pagination";
-import {
-  getNewsCategories,
-  getNewsPage,
-  NEWS_PAGE_SIZE,
-} from "@/lib/api/news";
+import { getNewsCategories, getNewsPage, NEWS_PAGE_SIZE } from "@/lib/api/news";
 import { formatDate } from "@/lib/format";
 import { isLocale, localizePath } from "@/lib/i18n/config";
 import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
+import { getNewsDisplayDate } from "@/lib/news-related";
 import { buildPageHref, clampPage, parsePageParam } from "@/lib/pagination";
 import { getSearchQuery, hasBlankSearchParam } from "@/lib/search";
 import { routes } from "@/lib/routes";
@@ -108,38 +105,45 @@ export default async function NewsPage({
       >
         {posts.length > 0 ? (
           <div className="stagger-list grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <Link
-                key={post.slug}
-                href={localizePath(`${routes.news}/${post.slug}`, locale)}
-                className="hover-card group flex flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
-              >
-                {post.image ? (
-                  <div className="image-reveal relative aspect-video bg-surface">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
+            {posts.map((post) => {
+              const displayDate = getNewsDisplayDate(post);
+
+              return (
+                <Link
+                  key={post.slug}
+                  href={localizePath(`${routes.news}/${post.slug}`, locale)}
+                  className="hover-card group flex flex-col overflow-hidden border border-black/10 bg-white hover:border-brand"
+                >
+                  {post.image ? (
+                    <div className="image-reveal relative aspect-video bg-surface">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="td-card-meta text-sm font-medium text-slate">
+                      {[
+                        post.category?.name,
+                        displayDate ? formatDate(displayDate, locale) : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </p>
+                    <h2 className="td-card-title mt-3 text-xl font-semibold">
+                      {post.title}
+                    </h2>
+                    <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
+                      {dictionary.common.readArticle}
+                    </span>
                   </div>
-                ) : null}
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="td-card-meta text-sm font-medium text-slate">
-                    {[post.category?.name, formatDate(post.publishedAt, locale)]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </p>
-                  <h2 className="td-card-title mt-3 text-xl font-semibold">
-                    {post.title}
-                  </h2>
-                  <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
-                    {dictionary.common.readArticle}
-                  </span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="border border-black/10 bg-white p-6">

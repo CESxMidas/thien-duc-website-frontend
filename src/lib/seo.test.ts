@@ -1,4 +1,3 @@
-
 import {
   brandName,
   legalDisplayName,
@@ -70,8 +69,25 @@ describe("buildOrganizationJsonLd (→7)", () => {
   it("address là PostalAddress có addressCountry VN", () => {
     expect(org.address).toMatchObject({
       "@type": "PostalAddress",
+      addressLocality: "Hồ Chí Minh",
       addressCountry: "VN",
     });
+  });
+
+  it("addressLocality không lặp lại quốc gia đã có trong addressCountry", () => {
+    const viAddress = buildOrganizationJsonLd("vi").address as Record<
+      string,
+      unknown
+    >;
+    const enAddress = buildOrganizationJsonLd("en").address as Record<
+      string,
+      unknown
+    >;
+
+    expect(viAddress.addressLocality).not.toMatch(/Việt Nam/i);
+    expect(enAddress.addressLocality).not.toMatch(/Vietnam/i);
+    expect(viAddress.addressCountry).toBe("VN");
+    expect(enAddress.addressCountry).toBe("VN");
   });
 });
 

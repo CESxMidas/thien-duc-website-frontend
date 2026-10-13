@@ -77,13 +77,13 @@ export default function ProjectImageGallery({
 
   return (
     <div
-      className="project-image-gallery flex min-w-0 flex-col gap-4"
+      className="project-image-gallery flex min-w-0 max-w-full flex-col gap-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="group hover-card relative min-w-0 overflow-hidden border border-brand/18 bg-surface">
+      <div className="group hover-card relative min-w-0 max-w-full overflow-hidden border border-brand/18 bg-surface">
         <div
           className="project-gallery-stage relative transition-[aspect-ratio] duration-300 ease-out"
           style={{ aspectRatio: activeRatio }}
@@ -169,7 +169,7 @@ export default function ProjectImageGallery({
       {multiple ? (
         <div
           ref={thumbnailTrackRef}
-          className="flex min-w-0 gap-3 overflow-x-auto pb-1"
+          className="flex w-full min-w-0 max-w-full gap-3 overflow-x-auto overflow-y-hidden pb-1 [contain:inline-size]"
         >
           {images.map((image, index) => {
             const isActive = index === activeIndex;

@@ -15,7 +15,8 @@ import {
 } from "@/lib/i18n/config";
 import type { NewsPost } from "@/types/content";
 
-export const defaultOgImage = "/images/banners/home/home-banner-hung-phu-aerial-01.jpg";
+export const defaultOgImage =
+  "/images/banners/home/home-banner-hung-phu-aerial-01.jpg";
 
 export function absoluteUrl(path: string): string {
   return new URL(path, siteConfig.url).toString();
@@ -50,8 +51,13 @@ export const placeholderPaths: readonly string[] = [
 
 export const organizationId = () => absoluteUrl("/#organization");
 
+function schemaAddressLocality(locale: Locale): string {
+  return addressParts[locale].locality.replace(/,\s*(Việt Nam|Vietnam)$/i, "");
+}
 
-export function buildOrganizationJsonLd(locale: Locale): Record<string, unknown> {
+export function buildOrganizationJsonLd(
+  locale: Locale,
+): Record<string, unknown> {
   // legalInfo.operatingSince dạng dd/mm/yyyy → ISO 8601 cho schema.org.
   const foundingDate = legalInfo.operatingSince.split("/").reverse().join("-");
 
@@ -59,7 +65,7 @@ export function buildOrganizationJsonLd(locale: Locale): Record<string, unknown>
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": organizationId(),
-    
+
     name: brandName[locale],
     legalName: legalDisplayName[locale],
     url: siteConfig.url,
@@ -71,7 +77,7 @@ export function buildOrganizationJsonLd(locale: Locale): Record<string, unknown>
     address: {
       "@type": "PostalAddress",
       streetAddress: addressParts[locale].street,
-      addressLocality: addressParts[locale].locality,
+      addressLocality: schemaAddressLocality(locale),
       addressCountry: "VN",
     },
   };
@@ -138,7 +144,9 @@ export function buildPageMetadata({
       description,
       siteName: brandName[locale],
       locale: localeHtmlLang[locale],
-      images: [{ url: absoluteUrl(image), width: 1200, height: 630, alt: title }],
+      images: [
+        { url: absoluteUrl(image), width: 1200, height: 630, alt: title },
+      ],
       ...(publishedTime ? { publishedTime } : {}),
     },
     twitter: {

@@ -8,13 +8,13 @@ import type { NewsPost } from "@/types/content";
 import { formatDate } from "@/lib/format";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
+import { getNewsDisplayDate } from "@/lib/news-related";
 import { routes } from "@/lib/routes";
 
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
 const GAP_PX = 20;
-
 
 const MAX_DOTS = 8;
 const AUTOPLAY_INTERVAL_MS = 3000;
@@ -24,7 +24,6 @@ function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_TABLET) return 2;
   return 1;
 }
-
 
 export function trackTransform(
   activeIndex: number,
@@ -45,7 +44,6 @@ type NewsSliderProps = {
   labels: Dictionary["newsSlider"];
   detailLabel: string;
 };
-
 
 export function NewsSlider({
   posts,
@@ -82,7 +80,6 @@ export function NewsSlider({
   }, []);
 
   const maxIndex = Math.max(0, count - visibleCount);
-
 
   const activeIndex = Math.min(rawActiveIndex, count);
 
@@ -165,6 +162,7 @@ export function NewsSlider({
             const isClone = index >= count;
             const isVisible =
               index >= activeIndex && index < activeIndex + visibleCount;
+            const displayDate = getNewsDisplayDate(post);
 
             return (
               <li
@@ -192,9 +190,11 @@ export function NewsSlider({
                     </div>
                   ) : null}
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="td-card-meta text-sm text-slate">
-                      {formatDate(post.publishedAt, locale)}
-                    </p>
+                    {displayDate ? (
+                      <p className="td-card-meta text-sm text-slate">
+                        {formatDate(displayDate, locale)}
+                      </p>
+                    ) : null}
                     <h3 className="td-card-title mt-3 text-xl font-semibold">
                       {post.title}
                     </h3>
@@ -211,9 +211,11 @@ export function NewsSlider({
 
       {isInteractive ? (
         <div className="mt-6 flex items-center justify-between gap-4">
-         
           {positionCount <= MAX_DOTS ? (
-            <div data-testid="news-slider-dots" className="flex items-center gap-2">
+            <div
+              data-testid="news-slider-dots"
+              className="flex items-center gap-2"
+            >
               {Array.from({ length: positionCount }, (_, index) => (
                 <button
                   key={index}

@@ -52,7 +52,10 @@ export function ProjectDetailMediaLayout({
           : undefined
       }
     >
-      <div ref={galleryRef} className="image-reveal reveal-from-left min-w-0">
+      <div
+        ref={galleryRef}
+        className="image-reveal min-w-0 max-w-full"
+      >
         {gallery}
       </div>
 

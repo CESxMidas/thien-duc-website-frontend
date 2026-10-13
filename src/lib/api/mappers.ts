@@ -10,6 +10,7 @@ import type {
   ProjectStatus,
 } from "@/types/content";
 import { localizeAuthor } from "@/config/site";
+import { resolveNewsImageList, resolveNewsImageUrl } from "@/lib/image-url";
 import type { Locale } from "@/lib/i18n/config";
 import type {
   BannerDto,
@@ -155,6 +156,8 @@ export function mapProjectItem(dto: ProjectItemDto, locale: Locale): ProjectItem
 }
 
 export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
+  const image = resolveNewsImageUrl(dto.image);
+
   return {
     title: localized(dto.title, locale),
     slug: dto.slug,
@@ -169,8 +172,10 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
     content: dto.content?.map((item) => localized(item, locale)),
     author: localizeAuthor(dto.author, locale),
     referenceUrl: dto.referenceUrl ?? undefined,
-    image: dto.image ?? undefined,
-    gallery: uniqueImageList([dto.image, ...(dto.gallery ?? [])]),
+    image,
+    gallery: uniqueImageList(
+      resolveNewsImageList([dto.image, ...(dto.gallery ?? [])]),
+    ),
   };
 }
 
