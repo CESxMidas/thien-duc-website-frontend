@@ -109,10 +109,34 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           className="object-contain object-left-top"
         />
       </div>
+      <div
+        className="pointer-events-none absolute right-8 top-4 z-0 hidden h-[12rem] w-[22rem] rotate-[142deg] opacity-[0.1] mix-blend-multiply md:block lg:right-[32%] lg:top-0"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="22rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="pointer-events-none absolute -bottom-16 left-[30%] z-0 hidden h-[13rem] w-[24rem] rotate-[18deg] opacity-[0.09] mix-blend-multiply lg:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="24rem"
+          className="object-contain object-left-top"
+        />
+      </div>
 
       <div className="relative z-10 grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(520px,1fr)] lg:items-center lg:gap-12 lg:px-20 lg:py-14 xl:gap-16 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
         <div className="flex min-w-0 flex-col justify-center">
-          <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-earth/75">
+          <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-brand">
             <span
               className="h-px w-10 bg-earth/38"
               aria-hidden="true"
@@ -150,7 +174,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                   <Icon className="size-4" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[0.64rem] font-bold uppercase tracking-[0.16em] text-earth/72">
+                  <span className="block text-[0.64rem] font-bold uppercase tracking-[0.16em] text-earth">
                     {item.label}
                   </span>
                   <span

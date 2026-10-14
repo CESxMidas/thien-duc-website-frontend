@@ -152,6 +152,8 @@ export function HomeBannerSlider({
       onBlur={(event) => {
         if (!isAutoplayToggle(event.target)) setFocusPaused(false);
       }}
+      onPointerEnter={() => setFocusPaused(true)}
+      onPointerLeave={() => setFocusPaused(false)}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -191,7 +193,7 @@ export function HomeBannerSlider({
         })}
 
         {hasTextCopy ? (
-          <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.56)_0%,rgba(41,41,41,0.34)_30%,rgba(41,41,41,0.05)_64%,rgba(41,41,41,0.12)_100%)]" />
+          <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
         ) : null}
         <div className="absolute inset-x-0 bottom-0 z-20 h-[34%] bg-gradient-to-t from-ink/44 via-ink/12 to-transparent" />
 
@@ -222,20 +224,20 @@ export function HomeBannerSlider({
               >
                 {activeBanner.eyebrow ? (
                   <div className="mb-3 sm:mb-4">
-                    <p className="text-eyebrow text-white/75">
+                    <p className="text-eyebrow text-white">
                       {activeBanner.eyebrow}
                     </p>
                   </div>
                 ) : null}
                 <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
                   {activeBanner.title ? (
-                    <h1 className="line-clamp-3 max-w-[12ch] font-display text-[2rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.2rem] sm:max-w-[13ch] sm:text-[2.6rem] md:text-[2.95rem] lg:text-[3.25rem]">
+                    <h1 className="line-clamp-2 max-w-[13.5ch] font-display text-[1.9rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.05rem] sm:max-w-[15ch] sm:text-[2.45rem] md:text-[2.8rem] lg:text-[3.05rem]">
                       {activeBanner.title}
                     </h1>
                   ) : null}
 
                   {activeBanner.subtitle ? (
-                    <p className="mt-1 line-clamp-3 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
+                    <p className="mt-1 line-clamp-2 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
                       {activeBanner.subtitle}
                     </p>
                   ) : null}
@@ -260,7 +262,7 @@ export function HomeBannerSlider({
             ) : null}
             <Link
               href={localizePath(routes.contact, locale)}
-              className="link-arrow inline-flex min-h-11 items-center gap-2 border border-white/55 bg-ink/45 px-5 py-3 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(41,41,41,0.22)] underline-offset-4 transition hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
+              className="link-arrow inline-flex min-h-11 items-center gap-2 border border-white/70 bg-ink/62 px-5 py-3 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(41,41,41,0.22)] underline-offset-4 transition hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
             >
               {contactCtaLabel}
             </Link>

@@ -155,11 +155,48 @@ export function HomeFeaturedProjectsShowcase({
   return (
     <section
       aria-labelledby="featured-projects-title"
-      className="border-y border-earth/18 bg-ivory py-10 sm:py-12 lg:py-14"
+      className="relative isolate overflow-hidden border-y border-earth/18 bg-ivory py-10 sm:py-12 lg:py-14"
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
-      <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
+      <div
+        className="pointer-events-none absolute -left-32 top-8 -z-10 hidden h-[18rem] w-[34rem] -rotate-6 opacity-[0.13] mix-blend-multiply sm:block lg:h-[23rem] lg:w-[43rem]"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 43rem, 34rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="pointer-events-none absolute -right-36 top-20 -z-10 hidden h-[17rem] w-[32rem] rotate-[164deg] opacity-[0.1] mix-blend-multiply md:block xl:h-[22rem] xl:w-[42rem]"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 42rem, 32rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="pointer-events-none absolute bottom-8 left-[42%] -z-10 hidden h-[13rem] w-[25rem] rotate-[22deg] opacity-[0.08] mix-blend-multiply lg:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="25rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+
+      <div className="relative z-10 w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <header className="mb-7 flex flex-col gap-5 md:mb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[44rem]">
             <p className="mb-3 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-earth">
@@ -238,7 +275,7 @@ export function HomeFeaturedProjectsShowcase({
                 </h3>
 
                 {activeMeta.length > 0 ? (
-                  <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.64rem] font-bold uppercase leading-5 tracking-[0.08em] text-earth/75">
+                  <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.64rem] font-bold uppercase leading-5 tracking-[0.08em] text-brand">
                     {activeMeta.map((part, partIndex) => (
                       <span
                         key={part}
@@ -266,7 +303,7 @@ export function HomeFeaturedProjectsShowcase({
                   type="button"
                   aria-label={`${labels.explore}: ${activeProject.title}`}
                   onClick={() => router.push(activeProject.href)}
-                  className="group mt-9 inline-flex w-fit items-center gap-3 border border-earth/40 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-earth shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition duration-300 hover:border-earth hover:bg-earth hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
+                  className="group mt-9 inline-flex w-fit items-center gap-3 border border-earth/40 bg-white/70 px-4 py-3 text-[0.67rem] font-bold uppercase tracking-[0.12em] text-brand shadow-[0_10px_24px_rgba(41,41,41,0.06)] transition duration-300 hover:border-earth hover:bg-earth hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
                 >
                   {labels.explore}
                   <span
@@ -304,7 +341,7 @@ export function HomeFeaturedProjectsShowcase({
                       "group relative flex shrink-0 flex-col overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
                       isActive
                         ? "border-earth/55 opacity-100"
-                        : "border-earth/14 opacity-82 hover:border-earth/34 hover:opacity-100 focus-visible:border-earth/55 focus-visible:opacity-100",
+                        : "border-earth/14 opacity-100 hover:border-earth/34 focus-visible:border-earth/55",
                     ].join(" ")}
                   >
                     <span
@@ -360,7 +397,7 @@ export function HomeFeaturedProjectsShowcase({
                           {project.title}
                         </span>
                         {project.location ? (
-                          <span className="mt-2 block text-[0.62rem] font-bold uppercase tracking-[0.08em] text-earth/68">
+                          <span className="mt-2 block text-[0.62rem] font-bold uppercase tracking-[0.08em] text-charcoal/80">
                             {project.location}
                           </span>
                         ) : null}
@@ -373,7 +410,7 @@ export function HomeFeaturedProjectsShowcase({
                         aria-label={`${labels.explore}: ${project.title}`}
                         tabIndex={isVisible ? undefined : -1}
                         onClick={() => router.push(project.href)}
-                        className="inline-flex h-10 w-fit items-center gap-2 border border-transparent px-0 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-earth transition duration-300 hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
+                        className="inline-flex h-10 w-fit items-center gap-2 border border-transparent px-0 text-[0.62rem] font-bold uppercase tracking-[0.12em] text-charcoal/85 transition duration-300 hover:text-charcoal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth motion-reduce:transition-none"
                       >
                         {labels.explore}
                         <span

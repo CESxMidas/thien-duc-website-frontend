@@ -45,8 +45,8 @@ export function LanguageSwitcher({
               ? "text-gold"
               : "text-white/72 hover:text-white"
             : active
-              ? "text-earth"
-              : "text-charcoal/55 hover:text-charcoal";
+              ? "text-charcoal"
+              : "text-charcoal/70 hover:text-charcoal";
         const dividerClass =
           variant === "light" ? "text-white/38" : "text-charcoal/35";
 

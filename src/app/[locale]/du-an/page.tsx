@@ -101,7 +101,7 @@ export default async function ProjectsPage({
                     <Check className="size-4 shrink-0" aria-hidden="true" />
                   ) : null}
                   {dictionary.projectStatus[value]}
-                  <span className={active ? "text-white/80" : "text-slate"}>
+                  <span className={active ? "text-white" : "text-slate"}>
                     ({count})
                   </span>
                 </Link>

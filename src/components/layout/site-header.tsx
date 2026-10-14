@@ -155,7 +155,7 @@ export function SiteHeader({
                       }`
                     : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
                         active
-                          ? "border-transparent bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
+                          ? "border-transparent bg-brand text-white shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
                           : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
                       }`
                 }
