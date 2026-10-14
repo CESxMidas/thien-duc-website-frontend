@@ -1,9 +1,37 @@
 /** @jest-environment node */
 
 import { NextRequest } from "next/server";
-import { proxy, config } from "./proxy";
 
-async function run(url: string, init?: ConstructorParameters<typeof NextRequest>[1]) {
+type ProxyModule = typeof import("./proxy");
+
+const TEST_API_URL = "https://api.example.test";
+const originalApiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+async function loadProxy(apiUrl?: string): Promise<ProxyModule> {
+  jest.resetModules();
+
+  if (apiUrl === undefined) {
+    delete process.env.NEXT_PUBLIC_API_URL;
+  } else {
+    process.env.NEXT_PUBLIC_API_URL = apiUrl;
+  }
+
+  return import("./proxy");
+}
+
+afterAll(() => {
+  if (originalApiUrl === undefined) {
+    delete process.env.NEXT_PUBLIC_API_URL;
+  } else {
+    process.env.NEXT_PUBLIC_API_URL = originalApiUrl;
+  }
+});
+
+async function run(
+  proxy: ProxyModule["proxy"],
+  url: string,
+  init?: ConstructorParameters<typeof NextRequest>[1],
+) {
   const response = await proxy(
     new NextRequest(new URL(url, "http://localhost:3000"), init),
   );
@@ -16,8 +44,14 @@ async function run(url: string, init?: ConstructorParameters<typeof NextRequest>
 }
 
 describe("proxy - legacy search redirects", () => {
+  let proxy: ProxyModule["proxy"];
+
+  beforeEach(async () => {
+    ({ proxy } = await loadProxy());
+  });
+
   it("/tin-tuc?q= redirects to /tim-kiem and keeps the query", async () => {
-    const { status, location } = await run("/tin-tuc?q=Hung Phu");
+    const { status, location } = await run(proxy, "/tin-tuc?q=Hung Phu");
 
     expect(status).toBe(308);
     expect(new URL(location!).pathname).toBe("/tim-kiem");
@@ -25,7 +59,7 @@ describe("proxy - legacy search redirects", () => {
   });
 
   it("/du-an?q= redirects to /tim-kiem and keeps the query", async () => {
-    const { status, location } = await run("/du-an?q=Hung Phu");
+    const { status, location } = await run(proxy, "/du-an?q=Hung Phu");
 
     expect(status).toBe(308);
     expect(new URL(location!).pathname).toBe("/tim-kiem");
@@ -34,7 +68,7 @@ describe("proxy - legacy search redirects", () => {
 
   it("keeps the EN locale prefix", async () => {
     for (const path of ["/en/tin-tuc?q=hung", "/en/du-an?q=hung"]) {
-      const { status, location } = await run(path);
+      const { status, location } = await run(proxy, path);
 
       expect(status).toBe(308);
       expect(new URL(location!).pathname).toBe("/en/tim-kiem");
@@ -42,21 +76,21 @@ describe("proxy - legacy search redirects", () => {
   });
 
   it("/vi/ canonicalizes directly without a second redirect", async () => {
-    const { status, location } = await run("/vi/tin-tuc?q=hung");
+    const { status, location } = await run(proxy, "/vi/tin-tuc?q=hung");
 
     expect(status).toBe(308);
     expect(new URL(location!).pathname).toBe("/tim-kiem");
   });
 
   it("encodes special query characters safely", async () => {
-    const { location } = await run("/tin-tuc?q=a%26b%3Dc");
+    const { location } = await run(proxy, "/tin-tuc?q=a%26b%3Dc");
 
     expect(new URL(location!).searchParams.get("q")).toBe("a&b=c");
   });
 
   it("empty q does not redirect to search", async () => {
     for (const path of ["/tin-tuc?q=", "/tin-tuc?q=%20%20"]) {
-      const { location } = await run(path);
+      const { location } = await run(proxy, path);
       expect(new URL(location ?? "http://x/").pathname).not.toBe("/tim-kiem");
     }
   });
@@ -68,7 +102,7 @@ describe("proxy - legacy search redirects", () => {
       "/du-an?status=dang-thi-cong",
       "/tin-tuc/danh-muc/tin-du-an",
     ]) {
-      const { status, location } = await run(path);
+      const { status, location } = await run(proxy, path);
 
       expect(status).not.toBe(308);
       expect(location).toBeNull();
@@ -76,7 +110,7 @@ describe("proxy - legacy search redirects", () => {
   });
 
   it("news child pages are not mistaken for legacy search URLs", async () => {
-    const { status } = await run("/tin-tuc/bai-viet-nao-do?q=abc");
+    const { status } = await run(proxy, "/tin-tuc/bai-viet-nao-do?q=abc");
 
     expect(status).not.toBe(308);
   });
@@ -84,6 +118,11 @@ describe("proxy - legacy search redirects", () => {
 
 describe("proxy - news detail 404 precheck", () => {
   const originalFetch = global.fetch;
+  let proxy: ProxyModule["proxy"];
+
+  beforeEach(async () => {
+    ({ proxy } = await loadProxy(TEST_API_URL));
+  });
 
   afterEach(() => {
     global.fetch = originalFetch;
@@ -92,7 +131,7 @@ describe("proxy - news detail 404 precheck", () => {
   it("returns a hard 404 when the news API says the slug is missing", async () => {
     global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 404 }));
 
-    const { status, body } = await run("/tin-tuc/missing-slug");
+    const { status, body } = await run(proxy, "/tin-tuc/missing-slug");
 
     expect(status).toBe(404);
     expect(body).toContain("<title>404:");
@@ -102,7 +141,7 @@ describe("proxy - news detail 404 precheck", () => {
   it("also returns 404 for localized EN news detail routes", async () => {
     global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 404 }));
 
-    const { status, body } = await run("/en/tin-tuc/missing-slug");
+    const { status, body } = await run(proxy, "/en/tin-tuc/missing-slug");
 
     expect(status).toBe(404);
     expect(body).toContain('lang="en"');
@@ -111,7 +150,7 @@ describe("proxy - news detail 404 precheck", () => {
   it("lets valid news slugs continue to the app router", async () => {
     global.fetch = jest.fn().mockResolvedValue(new Response("{}", { status: 200 }));
 
-    const { status, location } = await run("/tin-tuc/valid-slug");
+    const { status, location } = await run(proxy, "/tin-tuc/valid-slug");
 
     expect(status).not.toBe(404);
     expect(location).toBeNull();
@@ -120,28 +159,50 @@ describe("proxy - news detail 404 precheck", () => {
   it("does not block the route when the API precheck is unavailable", async () => {
     global.fetch = jest.fn().mockRejectedValue(new Error("offline"));
 
-    const { status, location } = await run("/tin-tuc/valid-while-offline");
+    const { status, location } = await run(proxy, "/tin-tuc/valid-while-offline");
 
+    expect(status).not.toBe(404);
+    expect(location).toBeNull();
+  });
+
+  it("does not precheck news details when the API URL is absent", async () => {
+    ({ proxy } = await loadProxy());
+    global.fetch = jest.fn();
+
+    const { status, location } = await run(proxy, "/tin-tuc/missing-slug");
+
+    expect(global.fetch).not.toHaveBeenCalled();
     expect(status).not.toBe(404);
     expect(location).toBeNull();
   });
 });
 
 describe("proxy - locale routing legacy behavior", () => {
+  let proxy: ProxyModule["proxy"];
+
+  beforeEach(async () => {
+    ({ proxy } = await loadProxy());
+  });
+
   it("/vi/... redirects to the canonical non-prefixed URL", async () => {
-    const { status, location } = await run("/vi/du-an");
+    const { status, location } = await run(proxy, "/vi/du-an");
 
     expect(status).toBe(308);
     expect(new URL(location!).pathname).toBe("/du-an");
   });
 
   it("/en/... passes through without redirect", async () => {
-    expect((await run("/en/du-an")).location).toBeNull();
+    expect((await run(proxy, "/en/du-an")).location).toBeNull();
   });
 });
 
 describe("proxy - matcher excludes /admin", () => {
-  const matcher = new RegExp(`^${config.matcher[0]}$`);
+  let matcher: RegExp;
+
+  beforeEach(async () => {
+    const { config } = await loadProxy();
+    matcher = new RegExp(`^${config.matcher[0]}$`);
+  });
 
   function runsMiddleware(pathname: string): boolean {
     return matcher.test(pathname);
