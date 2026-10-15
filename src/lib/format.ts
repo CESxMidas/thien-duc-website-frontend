@@ -16,6 +16,7 @@ export function formatDate(value: string, locale: Locale = "vi") {
       month: "long",
       day: "numeric",
       year: "numeric",
+      timeZone: "Asia/Ho_Chi_Minh",
     }).format(date);
   }
 
@@ -23,5 +24,6 @@ export function formatDate(value: string, locale: Locale = "vi") {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
+    timeZone: "Asia/Ho_Chi_Minh",
   }).format(date);
 }
