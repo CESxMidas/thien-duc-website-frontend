@@ -3,6 +3,7 @@ type PageHeadingProps = {
   title: string;
   description?: string;
   bare?: boolean;
+  titleClassName?: string;
 };
 
 export function PageHeading({
@@ -10,6 +11,7 @@ export function PageHeading({
   title,
   description,
   bare = false,
+  titleClassName,
 }: PageHeadingProps) {
   return (
     <section
@@ -18,7 +20,12 @@ export function PageHeading({
       {eyebrow ? (
         <p className="text-eyebrow mb-4 text-earth">{eyebrow}</p>
       ) : null}
-      <h1 className="max-w-4xl text-[2.5rem] font-medium leading-[1.05] text-charcoal sm:text-[3.5rem] md:text-[4.25rem]">
+      <h1
+        className={
+          titleClassName ??
+          "max-w-4xl text-[2.5rem] font-medium leading-[1.05] text-charcoal sm:text-[3.5rem] md:text-[4.25rem]"
+        }
+      >
         {title}
       </h1>
       {description ? (

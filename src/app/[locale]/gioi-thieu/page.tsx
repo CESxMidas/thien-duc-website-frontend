@@ -11,7 +11,6 @@ import {
   Target,
 } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
-import { BusinessFieldsCarousel } from "@/components/sections/business-fields-carousel";
 import { ContentSidebar } from "@/components/sections/content-sidebar";
 import { siteConfig } from "@/config/site";
 import { openPositions } from "@/data/careers";
@@ -266,24 +265,6 @@ export default async function AboutPage({
             );
           })}
         </div>
-      </section>
-
-      <section className="reveal-section page-container py-5 sm:py-8">
-        <div className="max-w-3xl">
-          <p className="text-eyebrow mb-4 text-brand">{about.fieldsEyebrow}</p>
-          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-            {about.fieldsTitle}
-          </h2>
-          <p className="text-justified mt-5 text-base leading-7 text-slate">
-            {about.fieldsDescription}
-          </p>
-        </div>
-
-        <BusinessFieldsCarousel
-          fields={about.fields}
-          codeLabel={about.fieldCodeLabel}
-          labels={about.fieldsCarousel}
-        />
       </section>
 
       <section className="reveal-section page-container py-5 sm:py-8">

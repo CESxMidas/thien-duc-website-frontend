@@ -54,14 +54,54 @@ export default async function BusinessFieldsPage({
 
   return (
     <SiteShell locale={locale}>
-      <div className="page-container py-5 sm:py-8">
-        <PageHeading
-          bare
-          eyebrow={about.fieldsEyebrow}
-          title={about.fieldsTitle}
-          description={about.fieldsDescription}
-        />
-      </div>
+      <section className="relative isolate overflow-hidden border-b border-earth/10 bg-ivory">
+        <div
+          className="pointer-events-none absolute -left-28 -top-14 -z-10 hidden h-[18rem] w-[34rem] -rotate-6 opacity-[0.12] mix-blend-multiply sm:block lg:h-[22rem] lg:w-[42rem]"
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/contact/coconut-palm-frond-soft.png"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 42rem, 34rem"
+            className="object-contain object-left-top"
+          />
+        </div>
+        <div
+          className="pointer-events-none absolute -right-40 -top-10 -z-10 h-[17rem] w-[31rem] rotate-[158deg] opacity-[0.09] mix-blend-multiply sm:-right-28 md:h-[20rem] md:w-[38rem]"
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/contact/coconut-palm-frond-soft.png"
+            alt=""
+            fill
+            sizes="(min-width: 768px) 38rem, 31rem"
+            className="object-contain object-left-top"
+          />
+        </div>
+        <div
+          className="pointer-events-none absolute -bottom-24 left-[42%] -z-10 hidden h-[13rem] w-[25rem] rotate-[24deg] opacity-[0.07] mix-blend-multiply lg:block"
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/contact/coconut-palm-frond-soft.png"
+            alt=""
+            fill
+            sizes="25rem"
+            className="object-contain object-left-top"
+          />
+        </div>
+
+        <div className="page-container relative z-10 py-8 sm:py-11 lg:py-14">
+          <PageHeading
+            bare
+            eyebrow={about.fieldsEyebrow}
+            title={about.fieldsTitle}
+            titleClassName="max-w-none text-[2.3rem] font-medium leading-[1.05] text-charcoal sm:text-[2.65rem] md:whitespace-nowrap md:text-[clamp(2.3rem,4.2vw,3.55rem)]"
+            description={about.fieldsDescription}
+          />
+        </div>
+      </section>
 
       <section className="page-container reveal-section pb-8 sm:pb-12">
         <div className="grid gap-4 md:grid-cols-3">
