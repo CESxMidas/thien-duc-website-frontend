@@ -55,42 +55,19 @@ export default async function BusinessFieldsPage({
   return (
     <SiteShell locale={locale}>
       <section className="relative isolate overflow-hidden border-b border-earth/10 bg-ivory">
-        <div
-          className="pointer-events-none absolute -left-28 -top-14 -z-10 hidden h-[18rem] w-[34rem] -rotate-6 opacity-[0.12] mix-blend-multiply sm:block lg:h-[22rem] lg:w-[42rem]"
+        <Image
+          src="/images/fields/field-architecture-line-art.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none -z-20 object-cover object-[72%_center] opacity-[0.28] sm:object-right sm:opacity-[0.4] lg:opacity-[0.52]"
           aria-hidden="true"
-        >
-          <Image
-            src="/images/contact/coconut-palm-frond-soft.png"
-            alt=""
-            fill
-            sizes="(min-width: 1024px) 42rem, 34rem"
-            className="object-contain object-left-top"
-          />
-        </div>
+        />
         <div
-          className="pointer-events-none absolute -right-40 -top-10 -z-10 h-[17rem] w-[31rem] rotate-[158deg] opacity-[0.09] mix-blend-multiply sm:-right-28 md:h-[20rem] md:w-[38rem]"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.99)_48%,rgba(246,244,239,0.9)_66%,rgba(246,244,239,0.38)_100%)] sm:bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.98)_42%,rgba(246,244,239,0.74)_64%,rgba(246,244,239,0.12)_100%)] lg:bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.97)_38%,rgba(246,244,239,0.58)_58%,rgba(246,244,239,0.04)_100%)]"
           aria-hidden="true"
-        >
-          <Image
-            src="/images/contact/coconut-palm-frond-soft.png"
-            alt=""
-            fill
-            sizes="(min-width: 768px) 38rem, 31rem"
-            className="object-contain object-left-top"
-          />
-        </div>
-        <div
-          className="pointer-events-none absolute -bottom-24 left-[42%] -z-10 hidden h-[13rem] w-[25rem] rotate-[24deg] opacity-[0.07] mix-blend-multiply lg:block"
-          aria-hidden="true"
-        >
-          <Image
-            src="/images/contact/coconut-palm-frond-soft.png"
-            alt=""
-            fill
-            sizes="25rem"
-            className="object-contain object-left-top"
-          />
-        </div>
+        />
 
         <div className="page-container relative z-10 py-8 sm:py-11 lg:py-14">
           <PageHeading
