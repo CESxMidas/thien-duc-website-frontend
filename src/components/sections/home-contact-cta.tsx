@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
-import { displayAddress, siteConfig } from "@/config/site";
+import { displayAddress, displayPhoneNumbers, siteConfig } from "@/config/site";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
@@ -47,7 +47,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
     {
       id: "phone",
       label: dictionary.footer.phone,
-      value: siteConfig.phone,
+      value: displayPhoneNumbers(),
       href: phoneHref,
       icon: Phone,
     },

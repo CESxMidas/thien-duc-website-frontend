@@ -141,7 +141,9 @@ describe("SiteFooter", () => {
         name: new RegExp(siteConfig.email),
       }),
     ).toHaveAttribute("href", `mailto:${siteConfig.email}`);
-    expect(within(footer).getByRole("link", { name: /1d/i })).toHaveAttribute(
+    expect(
+      within(footer).getByRole("link", { name: /Số 10 Trần Não/i }),
+    ).toHaveAttribute(
       "href",
       expect.stringContaining(
         `https://www.google.com/maps/dir/?api=1&destination=${mapsDestination}`,
@@ -164,6 +166,16 @@ describe("SiteFooter", () => {
         "src",
         expect.stringContaining("logo-thien-duc-footer-champagne.png"),
       );
+    expect(
+      within(footer)
+        .getByRole("img", { name: dictionary.shared.logoAlt })
+        .closest("a"),
+    ).not.toHaveClass("border", "rounded-[6px]", "bg-white/12");
+    expect(footer).toHaveTextContent(
+      "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC",
+    );
+    expect(footer).toHaveTextContent("MST: 0309910290");
+    expect(footer).toHaveTextContent("0909 768 001");
     expect(footer).toHaveClass("bg-[#56614f]");
   });
 });

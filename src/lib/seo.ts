@@ -52,7 +52,9 @@ export const placeholderPaths: readonly string[] = [
 export const organizationId = () => absoluteUrl("/#organization");
 
 function schemaAddressLocality(locale: Locale): string {
-  return addressParts[locale].locality.replace(/,\s*(Việt Nam|Vietnam)$/i, "");
+  return addressParts[locale].locality
+    .replace(/,\s*(Việt Nam|Vietnam)$/i, "")
+    .replace(/^TP\.\s*/i, "");
 }
 
 export function buildOrganizationJsonLd(

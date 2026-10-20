@@ -9,15 +9,19 @@ const siteUrl = resolveSiteUrl({
   NODE_ENV: process.env.NODE_ENV,
 });
 
+const legalCompanyName =
+  "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC";
+
 export const siteConfig = {
-  name: "Công ty Thiên Đức",
+  name: legalCompanyName,
   shortName: "Thiên Đức",
   description: "Website giới thiệu công ty, dự án và tin tức của Thiên Đức.",
 
   url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
   phone: "(028) 3740 7188",
-  address: "1d Trần Não, An Khánh, Hồ Chí Minh, Việt Nam",
+  mobile: "0909 768 001",
+  address: "Số 10 Trần Não, KP5, P. Bình Trưng, TP. Hồ Chí Minh, Việt Nam",
 };
 
 
@@ -45,7 +49,7 @@ export function zaloDisplayValue(
 }
 
 export const legalInfo = {
-  legalName: "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC",
+  legalName: legalCompanyName,
   taxCode: "0309910290",
   licenseDate: "02/04/2010",
   operatingSince: "05/04/2010",
@@ -87,11 +91,11 @@ export const addressParts: Record<
   { street: string; locality: string }
 > = {
   vi: {
-    street: "1d Trần Não, An Khánh",
-    locality: "Hồ Chí Minh, Việt Nam",
+    street: "Số 10 Trần Não, KP5, P. Bình Trưng",
+    locality: "TP. Hồ Chí Minh, Việt Nam",
   },
   en: {
-    street: "1d Tran Nao, An Khanh",
+    street: "No. 10 Tran Nao Street, Quarter 5, Binh Trung Ward",
     locality: "Ho Chi Minh City, Vietnam",
   },
 };
@@ -100,4 +104,8 @@ export const addressParts: Record<
 export function displayAddress(locale: Locale): string {
   const { street, locality } = addressParts[locale];
   return `${street}, ${locality}`;
+}
+
+export function displayPhoneNumbers(): string {
+  return `${siteConfig.phone} / ${siteConfig.mobile}`;
 }

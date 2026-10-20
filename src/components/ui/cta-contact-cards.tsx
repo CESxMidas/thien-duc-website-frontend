@@ -1,5 +1,5 @@
 import { Mail, MapPin, Phone } from "lucide-react";
-import { displayAddress, siteConfig } from "@/config/site";
+import { displayAddress, displayPhoneNumbers, siteConfig } from "@/config/site";
 import type { Locale } from "@/lib/i18n/config";
 
 const cardClassName =
@@ -26,7 +26,7 @@ export function CtaContactCards({ locale, labels }: CtaContactCardsProps) {
         <Phone className="mt-0.5 size-5 shrink-0 text-brand" />
         <span className="min-w-0">
           <span className="block text-slate">{labels.phone}</span>
-          <span className={valueClassName}>{siteConfig.phone}</span>
+          <span className={valueClassName}>{displayPhoneNumbers()}</span>
         </span>
       </a>
       <a href={`mailto:${siteConfig.email}`} className={cardClassName}>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
-import { displayAddress, siteConfig } from "@/config/site";
+import { FileText, Mail, MapPin, Phone } from "lucide-react";
+import { displayAddress, legalInfo, siteConfig } from "@/config/site";
 import { footerSections } from "@/data/footer";
 import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, type Locale } from "@/lib/i18n/config";
@@ -9,6 +9,7 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
+const mobileHref = `tel:${siteConfig.mobile.replace(/[^\d+]/g, "")}`;
 const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
@@ -64,7 +65,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
         <div className="flex items-center gap-5 sm:col-span-2 lg:col-span-1">
           <Link
             href={localizePath(routes.home, locale)}
-            className="inline-flex size-24 shrink-0 items-center justify-center rounded-[6px] border border-white/30 bg-white/12 p-2 shadow-[0_12px_28px_rgba(20,28,20,0.18)] backdrop-blur-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+            className="inline-flex size-24 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
             aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
@@ -79,7 +80,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             />
           </Link>
           <div className="min-w-0">
-            <p className="text-[1.02rem] font-extrabold uppercase leading-tight tracking-[0.02em] text-white [text-shadow:0_1px_2px_rgba(20,28,20,0.26)]">
+            <p className="text-[0.9rem] font-extrabold uppercase leading-[1.35] tracking-normal text-white [text-shadow:0_1px_2px_rgba(20,28,20,0.26)] sm:text-[0.96rem]">
               {dictionary.shared.companyName}
             </p>
             <p className="mt-2 max-w-sm text-[0.86rem] font-medium leading-6 text-ivory/90 [text-shadow:0_1px_1px_rgba(20,28,20,0.18)]">
@@ -105,19 +106,27 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
           </h2>
 
           <ul className="mt-3 space-y-2.5">
-            <li>
-              <a
-                href={phoneHref}
-                className={`${footerLinkClassName} flex items-center gap-3`}
-              >
-                <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
-                  <Phone className="size-[1.05rem]" aria-hidden="true" />
-                </span>
-                <span className="min-w-0">
-                  <span className="sr-only">{dictionary.footer.phone}: </span>
-                  <span className={contactNumberClassName}>{siteConfig.phone}</span>
-                </span>
-              </a>
+            <li className="flex items-center gap-3">
+              <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+                <Phone className="size-[1.05rem]" aria-hidden="true" />
+              </span>
+              <span className={`${contactNumberClassName} min-w-0`}>
+                <a
+                  href={phoneHref}
+                  aria-label={`${dictionary.footer.phone}: ${siteConfig.phone}`}
+                  className="transition hover:text-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory"
+                >
+                  {siteConfig.phone}
+                </a>
+                <span aria-hidden="true"> / </span>
+                <a
+                  href={mobileHref}
+                  aria-label={`${dictionary.footer.phone}: ${siteConfig.mobile}`}
+                  className="transition hover:text-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory"
+                >
+                  {siteConfig.mobile}
+                </a>
+              </span>
             </li>
             <li>
               <a
@@ -134,6 +143,14 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                   </span>
                 </span>
               </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+                <FileText className="size-[1.05rem]" aria-hidden="true" />
+              </span>
+              <span className="text-[0.84rem] font-semibold leading-5 text-ivory/92">
+                {dictionary.footer.taxCode}: {legalInfo.taxCode}
+              </span>
             </li>
             <li>
               <a

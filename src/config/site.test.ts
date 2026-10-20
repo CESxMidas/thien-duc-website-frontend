@@ -1,5 +1,26 @@
 
-import { brandShortName, localizeAuthor } from "./site";
+import {
+  brandShortName,
+  displayAddress,
+  displayPhoneNumbers,
+  legalInfo,
+  localizeAuthor,
+  siteConfig,
+} from "./site";
+
+describe("official company information", () => {
+  it("uses the verified legal identity and contact details", () => {
+    expect(siteConfig.name).toBe(
+      "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC",
+    );
+    expect(legalInfo.taxCode).toBe("0309910290");
+    expect(siteConfig.email).toBe("dautuxaydungthienduc@yahoo.com");
+    expect(displayPhoneNumbers()).toBe("(028) 3740 7188 / 0909 768 001");
+    expect(displayAddress("vi")).toBe(
+      "Số 10 Trần Não, KP5, P. Bình Trưng, TP. Hồ Chí Minh, Việt Nam",
+    );
+  });
+});
 
 describe("localizeAuthor", () => {
   it("thương hiệu site: /vi giữ 'Thiên Đức', /en đổi 'Thien Duc'", () => {
