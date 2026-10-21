@@ -9,7 +9,6 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const mobileHref = `tel:${siteConfig.mobile.replace(/[^\d+]/g, "")}`;
 const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
@@ -174,14 +173,6 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                   className="transition hover:text-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory"
                 >
                   {siteConfig.phone}
-                </a>
-                <span aria-hidden="true"> / </span>
-                <a
-                  href={mobileHref}
-                  aria-label={`${dictionary.footer.phone}: ${siteConfig.mobile}`}
-                  className="transition hover:text-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory"
-                >
-                  {siteConfig.mobile}
                 </a>
               </span>
             </li>

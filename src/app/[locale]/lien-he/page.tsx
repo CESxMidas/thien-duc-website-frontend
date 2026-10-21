@@ -26,7 +26,6 @@ const metaCopy: Record<Locale, { title: string; description: string }> = {
 };
 
 const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const mobileHref = `tel:${siteConfig.mobile.replace(/[^\d+]/g, "")}`;
 const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 export async function generateMetadata({
@@ -90,13 +89,6 @@ export default async function ContactPage({
               className="font-semibold text-brand hover:text-brand-dark"
             >
               {siteConfig.phone}
-            </a>
-            {" / "}
-            <a
-              href={mobileHref}
-              className="font-semibold text-brand hover:text-brand-dark"
-            >
-              {siteConfig.mobile}
             </a>
             .
           </p>

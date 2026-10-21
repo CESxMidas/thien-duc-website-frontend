@@ -21,10 +21,7 @@ describe("formatContactTitle", () => {
 });
 
 describe("formatPhoneLines", () => {
-  it("places each contact number on its own line", () => {
-    expect(formatPhoneLines("(028) 3740 7188 / 0909 768 001")).toEqual([
-      "(028) 3740 7188",
-      "0909 768 001",
-    ]);
+  it("keeps the contact number on one unbroken line", () => {
+    expect(formatPhoneLines("0909 768 001")).toEqual(["0909 768 001"]);
   });
 });

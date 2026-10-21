@@ -19,8 +19,7 @@ export const siteConfig = {
 
   url: siteUrl,
   email: "dautuxaydungthienduc@yahoo.com",
-  phone: "(028) 3740 7188",
-  mobile: "0909 768 001",
+  phone: "0909 768 001",
   address: "Số 10 Trần Não, KP5, P. Bình Trưng, TP. Hồ Chí Minh, Việt Nam",
 };
 
@@ -107,5 +106,5 @@ export function displayAddress(locale: Locale): string {
 }
 
 export function displayPhoneNumbers(): string {
-  return `${siteConfig.phone} / ${siteConfig.mobile}`;
+  return siteConfig.phone;
 }

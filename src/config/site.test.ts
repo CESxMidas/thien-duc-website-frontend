@@ -15,7 +15,7 @@ describe("official company information", () => {
     );
     expect(legalInfo.taxCode).toBe("0309910290");
     expect(siteConfig.email).toBe("dautuxaydungthienduc@yahoo.com");
-    expect(displayPhoneNumbers()).toBe("(028) 3740 7188 / 0909 768 001");
+    expect(displayPhoneNumbers()).toBe("0909 768 001");
     expect(displayAddress("vi")).toBe(
       "Số 10 Trần Não, KP5, P. Bình Trưng, TP. Hồ Chí Minh, Việt Nam",
     );
