@@ -98,15 +98,15 @@ export function SiteHeader({
       data-variant={variant}
       className={
         homeAfterBanner
-          ? "sticky top-0 z-40 border-b border-white/14 bg-olive text-white"
-          : "sticky top-0 z-40 border-b border-earth/18 bg-gold-soft/95 text-charcoal shadow-[0_10px_28px_rgba(41,41,41,0.06)] backdrop-blur-md"
+          ? "sticky top-0 z-40 border-b border-gold/25 bg-[linear-gradient(110deg,#21140f_0%,#4a3023_48%,#241610_100%)] text-ivory shadow-[0_12px_34px_rgba(45,27,19,0.2)]"
+          : "sticky top-0 z-40 border-b border-gold/25 bg-[linear-gradient(110deg,#21140f_0%,#4a3023_48%,#241610_100%)] text-ivory shadow-[0_12px_34px_rgba(45,27,19,0.2)] backdrop-blur-md"
       }
     >
       <div
         className={
           homeAfterBanner
-            ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-olive px-4 shadow-[0_12px_32px_rgba(41,41,41,0.16)] sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
-            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center bg-gold-soft/95 px-5 sm:px-8 lg:h-32 lg:px-14 xl:px-20"
+            ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-transparent px-4 sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
+            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center bg-transparent px-5 sm:px-8 lg:h-32 lg:px-14 xl:px-20"
         }
       >
         <Link
@@ -117,7 +117,7 @@ export function SiteHeader({
           <Image
             src={
               branding?.logoUrl ||
-              "/images/brand/logo-thien-duc-header-transparent.png"
+              "/images/brand/logo-thien-duc-footer-champagne.png"
             }
             alt={branding?.logoAlt || dictionary.shared.logoAlt}
             width={126}
@@ -126,7 +126,7 @@ export function SiteHeader({
             className={
               homeAfterBanner
                 ? "h-14 w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.24)] sm:h-16 lg:h-[4.5rem]"
-                : "h-[5.25rem] w-auto object-contain lg:h-[6.75rem]"
+                : "h-[5.25rem] w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.28)] lg:h-[6.75rem]"
             }
           />
         </Link>
@@ -153,10 +153,10 @@ export function SiteHeader({
                           ? "bg-white/14 text-gold"
                           : "text-white/84 hover:bg-white/10 hover:text-gold"
                       }`
-                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.12)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
+                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
                         active
-                          ? "border-transparent bg-brand text-white shadow-[0_10px_20px_rgba(139,115,94,0.09)]"
-                          : "border-transparent bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] text-earth hover:-translate-y-0.5 hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory hover:shadow-[0_12px_24px_rgba(139,115,94,0.14)]"
+                          ? "border-gold/70 bg-[linear-gradient(135deg,#d1b36e_0%,#b98c45_100%)] text-espresso shadow-[0_10px_24px_rgba(0,0,0,0.24)]"
+                          : "border-white/12 bg-white/[0.045] text-ivory/82 hover:-translate-y-0.5 hover:border-gold/55 hover:bg-white/10 hover:text-gold hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)]"
                       }`
                 }
               >
@@ -210,10 +210,10 @@ export function SiteHeader({
                 ? `hidden size-11 place-items-center rounded-full border border-white/28 text-white transition hover:border-gold hover:text-gold sm:grid ${
                     searchOpen ? "border-gold bg-white/12 text-gold" : ""
                   }`
-                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] text-earth shadow-[0_6px_14px_rgba(139,115,94,0.045)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
+                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] border border-white/12 text-ivory shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
                     searchOpen
-                      ? "bg-[linear-gradient(135deg,#c1ad92_0%,#d0ba82_52%,#b9a68d_100%)] text-ivory"
-                      : "bg-[linear-gradient(135deg,rgba(235,229,222,0.78)_0%,rgba(196,154,63,0.18)_48%,rgba(246,244,239,0.88)_100%)] hover:bg-[linear-gradient(135deg,#b99a70_0%,#cdaa60_48%,#a08361_100%)] hover:text-ivory"
+                      ? "border-gold bg-gold text-espresso"
+                      : "bg-white/[0.045] hover:border-gold/55 hover:bg-white/10 hover:text-gold"
                   }`
             }
           >
@@ -223,7 +223,7 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant={homeAfterBanner ? "light" : "default"}
+            variant="light"
             className={
               homeAfterBanner
                 ? "hidden md:inline-flex"
@@ -243,7 +243,7 @@ export function SiteHeader({
             className={
               homeAfterBanner
                 ? "inline-flex min-h-12 items-center gap-2 text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-                : "grid size-11 place-items-center lg:hidden"
+                : "grid size-11 place-items-center text-ivory transition hover:text-gold lg:hidden"
             }
           >
             {menuOpen ? (
@@ -310,8 +310,8 @@ export function SiteHeader({
         id="mobile-navigation"
         className={`border-t ${
           homeAfterBanner
-            ? "border-white/15 bg-olive/95 text-white backdrop-blur-md"
-            : "border-earth/18 bg-gold-soft/98 lg:hidden"
+            ? "border-gold/20 bg-[linear-gradient(120deg,rgba(33,20,15,0.98),rgba(74,48,35,0.98))] text-white backdrop-blur-md"
+            : "border-gold/20 bg-[linear-gradient(120deg,rgba(33,20,15,0.98),rgba(74,48,35,0.98))] text-ivory backdrop-blur-md lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
@@ -319,7 +319,7 @@ export function SiteHeader({
             className={
               homeAfterBanner
                 ? "divide-y divide-white/12"
-                : "divide-y divide-charcoal/10"
+                : "divide-y divide-white/10"
             }
           >
             {mainNavigation.map((item) => (
@@ -330,7 +330,7 @@ export function SiteHeader({
                   className={
                     homeAfterBanner
                       ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/16 bg-white/8 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-white hover:border-gold hover:text-gold"
-                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/18 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-earth"
+                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/14 bg-white/[0.045] px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-ivory hover:border-gold/60 hover:text-gold"
                   }
                 >
                   {navLabel(item)}
@@ -346,7 +346,7 @@ export function SiteHeader({
                           className={
                             homeAfterBanner
                               ? "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
-                              : "inline-flex min-h-10 items-center text-sm text-charcoal/65 hover:text-earth"
+                              : "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
                           }
                         >
                           {navLabel(child)}
@@ -362,7 +362,7 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant={homeAfterBanner ? "light" : "default"}
+            variant="light"
             className="mt-5 sm:hidden"
           />
         </nav>

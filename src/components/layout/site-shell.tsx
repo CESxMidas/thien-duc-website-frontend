@@ -28,7 +28,7 @@ export async function SiteShell({
   ]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-surface-warm text-ink-soft">
+    <div className="flex min-h-screen flex-col bg-[radial-gradient(circle_at_12%_0%,rgba(200,164,95,0.10),transparent_30rem),linear-gradient(180deg,#f8f3eb_0%,#f7f2ea_48%,#efe5da_100%)] text-ink-soft">
       <a href="#main-content" className="skip-link">
         {dictionary.common.skipToContent}
       </a>

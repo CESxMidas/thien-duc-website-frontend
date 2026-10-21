@@ -33,4 +33,21 @@ describe("PageHeading", () => {
 
     expect(heading.className).not.toContain("text-justified");
   });
+
+  it("hỗ trợ điểm nhấn Espresso ở đầu trang", () => {
+    const { container } = render(
+      <PageHeading
+        bare
+        eyebrow="Giới thiệu"
+        title="Công ty Thiên Đức"
+      />,
+    );
+
+    expect(container.querySelector("section")).toHaveClass(
+      "border-espresso",
+    );
+    expect(screen.getByRole("heading", { level: 1 })).toHaveClass(
+      "text-espresso",
+    );
+  });
 });

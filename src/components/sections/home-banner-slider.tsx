@@ -143,7 +143,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden border-b border-earth/25 bg-ivory lg:bg-ink"
+      className="relative overflow-hidden border-x-[0.35rem] border-b-[0.35rem] border-espresso bg-espresso shadow-[inset_0_0_0_1px_rgba(200,164,95,0.18),0_16px_36px_rgba(45,27,19,0.16)] sm:border-x-[0.5rem] sm:border-b-[0.5rem] lg:border-x-[0.75rem] lg:border-b-[0.75rem]"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onFocus={(event) => {
@@ -193,12 +193,12 @@ export function HomeBannerSlider({
         })}
 
         {hasTextCopy ? (
-          <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-black/5 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
+          <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-espresso/10 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(34,20,14,0.78)_0%,rgba(63,40,29,0.5)_34%,rgba(63,40,29,0.12)_68%,rgba(34,20,14,0.28)_100%)]" />
         ) : null}
         <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 z-20 h-44 border-t border-earth/15 bg-ivory lg:hidden"
+          className="absolute inset-x-0 bottom-0 z-20 h-44 border-t border-gold/20 bg-[linear-gradient(180deg,#f8f3eb_0%,#efe2cf_100%)] lg:hidden"
         />
 
         {!activeBanner.title ? <h1 className="sr-only">Thien Duc</h1> : null}

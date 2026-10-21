@@ -19,6 +19,9 @@ describe("SiteHeader", () => {
   it("dùng thanh điều hướng compact theo mockup header với 7 mục chính", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
+    expect(screen.getByRole("banner").className).toContain(
+      "linear-gradient(110deg,#21140f",
+    );
     const primary = screen.getByRole("navigation", { name: "Primary" });
     const primaryLinks = within(primary).getAllByRole("link");
 
@@ -36,7 +39,7 @@ describe("SiteHeader", () => {
       screen.getByRole("img", { name: dictionary.shared.logoAlt }),
     ).toHaveAttribute(
       "src",
-      expect.stringContaining("logo-thien-duc-header-transparent.png"),
+      expect.stringContaining("logo-thien-duc-footer-champagne.png"),
     );
     expect(
       screen.queryByRole("link", { name: new RegExp(siteConfig.phone) }),
@@ -176,6 +179,6 @@ describe("SiteFooter", () => {
     );
     expect(footer).toHaveTextContent("MST: 0309910290");
     expect(footer).toHaveTextContent("0909 768 001");
-    expect(footer).toHaveClass("bg-[#56614f]");
+    expect(footer).toHaveClass("bg-espresso");
   });
 });

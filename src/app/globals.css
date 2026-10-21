@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f4ef;
+  --background: #f7f2ea;
   --foreground: #292929;
   --site-header-height: 7rem;
   --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
@@ -39,22 +39,24 @@
 }
 
 @theme {
-  --color-ivory: #f6f4ef;
+  --color-ivory: #f7f2ea;
   --color-charcoal: #292929;
   --color-warm-grey: #b8b5ae;
-  --color-earth: #6c5544;
+  --color-earth: #73513c;
+  --color-espresso: #2d1b13;
+  --color-espresso-soft: #4a3023;
   --color-olive: #485244;
-  --color-brand: #6e5747;
-  --color-brand-soft: #a89482;
-  --color-brand-dark: #485244;
-  --color-gold: #c4a154;
-  --color-gold-soft: #ebe5de;
+  --color-brand: #6f4b37;
+  --color-brand-soft: #a27d60;
+  --color-brand-dark: #2d1b13;
+  --color-gold: #c8a45f;
+  --color-gold-soft: #efe2cf;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
-  --color-cream: #f6f4ef;
-  --color-surface: #e9e6df;
-  --color-surface-warm: #f6f4ef;
+  --color-cream: #f5ede3;
+  --color-surface: #ebe2d7;
+  --color-surface-warm: #f7f2ea;
   --container-site: 76rem;
   --container-header: 80rem;
   --color-danger: #9b2c2c;
@@ -74,12 +76,23 @@
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(200, 164, 95, 0.1), transparent 30rem),
+    linear-gradient(180deg, #f8f3eb 0%, var(--background) 48%, #efe5da 100%);
   color: var(--foreground);
   font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+.bg-brand {
+  background-color: var(--color-brand);
+  background-image: linear-gradient(135deg, #7b5942 0%, #6f4b37 42%, #3a2419 100%);
+}
+
+.bg-brand:hover {
+  background-image: linear-gradient(135deg, #684732 0%, #4a3023 48%, #24150f 100%);
 }
 
 h1,
@@ -451,6 +464,10 @@ textarea {
   transition:
     border-color var(--duration-base) var(--ease-out-expo),
     box-shadow var(--duration-base) var(--ease-out-expo);
+}
+
+.reveal-sides-pair {
+  overflow: clip;
 }
 
 .reveal-from-left {

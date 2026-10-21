@@ -74,7 +74,7 @@ export default async function BusinessFieldsPage({
             bare
             eyebrow={about.fieldsEyebrow}
             title={about.fieldsTitle}
-            titleClassName="max-w-none text-[2.3rem] font-medium leading-[1.05] text-charcoal sm:text-[2.65rem] md:whitespace-nowrap md:text-[clamp(2.3rem,4.2vw,3.55rem)]"
+            titleClassName="max-w-none text-[2.3rem] font-medium leading-[1.05] text-espresso sm:text-[2.65rem] md:whitespace-nowrap md:text-[clamp(2.3rem,4.2vw,3.55rem)]"
             description={about.fieldsDescription}
           />
         </div>

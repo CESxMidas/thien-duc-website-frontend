@@ -46,8 +46,10 @@ beforeEach(() => mockReducedMotion(false));
 describe("HomeBannerSlider", () => {
   it("dung khung xep lop tren mobile va khung ngang tu tablet", () => {
     const { container } = renderSlider();
+    const region = screen.getByRole("region", { name: labels.regionLabel });
     const stage = container.querySelector("section > div");
 
+    expect(region).toHaveClass("border-espresso", "bg-espresso");
     expect(stage).toHaveClass(
       "h-[clamp(18rem,calc(33.333vw+11rem),33rem)]",
       "lg:h-[clamp(18rem,33.333vw,40rem)]",

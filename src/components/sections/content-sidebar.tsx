@@ -159,7 +159,7 @@ function Widget({
   return (
     <section className="overflow-hidden border border-brand/12 bg-white">
    
-      <h2 className="text-eyebrow flex items-center gap-2 bg-brand px-4 py-3 text-gold-soft">
+      <h2 className="text-eyebrow flex items-center gap-2 bg-[linear-gradient(105deg,#2d1b13_0%,#4a3023_48%,#73513c_100%)] px-4 py-3 text-gold-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
         {icon}
         {title}
       </h2>
