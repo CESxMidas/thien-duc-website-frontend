@@ -27,7 +27,7 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
 
   return (
     <figure
-      className={`relative overflow-hidden bg-brand-dark px-6 py-6 text-white sm:px-8 sm:py-8 ${className ?? ""}`}
+      className={`relative overflow-hidden border border-earth/20 bg-[linear-gradient(102deg,#eadfcf_0%,#f6efe2_36%,#fbf6eb_68%,#efe0ca_100%)] px-6 py-6 text-charcoal shadow-[inset_0_1px_0_rgba(255,255,255,0.76)] sm:px-8 sm:py-8 ${className ?? ""}`}
     >
       <span
         aria-hidden="true"
@@ -35,15 +35,15 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
       />
 
       {label ? (
-        <figcaption className="text-eyebrow text-gold-soft">{label}</figcaption>
+        <figcaption className="text-eyebrow text-earth">{label}</figcaption>
       ) : null}
 
       <blockquote
         className={`font-display text-xl font-bold leading-[1.15] tracking-tight sm:text-2xl ${label ? "mt-3" : ""}`}
       >
-        <span className="block text-balance">{first}</span>
+        <span className="block text-balance text-charcoal">{first}</span>
         {second ? (
-          <span className="mt-1 block text-balance text-gold">{second}</span>
+          <span className="mt-1 block text-balance text-charcoal">{second}</span>
         ) : null}
       </blockquote>
     </figure>

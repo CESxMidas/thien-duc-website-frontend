@@ -26,6 +26,17 @@ describe("BrandMotto", () => {
     expect(verticalRule).not.toBeNull();
   });
 
+  it("đồng bộ hai vế với màu chữ slogan trang chủ", () => {
+    render(<BrandMotto motto={VI_MOTTO} />);
+
+    expect(screen.getByText("Khách hàng hài lòng")).toHaveClass(
+      "text-charcoal",
+    );
+    expect(screen.getByText("Thiên Đức thành công")).toHaveClass(
+      "text-charcoal",
+    );
+  });
+
   it("là nội dung tĩnh, không phải nút hay liên kết", () => {
     render(<BrandMotto motto={VI_MOTTO} label="Phương châm" />);
 
