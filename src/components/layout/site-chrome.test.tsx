@@ -179,6 +179,6 @@ describe("SiteFooter", () => {
     );
     expect(footer).toHaveTextContent("MST: 0309910290");
     expect(footer).toHaveTextContent("0909 768 001");
-    expect(footer).toHaveClass("bg-espresso");
+    expect(footer).toHaveClass("bg-olive", "text-ivory");
   });
 });

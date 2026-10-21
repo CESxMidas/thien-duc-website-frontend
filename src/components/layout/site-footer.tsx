@@ -16,7 +16,7 @@ const footerLinkClassName =
   "inline-flex min-h-9 items-center text-[0.84rem] font-semibold leading-5 text-ivory/92 [text-shadow:0_1px_1px_rgba(23,31,22,0.16)] transition hover:text-gold-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ivory sm:min-h-0";
 
 const footerHeadingClassName =
-  "text-[0.76rem] font-extrabold uppercase leading-none tracking-[0.12em] text-[#E8D6B3] [text-shadow:0_1px_1px_rgba(23,31,22,0.2)]";
+  "text-[0.76rem] font-extrabold uppercase leading-none tracking-[0.12em] text-gold-soft [text-shadow:0_1px_1px_rgba(23,31,22,0.2)]";
 
 const contactNumberClassName =
   "block font-sans text-[0.91rem] font-extrabold leading-5 text-white [font-variant-numeric:lining-nums_tabular-nums]";
@@ -109,7 +109,7 @@ function FooterNavSection({
 
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
-    <footer className="relative mt-auto border-t border-gold/35 bg-espresso bg-[linear-gradient(105deg,rgba(34,20,14,0.97),rgba(74,48,35,0.95)_52%,rgba(45,27,19,0.97)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-18px_38px_rgba(45,27,19,0.16)] before:pointer-events-none before:absolute before:inset-x-0 before:-top-5 before:h-5 before:bg-[linear-gradient(180deg,rgba(240,225,210,0),rgba(74,48,35,0.18))]">
+    <footer className="relative mt-auto border-t border-gold/35 bg-olive bg-[linear-gradient(105deg,rgba(72,82,68,0.97),rgba(86,97,79,0.94)_52%,rgba(55,67,52,0.97)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-18px_38px_rgba(41,41,41,0.14)] before:pointer-events-none before:absolute before:inset-x-0 before:-top-5 before:h-5 before:bg-[linear-gradient(180deg,rgba(247,238,229,0),rgba(72,82,68,0.2))]">
       <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.76fr_0.84fr_0.98fr_1.72fr] lg:items-start lg:py-8">
         <div className="flex items-center gap-5 sm:col-span-2 lg:col-span-1">
           <Link
@@ -127,8 +127,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
               height={96}
               className="size-full object-contain"
               style={{
-                filter:
-                  "brightness(0) saturate(100%) invert(87%) sepia(21%) saturate(714%) hue-rotate(350deg) brightness(102%) contrast(94%) drop-shadow(0 4px 12px rgba(9, 15, 9, 0.72))",
+                filter: "drop-shadow(0 5px 14px rgba(9, 15, 9, 0.5))",
               }}
             />
           </Link>
@@ -163,7 +162,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
 
           <ul className="mt-3 space-y-2.5">
             <li className="flex items-center gap-3">
-              <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+              <span className="grid size-5 shrink-0 place-items-center text-gold-soft">
                 <Phone className="size-[1.05rem]" aria-hidden="true" />
               </span>
               <span className={`${contactNumberClassName} min-w-0`}>
@@ -181,7 +180,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 href={emailHref}
                 className={`${footerLinkClassName} flex items-center gap-3`}
               >
-                <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+                <span className="grid size-5 shrink-0 place-items-center text-gold-soft">
                   <Mail className="size-[1.05rem]" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
@@ -193,7 +192,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <span className="grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+              <span className="grid size-5 shrink-0 place-items-center text-gold-soft">
                 <FileText className="size-[1.05rem]" aria-hidden="true" />
               </span>
               <span className="text-[0.84rem] font-semibold leading-5 text-ivory/92">
@@ -207,7 +206,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 rel="noreferrer"
                 className={`${footerLinkClassName} flex items-start gap-3`}
               >
-                <span className="mt-0.5 grid size-5 shrink-0 place-items-center text-[#DCC59A]">
+                <span className="mt-0.5 grid size-5 shrink-0 place-items-center text-gold-soft">
                   <MapPin className="size-[1.05rem]" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
