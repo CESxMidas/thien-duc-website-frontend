@@ -198,7 +198,7 @@ export function HomeBannerSlider({
         <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 z-20 h-44 border-t border-gold/20 bg-[linear-gradient(180deg,#f8f3eb_0%,#efe2cf_100%)] lg:hidden"
+          className="absolute inset-x-0 bottom-0 z-20 h-44 border-t border-gold/25 bg-[linear-gradient(180deg,#ffffff_0%,#f7eee5_100%)] lg:hidden"
         />
 
         {!activeBanner.title ? <h1 className="sr-only">Thien Duc</h1> : null}

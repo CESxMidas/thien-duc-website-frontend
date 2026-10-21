@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #eee4d8;
+  --background: #f7eee5;
   --foreground: #292929;
   --site-header-height: 7rem;
   --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
@@ -39,7 +39,7 @@
 }
 
 @theme {
-  --color-ivory: #f3ece3;
+  --color-ivory: #fbf7f2;
   --color-charcoal: #292929;
   --color-warm-grey: #b8b5ae;
   --color-earth: #73513c;
@@ -47,16 +47,16 @@
   --color-espresso-soft: #4a3023;
   --color-olive: #485244;
   --color-brand: #6f4b37;
-  --color-brand-soft: #a27d60;
+  --color-brand-soft: #9d744b;
   --color-brand-dark: #2d1b13;
-  --color-gold: #c8a45f;
-  --color-gold-soft: #eadcc8;
+  --color-gold: #bd8f4d;
+  --color-gold-soft: #f1e3d4;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
-  --color-cream: #eadfd2;
-  --color-surface: #e2d5c6;
-  --color-surface-warm: #f0e6da;
+  --color-cream: #f7eee5;
+  --color-surface: #efe3d6;
+  --color-surface-warm: #f5eade;
   --container-site: 76rem;
   --container-header: 80rem;
   --color-danger: #9b2c2c;
@@ -77,8 +77,8 @@
 
 body {
   background:
-    radial-gradient(circle at 12% 0%, rgba(200, 164, 95, 0.14), transparent 30rem),
-    linear-gradient(180deg, #f2e9de 0%, var(--background) 52%, #dfcfbd 100%);
+    radial-gradient(circle at 12% 0%, rgba(189, 143, 77, 0.13), transparent 30rem),
+    linear-gradient(180deg, #fbf7f2 0%, var(--background) 52%, #f0e1d2 100%);
   color: var(--foreground);
   font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);
@@ -654,6 +654,10 @@ textarea {
 }
 
 .hover-card {
+  border-radius: 0.5rem;
+  box-shadow:
+    0 12px 30px rgba(74, 48, 35, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition:
     border-color var(--duration-base) var(--ease-out-expo),
     box-shadow var(--duration-base) var(--ease-out-expo),
@@ -729,6 +733,10 @@ textarea {
 }
 
 .interactive-card {
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 26px rgba(74, 48, 35, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
   transition:
     transform var(--duration-base) var(--ease-out-expo),
     border-color var(--duration-base) var(--ease-out-expo),
@@ -1050,21 +1058,57 @@ textarea {
 .project-detail-panel-accent,
 .project-detail-highlight {
   background: var(--color-ivory);
-  box-shadow: none;
 }
 
 .project-detail-panel,
 .project-detail-panel-accent,
 .project-detail-highlight {
-  border-color: color-mix(in srgb, var(--color-charcoal) 14%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 35%, transparent);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 12px 30px rgba(74, 48, 35, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
 }
 
 .hover-card:hover,
 .interactive-card:hover,
 .project-gallery-card:hover,
 .stagger-sides.is-revealed > .project-gallery-card.hover-card:hover {
-  box-shadow: none;
+  border-color: color-mix(in srgb, var(--color-gold) 58%, transparent);
+  box-shadow:
+    0 18px 38px rgba(74, 48, 35, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
   transform: translateY(-2px);
+}
+
+/* Shared content surfaces keep cards distinct across every public page. */
+main :where(article, aside, li, dl, form, div).border.bg-white,
+main :where(article, aside, li, dl, form, div).border[class*="bg-white/"] {
+  border-color: color-mix(in srgb, var(--color-gold) 32%, transparent);
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  background-image: linear-gradient(145deg, #ffffff 0%, #fffaf5 100%);
+  box-shadow:
+    0 12px 30px rgba(74, 48, 35, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+main :where(article, aside, li, dl, form, div).border.bg-white:hover,
+main :where(article, aside, li, dl, form, div).border[class*="bg-white/"]:hover {
+  border-color: color-mix(in srgb, var(--color-gold) 52%, transparent);
+}
+
+.project-gallery-card,
+.content-panel {
+  border-radius: 0.5rem;
+}
+
+main .image-reveal.border,
+main .project-gallery-card,
+main .project-item-gallery,
+main .project-map-embed {
+  overflow: hidden;
+  border-radius: 0.5rem;
 }
 
 .button-polish::before,

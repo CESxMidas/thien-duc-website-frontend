@@ -10,7 +10,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const inputClassName =
-  "h-12 w-full border bg-white px-4 text-base text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40 sm:h-11 sm:text-sm";
+  "h-12 w-full rounded-[6px] border bg-white px-4 text-base text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40 sm:h-11 sm:text-sm";
 const labelClassName = "mb-2 block text-sm font-semibold text-ink-soft";
 const PHONE_PATTERN = /^(0|\+84)\d{9,10}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

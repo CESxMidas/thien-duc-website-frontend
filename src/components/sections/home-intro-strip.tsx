@@ -22,7 +22,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
     <section className="border-y border-earth/20 bg-ivory py-5 sm:py-6 lg:py-7">
       <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <div
-          className="relative min-h-[8.5rem] overflow-hidden border-x border-earth/16 bg-[linear-gradient(102deg,#eadfcf_0%,#f6efe2_28%,#fbf6eb_58%,#efe0ca_100%)] px-5 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.76)] sm:px-8 lg:min-h-[9.25rem] lg:px-16"
+          className="relative min-h-[8.5rem] overflow-hidden rounded-[8px] border border-gold/30 bg-[linear-gradient(102deg,#f1e3d4_0%,#f7eee5_28%,#ffffff_58%,#f3e6d8_100%)] px-5 py-6 shadow-[0_12px_30px_rgba(74,48,35,0.075),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 lg:min-h-[9.25rem] lg:px-16"
           style={{
             backgroundImage:
               "var(--home-intro-background, linear-gradient(102deg,#eadfcf 0%,#f6efe2 28%,#fbf6eb 58%,#efe0ca 100%))",

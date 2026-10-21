@@ -27,7 +27,7 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
 
   return (
     <figure
-      className={`relative overflow-hidden border border-earth/20 bg-[linear-gradient(102deg,#eadfcf_0%,#f6efe2_36%,#fbf6eb_68%,#efe0ca_100%)] px-6 py-6 text-charcoal shadow-[inset_0_1px_0_rgba(255,255,255,0.76)] sm:px-8 sm:py-8 ${className ?? ""}`}
+      className={`relative overflow-hidden rounded-[8px] border border-gold/30 bg-[linear-gradient(102deg,#f1e3d4_0%,#f7eee5_36%,#ffffff_68%,#f3e6d8_100%)] px-6 py-6 text-charcoal shadow-[0_12px_30px_rgba(74,48,35,0.075),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 sm:py-8 ${className ?? ""}`}
     >
       <span
         aria-hidden="true"

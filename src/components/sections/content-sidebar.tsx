@@ -157,7 +157,7 @@ function Widget({
   children: React.ReactNode;
 }) {
   return (
-    <section className="overflow-hidden border border-brand/12 bg-white">
+    <section className="content-panel overflow-hidden border border-brand/20 bg-white shadow-[0_12px_30px_rgba(74,48,35,0.075)]">
    
       <h2 className="text-eyebrow flex items-center gap-2 bg-[linear-gradient(105deg,#2d1b13_0%,#4a3023_48%,#73513c_100%)] px-4 py-3 text-gold-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
         {icon}
