@@ -10,21 +10,25 @@ const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
 const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
-function formatContactTitle(title: string): string[] {
-  if (title.includes(",")) {
-    const [firstLine, rest] = title.split(/,\s*/, 2);
-    return [firstLine, rest].filter(Boolean);
-  }
+export function formatContactTitle(title: string): string[] {
+  const segments = title
+    .split(/,\s*/)
+    .map((segment) => segment.trim())
+    .filter(Boolean);
 
-  return [title];
+  if (segments.length < 2) return [title];
+
+  return segments.map((segment, index) =>
+    index < segments.length - 1 ? `${segment},` : segment,
+  );
 }
 
 function renderContactTitle(locale: Locale, title: string) {
   if (locale === "vi") {
     return (
       <>
-        <span className="block sm:whitespace-nowrap">TRAO ĐỔI VỀ DỰ ÁN,</span>
-        <span className="block sm:whitespace-nowrap">
+        <span className="block text-balanced xl:whitespace-nowrap">TRAO ĐỔI VỀ DỰ ÁN,</span>
+        <span className="block text-balanced xl:whitespace-nowrap">
           HỢP TÁC{" "}
           <span className="font-display italic text-earth/85">&amp;</span>{" "}
           TƯ VẤN
@@ -33,11 +37,23 @@ function renderContactTitle(locale: Locale, title: string) {
     );
   }
 
-  return formatContactTitle(title).map((line) => (
-    <span key={line} className="block text-balanced break-normal hyphens-none">
-      {line}
+  const lines = formatContactTitle(title);
+
+  return (
+    <>
+      <span className="block text-balanced xl:hidden">{title}</span>
+      <span className="hidden xl:block">
+        {lines.map((line) => (
+          <span
+            key={line}
+            className="block text-balanced break-normal hyphens-none xl:whitespace-nowrap"
+          >
+            {line}
+          </span>
+        ))}
     </span>
-  ));
+    </>
+  );
 }
 
 export async function HomeContactCta({ locale }: { locale: Locale }) {
@@ -134,7 +150,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
         />
       </div>
 
-      <div className="relative z-10 grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(520px,1fr)] lg:items-center lg:gap-12 lg:px-20 lg:py-14 xl:gap-16 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
+      <div className="relative z-10 grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:px-20 lg:py-14 xl:grid-cols-[minmax(0,0.88fr)_minmax(520px,1fr)] xl:items-center xl:gap-16 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
         <div className="flex min-w-0 flex-col justify-center">
           <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-brand">
             <span
@@ -143,7 +159,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
             />
             {dictionary.homeContact.eyebrow}
           </p>
-          <h2 className="max-w-[44rem] break-normal font-display text-[clamp(2.35rem,7vw,3.15rem)] font-normal uppercase leading-[0.94] tracking-[0.01em] text-charcoal hyphens-none sm:text-[clamp(3rem,5vw,3.85rem)] lg:text-[clamp(2.55rem,3.3vw,4.1rem)] xl:text-[clamp(3.15rem,3.55vw,4.35rem)]">
+          <h2 className="max-w-[44rem] break-normal font-display text-[clamp(1.85rem,9vw,2.35rem)] font-normal uppercase leading-[1] tracking-[0.01em] text-charcoal hyphens-none sm:text-[clamp(3rem,5vw,3.85rem)] sm:leading-[0.94] xl:text-[clamp(2.4rem,3.2vw,3rem)] 2xl:text-[3.6rem]">
             {renderContactTitle(locale, dictionary.homeContact.title)}
           </h2>
           <p className="text-pretty-flow mt-5 max-w-[55ch] text-[1rem] leading-[1.76] text-charcoal/68">
@@ -158,7 +174,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        <div className="grid w-full max-w-[48rem] overflow-hidden rounded-[6px] border border-white/60 bg-white/62 shadow-[0_18px_46px_rgba(74,58,44,0.12)] backdrop-blur-[5px] lg:justify-self-end">
+        <div className="grid w-full max-w-[48rem] overflow-hidden rounded-[6px] border border-white/60 bg-white/62 shadow-[0_18px_46px_rgba(74,58,44,0.12)] backdrop-blur-[5px] xl:justify-self-end">
           {contactItems.map((item) => {
             const Icon = item.icon;
 

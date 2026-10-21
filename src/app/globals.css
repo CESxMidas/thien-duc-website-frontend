@@ -83,6 +83,15 @@ body {
 }
 
 h1,
+h2,
+h3 {
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: balance;
+  hyphens: none;
+}
+
+h1,
 h2 {
   font-family: var(--font-cormorant), "Times New Roman", serif;
   letter-spacing: var(--tracking-display);

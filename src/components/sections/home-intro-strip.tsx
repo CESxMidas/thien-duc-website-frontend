@@ -67,17 +67,22 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
               <div className="flex items-start gap-3 sm:gap-4">
                 <span
                   aria-hidden="true"
-                  className="-mt-1 font-display text-[2.8rem] leading-none text-earth sm:text-[3.55rem]"
+                  className="-mt-1 hidden font-display text-[2.8rem] leading-none text-earth sm:block sm:text-[3.55rem]"
                 >
                   “
                 </span>
                 <div>
-                  <h2 className="max-w-[40rem] font-display text-[1.9rem] font-semibold uppercase leading-[1.02] tracking-[0em] text-charcoal sm:text-[2.38rem] lg:text-[2.55rem]">
-                    {mottoLines.map((line) => (
-                      <span key={line} className="block">
-                        {line}
-                      </span>
-                    ))}
+                  <h2 className="max-w-[40rem] font-display text-[1.6rem] font-semibold uppercase leading-[1.04] tracking-[0em] text-charcoal sm:text-[2.38rem] sm:leading-[1.02] lg:text-[2.55rem]">
+                    <span className="block text-balance sm:hidden">
+                      {motto}
+                    </span>
+                    <span className="hidden sm:block">
+                      {mottoLines.map((line) => (
+                        <span key={line} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </span>
                   </h2>
                   <p className="mt-2.5 max-w-[35rem] text-[0.72rem] font-medium leading-[1.55] text-charcoal/64 sm:text-[0.78rem]">
                     {description}

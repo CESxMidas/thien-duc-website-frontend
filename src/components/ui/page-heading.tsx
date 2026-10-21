@@ -23,7 +23,7 @@ export function PageHeading({
       <h1
         className={
           titleClassName ??
-          "max-w-4xl text-[2.5rem] font-medium leading-[1.05] text-charcoal sm:text-[3.5rem] md:text-[4.25rem]"
+          "max-w-4xl text-[2.25rem] font-medium leading-[1.05] text-charcoal sm:text-[3.5rem] md:text-[4.25rem]"
         }
       >
         {title}
