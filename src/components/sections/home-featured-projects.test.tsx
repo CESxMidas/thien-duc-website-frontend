@@ -239,4 +239,55 @@ describe("HomeFeaturedProjectsShowcase", () => {
 
     expect(mockPush).toHaveBeenCalledWith("/en/du-an/project-2");
   });
+
+  it("keeps a standard project title on one controlled line", () => {
+    render(
+      <HomeFeaturedProjectsShowcase
+        projects={[
+          {
+            ...item(1),
+            title: "Chung cu Fancy Tower",
+          },
+        ]}
+        labels={labels}
+      />,
+    );
+
+    const heading = screen.getByRole("heading", {
+      level: 3,
+      name: "Chung cu Fancy Tower",
+    });
+    const lines = heading.querySelectorAll(":scope > span");
+
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toHaveClass("whitespace-nowrap");
+    expect(heading.style.fontSize).toContain("cqw");
+  });
+
+  it("balances a long project title into two controlled lines", () => {
+    render(
+      <HomeFeaturedProjectsShowcase
+        projects={[
+          {
+            ...item(1),
+            title: "Khu phuc hop thuong mai dich vu Thien Duc",
+          },
+        ]}
+        labels={labels}
+      />,
+    );
+
+    const heading = screen.getByRole("heading", {
+      level: 3,
+      name: "Khu phuc hop thuong mai dich vu Thien Duc",
+    });
+    const lines = heading.querySelectorAll(":scope > span");
+
+    expect(lines).toHaveLength(2);
+    expect(
+      Array.from(lines).every((line) =>
+        line.classList.contains("whitespace-nowrap"),
+      ),
+    ).toBe(true);
+  });
 });

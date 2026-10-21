@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FileText, Mail, MapPin, Phone } from "lucide-react";
-import { displayAddress, legalInfo, siteConfig } from "@/config/site";
+import { addressParts, legalInfo, siteConfig } from "@/config/site";
 import { footerSections } from "@/data/footer";
 import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, type Locale } from "@/lib/i18n/config";
@@ -27,6 +27,56 @@ type SiteFooterProps = {
   dictionary: Dictionary;
   branding?: BrandingSettings;
 };
+
+function getCompanyNameLines(name: string, locale: Locale) {
+  if (locale === "vi") {
+    const [beforeTrade, tradeName] = name.split(" THƯƠNG MẠI ");
+    const [companyType, investmentName] = beforeTrade.split(" ĐẦU TƯ ");
+    if (tradeName && investmentName) {
+      return {
+        compact: [
+          companyType,
+          `ĐẦU TƯ ${investmentName}`,
+          `THƯƠNG MẠI ${tradeName}`,
+        ],
+        wide: [beforeTrade, `THƯƠNG MẠI ${tradeName}`],
+      };
+    }
+  } else {
+    const [beforeTrading, tradingName] = name.split(" TRADING ");
+    const [brandName, investmentName] = beforeTrading.split(" INVESTMENT ");
+    if (tradingName && investmentName) {
+      return {
+        compact: [
+          brandName,
+          `INVESTMENT ${investmentName}`,
+          `TRADING ${tradingName}`,
+        ],
+        wide: [beforeTrading, `TRADING ${tradingName}`],
+      };
+    }
+  }
+
+  return { compact: [name], wide: [name] };
+}
+
+function CompanyName({ name, locale }: { name: string; locale: Locale }) {
+  const lines = getCompanyNameLines(name, locale);
+  const renderLines = (lines: string[]) =>
+    lines.map((line, index) => (
+      <span key={`${line}-${index}`} className="block whitespace-nowrap">
+        {line}
+        {index < lines.length - 1 ? " " : null}
+      </span>
+    ));
+
+  return (
+    <>
+      <span className="sm:hidden">{renderLines(lines.compact)}</span>
+      <span className="hidden sm:block">{renderLines(lines.wide)}</span>
+    </>
+  );
+}
 
 function FooterNavSection({
   section,
@@ -61,11 +111,11 @@ function FooterNavSection({
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
     <footer className="mt-auto border-t border-white/25 bg-[#56614f] bg-[linear-gradient(90deg,rgba(75,88,70,0.96),rgba(59,73,57,0.93)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-12px_28px_rgba(41,41,41,0.10)]">
-      <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.62fr_0.88fr_1.02fr_1.78fr] lg:items-start lg:py-8">
+      <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.76fr_0.84fr_0.98fr_1.72fr] lg:items-start lg:py-8">
         <div className="flex items-center gap-5 sm:col-span-2 lg:col-span-1">
           <Link
             href={localizePath(routes.home, locale)}
-            className="inline-flex size-24 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
+            className="inline-flex size-[7rem] shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory"
             aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
@@ -74,16 +124,23 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 "/images/brand/logo-thien-duc-footer-champagne.png"
               }
               alt={branding?.logoAlt || dictionary.shared.logoAlt}
-              width={80}
-              height={80}
-              className="size-full object-contain brightness-[1.12] contrast-[1.08] drop-shadow-[0_3px_7px_rgba(18,25,18,0.32)]"
+              width={96}
+              height={96}
+              className="size-full object-contain"
+              style={{
+                filter:
+                  "brightness(0) saturate(100%) invert(87%) sepia(21%) saturate(714%) hue-rotate(350deg) brightness(102%) contrast(94%) drop-shadow(0 4px 12px rgba(9, 15, 9, 0.72))",
+              }}
             />
           </Link>
           <div className="min-w-0">
-            <p className="text-[0.9rem] font-extrabold uppercase leading-[1.35] tracking-normal text-white [text-shadow:0_1px_2px_rgba(20,28,20,0.26)] sm:text-[0.96rem]">
-              {dictionary.shared.companyName}
+            <p className="text-[0.78rem] font-extrabold uppercase leading-[1.42] tracking-normal text-white [text-shadow:0_1px_2px_rgba(20,28,20,0.34)] sm:text-[0.9rem]">
+              <CompanyName
+                name={dictionary.shared.companyName}
+                locale={locale}
+              />
             </p>
-            <p className="mt-2 max-w-sm text-[0.86rem] font-medium leading-6 text-ivory/90 [text-shadow:0_1px_1px_rgba(20,28,20,0.18)]">
+            <p className="mt-2 max-w-sm text-pretty text-[0.86rem] font-medium leading-6 text-ivory/90 [text-shadow:0_1px_1px_rgba(20,28,20,0.18)]">
               {dictionary.footerBrand.tagline}
             </p>
           </div>
@@ -165,7 +222,8 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.office}: </span>
                   <span className="block text-[0.84rem] font-semibold leading-5 text-ivory/92">
-                    {displayAddress(locale)}
+                    <span className="block">{addressParts[locale].street},</span>
+                    <span className="block">{addressParts[locale].locality}</span>
                   </span>
                 </span>
               </a>

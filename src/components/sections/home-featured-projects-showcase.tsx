@@ -9,6 +9,48 @@ import { useRouter } from "next/navigation";
 
 const GAP_PX = 12;
 const AUTOPLAY_INTERVAL_MS = 3000;
+const SINGLE_LINE_PROJECT_TITLE_LENGTH = 28;
+
+function projectTitleLines(title: string): string[] {
+  const normalizedTitle = title.trim().replace(/\s+/g, " ");
+  const words = normalizedTitle.split(" ");
+
+  if (
+    normalizedTitle.length <= SINGLE_LINE_PROJECT_TITLE_LENGTH ||
+    words.length < 2
+  ) {
+    return [normalizedTitle];
+  }
+
+  let bestSplitIndex = 1;
+  let smallestDifference = Number.POSITIVE_INFINITY;
+
+  for (let index = 1; index < words.length; index += 1) {
+    const firstLineLength = words.slice(0, index).join(" ").length;
+    const secondLineLength = words.slice(index).join(" ").length;
+    const difference = Math.abs(firstLineLength - secondLineLength);
+
+    if (difference < smallestDifference) {
+      bestSplitIndex = index;
+      smallestDifference = difference;
+    }
+  }
+
+  return [
+    words.slice(0, bestSplitIndex).join(" "),
+    words.slice(bestSplitIndex).join(" "),
+  ];
+}
+
+function projectTitleFontSize(lines: string[]): string {
+  const longestLineLength = Math.max(...lines.map((line) => line.length), 1);
+  const containerWidthPercentage = Math.min(
+    8.75,
+    Math.max(4, 160 / longestLineLength),
+  );
+
+  return `clamp(1.15rem, ${containerWidthPercentage.toFixed(2)}cqw, 2.45rem)`;
+}
 
 function visibleCountFor(width: number): number {
   if (width >= 1024) return 3;
@@ -151,6 +193,7 @@ export function HomeFeaturedProjectsShowcase({
   const activeMeta = [activeProject.location, activeProject.statusLabel].filter(
     (part): part is string => Boolean(part),
   );
+  const activeProjectTitleLines = projectTitleLines(activeProject.title);
 
   return (
     <section
@@ -257,7 +300,7 @@ export function HomeFeaturedProjectsShowcase({
 
             <article
               key={`${activeProject.slug}-content`}
-              className="flex min-h-[23rem] flex-col border-t border-earth/15 bg-ivory px-5 py-6 motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
+              className="flex min-h-[23rem] flex-col border-t border-earth/15 bg-ivory px-5 py-6 [container-type:inline-size] motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
             >
               <div>
                 <div className="mb-5 flex max-w-[18rem] items-center gap-4">
@@ -270,8 +313,20 @@ export function HomeFeaturedProjectsShowcase({
                   />
                 </div>
 
-                <h3 className="font-display text-[1.9rem] font-medium uppercase leading-[1.05] text-charcoal sm:text-[2.3rem] lg:text-[2.18rem] xl:text-[2.45rem]">
-                  {activeProject.title}
+                <h3
+                  className="font-display font-medium uppercase leading-[1.05] text-charcoal"
+                  style={{
+                    fontSize: projectTitleFontSize(activeProjectTitleLines),
+                  }}
+                >
+                  {activeProjectTitleLines.map((line) => (
+                    <span
+                      key={line}
+                      className="block whitespace-nowrap"
+                    >
+                      {line}
+                    </span>
+                  ))}
                 </h3>
 
                 {activeMeta.length > 0 ? (
