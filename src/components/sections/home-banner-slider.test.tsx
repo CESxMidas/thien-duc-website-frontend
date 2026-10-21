@@ -44,21 +44,23 @@ function renderSlider(count = 3) {
 beforeEach(() => mockReducedMotion(false));
 
 describe("HomeBannerSlider", () => {
-  it("giu khung banner ngang va khong chiem full man", () => {
+  it("dung khung xep lop tren mobile va khung ngang tu tablet", () => {
     const { container } = renderSlider();
     const stage = container.querySelector("section > div");
 
-    expect(stage).toHaveClass("h-[clamp(18rem,33.333vw,40rem)]");
+    expect(stage).toHaveClass(
+      "h-[clamp(21rem,calc(33.333vw+14rem),36rem)]",
+      "lg:h-[clamp(18rem,33.333vw,40rem)]",
+    );
     expect(stage).not.toHaveClass("h-svh");
     expect(stage).not.toHaveClass("min-h-[40rem]");
   });
 
-  it("anh banner phu kin khung de khong con khoang den tren duoi", () => {
+  it("hien thi tron anh tren mobile va phu khung tren man hinh lon", () => {
     const { container } = renderSlider();
     const image = container.querySelector("img");
 
-    expect(image?.className).toContain("object-cover");
-    expect(image?.className).not.toContain("object-contain");
+    expect(image).toHaveClass("object-contain", "lg:object-cover");
   });
 
   it("giu noi dung va dieu khien nam gon trong banner", () => {
@@ -76,7 +78,10 @@ describe("HomeBannerSlider", () => {
       "/lien-he",
     );
     expect(screen.getByTestId("banner-contact-actions").className).toContain(
-      "bottom-[clamp(4.25rem,7vw,6.5rem)]",
+      "bottom-4",
+    );
+    expect(screen.getByTestId("banner-contact-actions").className).toContain(
+      "lg:bottom-[clamp(4.25rem,7vw,6.5rem)]",
     );
     expect(screen.getByTestId("banner-autoplay-toggle")).toBeInTheDocument();
     expect(document.querySelector(".banner-progress")).not.toBeNull();

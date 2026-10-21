@@ -143,7 +143,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden border-b border-earth/25 bg-ink"
+      className="relative overflow-hidden border-b border-earth/25 bg-ivory lg:bg-ink"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onFocus={(event) => {
@@ -158,7 +158,7 @@ export function HomeBannerSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-[clamp(18rem,33.333vw,40rem)]">
+      <div className="relative h-[clamp(21rem,calc(33.333vw+14rem),36rem)] lg:h-[clamp(18rem,33.333vw,40rem)]">
         {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -170,7 +170,7 @@ export function HomeBannerSlider({
               aria-label={`${index + 1} / ${bannerCount}`}
               aria-hidden={!isActive}
               inert={!isActive}
-              className={`absolute inset-0 transition-opacity ease-in-out ${
+              className={`absolute inset-x-0 bottom-56 top-0 transition-opacity ease-in-out lg:inset-0 ${
                 isActive ? "z-10 opacity-100" : "z-0 opacity-0"
               }`}
               style={{ transitionDuration: `${TRANSITION_MS}ms` }}
@@ -183,7 +183,7 @@ export function HomeBannerSlider({
                 loading={index === 0 ? undefined : "lazy"}
                 quality={90}
                 sizes="100vw"
-                className="object-cover"
+                className="object-contain lg:object-cover"
                 style={{
                   objectPosition: banner.objectPosition ?? "center center",
                 }}
@@ -193,9 +193,13 @@ export function HomeBannerSlider({
         })}
 
         {hasTextCopy ? (
-          <div className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
+          <div className="absolute inset-x-0 bottom-56 top-0 z-20 bg-black/5 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
         ) : null}
-        <div className="absolute inset-x-0 bottom-0 z-20 h-[34%] bg-gradient-to-t from-ink/44 via-ink/12 to-transparent" />
+        <div className="absolute inset-x-0 bottom-56 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 z-20 h-56 border-t border-earth/15 bg-ivory lg:hidden"
+        />
 
         {!activeBanner.title ? <h1 className="sr-only">Thien Duc</h1> : null}
 
@@ -214,7 +218,7 @@ export function HomeBannerSlider({
         ) : null}
 
         {hasTextCopy ? (
-          <div className="pointer-events-none absolute inset-x-0 top-[clamp(3rem,6vw,6.5rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20">
+          <div className="pointer-events-none absolute inset-x-0 top-[calc(33.333vw+1rem)] z-30 px-4 sm:px-8 lg:top-[clamp(3rem,6vw,6.5rem)] lg:px-16 xl:px-20">
             <div className="w-full max-w-[34rem]">
               <div
                 key={`${activeBanner.image}-${activeBanner.title ?? ""}`}
@@ -223,21 +227,21 @@ export function HomeBannerSlider({
                 }`}
               >
                 {activeBanner.eyebrow ? (
-                  <div className="mb-3 sm:mb-4">
-                    <p className="text-eyebrow text-white">
+                  <div className="mb-2 sm:mb-4">
+                    <p className="text-eyebrow text-earth lg:text-white">
                       {activeBanner.eyebrow}
                     </p>
                   </div>
                 ) : null}
                 <div className="flex min-w-0 flex-col justify-between gap-3 sm:gap-4">
                   {activeBanner.title ? (
-                    <h1 className="line-clamp-2 max-w-[13.5ch] font-display text-[1.9rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)] min-[380px]:text-[2.05rem] sm:max-w-[15ch] sm:text-[2.45rem] md:text-[2.8rem] lg:text-[3.05rem]">
+                    <h1 className="line-clamp-2 max-w-[24ch] font-display text-[1.45rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-charcoal sm:text-[1.75rem] lg:max-w-[15ch] lg:text-[3.05rem] lg:text-white lg:drop-shadow-[0_2px_12px_rgba(0,0,0,0.22)]">
                       {activeBanner.title}
                     </h1>
                   ) : null}
 
                   {activeBanner.subtitle ? (
-                    <p className="mt-1 line-clamp-2 max-w-[31rem] text-sm font-medium leading-6 text-white/86 sm:mt-2 sm:text-base sm:leading-7 lg:text-lg">
+                    <p className="mt-1 line-clamp-1 max-w-[31rem] text-xs font-medium leading-5 text-charcoal/70 sm:text-sm lg:mt-2 lg:line-clamp-2 lg:text-lg lg:leading-7 lg:text-white/86">
                       {activeBanner.subtitle}
                     </p>
                   ) : null}
@@ -249,27 +253,27 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-contact-actions"
-          className="pointer-events-none absolute inset-x-0 bottom-[clamp(4.25rem,7vw,6.5rem)] z-30 px-5 sm:px-10 lg:px-16 xl:px-20"
+          className="pointer-events-none absolute inset-x-0 bottom-4 z-30 px-4 sm:px-8 lg:bottom-[clamp(4.25rem,7vw,6.5rem)] lg:px-16 xl:px-20"
         >
-          <div className="pointer-events-auto flex w-fit max-w-[min(36rem,calc(100vw-2.5rem))] flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+          <div className="pointer-events-auto flex w-full items-center gap-2 sm:w-fit sm:max-w-[min(36rem,calc(100vw-4rem))] lg:flex-wrap lg:gap-x-6">
             {hasPrimaryCta ? (
               <Link
                 href={localizePath(activeBanner.href, locale)}
-                className="button-polish inline-flex min-h-12 max-w-full items-center justify-center border border-gold bg-gold px-5 py-3 text-center text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-ink shadow-[0_14px_32px_rgba(41,41,41,0.26)] transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-charcoal focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:px-6 xl:text-sm xl:tracking-[0.1em]"
+                className="button-polish inline-flex min-h-11 min-w-0 flex-1 items-center justify-center border border-gold bg-gold px-3 py-2.5 text-center text-[0.66rem] font-bold uppercase leading-tight tracking-[0.05em] text-ink shadow-[0_10px_24px_rgba(41,41,41,0.14)] transition hover:-translate-y-0.5 hover:border-earth hover:bg-earth hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth sm:flex-none sm:px-5 sm:text-[0.74rem] sm:tracking-[0.07em] lg:min-h-12 lg:py-3 lg:text-[0.78rem] lg:tracking-[0.08em] lg:shadow-[0_14px_32px_rgba(41,41,41,0.26)] lg:hover:border-white lg:hover:bg-white lg:hover:text-charcoal lg:focus-visible:outline-ivory xl:px-6 xl:text-sm xl:tracking-[0.1em]"
               >
                 {activeBanner.ctaLabel}
               </Link>
             ) : null}
             <Link
               href={localizePath(routes.contact, locale)}
-              className="link-arrow inline-flex min-h-11 items-center gap-2 border border-white/70 bg-ink/62 px-5 py-3 text-[0.78rem] font-bold uppercase leading-tight tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(41,41,41,0.22)] underline-offset-4 transition hover:-translate-y-0.5 hover:border-gold hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
+              className="link-arrow inline-flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 border border-earth/40 bg-white/80 px-3 py-2.5 text-center text-[0.66rem] font-bold uppercase leading-tight tracking-[0.05em] text-charcoal shadow-[0_10px_24px_rgba(41,41,41,0.08)] underline-offset-4 transition hover:-translate-y-0.5 hover:border-earth hover:bg-earth hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-earth sm:flex-none sm:px-5 sm:text-[0.74rem] sm:tracking-[0.07em] lg:justify-start lg:border-white/70 lg:bg-ink/62 lg:py-3 lg:text-[0.78rem] lg:tracking-[0.08em] lg:text-white lg:shadow-[0_12px_28px_rgba(41,41,41,0.22)] lg:hover:border-gold lg:hover:bg-gold lg:hover:text-ink lg:focus-visible:outline-ivory xl:min-h-12 xl:text-sm xl:tracking-[0.1em]"
             >
               {contactCtaLabel}
             </Link>
           </div>
         </div>
 
-        <div className="absolute bottom-6 right-5 z-30 flex items-center gap-2 sm:bottom-7 sm:right-7">
+        <div className="absolute right-3 top-3 z-30 flex items-center gap-2 lg:bottom-7 lg:right-7 lg:top-auto">
           {autoplayEnabled ? (
             <button
               type="button"
@@ -278,7 +282,7 @@ export function HomeBannerSlider({
               data-paused={userStopped}
               aria-label={userStopped ? labels.ariaPlay : labels.ariaPause}
               onClick={toggleAutoplay}
-              className={`button-polish grid size-11 place-items-center border transition-colors md:size-11 ${
+              className={`button-polish grid size-9 place-items-center border transition-colors lg:size-11 ${
                 userStopped
                   ? "border-gold bg-gold text-ink"
                   : "border-white/40 bg-ink/30 text-white hover:border-gold hover:bg-gold hover:text-ink"
@@ -295,7 +299,7 @@ export function HomeBannerSlider({
             type="button"
             aria-label={labels.ariaPrevious}
             onClick={goToPrevious}
-            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
+            className="button-polish hidden size-11 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink lg:grid"
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -303,7 +307,7 @@ export function HomeBannerSlider({
             type="button"
             aria-label={labels.ariaNext}
             onClick={goToNext}
-            className="button-polish hidden size-9 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink sm:grid md:size-11"
+            className="button-polish hidden size-11 place-items-center border border-white/40 bg-ink/30 text-white hover:border-ivory hover:bg-ivory hover:text-charcoal focus:outline-none focus:ring-2 focus:ring-ivory focus:ring-offset-2 focus:ring-offset-ink lg:grid"
           >
             <ChevronRight className="size-5" />
           </button>
