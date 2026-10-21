@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f2ea;
+  --background: #eee4d8;
   --foreground: #292929;
   --site-header-height: 7rem;
   --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
@@ -39,7 +39,7 @@
 }
 
 @theme {
-  --color-ivory: #f7f2ea;
+  --color-ivory: #f3ece3;
   --color-charcoal: #292929;
   --color-warm-grey: #b8b5ae;
   --color-earth: #73513c;
@@ -50,13 +50,13 @@
   --color-brand-soft: #a27d60;
   --color-brand-dark: #2d1b13;
   --color-gold: #c8a45f;
-  --color-gold-soft: #efe2cf;
+  --color-gold-soft: #eadcc8;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
-  --color-cream: #f5ede3;
-  --color-surface: #ebe2d7;
-  --color-surface-warm: #f7f2ea;
+  --color-cream: #eadfd2;
+  --color-surface: #e2d5c6;
+  --color-surface-warm: #f0e6da;
   --container-site: 76rem;
   --container-header: 80rem;
   --color-danger: #9b2c2c;
@@ -77,8 +77,8 @@
 
 body {
   background:
-    radial-gradient(circle at 12% 0%, rgba(200, 164, 95, 0.1), transparent 30rem),
-    linear-gradient(180deg, #f8f3eb 0%, var(--background) 48%, #efe5da 100%);
+    radial-gradient(circle at 12% 0%, rgba(200, 164, 95, 0.14), transparent 30rem),
+    linear-gradient(180deg, #f2e9de 0%, var(--background) 52%, #dfcfbd 100%);
   color: var(--foreground);
   font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);

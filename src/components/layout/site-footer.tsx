@@ -109,7 +109,7 @@ function FooterNavSection({
 
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
-    <footer className="mt-auto border-t border-gold/30 bg-espresso bg-[linear-gradient(105deg,rgba(34,20,14,0.97),rgba(74,48,35,0.95)_52%,rgba(45,27,19,0.97)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-14px_34px_rgba(45,27,19,0.18)]">
+    <footer className="relative mt-auto border-t border-gold/35 bg-espresso bg-[linear-gradient(105deg,rgba(34,20,14,0.97),rgba(74,48,35,0.95)_52%,rgba(45,27,19,0.97)),url('/images/banners/home/home-banner-hung-phu-aerial-01.jpg')] bg-cover bg-center text-ivory shadow-[0_-18px_38px_rgba(45,27,19,0.16)] before:pointer-events-none before:absolute before:inset-x-0 before:-top-5 before:h-5 before:bg-[linear-gradient(180deg,rgba(223,207,189,0),rgba(74,48,35,0.18))]">
       <div className="mx-auto grid max-w-site gap-x-8 gap-y-8 px-4 py-7 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.76fr_0.84fr_0.98fr_1.72fr] lg:items-start lg:py-8">
         <div className="flex items-center gap-5 sm:col-span-2 lg:col-span-1">
           <Link
