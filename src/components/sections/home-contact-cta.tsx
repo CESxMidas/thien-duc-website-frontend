@@ -23,6 +23,13 @@ export function formatContactTitle(title: string): string[] {
   );
 }
 
+export function formatPhoneLines(phoneNumbers: string): string[] {
+  return phoneNumbers
+    .split(/\s*\/\s*/)
+    .map((phoneNumber) => phoneNumber.trim())
+    .filter(Boolean);
+}
+
 function renderContactTitle(locale: Locale, title: string) {
   if (locale === "vi") {
     return (
@@ -202,7 +209,16 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                           : "break-words text-[0.92rem] font-semibold leading-[1.6] text-charcoal/86"
                     }`}
                   >
-                    {item.value}
+                    {item.id === "phone"
+                      ? formatPhoneLines(item.value).map((phoneNumber) => (
+                          <span
+                            key={phoneNumber}
+                            className="block whitespace-nowrap"
+                          >
+                            {phoneNumber}
+                          </span>
+                        ))
+                      : item.value}
                   </span>
                 </span>
               </a>
