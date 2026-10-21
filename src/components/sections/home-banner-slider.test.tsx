@@ -49,7 +49,7 @@ describe("HomeBannerSlider", () => {
     const stage = container.querySelector("section > div");
 
     expect(stage).toHaveClass(
-      "h-[clamp(21rem,calc(33.333vw+14rem),36rem)]",
+      "h-[clamp(18rem,calc(33.333vw+11rem),33rem)]",
       "lg:h-[clamp(18rem,33.333vw,40rem)]",
     );
     expect(stage).not.toHaveClass("h-svh");
@@ -78,7 +78,7 @@ describe("HomeBannerSlider", () => {
       "/lien-he",
     );
     expect(screen.getByTestId("banner-contact-actions").className).toContain(
-      "bottom-4",
+      "bottom-3",
     );
     expect(screen.getByTestId("banner-contact-actions").className).toContain(
       "lg:bottom-[clamp(4.25rem,7vw,6.5rem)]",
@@ -86,6 +86,27 @@ describe("HomeBannerSlider", () => {
     expect(screen.getByTestId("banner-autoplay-toggle")).toBeInTheDocument();
     expect(document.querySelector(".banner-progress")).not.toBeNull();
     expect(document.querySelector(".h-px.w-28")).not.toBeNull();
+  });
+
+  it("can giua CTA khi slide khong co noi dung chu", () => {
+    render(
+      <HomeBannerSlider
+        banners={[
+          {
+            image: "/images/banner-only.jpg",
+            href: "/du-an/hang-muc",
+            ctaLabel: "Xem hang muc can ho",
+          },
+        ]}
+        locale="vi"
+        contactCtaLabel="Lien he"
+        labels={labels}
+      />,
+    );
+
+    expect(screen.getByTestId("banner-contact-actions")).toHaveClass(
+      "bottom-[4.125rem]",
+    );
   });
 
   it("khong dua lai thanh lien he so dien thoai menu o goc tren banner", () => {

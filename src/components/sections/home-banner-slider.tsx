@@ -158,7 +158,7 @@ export function HomeBannerSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative h-[clamp(21rem,calc(33.333vw+14rem),36rem)] lg:h-[clamp(18rem,33.333vw,40rem)]">
+      <div className="relative h-[clamp(18rem,calc(33.333vw+11rem),33rem)] lg:h-[clamp(18rem,33.333vw,40rem)]">
         {banners.map((banner, index) => {
           const isActive = index === activeIndex;
 
@@ -170,7 +170,7 @@ export function HomeBannerSlider({
               aria-label={`${index + 1} / ${bannerCount}`}
               aria-hidden={!isActive}
               inert={!isActive}
-              className={`absolute inset-x-0 bottom-56 top-0 transition-opacity ease-in-out lg:inset-0 ${
+              className={`absolute inset-x-0 bottom-44 top-0 transition-opacity ease-in-out lg:inset-0 ${
                 isActive ? "z-10 opacity-100" : "z-0 opacity-0"
               }`}
               style={{ transitionDuration: `${TRANSITION_MS}ms` }}
@@ -193,12 +193,12 @@ export function HomeBannerSlider({
         })}
 
         {hasTextCopy ? (
-          <div className="absolute inset-x-0 bottom-56 top-0 z-20 bg-black/5 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
+          <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-black/5 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(41,41,41,0.72)_0%,rgba(41,41,41,0.48)_34%,rgba(41,41,41,0.16)_68%,rgba(41,41,41,0.2)_100%)]" />
         ) : null}
-        <div className="absolute inset-x-0 bottom-56 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
+        <div className="absolute inset-x-0 bottom-44 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 z-20 h-56 border-t border-earth/15 bg-ivory lg:hidden"
+          className="absolute inset-x-0 bottom-0 z-20 h-44 border-t border-earth/15 bg-ivory lg:hidden"
         />
 
         {!activeBanner.title ? <h1 className="sr-only">Thien Duc</h1> : null}
@@ -218,7 +218,7 @@ export function HomeBannerSlider({
         ) : null}
 
         {hasTextCopy ? (
-          <div className="pointer-events-none absolute inset-x-0 top-[calc(33.333vw+1rem)] z-30 px-4 sm:px-8 lg:top-[clamp(3rem,6vw,6.5rem)] lg:px-16 xl:px-20">
+          <div className="pointer-events-none absolute inset-x-0 top-[calc(33.333vw+0.75rem)] z-30 px-4 sm:px-8 lg:top-[clamp(3rem,6vw,6.5rem)] lg:px-16 xl:px-20">
             <div className="w-full max-w-[34rem]">
               <div
                 key={`${activeBanner.image}-${activeBanner.title ?? ""}`}
@@ -241,7 +241,7 @@ export function HomeBannerSlider({
                   ) : null}
 
                   {activeBanner.subtitle ? (
-                    <p className="mt-1 line-clamp-1 max-w-[31rem] text-xs font-medium leading-5 text-charcoal/70 sm:text-sm lg:mt-2 lg:line-clamp-2 lg:text-lg lg:leading-7 lg:text-white/86">
+                    <p className="mt-1 hidden max-w-[31rem] font-medium text-charcoal/70 lg:mt-2 lg:block lg:line-clamp-2 lg:text-lg lg:leading-7 lg:text-white/86">
                       {activeBanner.subtitle}
                     </p>
                   ) : null}
@@ -253,7 +253,9 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-contact-actions"
-          className="pointer-events-none absolute inset-x-0 bottom-4 z-30 px-4 sm:px-8 lg:bottom-[clamp(4.25rem,7vw,6.5rem)] lg:px-16 xl:px-20"
+          className={`pointer-events-none absolute inset-x-0 z-30 px-4 sm:px-8 lg:bottom-[clamp(4.25rem,7vw,6.5rem)] lg:px-16 xl:px-20 ${
+            hasTextCopy ? "bottom-3" : "bottom-[4.125rem]"
+          }`}
         >
           <div className="pointer-events-auto flex w-full items-center gap-2 sm:w-fit sm:max-w-[min(36rem,calc(100vw-4rem))] lg:flex-wrap lg:gap-x-6">
             {hasPrimaryCta ? (
