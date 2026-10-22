@@ -49,7 +49,14 @@ describe("HomeBannerSlider", () => {
     const region = screen.getByRole("region", { name: labels.regionLabel });
     const stage = container.querySelector("section > div");
 
-    expect(region).toHaveClass("border-espresso", "bg-espresso");
+    expect(region).toHaveClass("bg-white", "shadow-none");
+    expect(region).toHaveClass(
+      "lg:border-x-[0.75rem]",
+      "lg:border-b-[0.75rem]",
+      "lg:border-espresso",
+      "lg:bg-espresso",
+    );
+    expect(region).not.toHaveClass("border-espresso", "bg-espresso");
     expect(stage).toHaveClass(
       "h-[clamp(18rem,calc(33.333vw+11rem),33rem)]",
       "lg:h-[clamp(18rem,33.333vw,40rem)]",
