@@ -98,8 +98,8 @@ export function SiteHeader({
       data-variant={variant}
       className={
         homeAfterBanner
-          ? "sticky top-0 z-40 border-b border-gold/60 bg-[linear-gradient(110deg,#e1c6aa_0%,#efe0d2_48%,#f8f0e8_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.18)]"
-          : "sticky top-0 z-40 border-b border-gold/60 bg-[linear-gradient(110deg,rgba(225,198,170,0.98)_0%,rgba(239,224,210,0.98)_48%,rgba(248,240,232,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.18)] backdrop-blur-md"
+          ? "sticky top-0 z-40 border-b border-gold/70 bg-[linear-gradient(110deg,#d9b993_0%,#ead5bf_48%,#f3e7da_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)]"
+          : "sticky top-0 z-40 border-b border-gold/70 bg-[linear-gradient(110deg,rgba(217,185,147,0.98)_0%,rgba(234,213,191,0.98)_48%,rgba(243,231,218,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)] backdrop-blur-md"
       }
     >
       <div
@@ -310,8 +310,8 @@ export function SiteHeader({
         id="mobile-navigation"
         className={`border-t ${
           homeAfterBanner
-            ? "border-gold/50 bg-[linear-gradient(120deg,rgba(225,198,170,0.99),rgba(248,240,232,0.99))] text-espresso backdrop-blur-md"
-            : "border-gold/50 bg-[linear-gradient(120deg,rgba(225,198,170,0.99),rgba(248,240,232,0.99))] text-espresso backdrop-blur-md lg:hidden"
+            ? "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md"
+            : "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">

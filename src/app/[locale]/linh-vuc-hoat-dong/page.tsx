@@ -54,74 +54,76 @@ export default async function BusinessFieldsPage({
 
   return (
     <SiteShell locale={locale}>
-      <section className="relative isolate overflow-hidden border-b border-earth/10 bg-ivory">
-        <Image
-          src="/images/fields/field-architecture-line-art.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="pointer-events-none -z-20 object-cover object-[72%_center] opacity-[0.28] sm:object-right sm:opacity-[0.4] lg:opacity-[0.52]"
-          aria-hidden="true"
-        />
+      <div
+        className="relative isolate overflow-hidden border-b border-earth/10 bg-ivory"
+        style={{
+          backgroundImage:
+            "url('/images/fields/field-architecture-line-art.webp')",
+          backgroundPosition: "center top",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+        }}
+      >
         <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.99)_48%,rgba(246,244,239,0.9)_66%,rgba(246,244,239,0.38)_100%)] sm:bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.98)_42%,rgba(246,244,239,0.74)_64%,rgba(246,244,239,0.12)_100%)] lg:bg-[linear-gradient(90deg,rgba(246,244,239,1)_0%,rgba(246,244,239,0.97)_38%,rgba(246,244,239,0.58)_58%,rgba(246,244,239,0.04)_100%)]"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(248,240,232,0.96)_0%,rgba(248,240,232,0.9)_44%,rgba(248,240,232,0.7)_68%,rgba(248,240,232,0.38)_100%)] sm:bg-[linear-gradient(90deg,rgba(248,240,232,0.94)_0%,rgba(248,240,232,0.84)_42%,rgba(248,240,232,0.58)_65%,rgba(248,240,232,0.2)_100%)] lg:bg-[linear-gradient(90deg,rgba(248,240,232,0.92)_0%,rgba(248,240,232,0.78)_38%,rgba(248,240,232,0.46)_58%,rgba(248,240,232,0.12)_100%)]"
           aria-hidden="true"
         />
 
-        <div className="page-container relative z-10 py-8 sm:py-11 lg:py-14">
-          <PageHeading
-            bare
-            eyebrow={about.fieldsEyebrow}
-            title={about.fieldsTitle}
-            titleClassName="max-w-none text-[2.3rem] font-medium leading-[1.05] text-espresso sm:text-[2.65rem] md:whitespace-nowrap md:text-[clamp(2.3rem,4.2vw,3.55rem)]"
-            description={about.fieldsDescription}
-          />
-        </div>
-      </section>
+        <section>
+          <div className="page-container relative z-10 py-8 sm:py-11 lg:py-14">
+            <PageHeading
+              bare
+              eyebrow={about.fieldsEyebrow}
+              title={about.fieldsTitle}
+              titleClassName="max-w-none text-[2.3rem] font-medium leading-[1.05] text-espresso sm:text-[2.65rem] md:whitespace-nowrap md:text-[clamp(2.3rem,4.2vw,3.55rem)]"
+              description={about.fieldsDescription}
+            />
+          </div>
+        </section>
 
-      <section className="page-container reveal-section pb-8 sm:pb-12">
-        <div className="grid gap-4 md:grid-cols-3">
-          {about.fields.slice(0, 3).map((field, index) => (
-            <article
-              key={field.title}
-              className="group relative isolate min-h-[24rem] overflow-hidden border border-earth/18 bg-charcoal text-ivory shadow-[0_18px_42px_rgba(41,41,41,0.1)]"
-            >
-              <Image
-                src={fieldImages[index] ?? fieldImages[0]}
-                alt={field.title}
-                fill
-                sizes="(min-width: 768px) 30vw, 100vw"
-                className="object-cover object-center transition duration-[760ms] group-hover:scale-[1.035] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                priority={index === 0}
-              />
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.06)_0%,rgba(20,20,20,0.16)_42%,rgba(20,20,20,0.78)_100%)]"
-              />
-              <div className="relative z-10 flex min-h-[24rem] flex-col justify-between p-6 lg:p-7">
-                <div>
-                  <p className="font-display text-[2.1rem] leading-none text-gold-soft">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <span className="mt-4 block h-px w-14 bg-gold-soft/70" />
+        <section className="page-container reveal-section relative z-10 pb-8 sm:pb-12">
+          <div className="grid gap-4 md:grid-cols-3">
+            {about.fields.slice(0, 3).map((field, index) => (
+              <article
+                key={field.title}
+                className="group relative isolate min-h-[24rem] overflow-hidden border border-earth/18 bg-charcoal text-ivory shadow-[0_18px_42px_rgba(41,41,41,0.1)]"
+              >
+                <Image
+                  src={fieldImages[index] ?? fieldImages[0]}
+                  alt={field.title}
+                  fill
+                  sizes="(min-width: 768px) 30vw, 100vw"
+                  className="object-cover object-center transition duration-[760ms] group-hover:scale-[1.035] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  priority={index === 0}
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.06)_0%,rgba(20,20,20,0.16)_42%,rgba(20,20,20,0.78)_100%)]"
+                />
+                <div className="relative z-10 flex min-h-[24rem] flex-col justify-between p-6 lg:p-7">
+                  <div>
+                    <p className="font-display text-[2.1rem] leading-none text-gold-soft">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <span className="mt-4 block h-px w-14 bg-gold-soft/70" />
+                  </div>
+                  <div>
+                    <p className="mb-3 text-[0.66rem] font-bold uppercase tracking-[0.14em] text-gold-soft">
+                      {about.fieldCodeLabel} {field.code}
+                    </p>
+                    <h2 className="text-[1.25rem] font-extrabold uppercase leading-tight tracking-[0.03em]">
+                      {field.title}
+                    </h2>
+                    <p className="mt-4 text-sm leading-6 text-white/84">
+                      {field.description}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-3 text-[0.66rem] font-bold uppercase tracking-[0.14em] text-gold-soft">
-                    {about.fieldCodeLabel} {field.code}
-                  </p>
-                  <h2 className="text-[1.25rem] font-extrabold uppercase leading-tight tracking-[0.03em]">
-                    {field.title}
-                  </h2>
-                  <p className="mt-4 text-sm leading-6 text-white/84">
-                    {field.description}
-                  </p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
 
       <section className="page-container reveal-section py-5 sm:py-8">
         <div className="border border-black/10 bg-white p-5 sm:p-7 lg:p-8">

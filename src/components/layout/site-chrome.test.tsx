@@ -20,7 +20,7 @@ describe("SiteHeader", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
     expect(screen.getByRole("banner").className).toContain(
-      "linear-gradient(110deg,rgba(225,198,170,0.98)",
+      "linear-gradient(110deg,rgba(217,185,147,0.98)",
     );
     const primary = screen.getByRole("navigation", { name: "Primary" });
     const primaryLinks = within(primary).getAllByRole("link");
