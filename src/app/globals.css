@@ -2070,6 +2070,8 @@ main .project-map-embed {
 }
 
 .careers-process-list {
+  --process-gap: 1.25rem;
+  gap: var(--process-gap);
   list-style: none;
   padding: 0;
 }
@@ -2095,7 +2097,7 @@ main .project-map-embed {
 .careers-process-step:not(:last-child)::after {
   position: absolute;
   z-index: 1;
-  bottom: -1rem;
+  bottom: calc(var(--process-gap) / -2 - 1px);
   left: 50%;
   width: 1rem;
   height: 0.75rem;
@@ -2106,7 +2108,7 @@ main .project-map-embed {
   );
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   content: "";
-  transform: translateX(-50%);
+  transform: translate(-50%, 50%);
 }
 
 .careers-process-number {
@@ -2174,8 +2176,8 @@ main .project-map-embed {
   }
 
   .careers-process-list {
+    --process-gap: clamp(1.5rem, 3vw, 3rem);
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.5rem, 3vw, 3rem);
   }
 
   .careers-process-step {
@@ -2188,7 +2190,7 @@ main .project-map-embed {
 
   .careers-process-step:not(:last-child)::after {
     top: 50%;
-    right: -1.4rem;
+    right: calc(var(--process-gap) / -2 - 1px);
     bottom: auto;
     left: auto;
     width: clamp(1rem, 2vw, 2rem);
@@ -2199,7 +2201,7 @@ main .project-map-embed {
       var(--color-earth)
     );
     clip-path: polygon(0 35%, 72% 35%, 72% 0, 100% 50%, 72% 100%, 72% 65%, 0 65%);
-    transform: translateY(-50%);
+    transform: translate(50%, -50%);
   }
 
   .careers-empty-copy {
