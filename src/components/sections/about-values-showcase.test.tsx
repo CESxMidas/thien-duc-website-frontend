@@ -64,4 +64,21 @@ describe("AboutValuesShowcase", () => {
       "xl:min-h-[760px]",
     );
   });
+
+  it("aligns the showcase and its image with the header gutters", () => {
+    const { container } = render(
+      <AboutValuesShowcase
+        eyebrow="Vision · Mission · Core values"
+        title="Creating spaces for meaningful living"
+        imageAlt="Architecture and landscape"
+        values={values}
+      />,
+    );
+
+    const section = container.querySelector(".about-values-showcase");
+    const imageFrame = container.querySelector(".aspect-\\[16\\/10\\]");
+
+    expect(section).toHaveClass("px-5", "sm:px-8", "lg:px-14", "xl:px-20");
+    expect(imageFrame).not.toHaveClass("-mx-5", "sm:-mx-8", "lg:-mx-14");
+  });
 });

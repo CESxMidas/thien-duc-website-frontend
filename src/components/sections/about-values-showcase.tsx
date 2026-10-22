@@ -26,7 +26,7 @@ export function AboutValuesShowcase({
 }: AboutValuesShowcaseProps) {
   return (
     <section
-      className="about-values-showcase reveal-section"
+      className="about-values-showcase reveal-section px-5 sm:px-8 lg:px-14 xl:px-20"
       aria-labelledby="about-values-title"
     >
       <div className="about-values-scene relative isolate overflow-hidden bg-olive text-ivory">
@@ -48,7 +48,7 @@ export function AboutValuesShowcase({
           aria-hidden="true"
         />
 
-        <div className="page-container relative z-10 flex flex-col pb-12 pt-0 sm:pb-16 xl:py-16">
+        <div className="relative z-10 flex flex-col pb-12 pt-0 sm:pb-16 xl:py-16">
           <div className="grid items-stretch gap-8 xl:block">
             <div className="about-values-copy flex flex-col justify-center xl:max-w-[43%]">
               <p className="text-eyebrow text-gold-soft">{eyebrow}</p>
@@ -64,7 +64,7 @@ export function AboutValuesShowcase({
               </h2>
             </div>
 
-            <div className="relative order-first -mx-5 aspect-[16/10] overflow-hidden sm:-mx-8 lg:-mx-14 xl:-mx-20 xl:hidden">
+            <div className="relative order-first aspect-[16/10] overflow-hidden xl:hidden">
               <Image
                 src={IMAGE_SRC}
                 alt={imageAlt}
