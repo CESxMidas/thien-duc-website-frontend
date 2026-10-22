@@ -471,6 +471,8 @@
     "emptyBody": "Thien Duc still welcomes open applications. Send your CV along with the position you're interested in, and our HR team will get in touch when a suitable opportunity arises.",
     "emptyCta": "Submit your application",
     "deadlineLabel": "Deadline",
+    "showDetailsLabel": "View job details",
+    "hideDetailsLabel": "Hide job details",
     "responsibilitiesLabel": "Responsibilities",
     "requirementsLabel": "Requirements",
     "benefitsLabel": "Benefits",

@@ -6,6 +6,7 @@ import {
   ArrowRight,
   BriefcaseBusiness,
   CalendarClock,
+  ChevronDown,
   FileSearch,
   FileText,
   MapPin,
@@ -124,46 +125,54 @@ export default async function CareersPage({
                     </p>
                   ) : null}
 
-                  <div className="mt-5 grid gap-5">
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                        {careers.responsibilitiesLabel}
-                      </h4>
-                      <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
-                        {position.responsibilities.map((item) => (
-                          <li key={item} className="border-l-2 border-gold pl-3">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                        {careers.requirementsLabel}
-                      </h4>
-                      <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
-                        {position.requirements.map((item) => (
-                          <li key={item} className="border-l-2 border-gold pl-3">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    {position.benefits.length > 0 ? (
+                  <details className="group mt-4">
+                    <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-sm text-sm font-semibold text-brand hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
+                      <span className="group-open:hidden">{careers.showDetailsLabel}</span>
+                      <span className="hidden group-open:inline">{careers.hideDetailsLabel}</span>
+                      <span className="sr-only">: {position.title}</span>
+                      <ChevronDown className="size-4 group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <div className="mt-5 grid gap-5">
                       <div>
                         <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                          {careers.benefitsLabel}
+                          {careers.responsibilitiesLabel}
                         </h4>
                         <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
-                          {position.benefits.map((item) => (
+                          {position.responsibilities.map((item) => (
                             <li key={item} className="border-l-2 border-gold pl-3">
                               {item}
                             </li>
                           ))}
                         </ul>
                       </div>
-                    ) : null}
-                  </div>
+                      <div>
+                        <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
+                          {careers.requirementsLabel}
+                        </h4>
+                        <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
+                          {position.requirements.map((item) => (
+                            <li key={item} className="border-l-2 border-gold pl-3">
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      {position.benefits.length > 0 ? (
+                        <div>
+                          <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
+                            {careers.benefitsLabel}
+                          </h4>
+                          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
+                            {position.benefits.map((item) => (
+                              <li key={item} className="border-l-2 border-gold pl-3">
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </div>
+                  </details>
 
                   <a
                     href={applyHref}

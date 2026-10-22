@@ -461,6 +461,8 @@
     "emptyBody": "Thiên Đức vẫn tiếp nhận hồ sơ ứng tuyển tự do. Gửi CV kèm vị trí bạn quan tâm, bộ phận nhân sự sẽ liên hệ khi có nhu cầu phù hợp.",
     "emptyCta": "Gửi hồ sơ ứng tuyển",
     "deadlineLabel": "Hạn nộp",
+    "showDetailsLabel": "Xem chi tiết tuyển dụng",
+    "hideDetailsLabel": "Thu gọn chi tiết",
     "responsibilitiesLabel": "Mô tả công việc",
     "requirementsLabel": "Yêu cầu ứng viên",
     "benefitsLabel": "Quyền lợi",

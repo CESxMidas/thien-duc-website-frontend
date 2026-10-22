@@ -384,6 +384,8 @@ export type Dictionary = {
     emptyBody: string;
     emptyCta: string;
     deadlineLabel: string;
+    showDetailsLabel: string;
+    hideDetailsLabel: string;
     responsibilitiesLabel: string;
     requirementsLabel: string;
     benefitsLabel: string;
