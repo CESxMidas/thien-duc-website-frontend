@@ -183,6 +183,31 @@ h2 {
   padding-inline: 1.25rem;
 }
 
+/* Khoảng cách với header/footer của trang nội dung; trang chủ không dùng lớp này. */
+.site-page-content {
+  --page-content-gap: 2rem;
+  display: flow-root;
+  padding-block: var(--page-content-gap);
+}
+
+.site-page-content > :first-child,
+.site-page-content > :first-child:is(.projects-motion, .careers-page) > :first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.site-page-content > :last-child,
+.site-page-content > :last-child:is(.projects-motion, .careers-page, .about-page) > :last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+@media (min-width: 64rem) {
+  .site-page-content {
+    --page-content-gap: 3rem;
+  }
+}
+
 @media (min-width: 40rem) {
   .page-container {
     padding-inline: 2rem;
@@ -1289,7 +1314,6 @@ main .project-map-embed {
 /* Trang Giới thiệu: ảnh lớn, nhịp biên tập và chuyển động có giới hạn. */
 .about-page {
   --duration-reveal: 680ms;
-  background: var(--color-ivory);
 }
 
 .about-section-title {
@@ -1394,17 +1418,24 @@ main .project-map-embed {
   background: color-mix(in srgb, var(--color-deep-olive) 82%, transparent);
 }
 
-.about-careers {
+.careers-banner {
   position: relative;
   overflow: hidden;
+  margin-bottom: clamp(2rem, 4vw, 4rem);
 }
 
-.about-careers-image {
+.careers-banner-image {
   aspect-ratio: 3 / 2;
 }
 
-.about-careers-content {
+.careers-banner-content {
   position: relative;
+}
+
+@media (min-width: 40rem) and (max-width: 63.999rem) {
+  .careers-banner-image {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .about-text-link {
@@ -1499,23 +1530,24 @@ main .project-map-embed {
     order: 2;
   }
 
-  .about-careers {
-    min-height: 40rem;
+  .careers-banner {
+    --about-careers-height: clamp(30rem, 32vw, 34rem);
+    min-height: var(--about-careers-height);
   }
 
-  .about-careers-image {
+  .careers-banner-image {
     position: absolute;
-    inset: 0 0 0 45%;
+    inset: 0;
     aspect-ratio: auto;
   }
 
-  .about-careers-content {
-    background: linear-gradient(90deg, var(--color-olive) 40%, color-mix(in srgb, var(--color-olive) 80%, transparent) 48%, transparent 65%);
+  .careers-banner-content {
+    background: linear-gradient(90deg, var(--color-olive) 35%, color-mix(in srgb, var(--color-olive) 80%, transparent) 43%, transparent 60%);
   }
 
-  .about-careers-content > div {
-    max-width: 45%;
-    min-height: 40rem;
+  .careers-banner-content > div {
+    max-width: min(45%, 36rem);
+    min-height: var(--about-careers-height);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1526,7 +1558,10 @@ main .project-map-embed {
 @media (prefers-reduced-motion: reduce) {
   .about-page *,
   .about-page *::before,
-  .about-page *::after {
+  .about-page *::after,
+  .careers-banner *,
+  .careers-banner *::before,
+  .careers-banner *::after {
     animation: none !important;
     transition: none !important;
   }
@@ -1540,5 +1575,166 @@ main .project-map-embed {
   .about-page .about-text-link svg {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* B? c?c ng?nh ngh? ch? ?p d?ng tr?n trang Gi?i thi?u. */
+.about-fields {
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-top: 1.5rem;
+  padding-bottom: clamp(3rem, 5vw, 5rem);
+}
+
+.about-fields-heading {
+  display: grid;
+  align-items: end;
+  gap: 1.25rem;
+}
+
+.about-fields .about-section-title {
+  font-size: clamp(2rem, 2.8vw, 3rem);
+}
+
+.about-fields > [role="group"] {
+  margin-top: 2rem;
+}
+
+.about-fields article {
+  background: var(--color-ivory);
+  border-color: color-mix(in srgb, var(--color-gold) 35%, transparent);
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.about-fields article h3 {
+  text-wrap: balance;
+}
+
+@media (min-width: 64rem) {
+  .about-fields-heading {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Trang Tuyển dụng dùng nhịp ảnh và nội dung tương ứng trang Giới thiệu. */
+.careers-page .careers-banner {
+  margin-bottom: 0;
+}
+
+.careers-content-container {
+  max-width: 90rem;
+  margin-inline: auto;
+}
+
+.careers-section {
+  padding-block: clamp(2.5rem, 4vw, 4.5rem);
+}
+
+.careers-section-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.125rem, 3vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.careers-culture-grid,
+.careers-people-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.careers-culture-image {
+  aspect-ratio: 16 / 11;
+}
+
+.careers-culture-media {
+  transform: scale(1.03);
+  transition: transform 800ms var(--ease-out-expo);
+}
+
+.is-revealed .careers-culture-media {
+  transform: none;
+}
+
+.careers-page .careers-value-list article {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.careers-people {
+  border-block: 1px solid color-mix(in srgb, var(--color-gold) 20%, transparent);
+}
+
+.careers-page .careers-people article {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.careers-process-list {
+  counter-reset: none;
+}
+
+.careers-apply {
+  margin-bottom: clamp(2rem, 3vw, 3rem);
+}
+
+@media (min-width: 64rem) {
+  .careers-culture-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .careers-culture-image {
+    aspect-ratio: auto;
+    min-height: 32rem;
+  }
+
+  .careers-people-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  .careers-empty {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1.5rem;
+    row-gap: 0.75rem;
+  }
+
+  .careers-empty h3 {
+    margin-top: 0;
+  }
+
+  .careers-empty p {
+    grid-column: 2;
+    margin-top: 0;
+  }
+
+  .careers-empty a {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .careers-page *,
+  .careers-page *::before,
+  .careers-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .careers-page .reveal-section,
+  .careers-page .careers-culture-media,
+  .careers-page .about-text-link svg {
+    opacity: 1;
+    transform: none;
   }
 }

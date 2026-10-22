@@ -7,10 +7,10 @@ export function AboutFoundation({ about }: { about: Dictionary["about"] }) {
       <div className="about-editorial-grid about-foundation-grid page-container">
         <div className="about-editorial-image about-foundation-image">
           <Image
-            src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-plaza-02.jpg"
+            src="/images/about/about-foundation-waterfront.webp"
             alt={about.imageAlt}
             fill
-            className="about-story-media object-cover"
+            className="about-story-media object-cover object-right"
             sizes="(min-width: 1024px) 55vw, 100vw"
           />
         </div>

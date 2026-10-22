@@ -11,12 +11,14 @@ type SiteShellProps = {
   locale: Locale;
   children: ReactNode;
   heroBeforeHeader?: ReactNode;
+  isHomePage?: boolean;
 };
 
 export async function SiteShell({
   locale,
   children,
   heroBeforeHeader,
+  isHomePage = false,
 }: SiteShellProps) {
   const [dictionary, branding] = await Promise.all([
     getDictionary(locale),
@@ -38,7 +40,7 @@ export async function SiteShell({
         id="main-content"
         className="flex-1 bg-[linear-gradient(180deg,rgba(255,255,255,0.28)_0%,rgba(247,238,229,0.18)_55%,rgba(232,213,194,0.3)_100%)]"
       >
-        {children}
+        {isHomePage ? children : <div className="site-page-content">{children}</div>}
       </main>
       <ZaloContactLink
         variant="floating"

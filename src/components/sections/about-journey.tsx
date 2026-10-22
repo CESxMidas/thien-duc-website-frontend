@@ -7,11 +7,11 @@ export function AboutJourney({ about }: { about: Dictionary["about"] }) {
       <div className="about-editorial-grid page-container">
         <div className="about-editorial-image about-journey-image">
           <Image
-            src="/images/projects/hung-phu/master-plan/hung-phu-master-plan-aerial-01.jpg"
+            src="/images/about/about-journey-waterfront.webp"
             alt={about.imageAlt}
             fill
             sizes="(min-width: 1024px) 55vw, 100vw"
-            className="about-story-media object-cover"
+            className="about-story-media object-cover object-right"
           />
         </div>
         <div className="about-editorial-copy">

@@ -55,6 +55,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <SiteShell
       locale={locale}
+      isHomePage
       heroBeforeHeader={<HomeBannerSection locale={locale} />}
     >
       <HomeFacts locale={locale} />

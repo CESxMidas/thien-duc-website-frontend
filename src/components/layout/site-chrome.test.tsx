@@ -79,6 +79,7 @@ describe("SiteShell", () => {
 
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveTextContent("nội dung");
+    expect(screen.getByText("nội dung").parentElement).toHaveClass("site-page-content");
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: dictionary.zalo.ariaLabel }),
@@ -88,6 +89,7 @@ describe("SiteShell", () => {
     const { container } = render(
       await SiteShell({
         locale: "vi",
+        isHomePage: true,
         heroBeforeHeader: <section data-testid="home-hero">banner</section>,
         children: <p>noi dung sau header</p>,
       }),
@@ -105,6 +107,7 @@ describe("SiteShell", () => {
       Node.DOCUMENT_POSITION_FOLLOWING,
     );
     expect(container.firstElementChild).toContainElement(hero);
+    expect(main.querySelector(".site-page-content")).toBeNull();
   });
 });
 

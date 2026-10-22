@@ -4,8 +4,11 @@ import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { AboutJourney } from "@/components/sections/about-journey";
 import { AboutFoundation } from "@/components/sections/about-foundation";
-import { AboutCareersTeaser } from "@/components/sections/about-careers-teaser";
-import { AboutConnect } from "@/components/sections/about-connect";
+import { ContentSidebar } from "@/components/sections/content-sidebar";
+import { BusinessFieldsCarousel } from "@/components/sections/business-fields-carousel";
+import { BrandMotto } from "@/components/ui/brand-motto";
+import { getNewsPage } from "@/lib/api/news";
+import { getProjects } from "@/lib/api/projects";
 import { AboutValuesShowcase } from "@/components/sections/about-values-showcase";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getPageBySlug } from "@/lib/api/pages";
@@ -15,6 +18,8 @@ import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
 const PAGE_SLUG = "gioi-thieu";
+const SIDEBAR_NEWS_COUNT = 4;
+const SIDEBAR_PROJECT_COUNT = 2;
 
 const metaCopy: Record<Locale, { title: string; description: string }> = {
   vi: {
@@ -48,12 +53,13 @@ export default async function AboutPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const [page, dictionary] = await Promise.all([
+  const [page, dictionary, newsPage, projects] = await Promise.all([
     getPageBySlug(PAGE_SLUG, locale),
     getDictionary(locale),
+    getNewsPage(locale, { page: 1, limit: SIDEBAR_NEWS_COUNT }),
+    getProjects(locale),
   ]);
   const about = dictionary.about;
-  const careers = dictionary.careers;
   const [heroDescription, ...overviewParagraphs] = page?.paragraphs ?? [];
 
   const heading = {
@@ -67,54 +73,80 @@ export default async function AboutPage({
 
   return (
     <SiteShell locale={locale}>
+      <div className="page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
+
+        <div className="grid content-between gap-8 sm:gap-10">
+          <PageHeading
+            bare
+            eyebrow={about.eyebrow}
+            title={heading.title}
+            description={heading.description}
+          />
+
+          <section className="reveal-section grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+            <div>
+              <p className="text-eyebrow mb-3 text-brand">
+                {about.overviewEyebrow}
+              </p>
+              <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
+                {about.overviewTitle}
+              </h2>
+              <div className="prose-content mt-5 grid gap-3 text-base leading-7 text-slate">
+                {paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <BrandMotto
+                motto={about.motto}
+                label={about.mottoLabel}
+                className="mt-6"
+              />
+            </div>
+
+            <div className="hover-card flex flex-col overflow-hidden border border-black/10 bg-white">
+              <div className="image-reveal relative aspect-4/3 xl:aspect-auto xl:min-h-72 xl:flex-1">
+                <Image
+                  src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
+                  alt={about.imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1280px) 32vw, (min-width: 1024px) 55vw, 100vw"
+                />
+              </div>
+              <div className="grid gap-3 p-5 text-sm leading-6 text-slate sm:grid-cols-2">
+                <div>
+                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                    {about.foundedLabel}
+                  </span>
+                  <span className="mt-1 block text-lg font-semibold text-ink">
+                    {about.foundedValue}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                    {about.areaLabel}
+                  </span>
+                  <span className="mt-1 block text-lg font-semibold text-ink">
+                    {about.areaValue}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <ContentSidebar
+          news={newsPage.items}
+          projects={projects.slice(0, SIDEBAR_PROJECT_COUNT)}
+          locale={locale}
+          labels={dictionary.contentSidebar}
+          common={dictionary.common}
+          statusLabels={dictionary.projectStatus}
+        />
+      </div>
+
       <div className="about-page">
-        <section className="about-intro page-container py-10 sm:py-16">
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <div>
-              <PageHeading
-                bare
-                tone="default"
-                eyebrow={about.eyebrow}
-                title={heading.title}
-                description={heading.description}
-                titleClassName="font-display text-[clamp(2.75rem,4.5vw,5.5rem)] font-medium leading-[1.05] text-espresso"
-              />
-              <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4 border-t border-gold/40 pt-5">
-                <div>
-                  <dt className="text-sm text-slate">{about.foundedLabel}</dt>
-                  <dd className="mt-1 font-semibold text-earth">{about.foundedValue}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm text-slate">{about.areaLabel}</dt>
-                  <dd className="mt-1 font-semibold text-earth">{about.areaValue}</dd>
-                </div>
-              </dl>
-            </div>
-            <div className="about-editorial-image relative order-first aspect-[5/4] lg:order-none lg:aspect-[4/5]">
-              <Image
-                src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
-                alt={about.imageAlt}
-                fill
-                preload
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="reveal-section grid gap-8 border-b border-gold/30 pb-12 pt-14 sm:pt-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <div>
-              <p className="text-eyebrow text-earth">{about.overviewEyebrow}</p>
-              <h2 className="about-section-title mt-4">{about.overviewTitle}</h2>
-              <figure className="mt-8 border-l border-gold pl-5">
-                <figcaption className="text-sm text-earth">{about.mottoLabel}</figcaption>
-                <blockquote className="mt-2 max-w-sm font-display text-2xl font-medium leading-snug text-olive">{about.motto}</blockquote>
-              </figure>
-            </div>
-            <div className="prose-content grid content-start gap-5 text-base leading-8 text-slate">
-              {paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
-          </div>
-        </section>
         <AboutJourney about={about} />
         <AboutValuesShowcase
           eyebrow={about.principlesEyebrow}
@@ -123,8 +155,22 @@ export default async function AboutPage({
           values={about.principles}
         />
         <AboutFoundation about={about} />
-        <AboutCareersTeaser careers={careers} locale={locale} />
-        <AboutConnect about={about} locale={locale} />
+        <section className="about-fields reveal-section page-container" aria-labelledby="about-fields-title">
+          <div className="about-fields-heading">
+            <div>
+              <p className="text-eyebrow mb-4 text-brand">{about.fieldsEyebrow}</p>
+              <h2 id="about-fields-title" className="about-section-title">
+                {about.fieldsTitle}
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-slate">{about.fieldsDescription}</p>
+          </div>
+          <BusinessFieldsCarousel
+            fields={about.fields}
+            codeLabel={about.fieldCodeLabel}
+            labels={about.fieldsCarousel}
+          />
+        </section>
       </div>
     </SiteShell>
   );
