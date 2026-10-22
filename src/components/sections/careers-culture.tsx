@@ -23,8 +23,12 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
         <div className="careers-content-container page-container careers-culture-grid">
           <div className="careers-culture-image relative overflow-hidden">
             <Image
-              src="/images/about/about-journey-waterfront.webp"
-              alt={locale === "vi" ? "Phối cảnh kiến trúc và cảnh quan khu đô thị ven sông" : "Architectural rendering of a landscaped waterfront development"}
+              src="/images/about/careers-teamwork-illustration.svg"
+              alt={
+                locale === "vi"
+                  ? "Đội ngũ Thiên Đức cùng trao đổi công việc quanh bàn họp"
+                  : "The Thien Duc team collaborating around a meeting table"
+              }
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="careers-culture-media object-cover object-right"

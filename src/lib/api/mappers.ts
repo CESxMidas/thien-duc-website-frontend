@@ -2,6 +2,7 @@ import type { HomeBanner } from "@/data/banners";
 import type { CooperationProject } from "@/data/home";
 import type {
   NewsPost,
+  OpenPosition,
   Project,
   ProjectFact,
   ProjectGallerySection,
@@ -16,12 +17,14 @@ import type {
   BannerDto,
   CooperationProjectDto,
   LocalizedText,
+  LocalizedTextList,
   NewsPostDto,
   ProjectDto,
   ProjectFactDto,
   ProjectItemDto,
   ProjectMapLocationDto,
   ProjectStatusDto,
+  RecruitmentPositionDto,
 } from "@/lib/api/types";
 
 export function localized(text: LocalizedText, locale: Locale): string;
@@ -177,6 +180,31 @@ export function mapNewsPost(dto: NewsPostDto, locale: Locale): NewsPost {
       resolveNewsImageList([dto.image, ...(dto.gallery ?? [])]),
     ),
   };
+}
+
+export function mapRecruitmentPosition(
+  dto: RecruitmentPositionDto,
+  locale: Locale,
+): OpenPosition {
+  return {
+    id: dto.id,
+    slug: dto.slug,
+    title: localized(dto.title, locale),
+    department: localized(dto.department, locale),
+    location: localized(dto.location, locale),
+    type: localized(dto.type, locale),
+    summary: localized(dto.summary, locale),
+    deadline: dto.deadline?.slice(0, 10),
+    responsibilities: localizedList(dto.responsibilities, locale),
+    requirements: localizedList(dto.requirements, locale),
+    benefits: localizedList(dto.benefits, locale),
+  };
+}
+
+function localizedList(value: LocalizedTextList, locale: Locale): string[] {
+  return value.vi.map((item, index) =>
+    locale === "en" ? value.en?.[index]?.trim() || item : item,
+  );
 }
 
 export function mapCooperationProject(

@@ -97,3 +97,17 @@ export type NewsPost = {
   image?: string;
   gallery?: string[];
 };
+
+export type OpenPosition = {
+  id: string;
+  slug: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  summary?: string;
+  deadline?: string;
+  responsibilities: string[];
+  requirements: string[];
+  benefits: string[];
+};

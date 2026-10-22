@@ -9,6 +9,9 @@ describe("CareersHero", () => {
         title="Career opportunities at Thien Duc"
         description="Approved careers introduction"
         imageAlt="Thien Duc development"
+        positionsCtaLabel="View open positions"
+        aboutCtaLabel="About the company"
+        aboutHref="/about"
       />,
     );
 
@@ -20,5 +23,16 @@ describe("CareersHero", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Approved careers introduction")).toBeInTheDocument();
     expect(screen.getByAltText("Thien Duc development")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "View open positions" }),
+    ).toHaveAttribute("href", "#open-positions");
+    expect(
+      screen.getByRole("link", { name: "About the company" }),
+    ).toHaveAttribute("href", "/about");
+    expect(
+      screen.getByRole("region", {
+        name: "Career opportunities at Thien Duc",
+      }),
+    ).toHaveClass("careers-hero");
   });
 });

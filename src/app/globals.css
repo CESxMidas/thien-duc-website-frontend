@@ -1706,6 +1706,96 @@ main .project-map-embed {
   padding-block: clamp(3.5rem, 6vw, 6rem);
 }
 
+.careers-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--color-deep-olive);
+}
+
+.careers-hero-layout {
+  display: grid;
+  align-items: center;
+  min-height: clamp(25rem, 38vw, 34rem);
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.careers-hero-copy {
+  min-width: 0;
+  max-width: 44rem;
+}
+
+.careers-hero-copy .text-eyebrow {
+  color: var(--color-gold-soft);
+}
+
+.careers-hero-image {
+  z-index: -2;
+  background: var(--color-deep-olive);
+}
+
+.careers-hero-shade {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--color-deep-olive) 94%, transparent) 0%, color-mix(in srgb, var(--color-deep-olive) 82%, transparent) 34%, color-mix(in srgb, var(--color-deep-olive) 42%, transparent) 58%, color-mix(in srgb, var(--color-deep-olive) 8%, transparent) 100%),
+    linear-gradient(0deg, color-mix(in srgb, var(--color-deep-olive) 32%, transparent), transparent 58%);
+}
+
+.careers-hero-cta {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.1rem;
+  background: var(--color-brand);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color var(--duration-base) var(--ease-out-expo);
+}
+
+.careers-hero-cta:hover {
+  background: var(--color-brand-dark);
+}
+
+.careers-hero-cta:focus-visible {
+  outline: 2px solid var(--color-earth);
+  outline-offset: 3px;
+}
+
+.careers-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.careers-hero-secondary-cta {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.25rem;
+  color: var(--color-ivory);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    color var(--duration-base) var(--ease-out-expo),
+    text-decoration-color var(--duration-base) var(--ease-out-expo);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.3em;
+}
+
+.careers-hero-secondary-cta:hover {
+  color: white;
+  text-decoration-color: currentColor;
+}
+
+.careers-hero-secondary-cta:focus-visible {
+  outline: 2px solid var(--color-gold-soft);
+  outline-offset: 3px;
+}
+
 .careers-section-title {
   font-family: var(--font-cormorant), Georgia, serif;
   font-size: clamp(2.125rem, 3vw, 3.5rem);
@@ -1757,6 +1847,16 @@ main .project-map-embed {
   background: var(--color-ivory);
 }
 
+.careers-positions.careers-section,
+.careers-process.careers-section {
+  padding-block: clamp(2rem, 3vw, 2.75rem);
+}
+
+.careers-position-card {
+  min-width: 0;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-espresso) 5%, transparent);
+}
+
 .careers-empty {
   display: grid;
   gap: 1rem;
@@ -1792,15 +1892,61 @@ main .project-map-embed {
 }
 
 .careers-process-list {
-  counter-reset: none;
+  list-style: none;
+  padding: 0;
 }
 
 .careers-process {
-  background: var(--color-deep-olive);
+  background: color-mix(in srgb, var(--color-cream) 46%, var(--color-ivory));
 }
 
-.careers-process-list > li {
-  border-color: color-mix(in srgb, var(--color-gold-soft) 36%, transparent);
+.careers-process-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 38%, transparent);
+  border-radius: 0.875rem;
+  background: color-mix(in srgb, var(--color-ivory) 76%, white);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-espresso) 5%, transparent);
+}
+
+.careers-process-step:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  bottom: -1rem;
+  left: 50%;
+  width: 1rem;
+  height: 0.75rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-gold-soft) 55%, white),
+    var(--color-earth)
+  );
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.careers-process-number {
+  color: var(--color-earth);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.careers-process-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-gold) 18%, var(--color-ivory));
+  color: var(--color-earth);
 }
 
 @media (min-width: 40rem) {
@@ -1822,6 +1968,10 @@ main .project-map-embed {
 }
 
 @media (min-width: 64rem) {
+  .careers-hero-copy {
+    max-width: min(54%, 44rem);
+  }
+
   .careers-culture-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: clamp(2.5rem, 4vw, 4rem);
@@ -1839,6 +1989,39 @@ main .project-map-embed {
 
   .careers-empty {
     grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .careers-position-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .careers-process-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .careers-process-step {
+    position: relative;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .careers-process-step:not(:last-child)::after {
+    top: 50%;
+    right: -1.4rem;
+    bottom: auto;
+    left: auto;
+    width: clamp(1rem, 2vw, 2rem);
+    height: 0.75rem;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-gold-soft) 55%, white),
+      var(--color-earth)
+    );
+    clip-path: polygon(0 35%, 72% 35%, 72% 0, 100% 50%, 72% 100%, 72% 65%, 0 65%);
+    transform: translateY(-50%);
   }
 
   .careers-empty-copy {

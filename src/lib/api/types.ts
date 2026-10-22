@@ -9,6 +9,11 @@ export type LocalizedText = {
   en?: string;
 };
 
+export type LocalizedTextList = {
+  vi: string[];
+  en?: string[];
+};
+
 export type ProjectFactDto = {
   label: LocalizedText | string;
   value: LocalizedText | string;
@@ -109,6 +114,21 @@ export type NewsPostDto = {
   publishedAt?: string | null;
   createdAt?: string | null;
   category?: { slug: string; name: LocalizedText } | null;
+};
+
+export type RecruitmentPositionDto = {
+  id: string;
+  slug: string;
+  title: LocalizedText;
+  department: LocalizedText;
+  location: LocalizedText;
+  type: LocalizedText;
+  summary: LocalizedText | null;
+  responsibilities: LocalizedTextList;
+  requirements: LocalizedTextList;
+  benefits: LocalizedTextList;
+  deadline: string | null;
+  order: number;
 };
 
 export type PageDto = {

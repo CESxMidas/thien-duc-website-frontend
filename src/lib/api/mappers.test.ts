@@ -1,6 +1,10 @@
 
-import { mapNewsPost, mapProject } from "./mappers";
-import type { NewsPostDto, ProjectDto } from "./types";
+import { mapNewsPost, mapProject, mapRecruitmentPosition } from "./mappers";
+import type {
+  NewsPostDto,
+  ProjectDto,
+  RecruitmentPositionDto,
+} from "./types";
 
 const baseDto: ProjectDto = {
   id: "p1",
@@ -203,6 +207,53 @@ describe("mapNewsPost — chuyên mục", () => {
     expect(post.publishedAt).toBe("2026-05-01");
     expect(post.eventDate).toBe("2026-04-20");
     expect(post.createdAt).toBe("2026-06-01");
+  });
+});
+
+describe("mapRecruitmentPosition", () => {
+  const position: RecruitmentPositionDto = {
+    id: "position-1",
+    slug: "ky-su-xay-dung",
+    title: { vi: "Kỹ sư xây dựng", en: "Construction engineer" },
+    department: { vi: "Kỹ thuật", en: "Engineering" },
+    location: { vi: "Bến Tre" },
+    type: { vi: "Toàn thời gian", en: "Full-time" },
+    summary: { vi: "Tóm tắt công việc", en: "Role summary" },
+    responsibilities: {
+      vi: ["Giám sát công trình"],
+      en: ["Supervise site work"],
+    },
+    requirements: { vi: ["Có kinh nghiệm"], en: ["Experienced"] },
+    benefits: { vi: ["Bảo hiểm"], en: ["Insurance"] },
+    deadline: "2026-12-31T00:00:00.000Z",
+    order: 0,
+  };
+
+  it("maps all displayed fields to English with Vietnamese fallback", () => {
+    expect(mapRecruitmentPosition(position, "en")).toEqual({
+      id: "position-1",
+      slug: "ky-su-xay-dung",
+      title: "Construction engineer",
+      department: "Engineering",
+      location: "Bến Tre",
+      type: "Full-time",
+      summary: "Role summary",
+      deadline: "2026-12-31",
+      responsibilities: ["Supervise site work"],
+      requirements: ["Experienced"],
+      benefits: ["Insurance"],
+    });
+  });
+
+  it("keeps Vietnamese content and omits an unset deadline", () => {
+    expect(
+      mapRecruitmentPosition({ ...position, deadline: null }, "vi"),
+    ).toMatchObject({
+      title: "Kỹ sư xây dựng",
+      location: "Bến Tre",
+      responsibilities: ["Giám sát công trình"],
+      deadline: undefined,
+    });
   });
 });
 

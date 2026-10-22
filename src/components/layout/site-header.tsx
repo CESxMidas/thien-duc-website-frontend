@@ -98,8 +98,8 @@ export function SiteHeader({
       data-variant={variant}
       className={
         homeAfterBanner
-          ? "sticky top-0 z-40 border-b border-gold/70 bg-[linear-gradient(110deg,#d9b993_0%,#ead5bf_48%,#f3e7da_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)]"
-          : "sticky top-0 z-40 border-b border-gold/70 bg-[linear-gradient(110deg,rgba(217,185,147,0.98)_0%,rgba(234,213,191,0.98)_48%,rgba(243,231,218,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)] backdrop-blur-md"
+          ? "site-header-metallic sticky top-0 z-40 border-b border-gold/70 text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)]"
+          : "site-header-metallic sticky top-0 z-40 border-b border-gold/70 text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.22)] backdrop-blur-md"
       }
     >
       <div

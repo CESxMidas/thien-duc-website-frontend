@@ -366,6 +366,8 @@ export type Dictionary = {
     heroTitle: string;
     heroDescription: string;
     heroImageAlt: string;
+    positionsCta: string;
+    aboutCta: string;
     whyEyebrow: string;
     whyTitle: string;
     peopleEyebrow: string;
@@ -383,6 +385,7 @@ export type Dictionary = {
     deadlineLabel: string;
     responsibilitiesLabel: string;
     requirementsLabel: string;
+    benefitsLabel: string;
     applyCta: string;
     applySubject: string;
     processEyebrow: string;
