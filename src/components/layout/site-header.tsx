@@ -98,8 +98,8 @@ export function SiteHeader({
       data-variant={variant}
       className={
         homeAfterBanner
-          ? "sticky top-0 z-40 border-b border-gold/45 bg-[linear-gradient(110deg,#f1e3d4_0%,#fbf7f2_48%,#ffffff_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.14)]"
-          : "sticky top-0 z-40 border-b border-gold/45 bg-[linear-gradient(110deg,rgba(241,227,212,0.98)_0%,rgba(251,247,242,0.98)_48%,rgba(255,255,255,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.14)] backdrop-blur-md"
+          ? "sticky top-0 z-40 border-b border-gold/60 bg-[linear-gradient(110deg,#e1c6aa_0%,#efe0d2_48%,#f8f0e8_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.18)]"
+          : "sticky top-0 z-40 border-b border-gold/60 bg-[linear-gradient(110deg,rgba(225,198,170,0.98)_0%,rgba(239,224,210,0.98)_48%,rgba(248,240,232,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.18)] backdrop-blur-md"
       }
     >
       <div
@@ -151,12 +151,12 @@ export function SiteHeader({
                     ? `relative flex h-11 items-center rounded-[6px] px-4 text-[0.74rem] font-extrabold uppercase tracking-[0.1em] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
                         active
                           ? "bg-gold text-espresso shadow-[0_8px_18px_rgba(115,81,60,0.18)]"
-                          : "text-espresso/78 hover:bg-white/80 hover:text-earth"
+                          : "text-espresso/82 hover:bg-gold-soft/80 hover:text-earth"
                       }`
                     : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
                         active
                           ? "border-gold/70 bg-[linear-gradient(135deg,#d1b36e_0%,#b98c45_100%)] text-espresso shadow-[0_10px_24px_rgba(0,0,0,0.24)]"
-                          : "border-earth/14 bg-white/74 text-espresso/78 hover:-translate-y-0.5 hover:border-gold/70 hover:bg-white hover:text-earth hover:shadow-[0_12px_24px_rgba(115,81,60,0.16)]"
+                          : "border-gold/30 bg-[linear-gradient(145deg,#f5e9dd_0%,#e9d4bf_100%)] text-espresso/82 hover:-translate-y-0.5 hover:border-gold/75 hover:bg-gold-soft hover:text-earth hover:shadow-[0_12px_24px_rgba(115,81,60,0.18)]"
                       }`
                 }
               >
@@ -207,13 +207,13 @@ export function SiteHeader({
             }}
             className={
               homeAfterBanner
-                ? `hidden size-11 place-items-center rounded-full border border-earth/18 bg-white/76 text-espresso transition hover:border-gold hover:bg-white hover:text-earth sm:grid ${
+                ? `hidden size-11 place-items-center rounded-full border border-gold/35 bg-gold-soft/70 text-espresso transition hover:border-gold hover:bg-gold-soft hover:text-earth sm:grid ${
                     searchOpen ? "border-gold bg-gold text-espresso" : ""
                   }`
-                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] border border-earth/14 bg-white/74 text-espresso shadow-[0_6px_14px_rgba(115,81,60,0.14)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(189,143,77,0.16)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
+                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] border border-gold/30 bg-[linear-gradient(145deg,#f5e9dd_0%,#e9d4bf_100%)] text-espresso shadow-[0_6px_14px_rgba(115,81,60,0.16)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(189,143,77,0.18)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
                     searchOpen
                       ? "border-gold bg-gold text-espresso"
-                      : "hover:border-gold/70 hover:bg-white hover:text-earth"
+                      : "hover:border-gold/75 hover:bg-gold-soft hover:text-earth"
                   }`
             }
           >
@@ -310,8 +310,8 @@ export function SiteHeader({
         id="mobile-navigation"
         className={`border-t ${
           homeAfterBanner
-            ? "border-gold/35 bg-[linear-gradient(120deg,rgba(241,227,212,0.99),rgba(255,255,255,0.99))] text-espresso backdrop-blur-md"
-            : "border-gold/35 bg-[linear-gradient(120deg,rgba(241,227,212,0.99),rgba(255,255,255,0.99))] text-espresso backdrop-blur-md lg:hidden"
+            ? "border-gold/50 bg-[linear-gradient(120deg,rgba(225,198,170,0.99),rgba(248,240,232,0.99))] text-espresso backdrop-blur-md"
+            : "border-gold/50 bg-[linear-gradient(120deg,rgba(225,198,170,0.99),rgba(248,240,232,0.99))] text-espresso backdrop-blur-md lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
@@ -329,8 +329,8 @@ export function SiteHeader({
                   onClick={() => setMenuOpen(false)}
                   className={
                     homeAfterBanner
-                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/14 bg-white/76 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold hover:bg-white hover:text-earth"
-                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/14 bg-white/76 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold/70 hover:bg-white hover:text-earth"
+                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold hover:bg-gold-soft hover:text-earth"
+                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold/75 hover:bg-gold-soft hover:text-earth"
                   }
                 >
                   {navLabel(item)}

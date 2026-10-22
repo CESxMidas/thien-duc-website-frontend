@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7eee5;
+  --background: #efe0d2;
   --foreground: #292929;
+  --surface-card: #f2e2d2;
+  --surface-card-highlight: #faf2e9;
+  --surface-card-strong: #e6cdb3;
   --site-header-height: 7rem;
   --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
   --text-h1: clamp(2rem, 1.5rem + 2.1vw, 3.5rem);
@@ -39,7 +42,7 @@
 }
 
 @theme {
-  --color-ivory: #fbf7f2;
+  --color-ivory: #f8f0e8;
   --color-charcoal: #292929;
   --color-warm-grey: #b8b5ae;
   --color-earth: #73513c;
@@ -50,13 +53,13 @@
   --color-brand-soft: #9d744b;
   --color-brand-dark: #2d1b13;
   --color-gold: #bd8f4d;
-  --color-gold-soft: #f1e3d4;
+  --color-gold-soft: #e8d2bb;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
-  --color-cream: #f7eee5;
-  --color-surface: #efe3d6;
-  --color-surface-warm: #f5eade;
+  --color-cream: #efe0d2;
+  --color-surface: #e6d0ba;
+  --color-surface-warm: #ecd8c4;
   --container-site: 76rem;
   --container-header: 80rem;
   --color-danger: #9b2c2c;
@@ -77,8 +80,8 @@
 
 body {
   background:
-    radial-gradient(circle at 12% 0%, rgba(189, 143, 77, 0.13), transparent 30rem),
-    linear-gradient(180deg, #fbf7f2 0%, var(--background) 52%, #f0e1d2 100%);
+    radial-gradient(circle at 12% 0%, rgba(189, 143, 77, 0.2), transparent 30rem),
+    linear-gradient(180deg, #f8f0e8 0%, var(--background) 52%, #e7d2bd 100%);
   color: var(--foreground);
   font-family: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
   line-height: var(--leading-body);
@@ -1057,7 +1060,7 @@ textarea {
 .project-detail-panel,
 .project-detail-panel-accent,
 .project-detail-highlight {
-  background: var(--color-ivory);
+  background: linear-gradient(145deg, var(--surface-card-highlight), var(--surface-card));
 }
 
 .project-detail-panel,
@@ -1084,18 +1087,42 @@ textarea {
 /* Shared content surfaces keep cards distinct across every public page. */
 main :where(article, aside, li, dl, form, div).border.bg-white,
 main :where(article, aside, li, dl, form, div).border[class*="bg-white/"] {
-  border-color: color-mix(in srgb, var(--color-gold) 32%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 46%, transparent);
   border-radius: 0.5rem;
-  background-color: #ffffff;
-  background-image: linear-gradient(145deg, #ffffff 0%, #fffaf5 100%);
+  background-color: var(--surface-card);
+  background-image: linear-gradient(
+    145deg,
+    var(--surface-card-highlight) 0%,
+    var(--surface-card) 72%,
+    var(--surface-card-strong) 100%
+  );
   box-shadow:
-    0 12px 30px rgba(74, 48, 35, 0.075),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    0 14px 32px rgba(74, 48, 35, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
 }
 
 main :where(article, aside, li, dl, form, div).border.bg-white:hover,
 main :where(article, aside, li, dl, form, div).border[class*="bg-white/"]:hover {
-  border-color: color-mix(in srgb, var(--color-gold) 52%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 70%, transparent);
+  background-image: linear-gradient(
+    145deg,
+    #f8ecdf 0%,
+    #ead4bd 68%,
+    #dfbe99 100%
+  );
+}
+
+/* Full-width white bands use the same warmer palette without looking like cards. */
+main section.bg-white {
+  background-color: var(--color-cream);
+  background-image: linear-gradient(180deg, #f7ede3 0%, #ead7c4 100%);
+}
+
+/* Content panels that start from ivory receive enough depth to separate them from the page. */
+main section.bg-ivory,
+main div.bg-ivory {
+  background-color: var(--color-ivory);
+  background-image: linear-gradient(145deg, #f8f0e8 0%, #eddbc9 100%);
 }
 
 .project-gallery-card,
