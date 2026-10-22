@@ -69,7 +69,7 @@ describe("HomeBannerSlider", () => {
     const { container } = renderSlider();
     const image = container.querySelector("img");
 
-    expect(image).toHaveClass("object-contain", "lg:object-cover");
+    expect(image).toHaveClass("object-cover");
   });
 
   it("giu noi dung va dieu khien nam gon trong banner", () => {
@@ -113,9 +113,7 @@ describe("HomeBannerSlider", () => {
       />,
     );
 
-    expect(screen.getByTestId("banner-contact-actions")).toHaveClass(
-      "bottom-[4.125rem]",
-    );
+    expect(screen.getByTestId("banner-contact-actions")).toHaveClass("bottom-3");
   });
 
   it("khong dua lai thanh lien he so dien thoai menu o goc tren banner", () => {
