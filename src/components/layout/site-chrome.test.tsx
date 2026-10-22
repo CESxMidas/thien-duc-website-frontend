@@ -20,7 +20,7 @@ describe("SiteHeader", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
     expect(screen.getByRole("banner").className).toContain(
-      "linear-gradient(110deg,#21140f",
+      "linear-gradient(110deg,rgba(241,227,212,0.98)",
     );
     const primary = screen.getByRole("navigation", { name: "Primary" });
     const primaryLinks = within(primary).getAllByRole("link");
@@ -39,7 +39,7 @@ describe("SiteHeader", () => {
       screen.getByRole("img", { name: dictionary.shared.logoAlt }),
     ).toHaveAttribute(
       "src",
-      expect.stringContaining("logo-thien-duc-footer-champagne.png"),
+      expect.stringContaining("logo-thien-duc-header-transparent.png"),
     );
     expect(
       screen.queryByRole("link", { name: new RegExp(siteConfig.phone) }),

@@ -98,8 +98,8 @@ export function SiteHeader({
       data-variant={variant}
       className={
         homeAfterBanner
-          ? "sticky top-0 z-40 border-b border-gold/25 bg-[linear-gradient(110deg,#21140f_0%,#4a3023_48%,#241610_100%)] text-ivory shadow-[0_12px_34px_rgba(45,27,19,0.2)]"
-          : "sticky top-0 z-40 border-b border-gold/25 bg-[linear-gradient(110deg,#21140f_0%,#4a3023_48%,#241610_100%)] text-ivory shadow-[0_12px_34px_rgba(45,27,19,0.2)] backdrop-blur-md"
+          ? "sticky top-0 z-40 border-b border-gold/45 bg-[linear-gradient(110deg,#f1e3d4_0%,#fbf7f2_48%,#ffffff_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.14)]"
+          : "sticky top-0 z-40 border-b border-gold/45 bg-[linear-gradient(110deg,rgba(241,227,212,0.98)_0%,rgba(251,247,242,0.98)_48%,rgba(255,255,255,0.98)_100%)] text-espresso shadow-[0_12px_34px_rgba(115,81,60,0.14)] backdrop-blur-md"
       }
     >
       <div
@@ -117,7 +117,7 @@ export function SiteHeader({
           <Image
             src={
               branding?.logoUrl ||
-              "/images/brand/logo-thien-duc-footer-champagne.png"
+              "/images/brand/logo-thien-duc-header-transparent.png"
             }
             alt={branding?.logoAlt || dictionary.shared.logoAlt}
             width={126}
@@ -125,8 +125,8 @@ export function SiteHeader({
             preload
             className={
               homeAfterBanner
-                ? "h-14 w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.24)] sm:h-16 lg:h-[4.5rem]"
-                : "h-[5.25rem] w-auto object-contain drop-shadow-[0_8px_22px_rgba(0,0,0,0.28)] lg:h-[6.75rem]"
+                ? "h-14 w-auto object-contain drop-shadow-[0_7px_16px_rgba(115,81,60,0.2)] sm:h-16 lg:h-[4.5rem]"
+                : "h-[5.25rem] w-auto object-contain drop-shadow-[0_7px_16px_rgba(115,81,60,0.2)] lg:h-[6.75rem]"
             }
           />
         </Link>
@@ -150,13 +150,13 @@ export function SiteHeader({
                   homeAfterBanner
                     ? `relative flex h-11 items-center rounded-[6px] px-4 text-[0.74rem] font-extrabold uppercase tracking-[0.1em] transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
                         active
-                          ? "bg-white/14 text-gold"
-                          : "text-white/84 hover:bg-white/10 hover:text-gold"
+                          ? "bg-gold text-espresso shadow-[0_8px_18px_rgba(115,81,60,0.18)]"
+                          : "text-espresso/78 hover:bg-white/80 hover:text-earth"
                       }`
                     : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
                         active
                           ? "border-gold/70 bg-[linear-gradient(135deg,#d1b36e_0%,#b98c45_100%)] text-espresso shadow-[0_10px_24px_rgba(0,0,0,0.24)]"
-                          : "border-white/12 bg-white/[0.045] text-ivory/82 hover:-translate-y-0.5 hover:border-gold/55 hover:bg-white/10 hover:text-gold hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)]"
+                          : "border-earth/14 bg-white/74 text-espresso/78 hover:-translate-y-0.5 hover:border-gold/70 hover:bg-white hover:text-earth hover:shadow-[0_12px_24px_rgba(115,81,60,0.16)]"
                       }`
                 }
               >
@@ -177,7 +177,7 @@ export function SiteHeader({
             <>
               <Link
                 href={localizePath(routes.contact, locale)}
-                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold uppercase tracking-[0.02em] text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold md:inline-flex"
+                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold uppercase tracking-[0.02em] text-espresso transition hover:text-earth focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold md:inline-flex"
               >
                 <span className="grid size-10 place-items-center rounded-full border-2 border-gold text-gold">
                   <Send className="size-5" aria-hidden="true" />
@@ -186,7 +186,7 @@ export function SiteHeader({
               </Link>
               <a
                 href={`tel:${zaloContact.value}`}
-                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:inline-flex"
+                className="hidden min-h-12 items-center gap-2 text-sm font-extrabold text-espresso transition hover:text-earth focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:inline-flex"
               >
                 <span className="grid size-10 place-items-center rounded-full border-2 border-gold text-gold">
                   <PhoneCall className="size-5" aria-hidden="true" />
@@ -207,13 +207,13 @@ export function SiteHeader({
             }}
             className={
               homeAfterBanner
-                ? `hidden size-11 place-items-center rounded-full border border-white/28 text-white transition hover:border-gold hover:text-gold sm:grid ${
-                    searchOpen ? "border-gold bg-white/12 text-gold" : ""
+                ? `hidden size-11 place-items-center rounded-full border border-earth/18 bg-white/76 text-espresso transition hover:border-gold hover:bg-white hover:text-earth sm:grid ${
+                    searchOpen ? "border-gold bg-gold text-espresso" : ""
                   }`
-                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] border border-white/12 text-ivory shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
+                : `relative grid size-12 place-items-center overflow-hidden rounded-[7px] border border-earth/14 bg-white/74 text-espresso shadow-[0_6px_14px_rgba(115,81,60,0.14)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(189,143,77,0.16)_45%,transparent_70%)] before:opacity-0 before:transition hover:-translate-y-0.5 hover:before:opacity-100 ${
                     searchOpen
                       ? "border-gold bg-gold text-espresso"
-                      : "bg-white/[0.045] hover:border-gold/55 hover:bg-white/10 hover:text-gold"
+                      : "hover:border-gold/70 hover:bg-white hover:text-earth"
                   }`
             }
           >
@@ -223,7 +223,7 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant="light"
+            variant="default"
             className={
               homeAfterBanner
                 ? "hidden md:inline-flex"
@@ -242,8 +242,8 @@ export function SiteHeader({
             }
             className={
               homeAfterBanner
-                ? "inline-flex min-h-12 items-center gap-2 text-white transition hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-                : "grid size-11 place-items-center text-ivory transition hover:text-gold lg:hidden"
+                ? "inline-flex min-h-12 items-center gap-2 text-espresso transition hover:text-earth focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+                : "grid size-11 place-items-center text-espresso transition hover:text-earth lg:hidden"
             }
           >
             {menuOpen ? (
@@ -310,16 +310,16 @@ export function SiteHeader({
         id="mobile-navigation"
         className={`border-t ${
           homeAfterBanner
-            ? "border-gold/20 bg-[linear-gradient(120deg,rgba(33,20,15,0.98),rgba(74,48,35,0.98))] text-white backdrop-blur-md"
-            : "border-gold/20 bg-[linear-gradient(120deg,rgba(33,20,15,0.98),rgba(74,48,35,0.98))] text-ivory backdrop-blur-md lg:hidden"
+            ? "border-gold/35 bg-[linear-gradient(120deg,rgba(241,227,212,0.99),rgba(255,255,255,0.99))] text-espresso backdrop-blur-md"
+            : "border-gold/35 bg-[linear-gradient(120deg,rgba(241,227,212,0.99),rgba(255,255,255,0.99))] text-espresso backdrop-blur-md lg:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
           <ul
             className={
               homeAfterBanner
-                ? "divide-y divide-white/12"
-                : "divide-y divide-white/10"
+                ? "divide-y divide-earth/12"
+                : "divide-y divide-earth/12"
             }
           >
             {mainNavigation.map((item) => (
@@ -329,8 +329,8 @@ export function SiteHeader({
                   onClick={() => setMenuOpen(false)}
                   className={
                     homeAfterBanner
-                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/16 bg-white/8 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-white hover:border-gold hover:text-gold"
-                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-white/14 bg-white/[0.045] px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-ivory hover:border-gold/60 hover:text-gold"
+                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/14 bg-white/76 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold hover:bg-white hover:text-earth"
+                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-earth/14 bg-white/76 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold/70 hover:bg-white hover:text-earth"
                   }
                 >
                   {navLabel(item)}
@@ -345,8 +345,8 @@ export function SiteHeader({
                           onClick={() => setMenuOpen(false)}
                           className={
                             homeAfterBanner
-                              ? "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
-                              : "inline-flex min-h-10 items-center text-sm text-white/72 hover:text-gold"
+                              ? "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
+                              : "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
                           }
                         >
                           {navLabel(child)}
@@ -362,7 +362,7 @@ export function SiteHeader({
             locale={locale}
             label={dictionary.common.languageSwitcher}
             showIcon={false}
-            variant="light"
+            variant="default"
             className="mt-5 sm:hidden"
           />
         </nav>
