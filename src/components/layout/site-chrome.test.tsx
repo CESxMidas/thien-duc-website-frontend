@@ -19,9 +19,7 @@ describe("SiteHeader", () => {
   it("dùng thanh điều hướng compact theo mockup header với 7 mục chính", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
-    expect(screen.getByRole("banner").className).toContain(
-      "linear-gradient(110deg,rgba(217,185,147,0.98)",
-    );
+    expect(screen.getByRole("banner")).toHaveClass("site-header-metallic");
     const primary = screen.getByRole("navigation", { name: "Primary" });
     const primaryLinks = within(primary).getAllByRole("link");
 
@@ -60,6 +58,7 @@ describe("SiteHeader", () => {
       "data-variant",
       "home-after-banner",
     );
+    expect(screen.getByRole("banner")).toHaveClass("site-header-metallic");
     expect(
       screen.getByRole("link", { name: /Liên hệ nhận ưu đãi/i }),
     ).toHaveAttribute("href", "/lien-he");
