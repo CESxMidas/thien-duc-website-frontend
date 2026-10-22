@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
-import { brandName, brandShortName, siteConfig } from "@/config/site";
+import {
+  brandName,
+  brandShortName,
+  legalDisplayName,
+  siteConfig,
+} from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
 import { isApiReachableAtBuild } from "@/lib/api/client";
 import { getBrandingSettings } from "@/lib/api/settings";
@@ -30,12 +35,12 @@ const cormorantGaramond = Cormorant_Garamond({
 
 const rootCopy: Record<Locale, { title: string; description: string }> = {
   vi: {
-    title: "Công ty Thiên Đức",
+    title: legalDisplayName.vi,
     description:
       "Website giới thiệu công ty, dự án và tin tức của Công ty TNHH Đầu tư - Xây dựng - Thương mại Thiên Đức.",
   },
   en: {
-    title: "Thien Duc Company",
+    title: legalDisplayName.en,
     description:
       "Company profile, projects and news from Thien Duc Investment - Construction - Trading Co., Ltd.",
   },

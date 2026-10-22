@@ -8,13 +8,14 @@ import { HomeFacts } from "@/components/sections/home-facts";
 import { HomeFeaturedProjects } from "@/components/sections/home-featured-projects";
 import { HomeIntroStrip } from "@/components/sections/home-intro-strip";
 import { HomeLatestNews } from "@/components/sections/home-latest-news";
+import { legalDisplayName } from "@/config/site";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
 const homeBrandTitle: Record<Locale, string> = {
-  vi: "Công ty Thiên Đức",
-  en: "Thien Duc Company",
+  vi: legalDisplayName.vi,
+  en: legalDisplayName.en,
 };
 
 const homeCopy: Record<Locale, { title: string; description: string }> = {
