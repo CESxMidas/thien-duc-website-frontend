@@ -107,7 +107,7 @@ export default async function AboutPage({
             <div className="hover-card overflow-hidden border border-black/10 bg-white xl:flex xl:h-full xl:flex-col">
               <div className="image-reveal relative aspect-video shrink-0 bg-surface xl:aspect-auto xl:min-h-72 xl:flex-1">
                 <Image
-                  src="/images/about/about-foundation-waterfront.webp"
+                  src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
                   alt={about.imageAlt}
                   fill
                   className="object-cover xl:object-center"

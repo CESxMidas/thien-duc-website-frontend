@@ -7,7 +7,7 @@ export function AboutFoundation({ about }: { about: Dictionary["about"] }) {
       <div className="about-editorial-grid about-foundation-grid page-container">
         <div className="about-editorial-image about-foundation-image">
           <Image
-            src="/images/about/about-foundation-waterfront.webp"
+            src="/images/about/about-foundation-hung-phu-mall.png"
             alt={about.imageAlt}
             fill
             className="about-story-media object-cover object-right"
