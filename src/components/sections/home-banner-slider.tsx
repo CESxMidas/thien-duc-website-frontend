@@ -170,7 +170,7 @@ export function HomeBannerSlider({
               aria-label={`${index + 1} / ${bannerCount}`}
               aria-hidden={!isActive}
               inert={!isActive}
-              className={`absolute inset-x-0 bottom-28 top-0 transition-opacity ease-in-out lg:inset-0 ${
+              className={`absolute inset-0 transition-opacity ease-in-out ${
                 isActive ? "z-10 opacity-100" : "z-0 opacity-0"
               }`}
               style={{ transitionDuration: `${TRANSITION_MS}ms` }}
@@ -195,11 +195,7 @@ export function HomeBannerSlider({
         {hasTextCopy ? (
           <div className="absolute inset-x-0 bottom-28 top-0 z-20 bg-espresso/10 lg:inset-0 lg:bg-[linear-gradient(90deg,rgba(34,20,14,0.78)_0%,rgba(63,40,29,0.5)_34%,rgba(63,40,29,0.12)_68%,rgba(34,20,14,0.28)_100%)]" />
         ) : null}
-        <div className="absolute inset-x-0 bottom-28 top-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:bottom-0 lg:h-[34%] lg:top-auto lg:from-ink/44 lg:via-ink/12" />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 z-20 h-28 border-t border-gold/25 bg-[linear-gradient(180deg,#ffffff_0%,#f7eee5_100%)] lg:hidden"
-        />
+        <div className="absolute inset-0 z-20 bg-gradient-to-t from-ink/20 via-transparent to-transparent lg:inset-x-0 lg:bottom-0 lg:top-auto lg:h-[34%] lg:from-ink/44 lg:via-ink/12" />
 
         {!activeBanner.title ? <h1 className="sr-only">Thien Duc</h1> : null}
 
@@ -253,7 +249,7 @@ export function HomeBannerSlider({
 
         <div
           data-testid="banner-contact-actions"
-          className="pointer-events-none absolute inset-x-0 bottom-3 z-30 px-3 sm:px-8 lg:bottom-[clamp(4.25rem,7vw,6.5rem)] lg:px-16 xl:px-20"
+          className="pointer-events-none absolute inset-x-0 bottom-3 z-30 hidden px-3 sm:px-8 lg:bottom-[clamp(4.25rem,7vw,6.5rem)] lg:block lg:px-16 xl:px-20"
         >
           <div className="pointer-events-auto flex w-full items-center gap-2 sm:w-fit sm:max-w-[min(36rem,calc(100vw-4rem))] lg:flex-wrap lg:gap-x-6">
             {hasPrimaryCta ? (

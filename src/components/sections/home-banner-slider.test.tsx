@@ -86,8 +86,9 @@ describe("HomeBannerSlider", () => {
       "href",
       "/lien-he",
     );
-    expect(screen.getByTestId("banner-contact-actions").className).toContain(
-      "bottom-3",
+    expect(screen.getByTestId("banner-contact-actions")).toHaveClass(
+      "hidden",
+      "lg:block",
     );
     expect(screen.getByTestId("banner-contact-actions").className).toContain(
       "lg:bottom-[clamp(4.25rem,7vw,6.5rem)]",
@@ -113,7 +114,10 @@ describe("HomeBannerSlider", () => {
       />,
     );
 
-    expect(screen.getByTestId("banner-contact-actions")).toHaveClass("bottom-3");
+    expect(screen.getByTestId("banner-contact-actions")).toHaveClass(
+      "hidden",
+      "lg:block",
+    );
   });
 
   it("khong dua lai thanh lien he so dien thoai menu o goc tren banner", () => {
