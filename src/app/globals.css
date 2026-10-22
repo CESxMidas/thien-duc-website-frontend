@@ -1316,6 +1316,11 @@ main .project-map-embed {
   --duration-reveal: 680ms;
 }
 
+.about-page .page-container,
+.about-page-shell.page-container {
+  padding-inline: 1.25rem;
+}
+
 .about-section-title {
   font-family: var(--font-cormorant), Georgia, serif;
   font-size: clamp(2.25rem, 3.4vw, 4rem);
@@ -1346,9 +1351,14 @@ main .project-map-embed {
   min-width: 0;
 }
 
-.about-journey-image,
 .about-foundation-image {
   aspect-ratio: 16 / 11;
+}
+
+.about-journey-inline {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid color-mix(in srgb, var(--color-gold) 36%, transparent);
 }
 
 .about-story-media {
@@ -1361,44 +1371,62 @@ main .project-map-embed {
 }
 
 .about-timeline {
-  border-left: 1px solid var(--color-gold);
-  margin-left: 0.35rem;
-  padding-left: 1.75rem;
+  display: grid;
+  gap: 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-gold) 58%, transparent);
 }
 
 .about-timeline li {
   position: relative;
-  padding-bottom: 2.5rem;
-}
-
-.about-timeline li:last-child {
-  padding-bottom: 0;
+  min-width: 0;
+  padding-top: 1.5rem;
 }
 
 .about-timeline li::before {
   content: "";
   position: absolute;
-  top: 0.5rem;
-  left: -2.1rem;
-  width: 0.65rem;
-  height: 0.65rem;
+  top: -0.35rem;
+  left: 0;
+  width: 0.7rem;
+  height: 0.7rem;
   background: var(--color-ivory);
   border: 1px solid var(--color-gold);
   border-radius: 50%;
 }
 
-.about-foundation-stats > div {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.about-foundation-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-flow: row;
+  gap: 0;
 }
 
-.about-foundation-stats dt {
-  margin-top: 0.75rem;
+.about-foundation-stats > div {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 1fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: clamp(1rem, 3vw, 2rem);
+  row-gap: 0.25rem;
+  padding-block: 1.25rem;
 }
 
 .about-foundation-stats dd:first-of-type {
-  order: -1;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.about-foundation-stats dt {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  text-align: right;
+}
+
+.about-foundation-stats dd:last-of-type {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  text-align: right;
 }
 
 .about-values-shade {
@@ -1422,14 +1450,25 @@ main .project-map-embed {
   position: relative;
   overflow: hidden;
   margin-bottom: clamp(2rem, 4vw, 4rem);
+  background: var(--color-deep-olive);
 }
 
 .careers-banner-image {
   aspect-ratio: 3 / 2;
+  isolation: isolate;
+}
+
+.careers-banner-image::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--color-deep-olive) 28%, transparent), transparent 55%);
+  content: "";
 }
 
 .careers-banner-content {
   position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 40rem) and (max-width: 63.999rem) {
@@ -1510,13 +1549,30 @@ main .project-map-embed {
   transition-delay: 200ms;
 }
 
+@media (min-width: 40rem) {
+  .about-page .page-container,
+  .about-page-shell.page-container {
+    padding-inline: 2rem;
+  }
+
+}
+
 @media (min-width: 64rem) {
+  .about-page .page-container,
+  .about-page-shell.page-container {
+    padding-inline: 3.5rem;
+  }
+
+  .about-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
   .about-editorial-grid {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     gap: clamp(3rem, 5vw, 7rem);
   }
 
-  .about-journey-image,
   .about-foundation-image {
     aspect-ratio: auto;
     min-height: 40rem;
@@ -1542,7 +1598,13 @@ main .project-map-embed {
   }
 
   .careers-banner-content {
-    background: linear-gradient(90deg, var(--color-olive) 35%, color-mix(in srgb, var(--color-olive) 80%, transparent) 43%, transparent 60%);
+    background: transparent;
+  }
+
+  .careers-banner-image::after {
+    background:
+      linear-gradient(90deg, var(--color-deep-olive) 0%, color-mix(in srgb, var(--color-deep-olive) 94%, transparent) 37%, color-mix(in srgb, var(--color-deep-olive) 62%, transparent) 65%, color-mix(in srgb, var(--color-deep-olive) 14%, transparent) 100%),
+      linear-gradient(0deg, color-mix(in srgb, var(--color-deep-olive) 28%, transparent), transparent 55%);
   }
 
   .careers-banner-content > div {
@@ -1552,6 +1614,13 @@ main .project-map-embed {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+  }
+}
+
+@media (min-width: 80rem) {
+  .about-page .page-container,
+  .about-page-shell.page-container {
+    padding-inline: 5rem;
   }
 }
 
@@ -1580,8 +1649,7 @@ main .project-map-embed {
 
 /* B? c?c ng?nh ngh? ch? ?p d?ng tr?n trang Gi?i thi?u. */
 .about-fields {
-  max-width: 90rem;
-  margin-inline: auto;
+  width: 100%;
   padding-top: 1.5rem;
   padding-bottom: clamp(3rem, 5vw, 5rem);
 }
@@ -1612,23 +1680,30 @@ main .project-map-embed {
 
 @media (min-width: 64rem) {
   .about-fields-heading {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 3rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
   }
 }
 
-/* Trang Tuyển dụng dùng nhịp ảnh và nội dung tương ứng trang Giới thiệu. */
+/* Trang Tuyển dụng dùng nền và màu nhấn tiết chế để tạo nhịp đọc liền mạch. */
 .careers-page .careers-banner {
   margin-bottom: 0;
 }
 
+.careers-page {
+  background: var(--color-ivory);
+}
+
+.careers-page .page-container {
+  padding-inline: 1.25rem;
+}
+
 .careers-content-container {
-  max-width: 90rem;
-  margin-inline: auto;
+  width: 100%;
 }
 
 .careers-section {
-  padding-block: clamp(2.5rem, 4vw, 4.5rem);
+  padding-block: clamp(3.5rem, 6vw, 6rem);
 }
 
 .careers-section-title {
@@ -1643,11 +1718,13 @@ main .project-map-embed {
 .careers-culture-grid,
 .careers-people-grid {
   display: grid;
-  gap: 2rem;
+  gap: clamp(2rem, 4vw, 4rem);
 }
 
 .careers-culture-image {
   aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background: var(--color-surface);
 }
 
 .careers-culture-media {
@@ -1660,27 +1737,88 @@ main .project-map-embed {
 }
 
 .careers-page .careers-value-list article {
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
+  border-color: color-mix(in srgb, var(--color-gold) 30%, transparent);
+  padding-block: 1.25rem;
+}
+
+.careers-page .careers-value-list article:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
 }
 
 .careers-people {
-  border-block: 1px solid color-mix(in srgb, var(--color-gold) 20%, transparent);
+  background: color-mix(in srgb, var(--color-cream) 48%, var(--color-ivory));
 }
 
 .careers-page .careers-people article {
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
+  border-color: color-mix(in srgb, var(--color-gold) 30%, transparent);
+}
+
+.careers-positions {
+  background: var(--color-ivory);
+}
+
+.careers-empty {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 32%, transparent);
+  background: color-mix(in srgb, var(--color-cream) 42%, var(--color-ivory));
+}
+
+.careers-empty-copy {
+  min-width: 0;
+}
+
+.careers-empty > svg {
+  box-sizing: content-box;
+  padding: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 38%, transparent);
+  background: var(--color-ivory);
+}
+
+.careers-empty h3 {
+  margin-top: 0;
+}
+
+.careers-empty p {
+  margin-top: 0;
+}
+
+.careers-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .careers-process-list {
   counter-reset: none;
 }
 
-.careers-apply {
-  margin-bottom: clamp(2rem, 3vw, 3rem);
+.careers-process {
+  background: var(--color-deep-olive);
+}
+
+.careers-process-list > li {
+  border-color: color-mix(in srgb, var(--color-gold-soft) 36%, transparent);
+}
+
+@media (min-width: 40rem) {
+  .careers-page .page-container {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .careers-page .page-container {
+    padding-inline: 3.5rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .careers-page .page-container {
+    padding-inline: 5rem;
+  }
 }
 
 @media (min-width: 64rem) {
@@ -1700,26 +1838,17 @@ main .project-map-embed {
   }
 
   .careers-empty {
-    display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: 1.5rem;
-    row-gap: 0.75rem;
   }
 
-  .careers-empty h3 {
-    margin-top: 0;
-  }
-
-  .careers-empty p {
+  .careers-empty-copy {
     grid-column: 2;
-    margin-top: 0;
   }
 
-  .careers-empty a {
+  .careers-empty-actions {
     grid-column: 3;
-    grid-row: 1 / 3;
-    margin-top: 0;
+    grid-row: 1;
+    flex-direction: column;
   }
 }
 

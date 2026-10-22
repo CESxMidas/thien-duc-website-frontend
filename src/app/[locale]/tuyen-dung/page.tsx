@@ -144,21 +144,31 @@ export default async function CareersPage({
             ))}
           </div>
         ) : (
-          <div className="careers-empty mt-8 border-y border-gold/40 py-7 sm:py-9">
+          <div className="careers-empty mt-8">
             <BriefcaseBusiness className="size-7 text-earth" aria-hidden="true" />
-            <h3 className="mt-5 text-2xl font-semibold text-charcoal">
-              {careers.emptyTitle}
-            </h3>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              {careers.emptyBody}
-            </p>
-            <a
-              href={applyHref}
-              className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-md bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-earth"
-            >
-              {careers.emptyCta}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </a>
+            <div className="careers-empty-copy">
+              <h3 className="text-2xl font-semibold text-charcoal">
+                {careers.emptyTitle}
+              </h3>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+                {careers.emptyBody}
+              </p>
+            </div>
+            <div className="careers-empty-actions">
+              <a
+                href={applyHref}
+                className="inline-flex min-h-11 items-center gap-2 rounded-md bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-earth"
+              >
+                {careers.emptyCta}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </a>
+              <Link
+                href={localizePath(routes.contact, locale)}
+                className="inline-flex min-h-11 items-center rounded-md border border-earth/35 px-5 py-3 text-sm font-semibold text-earth transition hover:bg-earth hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-earth"
+              >
+                {dictionary.common.contactCta}
+              </Link>
+            </div>
           </div>
         )}
       </section>
@@ -188,31 +198,6 @@ export default async function CareersPage({
         </div>
       </section>
 
-      <section className="careers-apply careers-section reveal-section" aria-labelledby="careers-apply-title">
-        <div className="careers-content-container page-container grid gap-7 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-12">
-          <div className="max-w-2xl">
-            <p className="text-eyebrow text-brand">{careers.ctaEyebrow}</p>
-            <h2 id="careers-apply-title" className="careers-section-title mt-4">
-              {careers.ctaTitle}
-            </h2>
-          </div>
-          <div className="flex flex-wrap gap-3 lg:justify-end">
-            <a
-              href={applyHref}
-              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-5 py-3 text-sm font-semibold text-charcoal transition hover:bg-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-earth"
-            >
-              {careers.emptyCta}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </a>
-            <Link
-              href={localizePath(routes.contact, locale)}
-              className="inline-flex min-h-11 items-center rounded-md border border-earth/35 px-5 py-3 text-sm font-semibold text-earth transition hover:bg-earth hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-earth"
-            >
-              {dictionary.common.contactCta}
-            </Link>
-          </div>
-        </div>
-      </section>
       </div>
     </SiteShell>
   );

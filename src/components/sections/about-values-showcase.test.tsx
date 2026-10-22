@@ -44,4 +44,24 @@ describe("AboutValuesShowcase", () => {
       expect(article).toHaveAttribute("tabindex", "0");
     });
   });
+
+  it("keeps the value panels close to the heading without a fixed-height gap", () => {
+    render(
+      <AboutValuesShowcase
+        eyebrow="Vision · Mission · Core values"
+        title="Creating spaces for meaningful living"
+        imageAlt="Architecture and landscape"
+        values={values}
+      />,
+    );
+
+    const panels = screen.getAllByRole("article");
+    const panelGroup = panels[0].parentElement;
+
+    expect(panelGroup).toHaveClass("xl:mt-12");
+    expect(panelGroup).not.toHaveClass("xl:mt-auto", "xl:pt-20");
+    expect(panelGroup?.parentElement?.parentElement).not.toHaveClass(
+      "xl:min-h-[760px]",
+    );
+  });
 });

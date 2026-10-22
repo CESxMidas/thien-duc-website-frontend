@@ -73,9 +73,9 @@ export default async function AboutPage({
 
   return (
     <SiteShell locale={locale}>
-      <div className="page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="about-page-shell page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
 
-        <div className="grid content-between gap-8 sm:gap-10">
+        <div className="grid content-start gap-6 sm:gap-8">
           <PageHeading
             bare
             eyebrow={about.eyebrow}
@@ -101,15 +101,16 @@ export default async function AboutPage({
                 label={about.mottoLabel}
                 className="mt-6"
               />
+              <AboutJourney about={about} />
             </div>
 
-            <div className="hover-card flex flex-col overflow-hidden border border-black/10 bg-white">
-              <div className="image-reveal relative aspect-4/3 xl:aspect-auto xl:min-h-72 xl:flex-1">
+            <div className="hover-card overflow-hidden border border-black/10 bg-white xl:flex xl:h-full xl:flex-col">
+              <div className="image-reveal relative aspect-video shrink-0 bg-surface xl:aspect-auto xl:min-h-72 xl:flex-1">
                 <Image
-                  src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
+                  src="/images/about/about-foundation-waterfront.webp"
                   alt={about.imageAlt}
                   fill
-                  className="object-cover"
+                  className="object-cover xl:object-center"
                   sizes="(min-width: 1280px) 32vw, (min-width: 1024px) 55vw, 100vw"
                 />
               </div>
@@ -133,7 +134,6 @@ export default async function AboutPage({
               </div>
             </div>
           </section>
-
         </div>
 
         <ContentSidebar
@@ -147,7 +147,6 @@ export default async function AboutPage({
       </div>
 
       <div className="about-page">
-        <AboutJourney about={about} />
         <AboutValuesShowcase
           eyebrow={about.principlesEyebrow}
           title={about.principlesShowcaseTitle}

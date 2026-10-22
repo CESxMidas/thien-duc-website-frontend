@@ -29,7 +29,7 @@ export function AboutValuesShowcase({
       className="about-values-showcase reveal-section"
       aria-labelledby="about-values-title"
     >
-      <div className="about-values-scene relative isolate overflow-hidden bg-olive text-ivory xl:min-h-[760px]">
+      <div className="about-values-scene relative isolate overflow-hidden bg-olive text-ivory">
         <Image
           src={IMAGE_SRC}
           alt=""
@@ -48,7 +48,7 @@ export function AboutValuesShowcase({
           aria-hidden="true"
         />
 
-        <div className="page-container relative z-10 flex min-h-full flex-col pb-12 pt-0 sm:pb-16 xl:min-h-[760px] xl:py-20">
+        <div className="page-container relative z-10 flex flex-col pb-12 pt-0 sm:pb-16 xl:py-16">
           <div className="grid items-stretch gap-8 xl:block">
             <div className="about-values-copy flex flex-col justify-center xl:max-w-[43%]">
               <p className="text-eyebrow text-gold-soft">{eyebrow}</p>
@@ -64,7 +64,7 @@ export function AboutValuesShowcase({
               </h2>
             </div>
 
-            <div className="relative order-first -mx-5 aspect-[16/10] overflow-hidden sm:-mx-8 lg:-mx-20 xl:hidden">
+            <div className="relative order-first -mx-5 aspect-[16/10] overflow-hidden sm:-mx-8 lg:-mx-14 xl:-mx-20 xl:hidden">
               <Image
                 src={IMAGE_SRC}
                 alt={imageAlt}
@@ -79,7 +79,7 @@ export function AboutValuesShowcase({
             </div>
           </div>
 
-          <div className="about-values-items mt-10 grid gap-4 lg:grid-cols-3 xl:mt-auto xl:pt-20">
+          <div className="about-values-items mt-10 grid gap-4 lg:grid-cols-3 xl:mt-12">
             {values.map((value, index) => {
               const Icon = valueIcons[index] ?? ShieldCheck;
 
