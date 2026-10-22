@@ -320,6 +320,7 @@ export type Dictionary = {
     timeline: Array<{ period: string; title: string; description: string }>;
     principlesEyebrow: string;
     principlesTitle: string;
+    principlesShowcaseTitle: string;
     principles: Array<{ title: string; description: string }>;
     fieldsEyebrow: string;
     fieldsTitle: string;

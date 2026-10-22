@@ -5,12 +5,10 @@ import { notFound } from "next/navigation";
 import {
   BriefcaseBusiness,
   CalendarClock,
-  Handshake,
   MapPin,
-  ShieldCheck,
-  Target,
 } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
+import { AboutValuesShowcase } from "@/components/sections/about-values-showcase";
 import { ContentSidebar } from "@/components/sections/content-sidebar";
 import { siteConfig } from "@/config/site";
 import { openPositions } from "@/data/careers";
@@ -42,8 +40,6 @@ const metaCopy: Record<Locale, { title: string; description: string }> = {
       "An overview of Thien Duc Investment - Construction - Trading Co., Ltd, active in investment, construction, trading, and real estate development since 2010.",
   },
 };
-
-const principleIcons = [Target, Handshake, ShieldCheck];
 
 const statsColumns = [
   "",
@@ -234,38 +230,12 @@ export default async function AboutPage({
         </ol>
       </section>
 
-      <section className="reveal-section page-container py-5 sm:py-8">
-        <div className="max-w-3xl">
-          <p className="text-eyebrow mb-4 text-brand">
-            {about.principlesEyebrow}
-          </p>
-          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-            {about.principlesTitle}
-          </h2>
-        </div>
-
-        <div className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
-          {about.principles.map((item, index) => {
-            const Icon = principleIcons[index];
-
-            return (
-              <article
-                key={item.title}
-                className="hover-card group border border-black/10 bg-white p-5 hover:border-brand/35"
-              >
-                <Icon
-                  className="icon-badge mb-5 size-8 text-brand transition group-hover:scale-110"
-                  aria-hidden="true"
-                />
-                <h3 className="text-xl font-semibold">{item.title}</h3>
-                <p className="text-justified mt-4 text-sm leading-6 text-slate">
-                  {item.description}
-                </p>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+      <AboutValuesShowcase
+        eyebrow={about.principlesEyebrow}
+        title={about.principlesShowcaseTitle}
+        imageAlt={about.imageAlt}
+        values={about.principles}
+      />
 
       <section className="reveal-section page-container py-5 sm:py-8">
         <div className="max-w-3xl">

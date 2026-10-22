@@ -437,6 +437,61 @@ textarea {
   transform: translateY(0);
 }
 
+.about-values-media {
+  transform: scale(1.03);
+  transition: transform 800ms var(--ease-out-expo);
+}
+
+.about-values-copy {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 650ms var(--ease-out-expo) 100ms,
+    transform 650ms var(--ease-out-expo) 100ms;
+}
+
+.about-values-showcase.is-revealed .about-values-media {
+  transform: scale(1);
+}
+
+.about-values-showcase.is-revealed .about-values-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-values-items > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 620ms var(--ease-out-expo),
+    transform 620ms var(--ease-out-expo),
+    border-color var(--duration-base) var(--ease-out-expo),
+    background-color var(--duration-base) var(--ease-out-expo),
+    box-shadow var(--duration-base) var(--ease-out-expo);
+}
+
+.about-values-showcase.is-revealed .about-values-items > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-values-showcase.is-revealed .about-values-items > *:nth-child(1) {
+  transition-delay: 180ms;
+}
+
+.about-values-showcase.is-revealed .about-values-items > *:nth-child(2) {
+  transition-delay: 270ms;
+}
+
+.about-values-showcase.is-revealed .about-values-items > *:nth-child(3) {
+  transition-delay: 360ms;
+}
+
+.about-values-showcase.is-revealed .about-values-items > *:hover,
+.about-values-showcase.is-revealed .about-values-items > *:focus-visible {
+  transition-delay: 0ms;
+}
+
 @keyframes projectSlideFromLeft {
   from {
     opacity: 0;
@@ -565,6 +620,17 @@ textarea {
   .stagger-sides > * {
     opacity: 1;
     transform: none;
+  }
+
+  .about-values-media,
+  .about-values-copy,
+  .about-values-items > *,
+  .about-values-showcase.is-revealed .about-values-media,
+  .about-values-showcase.is-revealed .about-values-copy,
+  .about-values-showcase.is-revealed .about-values-items > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   .reveal-from-left.is-revealed,
