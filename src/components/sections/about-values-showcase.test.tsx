@@ -13,6 +13,7 @@ describe("AboutValuesShowcase", () => {
       <AboutValuesShowcase
         eyebrow="Vision · Mission · Core values"
         title="Creating spaces for meaningful living"
+        description="These principles shape how we work."
         imageAlt="Architecture and landscape"
         values={values}
       />,
@@ -24,7 +25,11 @@ describe("AboutValuesShowcase", () => {
         name: "Creating spaces for meaningful living",
       }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2 })).toHaveClass(
+      "about-values-title",
+    );
     expect(screen.getAllByRole("article")).toHaveLength(3);
+    expect(screen.getByText("These principles shape how we work.")).toBeInTheDocument();
     expect(screen.getByText("Vision description")).toBeInTheDocument();
     expect(screen.getByText("Mission description")).toBeInTheDocument();
     expect(screen.getByText("Core values description")).toBeInTheDocument();
@@ -35,6 +40,7 @@ describe("AboutValuesShowcase", () => {
       <AboutValuesShowcase
         eyebrow="Vision · Mission · Core values"
         title="Creating spaces for meaningful living"
+        description="These principles shape how we work."
         imageAlt="Architecture and landscape"
         values={values}
       />,
@@ -45,11 +51,12 @@ describe("AboutValuesShowcase", () => {
     });
   });
 
-  it("keeps the value panels close to the heading without a fixed-height gap", () => {
-    render(
+  it("uses a full-bleed image with fading overlay and compact overlaid panels", () => {
+    const { container } = render(
       <AboutValuesShowcase
         eyebrow="Vision · Mission · Core values"
         title="Creating spaces for meaningful living"
+        description="These principles shape how we work."
         imageAlt="Architecture and landscape"
         values={values}
       />,
@@ -57,28 +64,54 @@ describe("AboutValuesShowcase", () => {
 
     const panels = screen.getAllByRole("article");
     const panelGroup = panels[0].parentElement;
+    const scene = container.querySelector(".about-values-scene");
 
-    expect(panelGroup).toHaveClass("xl:mt-12");
-    expect(panelGroup).not.toHaveClass("xl:mt-auto", "xl:pt-20");
-    expect(panelGroup?.parentElement?.parentElement).not.toHaveClass(
-      "xl:min-h-[760px]",
+    expect(scene?.querySelector("img")).toHaveAttribute(
+      "alt",
+      "Architecture and landscape",
     );
+    expect(scene?.querySelector(".about-values-overlay")).toBeInTheDocument();
+    expect(scene?.querySelectorAll(".about-values-foliage")).toHaveLength(2);
+    expect(scene).toContainElement(panelGroup);
+    expect(panelGroup).toHaveClass(
+      "lg:absolute",
+      "lg:inset-y-8",
+      "lg:left-[49%]",
+      "lg:right-8",
+      "lg:grid-cols-3",
+      "lg:gap-5",
+      "xl:gap-6",
+    );
+    expect(scene).toHaveClass("lg:min-h-[25rem]", "xl:min-h-[26rem]");
+    expect(scene).not.toHaveClass("xl:min-h-[760px]");
   });
 
-  it("aligns the showcase and its image with the header gutters", () => {
+  it("aligns the full-bleed image with the header gutters", () => {
     const { container } = render(
       <AboutValuesShowcase
         eyebrow="Vision · Mission · Core values"
         title="Creating spaces for meaningful living"
+        description="These principles shape how we work."
         imageAlt="Architecture and landscape"
         values={values}
       />,
     );
 
     const section = container.querySelector(".about-values-showcase");
-    const imageFrame = container.querySelector(".aspect-\\[16\\/10\\]");
+    const scene = container.querySelector(".about-values-scene");
 
-    expect(section).toHaveClass("px-5", "sm:px-8", "lg:px-14", "xl:px-20");
-    expect(imageFrame).not.toHaveClass("-mx-5", "sm:-mx-8", "lg:-mx-14");
+    expect(section).toHaveClass(
+      "px-5",
+      "sm:px-8",
+      "lg:px-14",
+      "xl:px-20",
+    );
+    expect(scene).toHaveClass("overflow-hidden", "rounded-2xl");
+    expect(scene?.querySelector("img")).toHaveClass(
+      "absolute",
+      "inset-0",
+      "size-full",
+      "object-cover",
+    );
   });
 });

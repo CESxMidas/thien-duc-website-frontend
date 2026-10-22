@@ -23,11 +23,11 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
         <div className="careers-content-container page-container careers-culture-grid">
           <div className="careers-culture-image relative overflow-hidden">
             <Image
-              src="/images/about/careers-teamwork-illustration.svg"
+              src="/images/about/careers-team-meeting.png"
               alt={
                 locale === "vi"
-                  ? "Đội ngũ Thiên Đức cùng trao đổi công việc quanh bàn họp"
-                  : "The Thien Duc team collaborating around a meeting table"
+                  ? "Đội ngũ nhân sự cùng trao đổi công việc quanh máy tính"
+                  : "Colleagues collaborating around a laptop"
               }
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"

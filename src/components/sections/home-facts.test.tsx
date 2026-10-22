@@ -21,6 +21,14 @@ describe("HomeFacts", () => {
 
     expect(container.firstElementChild).toHaveClass("bg-ivory");
     expect(container.firstElementChild).not.toHaveClass("bg-charcoal");
+    expect(container.firstElementChild).toHaveClass(
+      "home-facts-section",
+      "overflow-hidden",
+      "isolate",
+    );
+    expect(
+      container.firstElementChild?.querySelectorAll(".home-facts-foliage"),
+    ).toHaveLength(2);
 
     await waitFor(() => {
       expect(screen.getByLabelText("16+")).toHaveTextContent("16+");

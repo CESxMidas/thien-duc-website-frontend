@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import type { Locale } from "@/lib/i18n/config";
 
 const labels: Record<
@@ -123,8 +124,32 @@ export function HomeFacts({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <section className="border-y border-earth/25 bg-ivory text-charcoal">
-      <div className="grid w-full px-5 py-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-20 lg:py-7 xl:px-28">
+    <section className="home-facts-section relative isolate overflow-hidden border-y border-earth/25 bg-ivory text-charcoal">
+      <div
+        className="home-facts-foliage home-facts-foliage-start hidden sm:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 22rem, 16rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="home-facts-foliage home-facts-foliage-end hidden lg:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 24rem, 16rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div className="relative z-10 grid w-full px-5 py-6 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-20 lg:py-7 xl:px-28">
         {facts.map((fact) => (
           <div
             key={fact.label}

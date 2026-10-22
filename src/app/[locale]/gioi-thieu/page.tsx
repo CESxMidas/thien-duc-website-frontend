@@ -150,6 +150,7 @@ export default async function AboutPage({
         <AboutValuesShowcase
           eyebrow={about.principlesEyebrow}
           title={about.principlesShowcaseTitle}
+          description={about.principlesDescription}
           imageAlt={about.imageAlt}
           values={about.principles}
         />

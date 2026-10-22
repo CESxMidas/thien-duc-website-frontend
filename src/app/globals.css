@@ -468,12 +468,89 @@ textarea {
   transition: transform 800ms var(--ease-out-expo);
 }
 
+.about-values-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-cream) 0%,
+      var(--color-cream) 34%,
+      color-mix(in srgb, var(--color-cream) 94%, transparent) 44%,
+      color-mix(in srgb, var(--color-cream) 78%, transparent) 52%,
+      color-mix(in srgb, var(--color-cream) 48%, transparent) 61%,
+      color-mix(in srgb, var(--color-cream) 18%, transparent) 70%,
+      transparent 80%
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--color-deep-olive) 24%, transparent),
+      transparent 58%
+    );
+}
+
+.about-values-foliage {
+  position: absolute;
+  z-index: 0;
+  width: clamp(12rem, 28vw, 22rem);
+  height: clamp(10rem, 21vw, 17rem);
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+}
+
+.about-values-foliage-start {
+  top: -2.5rem;
+  left: -2rem;
+}
+
+.about-values-foliage-end {
+  right: -3rem;
+  bottom: -3rem;
+  width: clamp(14rem, 30vw, 24rem);
+  height: clamp(11rem, 22vw, 18rem);
+  transform: rotate(180deg);
+  opacity: 0.11;
+}
+
+.home-facts-foliage {
+  position: absolute;
+  z-index: 0;
+  width: clamp(12rem, 25vw, 22rem);
+  height: clamp(8rem, 15vw, 13rem);
+  pointer-events: none;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+}
+
+.home-facts-foliage-start {
+  top: -4rem;
+  left: -4rem;
+}
+
+.home-facts-foliage-end {
+  right: -4rem;
+  bottom: -4.5rem;
+  transform: rotate(180deg);
+  opacity: 0.08;
+}
+
 .about-values-copy {
   opacity: 0;
   transform: translateY(16px);
   transition:
     opacity 650ms var(--ease-out-expo) 100ms,
     transform 650ms var(--ease-out-expo) 100ms;
+}
+
+.about-values-title {
+  max-width: none;
+  font-size: clamp(1.5rem, 2.7vw, 2.375rem);
+  text-wrap: nowrap;
+}
+
+@media (max-width: 63.999rem) {
+  .about-values-title {
+    text-wrap: balance;
+  }
 }
 
 .about-values-showcase.is-revealed .about-values-media {
@@ -1366,6 +1443,53 @@ main .project-map-embed {
   padding-block: clamp(3rem, 6vw, 7rem);
 }
 
+.about-foundation-section {
+  padding-block: clamp(2.5rem, 3.9vw, 3.5rem);
+}
+
+.about-foundation-grid {
+  --about-foundation-background: color-mix(
+    in srgb,
+    var(--color-surface-warm) 48%,
+    var(--color-cream)
+  );
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(1rem, 2vw, 2rem);
+  border-radius: 1.5rem;
+  background: var(--about-foundation-background);
+}
+
+.about-foundation-grid > :not(.about-foundation-foliage) {
+  position: relative;
+  z-index: 1;
+}
+
+.about-foundation-foliage {
+  position: absolute;
+  z-index: 0;
+  width: clamp(12rem, 28vw, 22rem);
+  height: clamp(10rem, 21vw, 17rem);
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+}
+
+.about-foundation-foliage-start {
+  top: -2.5rem;
+  left: -2rem;
+}
+
+.about-foundation-foliage-end {
+  right: -3rem;
+  bottom: -3rem;
+  width: clamp(14rem, 30vw, 24rem);
+  height: clamp(11rem, 22vw, 18rem);
+  transform: rotate(180deg);
+  opacity: 0.12;
+}
+
 .about-editorial-grid {
   display: grid;
   gap: 2.5rem;
@@ -1385,6 +1509,28 @@ main .project-map-embed {
 
 .about-foundation-image {
   aspect-ratio: 16 / 11;
+  border-radius: 1rem;
+}
+
+.about-foundation-title {
+  max-width: none;
+  font-size: clamp(2rem, 2.6vw, 2.5rem);
+  text-wrap: balance;
+}
+
+.about-foundation-image::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    var(--about-foundation-background) 0%,
+    color-mix(in srgb, var(--about-foundation-background) 76%, transparent) 9%,
+    color-mix(in srgb, var(--about-foundation-background) 36%, transparent) 19%,
+    transparent 32%
+  );
 }
 
 .about-journey-inline {
@@ -1461,21 +1607,33 @@ main .project-map-embed {
   text-align: right;
 }
 
-.about-values-shade {
-  background: linear-gradient(90deg, var(--color-deep-olive), color-mix(in srgb, var(--color-deep-olive) 65%, transparent) 35%, transparent 74%);
-}
-
-.about-values-base {
-  background: linear-gradient(0deg, color-mix(in srgb, var(--color-deep-olive) 80%, transparent), transparent 60%);
-}
-
 .about-value-panel {
-  background: color-mix(in srgb, var(--color-deep-olive) 68%, transparent);
+  background: color-mix(in srgb, var(--color-cream) 95%, transparent);
 }
 
 .about-value-panel:hover,
 .about-value-panel:focus-visible {
-  background: color-mix(in srgb, var(--color-deep-olive) 82%, transparent);
+  background: var(--color-cream);
+}
+
+@media (max-width: 63.999rem) {
+  .about-values-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        var(--color-surface-warm) 0%,
+        var(--color-surface-warm) 18%,
+        color-mix(in srgb, var(--color-surface-warm) 92%, transparent) 32%,
+        color-mix(in srgb, var(--color-surface-warm) 68%, transparent) 43%,
+        color-mix(in srgb, var(--color-surface-warm) 34%, transparent) 54%,
+        transparent 66%
+      ),
+      linear-gradient(
+        0deg,
+        color-mix(in srgb, var(--color-deep-olive) 20%, transparent),
+        transparent 58%
+      );
+  }
 }
 
 .careers-banner {
@@ -1606,16 +1764,36 @@ main .project-map-embed {
   }
 
   .about-foundation-image {
-    aspect-ratio: auto;
-    min-height: 40rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .about-foundation-stats > div {
+    padding-block: 0.75rem;
   }
 
   .about-foundation-grid {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-foundation-grid .about-editorial-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
   }
 
   .about-foundation-image {
     order: 2;
+  }
+
+  .about-foundation-image::after {
+    background: linear-gradient(
+      90deg,
+      var(--about-foundation-background) 0%,
+      color-mix(in srgb, var(--about-foundation-background) 76%, transparent) 9%,
+      color-mix(in srgb, var(--about-foundation-background) 36%, transparent) 19%,
+      transparent 32%
+    );
   }
 
   .careers-banner {
@@ -1682,7 +1860,7 @@ main .project-map-embed {
 /* B? c?c ng?nh ngh? ch? ?p d?ng tr?n trang Gi?i thi?u. */
 .about-fields {
   width: 100%;
-  padding-top: 1.5rem;
+  padding-top: 0;
   padding-bottom: clamp(3rem, 5vw, 5rem);
 }
 

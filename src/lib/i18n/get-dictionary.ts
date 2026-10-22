@@ -323,6 +323,7 @@ export type Dictionary = {
     principlesEyebrow: string;
     principlesTitle: string;
     principlesShowcaseTitle: string;
+    principlesDescription: string;
     principles: Array<{ title: string; description: string }>;
     fieldsEyebrow: string;
     fieldsTitle: string;
