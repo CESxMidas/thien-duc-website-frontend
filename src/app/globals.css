@@ -459,6 +459,28 @@ textarea {
   transform: translateY(0);
 }
 
+.careers-hero-media {
+  transform: scale(1.025);
+  transition: transform 800ms var(--ease-out-expo);
+}
+
+.careers-hero-copy {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 680ms var(--ease-out-expo) 100ms,
+    transform 680ms var(--ease-out-expo) 100ms;
+}
+
+.careers-hero.is-revealed .careers-hero-media {
+  transform: scale(1);
+}
+
+.careers-hero.is-revealed .careers-hero-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .about-values-items > * {
   opacity: 0;
   transform: translateY(18px);
@@ -625,9 +647,13 @@ textarea {
   .about-values-media,
   .about-values-copy,
   .about-values-items > *,
+  .careers-hero-media,
+  .careers-hero-copy,
   .about-values-showcase.is-revealed .about-values-media,
   .about-values-showcase.is-revealed .about-values-copy,
-  .about-values-showcase.is-revealed .about-values-items > * {
+  .about-values-showcase.is-revealed .about-values-items > *,
+  .careers-hero.is-revealed .careers-hero-media,
+  .careers-hero.is-revealed .careers-hero-copy {
     opacity: 1;
     transform: none;
     transition: none;

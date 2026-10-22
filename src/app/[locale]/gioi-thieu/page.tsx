@@ -2,24 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  BriefcaseBusiness,
-  CalendarClock,
-  MapPin,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { AboutValuesShowcase } from "@/components/sections/about-values-showcase";
 import { ContentSidebar } from "@/components/sections/content-sidebar";
-import { siteConfig } from "@/config/site";
-import { openPositions } from "@/data/careers";
 import { getNewsPage } from "@/lib/api/news";
 import { getProjects } from "@/lib/api/projects";
-import { formatDate } from "@/lib/format";
 import { BrandMotto } from "@/components/ui/brand-motto";
 import { PageHeading } from "@/components/ui/page-heading";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
-import { getDictionary, interpolate } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -79,15 +72,6 @@ export default async function AboutPage({
   ]);
   const about = dictionary.about;
   const careers = dictionary.careers;
-  const hrPages = dictionary.hrPages;
-  const applyHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-    careers.applySubject,
-  )}`;
-  const peopleHighlights = [
-    hrPages.orgChart,
-    hrPages.training,
-    hrPages.hrPolicy,
-  ];
   const [heroDescription, ...overviewParagraphs] = page?.paragraphs ?? [];
 
   const heading = {
@@ -163,27 +147,6 @@ export default async function AboutPage({
             </div>
           </section>
 
-          <section className="reveal-section">
-            <dl
-              className={`stagger-list grid gap-4 border border-black/10 bg-white p-5 lg:p-6 ${gridColumns(
-                statsColumns,
-                about.stats.length,
-                "sm:grid-cols-2 xl:grid-cols-4",
-              )}`}
-            >
-              {about.stats.map((stat) => (
-                <div key={stat.label} className="border-l-4 border-gold pl-4">
-                  <dt className="font-display text-4xl font-semibold leading-none text-brand">
-                    {stat.value}
-                  </dt>
-                  <dd className="mt-2 font-semibold text-ink">{stat.label}</dd>
-                  <dd className="mt-1 text-sm leading-6 text-slate">
-                    {stat.note}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </section>
         </div>
 
         <ContentSidebar
@@ -237,167 +200,66 @@ export default async function AboutPage({
         values={about.principles}
       />
 
-      <section className="reveal-section page-container py-5 sm:py-8">
-        <div className="max-w-3xl">
-          <p className="text-eyebrow mb-4 text-brand">{careers.eyebrow}</p>
-          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-            {careers.heroTitle}
-          </h2>
-          <p className="text-justified mt-5 text-base leading-7 text-slate">
-            {careers.heroDescription}
-          </p>
-        </div>
-
-        <div className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
-          {careers.values.map((value) => (
-            <article
-              key={value.title}
-              className="hover-card border border-black/10 bg-white p-5 hover:border-brand/35"
-            >
-              <h3 className="text-xl font-semibold">{value.title}</h3>
-              <p className="text-justified mt-4 text-sm leading-6 text-slate">
-                {value.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="reveal-section page-container py-5 sm:py-8">
-        <div className="stagger-list grid gap-4 md:grid-cols-3">
-          {peopleHighlights.map((item) => (
-            <article
-              key={item.title}
-              className="hover-card border border-black/10 bg-white p-5 hover:border-brand/35"
-            >
-              <p className="text-eyebrow mb-3 text-brand">
-                {hrPages.eyebrow}
-              </p>
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className="text-justified mt-4 text-sm leading-6 text-slate">
-                {item.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="reveal-section page-container py-5 sm:py-8">
+      <section className="reveal-section page-container py-6 sm:py-10">
         <div className="max-w-3xl">
           <p className="text-eyebrow mb-4 text-brand">
-            {careers.openEyebrow}
+            {about.capabilityEyebrow}
           </p>
-          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-            {careers.openTitle}
+          <h2 className="font-display text-3xl font-semibold leading-tight text-charcoal sm:text-4xl">
+            {about.capabilityTitle}
           </h2>
         </div>
 
-        {openPositions.length > 0 ? (
-          <div className="stagger-list mt-8 grid gap-4">
-            {openPositions.map((position) => (
-              <article
-                key={position.title}
-                className="hover-card border border-black/10 bg-white p-6 hover:border-brand md:p-8"
-              >
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                  <span className="inline-flex items-center gap-1.5">
-                    <BriefcaseBusiness className="size-4" aria-hidden="true" />
-                    {position.department}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <MapPin className="size-4" aria-hidden="true" />
-                    {position.location}
-                  </span>
-                  <span>{position.type}</span>
-                  {position.deadline ? (
-                    <span className="inline-flex items-center gap-1.5 text-slate">
-                      <CalendarClock className="size-4" aria-hidden="true" />
-                      {careers.deadlineLabel}{" "}
-                      {formatDate(position.deadline, locale)}
-                    </span>
-                  ) : null}
-                </div>
+        <dl
+          className={`stagger-list mt-8 grid gap-px overflow-hidden rounded-lg border border-gold/25 bg-gold/20 ${gridColumns(
+            statsColumns,
+            about.stats.length,
+            "sm:grid-cols-2 xl:grid-cols-4",
+          )}`}
+        >
+          {about.stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-[linear-gradient(145deg,#f3e2d0_0%,#ead2b8_100%)] p-6 sm:p-7"
+            >
+              <dt className="font-display text-5xl font-semibold leading-none text-earth">
+                {stat.value}
+              </dt>
+              <dd className="mt-4 font-semibold text-charcoal">{stat.label}</dd>
+              <dd className="mt-2 text-sm leading-6 text-slate">
+                {stat.note}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
-                <h3 className="mt-3 text-2xl font-semibold leading-tight">
-                  {position.title}
-                </h3>
-
-                <div className="mt-6 grid gap-6 md:grid-cols-2">
-                  <div>
-                    <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                      {careers.responsibilitiesLabel}
-                    </h4>
-                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
-                      {position.responsibilities.map((item) => (
-                        <li key={item} className="border-l-2 border-gold pl-3">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-ink">
-                      {careers.requirementsLabel}
-                    </h4>
-                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
-                      {position.requirements.map((item) => (
-                        <li key={item} className="border-l-2 border-gold pl-3">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <a
-                  href={applyHref}
-                  className="button-polish mt-7 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
-                >
-                  {careers.applyCta}
-                </a>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-8 border border-black/10 bg-white p-6">
-            <h3 className="text-2xl font-semibold">{careers.emptyTitle}</h3>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
-              {careers.emptyBody}
+      <section className="reveal-section page-container py-6 sm:py-10">
+        <div className="relative isolate overflow-hidden rounded-lg bg-[#29352b] px-6 py-10 text-white sm:px-10 sm:py-12 lg:px-14">
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-3/5 bg-[url('/images/fields/field-architecture-line-art.webp')] bg-cover bg-center opacity-[0.12]"
+            aria-hidden="true"
+          />
+          <div className="relative z-10 max-w-3xl">
+            <p className="text-eyebrow text-gold-soft">{careers.eyebrow}</p>
+            <h2 className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl">
+              {careers.heroTitle}
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-ivory/88">
+              {careers.heroDescription}
             </p>
-            <a
-              href={applyHref}
-              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            <Link
+              href={localizePath(routes.careers, locale)}
+              className="group mt-7 inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-5 py-3 text-sm font-semibold text-charcoal transition hover:bg-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              {careers.emptyCta}
-            </a>
+              {careers.teaserCta}
+              <ArrowUpRight
+                className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           </div>
-        )}
-      </section>
-
-      <section className="reveal-section page-container py-5 sm:py-8">
-        <div className="max-w-3xl">
-          <p className="text-eyebrow mb-4 text-brand">
-            {careers.processEyebrow}
-          </p>
-          <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
-            {careers.processTitle}
-          </h2>
         </div>
-
-        <ol className="stagger-list mt-8 grid gap-4 md:grid-cols-3">
-          {careers.process.map((step) => (
-            <li
-              key={step.step}
-              className="hover-card border border-black/10 bg-white p-6"
-            >
-              <p className="text-sm font-semibold text-brand">{step.step}</p>
-              <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-              <p className="text-justified mt-3 text-sm leading-6 text-slate">
-                {interpolate(step.description, { email: siteConfig.email })}
-              </p>
-            </li>
-          ))}
-        </ol>
       </section>
 
       <section className="reveal-section page-container py-5 sm:py-8">

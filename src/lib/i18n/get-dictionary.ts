@@ -314,6 +314,8 @@ export type Dictionary = {
     foundedValue: string;
     areaLabel: string;
     areaValue: string;
+    capabilityEyebrow: string;
+    capabilityTitle: string;
     stats: Array<{ value: string; label: string; note: string }>;
     timelineEyebrow: string;
     timelineTitle: string;
@@ -363,6 +365,15 @@ export type Dictionary = {
     eyebrow: string;
     heroTitle: string;
     heroDescription: string;
+    heroImageAlt: string;
+    whyEyebrow: string;
+    whyTitle: string;
+    peopleEyebrow: string;
+    peopleTitle: string;
+    peopleDescription: string;
+    teaserCta: string;
+    ctaEyebrow: string;
+    ctaTitle: string;
     values: Array<{ title: string; description: string }>;
     openEyebrow: string;
     openTitle: string;

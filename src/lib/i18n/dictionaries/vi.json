@@ -292,6 +292,8 @@
     "foundedValue": "2010",
     "areaLabel": "Địa bàn",
     "areaValue": "TP.HCM và các tỉnh",
+    "capabilityEyebrow": "NỀN TẢNG PHÁT TRIỂN",
+    "capabilityTitle": "Kinh nghiệm và năng lực triển khai",
     "stats": [
       {
         "value": "16+",
@@ -427,6 +429,15 @@
     "eyebrow": "Tuyển dụng",
     "heroTitle": "Cơ hội nghề nghiệp tại Thiên Đức",
     "heroDescription": "Thiên Đức tìm kiếm những cộng sự cùng chia sẻ các giá trị uy tín, chất lượng, đổi mới và ổn định trong các dự án đầu tư, xây dựng và phát triển đô thị.",
+    "heroImageAlt": "Không gian kiến trúc và cảnh quan tại Khu đô thị Hưng Phú",
+    "whyEyebrow": "ĐỒNG HÀNH CÙNG THIÊN ĐỨC",
+    "whyTitle": "Phát triển chuyên môn qua những dự án thực tế",
+    "peopleEyebrow": "PHÁT TRIỂN CON NGƯỜI",
+    "peopleTitle": "Đào tạo và chính sách nhân sự",
+    "peopleDescription": "Thông tin về đào tạo, phát triển năng lực, chính sách nhân sự và môi trường làm việc tại Thiên Đức.",
+    "teaserCta": "Khám phá cơ hội nghề nghiệp",
+    "ctaEyebrow": "ỨNG TUYỂN",
+    "ctaTitle": "Bắt đầu cuộc trao đổi cùng Thiên Đức",
     "values": [
       {
         "title": "Môi trường chuyên môn",
