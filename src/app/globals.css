@@ -49,6 +49,7 @@
   --color-espresso: #2d1b13;
   --color-espresso-soft: #4a3023;
   --color-olive: #485244;
+  --color-deep-olive: #29352b;
   --color-brand: #6f4b37;
   --color-brand-soft: #9d744b;
   --color-brand-dark: #2d1b13;
@@ -512,6 +513,7 @@ textarea {
 .about-values-showcase.is-revealed .about-values-items > *:hover,
 .about-values-showcase.is-revealed .about-values-items > *:focus-visible {
   transition-delay: 0ms;
+  transform: translateY(-4px);
 }
 
 @keyframes projectSlideFromLeft {
@@ -1283,4 +1285,260 @@ main .project-map-embed {
 
 :focus-visible {
   outline-color: var(--color-earth);
+}
+/* Trang Giới thiệu: ảnh lớn, nhịp biên tập và chuyển động có giới hạn. */
+.about-page {
+  --duration-reveal: 680ms;
+  background: var(--color-ivory);
+}
+
+.about-section-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(2.25rem, 3.4vw, 4rem);
+  font-weight: 500;
+  line-height: 1.08;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.about-story-section {
+  padding-block: clamp(3rem, 6vw, 7rem);
+}
+
+.about-editorial-grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: stretch;
+}
+
+.about-editorial-copy {
+  min-width: 0;
+  align-self: center;
+}
+
+.about-editorial-image {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.about-journey-image,
+.about-foundation-image {
+  aspect-ratio: 16 / 11;
+}
+
+.about-story-media {
+  transform: scale(1.03);
+  transition: transform 800ms var(--ease-out-expo);
+}
+
+.is-revealed .about-story-media {
+  transform: scale(1);
+}
+
+.about-timeline {
+  border-left: 1px solid var(--color-gold);
+  margin-left: 0.35rem;
+  padding-left: 1.75rem;
+}
+
+.about-timeline li {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+
+.about-timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.about-timeline li::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: -2.1rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  background: var(--color-ivory);
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+}
+
+.about-foundation-stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.about-foundation-stats dt {
+  margin-top: 0.75rem;
+}
+
+.about-foundation-stats dd:first-of-type {
+  order: -1;
+}
+
+.about-values-shade {
+  background: linear-gradient(90deg, var(--color-deep-olive), color-mix(in srgb, var(--color-deep-olive) 65%, transparent) 35%, transparent 74%);
+}
+
+.about-values-base {
+  background: linear-gradient(0deg, color-mix(in srgb, var(--color-deep-olive) 80%, transparent), transparent 60%);
+}
+
+.about-value-panel {
+  background: color-mix(in srgb, var(--color-deep-olive) 68%, transparent);
+}
+
+.about-value-panel:hover,
+.about-value-panel:focus-visible {
+  background: color-mix(in srgb, var(--color-deep-olive) 82%, transparent);
+}
+
+.about-careers {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-careers-image {
+  aspect-ratio: 3 / 2;
+}
+
+.about-careers-content {
+  position: relative;
+}
+
+.about-text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 44px;
+  padding-block: 0.65rem;
+  border-bottom-width: 1px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 220ms ease, border-color 220ms ease;
+}
+
+.about-text-link svg {
+  flex-shrink: 0;
+  transition: transform 220ms ease;
+}
+
+.about-text-link:hover svg,
+.about-text-link:focus-visible svg {
+  transform: translate(2px, -2px);
+}
+
+.about-text-link:hover {
+  color: var(--color-gold-soft);
+}
+
+.about-text-link:focus-visible {
+  outline: 2px solid var(--color-gold-soft);
+  outline-offset: 6px;
+}
+
+.about-connect {
+  background: linear-gradient(115deg, var(--color-espresso-soft), var(--color-espresso) 55%, var(--color-charcoal));
+}
+
+.about-connect-lines {
+  position: absolute;
+  inset: 0 0 0 45%;
+  opacity: 0.09;
+  background: url('/images/fields/field-architecture-line-art.webp') center / cover;
+  mask-image: linear-gradient(90deg, transparent, black);
+  pointer-events: none;
+}
+
+.about-page .reveal-section {
+  transform: translateY(20px);
+}
+
+.about-page .reveal-section.is-revealed {
+  transform: none;
+}
+
+.about-story-stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 620ms var(--ease-out-expo), transform 620ms var(--ease-out-expo);
+}
+
+.is-revealed .about-story-stagger > * {
+  opacity: 1;
+  transform: none;
+}
+
+.about-story-stagger > :nth-child(2) {
+  transition-delay: 100ms;
+}
+
+.about-story-stagger > :nth-child(3) {
+  transition-delay: 200ms;
+}
+
+@media (min-width: 64rem) {
+  .about-editorial-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: clamp(3rem, 5vw, 7rem);
+  }
+
+  .about-journey-image,
+  .about-foundation-image {
+    aspect-ratio: auto;
+    min-height: 40rem;
+  }
+
+  .about-foundation-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .about-foundation-image {
+    order: 2;
+  }
+
+  .about-careers {
+    min-height: 40rem;
+  }
+
+  .about-careers-image {
+    position: absolute;
+    inset: 0 0 0 45%;
+    aspect-ratio: auto;
+  }
+
+  .about-careers-content {
+    background: linear-gradient(90deg, var(--color-olive) 40%, color-mix(in srgb, var(--color-olive) 80%, transparent) 48%, transparent 65%);
+  }
+
+  .about-careers-content > div {
+    max-width: 45%;
+    min-height: 40rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page *,
+  .about-page *::before,
+  .about-page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .about-page .reveal-section,
+  .about-page .about-story-media,
+  .about-page .about-values-media,
+  .about-page .about-values-copy,
+  .about-page .about-values-items > *,
+  .about-page .about-story-stagger > *,
+  .about-page .about-text-link svg {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
