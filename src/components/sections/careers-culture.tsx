@@ -19,7 +19,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
 
   return (
     <>
-      <section className="careers-section reveal-section" aria-labelledby="careers-culture-title">
+      <section className="careers-culture careers-section reveal-section" aria-labelledby="careers-culture-title">
         <div className="careers-content-container page-container careers-culture-grid">
           <div className="careers-culture-image relative overflow-hidden">
             <Image
@@ -36,16 +36,16 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
           </div>
           <div className="min-w-0 self-center">
             <p className="text-eyebrow text-earth">{careers.whyEyebrow}</p>
-            <h2 id="careers-culture-title" className="careers-section-title mt-4">{careers.whyTitle}</h2>
-            <div className="careers-value-list mt-7">
+            <h2 id="careers-culture-title" className="careers-section-title mt-3">{careers.whyTitle}</h2>
+            <div className="careers-value-list mt-5">
               {careers.values.map((value, index) => {
                 const Icon = valueIcons[index] ?? UsersRound;
                 return (
-                  <article key={value.title} className="flex gap-4 border-t border-gold/35 py-5">
+                  <article key={value.title} className="flex gap-3 border-t border-gold/35">
                     <Icon className="mt-1 size-6 shrink-0 text-earth" aria-hidden="true" />
                     <div>
                       <h3 className="text-lg font-semibold text-charcoal">{value.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-slate">{value.description}</p>
+                      <p className="mt-1.5 text-sm leading-6 text-slate">{value.description}</p>
                     </div>
                   </article>
                 );

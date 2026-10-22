@@ -1995,6 +1995,26 @@ main .project-map-embed {
   background: var(--color-surface);
 }
 
+.careers-culture.careers-section {
+  padding-block: clamp(2rem, 3vw, 3rem);
+}
+
+.careers-culture-grid {
+  gap: 1.25rem;
+}
+
+.careers-culture-image::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 65%,
+    var(--color-ivory) 100%
+  );
+  pointer-events: none;
+  content: "";
+}
+
 .careers-culture-media {
   transform: scale(1.03);
   transition: transform 800ms var(--ease-out-expo);
@@ -2006,7 +2026,7 @@ main .project-map-embed {
 
 .careers-page .careers-value-list article {
   border-color: color-mix(in srgb, var(--color-gold) 30%, transparent);
-  padding-block: 1.25rem;
+  padding-block: 0.875rem;
 }
 
 .careers-page .careers-value-list article:last-child {
@@ -2154,12 +2174,21 @@ main .project-map-embed {
 
   .careers-culture-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: clamp(2.5rem, 4vw, 4rem);
+    gap: clamp(1.25rem, 2vw, 2rem);
   }
 
   .careers-culture-image {
     aspect-ratio: auto;
-    min-height: 32rem;
+    min-height: 26rem;
+  }
+
+  .careers-culture-image::after {
+    background: linear-gradient(
+      90deg,
+      transparent 58%,
+      color-mix(in srgb, var(--color-ivory) 30%, transparent) 76%,
+      var(--color-ivory) 100%
+    );
   }
 
   .careers-people-grid {
