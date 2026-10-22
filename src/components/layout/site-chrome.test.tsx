@@ -19,7 +19,9 @@ describe("SiteHeader", () => {
   it("dùng thanh điều hướng compact theo mockup header với 7 mục chính", () => {
     render(<SiteHeader locale="vi" dictionary={dictionary} />);
 
-    expect(screen.getByRole("banner")).toHaveClass("site-header-metallic");
+    expect(screen.getByRole("banner").className).toContain(
+      "bg-[linear-gradient(110deg,rgba(201,167,127,0.98)_0%,rgba(223,195,161,0.98)_48%,rgba(239,224,205,0.98)_100%)]",
+    );
     const primary = screen.getByRole("navigation", { name: "Primary" });
     const primaryLinks = within(primary).getAllByRole("link");
 
@@ -58,7 +60,9 @@ describe("SiteHeader", () => {
       "data-variant",
       "home-after-banner",
     );
-    expect(screen.getByRole("banner")).toHaveClass("site-header-metallic");
+    expect(screen.getByRole("banner").className).toContain(
+      "bg-[linear-gradient(110deg,#c9a77f_0%,#dfc3a1_48%,#efe0cd_100%)]",
+    );
     expect(
       screen.getByRole("link", { name: /Liên hệ nhận ưu đãi/i }),
     ).toHaveAttribute("href", "/lien-he");

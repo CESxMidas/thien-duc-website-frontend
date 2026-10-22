@@ -1065,38 +1065,6 @@ textarea {
     border-color 180ms ease-out;
 }
 
-.site-header-metallic {
-  background-color: #c2932d;
-  background-image:
-    linear-gradient(
-      108deg,
-      transparent 0%,
-      rgb(255 255 255 / 12%) 24%,
-      transparent 32%,
-      rgb(255 255 255 / 24%) 49%,
-      transparent 58%,
-      rgb(255 255 255 / 10%) 76%,
-      transparent 84%
-    ),
-    linear-gradient(
-      180deg,
-      rgb(255 255 255 / 22%) 0%,
-      transparent 43%,
-      rgb(111 75 21 / 13%) 100%
-    ),
-    linear-gradient(
-      112deg,
-      #a9781b 0%,
-      #c2922c 18%,
-      #e2c15a 37%,
-      #f4e194 50%,
-      #d7b248 66%,
-      #ecd278 82%,
-      #ad7b1d 100%
-    );
-  background-size: 180% 100%, 100% 100%, 100% 100%;
-}
-
 #site-header[data-scrolled="true"] .header-top-strip {
   grid-template-rows: 0fr;
   border-color: transparent;
