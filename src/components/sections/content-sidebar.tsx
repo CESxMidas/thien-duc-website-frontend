@@ -14,6 +14,7 @@ type ContentSidebarProps = {
   labels: Dictionary["contentSidebar"];
   common: Dictionary["common"];
   statusLabels: Dictionary["projectStatus"];
+  tone?: "espresso" | "gold";
 };
 
 export function ContentSidebar({
@@ -23,6 +24,7 @@ export function ContentSidebar({
   labels,
   common,
   statusLabels,
+  tone = "espresso",
 }: ContentSidebarProps) {
   return (
 
@@ -30,6 +32,7 @@ export function ContentSidebar({
       <Widget
         title={labels.newsTitle}
         icon={<Newspaper className="size-4" aria-hidden="true" />}
+        tone={tone}
       >
         {news.length > 0 ? (
           <ul className="grid">
@@ -86,6 +89,7 @@ export function ContentSidebar({
       <Widget
         title={labels.projectsTitle}
         icon={<Building2 className="size-4" aria-hidden="true" />}
+        tone={tone}
       >
         {projects.length > 0 ? (
           <ul className="grid gap-3 p-3">
@@ -151,15 +155,23 @@ function Widget({
   title,
   icon,
   children,
+  tone,
 }: {
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;
+  tone: "espresso" | "gold";
 }) {
   return (
     <section className="content-panel overflow-hidden border border-brand/20 bg-white shadow-[0_12px_30px_rgba(74,48,35,0.075)]">
    
-      <h2 className="text-eyebrow flex items-center gap-2 bg-[linear-gradient(105deg,#2d1b13_0%,#4a3023_48%,#73513c_100%)] px-4 py-3 text-gold-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+      <h2
+        className={`content-panel-heading text-eyebrow flex items-center gap-2 px-4 py-3 ${
+          tone === "gold"
+            ? "content-panel-heading-gold"
+            : "content-panel-heading-espresso"
+        }`}
+      >
         {icon}
         {title}
       </h2>

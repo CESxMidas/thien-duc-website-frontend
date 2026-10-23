@@ -78,6 +78,7 @@ export default async function AboutPage({
         <div className="about-page-overview grid content-start gap-6 sm:gap-8">
           <PageHeading
             bare
+            tone="gold"
             eyebrow={about.eyebrow}
             title={heading.title}
             description={heading.description}
@@ -144,6 +145,7 @@ export default async function AboutPage({
           labels={dictionary.contentSidebar}
           common={dictionary.common}
           statusLabels={dictionary.projectStatus}
+          tone="gold"
         />
       </div>
 

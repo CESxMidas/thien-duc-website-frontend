@@ -3,7 +3,7 @@ type PageHeadingProps = {
   title: string;
   description?: string;
   bare?: boolean;
-  tone?: "default" | "espresso";
+  tone?: "default" | "espresso" | "gold";
   titleClassName?: string;
 };
 
@@ -16,12 +16,17 @@ export function PageHeading({
   titleClassName,
 }: PageHeadingProps) {
   const isEspresso = tone === "espresso";
+  const accentBorder = tone === "espresso" ? "border-espresso" : "border-gold";
   const sectionClassName = bare
     ? isEspresso
-      ? "border-t-[0.4rem] border-espresso pt-6 sm:pt-8"
+      ? `border-t-[0.4rem] ${accentBorder} pt-6 sm:pt-8`
+      : tone === "gold"
+        ? `border-t-[0.4rem] ${accentBorder} pt-6 sm:pt-8`
       : ""
     : isEspresso
-      ? "page-container border-t-[0.4rem] border-espresso py-10 sm:py-14"
+      ? `page-container border-t-[0.4rem] ${accentBorder} py-10 sm:py-14`
+      : tone === "gold"
+        ? `page-container border-t-[0.4rem] ${accentBorder} py-10 sm:py-14`
       : "page-container py-10 sm:py-14";
 
   return (

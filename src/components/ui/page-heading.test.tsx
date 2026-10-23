@@ -52,4 +52,18 @@ describe("PageHeading", () => {
       "text-espresso",
     );
   });
+
+  it("hỗ trợ đường viền vàng đồng nhạt làm điểm nhấn", () => {
+    const { container } = render(
+      <PageHeading
+        bare
+        tone="gold"
+        eyebrow="Giới thiệu"
+        title="Công ty Thiên Đức"
+      />,
+    );
+
+    expect(container.querySelector("section")).toHaveClass("border-gold");
+    expect(container.querySelector("section")).not.toHaveClass("border-espresso");
+  });
 });

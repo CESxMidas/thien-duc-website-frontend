@@ -1347,6 +1347,28 @@ main div.bg-ivory {
   border-radius: 0.5rem;
 }
 
+.content-panel-heading-espresso {
+  background: linear-gradient(
+    105deg,
+    var(--color-espresso) 0%,
+    var(--color-espresso-soft) 48%,
+    var(--color-earth) 100%
+  );
+  color: var(--color-gold-soft);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+.content-panel-heading-gold {
+  background: linear-gradient(
+    105deg,
+    var(--color-gold) 0%,
+    color-mix(in srgb, var(--color-gold) 68%, white) 52%,
+    var(--color-gold-soft) 100%
+  );
+  color: var(--color-espresso);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%);
+}
+
 main .image-reveal.border,
 main .project-gallery-card,
 main .project-item-gallery,
@@ -1420,19 +1442,37 @@ main .project-map-embed {
 }
 
 .about-page-overview {
+  position: relative;
   isolation: isolate;
+  overflow: hidden;
   padding: clamp(1rem, 2.5vw, 2rem);
   border-radius: 1.25rem;
   background-color: var(--color-cream);
+}
+
+.about-page-overview::before {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  width: min(82%, 30rem);
+  height: clamp(13rem, 44vw, 18rem);
+  content: "";
+  pointer-events: none;
   background-image:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-cream) 74%, transparent),
-      color-mix(in srgb, var(--color-cream) 58%, transparent)
+      color-mix(in srgb, var(--color-cream) 26%, transparent),
+      color-mix(in srgb, var(--color-cream) 6%, transparent)
     ),
     url("/images/about/about-cannes-hotel-concept.png");
-  background-position: center, center;
-  background-size: cover;
+  background-position: center, right top;
+  background-size: 100% 100%, cover;
+}
+
+.about-page-overview > * {
+  position: relative;
+  z-index: 1;
 }
 
 .about-section-title {
@@ -1759,15 +1799,22 @@ main .project-map-embed {
   }
 
   .about-page-overview {
+    min-height: 100%;
+  }
+
+  .about-page-overview::before {
+    width: min(58%, 32rem);
+    height: clamp(18rem, 30vw, 25rem);
     background-image:
       linear-gradient(
         90deg,
-        color-mix(in srgb, var(--color-cream) 94%, transparent) 0%,
-        color-mix(in srgb, var(--color-cream) 84%, transparent) 52%,
-        color-mix(in srgb, var(--color-cream) 54%, transparent) 100%
+        var(--color-cream) 0%,
+        color-mix(in srgb, var(--color-cream) 76%, transparent) 24%,
+        transparent 100%
       ),
       url("/images/about/about-cannes-hotel-concept.png");
-    background-position: center, right center;
+    background-position: center, right top;
+    background-size: 100% 100%, cover;
   }
 
   .about-timeline {
