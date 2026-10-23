@@ -1456,6 +1456,7 @@ main .project-map-embed {
   background-position: 65% center;
   background-size: cover;
   background-repeat: no-repeat;
+  filter: contrast(1.12) saturate(1.1);
 }
 
 .about-overview-layout {
@@ -1479,13 +1480,18 @@ main .project-map-embed {
   background: transparent;
 }
 
-.about-overview-content > section:first-child {
+.about-overview-intro {
+  min-width: 0;
+  padding: 0;
+}
+
+.about-overview-intro > section {
   min-width: 0;
   border-top: 0;
   padding-top: 0;
 }
 
-.about-overview-content > section:first-child > .text-eyebrow {
+.about-overview-intro .text-eyebrow {
   margin-bottom: 0.5rem;
 }
 
@@ -1497,8 +1503,8 @@ main .project-map-embed {
   text-wrap: balance;
 }
 
-.about-overview-content > section:first-child > .content-paragraph {
-  max-width: 62ch;
+.about-overview-intro .content-paragraph {
+  max-width: none;
   margin-top: 0.75rem;
   font-size: 1rem;
   color: var(--color-ink-soft);
@@ -1561,14 +1567,22 @@ main .project-map-embed {
 
 .about-page-overview .about-overview-motto {
   margin-top: 1.5rem;
-  padding: 0.875rem 1rem;
+  padding: 1.25rem 1.5rem;
   border-color: color-mix(in srgb, var(--color-gold) 42%, var(--color-ivory));
   background: var(--color-slogan-start);
   box-shadow: none;
+  text-align: center;
 }
 
 .about-page-overview .about-overview-motto blockquote {
-  font-size: clamp(1.35rem, 2vw, 1.875rem);
+  display: grid;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 64rem) {
+  .about-page-overview .about-overview-motto blockquote {
+    font-size: 2.55rem;
+  }
 }
 
 .about-overview-copy .about-journey-inline {
@@ -2035,14 +2049,13 @@ main .project-map-embed {
 
 @container about-overview (min-width: 48rem) {
   .about-overview-layout {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
     background: linear-gradient(
         90deg,
         var(--color-ivory) 0%,
-        color-mix(in srgb, var(--color-ivory) 96%, transparent) 42%,
-        color-mix(in srgb, var(--color-ivory) 88%, transparent) 56%,
-        color-mix(in srgb, var(--color-ivory) 20%, transparent) 68%,
-        transparent 78%
+        color-mix(in srgb, var(--color-ivory) 96%, transparent) 48%,
+        color-mix(in srgb, var(--color-ivory) 65%, transparent) 55%,
+        transparent 63%
       );
   }
 

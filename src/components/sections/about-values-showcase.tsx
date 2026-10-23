@@ -31,7 +31,7 @@ export function AboutValuesShowcase({
       className="about-values-showcase reveal-section px-5 sm:px-8 lg:px-14 xl:px-20"
       aria-labelledby="about-values-title"
     >
-      <div className="about-values-scene relative isolate overflow-hidden rounded-2xl bg-cream px-5 py-7 text-ink sm:px-8 sm:py-9 lg:grid lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:items-center lg:gap-4 lg:px-9 lg:py-8 xl:px-10">
+      <div className="about-values-scene relative isolate overflow-hidden rounded-2xl bg-cream px-5 py-8 text-ink sm:px-8 sm:py-10 lg:grid lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:items-center lg:gap-4 lg:px-9 lg:py-12 xl:px-10">
         <Image
           src={IMAGE_SRC}
           alt={imageAlt}
@@ -68,7 +68,7 @@ export function AboutValuesShowcase({
           />
         </div>
 
-        <div className="about-values-copy relative z-10 flex max-w-[24rem] flex-col justify-center lg:col-start-1 lg:row-start-1 lg:w-full lg:max-w-none lg:pt-2">
+        <div className="about-values-copy relative z-10 flex max-w-[24rem] flex-col justify-center lg:col-start-1 lg:row-start-1 lg:w-full lg:max-w-none">
           <p className="text-eyebrow text-brand">{eyebrow}</p>
           <span className="mt-4 h-px w-16 bg-brand/70" aria-hidden="true" />
           <h2

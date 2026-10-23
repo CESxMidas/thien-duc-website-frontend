@@ -77,13 +77,15 @@ export default async function AboutPage({
         <div className="about-page-overview">
           <div className="about-overview-layout">
             <div className="about-overview-content">
-              <PageHeading
-                bare
-                eyebrow={about.eyebrow}
-                title={heading.title}
-                description={heading.description}
-                titleClassName="about-overview-heading"
-              />
+              <div className="about-overview-intro">
+                <PageHeading
+                  bare
+                  eyebrow={about.eyebrow}
+                  title={heading.title}
+                  description={heading.description}
+                  titleClassName="about-overview-heading"
+                />
+              </div>
               <dl className="about-overview-facts">
                 <div>
                   <dt>{about.foundedLabel}</dt>
