@@ -55,6 +55,9 @@
   --color-brand-dark: #2d1b13;
   --color-gold: #bd8f4d;
   --color-gold-soft: #e8d2bb;
+  --color-header-start: #c9a77f;
+  --color-header-middle: #d3b18a;
+  --color-header-end: #e5cfb4;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
@@ -1068,6 +1071,16 @@ textarea {
     grid-template-rows 260ms var(--ease-out-quart),
     opacity 180ms ease-out,
     border-color 180ms ease-out;
+}
+
+.site-header-surface {
+  background: linear-gradient(
+    110deg,
+    var(--color-header-start) 0%,
+    var(--color-header-start) 12%,
+    var(--color-header-middle) 48%,
+    var(--color-header-end) 100%
+  );
 }
 
 #site-header[data-scrolled="true"] .header-top-strip {
