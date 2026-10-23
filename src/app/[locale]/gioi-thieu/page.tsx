@@ -6,6 +6,7 @@ import { AboutFoundation } from "@/components/sections/about-foundation";
 import { ContentSidebar } from "@/components/sections/content-sidebar";
 import { BusinessFieldsCarousel } from "@/components/sections/business-fields-carousel";
 import { BrandMotto } from "@/components/ui/brand-motto";
+import { TouchFeedback } from "@/components/ui/touch-feedback";
 import { getNewsPage } from "@/lib/api/news";
 import { getProjects } from "@/lib/api/projects";
 import { AboutValuesShowcase } from "@/components/sections/about-values-showcase";
@@ -110,12 +111,16 @@ export default async function AboutPage({
                       <p className="content-paragraph" key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
-                  <BrandMotto
-                    motto={dictionary.footerBrand.motto}
-                    label={about.mottoLabel}
-                    className="about-overview-motto mt-4"
-                  />
-                  <AboutJourney about={about} />
+                  <TouchFeedback>
+                    <BrandMotto
+                      motto={dictionary.footerBrand.motto}
+                      label={about.mottoLabel}
+                      className="about-overview-motto mt-4"
+                    />
+                  </TouchFeedback>
+                  <TouchFeedback>
+                    <AboutJourney about={about} />
+                  </TouchFeedback>
                 </div>
               </section>
             </div>

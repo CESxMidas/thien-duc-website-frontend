@@ -198,47 +198,34 @@ export function HomeFeaturedProjectsShowcase({
   return (
     <section
       aria-labelledby="featured-projects-title"
-      className="relative isolate overflow-hidden border-y border-earth/18 bg-ivory py-10 sm:py-12 lg:py-14"
+      className="featured-projects-section relative isolate overflow-hidden border-y border-earth/18 bg-ivory pb-10 pt-16 sm:pb-12 sm:pt-20 lg:pb-16 lg:pt-24"
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
       <div
-        className="pointer-events-none absolute -left-32 top-8 -z-10 hidden h-[18rem] w-[34rem] -rotate-6 opacity-[0.13] mix-blend-multiply sm:block lg:h-[23rem] lg:w-[43rem]"
+        className="section-foliage section-foliage-start hidden sm:block"
         aria-hidden="true"
       >
         <Image
           src="/images/contact/coconut-palm-frond-soft.png"
           alt=""
           fill
-          sizes="(min-width: 1024px) 43rem, 34rem"
+          sizes="(min-width: 1024px) 36rem, 26rem"
           className="object-contain object-left-top"
         />
       </div>
       <div
-        className="pointer-events-none absolute -right-36 top-20 -z-10 hidden h-[17rem] w-[32rem] rotate-[164deg] opacity-[0.1] mix-blend-multiply md:block xl:h-[22rem] xl:w-[42rem]"
+        className="section-foliage section-foliage-end hidden md:block"
         aria-hidden="true"
       >
         <Image
           src="/images/contact/coconut-palm-frond-soft.png"
           alt=""
           fill
-          sizes="(min-width: 1280px) 42rem, 32rem"
+          sizes="(min-width: 1024px) 36rem, 26rem"
           className="object-contain object-left-top"
         />
       </div>
-      <div
-        className="pointer-events-none absolute bottom-8 left-[42%] -z-10 hidden h-[13rem] w-[25rem] rotate-[22deg] opacity-[0.08] mix-blend-multiply lg:block"
-        aria-hidden="true"
-      >
-        <Image
-          src="/images/contact/coconut-palm-frond-soft.png"
-          alt=""
-          fill
-          sizes="25rem"
-          className="object-contain object-left-top"
-        />
-      </div>
-
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <header className="mb-7 flex flex-col gap-5 md:mb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[44rem]">
