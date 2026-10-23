@@ -58,15 +58,15 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
               className="hidden h-[5.8rem] w-px bg-earth/28 lg:block"
             />
 
-            <blockquote className="max-w-[47rem] lg:pl-4 xl:pl-5">
-              <div className="flex items-start gap-3 sm:gap-4">
+            <blockquote className="w-full max-w-[47rem] justify-self-center text-center">
+              <div className="flex items-start justify-center gap-3 sm:gap-4">
                 <span
                   aria-hidden="true"
                   className="-mt-1 hidden font-display text-[2.8rem] leading-none text-earth sm:block sm:text-[3.55rem]"
                 >
                   “
                 </span>
-                <div>
+                <div className="min-w-0">
                   <h2 className={`${brandMottoTextClassName} max-w-[40rem] text-[1.6rem] sm:text-[2.38rem] lg:text-[2.55rem]`}>
                     <span className="block text-balance sm:hidden">
                       {motto}
@@ -79,7 +79,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
                       ))}
                     </span>
                   </h2>
-                  <p className="content-paragraph mt-2.5 max-w-[35rem] text-[0.72rem] font-medium leading-[1.55] text-charcoal/64 sm:text-[0.78rem]">
+                  <p className="mx-auto mt-2.5 max-w-[35rem] text-[0.72rem] font-medium leading-[1.55] text-charcoal/64 sm:text-[0.78rem]">
                     {description}
                   </p>
                 </div>
