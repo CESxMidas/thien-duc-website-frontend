@@ -31,7 +31,7 @@ export function AboutValuesShowcase({
       className="about-values-showcase reveal-section px-5 sm:px-8 lg:px-14 xl:px-20"
       aria-labelledby="about-values-title"
     >
-      <div className="about-values-scene relative isolate overflow-hidden rounded-2xl bg-cream px-5 py-7 text-ink sm:px-8 sm:py-9 lg:min-h-[25rem] lg:px-9 lg:py-8 xl:min-h-[26rem] xl:px-10">
+      <div className="about-values-scene relative isolate overflow-hidden rounded-2xl bg-cream px-5 py-7 text-ink sm:px-8 sm:py-9 lg:grid lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)] lg:items-center lg:gap-4 lg:px-9 lg:py-8 xl:px-10">
         <Image
           src={IMAGE_SRC}
           alt={imageAlt}
@@ -68,7 +68,7 @@ export function AboutValuesShowcase({
           />
         </div>
 
-        <div className="about-values-copy relative z-10 flex max-w-[24rem] flex-col justify-center lg:w-[46%] lg:max-w-none lg:pt-2">
+        <div className="about-values-copy relative z-10 flex max-w-[24rem] flex-col justify-center lg:col-start-1 lg:row-start-1 lg:w-full lg:max-w-none lg:pt-2">
           <p className="text-eyebrow text-brand">{eyebrow}</p>
           <span className="mt-4 h-px w-16 bg-brand/70" aria-hidden="true" />
           <h2
@@ -82,7 +82,7 @@ export function AboutValuesShowcase({
           </p>
         </div>
 
-        <div className="about-values-items relative z-10 mt-7 grid gap-3 lg:absolute lg:inset-y-8 lg:left-[49%] lg:right-8 lg:mt-0 lg:grid-cols-3 lg:content-center lg:gap-5 xl:right-9 xl:gap-6">
+        <div className="about-values-items relative z-10 mt-7 grid gap-3 lg:col-start-2 lg:row-start-1 lg:-ml-10 lg:mt-0 lg:grid-cols-3 lg:content-center lg:gap-4 xl:gap-5">
           {values.map((value, index) => {
             const Icon = valueIcons[index] ?? ShieldCheck;
 
@@ -90,7 +90,7 @@ export function AboutValuesShowcase({
               <article
                 key={value.title}
                 tabIndex={0}
-                className="about-value-panel group/value rounded-xl border border-brand/15 bg-cream/95 p-4 shadow-lg backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 focus-visible:-translate-y-1 focus-visible:border-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-4 xl:p-5"
+                className="about-value-panel group/value rounded-xl border border-brand/15 bg-cream/95 p-4 shadow-lg backdrop-blur-sm transition duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 focus-visible:-translate-y-1 focus-visible:border-brand/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:p-5 lg:py-6 xl:px-6 xl:py-7"
               >
                 <div className="flex items-center gap-3">
                   <span className="grid size-9 shrink-0 place-items-center rounded-full border border-brand/30 bg-brand/5 text-brand transition-colors duration-300 group-hover/value:border-brand/50 group-hover/value:bg-brand/10 group-focus-visible/value:border-brand/50 group-focus-visible/value:bg-brand/10">
@@ -100,7 +100,7 @@ export function AboutValuesShowcase({
                     {value.title}
                   </h3>
                 </div>
-                <p className="content-paragraph mt-3 text-xs leading-5 text-slate xl:text-sm xl:leading-6">
+                <p className="content-paragraph mt-3 text-xs leading-5 text-slate sm:text-sm sm:leading-6">
                   {value.description}
                 </p>
               </article>

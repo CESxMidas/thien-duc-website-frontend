@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { AboutJourney } from "@/components/sections/about-journey";
@@ -73,73 +72,52 @@ export default async function AboutPage({
 
   return (
     <SiteShell locale={locale}>
-      <div className="about-page-shell page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="about-page-shell page-container grid gap-6 py-4 sm:py-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
 
-        <div className="about-page-overview grid content-start gap-6 sm:gap-8">
-          <PageHeading
-            bare
-            tone="gold"
-            eyebrow={about.eyebrow}
-            title={heading.title}
-            description={heading.description}
-          />
-
-          <section className="reveal-section grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-            <div>
-              <p className="text-eyebrow mb-3 text-brand">
-                {about.overviewEyebrow}
-              </p>
-              <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
-                {about.overviewTitle}
-              </h2>
-              <div className="prose-content mt-5 grid gap-3 text-base leading-7 text-slate">
-                {paragraphs.map((paragraph) => (
-                  <p className="content-paragraph" key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-              <BrandMotto
-                  motto={dictionary.footerBrand.motto}
-                label={about.mottoLabel}
-                className="mt-6"
+        <div className="about-page-overview">
+          <div className="about-overview-layout">
+            <div className="about-overview-content">
+              <PageHeading
+                bare
+                eyebrow={about.eyebrow}
+                title={heading.title}
+                description={heading.description}
+                titleClassName="about-overview-heading"
               />
-              <AboutJourney about={about} />
-            </div>
-
-            <div className="hover-card overflow-hidden border border-black/10 bg-white xl:flex xl:h-full xl:flex-col">
-              <div className="image-reveal about-overview-photo relative aspect-video shrink-0 xl:aspect-auto xl:min-h-72 xl:flex-1">
-                <Image
-                  src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
-                  alt={about.imageAlt}
-                  fill
-                  className="object-cover xl:object-center"
-                  sizes="(min-width: 1280px) 32vw, (min-width: 1024px) 55vw, 100vw"
-                />
-                <span
-                  className="about-overview-photo-fade"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="grid gap-3 p-5 text-sm leading-6 text-slate sm:grid-cols-2">
+              <dl className="about-overview-facts">
                 <div>
-                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                    {about.foundedLabel}
-                  </span>
-                  <span className="mt-1 block text-lg font-semibold text-ink">
-                    {about.foundedValue}
-                  </span>
+                  <dt>{about.foundedLabel}</dt>
+                  <dd>{about.foundedValue}</dd>
                 </div>
                 <div>
-                  <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                    {about.areaLabel}
-                  </span>
-                  <span className="mt-1 block text-lg font-semibold text-ink">
-                    {about.areaValue}
-                  </span>
+                  <dt>{about.areaLabel}</dt>
+                  <dd>{about.areaValue}</dd>
                 </div>
-              </div>
-            </div>
-          </section>
+              </dl>
 
+              <section className="about-overview-copy reveal-section">
+                <div className="about-overview-copy-main">
+                  <p className="text-eyebrow mb-3 text-brand">
+                    {about.overviewEyebrow}
+                  </p>
+                  <h2 className="max-w-3xl text-2xl font-semibold leading-tight md:text-3xl">
+                    {about.overviewTitle}
+                  </h2>
+                  <div className="prose-content mt-4 grid gap-2 text-base leading-7 text-slate">
+                    {paragraphs.map((paragraph) => (
+                      <p className="content-paragraph" key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  <BrandMotto
+                    motto={dictionary.footerBrand.motto}
+                    label={about.mottoLabel}
+                    className="about-overview-motto mt-4"
+                  />
+                  <AboutJourney about={about} />
+                </div>
+              </section>
+            </div>
+          </div>
         </div>
 
         <ContentSidebar

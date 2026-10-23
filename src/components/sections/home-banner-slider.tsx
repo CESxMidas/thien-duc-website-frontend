@@ -143,7 +143,7 @@ export function HomeBannerSlider({
 
   return (
     <section
-      className="relative overflow-hidden bg-white shadow-none lg:border-x-[0.75rem] lg:border-b-[0.75rem] lg:border-espresso lg:bg-espresso lg:shadow-[inset_0_0_0_1px_rgba(200,164,95,0.18),0_16px_36px_rgba(45,27,19,0.16)]"
+      className="relative overflow-hidden bg-white shadow-none"
       aria-label={labels.regionLabel}
       aria-roledescription="carousel"
       onFocus={(event) => {

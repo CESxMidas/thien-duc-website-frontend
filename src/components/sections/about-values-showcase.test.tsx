@@ -51,7 +51,7 @@ describe("AboutValuesShowcase", () => {
     });
   });
 
-  it("uses a full-bleed image with fading overlay and compact overlaid panels", () => {
+  it("uses a full-bleed image with fading overlay and panels in the scene layout", () => {
     const { container } = render(
       <AboutValuesShowcase
         eyebrow="Vision · Mission · Core values"
@@ -74,16 +74,24 @@ describe("AboutValuesShowcase", () => {
     expect(scene?.querySelectorAll(".about-values-foliage")).toHaveLength(2);
     expect(scene).toContainElement(panelGroup);
     expect(panelGroup).toHaveClass(
-      "lg:absolute",
-      "lg:inset-y-8",
-      "lg:left-[49%]",
-      "lg:right-8",
+      "lg:col-start-2",
+      "lg:row-start-1",
+      "lg:-ml-10",
       "lg:grid-cols-3",
-      "lg:gap-5",
-      "xl:gap-6",
+      "lg:gap-4",
+      "xl:gap-5",
     );
-    expect(scene).toHaveClass("lg:min-h-[25rem]", "xl:min-h-[26rem]");
-    expect(scene).not.toHaveClass("xl:min-h-[760px]");
+    expect(scene).toHaveClass(
+      "lg:grid",
+      "lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.4fr)]",
+    );
+    expect(screen.getByRole("heading", { level: 2 })).toHaveClass(
+      "about-values-title",
+    );
+    expect(scene).not.toHaveClass(
+      "lg:min-h-[25rem]",
+      "xl:min-h-[26rem]",
+    );
   });
 
   it("aligns the full-bleed image with the header gutters", () => {
