@@ -1419,6 +1419,22 @@ main .project-map-embed {
   padding-inline: 1.25rem;
 }
 
+.about-page-overview {
+  isolation: isolate;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  border-radius: 1.25rem;
+  background-color: var(--color-cream);
+  background-image:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-cream) 74%, transparent),
+      color-mix(in srgb, var(--color-cream) 58%, transparent)
+    ),
+    url("/images/about/about-cannes-hotel-concept.png");
+  background-position: center, center;
+  background-size: cover;
+}
+
 .about-section-title {
   font-family: var(--font-cormorant), Georgia, serif;
   font-size: clamp(2.25rem, 3.4vw, 4rem);
@@ -1742,6 +1758,18 @@ main .project-map-embed {
     padding-inline: 3.5rem;
   }
 
+  .about-page-overview {
+    background-image:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-cream) 94%, transparent) 0%,
+        color-mix(in srgb, var(--color-cream) 84%, transparent) 52%,
+        color-mix(in srgb, var(--color-cream) 54%, transparent) 100%
+      ),
+      url("/images/about/about-cannes-hotel-concept.png");
+    background-position: center, right center;
+  }
+
   .about-timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(1.5rem, 3vw, 3rem);
@@ -1821,6 +1849,7 @@ main .project-map-embed {
   .about-page-shell.page-container {
     padding-inline: 5rem;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

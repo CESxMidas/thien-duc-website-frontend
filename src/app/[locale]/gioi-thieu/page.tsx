@@ -75,7 +75,7 @@ export default async function AboutPage({
     <SiteShell locale={locale}>
       <div className="about-page-shell page-container grid gap-8 py-5 sm:py-8 lg:grid-cols-[minmax(0,1fr)_19rem]">
 
-        <div className="grid content-start gap-6 sm:gap-8">
+        <div className="about-page-overview grid content-start gap-6 sm:gap-8">
           <PageHeading
             bare
             eyebrow={about.eyebrow}
@@ -134,6 +134,7 @@ export default async function AboutPage({
               </div>
             </div>
           </section>
+
         </div>
 
         <ContentSidebar
