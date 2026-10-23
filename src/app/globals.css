@@ -58,6 +58,9 @@
   --color-header-start: #c9a77f;
   --color-header-middle: #d3b18a;
   --color-header-end: #e5cfb4;
+  --color-slogan-start: #f5eee4;
+  --color-slogan-middle: #fffcf7;
+  --color-slogan-end: #f7f0e6;
   --color-ink: #292929;
   --color-ink-soft: #343532;
   --color-slate: #66655f;
@@ -1075,7 +1078,7 @@ textarea {
 
 .site-header-surface {
   background: linear-gradient(
-    110deg,
+    290deg,
     var(--color-header-start) 0%,
     var(--color-header-start) 12%,
     var(--color-header-middle) 48%,

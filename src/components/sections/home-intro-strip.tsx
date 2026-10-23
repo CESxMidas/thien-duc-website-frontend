@@ -21,18 +21,14 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
     <section className="border-y border-earth/20 bg-ivory py-5 sm:py-6 lg:py-7">
       <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <div
-          className="relative min-h-[8.5rem] overflow-hidden rounded-[8px] border border-gold/30 bg-[linear-gradient(102deg,#f1e3d4_0%,#f7eee5_28%,#ffffff_58%,#f3e6d8_100%)] px-5 py-6 shadow-[0_12px_30px_rgba(74,48,35,0.075),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 lg:min-h-[9.25rem] lg:px-16"
+          className="relative min-h-[8.5rem] overflow-hidden rounded-[8px] border border-gold/30 px-5 py-6 shadow-[0_12px_30px_rgba(74,48,35,0.075),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 lg:min-h-[9.25rem] lg:px-16"
           style={{
             backgroundImage:
-              "var(--home-intro-background, linear-gradient(102deg,#eadfcf 0%,#f6efe2 28%,#fbf6eb 58%,#efe0ca 100%))",
+              "var(--home-intro-background, linear-gradient(102deg,var(--color-slogan-start) 0%,var(--color-slogan-middle) 50%,var(--color-slogan-end) 100%))",
             backgroundPosition: "center",
             backgroundSize: "cover",
           }}
         >
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0)_31%),radial-gradient(circle_at_84%_55%,rgba(160,121,77,0.18)_0%,rgba(255,255,255,0)_34%),linear-gradient(90deg,rgba(231,218,199,0.88)_0%,rgba(248,241,229,0.78)_36%,rgba(255,252,245,0.68)_64%,rgba(238,221,195,0.42)_100%)]"
-          />
           <div className="relative z-10 grid min-h-[5.75rem] items-center gap-5 lg:grid-cols-[10.5rem_1px_minmax(0,1fr)_14rem] lg:gap-7 xl:grid-cols-[12rem_1px_minmax(0,1fr)_16rem] xl:gap-8">
             <div className="max-w-[9.75rem] lg:text-left">
               <p className="font-display text-[1.1rem] font-semibold uppercase leading-[0.98] tracking-[0.02em] text-earth sm:text-[1.2rem]">
@@ -97,7 +93,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
             </blockquote>
             <div
               aria-hidden="true"
-              className="relative hidden h-[9.75rem] w-full overflow-hidden opacity-[0.18] mix-blend-multiply lg:block"
+              className="relative hidden h-[9.75rem] w-full overflow-hidden opacity-30 mix-blend-multiply lg:block"
             >
               <Image
                 src="/images/brand/logo-thien-duc.png"
