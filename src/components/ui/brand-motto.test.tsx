@@ -56,6 +56,16 @@ describe("BrandMotto", () => {
 
     expect(screen.getByText("Một vế duy nhất")).toBeInTheDocument();
   });
+
+  it.each(["-", "–", "—"])("bỏ dấu %s khỏi slogan khi hiển thị", (separator) => {
+    const { container } = render(
+      <BrandMotto motto={`Khách hàng hài lòng ${separator} Thiên Đức thành công`} />,
+    );
+
+    expect(screen.getByText("Khách hàng hài lòng")).toBeInTheDocument();
+    expect(screen.getByText("Thiên Đức thành công")).toBeInTheDocument();
+    expect(container.querySelector("blockquote")?.textContent).not.toMatch(/[—–-]/);
+  });
 });
 
 describe("BrandMottoCompact", () => {

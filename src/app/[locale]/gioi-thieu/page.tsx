@@ -97,7 +97,7 @@ export default async function AboutPage({
                 ))}
               </div>
               <BrandMotto
-                motto={about.motto}
+                  motto={dictionary.footerBrand.motto}
                 label={about.mottoLabel}
                 className="mt-6"
               />

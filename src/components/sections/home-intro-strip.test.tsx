@@ -12,9 +12,10 @@ describe("HomeIntroStrip", () => {
     expect(
       screen.getByRole("heading", {
         level: 2,
-        name: /khách hàng hài lòng - thiên đức thành công/i,
+        name: /khách hàng hài lòng thiên đức thành công/i,
       }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2 }).textContent).not.toMatch(/[—–-]/);
     expect(screen.getByText("Thiên Đức")).toBeInTheDocument();
     expect(screen.getByText("lắng nghe")).toBeInTheDocument();
     expect(screen.getByText("Thấu hiểu từng nhu cầu")).toBeInTheDocument();

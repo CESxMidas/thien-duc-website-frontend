@@ -1,18 +1,21 @@
 
-function splitMotto(motto: string) {
+export const brandMottoTextClassName =
+  "font-display font-semibold uppercase leading-[1.04] tracking-normal text-charcoal sm:leading-[1.02]";
+
+export function splitMotto(motto: string) {
+  const normalizedMotto = motto.replace(/[—–-]/g, " ").replace(/\s+/g, " ").trim();
   for (const marker of ["Thiên Đức", "Thien Duc"]) {
-    const markerIndex = motto.indexOf(marker);
+    const markerIndex = normalizedMotto.indexOf(marker);
 
     if (markerIndex > 0) {
       return {
-        first: motto.slice(0, markerIndex).trim().replace(/,$/, ""),
-        second: motto.slice(markerIndex).trim(),
+        first: normalizedMotto.slice(0, markerIndex).trim().replace(/,$/, ""),
+        second: normalizedMotto.slice(markerIndex).trim(),
       };
     }
   }
 
-  const [first, ...rest] = motto.split(/\s*[—–]\s*|\s+-\s+/);
-  return { first: first.trim(), second: rest.join(" ").trim() || undefined };
+  return { first: normalizedMotto, second: undefined };
 }
 
 type BrandMottoProps = {
@@ -39,11 +42,11 @@ export function BrandMotto({ motto, label, className }: BrandMottoProps) {
       ) : null}
 
       <blockquote
-        className={`font-display text-xl font-bold leading-[1.15] tracking-tight sm:text-2xl ${label ? "mt-3" : ""}`}
+        className={`${brandMottoTextClassName} text-[1.6rem] sm:text-[2.38rem] ${label ? "mt-3" : ""}`}
       >
         <span className="block text-balance text-charcoal">{first}</span>
         {second ? (
-          <span className="mt-1 block text-balance text-charcoal">{second}</span>
+          <span className="block text-balance text-charcoal">{second}</span>
         ) : null}
       </blockquote>
     </figure>

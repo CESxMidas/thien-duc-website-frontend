@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { brandMottoTextClassName, splitMotto } from "@/components/ui/brand-motto";
 
 import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -6,17 +7,15 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 export async function HomeIntroStrip({ locale }: { locale: Locale }) {
   const dictionary = await getDictionary(locale);
   const { description, eyebrow } = dictionary.homeIntro;
-  const motto = dictionary.footerBrand.motto;
+  const { first, second } = splitMotto(dictionary.footerBrand.motto);
+  const mottoLines = second ? [first, second] : [first];
+  const motto = mottoLines.join(" ");
   const brandTitle =
     locale === "vi" ? ["Thiên Đức", "lắng nghe"] : ["Thien Duc", "listens"];
   const brandBody =
     locale === "vi"
       ? ["Thấu hiểu từng nhu cầu", "Kiến tạo những giá trị", "bền vững."]
       : ["Understanding every need", "Creating lasting", "long-term value."];
-  const mottoLines =
-    locale === "vi"
-      ? ["Khách hàng hài lòng -", "Thiên Đức thành công"]
-      : motto.split(/\s+[—-]\s+/);
 
   return (
     <section className="border-y border-earth/20 bg-ivory py-5 sm:py-6 lg:py-7">
@@ -72,7 +71,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
                   “
                 </span>
                 <div>
-                  <h2 className="max-w-[40rem] font-display text-[1.6rem] font-semibold uppercase leading-[1.04] tracking-[0em] text-charcoal sm:text-[2.38rem] sm:leading-[1.02] lg:text-[2.55rem]">
+                  <h2 className={`${brandMottoTextClassName} max-w-[40rem] text-[1.6rem] sm:text-[2.38rem] lg:text-[2.55rem]`}>
                     <span className="block text-balance sm:hidden">
                       {motto}
                     </span>
