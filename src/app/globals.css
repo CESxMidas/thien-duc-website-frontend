@@ -1461,18 +1461,47 @@ main .project-map-embed {
   pointer-events: none;
   background-image:
     linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-cream) 26%, transparent),
-      color-mix(in srgb, var(--color-cream) 6%, transparent)
+      0deg,
+      var(--color-cream) 0%,
+      color-mix(in srgb, var(--color-cream) 62%, transparent) 18%,
+      transparent 48%
     ),
+    linear-gradient(90deg, var(--color-cream), transparent 48%),
     url("/images/about/about-cannes-hotel-concept.png");
-  background-position: center, right top;
-  background-size: 100% 100%, cover;
+  background-position: center, center, 62% top;
+  background-size: 100% 100%, 100% 100%, auto 115%;
+  background-repeat: no-repeat;
 }
 
 .about-page-overview > * {
   position: relative;
   z-index: 1;
+}
+
+.about-overview-photo {
+  background: var(--color-cream);
+}
+
+.about-overview-photo-fade {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-cream) 0%,
+      transparent 16%,
+      transparent 84%,
+      var(--color-cream) 100%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-cream) 0%,
+      transparent 16%,
+      transparent 84%,
+      var(--color-cream) 100%
+    );
 }
 
 .about-section-title {
@@ -1803,18 +1832,24 @@ main .project-map-embed {
   }
 
   .about-page-overview::before {
-    width: min(58%, 32rem);
-    height: clamp(18rem, 30vw, 25rem);
+    width: min(80%, 48rem);
+    height: 100%;
     background-image:
       linear-gradient(
         90deg,
         var(--color-cream) 0%,
-        color-mix(in srgb, var(--color-cream) 76%, transparent) 24%,
-        transparent 100%
+        color-mix(in srgb, var(--color-cream) 78%, transparent) 22%,
+        transparent 56%
+      ),
+      linear-gradient(
+        0deg,
+        var(--color-cream) 0%,
+        color-mix(in srgb, var(--color-cream) 58%, transparent) 16%,
+        transparent 42%
       ),
       url("/images/about/about-cannes-hotel-concept.png");
-    background-position: center, right top;
-    background-size: 100% 100%, cover;
+    background-position: center, center, 62% top;
+    background-size: 100% 100%, 100% 100%, auto 128%;
   }
 
   .about-timeline {

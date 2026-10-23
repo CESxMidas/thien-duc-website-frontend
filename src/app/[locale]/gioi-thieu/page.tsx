@@ -106,13 +106,17 @@ export default async function AboutPage({
             </div>
 
             <div className="hover-card overflow-hidden border border-black/10 bg-white xl:flex xl:h-full xl:flex-col">
-              <div className="image-reveal relative aspect-video shrink-0 bg-surface xl:aspect-auto xl:min-h-72 xl:flex-1">
+              <div className="image-reveal about-overview-photo relative aspect-video shrink-0 xl:aspect-auto xl:min-h-72 xl:flex-1">
                 <Image
                   src="/images/projects/hung-phu/fancy-tower/fancy-tower-exterior-day-01.jpg"
                   alt={about.imageAlt}
                   fill
                   className="object-cover xl:object-center"
                   sizes="(min-width: 1280px) 32vw, (min-width: 1024px) 55vw, 100vw"
+                />
+                <span
+                  className="about-overview-photo-fade"
+                  aria-hidden="true"
                 />
               </div>
               <div className="grid gap-3 p-5 text-sm leading-6 text-slate sm:grid-cols-2">
