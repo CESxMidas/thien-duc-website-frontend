@@ -1954,6 +1954,31 @@ main .project-map-embed {
     padding-inline: 3.5rem;
   }
 
+  /* Giữ đáy sidebar thẳng với cột chính, dành phần giãn cho ảnh dự án. */
+  .content-sidebar > section:first-child {
+    flex-shrink: 0;
+  }
+
+  .content-sidebar > section:last-child {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .content-sidebar > section:last-child > ul {
+    flex: 1;
+    grid-auto-rows: 1fr;
+  }
+
+  .content-sidebar > section:last-child > ul > li > a {
+    height: 100%;
+    grid-template-rows: minmax(10rem, 1fr) auto;
+  }
+
+  .content-sidebar > section:last-child > ul > li > a > span:first-child {
+    aspect-ratio: auto;
+  }
+
   .about-timeline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(1.5rem, 3vw, 3rem);

@@ -28,7 +28,7 @@ export function ContentSidebar({
 }: ContentSidebarProps) {
   return (
 
-    <aside className="flex flex-col justify-between gap-6">
+    <aside className="content-sidebar flex flex-col gap-4">
       <Widget
         title={labels.newsTitle}
         icon={<Newspaper className="size-4" aria-hidden="true" />}
