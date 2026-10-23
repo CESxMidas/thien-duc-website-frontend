@@ -77,7 +77,7 @@ export function AboutValuesShowcase({
           >
             {title}
           </h2>
-          <p className="mt-5 max-w-[36rem] text-sm leading-6 text-ink/80 sm:text-base sm:leading-7">
+          <p className="content-paragraph mt-5 max-w-[36rem] text-sm leading-6 text-ink/80 sm:text-base sm:leading-7">
             {description}
           </p>
         </div>
@@ -100,7 +100,7 @@ export function AboutValuesShowcase({
                     {value.title}
                   </h3>
                 </div>
-                <p className="mt-3 text-xs leading-5 text-slate xl:text-sm xl:leading-6">
+                <p className="content-paragraph mt-3 text-xs leading-5 text-slate xl:text-sm xl:leading-6">
                   {value.description}
                 </p>
               </article>

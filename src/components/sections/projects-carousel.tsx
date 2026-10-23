@@ -170,7 +170,7 @@ export function ProjectsCarousel({
                     >
                       {project.category ?? ""}
                     </p>
-                    <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
+                    <p className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate">
                       {project.summary}
                     </p>
                     <button

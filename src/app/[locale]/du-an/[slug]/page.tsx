@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({
                       dictionary.projectDetail.overviewFallbackTitle}
                   </h2>
                   <p
-                    className={`mt-5 text-base leading-7 text-slate ${
+                    className={`content-paragraph mt-5 text-base leading-7 text-slate ${
                       project.description ? "text-justified" : ""
                     }`}
                   >
@@ -144,7 +144,7 @@ export default async function ProjectDetailPage({
                       dictionary.projectDetail.overviewFallbackDescription}
                   </p>
                   {project.mapLocation?.description ? (
-                    <p className="mt-4 text-base leading-7 text-slate">
+                    <p className="content-paragraph mt-4 text-base leading-7 text-slate">
                       {project.mapLocation.description}
                     </p>
                   ) : null}
@@ -204,7 +204,7 @@ export default async function ProjectDetailPage({
                         dictionary.projectDetail.overviewFallbackTitle}
                     </h2>
                     <p
-                      className={`mt-5 text-base leading-7 text-slate ${
+                      className={`content-paragraph mt-5 text-base leading-7 text-slate ${
                         project.description ? "text-justified" : ""
                       }`}
                     >
@@ -212,7 +212,7 @@ export default async function ProjectDetailPage({
                         dictionary.projectDetail.overviewFallbackDescription}
                     </p>
                     {project.mapLocation?.description ? (
-                      <p className="mt-4 text-base leading-7 text-slate">
+                      <p className="content-paragraph mt-4 text-base leading-7 text-slate">
                         {project.mapLocation.description}
                       </p>
                     ) : null}
@@ -317,7 +317,7 @@ export default async function ProjectDetailPage({
                 <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
                   {dictionary.projectDetail.highlightsTitle}
                 </h2>
-                <p className="mt-5 text-sm leading-6 text-slate">
+                <p className="content-paragraph mt-5 text-sm leading-6 text-slate">
                   {dictionary.projectDetail.highlightsDescription}
                 </p>
               </aside>
@@ -349,7 +349,7 @@ export default async function ProjectDetailPage({
               <h2 className="text-3xl font-semibold leading-tight">
                 {dictionary.projectDetail.ctaTitle}
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
+              <p className="content-paragraph mt-4 max-w-2xl text-sm leading-6 text-white">
                 {dictionary.projectDetail.ctaDescription}
               </p>
             </div>

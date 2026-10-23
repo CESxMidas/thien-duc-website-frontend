@@ -169,7 +169,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
           <h2 className="max-w-[44rem] break-normal font-display text-[clamp(1.85rem,9vw,2.35rem)] font-normal uppercase leading-[1] tracking-[0.01em] text-charcoal hyphens-none sm:text-[clamp(3rem,5vw,3.85rem)] sm:leading-[0.94] xl:text-[clamp(2.4rem,3.2vw,3rem)] 2xl:text-[3.6rem]">
             {renderContactTitle(locale, dictionary.homeContact.title)}
           </h2>
-          <p className="text-pretty-flow mt-5 max-w-[55ch] text-[1rem] leading-[1.76] text-charcoal/68">
+          <p className="content-paragraph text-pretty-flow mt-5 max-w-[55ch] text-[1rem] leading-[1.76] text-charcoal/68">
             {dictionary.homeContact.description}
           </p>
           <Link

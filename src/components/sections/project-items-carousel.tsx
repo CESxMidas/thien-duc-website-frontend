@@ -151,7 +151,7 @@ export function ProjectItemsCarousel({
                           {item.title}
                         </h3>
                         <p
-                          className="td-card-summary text-sm leading-6 text-slate"
+                          className="content-paragraph td-card-summary text-sm leading-6 text-slate"
                           aria-hidden={item.summary ? undefined : "true"}
                         >
                           {item.summary ?? ""}

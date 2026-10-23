@@ -65,7 +65,7 @@ export default async function MemberCompaniesPage({
             <p className="mt-2 text-2xl font-semibold">
               {legalRepresentative.name}
             </p>
-            <p className="mt-3 text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 text-sm leading-6 text-slate">
               {interpolate(t.repIntro, { legalName: legalDisplayName[locale] })}
             </p>
           </div>
@@ -96,7 +96,7 @@ export default async function MemberCompaniesPage({
                 {company.name}
               </h3>
               {company.note ? (
-                <p className="mt-3 text-sm leading-6 text-slate">
+                <p className="content-paragraph mt-3 text-sm leading-6 text-slate">
                   {localizeBilingual(company.note, locale)}
                 </p>
               ) : null}
@@ -104,7 +104,7 @@ export default async function MemberCompaniesPage({
           ))}
         </ul>
 
-        <p className="mt-8 max-w-3xl text-sm leading-6 text-slate">
+        <p className="content-paragraph mt-8 max-w-3xl text-sm leading-6 text-slate">
           {t.detailNotePrefix}{" "}
           <a
             href={`mailto:${siteConfig.email}`}

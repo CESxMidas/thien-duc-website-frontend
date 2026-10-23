@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { PageHeading } from "./page-heading";
 
 describe("PageHeading", () => {
-  it("mô tả dưới tiêu đề KHÔNG nhận kiểu đoạn văn hành chính", () => {
+  it("mô tả dưới tiêu đề thụt đầu dòng và giữ cách căn chữ hiện có", () => {
     render(
       <PageHeading
         eyebrow="Giới thiệu"
@@ -14,6 +14,7 @@ describe("PageHeading", () => {
     const description = screen.getByText(/Đoạn dẫn dắt ngắn/);
 
     expect(description.tagName).toBe("P");
+    expect(description).toHaveClass("content-paragraph");
     expect(description.className).not.toContain("text-justified");
     expect(description.className).not.toContain("prose-content");
   });
@@ -24,6 +25,7 @@ describe("PageHeading", () => {
     expect(screen.queryByRole("button", { name: /giới thiệu/i })).toBeNull();
     expect(screen.queryByRole("link", { name: /giới thiệu/i })).toBeNull();
     expect(screen.getByText("Giới thiệu").tagName).toBe("P");
+    expect(screen.getByText("Giới thiệu")).not.toHaveClass("content-paragraph");
   });
 
   it("tiêu đề trang vẫn là h1 và không bị thụt dòng", () => {

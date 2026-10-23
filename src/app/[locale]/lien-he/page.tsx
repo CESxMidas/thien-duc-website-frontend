@@ -79,7 +79,7 @@ export default async function ContactPage({
           <h2 className="text-3xl font-semibold leading-tight">
             {contact.formTitle}
           </h2>
-          <p className="mt-4 text-sm leading-6 text-slate">
+          <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
             {contact.formDescription}
           </p>
           <p className="mt-3 text-sm text-slate">
@@ -106,7 +106,7 @@ export default async function ContactPage({
             <h2 className="text-3xl font-semibold leading-tight">
               {contact.processTitle}
             </h2>
-            <p className="mt-4 text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
               {contact.processDescription}
             </p>
           </div>
@@ -121,7 +121,7 @@ export default async function ContactPage({
                   {item.step}
                 </p>
                 <h3 className="mt-2 font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate">
+                <p className="content-paragraph mt-2 text-sm leading-6 text-slate">
                   {item.description}
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default async function ContactPage({
             <h2 className="text-3xl font-semibold leading-tight">
               {contact.mapTitle}
             </h2>
-            <p className="mt-4 text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
               {contact.mapDescription}
             </p>
             <p className="mt-5 font-semibold leading-7 text-ink">

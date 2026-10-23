@@ -47,7 +47,7 @@ export function PageHeading({
       </h1>
       {description ? (
        
-        <p className="mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
+        <p className="content-paragraph mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
           {description}
         </p>
       ) : null}

@@ -244,6 +244,10 @@ h2 {
   text-indent: 1.5em;
 }
 
+.content-paragraph {
+  text-indent: 1.5em;
+}
+
 .prose-content > h1,
 .prose-content > h2,
 .prose-content > h3,
@@ -264,7 +268,8 @@ h2 {
   }
 
   .prose-content > p,
-  .text-justified {
+  .text-justified,
+  .content-paragraph {
     text-indent: 2em;
   }
 }

@@ -45,7 +45,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
                     <Icon className="mt-1 size-6 shrink-0 text-earth" aria-hidden="true" />
                     <div>
                       <h3 className="text-lg font-semibold text-charcoal">{value.title}</h3>
-                      <p className="mt-1.5 text-sm leading-6 text-slate">{value.description}</p>
+                      <p className="content-paragraph mt-1.5 text-sm leading-6 text-slate">{value.description}</p>
                     </div>
                   </article>
                 );
@@ -60,7 +60,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
           <div className="min-w-0">
             <p className="text-eyebrow text-earth">{careers.peopleEyebrow}</p>
             <h2 id="careers-people-title" className="careers-section-title mt-4">{careers.peopleTitle}</h2>
-            <p className="mt-5 max-w-lg text-base leading-7 text-slate">{careers.peopleDescription}</p>
+            <p className="content-paragraph mt-5 max-w-lg text-base leading-7 text-slate">{careers.peopleDescription}</p>
           </div>
           <div>
             {peopleSections.map((item) => {
@@ -71,7 +71,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
                     <Icon className="size-6 shrink-0 text-earth" aria-hidden="true" />
                     <h3 className="font-display text-3xl font-medium text-charcoal">{item.title}</h3>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate">{item.description}</p>
+                  <p className="content-paragraph mt-3 text-sm leading-7 text-slate">{item.description}</p>
                 </article>
               );
             })}

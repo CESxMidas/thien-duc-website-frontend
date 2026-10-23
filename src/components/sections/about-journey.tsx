@@ -10,7 +10,7 @@ export function AboutJourney({ about }: { about: Dictionary["about"] }) {
           <li key={milestone.period}>
             <p className="font-display text-4xl leading-none text-earth sm:text-5xl">{milestone.period}</p>
             <h3 className="mt-3 text-lg font-semibold text-charcoal">{milestone.title}</h3>
-            <p className="mt-3 text-sm leading-7 text-slate">{milestone.description}</p>
+            <p className="content-paragraph mt-3 text-sm leading-7 text-slate">{milestone.description}</p>
           </li>
         ))}
       </ol>

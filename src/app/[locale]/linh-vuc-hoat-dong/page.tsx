@@ -114,7 +114,7 @@ export default async function BusinessFieldsPage({
                     <h2 className="text-[1.25rem] font-extrabold uppercase leading-tight tracking-[0.03em]">
                       {field.title}
                     </h2>
-                    <p className="mt-4 text-sm leading-6 text-white/84">
+                    <p className="content-paragraph mt-4 text-sm leading-6 text-white/84">
                       {field.description}
                     </p>
                   </div>
@@ -152,7 +152,7 @@ export default async function BusinessFieldsPage({
           <h2 className="max-w-2xl text-2xl font-semibold leading-tight md:text-3xl">
             {about.ctaTitle}
           </h2>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-white">
+          <p className="content-paragraph mt-5 max-w-2xl text-base leading-7 text-white">
             {about.ctaDescription}
           </p>
           <Link

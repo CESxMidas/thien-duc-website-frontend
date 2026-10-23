@@ -69,7 +69,7 @@ export default async function SearchPage({
         {!query ? (
           <div className="border border-black/10 bg-white p-6">
             <h2 className="text-2xl font-semibold">{labels.emptyQueryTitle}</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
               {labels.emptyQueryDescription}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -101,7 +101,7 @@ export default async function SearchPage({
    
           <div className="border border-danger/25 bg-white p-6">
             <h2 className="text-2xl font-semibold">{labels.errorTitle}</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
               {labels.errorDescription}
             </p>
             <Link
@@ -117,7 +117,7 @@ export default async function SearchPage({
           
             <p
               data-testid="search-total-count"
-              className="mb-6 text-sm font-semibold text-slate"
+              className="content-paragraph mb-6 text-sm font-semibold text-slate"
             >
               {interpolate(
                 totalCount === 1 ? labels.summaryOne : labels.summaryMany,
@@ -134,7 +134,7 @@ export default async function SearchPage({
         ) : (
           <div className="border border-black/10 bg-white p-6">
             <h2 className="text-2xl font-semibold">{labels.notFoundTitle}</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
               {interpolate(labels.notFoundDescription, { query })}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

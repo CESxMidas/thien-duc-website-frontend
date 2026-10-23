@@ -127,7 +127,7 @@ function ProjectGallerySlider({
               {section.title}
             </h3>
             {section.description && !compact ? (
-              <p className="mt-2 text-sm leading-6 text-slate transition duration-300 group-hover:text-ink/80">
+              <p className="content-paragraph mt-2 text-sm leading-6 text-slate transition duration-300 group-hover:text-ink/80">
                 {section.description}
               </p>
             ) : null}

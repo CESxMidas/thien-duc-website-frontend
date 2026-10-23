@@ -142,7 +142,7 @@ export default async function NewsDetailPage({
               {post.title}
             </h1>
 
-            <p className="mt-5 max-w-[66ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8">
+            <p className="content-paragraph mt-5 max-w-[66ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8">
               {post.summary}
             </p>
 
@@ -168,7 +168,7 @@ export default async function NewsDetailPage({
                   ) : (
                     <p
                       key={paragraph}
-                      className="min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
+                      className="content-paragraph min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
                     >
                       {paragraph}
                     </p>

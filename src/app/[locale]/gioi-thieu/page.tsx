@@ -93,7 +93,7 @@ export default async function AboutPage({
               </h2>
               <div className="prose-content mt-5 grid gap-3 text-base leading-7 text-slate">
                 {paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                  <p className="content-paragraph" key={paragraph}>{paragraph}</p>
                 ))}
               </div>
               <BrandMotto
@@ -163,7 +163,7 @@ export default async function AboutPage({
                 {about.fieldsTitle}
               </h2>
             </div>
-            <p className="max-w-2xl text-base leading-7 text-slate">{about.fieldsDescription}</p>
+            <p className="content-paragraph max-w-2xl text-base leading-7 text-slate">{about.fieldsDescription}</p>
           </div>
           <BusinessFieldsCarousel
             fields={about.fields}

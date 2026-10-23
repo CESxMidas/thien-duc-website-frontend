@@ -22,7 +22,7 @@ export function BusinessFieldCard({
         </span>
       </div>
       <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
-      <p className="mt-3 text-sm leading-6 text-slate">{item.description}</p>
+      <p className="content-paragraph mt-3 text-sm leading-6 text-slate">{item.description}</p>
     </article>
   );
 }

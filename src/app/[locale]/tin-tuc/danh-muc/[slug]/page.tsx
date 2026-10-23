@@ -187,7 +187,7 @@ export default async function NewsCategoryPage({
             <h2 className="text-2xl font-semibold">
               {dictionary.news.categoryEmptyTitle}
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
               {interpolate(dictionary.news.categoryEmptyDescription, {
                 category: category.name,
               })}

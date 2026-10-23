@@ -153,7 +153,7 @@ export default async function ProjectItemPage({
               </h2>
           
               <p
-                className={`mt-5 text-base leading-7 text-slate ${
+                className={`content-paragraph mt-5 text-base leading-7 text-slate ${
                   item.description ? "text-justified" : ""
                 }`}
               >
@@ -227,7 +227,7 @@ export default async function ProjectItemPage({
                     {sibling.title}
                   </h3>
                   <p
-                    className="td-card-summary mt-3 text-sm leading-6 text-slate"
+                    className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate"
                     aria-hidden={sibling.summary ? undefined : "true"}
                   >
                     {sibling.summary ?? ""}
@@ -250,7 +250,7 @@ export default async function ProjectItemPage({
               <h2 className="text-3xl font-semibold leading-tight">
                 {dictionary.projectItem.ctaTitle}
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
+              <p className="content-paragraph mt-4 max-w-2xl text-sm leading-6 text-white">
                 {interpolate(dictionary.projectItem.ctaDescription, {
                   title: item.title,
                 })}

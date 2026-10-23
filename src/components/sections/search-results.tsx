@@ -82,7 +82,7 @@ export function SearchResults({
                       <h3 className="td-card-title mt-3 text-xl font-semibold">
                         {project.title}
                       </h3>
-                      <p className="td-card-summary mt-3 text-sm leading-6 text-slate">
+                      <p className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate">
                         {project.summary}
                       </p>
                       <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
@@ -121,7 +121,7 @@ export function SearchResults({
                         {post.title}
                       </h3>
                       <p
-                        className="td-card-summary mt-3 text-sm leading-6 text-slate"
+                        className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate"
                         aria-hidden={post.summary ? undefined : "true"}
                       >
                         {post.summary ?? ""}

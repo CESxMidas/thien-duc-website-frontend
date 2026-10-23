@@ -14,7 +14,7 @@ export function AboutConnect({ about, locale }: { about: Dictionary["about"]; lo
           <h2 id="about-connect-title" className="about-section-title mt-5 max-w-2xl text-ivory">{about.ctaTitle}</h2>
         </div>
         <div>
-          <p className="max-w-xl text-base leading-8 text-ivory">{about.ctaDescription}</p>
+          <p className="content-paragraph max-w-xl text-base leading-8 text-ivory">{about.ctaDescription}</p>
           <div className="mt-6 flex flex-wrap gap-x-8 gap-y-4">
             <Link href={localizePath(routes.projects, locale)} className="about-text-link border-gold-soft text-ivory">
               {about.ctaPrimary}<ArrowUpRight className="size-5" aria-hidden="true" />

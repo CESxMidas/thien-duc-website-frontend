@@ -120,7 +120,7 @@ export default async function CareersPage({
                     {position.title}
                   </h3>
                   {position.summary ? (
-                    <p className="mt-2 max-w-3xl text-sm leading-6 text-slate">
+                    <p className="content-paragraph mt-2 max-w-3xl text-sm leading-6 text-slate">
                       {position.summary}
                     </p>
                   ) : null}
@@ -190,7 +190,7 @@ export default async function CareersPage({
                 <h3 className="text-2xl font-semibold text-charcoal">
                   {careers.emptyTitle}
                 </h3>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+                <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
                   {careers.emptyBody}
                 </p>
               </div>
@@ -237,7 +237,7 @@ export default async function CareersPage({
                       <h3 className="mt-1 text-base font-semibold text-charcoal">
                         {step.title}
                       </h3>
-                      <p className="mt-1 text-sm leading-6 text-slate">
+                      <p className="content-paragraph mt-1 text-sm leading-6 text-slate">
                         {interpolate(step.description, { email: siteConfig.email })}
                       </p>
                     </div>

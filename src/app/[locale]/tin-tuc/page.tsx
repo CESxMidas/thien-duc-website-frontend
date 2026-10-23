@@ -150,7 +150,7 @@ export default async function NewsPage({
             <h2 className="text-2xl font-semibold">
               {dictionary.news.emptyTitle}
             </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">
+            <p className="content-paragraph mt-3 max-w-2xl text-sm leading-6 text-slate">
               {dictionary.news.emptyDescription}
             </p>
           </div>

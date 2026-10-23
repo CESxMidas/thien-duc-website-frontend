@@ -124,7 +124,7 @@ export default async function ProjectsPage({
               <h2 className="text-2xl font-semibold">
                 {dictionary.projects.emptyTitle}
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate">
+              <p className="content-paragraph mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate">
                 {dictionary.projects.emptyDescription}
               </p>
               <Link
@@ -146,7 +146,7 @@ export default async function ProjectsPage({
               <h2 className="text-3xl font-semibold leading-tight">
                 {dictionary.projects.ctaTitle}
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-white">
+              <p className="content-paragraph mt-4 max-w-2xl text-sm leading-6 text-white">
                 {dictionary.projects.ctaDescription}
               </p>
             </div>

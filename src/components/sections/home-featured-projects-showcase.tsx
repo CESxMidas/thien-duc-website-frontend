@@ -349,7 +349,7 @@ export function HomeFeaturedProjectsShowcase({
                 ) : null}
 
                 {activeProject.summary ? (
-                  <p className="mt-5 max-w-[32rem] text-[0.9rem] leading-[1.82] text-charcoal/74">
+                  <p className="content-paragraph mt-5 max-w-[32rem] text-[0.9rem] leading-[1.82] text-charcoal/74">
                     {activeProject.summary}
                   </p>
                 ) : null}

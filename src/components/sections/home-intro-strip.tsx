@@ -83,7 +83,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
                       ))}
                     </span>
                   </h2>
-                  <p className="mt-2.5 max-w-[35rem] text-[0.72rem] font-medium leading-[1.55] text-charcoal/64 sm:text-[0.78rem]">
+                  <p className="content-paragraph mt-2.5 max-w-[35rem] text-[0.72rem] font-medium leading-[1.55] text-charcoal/64 sm:text-[0.78rem]">
                     {description}
                   </p>
                 </div>
