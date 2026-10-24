@@ -13,10 +13,7 @@ const emailHref = `mailto:${siteConfig.email}`;
 const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
-  "inline-flex min-h-11 items-center text-base font-medium leading-6 text-footer-ink transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
-
-const footerHeadingClassName =
-  "font-display text-2xl font-bold leading-8 tracking-[0.01em] text-brand-dark";
+  "inline-flex min-h-11 items-center text-sm font-normal leading-6 text-slate transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 const contactNumberClassName =
   "block font-sans text-lg font-semibold leading-7 text-brand-dark [font-variant-numeric:lining-nums_tabular-nums]";
@@ -38,7 +35,7 @@ function FooterNavSection({
 }) {
   return (
     <div className="min-w-0 xl:border-l xl:border-divider xl:pl-6">
-      <h2 className={footerHeadingClassName}>
+      <h2 className="site-footer-heading">
         {dictionary.footerSectionTitles[section.title] ?? section.title}
       </h2>
       <ul className="mt-3 space-y-0.5">
@@ -100,7 +97,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
         </div>
 
         <div className="min-w-0 sm:col-span-2 xl:col-span-1 xl:border-l xl:border-divider xl:pl-6">
-          <h2 className={footerHeadingClassName}>
+          <h2 className="site-footer-heading">
             {dictionary.footer.contact}
           </h2>
 
@@ -129,7 +126,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 </span>
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.email}: </span>
-                  <span className="block text-base font-medium leading-6 text-footer-ink [overflow-wrap:anywhere]">
+                  <span className="block text-sm font-normal leading-6 text-slate [overflow-wrap:anywhere]">
                     {siteConfig.email}
                   </span>
                 </span>
@@ -139,7 +136,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
               <span className="grid size-5 shrink-0 place-items-center text-brand-dark">
                 <FileText className="size-[1.05rem]" aria-hidden="true" />
               </span>
-              <span className="text-base font-medium leading-6 text-footer-ink">
+              <span className="text-sm font-normal leading-6 text-slate">
                 {dictionary.footer.taxCode}: {legalInfo.taxCode}
               </span>
             </li>
@@ -155,8 +152,9 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 </span>
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.office}: </span>
-                  <span className="block text-base font-medium leading-6 text-footer-ink">
-                    {addressParts[locale].street}, {addressParts[locale].locality}
+                  <span className="block text-sm font-normal leading-6 text-slate">
+                    <span className="block">{addressParts[locale].street},</span>
+                    <span className="block">{addressParts[locale].locality}</span>
                   </span>
                 </span>
               </a>
