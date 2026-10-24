@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { ProjectMapEmbed } from "./project-map-embed";
 
 describe("ProjectMapEmbed", () => {
-  it("anh du an ben trai hien tron, khong crop mat logo", () => {
+  it("ảnh dự án cạnh bản đồ phủ kín khung, không có dải trống", () => {
     render(
       <ProjectMapEmbed
         query="Fancy Tower Ben Tre"
@@ -13,7 +13,7 @@ describe("ProjectMapEmbed", () => {
     );
 
     expect(screen.getByRole("img", { name: /Image of Fancy Tower/i })).toHaveClass(
-      "object-contain",
+      "object-cover", "object-center",
     );
   });
 });

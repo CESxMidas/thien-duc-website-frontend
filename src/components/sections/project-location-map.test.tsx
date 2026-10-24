@@ -38,7 +38,7 @@ describe("ProjectLocationMap", () => {
     );
   });
 
-  it("anh du an ben trai hien tron, khong crop mat logo", () => {
+  it("ảnh dự án cạnh sơ đồ vị trí phủ kín khung, không có dải trống", () => {
     render(
       <ProjectLocationMap
         mapLocation={{ ...baseMap, image: "" }}
@@ -50,6 +50,6 @@ describe("ProjectLocationMap", () => {
 
     expect(
       screen.getByRole("img", { name: /Aerial view of Fancy Tower/i }),
-    ).toHaveClass("object-contain");
+    ).toHaveClass("object-cover", "object-center");
   });
 });

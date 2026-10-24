@@ -271,6 +271,11 @@ h2 {
   text-indent: 1.5em;
 }
 
+/* Giữ dấu Enter từ CMS ở phần tổng quan, kể cả khi đoạn văn được căn đều. */
+.project-description {
+  white-space: pre-line;
+}
+
 .prose-content > h1,
 .prose-content > h2,
 .prose-content > h3,

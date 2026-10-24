@@ -35,7 +35,7 @@ export function ProjectMapEmbed({
               alt={copy.imageAlt(title)}
               sizes="(max-width: 1024px) 100vw, 640px"
               className="image-reveal border border-brand/18 bg-surface"
-              imageClassName="object-contain"
+              imageClassName="object-cover object-center"
               fallbackRatio={1024 / 683}
             />
           ) : null}

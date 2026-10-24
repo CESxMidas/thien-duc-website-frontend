@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({
                       dictionary.projectDetail.overviewFallbackTitle}
                   </h2>
                   <p
-                    className={`content-paragraph mt-5 text-base leading-7 text-slate ${
+                    className={`project-description content-paragraph mt-5 text-base leading-7 text-slate ${
                       project.description ? "text-justified" : ""
                     }`}
                   >
@@ -144,7 +144,7 @@ export default async function ProjectDetailPage({
                       dictionary.projectDetail.overviewFallbackDescription}
                   </p>
                   {project.mapLocation?.description ? (
-                    <p className="content-paragraph mt-4 text-base leading-7 text-slate">
+                    <p className="project-description content-paragraph mt-4 text-base leading-7 text-slate">
                       {project.mapLocation.description}
                     </p>
                   ) : null}
@@ -204,7 +204,7 @@ export default async function ProjectDetailPage({
                         dictionary.projectDetail.overviewFallbackTitle}
                     </h2>
                     <p
-                      className={`content-paragraph mt-5 text-base leading-7 text-slate ${
+                      className={`project-description content-paragraph mt-5 text-base leading-7 text-slate ${
                         project.description ? "text-justified" : ""
                       }`}
                     >
@@ -212,7 +212,7 @@ export default async function ProjectDetailPage({
                         dictionary.projectDetail.overviewFallbackDescription}
                     </p>
                     {project.mapLocation?.description ? (
-                      <p className="content-paragraph mt-4 text-base leading-7 text-slate">
+                      <p className="project-description content-paragraph mt-4 text-base leading-7 text-slate">
                         {project.mapLocation.description}
                       </p>
                     ) : null}

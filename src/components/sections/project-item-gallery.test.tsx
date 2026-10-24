@@ -25,7 +25,7 @@ describe("ProjectImageGallery", () => {
     }));
   });
 
-  it("hien anh chinh theo kieu contain de khong cat mat cong trinh", () => {
+  it("ảnh chính phủ kín khung, không để dải trống ở cạnh ảnh", () => {
     render(
       <ProjectImageGallery
         images={["/images/projects/fancy-tower.jpg"]}
@@ -34,7 +34,7 @@ describe("ProjectImageGallery", () => {
     );
 
     expect(screen.getByRole("img", { name: /Fancy Tower/ })).toHaveClass(
-      "object-contain",
+      "object-cover", "object-center",
     );
   });
 
@@ -55,7 +55,7 @@ describe("ProjectImageGallery", () => {
       fireEvent.load(image);
       expect(stage.style.aspectRatio).toBe("");
       expect(stage).toHaveClass("project-image-frame");
-      expect(image).toHaveClass("object-contain");
+      expect(image).toHaveClass("object-cover", "object-center");
     }
   });
 });
