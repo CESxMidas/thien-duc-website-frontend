@@ -2,8 +2,9 @@
 
 :root {
   --background: #efe0d2;
-  --footer-start: #e8d9c7;
-  --footer-end: #deccb6;
+  --footer-start: #fffaf2;
+  --footer-middle: #f3e4cf;
+  --footer-end: #e7ceb0;
   --foreground: #292929;
   --surface-card: #f2e2d2;
   --surface-card-highlight: #faf2e9;
@@ -380,11 +381,15 @@ body {
 }
 
 .site-footer {
-  background: linear-gradient(
-    135deg,
-    var(--footer-start),
-    var(--footer-end) 100%
-  );
+  background-color: var(--footer-start);
+  background-image:
+    radial-gradient(ellipse at 8% 8%, #ffffffb3, transparent 48%),
+    linear-gradient(
+      115deg,
+      var(--footer-start) 0%,
+      var(--footer-middle) 52%,
+      var(--footer-end) 100%
+    );
   box-shadow: 0 -8px 24px color-mix(in srgb, var(--color-brand) 6%, transparent);
 }
 

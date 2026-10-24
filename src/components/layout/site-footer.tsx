@@ -16,10 +16,10 @@ const footerLinkClassName =
   "inline-flex min-h-11 items-center text-base font-medium leading-6 text-footer-ink transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 const footerHeadingClassName =
-  "text-base font-semibold uppercase leading-6 tracking-[0.08em] text-brand-dark";
+  "font-display text-2xl font-bold leading-8 tracking-[0.01em] text-brand-dark";
 
 const contactNumberClassName =
-  "block font-sans text-base font-semibold leading-6 text-brand-dark [font-variant-numeric:lining-nums_tabular-nums]";
+  "block font-sans text-lg font-semibold leading-7 text-brand-dark [font-variant-numeric:lining-nums_tabular-nums]";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -79,10 +79,10 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             />
           </Link>
           <div className="min-w-0">
-            <p className="max-w-[38ch] text-pretty text-base font-semibold uppercase leading-7 tracking-[0.015em] text-brand-dark">
+            <p className="max-w-[38ch] text-pretty text-lg font-semibold uppercase leading-8 tracking-[0.015em] text-brand-dark">
               {dictionary.shared.companyName}
             </p>
-            <p className="mt-3 max-w-md text-pretty text-base leading-7 text-footer-muted">
+            <p className="mt-3 max-w-md text-pretty text-base font-normal leading-7 text-footer-muted">
               {dictionary.footerBrand.tagline}
             </p>
           </div>
