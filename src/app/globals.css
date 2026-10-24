@@ -317,6 +317,15 @@ body {
   overflow-wrap: break-word;
 }
 
+.site-footer {
+  background: linear-gradient(
+    135deg,
+    var(--color-ivory),
+    color-mix(in srgb, var(--color-gold-soft) 30%, var(--color-ivory))
+  );
+  box-shadow: 0 -10px 28px color-mix(in srgb, var(--color-brand) 6%, transparent);
+}
+
 img,
 svg,
 video,
