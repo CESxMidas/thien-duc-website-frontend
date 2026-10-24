@@ -37,7 +37,7 @@ function FooterNavSection({
   dictionary: Dictionary;
 }) {
   return (
-    <div className="lg:border-l lg:border-divider lg:pl-8">
+    <div className="min-w-0 xl:border-l xl:border-divider xl:pl-6">
       <h2 className={footerHeadingClassName}>
         {dictionary.footerSectionTitles[section.title] ?? section.title}
       </h2>
@@ -46,7 +46,7 @@ function FooterNavSection({
           <li key={link.href}>
             <Link
               href={localizePath(link.href, locale)}
-              className={footerLinkClassName}
+              className={`${footerLinkClassName} xl:whitespace-nowrap`}
             >
               {dictionary.footerLabels[link.href] ?? link.label}
             </Link>
@@ -60,8 +60,8 @@ function FooterNavSection({
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
     <footer className="site-footer relative mt-auto border-t border-divider text-footer-ink">
-      <div className="mx-auto grid max-w-site gap-x-8 gap-y-9 px-5 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.76fr_0.84fr_0.98fr_1.72fr] lg:items-start lg:py-12">
-        <div className="flex min-w-0 flex-col items-start gap-5 sm:col-span-2 sm:flex-row sm:items-center lg:col-span-1 lg:flex-col lg:items-start">
+      <div className="grid w-full gap-x-6 gap-y-9 px-5 py-10 sm:grid-cols-2 sm:px-8 lg:px-14 lg:py-12 xl:grid-cols-[minmax(16rem,1.3fr)_max-content_max-content_minmax(19rem,1.2fr)] xl:items-start xl:gap-x-8 xl:px-20">
+        <div className="flex min-w-0 flex-col items-start gap-5 sm:col-span-2 sm:flex-row sm:items-center xl:col-span-1 xl:flex-col xl:items-start">
           <Link
             href={localizePath(routes.home, locale)}
             className="inline-flex size-28 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:size-32"
@@ -79,16 +79,16 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             />
           </Link>
           <div className="min-w-0">
-            <p className="max-w-[38ch] text-pretty text-lg font-semibold uppercase leading-8 tracking-[0.015em] text-brand-dark">
+            <p className="text-pretty text-lg font-semibold uppercase leading-8 tracking-[0.015em] text-brand-dark">
               {dictionary.shared.companyName}
             </p>
-            <p className="mt-3 max-w-md text-pretty text-base font-normal leading-7 text-footer-muted">
+            <p className="mt-3 text-pretty text-base font-normal leading-7 text-footer-muted">
               {dictionary.footerBrand.tagline}
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:col-span-2 lg:contents">
+        <div className="grid gap-x-6 gap-y-8 min-[430px]:grid-cols-2 sm:col-span-2 xl:contents">
           {footerSections.map((section) => (
             <FooterNavSection
               key={section.title}
@@ -99,7 +99,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
           ))}
         </div>
 
-        <div className="sm:col-span-2 lg:col-span-1 lg:border-l lg:border-divider lg:pl-8">
+        <div className="min-w-0 sm:col-span-2 xl:col-span-1 xl:border-l xl:border-divider xl:pl-6">
           <h2 className={footerHeadingClassName}>
             {dictionary.footer.contact}
           </h2>
@@ -156,8 +156,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.office}: </span>
                   <span className="block text-base font-medium leading-6 text-footer-ink">
-                    <span className="block">{addressParts[locale].street},</span>
-                    <span className="block">{addressParts[locale].locality}</span>
+                    {addressParts[locale].street}, {addressParts[locale].locality}
                   </span>
                 </span>
               </a>
