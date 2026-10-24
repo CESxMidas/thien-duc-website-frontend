@@ -34,7 +34,7 @@ describe("ProjectImageGallery", () => {
     );
 
     expect(screen.getByRole("img", { name: /Fancy Tower/ })).toHaveClass(
-      "object-cover", "object-center",
+      "object-cover", "object-left-top", "origin-top-left",
     );
   });
 
@@ -55,7 +55,7 @@ describe("ProjectImageGallery", () => {
       fireEvent.load(image);
       expect(stage.style.aspectRatio).toBe("");
       expect(stage).toHaveClass("project-image-frame");
-      expect(image).toHaveClass("object-cover", "object-center");
+      expect(image).toHaveClass("object-cover", "object-left-top", "origin-top-left");
     }
   });
 });

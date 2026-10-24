@@ -164,7 +164,7 @@ function ProjectGallerySlider({
                     ? "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                     : "(max-width: 1024px) 100vw, 50vw"
                 }
-                className={`object-cover transition duration-5200ms ease-out ${
+                className={`object-cover object-left-top origin-top-left transition duration-5200ms ease-out ${
                   isActive
                     ? isHovered
                       ? "scale-[1.08]"

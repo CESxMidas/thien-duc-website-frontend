@@ -68,7 +68,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
               alt={`${title} - hình ${index + 1}`}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
+              className="object-cover object-left-top origin-top-left"
             />
           </div>
         ))}
@@ -86,7 +86,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
     >
       <div
         ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-width:none [&::-webkit-scrollbar]:hidden"
+        className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
       >
         {images.map((image, index) => (
           <div
@@ -98,7 +98,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
               alt={`${title} - hình ${index + 1}`}
               fill
               sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
+              className="object-cover object-left-top origin-top-left"
             />
           </div>
         ))}

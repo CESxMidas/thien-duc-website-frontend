@@ -69,7 +69,7 @@ export function SearchResults({
                           alt={project.title}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover"
+                          className="object-cover object-left-top origin-top-left"
                         />
                       </div>
                     ) : null}
@@ -104,7 +104,7 @@ export function SearchResults({
                           alt={post.title}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover"
+                          className="object-cover object-left-top origin-top-left"
                         />
                       </div>
                     ) : null}

@@ -90,7 +90,7 @@ export default function ProjectImageGallery({
                   alt={`${title} - hình ${index + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover object-center"
+                  className="object-cover object-left-top origin-top-left"
                   priority={index === 0}
                 />
               </div>
@@ -178,7 +178,7 @@ export default function ProjectImageGallery({
                   alt=""
                   fill
                   sizes="112px"
-                  className="object-cover"
+                  className="object-cover object-left-top origin-top-left"
                 />
               </button>
             );

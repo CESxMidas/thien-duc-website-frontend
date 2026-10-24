@@ -167,7 +167,7 @@ export function ProjectItemsCarousel({
                             alt={item.title}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                            className="object-cover transition duration-700 ease-out group-hover/slide:scale-105"
+                            className="object-cover object-left-top origin-top-left transition duration-700 ease-out group-hover/slide:scale-105"
                           />
                         ) : (
                           <div className="grid h-full place-items-center bg-ivory">
@@ -178,7 +178,7 @@ export function ProjectItemsCarousel({
                           </div>
                         )}
                         <div className="pointer-events-none absolute inset-0 bg-transparent" />
-                        <span className="absolute left-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+                        <span className="absolute right-4 top-4 inline-flex rounded-sm bg-ink/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white">
                           {statusLabels[item.status ?? projectStatus]}
                         </span>
                       </div>

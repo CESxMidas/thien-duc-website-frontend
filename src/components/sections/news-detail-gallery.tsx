@@ -78,7 +78,7 @@ export function NewsDetailGallery({
       <div className="relative mt-3">
         <div
           ref={trackRef}
-          className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1 [-ms-overflow-style:none] scrollbar-width:none [&::-webkit-scrollbar]:hidden"
+          className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1"
         >
           {gallery.map((image, index) => (
             <button

@@ -42,7 +42,7 @@ export function ProjectLocationMap({
               alt={copy.aerialAlt(title)}
               sizes="(max-width: 1024px) 100vw, 640px"
               className="image-reveal border border-brand/18 bg-surface"
-              imageClassName="object-cover object-center"
+              imageClassName="object-cover object-left-top origin-top-left"
               fallbackRatio={1024 / 683}
             />
           ) : null}

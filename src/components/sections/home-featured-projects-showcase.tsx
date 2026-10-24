@@ -267,7 +267,7 @@ export function HomeFeaturedProjectsShowcase({
                   fill
                   priority={displayIndex === 0}
                   sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="object-cover object-center contrast-[1.06] saturate-[1.08] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:scale-[1.025] motion-reduce:transition-none motion-reduce:hover:scale-100"
+                  className="object-cover object-left-top origin-top-left contrast-[1.06] saturate-[1.08] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] hover:scale-[1.025] motion-reduce:transition-none motion-reduce:hover:scale-100"
                 />
               ) : (
                 <div
@@ -413,7 +413,7 @@ export function HomeFeaturedProjectsShowcase({
                             fill
                             sizes="(min-width: 768px) 24vw, 70vw"
                             className={[
-                              "object-cover object-center contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
+                              "object-cover object-left-top origin-top-left contrast-[1.04] saturate-[1.05] transition duration-[560ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
                               isActive
                                 ? "scale-[1.025]"
                                 : "group-hover:scale-[1.025] group-focus-visible:scale-[1.025]",

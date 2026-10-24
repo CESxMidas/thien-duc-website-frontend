@@ -13,7 +13,7 @@ describe("ProjectMapEmbed", () => {
     );
 
     expect(screen.getByRole("img", { name: /Image of Fancy Tower/i })).toHaveClass(
-      "object-cover", "object-center",
+      "object-cover", "object-left-top", "origin-top-left",
     );
   });
 });

@@ -53,7 +53,7 @@ export function ContentSidebar({
                         alt=""
                         fill
                         sizes="64px"
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        className="object-cover object-left-top origin-top-left transition duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <span className="grid h-full place-items-center">
@@ -110,7 +110,7 @@ export function ContentSidebar({
                         alt=""
                         fill
                         sizes="(min-width: 1024px) 19rem, 100vw"
-                        className="object-cover transition duration-500 group-hover:scale-105"
+                        className="object-cover object-left-top origin-top-left transition duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <span className="grid h-full place-items-center">

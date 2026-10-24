@@ -138,7 +138,7 @@ export function CooperationSlider({
                     name: project.name,
                   })}
                   style={{ backgroundImage: `url(${project.image})` }}
-                  className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-center md:-mx-8 md:-mt-8 md:h-52"
+                  className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-left-top md:-mx-8 md:-mt-8 md:h-52"
                 >
                   <div
                     className="absolute inset-0 bg-transparent"

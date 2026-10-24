@@ -50,6 +50,6 @@ describe("ProjectLocationMap", () => {
 
     expect(
       screen.getByRole("img", { name: /Aerial view of Fancy Tower/i }),
-    ).toHaveClass("object-cover", "object-center");
+    ).toHaveClass("object-cover", "object-left-top", "origin-top-left");
   });
 });
