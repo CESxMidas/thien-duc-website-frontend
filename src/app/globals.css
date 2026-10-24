@@ -33,6 +33,7 @@
   --text-h2: clamp(1.75rem, 1.4rem + 1.5vw, 2.625rem);
   --text-h3: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem);
   --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-content: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
   --text-eyebrow: 0.8125rem;
 
   --leading-hero: 1.08;
@@ -197,7 +198,7 @@ h2 {
 }
 
 .td-card-summary {
-  min-height: 4.5rem;
+  min-height: 5.75rem;
   display: -webkit-box;
   overflow: hidden;
   text-wrap: pretty;
@@ -254,6 +255,8 @@ h2 {
 }
 
 .prose-content {
+  font-size: var(--text-content);
+  line-height: 1.8;
   min-width: 0;
   width: 100%;
   max-width: var(--measure-prose);
@@ -273,6 +276,39 @@ h2 {
 
 .content-paragraph {
   text-indent: 1.5em;
+}
+
+.content-paragraph,
+.text-justified {
+  font-size: var(--text-content);
+  line-height: 1.8;
+}
+
+.content-emphasis {
+  font-weight: 700;
+  color: inherit;
+}
+
+.editorial-title {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-size: clamp(2.25rem, 1.65rem + 2.4vw, 4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.editorial-section-title,
+.editorial-content h2:not(.text-eyebrow) {
+  font-family: var(--font-cormorant), "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.25;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.editorial-section-title {
+  font-size: clamp(1.625rem, 1.35rem + 1vw, 2.25rem);
 }
 
 /* Giữ dấu Enter từ CMS ở phần tổng quan, kể cả khi đoạn văn được căn đều. */
@@ -320,10 +356,11 @@ body {
 .site-footer {
   background: linear-gradient(
     135deg,
-    var(--color-ivory),
-    color-mix(in srgb, var(--color-gold-soft) 30%, var(--color-ivory))
+    var(--color-espresso-soft),
+    var(--color-espresso) 75%
   );
-  box-shadow: 0 -10px 28px color-mix(in srgb, var(--color-brand) 6%, transparent);
+  box-shadow: inset 0 3px 0 var(--color-gold),
+    0 -10px 28px color-mix(in srgb, var(--color-brand) 12%, transparent);
 }
 
 img,
@@ -1671,15 +1708,15 @@ main .project-map-embed {
 .about-overview-heading {
   max-width: none;
   font-size: clamp(1.875rem, 3vw, 3rem);
-  font-weight: 500;
-  line-height: 1.08;
+  font-weight: 600;
+  line-height: 1.2;
   text-wrap: balance;
 }
 
 .about-overview-intro .content-paragraph {
   max-width: none;
   margin-top: 0.75rem;
-  font-size: 1rem;
+  font-size: var(--text-content);
   color: var(--color-ink-soft);
   line-height: 1.7;
 }
@@ -1729,7 +1766,7 @@ main .project-map-embed {
   margin-top: 0.875rem;
   gap: 0.5rem;
   color: var(--color-slate);
-  font-size: 1rem;
+  font-size: var(--text-content);
   line-height: 1.7;
   text-align: left;
 }

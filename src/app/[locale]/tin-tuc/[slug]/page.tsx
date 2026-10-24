@@ -1,3 +1,4 @@
+import { ContentEmphasis } from "@/components/ui/content-emphasis";
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
@@ -116,7 +117,7 @@ export default async function NewsDetailPage({
 
       <section className="page-container py-7 sm:py-10 lg:py-12">
         <div className="grid min-w-0 items-start gap-9 border-y border-charcoal/15 py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <article className="min-w-0">
+          <article className="editorial-content min-w-0">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
               {post.category ? (
                 <Link
@@ -138,12 +139,12 @@ export default async function NewsDetailPage({
               ) : null}
             </div>
 
-            <h1 className="mt-4 w-full max-w-none text-[clamp(2.2rem,3.2vw,4rem)] font-medium leading-[1.02] text-balance text-charcoal">
+            <h1 className="mt-4 w-full max-w-none editorial-title text-balance text-charcoal">
               {post.title}
             </h1>
 
             <p className="content-paragraph mt-5 max-w-[66ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8">
-              {post.summary}
+              <ContentEmphasis text={post.summary} />
             </p>
 
             <div className="mt-8 sm:mt-10">
@@ -161,7 +162,7 @@ export default async function NewsDetailPage({
                   isArticleSubheading(paragraph) ? (
                     <h2
                       key={paragraph}
-                      className="mt-3 text-2xl font-semibold leading-tight text-charcoal sm:text-3xl"
+                      className="editorial-section-title mt-3 text-charcoal"
                     >
                       {paragraph}
                     </h2>
@@ -170,7 +171,7 @@ export default async function NewsDetailPage({
                       key={paragraph}
                       className="content-paragraph min-w-0 max-w-full whitespace-normal break-words [overflow-wrap:anywhere]"
                     >
-                      {paragraph}
+                      <ContentEmphasis text={paragraph} />
                     </p>
                   ),
                 )}

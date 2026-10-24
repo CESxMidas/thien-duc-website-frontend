@@ -161,7 +161,7 @@ describe("SiteFooter", () => {
     expect(within(footer).queryByRole("link", { name: /zalo/i })).toBeNull();
   });
 
-  it("dùng nền kem sáng và logo nâu để thông tin công ty dễ đọc", () => {
+  it("dùng nền espresso và logo champagne để footer tách biệt rõ", () => {
     render(<SiteFooter locale="vi" dictionary={dictionary} />);
     const footer = screen.getByRole("contentinfo");
 
@@ -173,7 +173,7 @@ describe("SiteFooter", () => {
     expect(within(footer).getByRole("img", { name: dictionary.shared.logoAlt }))
       .toHaveAttribute(
         "src",
-        expect.stringContaining("logo-thien-duc-header-transparent.png"),
+        expect.stringContaining("logo-thien-duc-footer-champagne.png"),
       );
     expect(
       within(footer)
@@ -185,6 +185,6 @@ describe("SiteFooter", () => {
     );
     expect(footer).toHaveTextContent("MST: 0309910290");
     expect(footer).toHaveTextContent("0909 768 001");
-    expect(footer).toHaveClass("site-footer", "bg-ivory", "text-ink");
+    expect(footer).toHaveClass("site-footer", "text-ivory");
   });
 });

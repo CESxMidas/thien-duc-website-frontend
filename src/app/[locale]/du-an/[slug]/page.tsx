@@ -1,3 +1,4 @@
+import { ContentEmphasis } from "@/components/ui/content-emphasis";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
@@ -113,11 +114,13 @@ export default async function ProjectDetailPage({
           <PageHeading
             eyebrow={dictionary.projectDetail.eyebrow}
             title={project.title}
+            titleClassName="editorial-title text-espresso"
+            emphasizeDescription
             description={project.summary}
           />
         </section>
 
-        <section className="project-detail-band overflow-x-clip py-8 sm:py-12">
+        <section className="project-detail-band editorial-content overflow-x-clip py-8 sm:py-12">
           {hasProjectGallery ? (
             <ProjectDetailMediaLayout
               gallery={
@@ -141,12 +144,11 @@ export default async function ProjectDetailPage({
                       project.description ? "text-justified" : ""
                     }`}
                   >
-                    {project.description ??
-                      dictionary.projectDetail.overviewFallbackDescription}
+                    <ContentEmphasis text={project.description ?? dictionary.projectDetail.overviewFallbackDescription} names={[project.title]} />
                   </p>
                   {project.mapLocation?.description ? (
                     <p style={{ whiteSpace: "pre-line" }} className="project-description content-paragraph mt-4 text-base leading-7 text-slate">
-                      {project.mapLocation.description}
+                      <ContentEmphasis text={project.mapLocation.description} names={[project.title]} />
                     </p>
                   ) : null}
                 </div>
@@ -210,12 +212,11 @@ export default async function ProjectDetailPage({
                         project.description ? "text-justified" : ""
                       }`}
                     >
-                      {project.description ??
-                        dictionary.projectDetail.overviewFallbackDescription}
+                      <ContentEmphasis text={project.description ?? dictionary.projectDetail.overviewFallbackDescription} names={[project.title]} />
                     </p>
                     {project.mapLocation?.description ? (
                       <p style={{ whiteSpace: "pre-line" }} className="project-description content-paragraph mt-4 text-base leading-7 text-slate">
-                        {project.mapLocation.description}
+                        <ContentEmphasis text={project.mapLocation.description} names={[project.title]} />
                       </p>
                     ) : null}
                   </div>
@@ -267,7 +268,7 @@ export default async function ProjectDetailPage({
         </section>
 
         {items.length > 0 ? (
-          <section className="project-detail-band py-12">
+          <section className="project-detail-band editorial-content py-12">
             <div className="page-container">
               <div className="reveal-from-left mb-8">
                 <p className="text-eyebrow mb-4 text-brand">
@@ -309,7 +310,7 @@ export default async function ProjectDetailPage({
         ) : null}
 
         {overviewHighlights.length > 0 ? (
-          <section className="project-detail-band py-12">
+          <section className="project-detail-band editorial-content py-12">
             <div className="page-container reveal-sides-pair grid gap-6 lg:grid-cols-2 lg:items-stretch">
               <aside className="reveal-from-left hover-card project-detail-panel relative flex h-full flex-col justify-center overflow-hidden p-5 md:p-7">
                 <div className="absolute inset-x-0 top-0 h-1 bg-earth" />

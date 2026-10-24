@@ -1,3 +1,4 @@
+import { ContentEmphasis } from "@/components/ui/content-emphasis";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
@@ -121,6 +122,8 @@ export default async function ProjectItemPage({
             })}
             title={item.title}
             description={item.summary}
+            emphasizeDescription
+            titleClassName="editorial-title text-espresso"
           />
         </section>
 
@@ -133,7 +136,7 @@ export default async function ProjectItemPage({
             ) : null}
 
             <article
-              className={`reveal-from-right hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7 ${
+              className={`editorial-content reveal-from-right hover-card project-detail-panel relative flex h-full flex-col overflow-hidden p-5 md:p-7 ${
                 galleryImages.length === 0 ? "lg:col-span-2" : ""
               }`}
             >
@@ -158,8 +161,7 @@ export default async function ProjectItemPage({
                   item.description ? "text-justified" : ""
                 }`}
               >
-                {item.description ??
-                  dictionary.projectItem.descriptionFallback}
+                <ContentEmphasis text={item.description ?? dictionary.projectItem.descriptionFallback} names={[project.title, item.title]} />
               </p>
 
             

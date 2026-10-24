@@ -1,3 +1,4 @@
+import { ContentEmphasis } from "@/components/ui/content-emphasis";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
@@ -75,7 +76,7 @@ export default async function AboutPage({
     <SiteShell locale={locale}>
       <div className="about-page-shell page-container grid gap-6 py-4 sm:py-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
 
-        <div className="about-page-overview">
+        <div className="about-page-overview editorial-content">
           <div className="about-overview-layout">
             <div className="about-overview-content">
               <div className="about-overview-intro">
@@ -84,6 +85,7 @@ export default async function AboutPage({
                   eyebrow={about.eyebrow}
                   title={heading.title}
                   description={heading.description}
+                  emphasizeDescription
                   titleClassName="about-overview-heading"
                 />
               </div>
@@ -108,7 +110,7 @@ export default async function AboutPage({
                   </h2>
                   <div className="prose-content mt-4 grid gap-2 text-base leading-7 text-slate">
                     {paragraphs.map((paragraph) => (
-                      <p className="content-paragraph" key={paragraph}>{paragraph}</p>
+                      <p className="content-paragraph" key={paragraph}><ContentEmphasis text={paragraph} names={["CapitaLand", "2010", "2014", "2018"]} /></p>
                     ))}
                   </div>
                   <TouchFeedback>

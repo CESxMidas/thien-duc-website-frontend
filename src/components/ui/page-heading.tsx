@@ -1,3 +1,5 @@
+import { ContentEmphasis } from "./content-emphasis";
+
 type PageHeadingProps = {
   eyebrow?: string;
   title: string;
@@ -5,6 +7,7 @@ type PageHeadingProps = {
   bare?: boolean;
   tone?: "default" | "espresso" | "gold";
   titleClassName?: string;
+  emphasizeDescription?: boolean;
 };
 
 export function PageHeading({
@@ -14,6 +17,7 @@ export function PageHeading({
   bare = false,
   tone = "espresso",
   titleClassName,
+  emphasizeDescription = false,
 }: PageHeadingProps) {
   const isEspresso = tone === "espresso";
   const accentBorder = tone === "espresso" ? "border-espresso" : "border-gold";
@@ -53,7 +57,7 @@ export function PageHeading({
       {description ? (
        
         <p className="content-paragraph mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
-          {description}
+          {emphasizeDescription ? <ContentEmphasis text={description} /> : description}
         </p>
       ) : null}
     </section>
