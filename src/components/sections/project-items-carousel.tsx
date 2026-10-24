@@ -10,7 +10,6 @@ import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 
 const AUTOPLAY_MS = 5200;
-const ITEMS_PER_PAGE = 3;
 
 type ProjectItemsCarouselProps = {
   items: ProjectItem[];
@@ -31,15 +30,33 @@ export function ProjectItemsCarousel({
   labels,
 }: ProjectItemsCarouselProps) {
   const count = items.length;
+  const [visibleCount, setVisibleCount] = useState(3);
+  const itemsPerPage = Math.min(count, visibleCount);
   const pages = Array.from(
-    { length: Math.ceil(count / ITEMS_PER_PAGE) },
+    { length: count ? Math.ceil(count / itemsPerPage) : 0 },
     (_, index) =>
-      items.slice(index * ITEMS_PER_PAGE, index * ITEMS_PER_PAGE + ITEMS_PER_PAGE),
+      Array.from(
+        { length: itemsPerPage },
+        // Nối đầu danh sách vào lượt cuối, không để lại ô trống.
+        (_, offset) => items[(index * itemsPerPage + offset) % count],
+      ),
   );
   const pageCount = pages.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useRef(false);
+  const displayIndex = pageCount ? activeIndex % pageCount : 0;
+
+  useEffect(() => {
+    function sync() {
+      setVisibleCount(
+        window.innerWidth >= 1280 ? 3 : window.innerWidth >= 768 ? 2 : 1,
+      );
+    }
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
 
   useEffect(() => {
     prefersReducedMotion.current = window.matchMedia(
@@ -48,11 +65,11 @@ export function ProjectItemsCarousel({
   }, []);
 
   function goToPrevious() {
-    setActiveIndex((current) => (current === 0 ? pageCount - 1 : current - 1));
+    setActiveIndex(displayIndex === 0 ? pageCount - 1 : displayIndex - 1);
   }
 
   function goToNext() {
-    setActiveIndex((current) => (current + 1) % pageCount);
+    setActiveIndex((current) => (pageCount ? (current + 1) % pageCount : 0));
   }
 
   function handleProgressEnd() {
@@ -64,6 +81,14 @@ export function ProjectItemsCarousel({
   }
 
   const autoplay = pageCount > 1;
+  const columnsClass =
+    itemsPerPage === 3
+      ? "grid-cols-3"
+      : itemsPerPage === 2
+        ? "grid-cols-2"
+        : "grid-cols-1";
+
+  if (!count) return null;
 
   return (
     <div
@@ -78,7 +103,7 @@ export function ProjectItemsCarousel({
           <div className="absolute inset-x-0 top-0 z-30 h-1 bg-brand/12">
             {!isPaused ? (
               <div
-                key={activeIndex}
+                key={displayIndex}
                 className="banner-progress h-full bg-gold"
                 onAnimationEnd={handleProgressEnd}
                 style={{ animationDuration: `${AUTOPLAY_MS}ms` }}
@@ -87,7 +112,7 @@ export function ProjectItemsCarousel({
               <div
                 className="h-full bg-gold transition-transform duration-300"
                 style={{
-                  transform: `scaleX(${(activeIndex + 1) / pageCount})`,
+                  transform: `scaleX(${(displayIndex + 1) / pageCount})`,
                   transformOrigin: "left",
                 }}
               />
@@ -98,12 +123,15 @@ export function ProjectItemsCarousel({
         <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            style={{ transform: `translateX(-${displayIndex * 100}%)` }}
           >
             {pages.map((page, pageIndex) => (
               <div
                 key={page.map((item) => item.slug).join("|")}
-                className="grid w-full shrink-0 gap-4 p-4 md:grid-cols-2 md:p-5 xl:grid-cols-3"
+                data-testid="project-items-page"
+                aria-hidden={pageIndex !== displayIndex ? true : undefined}
+                inert={pageIndex !== displayIndex}
+                className={`grid w-full shrink-0 gap-4 p-4 md:p-5 ${columnsClass}`}
               >
                 {page.map((item) => {
                   const href = localizePath(
@@ -163,17 +191,6 @@ export function ProjectItemsCarousel({
                     </Link>
                   );
                 })}
-                {pageIndex === pages.length - 1 &&
-                  page.length < ITEMS_PER_PAGE &&
-                  Array.from({ length: ITEMS_PER_PAGE - page.length }).map(
-                    (_, index) => (
-                      <div
-                        key={`placeholder-${index}`}
-                        aria-hidden="true"
-                        className="hidden xl:block"
-                      />
-                    ),
-                  )}
               </div>
             ))}
           </div>
@@ -190,10 +207,10 @@ export function ProjectItemsCarousel({
                 aria-label={interpolate(labels.ariaGoTo, {
                   title: page.map((item) => item.title).join(", "),
                 })}
-                aria-current={index === activeIndex}
+                aria-current={index === displayIndex ? "true" : undefined}
                 onClick={() => setActiveIndex(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex
+                  index === displayIndex
                     ? "w-8 bg-brand"
                     : "w-2.5 bg-brand/25 hover:bg-brand/45"
                 }`}
