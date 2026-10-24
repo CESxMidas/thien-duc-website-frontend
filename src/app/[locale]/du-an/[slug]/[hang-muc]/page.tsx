@@ -153,6 +153,7 @@ export default async function ProjectItemPage({
               </h2>
           
               <p
+                style={{ whiteSpace: "pre-line" }}
                 className={`project-description content-paragraph mt-5 text-base leading-7 text-slate ${
                   item.description ? "text-justified" : ""
                 }`}
