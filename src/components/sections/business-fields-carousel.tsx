@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { trackTransform } from "@/components/sections/news-slider";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
 
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
@@ -28,8 +29,8 @@ export function BusinessFieldsCarousel({
   labels,
 }: BusinessFieldsCarouselProps) {
   const count = fields.length;
-  const [rawActiveIndex, setActiveIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+  const loop = useLoopCarousel(count, 500);
 
   useEffect(() => {
     function sync() {
@@ -40,17 +41,20 @@ export function BusinessFieldsCarousel({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
-  const maxIndex = Math.max(0, count - visibleCount);
-  const activeIndex = Math.min(rawActiveIndex, maxIndex);
-  const isInteractive = maxIndex > 0;
-  const positionCount = maxIndex + 1;
+  const activeIndex = loop.activeIndex;
+  const isInteractive = count > visibleCount;
+  const positionCount = count;
+  const renderedFields = isInteractive
+    ? [...fields.slice(-visibleCount), ...fields, ...fields.slice(0, visibleCount)]
+    : fields;
+  const trackIndex = isInteractive ? visibleCount + loop.position - 1 : 0;
 
   function goToPrevious() {
-    setActiveIndex(activeIndex === 0 ? maxIndex : activeIndex - 1);
+    loop.previous();
   }
 
   function goToNext() {
-    setActiveIndex(activeIndex === maxIndex ? 0 : activeIndex + 1);
+    loop.next();
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -66,7 +70,7 @@ export function BusinessFieldsCarousel({
 
   const trackGaps = (visibleCount - 1) * GAP_PX;
   const slideWidth = `calc((100% - ${trackGaps}px) / ${visibleCount})`;
-  const transform = trackTransform(activeIndex, visibleCount, GAP_PX);
+  const transform = trackTransform(trackIndex, visibleCount, GAP_PX);
 
   return (
     <div
@@ -80,24 +84,29 @@ export function BusinessFieldsCarousel({
         <ul
           data-testid="business-fields-track"
           className="flex list-none gap-4 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-          style={{ transform }}
+          style={{ transform, transitionProperty: loop.animate ? "transform" : "none" }}
+          onTransitionEnd={loop.onTransitionEnd}
         >
-          {fields.map((item, index) => {
+          {renderedFields.map((item, index) => {
             const isVisible =
-              index >= activeIndex && index < activeIndex + visibleCount;
+              index >= trackIndex && index < trackIndex + visibleCount;
+            const originalIndex = isInteractive
+              ? (index - visibleCount + count) % count
+              : index;
             return (
               <li
-                key={item.title}
+                key={`${index}-${item.title}`}
                 data-testid="business-field-slide"
                 data-visible={isVisible ? "true" : "false"}
                 aria-hidden={isVisible ? undefined : "true"}
+                inert={!isVisible}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
                 <div className="h-full [&>article]:h-full">
                   <BusinessFieldCard
                     item={item}
-                    index={index}
+                    index={originalIndex}
                     codeLabel={codeLabel}
                   />
                 </div>
@@ -118,7 +127,7 @@ export function BusinessFieldsCarousel({
                   index: String(index + 1),
                 })}
                 aria-current={index === activeIndex ? "true" : undefined}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => loop.goTo(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex
                     ? "w-8 bg-brand"

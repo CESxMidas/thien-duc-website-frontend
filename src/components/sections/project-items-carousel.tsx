@@ -8,8 +8,13 @@ import type { ProjectItem, ProjectStatus } from "@/types/content";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
 
 const AUTOPLAY_MS = 5200;
+
+function greatestCommonDivisor(a: number, b: number): number {
+  return b === 0 ? a : greatestCommonDivisor(b, a % b);
+}
 
 type ProjectItemsCarouselProps = {
   items: ProjectItem[];
@@ -33,7 +38,7 @@ export function ProjectItemsCarousel({
   const [visibleCount, setVisibleCount] = useState(3);
   const itemsPerPage = Math.min(count, visibleCount);
   const pages = Array.from(
-    { length: count ? Math.ceil(count / itemsPerPage) : 0 },
+    { length: count ? count / greatestCommonDivisor(count, itemsPerPage) : 0 },
     (_, index) =>
       Array.from(
         { length: itemsPerPage },
@@ -42,10 +47,10 @@ export function ProjectItemsCarousel({
       ),
   );
   const pageCount = pages.length;
-  const [activeIndex, setActiveIndex] = useState(0);
+  const loop = useLoopCarousel(pageCount, 700);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useRef(false);
-  const displayIndex = pageCount ? activeIndex % pageCount : 0;
+  const displayIndex = loop.activeIndex;
 
   useEffect(() => {
     function sync() {
@@ -65,11 +70,11 @@ export function ProjectItemsCarousel({
   }, []);
 
   function goToPrevious() {
-    setActiveIndex(displayIndex === 0 ? pageCount - 1 : displayIndex - 1);
+    loop.previous();
   }
 
   function goToNext() {
-    setActiveIndex((current) => (pageCount ? (current + 1) % pageCount : 0));
+    loop.next();
   }
 
   function handleProgressEnd() {
@@ -81,6 +86,8 @@ export function ProjectItemsCarousel({
   }
 
   const autoplay = pageCount > 1;
+  const renderedPages = autoplay ? [pages[pageCount - 1], ...pages, pages[0]] : pages;
+  const trackIndex = autoplay ? loop.position : 0;
   const columnsClass =
     itemsPerPage === 3
       ? "grid-cols-3"
@@ -123,14 +130,19 @@ export function ProjectItemsCarousel({
         <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ transform: `translateX(-${displayIndex * 100}%)` }}
+            data-testid="project-items-track"
+            style={{
+              transform: `translateX(-${trackIndex * 100}%)`,
+              transitionProperty: loop.animate ? "transform" : "none",
+            }}
+            onTransitionEnd={loop.onTransitionEnd}
           >
-            {pages.map((page, pageIndex) => (
+            {renderedPages.map((page, pageIndex) => (
               <div
-                key={page.map((item) => item.slug).join("|")}
+                key={`${pageIndex}-${page.map((item) => item.slug).join("|")}`}
                 data-testid="project-items-page"
-                aria-hidden={pageIndex !== displayIndex ? true : undefined}
-                inert={pageIndex !== displayIndex}
+                aria-hidden={pageIndex !== trackIndex ? true : undefined}
+                inert={pageIndex !== trackIndex}
                 className={`grid w-full shrink-0 gap-4 p-4 md:p-5 ${columnsClass}`}
               >
                 {page.map((item) => {
@@ -208,7 +220,7 @@ export function ProjectItemsCarousel({
                   title: page.map((item) => item.title).join(", "),
                 })}
                 aria-current={index === displayIndex ? "true" : undefined}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => loop.goTo(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === displayIndex
                     ? "w-8 bg-brand"
