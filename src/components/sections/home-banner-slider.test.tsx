@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { HomeBannerSlider } from "./home-banner-slider";
 import type { HomeBanner } from "@/data/banners";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -44,13 +44,23 @@ function renderSlider(count = 3) {
 beforeEach(() => mockReducedMotion(false));
 
 describe("HomeBannerSlider", () => {
+  it("autoplays after the same reading interval as the card carousels", () => {
+    const { container } = renderSlider();
+    const progress = container.querySelector(".banner-progress")!;
+    expect(progress).toHaveStyle({ animationDuration: "5200ms" });
+    fireEvent.animationEnd(progress);
+    expect(screen.getByRole("group", { name: "2 / 3" })).toHaveAttribute(
+      "aria-hidden",
+      "false",
+    );
+  });
   it("dung khung xep lop tren mobile va khung ngang tu tablet", () => {
     const { container } = renderSlider();
     const region = screen.getByRole("region", { name: labels.regionLabel });
     const stage = container.querySelector("section > div");
 
     expect(region).toHaveClass("bg-white", "shadow-none");
-    expect(region).toHaveClass(
+    expect(region).not.toHaveClass(
       "lg:border-x-[0.75rem]",
       "lg:border-b-[0.75rem]",
       "lg:border-espresso",

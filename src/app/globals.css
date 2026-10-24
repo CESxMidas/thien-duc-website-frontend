@@ -212,6 +212,50 @@ h2 {
   -webkit-line-clamp: 3;
 }
 
+/* Card rhythm: no empty title rows, no paragraph indent, a clear CTA gap. */
+.carousel-card-body {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: clamp(1.25rem, 2vw, 1.5rem);
+}
+
+.carousel-card-body
+  :is(
+    .td-card-title,
+    .td-card-summary,
+    .td-card-meta,
+    .carousel-card-category
+  ) {
+  min-height: 0;
+  margin-block: 0;
+}
+
+.carousel-card-body .td-card-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.carousel-card-body .content-paragraph {
+  margin-block: 0;
+  text-indent: 0;
+  line-height: 1.7;
+}
+
+.carousel-card-body > :is(a, button, .carousel-card-action) {
+  margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-autoplay {
+    display: none;
+  }
+}
+
 .page-container {
   width: 100%;
   padding-inline: 1.25rem;

@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
+import {
+  CAROUSEL_TRACK_CLASS,
+  CAROUSEL_TRANSITION_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
+import { CarouselAutoplay } from "@/components/ui/carousel-autoplay";
 
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const GAP_PX = 12;
-const AUTOPLAY_INTERVAL_MS = 3000;
+const GAP_PX = 20;
+
 const SINGLE_LINE_PROJECT_TITLE_LENGTH = 28;
 
 function projectTitleLines(title: string): string[] {
@@ -96,19 +103,12 @@ export function HomeFeaturedProjectsShowcase({
   labels,
 }: HomeFeaturedProjectsShowcaseProps) {
   const router = useRouter();
-  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [pageStartIndex, setPageStartIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(3);
-  const [isPaused, setIsPaused] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const maxPageStartIndex = Math.max(projects.length - visibleCount, 0);
-  const safePageStartIndex = Math.min(pageStartIndex, maxPageStartIndex);
-  const displayIndex =
-    projects.length > 0
-      ? Math.min(activeProjectIndex, projects.length - 1)
-      : 0;
+  const [viewportCount, setVisibleCount] = useState(3);
+  const visibleCount = Math.min(viewportCount, Math.max(projects.length, 1));
+  const playback = useCarouselPlayback();
+  const loop = useLoopCarousel(projects.length, CAROUSEL_TRANSITION_MS);
+  const displayIndex = loop.activeIndex;
   const activeProject = projects[displayIndex] ?? projects[0];
-
   useEffect(() => {
     function syncVisibleCount() {
       setVisibleCount(visibleCountFor(window.innerWidth));
@@ -119,72 +119,26 @@ export function HomeFeaturedProjectsShowcase({
     return () => window.removeEventListener("resize", syncVisibleCount);
   }, []);
 
-  useEffect(() => {
-    if (!window.matchMedia) return;
-
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setPrefersReducedMotion(media.matches);
-
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  const isInteractive = projects.length > visibleCount;
+  const isInteractive = projects.length > 1;
   const slideWidth = `calc((100% - ${(visibleCount - 1) * GAP_PX}px) / ${visibleCount})`;
+  const trackIndex = isInteractive ? visibleCount + loop.position - 1 : 0;
+  const renderedProjects = isInteractive
+    ? [
+        ...projects.slice(-visibleCount),
+        ...projects,
+        ...projects.slice(0, visibleCount),
+      ]
+    : projects;
 
   function selectProject(index: number) {
-    if (projects.length === 0) return;
-    setActiveProjectIndex(index);
-    setPageStartIndex((current) => {
-      if (index < current) return index;
-      if (index >= current + visibleCount) {
-        return Math.min(index - visibleCount + 1, maxPageStartIndex);
-      }
-      return current;
-    });
+    loop.goTo(index);
   }
-
   function selectPreviousProject() {
-    const previousStart =
-      safePageStartIndex <= 0
-        ? maxPageStartIndex
-        : Math.max(safePageStartIndex - visibleCount, 0);
-    setPageStartIndex(previousStart);
-    setActiveProjectIndex(previousStart);
+    loop.previous();
   }
-
   function selectNextProject() {
-    const nextStart =
-      safePageStartIndex >= maxPageStartIndex
-        ? 0
-        : Math.min(safePageStartIndex + visibleCount, maxPageStartIndex);
-    setPageStartIndex(nextStart);
-    setActiveProjectIndex(nextStart);
+    loop.next();
   }
-
-  useEffect(() => {
-    if (!isInteractive || isPaused || prefersReducedMotion) return;
-
-    const timer = window.setInterval(() => {
-      setPageStartIndex((current) => {
-        const nextStart =
-          current >= maxPageStartIndex
-            ? 0
-            : Math.min(current + visibleCount, maxPageStartIndex);
-        setActiveProjectIndex(nextStart);
-        return nextStart;
-      });
-    }, AUTOPLAY_INTERVAL_MS);
-
-    return () => window.clearInterval(timer);
-  }, [
-    isInteractive,
-    isPaused,
-    maxPageStartIndex,
-    prefersReducedMotion,
-    visibleCount,
-  ]);
 
   if (!activeProject) {
     return null;
@@ -199,9 +153,16 @@ export function HomeFeaturedProjectsShowcase({
     <section
       aria-labelledby="featured-projects-title"
       className="featured-projects-section relative isolate overflow-hidden border-y border-divider bg-ivory pb-10 pt-16 sm:pb-12 sm:pt-20 lg:pb-16 lg:pt-24"
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      {...playback.handlers}
     >
+      <CarouselAutoplay
+        index={displayIndex}
+        enabled={isInteractive}
+        paused={playback.paused}
+        reducedMotion={playback.reducedMotion}
+        onNext={selectNextProject}
+        testId="featured-projects-progress"
+      />
       <div
         className="section-foliage section-foliage-start hidden sm:block"
         aria-hidden="true"
@@ -307,10 +268,7 @@ export function HomeFeaturedProjectsShowcase({
                   }}
                 >
                   {activeProjectTitleLines.map((line) => (
-                    <span
-                      key={line}
-                      className="block whitespace-nowrap"
-                    >
+                    <span key={line} className="block whitespace-nowrap">
                       {line}
                     </span>
                   ))}
@@ -364,20 +322,29 @@ export function HomeFeaturedProjectsShowcase({
           <p className="sr-only">{labels.otherProjects}</p>
           <div className="overflow-hidden">
             <div
-              className="flex list-none gap-3 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+              className={`flex list-none gap-5 p-0 ${CAROUSEL_TRACK_CLASS}`}
+              data-testid="featured-projects-track"
+              onTransitionEnd={loop.onTransitionEnd}
               style={{
-                transform: trackTransform(safePageStartIndex, visibleCount),
+                transform: trackTransform(trackIndex, visibleCount),
+                transitionProperty: loop.animate ? "transform" : "none",
               }}
             >
-              {projects.map((project, index) => {
+              {renderedProjects.map((project, position) => {
+                const index = isInteractive
+                  ? (position - visibleCount + projects.length) %
+                    projects.length
+                  : position;
                 const isActive = index === displayIndex;
                 const isVisible =
-                  index >= safePageStartIndex &&
-                  index < safePageStartIndex + visibleCount;
+                  position >= trackIndex &&
+                  position < trackIndex + visibleCount;
 
                 return (
                   <article
-                    key={`${project.slug}-${index}`}
+                    key={`${project.slug}-${position}`}
+                    aria-hidden={!isVisible}
+                    inert={!isVisible}
                     style={{ width: slideWidth }}
                     className={[
                       "group relative flex shrink-0 flex-col overflow-hidden border bg-white text-left shadow-[0_12px_28px_rgba(41,41,41,0.06)] transition duration-[520ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none",
@@ -434,7 +401,7 @@ export function HomeFeaturedProjectsShowcase({
                         </span>
                       </span>
 
-                      <span className="block px-4 pb-3 pt-4">
+                      <span className="block px-5 pb-4 pt-5">
                         <span className="block font-display text-[1.1rem] font-medium uppercase leading-[1.1] text-charcoal sm:text-[1.18rem]">
                           {project.title}
                         </span>
@@ -446,7 +413,7 @@ export function HomeFeaturedProjectsShowcase({
                       </span>
                     </button>
 
-                    <div className="mt-auto px-4 pb-4">
+                    <div className="mt-auto px-5 pb-5">
                       <button
                         type="button"
                         aria-label={`${labels.explore}: ${project.title}`}
@@ -469,7 +436,7 @@ export function HomeFeaturedProjectsShowcase({
             </div>
           </div>
           {isInteractive ? (
-            <div className="mt-4 flex justify-end gap-2">
+            <div className="mt-6 flex justify-end gap-2">
               <button
                 type="button"
                 aria-label={labels.previousProject}

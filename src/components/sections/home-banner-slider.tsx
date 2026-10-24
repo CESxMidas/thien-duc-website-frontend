@@ -8,10 +8,14 @@ import type { HomeBanner } from "@/data/banners";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
+import {
+  CAROUSEL_AUTOPLAY_MS,
+  CAROUSEL_TRANSITION_MS,
+} from "@/lib/use-carousel-playback";
 
-const AUTOPLAY_MS = 2000;
-const TRANSITION_MS = 1200;
-const MANUAL_PAUSE_MS = 12000;
+const AUTOPLAY_MS = CAROUSEL_AUTOPLAY_MS;
+const TRANSITION_MS = CAROUSEL_TRANSITION_MS;
+const MANUAL_PAUSE_MS = CAROUSEL_AUTOPLAY_MS;
 const SWIPE_THRESHOLD_PX = 48;
 const AUTOPLAY_TOGGLE_ATTR = "data-banner-autoplay-toggle";
 
@@ -38,6 +42,7 @@ export function HomeBannerSlider({
   const bannerCount = banners.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [focusPaused, setFocusPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
   const [manualPaused, setManualPaused] = useState(false);
   const [userStopped, setUserStopped] = useState(false);
@@ -51,7 +56,8 @@ export function HomeBannerSlider({
   );
   const hasPrimaryCta = Boolean(activeBanner?.ctaLabel);
   const autoplayEnabled = bannerCount > 1 && !reducedMotion;
-  const isPaused = focusPaused || tabHidden || manualPaused || userStopped;
+  const isPaused =
+    focusPaused || hoverPaused || tabHidden || manualPaused || userStopped;
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -152,8 +158,8 @@ export function HomeBannerSlider({
       onBlur={(event) => {
         if (!isAutoplayToggle(event.target)) setFocusPaused(false);
       }}
-      onPointerEnter={() => setFocusPaused(true)}
-      onPointerLeave={() => setFocusPaused(false)}
+      onPointerEnter={() => setHoverPaused(true)}
+      onPointerLeave={() => setHoverPaused(false)}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}

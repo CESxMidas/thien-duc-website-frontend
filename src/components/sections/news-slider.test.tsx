@@ -42,6 +42,12 @@ function renderSlider(
   );
 }
 
+function finish() {
+  const event = new Event("transitionend", { bubbles: true });
+  Object.defineProperty(event, "propertyName", { value: "transform" });
+  fireEvent(screen.getByTestId("news-slider-track"), event);
+}
+
 function visibleSlides() {
   return Array.from(
     screen
@@ -80,6 +86,14 @@ describe("NewsSlider — số thẻ hiển thị theo khung nhìn", () => {
 });
 
 describe("NewsSlider — điều khiển", () => {
+  it("automatically moves one article each interval", () => {
+    renderSlider(makePosts(3));
+    fireEvent.animationEnd(screen.getByTestId("news-slider-progress"));
+    finish();
+    expect(
+      within(visibleSlides()[0]).getByText("Bài viết 2"),
+    ).toBeInTheDocument();
+  });
   it("là vùng carousel có nhãn", () => {
     renderSlider(makePosts(8));
     const region = screen.getByRole("group", { name: viLabels.regionLabel });
@@ -94,6 +108,7 @@ describe("NewsSlider — điều khiển", () => {
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
 
     const after = visibleSlides();
     expect(after).toHaveLength(3);
@@ -106,7 +121,9 @@ describe("NewsSlider — điều khiển", () => {
     renderSlider(makePosts(8));
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     fireEvent.click(screen.getByTestId("news-slider-previous"));
+    finish();
 
     expect(
       within(visibleSlides()[0]).getByText("Bài viết 1"),
@@ -116,6 +133,7 @@ describe("NewsSlider — điều khiển", () => {
   it("ở đầu dãy: Previous quay vòng tới cụm cuối", () => {
     renderSlider(makePosts(8));
     fireEvent.click(screen.getByTestId("news-slider-previous"));
+    finish();
 
     expect(
       within(visibleSlides()[0]).getByText("Bài viết 8"),
@@ -128,13 +146,16 @@ describe("NewsSlider — điều khiển", () => {
 
     // 5 bài, 3 ô hiện → tối đa 2 bước.
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
 
     expect(
       within(visibleSlides()[2]).getByText("Bài viết 5"),
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     expect(
       within(visibleSlides()[2]).getByText("Bài viết 1"),
     ).toBeInTheDocument();
@@ -146,11 +167,13 @@ describe("NewsSlider — điều khiển", () => {
 
     region.focus();
     fireEvent.keyDown(region, { key: "ArrowRight" });
+    finish();
     expect(
       within(visibleSlides()[0]).getByText("Bài viết 2"),
     ).toBeInTheDocument();
 
     fireEvent.keyDown(region, { key: "ArrowLeft" });
+    finish();
     expect(
       within(visibleSlides()[0]).getByText("Bài viết 1"),
     ).toBeInTheDocument();
@@ -201,31 +224,29 @@ describe("NewsSlider — trường hợp biên", () => {
     );
 
     expect(
-      screen.getByText(formatDate("2026-10-07", "vi")),
+      within(visibleSlides()[0]).getByText(formatDate("2026-10-07", "vi")),
     ).toBeInTheDocument();
     expect(
       screen.queryByText(formatDate("2026-01-01", "vi")),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByText(formatDate("2026-08-01", "vi")),
+      within(visibleSlides()[1]).getByText(formatDate("2026-08-01", "vi")),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(formatDate("2026-07-01", "vi")),
+      within(visibleSlides()[2]).getByText(formatDate("2026-07-01", "vi")),
     ).toBeInTheDocument();
   });
 
-  it("ít bài hơn số ô hiển thị → không render bộ điều khiển", () => {
+  it("hai bài vẫn có tự chạy và điều khiển", () => {
     renderSlider(makePosts(2), { width: 1280 });
 
-    expect(screen.queryByTestId("news-slider-next")).not.toBeInTheDocument();
-    expect(
-      screen.queryByTestId("news-slider-previous"),
-    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("news-slider-progress")).toBeInTheDocument();
+    expect(screen.queryByTestId("news-slider-previous")).toBeInTheDocument();
   });
 
-  it("đúng bằng số ô hiển thị → vẫn không có điều khiển", () => {
+  it("ba bài vừa khung vẫn có tự chạy", () => {
     renderSlider(makePosts(3), { width: 1280 });
-    expect(screen.queryByTestId("news-slider-next")).not.toBeInTheDocument();
+    expect(screen.getByTestId("news-slider-progress")).toBeInTheDocument();
   });
 
   it("một bài duy nhất → hiển thị được, không có điều khiển", () => {
@@ -263,8 +284,11 @@ describe("NewsSlider — trường hợp biên", () => {
     // Mobile: 1 ô hiện / 4 bài → trượt được tới chỉ số 3 (bài cuối).
     renderSlider(makePosts(4), { width: 375 });
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     expect(
       within(visibleSlides()[0]).getByText("Bài viết 4"),
     ).toBeInTheDocument();
@@ -295,10 +319,14 @@ describe("NewsSlider — ngưỡng hiện nút theo breakpoint", () => {
       renderSlider(makePosts(slots), { width });
 
       expect(visibleSlides()).toHaveLength(slots);
-      expect(screen.queryByTestId("news-slider-next")).not.toBeInTheDocument();
-      expect(
-        screen.queryByTestId("news-slider-previous"),
-      ).not.toBeInTheDocument();
+      if (slots === 1) {
+        expect(
+          screen.queryByTestId("news-slider-next"),
+        ).not.toBeInTheDocument();
+      } else {
+        expect(screen.getByTestId("news-slider-progress")).toBeInTheDocument();
+        expect(screen.getByTestId("news-slider-next")).toBeInTheDocument();
+      }
     });
 
     it(`${name}: ${slots + 1} bài → CÓ nút`, () => {
@@ -317,13 +345,15 @@ describe("NewsSlider — track thực sự dịch chuyển", () => {
 
   it("bấm next làm transform của track đổi", () => {
     renderSlider(makePosts(8), { width: 1280 });
-    expect(trackTransform()).toBe("translateX(0px)");
+    expect(trackTransform()).toContain("-3");
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
-    expect(trackTransform()).not.toBe("translateX(0px)");
+    finish();
+    expect(trackTransform()).toContain("-4");
 
     fireEvent.click(screen.getByTestId("news-slider-previous"));
-    expect(trackTransform()).toBe("translateX(0px)");
+    finish();
+    expect(trackTransform()).toContain("-3");
   });
 
   it("transform không bao giờ chứa `-calc(` (CSS hỏng, trình duyệt bỏ qua)", () => {
@@ -331,6 +361,7 @@ describe("NewsSlider — track thực sự dịch chuyển", () => {
 
     for (let step = 0; step < 5; step += 1) {
       fireEvent.click(screen.getByTestId("news-slider-next"));
+      finish();
       expect(trackTransform()).not.toContain("-calc(");
     }
   });
@@ -382,6 +413,7 @@ describe("NewsSlider — kho tin lớn", () => {
 
     for (let step = 0; step < 17; step += 1) {
       fireEvent.click(screen.getByTestId("news-slider-next"));
+      finish();
     }
 
     expect(
@@ -389,6 +421,7 @@ describe("NewsSlider — kho tin lớn", () => {
     ).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     expect(
       within(visibleSlides()[2]).getByText("Bài viết 1"),
     ).toBeInTheDocument();
@@ -414,6 +447,7 @@ describe("NewsSlider — kho tin lớn", () => {
     expect(counter).toHaveTextContent("1 / 20");
 
     fireEvent.click(screen.getByTestId("news-slider-next"));
+    finish();
     expect(counter).toHaveTextContent("2 / 20");
   });
 

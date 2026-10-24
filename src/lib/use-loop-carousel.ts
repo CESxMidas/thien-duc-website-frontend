@@ -6,12 +6,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export function useLoopCarousel(count: number, duration: number) {
   const [state, setState] = useState({ position: 1, animate: false });
   const moving = useRef(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const position = count > 0 ? Math.min(state.position, count + 1) : 1;
   const activeIndex = count > 0 ? (position - 1 + count) % count : 0;
 
   const settle = useCallback(() => {
     moving.current = false;
-    setState(current => {
+    setState((current) => {
       if (current.position === 0) return { position: count, animate: false };
       if (current.position >= count + 1) return { position: 1, animate: false };
       return current;
@@ -26,8 +27,10 @@ export function useLoopCarousel(count: number, duration: number) {
   }, [state, duration, settle]);
 
   function goTo(index: number) {
-    if (count <= 1 || moving.current) return;
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (count <= 1 || moving.current || index === activeIndex) return;
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduce) {
       setState({ position: ((index + count) % count) + 1, animate: false });
       return;
@@ -43,8 +46,34 @@ export function useLoopCarousel(count: number, duration: number) {
     next: () => goTo(activeIndex + 1),
     previous: () => goTo(activeIndex - 1),
     goTo,
+    swipeHandlers: {
+      onTouchStart: (event: React.TouchEvent<HTMLElement>) => {
+        const touch = event.touches.length === 1 ? event.touches[0] : null;
+        touchStart.current = touch
+          ? { x: touch.clientX, y: touch.clientY }
+          : null;
+      },
+      onTouchEnd: (event: React.TouchEvent<HTMLElement>) => {
+        const start = touchStart.current;
+        const touch = event.changedTouches[0];
+        touchStart.current = null;
+        if (!start || !touch) return;
+        const dx = touch.clientX - start.x;
+        const dy = touch.clientY - start.y;
+        if (Math.abs(dx) < 48 || Math.abs(dx) <= Math.abs(dy)) return;
+        event.preventDefault();
+        goTo(activeIndex + (dx < 0 ? 1 : -1));
+      },
+      onTouchCancel: () => {
+        touchStart.current = null;
+      },
+    },
     onTransitionEnd: (event: React.TransitionEvent<HTMLElement>) => {
-      if (event.target === event.currentTarget && event.propertyName === "transform") settle();
+      if (
+        event.target === event.currentTarget &&
+        event.propertyName === "transform"
+      )
+        settle();
     },
   };
 }

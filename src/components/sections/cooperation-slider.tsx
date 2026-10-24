@@ -1,81 +1,71 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
+import {
+  CAROUSEL_TRACK_CLASS,
+  CAROUSEL_TRANSITION_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
+import { CarouselAutoplay } from "@/components/ui/carousel-autoplay";
+import { trackTransform } from "./news-slider";
 import { Building2, ChevronLeft, ChevronRight, Handshake } from "lucide-react";
 import type { CooperationProject } from "@/data/home";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
-
-const AUTOPLAY_MS = 5200;
 
 export function CooperationSlider({
   projects,
   labels,
 }: {
   projects: CooperationProject[];
- 
+
   labels: Dictionary["homeCooperation"];
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const count = projects.length;
   const canSlide = count > 1;
-
   const singleProject = count === 1;
-
-  const scrollToIndex = useCallback(
-    (index: number) => {
-      const track = trackRef.current;
-      if (!track) return;
-
-      const clamped = (index + count) % count;
-      const child = track.children[clamped] as HTMLElement | undefined;
-      if (child) {
-        track.scrollTo({
-          left: child.offsetLeft - track.offsetLeft,
-          behavior: "smooth",
-        });
-      }
-    },
-    [count],
-  );
-
-  function handleScroll() {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const children = Array.from(track.children) as HTMLElement[];
-    const nearest = children.reduce(
-      (best, child, index) => {
-        const distance = Math.abs(
-          child.offsetLeft - track.offsetLeft - track.scrollLeft,
-        );
-        return distance < best.distance ? { index, distance } : best;
-      },
-      { index: 0, distance: Infinity },
-    );
-    setActiveIndex(nearest.index);
+  const [viewportCount, setViewportCount] = useState(2);
+  const visibleCount = Math.min(viewportCount, Math.max(count, 1));
+  const playback = useCarouselPlayback();
+  const loop = useLoopCarousel(count, CAROUSEL_TRANSITION_MS);
+  const activeIndex = loop.activeIndex;
+  const trackIndex = canSlide ? visibleCount + loop.position - 1 : 0;
+  const renderedProjects = canSlide
+    ? [
+        ...projects.slice(-visibleCount),
+        ...projects,
+        ...projects.slice(0, visibleCount),
+      ]
+    : projects;
+  useEffect(() => {
+    function sync() {
+      setViewportCount(window.innerWidth >= 768 ? 2 : 1);
+    }
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
+  function scrollToIndex(index: number) {
+    loop.goTo(index);
   }
 
-  useEffect(() => {
-    if (!canSlide || isPaused) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const timer = window.setInterval(() => {
-      scrollToIndex(activeIndex + 1);
-    }, AUTOPLAY_MS);
-
-    return () => window.clearInterval(timer);
-  }, [activeIndex, canSlide, isPaused, scrollToIndex]);
-
   return (
-    <section className="border-y border-divider bg-white">
+    <section
+      className="relative border-y border-divider bg-white"
+      {...playback.handlers}
+    >
+      <CarouselAutoplay
+        index={activeIndex}
+        enabled={canSlide}
+        paused={playback.paused}
+        reducedMotion={playback.reducedMotion}
+        onNext={loop.next}
+        testId="cooperation-progress"
+      />
       <div className="mx-auto max-w-site px-4 py-12 sm:px-6 lg:py-16">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="text-eyebrow mb-4 text-earth">
-              {labels.eyebrow}
-            </p>
+            <p className="text-eyebrow mb-4 text-earth">{labels.eyebrow}</p>
             <h2 className="text-[2.1rem] font-medium leading-[1.08] text-charcoal sm:text-[3rem]">
               {labels.title}
             </h2>
@@ -107,102 +97,116 @@ export function CooperationSlider({
         </div>
 
         <div
-          ref={trackRef}
-          onScroll={handleScroll}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onFocusCapture={() => setIsPaused(true)}
-          onBlurCapture={() => setIsPaused(false)}
-          className="stagger-list no-scrollbar mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 justify-center px-4 sm:px-6 md:px-0 md:justify-start"
+          className="mt-10 touch-pan-y overflow-hidden"
+          {...loop.swipeHandlers}
         >
-          {projects.map((project) => (
-            <article
-              key={project.name}
-              className={`group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden border border-black/10 bg-olive p-5 text-ivory sm:w-[70%] sm:p-5 md:p-7 ${
-                singleProject ? "md:w-full" : "md:w-[calc(50%-0.625rem)]"
-              }`}
-            >
-              <div
-                className="pointer-events-none absolute inset-0 bg-transparent"
-                aria-hidden="true"
-              />
-              <Building2
-                className="pointer-events-none absolute -bottom-8 -right-6 size-44 text-white/6"
-                aria-hidden="true"
-              />
-
-              {project.image ? (
+          <div
+            data-testid="cooperation-track"
+            onTransitionEnd={loop.onTransitionEnd}
+            style={{
+              transform: trackTransform(trackIndex, visibleCount),
+              transitionProperty: loop.animate ? "transform" : "none",
+            }}
+            className={`flex gap-5 ${CAROUSEL_TRACK_CLASS}`}
+          >
+            {renderedProjects.map((project, position) => (
+              <article
+                key={`${position}-${project.name}`}
+                aria-hidden={
+                  position < trackIndex || position >= trackIndex + visibleCount
+                }
+                inert={
+                  position < trackIndex || position >= trackIndex + visibleCount
+                }
+                style={{
+                  width: `calc((100% - ${(visibleCount - 1) * 20}px) / ${visibleCount})`,
+                }}
+                className={`group relative flex w-[88%] shrink-0 snap-start flex-col justify-between overflow-hidden border border-black/10 bg-olive p-5 text-ivory sm:w-[70%] sm:p-5 md:p-7 ${
+                  singleProject ? "md:w-full" : "md:w-[calc(50%-0.625rem)]"
+                }`}
+              >
                 <div
-                  role="img"
-                  aria-label={interpolate(labels.imageAlt, {
-                    name: project.name,
-                  })}
-                  style={{ backgroundImage: `url(${project.image})` }}
-                  className="relative -mx-6 -mt-6 mb-6 h-44 bg-cover bg-left-top md:-mx-8 md:-mt-8 md:h-52"
-                >
+                  className="pointer-events-none absolute inset-0 bg-transparent"
+                  aria-hidden="true"
+                />
+                <Building2
+                  className="pointer-events-none absolute -bottom-8 -right-6 size-44 text-white/6"
+                  aria-hidden="true"
+                />
+
+                {project.image ? (
                   <div
-                    className="absolute inset-0 bg-transparent"
-                    aria-hidden="true"
-                  />
-                </div>
-              ) : null}
+                    role="img"
+                    aria-label={interpolate(labels.imageAlt, {
+                      name: project.name,
+                    })}
+                    style={{ backgroundImage: `url(${project.image})` }}
+                    className="relative -mx-5 -mt-5 mb-5 h-44 bg-cover bg-left-top md:-mx-7 md:-mt-7 md:h-52"
+                  >
+                    <div
+                      className="absolute inset-0 bg-transparent"
+                      aria-hidden="true"
+                    />
+                  </div>
+                ) : null}
 
-              <div className="relative">
-                <p className="text-eyebrow inline-flex items-center gap-2 text-warm-grey">
-                  <Handshake className="size-4" aria-hidden="true" />
-                  {labels.cardBadge}
-                </p>
-                <h3
-                  className="mt-4 line-clamp-1 text-2xl font-semibold leading-tight md:text-3xl"
-                  title={project.name}
-                >
-                  {project.name}
-                </h3>
-                <p
-                  className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-ivory/70"
-                  title={`${project.location} · ${project.scale}`}
-                >
-                  {project.location} · {project.scale}
-                </p>
-              </div>
+                <div className="relative">
+                  <p className="text-eyebrow inline-flex items-center gap-2 text-warm-grey">
+                    <Handshake className="size-4" aria-hidden="true" />
+                    {labels.cardBadge}
+                  </p>
+                  <h3
+                    className="mt-4 line-clamp-1 text-2xl font-semibold leading-tight md:text-3xl"
+                    title={project.name}
+                  >
+                    {project.name}
+                  </h3>
+                  <p
+                    className="mt-2 line-clamp-2 min-h-10 text-sm font-medium leading-5 text-ivory/70"
+                    title={`${project.location} · ${project.scale}`}
+                  >
+                    {project.location} · {project.scale}
+                  </p>
+                </div>
 
-              <dl className="relative mt-8 grid gap-4 border-t border-ivory/15 pt-6 text-sm sm:grid-cols-3">
-                <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
-                    {labels.roleLabel}
-                  </dt>
-                  <dd
-                    className="mt-1 line-clamp-2 font-semibold"
-                    title={project.role}
-                  >
-                    {project.role}
-                  </dd>
-                </div>
-                <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
-                    {labels.partnerLabel}
-                  </dt>
-                  <dd
-                    className="mt-1 line-clamp-2 font-semibold"
-                    title={project.partner}
-                  >
-                    {project.partner}
-                  </dd>
-                </div>
-                <div className="min-w-0">
-                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
-                    {labels.statusLabel}
-                  </dt>
-                  <dd
-                    className="mt-1 line-clamp-2 font-semibold"
-                    title={project.status}
-                  >
-                    {project.status}
-                  </dd>
-                </div>
-              </dl>
-            </article>
-          ))}
+                <dl className="relative mt-8 grid gap-4 border-t border-ivory/15 pt-6 text-sm sm:grid-cols-3">
+                  <div className="min-w-0">
+                    <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
+                      {labels.roleLabel}
+                    </dt>
+                    <dd
+                      className="mt-1 line-clamp-2 font-semibold"
+                      title={project.role}
+                    >
+                      {project.role}
+                    </dd>
+                  </div>
+                  <div className="min-w-0">
+                    <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
+                      {labels.partnerLabel}
+                    </dt>
+                    <dd
+                      className="mt-1 line-clamp-2 font-semibold"
+                      title={project.partner}
+                    >
+                      {project.partner}
+                    </dd>
+                  </div>
+                  <div className="min-w-0">
+                    <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-ivory/55">
+                      {labels.statusLabel}
+                    </dt>
+                    <dd
+                      className="mt-1 line-clamp-2 font-semibold"
+                      title={project.status}
+                    >
+                      {project.status}
+                    </dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
         </div>
 
         {canSlide ? (

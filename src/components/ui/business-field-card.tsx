@@ -12,8 +12,8 @@ export function BusinessFieldCard({
   codeLabel,
 }: BusinessFieldCardProps) {
   return (
-    <article className="hover-card group border border-black/10 bg-white p-5 hover:border-brand/35">
-      <div className="mb-4 flex items-start justify-between gap-3">
+    <article className="hover-card carousel-card-body group border border-black/10 bg-white p-5 hover:border-brand/35">
+      <div className="flex items-start justify-between gap-3">
         <div className="icon-badge flex size-11 items-center justify-center bg-gold-soft text-brand group-hover:bg-gold group-hover:text-ink">
           <BusinessFieldIcon index={index} />
         </div>
@@ -21,8 +21,12 @@ export function BusinessFieldCard({
           {codeLabel} {item.code}
         </span>
       </div>
-      <h3 className="text-lg font-semibold text-ink">{item.title}</h3>
-      <p className="content-paragraph mt-3 text-sm leading-6 text-slate">{item.description}</p>
+      <h3 className="td-card-title text-lg font-semibold text-ink">
+        {item.title}
+      </h3>
+      <p className="content-paragraph mt-3 text-sm leading-6 text-slate">
+        {item.description}
+      </p>
     </article>
   );
 }

@@ -1,4 +1,3 @@
-
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ProjectsCarousel } from "./projects-carousel";
 import type { Project } from "@/types/content";
@@ -44,7 +43,11 @@ beforeEach(() => {
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
   }));
-  Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 1440 });
+  Object.defineProperty(window, "innerWidth", {
+    configurable: true,
+    writable: true,
+    value: 1440,
+  });
 });
 
 const slides = () => screen.getAllByTestId("projects-carousel-slide");
@@ -55,21 +58,25 @@ function finish() {
   Object.defineProperty(event, "propertyName", { value: "transform" });
   fireEvent(screen.getByTestId("projects-carousel-track"), event);
 }
-const next = () => { fireEvent.click(screen.getByLabelText(labels.ariaNext)); finish(); };
+const next = () => {
+  fireEvent.click(screen.getByLabelText(labels.ariaNext));
+  finish();
+};
 const visibleTitles = () =>
   Array.from(
     screen
       .getByTestId("projects-carousel-track")
       .querySelectorAll<HTMLLIElement>('li[data-visible="true"]'),
-  )
-    .map((li) => li.querySelector("h2")!.textContent);
+  ).map((li) => li.querySelector("h2")!.textContent);
 
 describe("ProjectsCarousel", () => {
   it("keeps edge copies hidden from assistive technology", () => {
     renderCarousel(5);
     expect(slides()).toHaveLength(11);
     expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(3);
-    expect(screen.getAllByRole("button", { name: /Xem chi tiết: Dự án 1/i })).toHaveLength(1);
+    expect(
+      screen.getAllByRole("button", { name: /Xem chi tiết: Dự án 1/i }),
+    ).toHaveLength(1);
   });
 
   it("hiện 3 thẻ mỗi lần trên desktop", () => {
@@ -140,12 +147,13 @@ describe("ProjectsCarousel", () => {
     expect(indexOf()).toBe(0);
   });
 
-  it("ít thẻ hơn số ô nhìn thấy → không hiện bộ điều hướng", () => {
+  it("vẫn tự chạy khi ba thẻ vừa đủ khung desktop", () => {
     renderCarousel(3);
 
-    expect(slides()).toHaveLength(3);
-    expect(screen.queryByLabelText(labels.ariaNext)).toBeNull();
-    expect(screen.queryByLabelText(labels.ariaPrevious)).toBeNull();
+    expect(visibleTitles()).toHaveLength(3);
+    fireEvent.animationEnd(screen.getByTestId("projects-carousel-progress"));
+    finish();
+    expect(visibleTitles()).toEqual(["Dự án 2", "Dự án 3", "Dự án 1"]);
   });
 
   it("button khám phá dự án chuyển tới đúng route chi tiết", () => {
@@ -199,19 +207,30 @@ describe("ProjectsCarousel", () => {
     expect(progress()).toHaveStyle({ animationPlayState: "paused" });
     fireEvent.animationEnd(progress());
     expect(indexOf()).toBe(0);
-    fireEvent.blur(screen.getByLabelText(labels.ariaNext), { relatedTarget: null });
+    fireEvent.blur(screen.getByLabelText(labels.ariaNext), {
+      relatedTarget: null,
+    });
     fireEvent.animationEnd(progress());
     expect(indexOf()).toBe(1);
   });
 
-  it.each([[375, 1], [430, 1], [768, 2], [1024, 3], [1440, 3]])("keeps %i px viewports filled with %i cards through a loop", (width, visible) => {
-    window.innerWidth = width;
-    renderCarousel(5);
-    for (let index = 0; index < 6; index++) {
-      next();
-      expect(visibleTitles()).toHaveLength(visible);
-    }
-  });
+  it.each([
+    [375, 1],
+    [430, 1],
+    [768, 2],
+    [1024, 3],
+    [1440, 3],
+  ])(
+    "keeps %i px viewports filled with %i cards through a loop",
+    (width, visible) => {
+      window.innerWidth = width;
+      renderCarousel(5);
+      for (let index = 0; index < 6; index++) {
+        next();
+        expect(visibleTitles()).toHaveLength(visible);
+      }
+    },
+  );
 
   it("disables autoplay and animated movement when reduced motion is requested", () => {
     reducedMotion = true;
@@ -219,6 +238,8 @@ describe("ProjectsCarousel", () => {
     expect(screen.queryByTestId("projects-carousel-progress")).toBeNull();
     next();
     expect(indexOf()).toBe(1);
-    expect(screen.getByTestId("projects-carousel-track")).toHaveStyle({ transitionProperty: "none" });
+    expect(screen.getByTestId("projects-carousel-track")).toHaveStyle({
+      transitionProperty: "none",
+    });
   });
 });

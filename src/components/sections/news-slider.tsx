@@ -1,5 +1,12 @@
 "use client";
 
+import { CarouselAutoplay } from "@/components/ui/carousel-autoplay";
+import {
+  CAROUSEL_TRACK_CLASS,
+  CAROUSEL_TRANSITION_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -17,7 +24,6 @@ const BREAKPOINT_DESKTOP = 1024;
 const GAP_PX = 20;
 
 const MAX_DOTS = 8;
-const AUTOPLAY_INTERVAL_MS = 3000;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -52,12 +58,10 @@ export function NewsSlider({
   detailLabel,
 }: NewsSliderProps) {
   const count = posts.length;
-  const [rawActiveIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const playback = useCarouselPlayback();
 
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [viewportCount, setVisibleCount] = useState(3);
+  const visibleCount = Math.min(viewportCount, Math.max(count, 1));
 
   useEffect(() => {
     function sync() {
@@ -68,50 +72,25 @@ export function NewsSlider({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
-  useEffect(() => {
-    if (!window.matchMedia) return;
-
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setPrefersReducedMotion(media.matches);
-
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  const maxIndex = Math.max(0, count - visibleCount);
-
-  const activeIndex = Math.min(rawActiveIndex, count);
-
-  const isInteractive = maxIndex > 0;
+  const isInteractive = count > 1;
   const positionCount = count;
+  const loop = useLoopCarousel(
+    isInteractive ? count : 0,
+    CAROUSEL_TRANSITION_MS,
+  );
+  const displayIndex = loop.activeIndex;
+  const edgeCount = isInteractive ? visibleCount : 0;
+  const activeIndex = isInteractive ? edgeCount + loop.position - 1 : 0;
   const loopSlides = isInteractive
-    ? [...posts, ...posts.slice(0, visibleCount)]
+    ? [...posts.slice(-edgeCount), ...posts, ...posts.slice(0, edgeCount)]
     : posts;
-  const displayIndex = count > 0 ? activeIndex % count : 0;
 
   function goToPrevious() {
-    setIsTransitionEnabled(true);
-    setActiveIndex(displayIndex <= 0 ? count - 1 : displayIndex - 1);
+    loop.previous();
   }
-
   function goToNext() {
-    setIsTransitionEnabled(true);
-    setActiveIndex(activeIndex >= count ? 1 : activeIndex + 1);
+    loop.next();
   }
-
-  useEffect(() => {
-    if (!isInteractive || isPaused || prefersReducedMotion) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => {
-        if (current >= count) return 1;
-        return current + 1;
-      });
-    }, AUTOPLAY_INTERVAL_MS);
-
-    return () => window.clearInterval(timer);
-  }, [count, isInteractive, isPaused, prefersReducedMotion]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (!isInteractive) return;
@@ -135,31 +114,29 @@ export function NewsSlider({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      {...playback.handlers}
     >
+      <CarouselAutoplay
+        index={displayIndex}
+        enabled={isInteractive}
+        paused={playback.paused}
+        reducedMotion={playback.reducedMotion}
+        onNext={goToNext}
+        testId="news-slider-progress"
+      />
       <div className="overflow-hidden">
         <ul
           data-testid="news-slider-track"
-          className={[
-            "flex list-none gap-5 p-0 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-            isTransitionEnabled
-              ? "transition-transform duration-500"
-              : "transition-none",
-          ].join(" ")}
-          style={{ transform }}
-          onTransitionEnd={() => {
-            if (activeIndex !== count) return;
-
-            setIsTransitionEnabled(false);
-            setActiveIndex(0);
-            window.requestAnimationFrame(() => {
-              window.requestAnimationFrame(() => setIsTransitionEnabled(true));
-            });
+          data-index={displayIndex}
+          className={`flex list-none gap-5 p-0 ${CAROUSEL_TRACK_CLASS}`}
+          style={{
+            transform,
+            transitionProperty: loop.animate ? "transform" : "none",
           }}
+          onTransitionEnd={loop.onTransitionEnd}
         >
           {loopSlides.map((post, index) => {
-            const isClone = index >= count;
+            const isClone = index < edgeCount || index >= edgeCount + count;
             const isVisible =
               index >= activeIndex && index < activeIndex + visibleCount;
             const displayDate = getNewsDisplayDate(post);
@@ -169,13 +146,14 @@ export function NewsSlider({
                 key={`${post.slug}-${isClone ? "clone" : "slide"}-${index}`}
                 data-testid={isClone ? undefined : "news-slide"}
                 data-visible={isVisible ? "true" : "false"}
-                aria-hidden={isVisible && !isClone ? undefined : "true"}
+                aria-hidden={isVisible ? undefined : "true"}
+                inert={!isVisible}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
                 <Link
                   href={localizePath(`${routes.news}/${post.slug}`, locale)}
-                  tabIndex={isVisible && !isClone ? undefined : -1}
+                  tabIndex={isVisible ? undefined : -1}
                   className="hover-card group flex h-full flex-col border border-brand/10 bg-white hover:border-brand"
                 >
                   {post.image ? (
@@ -189,7 +167,7 @@ export function NewsSlider({
                       />
                     </div>
                   ) : null}
-                  <div className="flex flex-1 flex-col p-5">
+                  <div className="carousel-card-body">
                     {displayDate ? (
                       <p className="td-card-meta text-sm text-slate">
                         {formatDate(displayDate, locale)}
@@ -198,7 +176,7 @@ export function NewsSlider({
                     <h3 className="td-card-title mt-3 text-xl font-semibold">
                       {post.title}
                     </h3>
-                    <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
+                    <span className="link-arrow mt-auto text-sm font-semibold text-brand">
                       {detailLabel}
                     </span>
                   </div>
@@ -224,7 +202,7 @@ export function NewsSlider({
                     index: String(index + 1),
                   })}
                   aria-current={index === displayIndex ? "true" : undefined}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => loop.goTo(index)}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === displayIndex
                       ? "w-8 bg-brand"

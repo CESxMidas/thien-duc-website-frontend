@@ -1,11 +1,15 @@
 "use client";
 
+import {
+  CAROUSEL_AUTOPLAY_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
 import Image from "next/image";
 import { Building2, ChevronLeft, ChevronRight, Hotel } from "lucide-react";
 import { useState } from "react";
 import type { ProjectGallerySection } from "@/types/content";
 
-const AUTOPLAY_MS = 4500;
+const AUTOPLAY_MS = CAROUSEL_AUTOPLAY_MS;
 
 const sectionIcons: Record<string, typeof Hotel> = {
   "Khách sạn": Hotel,
@@ -17,7 +21,7 @@ type ProjectGallerySectionsProps = {
   projectTitle: string;
 
   sectionLabel?: string;
-  
+
   hideHeader?: boolean;
 };
 
@@ -57,7 +61,8 @@ function ProjectGallerySlider({
   const images = section.images;
   const imageCount = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const playback = useCarouselPlayback();
+  const isPaused = playback.paused;
   const [isHovered, setIsHovered] = useState(false);
   const Icon = sectionIcons[section.title] ?? Building2;
 
@@ -74,7 +79,7 @@ function ProjectGallerySlider({
   }
 
   function handleProgressEnd() {
-    if (imageCount <= 1 || isPaused) {
+    if (imageCount <= 1 || isPaused || playback.reducedMotion) {
       return;
     }
 
@@ -85,62 +90,65 @@ function ProjectGallerySlider({
     <article
       className="project-gallery-card group hover-card overflow-hidden border border-brand/18 bg-white"
       onMouseEnter={() => {
-        setIsPaused(true);
+        playback.handlers.onMouseEnter();
         setIsHovered(true);
       }}
       onMouseLeave={() => {
-        setIsPaused(false);
+        playback.handlers.onMouseLeave();
         setIsHovered(false);
       }}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      onFocusCapture={playback.handlers.onFocusCapture}
+      onBlurCapture={playback.handlers.onBlurCapture}
     >
       {!hideHeader ? (
-      <div
-        className={`project-gallery-card-header relative overflow-hidden border-b border-divider bg-gold-soft/45 ${
-          compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
-        }`}
-      >
-        <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-earth transition-transform duration-500 ease-out group-hover:scale-y-100" />
-        <div className={`flex items-start ${compact ? "gap-3" : "gap-4"}`}>
-          <span
-            className={`project-gallery-icon grid shrink-0 place-items-center rounded-sm border border-brand/20 bg-white text-brand transition duration-500 group-hover:scale-105 group-hover:border-gold group-hover:bg-gold group-hover:text-ink ${
-              compact ? "size-9" : "size-11"
-            }`}
-          >
-            <Icon className={compact ? "size-4" : "size-5"} aria-hidden="true" />
-          </span>
-          <div className="min-w-0 flex-1">
-            {!compact ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand transition duration-300 group-hover:tracking-[0.24em]">
-                {sectionLabel}
-                {showIndex ? ` ${String(sectionIndex + 1).padStart(2, "0")}` : ""}
-              </p>
-            ) : null}
-            <h3
-              className={`font-semibold text-ink transition duration-300 group-hover:translate-x-1 ${
-                compact
-                  ? "text-base leading-snug"
-                  : "mt-1 text-lg md:text-xl"
+        <div
+          className={`project-gallery-card-header relative overflow-hidden border-b border-divider bg-gold-soft/45 ${
+            compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
+          }`}
+        >
+          <div className="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-earth transition-transform duration-500 ease-out group-hover:scale-y-100" />
+          <div className={`flex items-start ${compact ? "gap-3" : "gap-4"}`}>
+            <span
+              className={`project-gallery-icon grid shrink-0 place-items-center rounded-sm border border-brand/20 bg-white text-brand transition duration-500 group-hover:scale-105 group-hover:border-gold group-hover:bg-gold group-hover:text-ink ${
+                compact ? "size-9" : "size-11"
               }`}
             >
-              {section.title}
-            </h3>
-            {section.description && !compact ? (
-              <p className="content-paragraph mt-2 text-sm leading-6 text-slate transition duration-300 group-hover:text-ink/80">
-                {section.description}
+              <Icon
+                className={compact ? "size-4" : "size-5"}
+                aria-hidden="true"
+              />
+            </span>
+            <div className="min-w-0 flex-1">
+              {!compact ? (
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand transition duration-300 group-hover:tracking-[0.24em]">
+                  {sectionLabel}
+                  {showIndex
+                    ? ` ${String(sectionIndex + 1).padStart(2, "0")}`
+                    : ""}
+                </p>
+              ) : null}
+              <h3
+                className={`font-semibold text-ink transition duration-300 group-hover:translate-x-1 ${
+                  compact ? "text-base leading-snug" : "mt-1 text-lg md:text-xl"
+                }`}
+              >
+                {section.title}
+              </h3>
+              {section.description && !compact ? (
+                <p className="content-paragraph mt-2 text-sm leading-6 text-slate transition duration-300 group-hover:text-ink/80">
+                  {section.description}
+                </p>
+              ) : null}
+            </div>
+            {imageCount > 1 && !compact ? (
+              <p className="hidden text-sm font-semibold text-brand/70 transition duration-300 group-hover:text-brand sm:block">
+                {String(activeIndex + 1).padStart(2, "0")}
+                <span className="mx-1 text-brand/35">/</span>
+                {String(imageCount).padStart(2, "0")}
               </p>
             ) : null}
           </div>
-          {imageCount > 1 && !compact ? (
-            <p className="hidden text-sm font-semibold text-brand/70 transition duration-300 group-hover:text-brand sm:block">
-              {String(activeIndex + 1).padStart(2, "0")}
-              <span className="mx-1 text-brand/35">/</span>
-              {String(imageCount).padStart(2, "0")}
-            </p>
-          ) : null}
         </div>
-      </div>
       ) : null}
 
       <div className="project-gallery-stage project-image-frame relative bg-surface">
@@ -252,7 +260,8 @@ function ProjectGallerySlider({
               </div>
             ) : (
               <div className="absolute bottom-3 left-3 z-30 rounded-sm border border-white/25 bg-ink/35 px-2 py-1 text-[10px] font-semibold text-white/90">
-                {String(activeIndex + 1).padStart(2, "0")}/{String(imageCount).padStart(2, "0")}
+                {String(activeIndex + 1).padStart(2, "0")}/
+                {String(imageCount).padStart(2, "0")}
               </div>
             )}
           </>
@@ -272,7 +281,9 @@ export function ProjectGallerySections({
   sectionLabel = "Hạng mục",
   hideHeader = false,
 }: ProjectGallerySectionsProps) {
-  const visibleSections = sections.filter((section) => section.images.length > 0);
+  const visibleSections = sections.filter(
+    (section) => section.images.length > 0,
+  );
   const sectionCount = visibleSections.length;
   const compact = sectionCount >= 4;
 

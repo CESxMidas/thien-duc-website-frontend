@@ -1,10 +1,14 @@
 "use client";
 
+import {
+  CAROUSEL_AUTOPLAY_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-const AUTOPLAY_MS = 4500;
+const AUTOPLAY_MS = CAROUSEL_AUTOPLAY_MS;
 
 type ProjectImageGalleryProps = {
   images: string[];
@@ -17,16 +21,11 @@ export default function ProjectImageGallery({
 }: ProjectImageGalleryProps) {
   const count = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const prefersReducedMotion = useRef(false);
+  const playback = useCarouselPlayback();
+  const isPaused = playback.paused;
+
   const thumbnailTrackRef = useRef<HTMLDivElement | null>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  useEffect(() => {
-    prefersReducedMotion.current = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-  }, []);
 
   useEffect(() => {
     const track = thumbnailTrackRef.current;
@@ -40,9 +39,9 @@ export default function ProjectImageGallery({
 
     track.scrollTo({
       left: Math.max(0, targetLeft),
-      behavior: prefersReducedMotion.current ? "auto" : "smooth",
+      behavior: playback.reducedMotion ? "auto" : "smooth",
     });
-  }, [activeIndex]);
+  }, [activeIndex, playback.reducedMotion]);
 
   function goToPrevious() {
     setActiveIndex((current) => (current === 0 ? count - 1 : current - 1));
@@ -53,7 +52,7 @@ export default function ProjectImageGallery({
   }
 
   function handleProgressEnd() {
-    if (count <= 1 || isPaused || prefersReducedMotion.current) {
+    if (count <= 1 || isPaused || playback.reducedMotion) {
       return;
     }
 
@@ -65,15 +64,10 @@ export default function ProjectImageGallery({
   return (
     <div
       className="project-image-gallery flex min-w-0 max-w-full flex-col gap-4"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      {...playback.handlers}
     >
       <div className="group hover-card relative min-w-0 max-w-full overflow-hidden border border-brand/18 bg-surface">
-        <div
-          className="project-gallery-stage project-image-frame relative"
-        >
+        <div className="project-gallery-stage project-image-frame relative">
           {images.map((image, index) => {
             const isActive = index === activeIndex;
 

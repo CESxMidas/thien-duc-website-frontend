@@ -1,5 +1,11 @@
 "use client";
 
+import { CarouselAutoplay } from "@/components/ui/carousel-autoplay";
+import {
+  CAROUSEL_TRACK_CLASS,
+  CAROUSEL_TRANSITION_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,8 +21,6 @@ const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
 const GAP_PX = 20;
-const AUTOPLAY_INTERVAL_MS = 5200;
-const TRANSITION_MS = 700;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -41,12 +45,10 @@ export function ProjectsCarousel({
 }: ProjectsCarouselProps) {
   const router = useRouter();
   const count = projects.length;
-  const [isHovered, setIsHovered] = useState(false);
-  const [hasFocus, setHasFocus] = useState(false);
-  const isPaused = isHovered || hasFocus;
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const playback = useCarouselPlayback();
 
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [viewportCount, setVisibleCount] = useState(3);
+  const visibleCount = Math.min(viewportCount, Math.max(count, 1));
 
   useEffect(() => {
     function sync() {
@@ -57,27 +59,23 @@ export function ProjectsCarousel({
     return () => window.removeEventListener("resize", sync);
   }, []);
 
-  useEffect(() => {
-    if (!window.matchMedia) return;
-
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setPrefersReducedMotion(media.matches);
-
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  const isInteractive = count > visibleCount;
+  const isInteractive = count > 1;
   const positionCount = count;
-  const loop = useLoopCarousel(isInteractive ? count : 0, TRANSITION_MS);
+  const loop = useLoopCarousel(
+    isInteractive ? count : 0,
+    CAROUSEL_TRANSITION_MS,
+  );
   const displayIndex = loop.activeIndex;
   // Keep the real cards in a fixed order. Edge copies fill the viewport while
   // crossing either end, then the hook settles on the identical real cards.
   const edgeCount = isInteractive ? visibleCount : 0;
   const trackIndex = isInteractive ? loop.position + edgeCount - 1 : 0;
   const trackProjects = isInteractive
-    ? [...projects.slice(-edgeCount), ...projects, ...projects.slice(0, edgeCount)]
+    ? [
+        ...projects.slice(-edgeCount),
+        ...projects,
+        ...projects.slice(0, edgeCount),
+      ]
     : projects;
 
   function goToPrevious() {
@@ -109,31 +107,21 @@ export function ProjectsCarousel({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocusCapture={() => setHasFocus(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setHasFocus(false);
-      }}
+      {...playback.handlers}
     >
-      {isInteractive && !prefersReducedMotion ? (
-        <div
-          key={displayIndex}
-          aria-hidden="true"
-          data-testid="projects-carousel-progress"
-          className="banner-progress pointer-events-none absolute h-px w-px opacity-0"
-          style={{
-            animationDuration: `${AUTOPLAY_INTERVAL_MS}ms`,
-            animationPlayState: isPaused ? "paused" : "running",
-          }}
-          onAnimationEnd={() => { if (!isPaused) goToNext(); }}
-        />
-      ) : null}
+      <CarouselAutoplay
+        index={displayIndex}
+        enabled={isInteractive}
+        paused={playback.paused}
+        reducedMotion={playback.reducedMotion}
+        onNext={goToNext}
+        testId="projects-carousel-progress"
+      />
       <div className="overflow-hidden">
         <ul
           data-testid="projects-carousel-track"
           data-index={displayIndex}
-          className="flex list-none gap-5 p-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform motion-reduce:transition-none"
+          className={`flex list-none gap-5 p-0 ${CAROUSEL_TRACK_CLASS}`}
           style={{
             transform: trackTransform(trackIndex, visibleCount, GAP_PX),
             transitionProperty: loop.animate ? "transform" : "none",
@@ -141,7 +129,8 @@ export function ProjectsCarousel({
           onTransitionEnd={loop.onTransitionEnd}
         >
           {trackProjects.map((project, position) => {
-            const isVisible = position >= trackIndex && position < trackIndex + visibleCount;
+            const isVisible =
+              position >= trackIndex && position < trackIndex + visibleCount;
             const projectHref = localizePath(
               `${routes.projects}/${project.slug}`,
               locale,
@@ -169,9 +158,11 @@ export function ProjectsCarousel({
                       />
                     </div>
                   ) : null}
-                  <div className="flex flex-1 flex-col p-5">
+                  <div className="carousel-card-body">
                     <div className="td-card-meta flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                      {project.location ? <span>{project.location}</span> : null}
+                      {project.location ? (
+                        <span>{project.location}</span>
+                      ) : null}
                       {project.location ? (
                         <span className="h-1 w-1 rounded-full bg-gold" />
                       ) : null}
@@ -180,12 +171,11 @@ export function ProjectsCarousel({
                     <h2 className="td-card-title mt-3 text-xl font-semibold">
                       {project.title}
                     </h2>
-                    <p
-                      className="mt-2 min-h-5 text-sm font-semibold text-slate"
-                      aria-hidden={project.category ? undefined : "true"}
-                    >
-                      {project.category ?? ""}
-                    </p>
+                    {project.category ? (
+                      <p className="carousel-card-category text-sm font-medium text-slate">
+                        {project.category}
+                      </p>
+                    ) : null}
                     <p className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate">
                       {project.summary}
                     </p>

@@ -1,5 +1,11 @@
 "use client";
 
+import { CarouselAutoplay } from "@/components/ui/carousel-autoplay";
+import {
+  CAROUSEL_TRACK_CLASS,
+  CAROUSEL_TRANSITION_MS,
+  useCarouselPlayback,
+} from "@/lib/use-carousel-playback";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BusinessFieldCard } from "@/components/ui/business-field-card";
@@ -9,7 +15,7 @@ import { useLoopCarousel } from "@/lib/use-loop-carousel";
 
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
-const GAP_PX = 16;
+const GAP_PX = 20;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -29,8 +35,10 @@ export function BusinessFieldsCarousel({
   labels,
 }: BusinessFieldsCarouselProps) {
   const count = fields.length;
-  const [visibleCount, setVisibleCount] = useState(3);
-  const loop = useLoopCarousel(count, 500);
+  const [viewportCount, setVisibleCount] = useState(3);
+  const visibleCount = Math.min(viewportCount, Math.max(count, 1));
+  const loop = useLoopCarousel(count, CAROUSEL_TRANSITION_MS);
+  const playback = useCarouselPlayback();
 
   useEffect(() => {
     function sync() {
@@ -42,10 +50,14 @@ export function BusinessFieldsCarousel({
   }, []);
 
   const activeIndex = loop.activeIndex;
-  const isInteractive = count > visibleCount;
+  const isInteractive = count > 1;
   const positionCount = count;
   const renderedFields = isInteractive
-    ? [...fields.slice(-visibleCount), ...fields, ...fields.slice(0, visibleCount)]
+    ? [
+        ...fields.slice(-visibleCount),
+        ...fields,
+        ...fields.slice(0, visibleCount),
+      ]
     : fields;
   const trackIndex = isInteractive ? visibleCount + loop.position - 1 : 0;
 
@@ -79,12 +91,24 @@ export function BusinessFieldsCarousel({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
+      {...playback.handlers}
     >
+      <CarouselAutoplay
+        index={activeIndex}
+        enabled={isInteractive}
+        paused={playback.paused}
+        reducedMotion={playback.reducedMotion}
+        onNext={goToNext}
+        testId="business-fields-progress"
+      />
       <div className="overflow-hidden">
         <ul
           data-testid="business-fields-track"
-          className="flex list-none gap-4 p-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-          style={{ transform, transitionProperty: loop.animate ? "transform" : "none" }}
+          className={`flex list-none gap-5 p-0 ${CAROUSEL_TRACK_CLASS}`}
+          style={{
+            transform,
+            transitionProperty: loop.animate ? "transform" : "none",
+          }}
           onTransitionEnd={loop.onTransitionEnd}
         >
           {renderedFields.map((item, index) => {

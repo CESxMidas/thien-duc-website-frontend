@@ -70,7 +70,7 @@ describe("HomeFeaturedProjects", () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("hiển thị tối đa 4 selector dự án thật, với dự án ưu tiên active đầu tiên", async () => {
+  it("hiển thị ba selector trong khung và ưu tiên dự án active đầu tiên", async () => {
     getProjectsMock.mockResolvedValue([
       makeProject({ slug: "a", title: "A" }),
       makeProject({ slug: "b", title: "B", status: "dang-thi-cong" }),
@@ -85,7 +85,7 @@ describe("HomeFeaturedProjects", () => {
       name: /select project/i,
     });
 
-    expect(selectors).toHaveLength(4);
+    expect(selectors).toHaveLength(3);
     expect(selectors[0]).toHaveAttribute("aria-pressed", "true");
     fireEvent.click(
       screen.getAllByRole("button", { name: /view details: b/i })[0],
@@ -195,6 +195,22 @@ describe("HomeFeaturedProjectsShowcase", () => {
     };
   }
 
+  it("automatically advances the highlighted project and selector together", () => {
+    render(
+      <HomeFeaturedProjectsShowcase
+        projects={[item(1), item(2), item(3)]}
+        labels={labels}
+      />,
+    );
+    fireEvent.animationEnd(screen.getByTestId("featured-projects-progress"));
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Project 2" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Select project: Project 2" }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
   it("nút next/previous chuyển page selector dự án tiêu biểu", () => {
     render(
       <HomeFeaturedProjectsShowcase
@@ -212,12 +228,15 @@ describe("HomeFeaturedProjectsShowcase", () => {
       screen.getByRole("button", { name: "Select project: Project 2" }),
     ).toHaveAttribute("aria-pressed", "true");
     expect(
-      screen.getByRole("button", { name: "Select project: Project 1" }),
-    ).toHaveAttribute("tabindex", "-1");
+      screen.queryByRole("button", { name: "Select project: Project 1" }),
+    ).toBeNull();
     expect(
       screen.getByRole("button", { name: "Select project: Project 4" }),
     ).not.toHaveAttribute("tabindex");
 
+    const transition = new Event("transitionend", { bubbles: true });
+    Object.defineProperty(transition, "propertyName", { value: "transform" });
+    fireEvent(screen.getByTestId("featured-projects-track"), transition);
     fireEvent.click(screen.getByRole("button", { name: "Previous project" }));
 
     expect(

@@ -1,127 +1,129 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { ProjectItemsCarousel } from "./project-items-carousel";
-import type { ProjectItem } from "@/types/content";
-import viDictionary from "@/lib/i18n/dictionaries/vi.json";
+import vi from "@/lib/i18n/dictionaries/vi.json";
 
 let reducedMotion = false;
-
 beforeEach(() => {
   reducedMotion = false;
-  Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 1440 });
-  window.matchMedia = jest.fn().mockImplementation(() => ({ matches: reducedMotion }));
+  Object.defineProperty(window, "innerWidth", {
+    configurable: true,
+    writable: true,
+    value: 1440,
+  });
+  window.matchMedia = jest
+    .fn()
+    .mockImplementation(() => ({ matches: reducedMotion }));
 });
-
 function renderItems(count: number) {
-  const items: ProjectItem[] = Array.from({ length: count }, (_, index) => ({
-    title: `Hạng mục ${index + 1}`,
-    slug: `hang-muc-${index + 1}`,
-    summary: "Mô tả hạng mục",
-  }));
-  return render(<ProjectItemsCarousel
-    items={items}
-    projectSlug="hung-phu"
-    projectStatus="da-ban-giao"
-    locale="vi"
-    statusLabels={viDictionary.projectStatus}
-    labels={viDictionary.itemsCarousel}
-  />);
+  return render(
+    <ProjectItemsCarousel
+      items={Array.from({ length: count }, (_, index) => ({
+        title: `Item ${index + 1}`,
+        slug: `item-${index + 1}`,
+        summary: "Item summary",
+      }))}
+      projectSlug="test-project"
+      projectStatus="da-ban-giao"
+      locale="vi"
+      statusLabels={vi.projectStatus}
+      labels={vi.itemsCarousel}
+    />,
+  );
 }
-
 function finish() {
   const event = new Event("transitionend", { bubbles: true });
   Object.defineProperty(event, "propertyName", { value: "transform" });
   fireEvent(screen.getByTestId("project-items-track"), event);
 }
-const next = () => { fireEvent.click(screen.getByLabelText(viDictionary.itemsCarousel.ariaNext)); finish(); };
-const previous = () => { fireEvent.click(screen.getByLabelText(viDictionary.itemsCarousel.ariaPrevious)); finish(); };
-const visiblePage = () => screen.getAllByTestId("project-items-page").find(page => !page.hasAttribute("aria-hidden"))!;
-const titles = () => within(visiblePage()).getAllByRole("heading").map(heading => heading.textContent);
+const next = () => {
+  fireEvent.click(screen.getByLabelText(vi.itemsCarousel.ariaNext));
+  finish();
+};
+const titles = () =>
+  screen.getAllByRole("heading", { level: 3 }).map((node) => node.textContent);
 
-it.each([4, 5, 7])("%i hạng mục: lượt cuối có đủ ba thẻ và quay lại đầu", (count) => {
-  renderItems(count);
-  previous();
-  expect(titles()).toHaveLength(3);
-  expect(new Set(titles()).size).toBe(3);
-  expect(titles()).toEqual([`Hạng mục ${count - 2}`, `Hạng mục ${count - 1}`, `Hạng mục ${count}`]);
-  next();
-  expect(titles()).toEqual(["Hạng mục 1", "Hạng mục 2", "Hạng mục 3"]);
-});
-
-it("bốn hạng mục nối lượt cuối 4–1–2 thay vì chừa hai ô trống", () => {
+it.each([4, 5, 7])(
+  "loops %i items one card at a time with a full viewport",
+  (count) => {
+    renderItems(count);
+    for (let index = 0; index < count; index++) {
+      next();
+      expect(titles()).toHaveLength(3);
+    }
+    expect(titles()).toEqual(["Item 1", "Item 2", "Item 3"]);
+  },
+);
+it("crosses the previous boundary without changing visible cards when settling", () => {
   renderItems(4);
-  next();
-  expect(titles()).toEqual(["Hạng mục 4", "Hạng mục 1", "Hạng mục 2"]);
-  expect(within(visiblePage()).getByRole("link", { name: "Xem hạng mục Hạng mục 4" })).toHaveAttribute("href", "/du-an/hung-phu/hang-muc-4");
+  fireEvent.click(screen.getByLabelText(vi.itemsCarousel.ariaPrevious));
+  expect(titles()).toEqual(["Item 4", "Item 1", "Item 2"]);
+  finish();
+  expect(titles()).toEqual(["Item 4", "Item 1", "Item 2"]);
+  expect(screen.getByTestId("project-items-track")).toHaveStyle({
+    transitionProperty: "none",
+  });
 });
-
-it.each([[375, 1], [430, 1], [768, 2], [1024, 2], [1280, 3], [1440, 3]])("chiều rộng %ipx hiển thị %i thẻ mỗi lượt", (width, count) => {
+it.each([
+  [375, 1],
+  [430, 1],
+  [768, 2],
+  [1024, 2],
+  [1440, 3],
+])("keeps %ipx viewport filled with %i cards", (width, visible) => {
   window.innerWidth = width;
   renderItems(4);
-  expect(titles()).toHaveLength(count);
   next();
-  expect(titles()).toHaveLength(count);
+  expect(titles()).toHaveLength(visible);
 });
-
-it("đổi kích thước khi đang ở cuối không làm mất trang đang hiển thị", () => {
+it("keeps the current first item during a responsive change", () => {
   window.innerWidth = 375;
   renderItems(4);
-  previous();
-  expect(titles()).toEqual(["Hạng mục 4"]);
+  fireEvent.click(screen.getByLabelText(vi.itemsCarousel.ariaPrevious));
+  finish();
   window.innerWidth = 1440;
   fireEvent(window, new Event("resize"));
-  expect(titles()).toEqual(["Hạng mục 2", "Hạng mục 3", "Hạng mục 4"]);
+  expect(titles()).toEqual(["Item 4", "Item 1", "Item 2"]);
 });
-
-it.each([1, 2, 3])("chỉ %i hạng mục: dùng đủ chiều ngang và ẩn điều hướng", (count) => {
+it.each([2, 3])("autoplays even with only %i items", (count) => {
   renderItems(count);
-  expect(titles()).toHaveLength(count);
-  expect(visiblePage()).toHaveClass(`grid-cols-${count}`);
-  expect(screen.queryByLabelText(viDictionary.itemsCarousel.ariaNext)).not.toBeInTheDocument();
+  fireEvent.animationEnd(screen.getByTestId("project-items-progress"));
+  finish();
+  expect(titles()[0]).toBe("Item 2");
+  expect(screen.getAllByRole("link")).toHaveLength(count);
 });
-
-it("các trang khuất không nhận tương tác bàn phím", () => {
+it("keeps hidden copies inert and navigates to the right item", () => {
   renderItems(4);
-  const hiddenPage = screen.getAllByTestId("project-items-page")[0];
-  expect(hiddenPage).toHaveAttribute("aria-hidden", "true");
-  expect(hiddenPage).toHaveAttribute("inert");
   expect(screen.getAllByRole("link")).toHaveLength(3);
+  expect(screen.getAllByRole("link")[0]).toHaveAttribute(
+    "href",
+    "/du-an/test-project/item-1",
+  );
+  expect(screen.getAllByTestId("project-items-slide")[0]).toHaveAttribute(
+    "inert",
+  );
 });
-
-it("tự chạy quay vòng và tạm dừng khi rê chuột", () => {
+it("pauses autoplay while hovered", () => {
   const { container } = renderItems(4);
-  fireEvent.animationEnd(container.querySelector(".banner-progress")!);
+  fireEvent.mouseEnter(container.firstElementChild!);
+  const progress = screen.getByTestId("project-items-progress");
+  expect(progress).toHaveStyle({ animationPlayState: "paused" });
+  fireEvent.animationEnd(progress);
+  expect(titles()[0]).toBe("Item 1");
+  fireEvent.mouseLeave(container.firstElementChild!);
+  fireEvent.animationEnd(progress);
   finish();
-  expect(titles()[0]).toBe("Hạng mục 4");
-  fireEvent.mouseEnter(container.querySelector(".project-items-carousel")!);
-  expect(container.querySelector(".banner-progress")).toBeNull();
-  fireEvent.mouseLeave(container.querySelector(".project-items-carousel")!);
-  fireEvent.animationEnd(container.querySelector(".banner-progress")!);
-  expect(titles()[0]).toBe("Hạng mục 3");
+  expect(titles()[0]).toBe("Item 2");
 });
-
-it("qua cuối vẫn trượt về phía trước rồi đổi vị trí không có transition", () => {
-  renderItems(4);
-  next(); next(); next();
-  const track = screen.getByTestId("project-items-track");
-  expect(track).toHaveStyle({ transform: "translateX(-400%)" });
-  fireEvent.click(screen.getByLabelText(viDictionary.itemsCarousel.ariaNext));
-  expect(track).toHaveStyle({ transform: "translateX(-500%)", transitionProperty: "transform" });
-  expect(titles()).toEqual(["Hạng mục 1", "Hạng mục 2", "Hạng mục 3"]);
-  finish();
-  expect(track).toHaveStyle({ transform: "translateX(-100%)", transitionProperty: "none" });
-  expect(titles()).toEqual(["Hạng mục 1", "Hạng mục 2", "Hạng mục 3"]);
-});
-
-it("giảm chuyển động tắt tự chạy nhưng vẫn cho chuyển bằng nút", () => {
+it("disables automatic motion but permits manual navigation for reduced motion", () => {
   reducedMotion = true;
-  const { container } = renderItems(4);
-  fireEvent.animationEnd(container.querySelector(".banner-progress")!);
-  expect(titles()[0]).toBe("Hạng mục 1");
+  renderItems(4);
+  expect(screen.queryByTestId("project-items-progress")).toBeNull();
   next();
-  expect(titles()[0]).toBe("Hạng mục 4");
+  expect(titles()[0]).toBe("Item 2");
 });
-
-it("không có hạng mục thì không dựng khung rỗng", () => {
-  const { container } = renderItems(0);
-  expect(container).toBeEmptyDOMElement();
+it("omits controls for a single item and renders nothing for an empty list", () => {
+  const view = renderItems(1);
+  expect(screen.queryByLabelText(vi.itemsCarousel.ariaNext)).toBeNull();
+  view.unmount();
+  expect(renderItems(0).container).toBeEmptyDOMElement();
 });
