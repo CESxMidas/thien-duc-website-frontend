@@ -9,12 +9,14 @@ import { trackTransform } from "@/components/sections/news-slider";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
+import { useLoopCarousel } from "@/lib/use-loop-carousel";
 
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_DESKTOP = 1024;
 
 const GAP_PX = 20;
-const AUTOPLAY_INTERVAL_MS = 3000;
+const AUTOPLAY_INTERVAL_MS = 5200;
+const TRANSITION_MS = 700;
 
 function visibleCountFor(width: number): number {
   if (width >= BREAKPOINT_DESKTOP) return 3;
@@ -39,8 +41,9 @@ export function ProjectsCarousel({
 }: ProjectsCarouselProps) {
   const router = useRouter();
   const count = projects.length;
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasFocus, setHasFocus] = useState(false);
+  const isPaused = isHovered || hasFocus;
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const [visibleCount, setVisibleCount] = useState(3);
@@ -67,32 +70,23 @@ export function ProjectsCarousel({
 
   const isInteractive = count > visibleCount;
   const positionCount = count;
-  const displayIndex = count > 0 ? activeIndex % count : 0;
-  const orderedProjects =
-    count > 0
-      ? projects.map((_, offset) => projects[(displayIndex + offset) % count])
-      : [];
+  const loop = useLoopCarousel(isInteractive ? count : 0, TRANSITION_MS);
+  const displayIndex = loop.activeIndex;
+  // Keep the real cards in a fixed order. Edge copies fill the viewport while
+  // crossing either end, then the hook settles on the identical real cards.
+  const edgeCount = isInteractive ? visibleCount : 0;
+  const trackIndex = isInteractive ? loop.position + edgeCount - 1 : 0;
+  const trackProjects = isInteractive
+    ? [...projects.slice(-edgeCount), ...projects, ...projects.slice(0, edgeCount)]
+    : projects;
 
   function goToPrevious() {
-    setActiveIndex(displayIndex <= 0 ? count - 1 : displayIndex - 1);
+    loop.previous();
   }
 
   function goToNext() {
-    setActiveIndex(displayIndex >= count - 1 ? 0 : displayIndex + 1);
+    loop.next();
   }
-
-  useEffect(() => {
-    if (!isInteractive || isPaused || prefersReducedMotion) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => {
-        if (count <= 0) return 0;
-        return current >= count - 1 ? 0 : current + 1;
-      });
-    }, AUTOPLAY_INTERVAL_MS);
-
-    return () => window.clearInterval(timer);
-  }, [count, isInteractive, isPaused, prefersReducedMotion]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (!isInteractive) return;
@@ -115,18 +109,39 @@ export function ProjectsCarousel({
       aria-roledescription="carousel"
       aria-label={labels.regionLabel}
       onKeyDown={handleKeyDown}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setHasFocus(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setHasFocus(false);
+      }}
     >
+      {isInteractive && !prefersReducedMotion ? (
+        <div
+          key={displayIndex}
+          aria-hidden="true"
+          data-testid="projects-carousel-progress"
+          className="banner-progress pointer-events-none absolute h-px w-px opacity-0"
+          style={{
+            animationDuration: `${AUTOPLAY_INTERVAL_MS}ms`,
+            animationPlayState: isPaused ? "paused" : "running",
+          }}
+          onAnimationEnd={() => { if (!isPaused) goToNext(); }}
+        />
+      ) : null}
       <div className="overflow-hidden">
         <ul
           data-testid="projects-carousel-track"
           data-index={displayIndex}
-          className="flex list-none gap-5 p-0 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
-          style={{ transform: trackTransform(0, visibleCount, GAP_PX) }}
+          className="flex list-none gap-5 p-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] will-change-transform motion-reduce:transition-none"
+          style={{
+            transform: trackTransform(trackIndex, visibleCount, GAP_PX),
+            transitionProperty: loop.animate ? "transform" : "none",
+          }}
+          onTransitionEnd={loop.onTransitionEnd}
         >
-          {orderedProjects.map((project, position) => {
-            const isVisible = position < visibleCount;
+          {trackProjects.map((project, position) => {
+            const isVisible = position >= trackIndex && position < trackIndex + visibleCount;
             const projectHref = localizePath(
               `${routes.projects}/${project.slug}`,
               locale,
@@ -134,10 +149,11 @@ export function ProjectsCarousel({
 
             return (
               <li
-                key={project.slug}
+                key={`${position}-${project.slug}`}
                 data-testid="projects-carousel-slide"
                 data-visible={isVisible ? "true" : "false"}
                 aria-hidden={isVisible ? undefined : "true"}
+                inert={!isVisible}
                 className="shrink-0"
                 style={{ width: slideWidth }}
               >
@@ -201,7 +217,7 @@ export function ProjectsCarousel({
                   index: String(position + 1),
                 })}
                 aria-current={position === displayIndex ? "true" : undefined}
-                onClick={() => setActiveIndex(position)}
+                onClick={() => loop.goTo(position)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   position === displayIndex
                     ? "w-8 bg-brand"

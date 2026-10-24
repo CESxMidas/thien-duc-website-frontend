@@ -6,6 +6,7 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
 
 const mockPush = jest.fn();
+let reducedMotion = false;
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
@@ -37,12 +38,24 @@ function renderCarousel(count: number) {
 
 beforeEach(() => {
   mockPush.mockClear();
+  reducedMotion = false;
+  window.matchMedia = jest.fn().mockImplementation(() => ({
+    matches: reducedMotion,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+  }));
+  Object.defineProperty(window, "innerWidth", { configurable: true, writable: true, value: 1440 });
 });
 
 const slides = () => screen.getAllByTestId("projects-carousel-slide");
 const indexOf = () =>
   Number(screen.getByTestId("projects-carousel-track").dataset.index);
-const next = () => fireEvent.click(screen.getByLabelText(labels.ariaNext));
+function finish() {
+  const event = new Event("transitionend", { bubbles: true });
+  Object.defineProperty(event, "propertyName", { value: "transform" });
+  fireEvent(screen.getByTestId("projects-carousel-track"), event);
+}
+const next = () => { fireEvent.click(screen.getByLabelText(labels.ariaNext)); finish(); };
 const visibleTitles = () =>
   Array.from(
     screen
@@ -52,13 +65,11 @@ const visibleTitles = () =>
     .map((li) => li.querySelector("h2")!.textContent);
 
 describe("ProjectsCarousel", () => {
-  it("KHÔNG nhân bản: mỗi dự án đúng một lần trong DOM", () => {
+  it("keeps edge copies hidden from assistive technology", () => {
     renderCarousel(5);
-
-    expect(slides()).toHaveLength(5);
-    expect(
-      screen.getAllByRole("button", { name: /Xem chi tiết: Dự án 1/i }),
-    ).toHaveLength(1);
+    expect(slides()).toHaveLength(11);
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(3);
+    expect(screen.getAllByRole("button", { name: /Xem chi tiết: Dự án 1/i })).toHaveLength(1);
   });
 
   it("hiện 3 thẻ mỗi lần trên desktop", () => {
@@ -85,6 +96,7 @@ describe("ProjectsCarousel", () => {
     renderCarousel(5);
 
     fireEvent.click(screen.getByLabelText(labels.ariaPrevious));
+    finish();
     expect(indexOf()).toBe(4);
     expect(visibleTitles()).toEqual(["Dự án 5", "Dự án 1", "Dự án 2"]);
 
@@ -103,7 +115,7 @@ describe("ProjectsCarousel", () => {
     renderCarousel(5);
     const hidden = slides().filter((li) => li.dataset.visible === "false");
 
-    expect(hidden).toHaveLength(2);
+    expect(hidden).toHaveLength(8);
     for (const li of hidden) {
       expect(li).toHaveAttribute("aria-hidden", "true");
       expect(li.querySelector("button")).toHaveAttribute("tabindex", "-1");
@@ -122,6 +134,7 @@ describe("ProjectsCarousel", () => {
     const region = screen.getByRole("group", { name: labels.regionLabel });
 
     fireEvent.keyDown(region, { key: "ArrowRight" });
+    finish();
     expect(indexOf()).toBe(1);
     fireEvent.keyDown(region, { key: "ArrowLeft" });
     expect(indexOf()).toBe(0);
@@ -143,5 +156,69 @@ describe("ProjectsCarousel", () => {
     );
 
     expect(mockPush).toHaveBeenCalledWith("/du-an/du-an-1");
+  });
+
+  it("moves the track without reordering cards and ignores clicks during movement", () => {
+    renderCarousel(5);
+    const track = screen.getByTestId("projects-carousel-track");
+    const nodes = Array.from(track.children);
+    const initialTransform = track.style.transform;
+    fireEvent.click(screen.getByLabelText(labels.ariaNext));
+    expect(track.style.transform).not.toBe(initialTransform);
+    expect(track).toHaveStyle({ transitionProperty: "transform" });
+    expect(Array.from(track.children)).toEqual(nodes);
+    fireEvent.click(screen.getByLabelText(labels.ariaNext));
+    expect(indexOf()).toBe(1);
+    finish();
+    next();
+    expect(indexOf()).toBe(2);
+  });
+
+  it("crosses the last card before settling on the identical first viewport", () => {
+    renderCarousel(5);
+    const track = screen.getByTestId("projects-carousel-track");
+    for (let index = 0; index < 4; index++) next();
+    fireEvent.click(screen.getByLabelText(labels.ariaNext));
+    const boundaryTransform = track.style.transform;
+    const boundaryTitles = visibleTitles();
+    expect(indexOf()).toBe(0);
+    expect(track).toHaveStyle({ transitionProperty: "transform" });
+    finish();
+    expect(track.style.transform).not.toBe(boundaryTransform);
+    expect(track).toHaveStyle({ transitionProperty: "none" });
+    expect(visibleTitles()).toEqual(boundaryTitles);
+  });
+
+  it("pauses autoplay for both hover and focus", () => {
+    renderCarousel(5);
+    const region = screen.getByRole("group", { name: labels.regionLabel });
+    const progress = () => screen.getByTestId("projects-carousel-progress");
+    fireEvent.mouseEnter(region);
+    fireEvent.focus(screen.getByLabelText(labels.ariaNext));
+    fireEvent.mouseLeave(region);
+    expect(progress()).toHaveStyle({ animationPlayState: "paused" });
+    fireEvent.animationEnd(progress());
+    expect(indexOf()).toBe(0);
+    fireEvent.blur(screen.getByLabelText(labels.ariaNext), { relatedTarget: null });
+    fireEvent.animationEnd(progress());
+    expect(indexOf()).toBe(1);
+  });
+
+  it.each([[375, 1], [430, 1], [768, 2], [1024, 3], [1440, 3]])("keeps %i px viewports filled with %i cards through a loop", (width, visible) => {
+    window.innerWidth = width;
+    renderCarousel(5);
+    for (let index = 0; index < 6; index++) {
+      next();
+      expect(visibleTitles()).toHaveLength(visible);
+    }
+  });
+
+  it("disables autoplay and animated movement when reduced motion is requested", () => {
+    reducedMotion = true;
+    renderCarousel(5);
+    expect(screen.queryByTestId("projects-carousel-progress")).toBeNull();
+    next();
+    expect(indexOf()).toBe(1);
+    expect(screen.getByTestId("projects-carousel-track")).toHaveStyle({ transitionProperty: "none" });
   });
 });
