@@ -143,7 +143,7 @@ function ProjectGallerySlider({
       </div>
       ) : null}
 
-      <div className="project-gallery-stage relative aspect-16/10 bg-surface">
+      <div className="project-gallery-stage project-image-frame relative bg-surface">
         {images.map((image, slideIndex) => {
           const isActive = slideIndex === activeIndex;
 

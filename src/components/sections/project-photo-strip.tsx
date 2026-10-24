@@ -61,7 +61,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
         {images.map((image, index) => (
           <div
             key={image}
-            className="hover-card image-reveal relative aspect-16/10 overflow-hidden border border-brand/18 bg-surface"
+            className="project-image-frame hover-card image-reveal relative overflow-hidden border border-brand/18 bg-surface"
           >
             <Image
               src={image}
@@ -91,7 +91,7 @@ export function ProjectPhotoStrip({ images, title }: ProjectPhotoStripProps) {
         {images.map((image, index) => (
           <div
             key={image}
-            className="hover-card image-reveal relative aspect-16/10 w-[85%] shrink-0 snap-start overflow-hidden border border-brand/18 bg-surface sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
+            className="project-image-frame hover-card image-reveal relative w-[85%] shrink-0 snap-start overflow-hidden border border-brand/18 bg-surface sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
           >
             <Image
               src={image}

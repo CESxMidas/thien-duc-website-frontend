@@ -323,6 +323,57 @@ textarea {
   touch-action: manipulation;
 }
 
+/* Khung ảnh dùng chung cho chi tiết dự án/hạng mục và các ảnh xem trước. */
+.project-image-frame {
+  aspect-ratio: 4 / 3;
+}
+
+@layer base {
+  /* Dùng ngữ nghĩa tương tác để thống nhất toàn website; utility riêng vẫn ưu tiên. */
+  :where(
+    a[href],
+    button,
+    [role="button"],
+    [role="link"],
+    summary,
+    select,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    input[type="image"],
+    input[type="checkbox"],
+    input[type="radio"],
+    input[type="file"]
+  ):not(
+    :disabled,
+    [aria-disabled="true"],
+    [aria-disabled="true"] *,
+    [inert],
+    [inert] *
+  ) {
+    cursor: pointer;
+  }
+
+  :where(button, input, select, textarea):disabled,
+  :where([aria-disabled="true"]) {
+    cursor: not-allowed;
+  }
+
+  /* Điều khiển con không được hiển thị bàn tay khi cả nhóm đã bị khóa. */
+  :where([aria-disabled="true"])
+    :where(a[href], button, [role="button"], [role="link"], input, select, textarea) {
+    cursor: not-allowed;
+  }
+
+  :where([inert], [inert] *) {
+    cursor: default;
+  }
+
+  :where(input[type="file"])::file-selector-button {
+    cursor: inherit;
+  }
+}
+
 @keyframes map-ripple {
   0% {
     transform: translate(-50%, -50%) scale(0.35);

@@ -160,7 +160,7 @@ export function ProjectItemsCarousel({
                       })}
                       className="group/slide flex h-full min-w-0 flex-col overflow-hidden border border-brand/12 bg-white transition hover:border-brand/35 hover:shadow-[0_18px_34px_rgba(41,41,41,0.08)]"
                     >
-                      <div className="relative aspect-16/10 overflow-hidden bg-surface">
+                      <div className="project-image-frame relative overflow-hidden bg-surface">
                         {item.image ? (
                           <Image
                             src={item.image}

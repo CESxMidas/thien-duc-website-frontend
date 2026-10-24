@@ -1,5 +1,14 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import ProjectImageGallery from "./project-item-gallery";
+
+// JSDOM không dựng layout cho Image fill; dùng img để kiểm tra sự kiện tải ảnh.
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: ({ src, alt, className, onLoad }: React.ComponentProps<"img">) => (
+    // eslint-disable-next-line @next/next/no-img-element -- Ảnh thuần chỉ dùng trong test JSDOM.
+    <img src={src} alt={alt} className={className} onLoad={onLoad} />
+  ),
+}));
 
 describe("ProjectImageGallery", () => {
   beforeAll(() => {
@@ -29,29 +38,24 @@ describe("ProjectImageGallery", () => {
     );
   });
 
-  it("doi ti le khung theo ti le that cua anh dang hien thi", async () => {
+  it("giữ nguyên khung chuẩn khi ảnh ngang và ảnh dọc tải xong hoặc chuyển ảnh", () => {
     const { container } = render(
       <ProjectImageGallery
-        images={["/images/projects/fancy-tower.jpg"]}
+        images={["/images/projects/wide.jpg", "/images/projects/portrait.jpg"]}
         title="Fancy Tower"
       />,
     );
-    const image = screen.getByRole("img", { name: /Fancy Tower/ });
-
-    Object.defineProperty(image, "naturalWidth", {
-      configurable: true,
-      value: 1080,
-    });
-    Object.defineProperty(image, "naturalHeight", {
-      configurable: true,
-      value: 810,
-    });
-    fireEvent.load(image);
-
-    await waitFor(() =>
-      expect(
-        container.querySelector<HTMLElement>(".project-gallery-stage"),
-      ).toHaveStyle({ aspectRatio: "1.3333333333333333" }),
-    );
+    const stage = container.querySelector<HTMLElement>(".project-gallery-stage")!;
+    expect(stage).toHaveClass("project-image-frame");
+    for (const [index, dimensions] of [[2400, 900], [800, 1600]].entries()) {
+      fireEvent.click(screen.getByRole("button", { name: `Xem hình ${index + 1}` }));
+      const image = screen.getByRole("img", { name: `Fancy Tower - hình ${index + 1}` });
+      Object.defineProperty(image, "naturalWidth", { configurable: true, value: dimensions[0] });
+      Object.defineProperty(image, "naturalHeight", { configurable: true, value: dimensions[1] });
+      fireEvent.load(image);
+      expect(stage.style.aspectRatio).toBe("");
+      expect(stage).toHaveClass("project-image-frame");
+      expect(image).toHaveClass("object-contain");
+    }
   });
 });

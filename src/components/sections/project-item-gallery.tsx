@@ -18,7 +18,6 @@ export default function ProjectImageGallery({
   const count = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [imageRatios, setImageRatios] = useState<Record<string, number>>({});
   const prefersReducedMotion = useRef(false);
   const thumbnailTrackRef = useRef<HTMLDivElement | null>(null);
   const thumbRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -62,18 +61,6 @@ export default function ProjectImageGallery({
   }
 
   const multiple = count > 1;
-  const activeImage = images[activeIndex];
-  const activeRatio = imageRatios[activeImage] ?? 4 / 3;
-
-  function rememberImageRatio(image: string, element: HTMLImageElement) {
-    const { naturalWidth, naturalHeight } = element;
-    if (!naturalWidth || !naturalHeight) return;
-
-    const ratio = naturalWidth / naturalHeight;
-    setImageRatios((current) =>
-      current[image] === ratio ? current : { ...current, [image]: ratio },
-    );
-  }
 
   return (
     <div
@@ -85,8 +72,7 @@ export default function ProjectImageGallery({
     >
       <div className="group hover-card relative min-w-0 max-w-full overflow-hidden border border-brand/18 bg-surface">
         <div
-          className="project-gallery-stage relative transition-[aspect-ratio] duration-300 ease-out"
-          style={{ aspectRatio: activeRatio }}
+          className="project-gallery-stage project-image-frame relative"
         >
           {images.map((image, index) => {
             const isActive = index === activeIndex;
@@ -106,9 +92,6 @@ export default function ProjectImageGallery({
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-contain"
                   priority={index === 0}
-                  onLoad={(event) =>
-                    rememberImageRatio(image, event.currentTarget)
-                  }
                 />
               </div>
             );
@@ -184,7 +167,7 @@ export default function ProjectImageGallery({
                 aria-label={`Xem hình ${index + 1}`}
                 aria-current={isActive}
                 onClick={() => setActiveIndex(index)}
-                className={`relative aspect-4/3 w-24 shrink-0 overflow-hidden border transition sm:w-28 ${
+                className={`project-image-frame relative w-24 shrink-0 overflow-hidden border transition sm:w-28 ${
                   isActive
                     ? "border-brand ring-2 ring-gold"
                     : "border-brand/15 opacity-70 hover:opacity-100"
