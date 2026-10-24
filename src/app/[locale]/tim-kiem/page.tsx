@@ -50,7 +50,13 @@ export default async function SearchPage({
     : 0;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.search.eyebrow },
+      ]}
+    >
       <PageHeading
         eyebrow={labels.eyebrow}
         title={

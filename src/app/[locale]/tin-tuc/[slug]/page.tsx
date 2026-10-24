@@ -13,7 +13,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { NewsDetailGallery } from "@/components/sections/news-detail-gallery";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { JsonLd } from "@/components/ui/json-ld";
 import { staticParamsSafe } from "@/lib/api/client";
 import { getNewsPostBySlug, getNewsPosts } from "@/lib/api/news";
@@ -99,24 +98,24 @@ export default async function NewsDetailPage({
     : "";
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        {
+          label: dictionary.breadcrumb.home,
+          href: localizePath(routes.home, locale),
+        },
+        {
+          label: dictionary.breadcrumb.news,
+          href: localizePath(routes.news, locale),
+        },
+        { label: post.title },
+      ]}
+    >
       <JsonLd data={buildNewsArticleJsonLd(post, locale)} />
-      <Breadcrumb
-        items={[
-          {
-            label: dictionary.breadcrumb.home,
-            href: localizePath(routes.home, locale),
-          },
-          {
-            label: dictionary.breadcrumb.news,
-            href: localizePath(routes.news, locale),
-          },
-          { label: post.title },
-        ]}
-      />
 
       <section className="page-container py-7 sm:py-10 lg:py-12">
-        <div className="grid min-w-0 items-start gap-9 border-y border-charcoal/15 py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid min-w-0 items-start gap-9 border-y border-divider py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
           <article className="editorial-content min-w-0">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
               {post.category ? (
@@ -156,7 +155,7 @@ export default async function NewsDetailPage({
               />
             </div>
 
-            <div className="mt-8 border-t border-charcoal/15 pt-7 sm:mt-10 sm:pt-9">
+            <div className="mt-8 border-t border-divider pt-7 sm:mt-10 sm:pt-9">
               <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
                 {content.map((paragraph) =>
                   isArticleSubheading(paragraph) ? (
@@ -181,7 +180,7 @@ export default async function NewsDetailPage({
             {post.referenceUrl ? (
               <section
                 aria-labelledby="news-references-title"
-                className="mt-8 max-w-[72ch] border-t border-charcoal/15 pt-6 sm:mt-10"
+                className="mt-8 max-w-[72ch] border-t border-divider pt-6 sm:mt-10"
               >
                 <h2
                   id="news-references-title"
@@ -211,13 +210,13 @@ export default async function NewsDetailPage({
             ) : null}
           </article>
 
-          <aside className="self-start border-t border-charcoal/20 pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:flex lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:min-h-[24rem] lg:flex-col lg:overflow-y-auto">
+          <aside className="self-start border-t border-divider pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:flex lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:min-h-[24rem] lg:flex-col lg:overflow-y-auto">
             <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
             <dl className="mt-5 grid gap-5 text-sm leading-6 lg:gap-6">
               {post.category ? (
-                <div className="grid min-w-0 gap-1 border-t border-charcoal/10 pt-4">
+                <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
                     <FolderOpen
                       className="size-4"
@@ -229,7 +228,7 @@ export default async function NewsDetailPage({
                 </div>
               ) : null}
               {post.eventDate ? (
-                <div className="grid min-w-0 gap-1 border-t border-charcoal/10 pt-4">
+                <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
                     <CalendarDays className="size-4" aria-hidden="true" />
                     {dictionary.newsDetail.eventDateLabel}
@@ -240,7 +239,7 @@ export default async function NewsDetailPage({
                 </div>
               ) : null}
               {post.publishedAt ? (
-                <div className="grid min-w-0 gap-1 border-t border-charcoal/10 pt-4">
+                <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
                     <CalendarDays className="size-4" aria-hidden="true" />
                     {dictionary.newsDetail.publishedLabel}
@@ -251,7 +250,7 @@ export default async function NewsDetailPage({
                 </div>
               ) : null}
               {!post.eventDate && !post.publishedAt && post.createdAt ? (
-                <div className="grid min-w-0 gap-1 border-t border-charcoal/10 pt-4">
+                <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
                   <CalendarDays
                     className="size-4"
@@ -265,7 +264,7 @@ export default async function NewsDetailPage({
                 </div>
               ) : null}
               {post.author ? (
-                <div className="grid min-w-0 gap-1 border-t border-charcoal/10 pt-4">
+                <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
                     <UserRound className="size-4" aria-hidden="true" />
                     {dictionary.newsDetail.sourceLabel}
@@ -288,7 +287,7 @@ export default async function NewsDetailPage({
 
       {relatedPosts.length > 0 ? (
         <section className="page-container pb-12 sm:pb-16 lg:pb-20">
-          <div className="border-t border-charcoal/15 pt-8 sm:pt-10">
+          <div className="border-t border-divider pt-8 sm:pt-10">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-earth">
@@ -317,7 +316,7 @@ export default async function NewsDetailPage({
                       `${routes.news}/${relatedPost.slug}`,
                       locale,
                     )}
-                    className="group grid min-w-0 gap-4 border-t border-charcoal/15 pt-4"
+                    className="group grid min-w-0 gap-4 border-t border-divider pt-4"
                   >
                     {relatedPost.image ? (
                       <div className="relative aspect-[16/10] overflow-hidden bg-surface">

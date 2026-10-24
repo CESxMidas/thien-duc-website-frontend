@@ -54,7 +54,7 @@ it("bốn hạng mục nối lượt cuối 4–1–2 thay vì chừa hai ô tr�
   expect(within(visiblePage()).getByRole("link", { name: "Xem hạng mục Hạng mục 4" })).toHaveAttribute("href", "/du-an/hung-phu/hang-muc-4");
 });
 
-it.each([[375, 1], [768, 2], [1280, 3]])("chiều rộng %ipx hiển thị %i thẻ mỗi lượt", (width, count) => {
+it.each([[375, 1], [430, 1], [768, 2], [1024, 2], [1280, 3], [1440, 3]])("chiều rộng %ipx hiển thị %i thẻ mỗi lượt", (width, count) => {
   window.innerWidth = width;
   renderItems(4);
   expect(titles()).toHaveLength(count);

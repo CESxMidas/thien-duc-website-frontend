@@ -2,6 +2,8 @@
 
 :root {
   --background: #efe0d2;
+  --footer-start: #e8d9c7;
+  --footer-end: #deccb6;
   --foreground: #292929;
   --surface-card: #f2e2d2;
   --surface-card-highlight: #faf2e9;
@@ -77,6 +79,9 @@
   --color-brand-dark: #2d1b13;
   --color-gold: #bd8f4d;
   --color-gold-soft: #e8d2bb;
+  --color-divider: #d8c9b5;
+  --color-footer-ink: #493c32;
+  --color-footer-muted: #615246;
   --color-header-start: #c9a77f;
   --color-header-middle: #d3b18a;
   --color-header-end: #e5cfb4;
@@ -230,6 +235,27 @@ h2 {
   padding-bottom: 0;
 }
 
+/* One restrained separator and one breadcrumb rhythm for every content page. */
+.page-heading-rule {
+  border-top: 1px solid var(--color-divider);
+}
+
+.section-accent-line {
+  height: 1px;
+  background: var(--color-divider);
+}
+
+.site-breadcrumb {
+  border-bottom: 1px solid var(--color-divider);
+  background: #f7f3ed;
+  padding-block: 0.875rem;
+}
+
+/* The breadcrumb already separates the header from the page heading. */
+main:has(> .site-breadcrumb) .site-page-content .page-heading-rule {
+  border-top: 0;
+}
+
 @media (min-width: 64rem) {
   .site-page-content {
     --page-content-gap: 3rem;
@@ -356,11 +382,10 @@ body {
 .site-footer {
   background: linear-gradient(
     135deg,
-    var(--color-espresso-soft),
-    var(--color-espresso) 75%
+    var(--footer-start),
+    var(--footer-end) 100%
   );
-  box-shadow: inset 0 3px 0 var(--color-gold),
-    0 -10px 28px color-mix(in srgb, var(--color-brand) 12%, transparent);
+  box-shadow: 0 -8px 24px color-mix(in srgb, var(--color-brand) 6%, transparent);
 }
 
 img,

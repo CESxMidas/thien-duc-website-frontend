@@ -27,7 +27,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="page-container pt-4 text-[13px] font-medium sm:pt-6"
+      className="site-breadcrumb page-container text-sm font-medium"
     >
       <script
         type="application/ld+json"
@@ -42,19 +42,17 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           return (
             <li
               key={`${item.label}-${index}`}
-              className="flex items-center gap-2"
+              className={`min-w-0 items-center gap-2 ${collapseOnMobile ? "hidden sm:flex" : "flex"}`}
             >
               {index > 0 ? (
-                <span aria-hidden="true" className="text-brand/40">
+                <span aria-hidden="true" className="shrink-0 text-slate/60">
                   /
                 </span>
               ) : null}
               {item.href && !isLast ? (
                 <Link
                   href={item.href}
-                  className={`text-slate transition hover:text-brand ${
-                    collapseOnMobile ? "hidden sm:inline" : ""
-                  }`}
+                  className="min-w-0 wrap-break-word text-slate transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
                 >
                   {item.label}
                 </Link>

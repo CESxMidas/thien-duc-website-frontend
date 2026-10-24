@@ -38,7 +38,7 @@ export function AboutFoundation({ about }: { about: Dictionary["about"] }) {
             <h2 id="about-foundation-title" className="about-section-title about-foundation-title mt-4">{about.capabilityTitle}</h2>
             <dl className="about-foundation-stats about-story-stagger mt-5">
               {about.stats.map((stat) => (
-                <div key={stat.label} className="border-t border-gold/40 py-4">
+                <div key={stat.label} className="border-t border-divider py-4">
                   <dt className="text-sm font-semibold text-charcoal">{stat.label}</dt>
                   <dd className="font-display text-5xl font-medium leading-none text-earth sm:text-6xl">{stat.value}</dd>
                   <dd className="mt-2 text-sm leading-6 text-slate">{stat.note}</dd>

@@ -60,7 +60,7 @@ describe("Breadcrumb", () => {
     ).toBeInTheDocument();
   });
 
-  it("> 3 cấp: các cấp giữa ẩn trên mobile (hidden sm:inline)", () => {
+  it("> 3 cấp: ẩn cả mục giữa và dấu phân cách của mục đó trên mobile", () => {
     const fourLevels: BreadcrumbItem[] = [
       { label: "Trang chủ", href: "/" },
       { label: "Dự án", href: "/du-an" },
@@ -70,8 +70,7 @@ describe("Breadcrumb", () => {
     render(<Breadcrumb items={fourLevels} />);
 
     const middle = screen.getByRole("link", { name: "Dự án" });
-    expect(middle.className).toContain("hidden");
-    expect(middle.className).toContain("sm:inline");
+    expect(middle.closest("li")).toHaveClass("hidden", "sm:flex");
 
     expect(
       screen.getByRole("link", { name: "Trang chủ" }).className,

@@ -124,7 +124,7 @@ export function HomeFacts({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <section className="home-facts-section relative isolate overflow-hidden border-y border-earth/25 bg-ivory text-charcoal">
+    <section className="home-facts-section relative isolate overflow-hidden border-y border-divider bg-ivory text-charcoal">
       <div
         className="home-facts-foliage home-facts-foliage-start hidden sm:block"
         aria-hidden="true"
@@ -153,7 +153,7 @@ export function HomeFacts({ locale }: { locale: Locale }) {
         {facts.map((fact) => (
           <div
             key={fact.label}
-            className="flex flex-col items-center border-b border-earth/20 px-4 py-5 text-center sm:even:border-l lg:border-b-0 lg:border-r lg:px-8 lg:py-0 lg:even:border-l-0 lg:last:border-r-0"
+            className="flex flex-col items-center border-b border-divider px-4 py-5 text-center sm:even:border-l lg:border-b-0 lg:border-r lg:px-8 lg:py-0 lg:even:border-l-0 lg:last:border-r-0"
           >
             <p className="font-display text-[2.625rem] font-medium leading-none text-earth sm:text-5xl lg:text-[3.25rem]">
               <AnimatedNumber value={fact.value} suffix={fact.suffix} />

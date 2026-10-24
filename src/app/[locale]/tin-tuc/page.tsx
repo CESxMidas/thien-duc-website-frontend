@@ -83,7 +83,13 @@ export default async function NewsPage({
   const posts = newsPage.items;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.breadcrumb.news },
+      ]}
+    >
       <PageHeading
         eyebrow={dictionary.news.eyebrow}
         title={dictionary.news.title}

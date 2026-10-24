@@ -41,7 +41,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
               {careers.values.map((value, index) => {
                 const Icon = valueIcons[index] ?? UsersRound;
                 return (
-                  <article key={value.title} className="flex gap-3 border-t border-gold/35">
+                  <article key={value.title} className="flex gap-3 border-t border-divider">
                     <Icon className="mt-1 size-6 shrink-0 text-earth" aria-hidden="true" />
                     <div>
                       <h3 className="text-lg font-semibold text-charcoal">{value.title}</h3>
@@ -66,7 +66,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
             {peopleSections.map((item) => {
               const Icon = item.icon;
               return (
-                <article key={item.title} className="border-t border-gold/40 py-6 first:pt-6 last:pb-0">
+                <article key={item.title} className="border-t border-divider py-6 first:pt-6 last:pb-0">
                   <div className="flex items-center gap-4">
                     <Icon className="size-6 shrink-0 text-earth" aria-hidden="true" />
                     <h3 className="font-display text-3xl font-medium text-charcoal">{item.title}</h3>

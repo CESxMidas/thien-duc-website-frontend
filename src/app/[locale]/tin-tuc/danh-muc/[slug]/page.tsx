@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { NewsCategoryFilter } from "@/components/sections/news-category-filter";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { Pagination } from "@/components/ui/pagination";
 import {
@@ -109,20 +108,20 @@ export default async function NewsCategoryPage({
   const posts = newsPage.items;
 
   return (
-    <SiteShell locale={locale}>
-      <Breadcrumb
-        items={[
-          {
-            label: dictionary.breadcrumb.home,
-            href: localizePath(routes.home, locale),
-          },
-          {
-            label: dictionary.breadcrumb.news,
-            href: localizePath(routes.news, locale),
-          },
-          { label: category.name },
-        ]}
-      />
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        {
+          label: dictionary.breadcrumb.home,
+          href: localizePath(routes.home, locale),
+        },
+        {
+          label: dictionary.breadcrumb.news,
+          href: localizePath(routes.news, locale),
+        },
+        { label: category.name },
+      ]}
+    >
       <PageHeading
         eyebrow={dictionary.news.eyebrow}
         title={interpolate(dictionary.news.categoryTitle, {

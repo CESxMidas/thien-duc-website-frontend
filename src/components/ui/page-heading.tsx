@@ -20,18 +20,10 @@ export function PageHeading({
   emphasizeDescription = false,
 }: PageHeadingProps) {
   const isEspresso = tone === "espresso";
-  const accentBorder = tone === "espresso" ? "border-espresso" : "border-gold";
+  const accentBorder = tone === "default" ? "" : "page-heading-rule";
   const sectionClassName = bare
-    ? isEspresso
-      ? `border-t-[0.4rem] ${accentBorder} pt-6 sm:pt-8`
-      : tone === "gold"
-        ? `border-t-[0.4rem] ${accentBorder} pt-6 sm:pt-8`
-      : ""
-    : isEspresso
-      ? `page-container border-t-[0.4rem] ${accentBorder} py-10 sm:py-14`
-      : tone === "gold"
-        ? `page-container border-t-[0.4rem] ${accentBorder} py-10 sm:py-14`
-      : "page-container py-10 sm:py-14";
+    ? `page-heading ${accentBorder} pt-6 sm:pt-8`
+    : `page-heading page-container ${accentBorder} py-10 sm:py-14`;
 
   return (
     <section className={sectionClassName}>

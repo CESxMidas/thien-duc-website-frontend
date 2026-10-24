@@ -46,7 +46,13 @@ export default async function MemberCompaniesPage({
   const t = dictionary.memberCompanies;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.memberCompanies.title },
+      ]}
+    >
       <PageHeading
         eyebrow={t.eyebrow}
         title={t.title}

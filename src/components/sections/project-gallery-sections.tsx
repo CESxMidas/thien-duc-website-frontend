@@ -97,7 +97,7 @@ function ProjectGallerySlider({
     >
       {!hideHeader ? (
       <div
-        className={`project-gallery-card-header relative overflow-hidden border-b border-brand/12 bg-gold-soft/45 ${
+        className={`project-gallery-card-header relative overflow-hidden border-b border-divider bg-gold-soft/45 ${
           compact ? "px-4 py-4" : "px-5 py-5 md:px-6"
         }`}
       >

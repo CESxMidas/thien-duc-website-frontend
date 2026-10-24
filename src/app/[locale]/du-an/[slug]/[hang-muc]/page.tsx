@@ -4,8 +4,8 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
+import { ProjectItemsCarousel } from "@/components/sections/project-items-carousel";
 import ProjectImageGallery from "@/components/sections/project-item-gallery";
 import { staticParamsSafe } from "@/lib/api/client";
 import { getProjectBySlug, getProjectItem, getProjects } from "@/lib/api/projects";
@@ -99,23 +99,23 @@ export default async function ProjectItemPage({
   );
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        {
+          label: dictionary.breadcrumb.home,
+          href: localizePath(routes.home, locale),
+        },
+        {
+          label: dictionary.breadcrumb.projects,
+          href: localizePath(routes.projects, locale),
+        },
+        { label: project.title, href: projectHref },
+        { label: item.title },
+      ]}
+    >
       <div className="projects-motion">
-        <section className="project-detail-hero border-b border-brand/10">
-          <Breadcrumb
-            items={[
-              {
-                label: dictionary.breadcrumb.home,
-                href: localizePath(routes.home, locale),
-              },
-              {
-                label: dictionary.breadcrumb.projects,
-                href: localizePath(routes.projects, locale),
-              },
-              { label: project.title, href: projectHref },
-              { label: item.title },
-            ]}
-          />
+        <section className="project-detail-hero border-b border-divider">
           <PageHeading
             eyebrow={interpolate(dictionary.projectItem.eyebrow, {
               title: project.title,
@@ -140,7 +140,7 @@ export default async function ProjectItemPage({
                 galleryImages.length === 0 ? "lg:col-span-2" : ""
               }`}
             >
-              <div className="absolute inset-x-0 top-0 h-1 bg-earth" />
+              <div className="section-accent-line absolute inset-x-0 top-0" />
               <div className="flex flex-wrap items-center gap-3">
                 <p className="text-eyebrow text-brand">
                   {dictionary.projectItem.overviewEyebrow}
@@ -216,30 +216,15 @@ export default async function ProjectItemPage({
                 title: project.title,
               })}
             </h2>
-            <div className="stagger-list mt-8 grid gap-5 md:grid-cols-2">
-              {siblings.map((sibling) => (
-                <Link
-                  key={sibling.slug}
-                  href={`${projectHref}/${sibling.slug}`}
-                  className="hover-card group flex h-full flex-col border border-black/10 bg-white p-5 hover:border-brand"
-                >
-                  <span className="td-card-meta text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-                    {dictionary.projectStatus[sibling.status ?? project.status]}
-                  </span>
-                  <h3 className="td-card-title mt-3 text-xl font-semibold">
-                    {sibling.title}
-                  </h3>
-                  <p
-                    className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate"
-                    aria-hidden={sibling.summary ? undefined : "true"}
-                  >
-                    {sibling.summary ?? ""}
-                  </p>
-                  <span className="link-arrow mt-auto inline-flex h-10 w-fit items-center border border-black/15 px-4 text-sm font-semibold group-hover:border-brand group-hover:text-brand">
-                    {dictionary.projectItem.viewItem}
-                  </span>
-                </Link>
-              ))}
+            <div className="mt-8">
+              <ProjectItemsCarousel
+                items={siblings}
+                projectSlug={project.slug}
+                projectStatus={project.status}
+                locale={locale}
+                statusLabels={dictionary.projectStatus}
+                labels={dictionary.itemsCarousel}
+              />
             </div>
           </section>
         ) : null}

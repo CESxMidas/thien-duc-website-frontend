@@ -18,7 +18,7 @@ export async function HomeIntroStrip({ locale }: { locale: Locale }) {
       : ["Understanding every need", "Creating lasting", "long-term value."];
 
   return (
-    <section className="border-y border-earth/20 bg-ivory py-5 sm:py-6 lg:py-7">
+    <section className="border-y border-divider bg-ivory py-5 sm:py-6 lg:py-7">
       <div className="w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <div
           className="relative min-h-[8.5rem] overflow-hidden rounded-[8px] border border-gold/30 px-5 py-6 shadow-[0_12px_30px_rgba(74,48,35,0.075),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 lg:min-h-[9.25rem] lg:px-16"

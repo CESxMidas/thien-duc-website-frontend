@@ -4,7 +4,6 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { PageHeading } from "@/components/ui/page-heading";
 import { ProjectDetailMediaLayout } from "@/components/sections/project-detail-media-layout";
 import ProjectImageGallery from "@/components/sections/project-item-gallery";
@@ -95,22 +94,22 @@ export default async function ProjectDetailPage({
   const hasEmbedMap = !project.mapLocation && Boolean(mapQuery);
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        {
+          label: dictionary.breadcrumb.home,
+          href: localizePath(routes.home, locale),
+        },
+        {
+          label: dictionary.breadcrumb.projects,
+          href: localizePath(routes.projects, locale),
+        },
+        { label: project.title },
+      ]}
+    >
       <div className="projects-motion">
-        <section className="project-detail-hero border-b border-brand/10">
-          <Breadcrumb
-            items={[
-              {
-                label: dictionary.breadcrumb.home,
-                href: localizePath(routes.home, locale),
-              },
-              {
-                label: dictionary.breadcrumb.projects,
-                href: localizePath(routes.projects, locale),
-              },
-              { label: project.title },
-            ]}
-          />
+        <section className="project-detail-hero border-b border-divider">
           <PageHeading
             eyebrow={dictionary.projectDetail.eyebrow}
             title={project.title}
@@ -153,7 +152,7 @@ export default async function ProjectDetailPage({
                   ) : null}
                 </div>
 
-                <div className="border-t border-brand/12 pt-6">
+                <div className="border-t border-divider pt-6">
                   <p className="text-eyebrow mb-4 text-brand">
                     {dictionary.projectDetail.quickInfoEyebrow}
                   </p>
@@ -221,7 +220,7 @@ export default async function ProjectDetailPage({
                     ) : null}
                   </div>
 
-                  <div className="border-t border-brand/12 pt-6">
+                  <div className="border-t border-divider pt-6">
                     <p className="text-eyebrow mb-4 text-brand">
                       {dictionary.projectDetail.quickInfoEyebrow}
                     </p>

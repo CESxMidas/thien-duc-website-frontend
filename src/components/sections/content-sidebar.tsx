@@ -39,7 +39,7 @@ export function ContentSidebar({
             {news.map((post) => (
               <li
                 key={post.slug}
-                className="border-b border-brand/10 last:border-b-0"
+                className="border-b border-divider last:border-b-0"
               >
                 <Link
                   href={localizePath(`${routes.news}/${post.slug}`, locale)}
@@ -182,7 +182,7 @@ function Widget({
 
 function WidgetFooter({ href, label }: { href: string; label: string }) {
   return (
-    <div className="border-t border-brand/10 bg-cream/60">
+    <div className="border-t border-divider bg-cream/60">
       <Link
         href={href}
         className="link-arrow block px-4 py-3 text-xs font-bold uppercase tracking-widest text-brand hover:text-brand-dark"

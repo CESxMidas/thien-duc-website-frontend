@@ -63,7 +63,13 @@ export default async function ProjectsPage({
       : projects.filter((project) => project.status === activeStatus);
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.breadcrumb.projects },
+      ]}
+    >
       <div className="projects-motion">
         <PageHeading
           eyebrow={dictionary.projects.eyebrow}

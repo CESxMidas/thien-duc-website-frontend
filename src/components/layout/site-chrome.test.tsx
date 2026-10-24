@@ -77,6 +77,19 @@ describe("SiteHeader", () => {
 });
 
 describe("SiteShell", () => {
+  it("places one breadcrumb before content inside main", async () => {
+    render(await SiteShell({
+      locale: "vi",
+      breadcrumbs: [{ label: "Trang chủ", href: "/" }, { label: "Dự án" }],
+      children: <h1>Danh sách dự án</h1>,
+    }));
+    const main = screen.getByRole("main");
+    const breadcrumb = within(main).getByRole("navigation", { name: "Breadcrumb" });
+    expect(main.firstElementChild).toBe(breadcrumb);
+    expect(main.querySelector(".site-page-content")).not.toContainElement(breadcrumb);
+    expect(within(breadcrumb).getByText("Dự án")).toHaveAttribute("aria-current", "page");
+  });
+
   it("render header, main và footer, không gắn nút Zalo nổi", async () => {
     render(await SiteShell({ locale: "vi", children: <p>nội dung</p> }));
 
@@ -161,7 +174,7 @@ describe("SiteFooter", () => {
     expect(within(footer).queryByRole("link", { name: /zalo/i })).toBeNull();
   });
 
-  it("dùng nền espresso và logo champagne để footer tách biệt rõ", () => {
+  it("dùng nền champagne sáng và logo nâu để footer tách biệt rõ", () => {
     render(<SiteFooter locale="vi" dictionary={dictionary} />);
     const footer = screen.getByRole("contentinfo");
 
@@ -173,7 +186,7 @@ describe("SiteFooter", () => {
     expect(within(footer).getByRole("img", { name: dictionary.shared.logoAlt }))
       .toHaveAttribute(
         "src",
-        expect.stringContaining("logo-thien-duc-footer-champagne.png"),
+        expect.stringContaining("logo-thien-duc-header-transparent.png"),
       );
     expect(
       within(footer)
@@ -185,6 +198,6 @@ describe("SiteFooter", () => {
     );
     expect(footer).toHaveTextContent("MST: 0309910290");
     expect(footer).toHaveTextContent("0909 768 001");
-    expect(footer).toHaveClass("site-footer", "text-ivory");
+    expect(footer).toHaveClass("site-footer", "text-footer-ink");
   });
 });

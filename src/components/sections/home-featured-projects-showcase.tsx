@@ -198,7 +198,7 @@ export function HomeFeaturedProjectsShowcase({
   return (
     <section
       aria-labelledby="featured-projects-title"
-      className="featured-projects-section relative isolate overflow-hidden border-y border-earth/18 bg-ivory pb-10 pt-16 sm:pb-12 sm:pt-20 lg:pb-16 lg:pt-24"
+      className="featured-projects-section relative isolate overflow-hidden border-y border-divider bg-ivory pb-10 pt-16 sm:pb-12 sm:pt-20 lg:pb-16 lg:pt-24"
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
     >
@@ -287,7 +287,7 @@ export function HomeFeaturedProjectsShowcase({
 
             <article
               key={`${activeProject.slug}-content`}
-              className="flex min-h-[23rem] flex-col border-t border-earth/15 bg-ivory px-5 py-6 [container-type:inline-size] motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
+              className="flex min-h-[23rem] flex-col border-t border-divider bg-ivory px-5 py-6 [container-type:inline-size] motion-safe:animate-[heroFadeUp_420ms_cubic-bezier(.22,.61,.36,1)_both] sm:min-h-[29rem] sm:px-7 sm:py-7 lg:min-h-[clamp(30rem,38vw,39rem)] lg:border-l lg:border-t-0 lg:px-8 lg:py-8"
             >
               <div>
                 <div className="mb-5 flex max-w-[18rem] items-center gap-4">

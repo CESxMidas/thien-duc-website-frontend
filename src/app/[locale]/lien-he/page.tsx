@@ -64,7 +64,13 @@ export default async function ContactPage({
 
   return (
 
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.navLabels["/lien-he"] ?? "Liên hệ" },
+      ]}
+    >
       <PageHeading
         eyebrow={contact.heroEyebrow}
         title={heading.title}

@@ -66,7 +66,13 @@ export default async function CareersPage({
     careers.applySubject,
   )}`;
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.navLabels["/tuyen-dung"] ?? "Tuyển dụng" },
+      ]}
+    >
       <div className="careers-page">
         <CareersHero
           eyebrow={careers.eyebrow}

@@ -73,7 +73,13 @@ export default async function AboutPage({
       : about.overviewParagraphs;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.navLabels["/gioi-thieu"] ?? "Giới thiệu" },
+      ]}
+    >
       <div className="about-page-shell page-container grid gap-6 py-4 sm:py-6 lg:grid-cols-[minmax(0,1fr)_19rem]">
 
         <div className="about-page-overview editorial-content">

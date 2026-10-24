@@ -36,7 +36,7 @@ describe("PageHeading", () => {
     expect(heading.className).not.toContain("text-justified");
   });
 
-  it("hỗ trợ điểm nhấn Espresso ở đầu trang", () => {
+  it("dùng đường phân cách nhạt và giữ màu chữ Espresso", () => {
     const { container } = render(
       <PageHeading
         bare
@@ -46,7 +46,7 @@ describe("PageHeading", () => {
     );
 
     expect(container.querySelector("section")).toHaveClass(
-      "border-espresso",
+      "page-heading-rule",
     );
     expect(screen.getByRole("heading", { level: 1 })).toHaveClass(
       "text-espresso",
@@ -63,7 +63,7 @@ describe("PageHeading", () => {
       />,
     );
 
-    expect(container.querySelector("section")).toHaveClass("border-gold");
+    expect(container.querySelector("section")).toHaveClass("page-heading-rule");
     expect(container.querySelector("section")).not.toHaveClass("border-espresso");
   });
 });

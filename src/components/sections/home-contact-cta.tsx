@@ -91,7 +91,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <section className="home-contact-section relative isolate overflow-hidden border-y border-earth/20 bg-ivory text-charcoal lg:min-h-[390px]">
+    <section className="home-contact-section relative isolate overflow-hidden border-y border-divider bg-ivory text-charcoal lg:min-h-[390px]">
       <Image
         src="/images/contact/contact-section-background.jpg"
         alt=""
@@ -166,7 +166,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-                className="group grid gap-4 border-b border-earth/10 px-5 py-5 transition hover:bg-white/38 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-center sm:px-6 sm:py-5 lg:gap-5 lg:px-7"
+                className="group grid gap-4 border-b border-divider px-5 py-5 transition hover:bg-white/38 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-center sm:px-6 sm:py-5 lg:gap-5 lg:px-7"
               >
                 <span className="grid size-11 place-items-center rounded-full bg-ivory/78 text-earth shadow-[0_8px_18px_rgba(139,115,94,0.12)] transition group-hover:bg-earth group-hover:text-ivory">
                   <Icon className="size-4" aria-hidden="true" />

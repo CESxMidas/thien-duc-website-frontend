@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { Breadcrumb, type BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { ZaloContactLink } from "@/components/ui/zalo-contact-link";
 import { zaloDisplayValue, zaloHref } from "@/config/site";
 import { getBrandingSettings, type BrandingSettings } from "@/lib/api/settings";
@@ -12,6 +13,7 @@ type SiteShellProps = {
   children: ReactNode;
   heroBeforeHeader?: ReactNode;
   isHomePage?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
 };
 
 export async function SiteShell({
@@ -19,6 +21,7 @@ export async function SiteShell({
   children,
   heroBeforeHeader,
   isHomePage = false,
+  breadcrumbs,
 }: SiteShellProps) {
   const [dictionary, branding] = await Promise.all([
     getDictionary(locale),
@@ -40,6 +43,7 @@ export async function SiteShell({
         id="main-content"
         className="flex-1 bg-[linear-gradient(180deg,rgba(255,255,255,0.28)_0%,rgba(247,238,229,0.18)_55%,rgba(232,213,194,0.3)_100%)]"
       >
+        {breadcrumbs?.length ? <Breadcrumb items={breadcrumbs} /> : null}
         {isHomePage ? children : <div className="site-page-content">{children}</div>}
       </main>
       <ZaloContactLink

@@ -53,9 +53,15 @@ export default async function BusinessFieldsPage({
   const about = dictionary.about;
 
   return (
-    <SiteShell locale={locale}>
+    <SiteShell
+      locale={locale}
+      breadcrumbs={[
+        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
+              { label: dictionary.navLabels["/linh-vuc-hoat-dong"] ?? (locale === "en" ? "Business fields" : "Lĩnh vực") },
+      ]}
+    >
       <div
-        className="relative isolate overflow-hidden border-b border-earth/10 bg-ivory"
+        className="relative isolate overflow-hidden border-b border-divider bg-ivory"
         style={{
           backgroundImage:
             "url('/images/fields/field-architecture-line-art.webp')",
