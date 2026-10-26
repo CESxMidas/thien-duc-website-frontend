@@ -24,14 +24,14 @@ export function selectRelatedNews(
   currentPost: NewsPost,
   limit = 3,
 ) {
+  // Giữ thứ tự API trong mỗi nhóm để tôn trọng sắp xếp do quản trị viên lưu.
   const sameCategory = posts
     .filter(
       (post) =>
         post.slug !== currentPost.slug &&
         post.category?.slug &&
         post.category.slug === currentPost.category?.slug,
-    )
-    .sort(compareNewsByDisplayDate);
+    );
 
   const selected = sameCategory.slice(0, limit);
   const selectedSlugs = new Set(selected.map((post) => post.slug));
@@ -43,7 +43,6 @@ export function selectRelatedNews(
       (post) =>
         post.slug !== currentPost.slug && !selectedSlugs.has(post.slug),
     )
-    .sort(compareNewsByDisplayDate)
     .slice(0, limit - selected.length);
 
   return [...selected, ...fallback];

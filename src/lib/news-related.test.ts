@@ -68,7 +68,7 @@ describe("news-related", () => {
     ]);
   });
 
-  it("uu tien cung chuyen muc, thieu thi bo sung tin moi toan site", () => {
+  it("giữ thứ tự API trong nhóm cùng chuyên mục và nhóm bổ sung, không tự xếp lại theo ngày", () => {
     const category = { slug: "su-kien", name: "Su kien" };
     const otherCategory = { slug: "du-an", name: "Du an" };
     const current = post({ slug: "current", category });
@@ -85,8 +85,8 @@ describe("news-related", () => {
     );
 
     expect(related.map((item) => item.slug)).toEqual([
-      "same-new",
       "same-old",
+      "same-new",
       "other-new",
     ]);
   });
