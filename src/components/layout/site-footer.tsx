@@ -16,7 +16,7 @@ const footerLinkClassName =
   "inline-flex min-h-11 items-center text-sm font-normal leading-6 text-slate transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 const contactNumberClassName =
-  "block font-sans text-lg font-semibold leading-7 text-brand-dark [font-variant-numeric:lining-nums_tabular-nums]";
+  "block font-sans text-base font-semibold leading-6 text-brand-dark [font-variant-numeric:lining-nums_tabular-nums]";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -38,7 +38,7 @@ function FooterNavSection({
       <h2 className="site-footer-heading">
         {dictionary.footerSectionTitles[section.title] ?? section.title}
       </h2>
-      <ul className="mt-3 space-y-0.5">
+      <ul className="mt-2">
         {section.links.map((link) => (
           <li key={link.href}>
             <Link
@@ -57,11 +57,11 @@ function FooterNavSection({
 export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
   return (
     <footer className="site-footer relative mt-auto border-t border-divider text-footer-ink">
-      <div className="grid w-full gap-x-6 gap-y-9 px-5 py-10 sm:grid-cols-2 sm:px-8 lg:px-14 lg:py-12 xl:grid-cols-[minmax(16rem,1.3fr)_max-content_max-content_minmax(19rem,1.2fr)] xl:items-start xl:gap-x-8 xl:px-20">
-        <div className="flex min-w-0 flex-col items-start gap-5 sm:col-span-2 sm:flex-row sm:items-center xl:col-span-1 xl:flex-col xl:items-start">
+      <div className="grid w-full gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:px-14 lg:py-8 xl:grid-cols-[minmax(16rem,1.3fr)_max-content_max-content_minmax(19rem,1.2fr)] xl:items-start xl:gap-x-8 xl:px-20">
+        <div className="flex min-w-0 flex-col items-start gap-4 sm:col-span-2 sm:flex-row sm:items-center xl:col-span-1 xl:flex-col xl:items-start">
           <Link
             href={localizePath(routes.home, locale)}
-            className="inline-flex size-28 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:size-32"
+            className="inline-flex size-24 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:size-26"
             aria-label={dictionary.shared.homeAriaLabel}
           >
             <Image
@@ -76,10 +76,10 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             />
           </Link>
           <div className="min-w-0">
-            <p className="text-pretty text-lg font-semibold uppercase leading-8 tracking-[0.015em] text-brand-dark">
+            <p className="text-pretty text-base font-semibold uppercase leading-7 tracking-[0.015em] text-brand-dark">
               {dictionary.shared.companyName}
             </p>
-            <p className="mt-3 text-pretty text-base font-normal leading-7 text-footer-muted">
+            <p className="mt-2 text-pretty text-sm font-normal leading-6 text-footer-muted">
               {dictionary.footerBrand.tagline}
             </p>
           </div>
@@ -101,7 +101,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
             {dictionary.footer.contact}
           </h2>
 
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-2 space-y-2">
             <li className="flex items-center gap-3">
               <span className="grid size-5 shrink-0 place-items-center text-brand-dark">
                 <Phone className="size-[1.05rem]" aria-hidden="true" />

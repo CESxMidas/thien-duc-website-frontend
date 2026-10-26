@@ -440,7 +440,7 @@ body {
 .site-footer-heading {
   color: var(--color-brand-dark);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
   letter-spacing: 0.06em;
