@@ -4,7 +4,11 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { Breadcrumb, type BreadcrumbItem } from "@/components/ui/breadcrumb";
 import { ZaloContactLink } from "@/components/ui/zalo-contact-link";
 import { zaloDisplayValue, zaloHref } from "@/config/site";
-import { getBrandingSettings, type BrandingSettings } from "@/lib/api/settings";
+import {
+  getBrandingSettings,
+  getCompanyContact,
+  type BrandingSettings,
+} from "@/lib/api/settings";
 import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 
@@ -23,8 +27,9 @@ export async function SiteShell({
   isHomePage = false,
   breadcrumbs,
 }: SiteShellProps) {
-  const [dictionary, branding] = await Promise.all([
+  const [dictionary, companyContact, branding] = await Promise.all([
     getDictionary(locale),
+    getCompanyContact(),
     getBrandingSettings().catch((): BrandingSettings => ({
       logoUrl: null,
       logoAlt: null,
@@ -37,14 +42,23 @@ export async function SiteShell({
       <a href="#main-content" className="skip-link">
         {dictionary.common.skipToContent}
       </a>
-      <SiteHeader locale={locale} dictionary={dictionary} branding={branding} />
+      <SiteHeader
+        locale={locale}
+        dictionary={dictionary}
+        branding={branding}
+        companyPhone={companyContact.phone}
+      />
       {heroBeforeHeader}
       <main
         id="main-content"
         className="flex-1 bg-[linear-gradient(180deg,rgba(255,255,255,0.28)_0%,rgba(247,238,229,0.18)_55%,rgba(232,213,194,0.3)_100%)]"
       >
         {breadcrumbs?.length ? <Breadcrumb items={breadcrumbs} /> : null}
-        {isHomePage ? children : <div className="site-page-content">{children}</div>}
+        {isHomePage ? (
+          children
+        ) : (
+          <div className="site-page-content">{children}</div>
+        )}
       </main>
       <ZaloContactLink
         variant="floating"
@@ -53,7 +67,12 @@ export async function SiteShell({
         label={dictionary.zalo.label}
         displayValue={zaloDisplayValue()}
       />
-      <SiteFooter locale={locale} dictionary={dictionary} branding={branding} />
+      <SiteFooter
+        locale={locale}
+        dictionary={dictionary}
+        branding={branding}
+        companyContact={companyContact}
+      />
     </div>
   );
 }

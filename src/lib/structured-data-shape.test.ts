@@ -1,3 +1,4 @@
+import { companyContactFixture as companyContact } from "@/test-support/company-contact";
 import { buildNewsArticleJsonLd, buildOrganizationJsonLd } from "@/lib/seo";
 import { serializeJsonLd } from "@/lib/json-ld";
 import type { NewsPost } from "@/types/content";
@@ -41,8 +42,8 @@ const samplePost: NewsPost = {
 } as NewsPost;
 
 const payloads = [
-  ["Organization (vi)", buildOrganizationJsonLd("vi")],
-  ["Organization (en)", buildOrganizationJsonLd("en")],
+  ["Organization (vi)", buildOrganizationJsonLd("vi", companyContact)],
+  ["Organization (en)", buildOrganizationJsonLd("en", companyContact)],
   ["NewsArticle (vi)", buildNewsArticleJsonLd(samplePost, "vi")],
   ["NewsArticle (en)", buildNewsArticleJsonLd(samplePost, "en")],
 ] as const;
@@ -98,8 +99,8 @@ describe("Structured data — bất biến hình dạng", () => {
 });
 
 describe("Organization — field bắt buộc và @id ổn định", () => {
-  const vi = buildOrganizationJsonLd("vi");
-  const en = buildOrganizationJsonLd("en");
+  const vi = buildOrganizationJsonLd("vi", companyContact);
+  const en = buildOrganizationJsonLd("en", companyContact);
 
   it("@type là Organization (KHÔNG phải LocalBusiness — thiếu geo/openingHours)", () => {
     expect(vi["@type"]).toBe("Organization");
@@ -157,7 +158,7 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
 
   it("publisher trỏ tới Organization qua @id (không lặp lại toàn bộ)", () => {
     expect(article.publisher).toEqual({
-      "@id": buildOrganizationJsonLd("vi")["@id"],
+      "@id": buildOrganizationJsonLd("vi", companyContact)["@id"],
     });
   });
 
@@ -172,7 +173,7 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
       "vi",
     );
     expect(anonymous.author).toEqual({
-      "@id": buildOrganizationJsonLd("vi")["@id"],
+      "@id": buildOrganizationJsonLd("vi", companyContact)["@id"],
     });
   });
 

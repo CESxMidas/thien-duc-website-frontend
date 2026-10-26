@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { Building2, UserRound } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
 import { PageHeading } from "@/components/ui/page-heading";
-import { legalDisplayName, siteConfig } from "@/config/site";
+import { legalDisplayName } from "@/config/site";
+import { getCompanyContact } from "@/lib/api/settings";
 import {
   legalRepresentative,
   localizeBilingual,
@@ -42,15 +43,21 @@ export default async function MemberCompaniesPage({
 }: PageProps<"/[locale]/cong-ty-thanh-vien">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dictionary = await getDictionary(locale);
+  const [dictionary, companyContact] = await Promise.all([
+    getDictionary(locale),
+    getCompanyContact(),
+  ]);
   const t = dictionary.memberCompanies;
 
   return (
     <SiteShell
       locale={locale}
       breadcrumbs={[
-        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
-              { label: dictionary.memberCompanies.title },
+        {
+          label: dictionary.breadcrumb.home,
+          href: locale === "en" ? "/en" : "/",
+        },
+        { label: dictionary.memberCompanies.title },
       ]}
     >
       <PageHeading
@@ -80,9 +87,7 @@ export default async function MemberCompaniesPage({
 
       <section className="reveal-section page-container pb-5 sm:pb-8">
         <div className="max-w-3xl">
-          <p className="text-eyebrow mb-4 text-brand">
-            {t.listEyebrow}
-          </p>
+          <p className="text-eyebrow mb-4 text-brand">{t.listEyebrow}</p>
           <h2 className="text-2xl font-semibold leading-tight md:text-3xl">
             {t.listTitle}
           </h2>
@@ -113,10 +118,10 @@ export default async function MemberCompaniesPage({
         <p className="content-paragraph mt-8 max-w-3xl text-sm leading-6 text-slate">
           {t.detailNotePrefix}{" "}
           <a
-            href={`mailto:${siteConfig.email}`}
+            href={`mailto:${companyContact.email}`}
             className="font-semibold text-brand hover:text-brand-dark"
           >
-            {siteConfig.email}
+            {companyContact.email}
           </a>
           {t.detailNoteSuffix}
         </p>
@@ -125,9 +130,7 @@ export default async function MemberCompaniesPage({
       <section className="reveal-section page-container pb-5 sm:pb-8">
         <div className="grid gap-6 bg-brand p-5 text-white md:grid-cols-[1fr_auto] md:items-center md:p-8">
           <div>
-            <p className="text-eyebrow mb-4 text-gold-soft">
-              {t.ctaEyebrow}
-            </p>
+            <p className="text-eyebrow mb-4 text-gold-soft">{t.ctaEyebrow}</p>
             <h2 className="text-3xl font-semibold leading-tight">
               {t.ctaTitle}
             </h2>

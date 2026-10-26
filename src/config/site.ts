@@ -9,8 +9,7 @@ const siteUrl = resolveSiteUrl({
   NODE_ENV: process.env.NODE_ENV,
 });
 
-const legalCompanyName =
-  "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC";
+const legalCompanyName = "CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI THIÊN ĐỨC";
 
 export const siteConfig = {
   name: legalCompanyName,
@@ -18,11 +17,7 @@ export const siteConfig = {
   description: "Website giới thiệu công ty, dự án và tin tức của Thiên Đức.",
 
   url: siteUrl,
-  email: "dautuxaydungthienduc@yahoo.com",
-  phone: "0909 768 001",
-  address: "Số 10 Trần Não, KP5, P. Bình Trưng, TP. Hồ Chí Minh, Việt Nam",
 };
-
 
 export type ZaloContact = {
   kind: "phone" | "oa";
@@ -34,11 +29,9 @@ export const zaloContact: ZaloContact = {
   value: "0909768001",
 };
 
-
 export function zaloHref(contact: ZaloContact = zaloContact): string {
   return `https://zalo.me/${contact.value}`;
 }
-
 
 export function zaloDisplayValue(
   contact: ZaloContact = zaloContact,
@@ -49,7 +42,6 @@ export function zaloDisplayValue(
 
 export const legalInfo = {
   legalName: legalCompanyName,
-  taxCode: "0309910290",
   licenseDate: "02/04/2010",
   operatingSince: "05/04/2010",
   authority: "Cục Thuế Thành phố Hồ Chí Minh",
@@ -84,27 +76,3 @@ export const taxAuthorityName: Record<Locale, string> = {
   vi: legalInfo.authority,
   en: "Ho Chi Minh City Tax Department",
 };
-
-export const addressParts: Record<
-  Locale,
-  { street: string; locality: string }
-> = {
-  vi: {
-    street: "Số 10 Trần Não, KP5, P. Bình Trưng",
-    locality: "TP. Hồ Chí Minh, Việt Nam",
-  },
-  en: {
-    street: "No. 10 Tran Nao Street, Quarter 5, Binh Trung Ward",
-    locality: "Ho Chi Minh City, Vietnam",
-  },
-};
-
-
-export function displayAddress(locale: Locale): string {
-  const { street, locality } = addressParts[locale];
-  return `${street}, ${locality}`;
-}
-
-export function displayPhoneNumbers(): string {
-  return siteConfig.phone;
-}

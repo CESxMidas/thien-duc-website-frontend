@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import {
-  addressParts,
   brandName,
   legalInfo,
   legalDisplayName,
@@ -14,6 +13,7 @@ import {
   type Locale,
 } from "@/lib/i18n/config";
 import type { NewsPost } from "@/types/content";
+import { companyAddress, type CompanyContact } from "@/lib/api/settings";
 
 export const defaultOgImage =
   "/images/banners/home/home-banner-hung-phu-aerial-01.jpg";
@@ -51,14 +51,9 @@ export const placeholderPaths: readonly string[] = [
 
 export const organizationId = () => absoluteUrl("/#organization");
 
-function schemaAddressLocality(locale: Locale): string {
-  return addressParts[locale].locality
-    .replace(/,\s*(Việt Nam|Vietnam)$/i, "")
-    .replace(/^TP\.\s*/i, "");
-}
-
 export function buildOrganizationJsonLd(
   locale: Locale,
+  contact: CompanyContact,
 ): Record<string, unknown> {
   // legalInfo.operatingSince dạng dd/mm/yyyy → ISO 8601 cho schema.org.
   const foundingDate = legalInfo.operatingSince.split("/").reverse().join("-");
@@ -72,14 +67,13 @@ export function buildOrganizationJsonLd(
     legalName: legalDisplayName[locale],
     url: siteConfig.url,
     logo: absoluteUrl("/images/brand/logo-thien-duc.png"),
-    email: siteConfig.email,
-    telephone: siteConfig.phone,
-    taxID: legalInfo.taxCode,
+    email: contact.email,
+    telephone: contact.phone,
+    taxID: contact.taxCode,
     foundingDate,
     address: {
       "@type": "PostalAddress",
-      streetAddress: addressParts[locale].street,
-      addressLocality: schemaAddressLocality(locale),
+      streetAddress: companyAddress(contact, locale),
       addressCountry: "VN",
     },
   };

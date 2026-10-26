@@ -1,16 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FileText, Mail, MapPin, Phone } from "lucide-react";
-import { addressParts, legalInfo, siteConfig } from "@/config/site";
 import { footerSections } from "@/data/footer";
 import type { BrandingSettings } from "@/lib/api/settings";
+import { companyAddress, type CompanyContact } from "@/lib/api/settings";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
-
-const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const emailHref = `mailto:${siteConfig.email}`;
-const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 const footerLinkClassName =
   "inline-flex min-h-11 items-center text-sm font-normal leading-6 text-slate transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
@@ -22,6 +18,7 @@ type SiteFooterProps = {
   locale: Locale;
   dictionary: Dictionary;
   branding?: BrandingSettings;
+  companyContact: CompanyContact;
 };
 
 function FooterNavSection({
@@ -54,7 +51,15 @@ function FooterNavSection({
   );
 }
 
-export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
+export function SiteFooter({
+  locale,
+  dictionary,
+  branding,
+  companyContact,
+}: SiteFooterProps) {
+  const phoneHref = `tel:${companyContact.phone.replace(/[^\d+]/g, "")}`;
+  const emailHref = `mailto:${companyContact.email}`;
+  const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyContact.address.vi)}`;
   return (
     <footer className="site-footer relative mt-auto border-t border-divider text-footer-ink">
       <div className="grid w-full gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:px-14 lg:py-8 xl:grid-cols-[minmax(16rem,1.3fr)_max-content_max-content_minmax(19rem,1.2fr)] xl:items-start xl:gap-x-8 xl:px-20">
@@ -97,9 +102,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
         </div>
 
         <div className="min-w-0 sm:col-span-2 xl:col-span-1 xl:border-l xl:border-divider xl:pl-6">
-          <h2 className="site-footer-heading">
-            {dictionary.footer.contact}
-          </h2>
+          <h2 className="site-footer-heading">{dictionary.footer.contact}</h2>
 
           <ul className="mt-2 space-y-2">
             <li className="flex items-center gap-3">
@@ -109,10 +112,10 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
               <span className={`${contactNumberClassName} min-w-0`}>
                 <a
                   href={phoneHref}
-                  aria-label={`${dictionary.footer.phone}: ${siteConfig.phone}`}
+                  aria-label={`${dictionary.footer.phone}: ${companyContact.phone}`}
                   className="transition hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
-                  {siteConfig.phone}
+                  {companyContact.phone}
                 </a>
               </span>
             </li>
@@ -127,7 +130,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.email}: </span>
                   <span className="block text-sm font-normal leading-6 text-slate [overflow-wrap:anywhere]">
-                    {siteConfig.email}
+                    {companyContact.email}
                   </span>
                 </span>
               </a>
@@ -137,7 +140,7 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 <FileText className="size-[1.05rem]" aria-hidden="true" />
               </span>
               <span className="text-sm font-normal leading-6 text-slate">
-                {dictionary.footer.taxCode}: {legalInfo.taxCode}
+                {dictionary.footer.taxCode}: {companyContact.taxCode}
               </span>
             </li>
             <li>
@@ -153,8 +156,9 @@ export function SiteFooter({ locale, dictionary, branding }: SiteFooterProps) {
                 <span className="min-w-0">
                   <span className="sr-only">{dictionary.footer.office}: </span>
                   <span className="block text-sm font-normal leading-6 text-slate">
-                    <span className="block">{addressParts[locale].street},</span>
-                    <span className="block">{addressParts[locale].locality}</span>
+                    <span className="block whitespace-pre-line">
+                      {companyAddress(companyContact, locale)}
+                    </span>
                   </span>
                 </span>
               </a>

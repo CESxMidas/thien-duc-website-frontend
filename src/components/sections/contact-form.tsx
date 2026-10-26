@@ -1,8 +1,17 @@
 "use client";
 
-import { ArrowUpRight, CheckCircle2, ChevronDown, LoaderCircle, Mail, Phone, ShieldCheck, TriangleAlert, UserRound } from "lucide-react";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronDown,
+  LoaderCircle,
+  Mail,
+  Phone,
+  ShieldCheck,
+  TriangleAlert,
+  UserRound,
+} from "lucide-react";
 import { FormEvent, useState } from "react";
-import { siteConfig } from "@/config/site";
 import { inquiryTypeIds } from "@/data/contact";
 import { ApiError } from "@/lib/api/client";
 import { submitContactForm } from "@/lib/api/contact";
@@ -19,8 +28,6 @@ type FieldName = "name" | "phone" | "email" | "inquiry" | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
 type FormStatus = "idle" | "submitting" | "success";
 type ContactFormCopy = Dictionary["contactForm"];
-
-
 
 function validateField(
   field: FieldName,
@@ -60,9 +67,11 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 export function ContactForm({
   copy,
   locale = "vi",
+  companyPhone = "",
 }: {
   copy: ContactFormCopy;
   locale?: Locale;
+  companyPhone?: string;
 }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -124,7 +133,9 @@ export function ContactForm({
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
-      form.querySelector<HTMLElement>(`#contact-${Object.keys(errors)[0]}`)?.focus();
+      form
+        .querySelector<HTMLElement>(`#contact-${Object.keys(errors)[0]}`)
+        ?.focus();
       return;
     }
 
@@ -151,7 +162,7 @@ export function ContactForm({
         setSubmitError({
           kind: "rate-limit",
           message: interpolate(copy.errors.rateLimit, {
-            phone: siteConfig.phone,
+            phone: companyPhone,
           }),
         });
       } else {
@@ -210,7 +221,10 @@ export function ContactForm({
             <span className="text-brand"> *</span>
           </label>
           <div className="relative">
-            <UserRound className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <UserRound
+              className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65"
+              aria-hidden="true"
+            />
             <input
               id="contact-name"
               name="name"
@@ -231,7 +245,10 @@ export function ContactForm({
             <span className="text-brand"> *</span>
           </label>
           <div className="relative">
-            <Phone className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <Phone
+              className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65"
+              aria-hidden="true"
+            />
             <input
               id="contact-phone"
               name="phone"
@@ -254,7 +271,10 @@ export function ContactForm({
             {copy.fields.email}
           </label>
           <div className="relative">
-            <Mail className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <Mail
+              className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65"
+              aria-hidden="true"
+            />
             <input
               id="contact-email"
               name="email"
@@ -292,9 +312,15 @@ export function ContactForm({
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-4 size-5 text-brand" aria-hidden="true" />
+            <ChevronDown
+              className="pointer-events-none absolute right-3 top-4 size-5 text-brand"
+              aria-hidden="true"
+            />
           </div>
-          <FieldError id="contact-inquiry-error" message={fieldErrors.inquiry} />
+          <FieldError
+            id="contact-inquiry-error"
+            message={fieldErrors.inquiry}
+          />
         </div>
       </div>
 
@@ -345,7 +371,11 @@ export function ContactForm({
 
       <div className="grid gap-4 border-t border-divider/70 pt-5 sm:grid-cols-[1fr_auto] sm:items-center">
         <p className="flex items-start gap-2 text-xs leading-5 text-slate">
-          <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />{copy.note}
+          <ShieldCheck
+            className="mt-0.5 size-4 shrink-0 text-brand"
+            aria-hidden="true"
+          />
+          {copy.note}
         </p>
 
         <button
@@ -355,11 +385,17 @@ export function ContactForm({
         >
           {submitting ? (
             <>
-              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+              <LoaderCircle
+                className="size-4 animate-spin"
+                aria-hidden="true"
+              />
               {copy.submitting}
             </>
           ) : (
-            <>{copy.submitLabel}<ArrowUpRight className="size-4" aria-hidden="true" /></>
+            <>
+              {copy.submitLabel}
+              <ArrowUpRight className="size-4" aria-hidden="true" />
+            </>
           )}
         </button>
       </div>

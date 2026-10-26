@@ -9,8 +9,13 @@ import {
 } from "@/config/site";
 import { JsonLd } from "@/components/ui/json-ld";
 import { isApiReachableAtBuild } from "@/lib/api/client";
-import { getBrandingSettings } from "@/lib/api/settings";
-import { isLocale, localeHtmlLang, locales, type Locale } from "@/lib/i18n/config";
+import { getBrandingSettings, getCompanyContact } from "@/lib/api/settings";
+import {
+  isLocale,
+  localeHtmlLang,
+  locales,
+  type Locale,
+} from "@/lib/i18n/config";
 import {
   absoluteUrl,
   buildAlternates,
@@ -47,7 +52,6 @@ const rootCopy: Record<Locale, { title: string; description: string }> = {
 };
 
 export async function generateStaticParams() {
-
   if (!(await isApiReachableAtBuild("[locale]/layout"))) return [];
   return locales.map((locale) => ({ locale }));
 }
@@ -98,6 +102,7 @@ export default async function RootLayout({
 
   if (!isLocale(locale)) notFound();
 
+  const companyContact = await getCompanyContact();
   return (
     <html
       lang={localeHtmlLang[locale]}
@@ -105,7 +110,7 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col font-sans">
         {/* Organization JSON-LD toàn site (task →7) — NewsArticle tham chiếu qua @id. */}
-        <JsonLd data={buildOrganizationJsonLd(locale)} />
+        <JsonLd data={buildOrganizationJsonLd(locale, companyContact)} />
         {children}
       </body>
     </html>

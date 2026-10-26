@@ -1,14 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
-import { displayAddress, displayPhoneNumbers, siteConfig } from "@/config/site";
+import { getCompanyContact, companyAddress } from "@/lib/api/settings";
 import { localizePath, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
-
-const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const emailHref = `mailto:${siteConfig.email}`;
-const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 export function formatContactTitle(title: string): string[] {
   const segments = title
@@ -34,11 +30,13 @@ function renderContactTitle(locale: Locale, title: string) {
   if (locale === "vi") {
     return (
       <>
-        <span className="block text-balanced xl:whitespace-nowrap">TRAO ĐỔI VỀ DỰ ÁN,</span>
+        <span className="block text-balanced xl:whitespace-nowrap">
+          TRAO ĐỔI VỀ DỰ ÁN,
+        </span>
         <span className="block text-balanced xl:whitespace-nowrap">
           HỢP TÁC{" "}
-          <span className="font-display italic text-earth/85">&amp;</span>{" "}
-          TƯ VẤN
+          <span className="font-display italic text-earth/85">&amp;</span> TƯ
+          VẤN
         </span>
       </>
     );
@@ -58,33 +56,39 @@ function renderContactTitle(locale: Locale, title: string) {
             {line}
           </span>
         ))}
-    </span>
+      </span>
     </>
   );
 }
 
 export async function HomeContactCta({ locale }: { locale: Locale }) {
-  const dictionary = await getDictionary(locale);
+  const [dictionary, companyContact] = await Promise.all([
+    getDictionary(locale),
+    getCompanyContact(),
+  ]);
+  const phoneHref = `tel:${companyContact.phone.replace(/[^\d+]/g, "")}`;
+  const emailHref = `mailto:${companyContact.email}`;
+  const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyContact.address.vi)}`;
 
   const contactItems = [
     {
       id: "phone",
       label: dictionary.footer.phone,
-      value: displayPhoneNumbers(),
+      value: companyContact.phone,
       href: phoneHref,
       icon: Phone,
     },
     {
       id: "email",
       label: dictionary.footer.email,
-      value: siteConfig.email,
+      value: companyContact.email,
       href: emailHref,
       icon: Mail,
     },
     {
       id: "office",
       label: dictionary.footer.office,
-      value: displayAddress(locale),
+      value: companyAddress(companyContact, locale),
       href: mapsHref,
       icon: MapPin,
     },
@@ -135,10 +139,7 @@ export async function HomeContactCta({ locale }: { locale: Locale }) {
       <div className="relative z-10 grid gap-8 px-5 py-10 sm:px-8 sm:py-12 lg:px-20 lg:py-14 xl:grid-cols-[minmax(0,0.88fr)_minmax(520px,1fr)] xl:items-center xl:gap-16 xl:px-28 2xl:mx-auto 2xl:max-w-[104rem]">
         <div className="flex min-w-0 flex-col justify-center">
           <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-brand">
-            <span
-              className="h-px w-10 bg-earth/38"
-              aria-hidden="true"
-            />
+            <span className="h-px w-10 bg-earth/38" aria-hidden="true" />
             {dictionary.homeContact.eyebrow}
           </p>
           <h2 className="max-w-[44rem] break-normal font-display text-[clamp(1.85rem,9vw,2.35rem)] font-normal uppercase leading-[1] tracking-[0.01em] text-charcoal hyphens-none sm:text-[clamp(3rem,5vw,3.85rem)] sm:leading-[0.94] xl:text-[clamp(2.4rem,3.2vw,3rem)] 2xl:text-[3.6rem]">

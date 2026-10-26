@@ -1,19 +1,25 @@
+import { companyContactFixture as companyContact } from "@/test-support/company-contact";
 import { render, screen, within } from "@testing-library/react";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 import { SiteShell } from "./site-shell";
 import { footerSections } from "@/data/footer";
-import { siteConfig, zaloHref } from "@/config/site";
+import { zaloHref } from "@/config/site";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import viDictionary from "@/lib/i18n/dictionaries/vi.json";
+
+jest.mock("@/lib/api/settings", () => ({
+  ...jest.requireActual("@/lib/api/settings"),
+  getCompanyContact: async () => companyContact,
+}));
 
 jest.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
 const dictionary = viDictionary as unknown as Dictionary;
-const phoneDigits = siteConfig.phone.replace(/[^\d+]/g, "");
-const mapsDestination = encodeURIComponent(siteConfig.address);
+const phoneDigits = companyContact.phone.replace(/[^\d+]/g, "");
+const mapsDestination = encodeURIComponent(companyContact.address.vi);
 
 describe("SiteHeader", () => {
   it("dùng thanh điều hướng compact theo mockup header với 7 mục chính", () => {
@@ -42,9 +48,11 @@ describe("SiteHeader", () => {
       expect.stringContaining("logo-thien-duc-header-transparent.png"),
     );
     expect(
-      screen.queryByRole("link", { name: new RegExp(siteConfig.phone) }),
+      screen.queryByRole("link", { name: new RegExp(companyContact.phone) }),
     ).toBeNull();
-    expect(screen.queryByRole("link", { name: siteConfig.email })).toBeNull();
+    expect(
+      screen.queryByRole("link", { name: companyContact.email }),
+    ).toBeNull();
   });
 
   it("có biến thể header sau banner cho trang chủ với CTA, số điện thoại và menu", () => {
@@ -53,6 +61,7 @@ describe("SiteHeader", () => {
         locale="vi"
         dictionary={dictionary}
         variant="home-after-banner"
+        companyPhone={companyContact.phone}
       />,
     );
 
@@ -78,16 +87,25 @@ describe("SiteHeader", () => {
 
 describe("SiteShell", () => {
   it("places one breadcrumb before content inside main", async () => {
-    render(await SiteShell({
-      locale: "vi",
-      breadcrumbs: [{ label: "Trang chủ", href: "/" }, { label: "Dự án" }],
-      children: <h1>Danh sách dự án</h1>,
-    }));
+    render(
+      await SiteShell({
+        locale: "vi",
+        breadcrumbs: [{ label: "Trang chủ", href: "/" }, { label: "Dự án" }],
+        children: <h1>Danh sách dự án</h1>,
+      }),
+    );
     const main = screen.getByRole("main");
-    const breadcrumb = within(main).getByRole("navigation", { name: "Breadcrumb" });
+    const breadcrumb = within(main).getByRole("navigation", {
+      name: "Breadcrumb",
+    });
     expect(main.firstElementChild).toBe(breadcrumb);
-    expect(main.querySelector(".site-page-content")).not.toContainElement(breadcrumb);
-    expect(within(breadcrumb).getByText("Dự án")).toHaveAttribute("aria-current", "page");
+    expect(main.querySelector(".site-page-content")).not.toContainElement(
+      breadcrumb,
+    );
+    expect(within(breadcrumb).getByText("Dự án")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
   });
 
   it("render header, main và footer, không gắn nút Zalo nổi", async () => {
@@ -95,7 +113,9 @@ describe("SiteShell", () => {
 
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveTextContent("nội dung");
-    expect(screen.getByText("nội dung").parentElement).toHaveClass("site-page-content");
+    expect(screen.getByText("nội dung").parentElement).toHaveClass(
+      "site-page-content",
+    );
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: dictionary.zalo.ariaLabel }),
@@ -128,8 +148,39 @@ describe("SiteShell", () => {
 });
 
 describe("SiteFooter", () => {
+  it("hiển thị thông tin vừa cập nhật từ CMS và tạo đúng liên kết", () => {
+    const saved = {
+      phone: "+84 28 1234 5678",
+      email: "contact@thienduc.vn",
+      taxCode: "1234567890",
+      address: { vi: "Địa chỉ mới", en: "Updated office address" },
+    };
+    render(
+      <SiteFooter locale="en" dictionary={dictionary} companyContact={saved} />,
+    );
+    expect(
+      screen.getByRole("link", { name: /\+84 28 1234 5678/ }),
+    ).toHaveAttribute("href", "tel:+842812345678");
+    expect(
+      screen.getByRole("link", { name: /contact@thienduc.vn/ }),
+    ).toHaveAttribute("href", "mailto:contact@thienduc.vn");
+    expect(
+      screen.getByRole("link", { name: /Updated office address/ }),
+    ).toHaveAttribute(
+      "href",
+      expect.stringContaining(encodeURIComponent(saved.address.vi)),
+    );
+    expect(screen.getByText(/1234567890/)).toBeInTheDocument();
+    expect(screen.queryByText(companyContact.email)).toBeNull();
+  });
   it("giữ landmark contentinfo và toàn bộ link điều hướng", () => {
-    render(<SiteFooter locale="vi" dictionary={dictionary} />);
+    render(
+      <SiteFooter
+        companyContact={companyContact}
+        locale="vi"
+        dictionary={dictionary}
+      />,
+    );
     const footer = screen.getByRole("contentinfo");
 
     for (const section of footerSections) {
@@ -150,19 +201,25 @@ describe("SiteFooter", () => {
   });
 
   it("chỉ hiển thị kênh liên hệ đã xác thực và dùng Google directions cho địa chỉ", () => {
-    render(<SiteFooter locale="vi" dictionary={dictionary} />);
+    render(
+      <SiteFooter
+        companyContact={companyContact}
+        locale="vi"
+        dictionary={dictionary}
+      />,
+    );
     const footer = screen.getByRole("contentinfo");
 
     expect(
       within(footer).getByRole("link", {
-        name: new RegExp(siteConfig.phone.replace(/[()]/g, "\\$&")),
+        name: new RegExp(companyContact.phone.replace(/[()]/g, "\\$&")),
       }),
     ).toHaveAttribute("href", `tel:${phoneDigits}`);
     expect(
       within(footer).getByRole("link", {
-        name: new RegExp(siteConfig.email),
+        name: new RegExp(companyContact.email),
       }),
-    ).toHaveAttribute("href", `mailto:${siteConfig.email}`);
+    ).toHaveAttribute("href", `mailto:${companyContact.email}`);
     expect(
       within(footer).getByRole("link", { name: /Số 10 Trần Não/i }),
     ).toHaveAttribute(
@@ -175,7 +232,13 @@ describe("SiteFooter", () => {
   });
 
   it("dùng nền champagne sáng và logo nâu để footer tách biệt rõ", () => {
-    render(<SiteFooter locale="vi" dictionary={dictionary} />);
+    render(
+      <SiteFooter
+        companyContact={companyContact}
+        locale="vi"
+        dictionary={dictionary}
+      />,
+    );
     const footer = screen.getByRole("contentinfo");
 
     expect(
@@ -183,11 +246,12 @@ describe("SiteFooter", () => {
         name: new RegExp(dictionary.common.contactCta),
       }),
     ).toBeNull();
-    expect(within(footer).getByRole("img", { name: dictionary.shared.logoAlt }))
-      .toHaveAttribute(
-        "src",
-        expect.stringContaining("logo-thien-duc-header-transparent.png"),
-      );
+    expect(
+      within(footer).getByRole("img", { name: dictionary.shared.logoAlt }),
+    ).toHaveAttribute(
+      "src",
+      expect.stringContaining("logo-thien-duc-header-transparent.png"),
+    );
     expect(
       within(footer)
         .getByRole("img", { name: dictionary.shared.logoAlt })

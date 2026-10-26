@@ -1,3 +1,4 @@
+import { companyContactFixture as companyContact } from "@/test-support/company-contact";
 import {
   brandName,
   legalDisplayName,
@@ -31,7 +32,7 @@ describe("absoluteUrl", () => {
 });
 
 describe("buildOrganizationJsonLd (→7)", () => {
-  const org = buildOrganizationJsonLd("vi");
+  const org = buildOrganizationJsonLd("vi", companyContact);
 
   it("khai đúng @type/@id để schema khác tham chiếu", () => {
     expect(org["@context"]).toBe("https://schema.org");
@@ -45,19 +46,19 @@ describe("buildOrganizationJsonLd (→7)", () => {
     expect(org.name).toBe(siteConfig.name);
     expect(org.legalName).toBe(legalDisplayName.vi);
     expect(org.legalName).toBe(legalInfo.legalName);
-    expect(org.taxID).toBe(legalInfo.taxCode);
-    expect(org.email).toBe(siteConfig.email);
-    expect(org.telephone).toBe(siteConfig.phone);
+    expect(org.taxID).toBe(companyContact.taxCode);
+    expect(org.email).toBe(companyContact.email);
+    expect(org.telephone).toBe(companyContact.phone);
     expect(org.url).toBe(siteConfig.url);
   });
 
   it("bản en dùng tên/pháp lý hiển thị tiếng Anh (EN-FULL-A)", () => {
-    const en = buildOrganizationJsonLd("en");
+    const en = buildOrganizationJsonLd("en", companyContact);
     expect(en.name).toBe(brandName.en);
     expect(en.name).toBe("Thien Duc Company");
     expect(en.legalName).toBe(legalDisplayName.en);
     expect(en.address).toMatchObject({
-      addressLocality: "Ho Chi Minh City",
+      streetAddress: companyContact.address.en,
       addressCountry: "VN",
     });
   });
@@ -69,23 +70,19 @@ describe("buildOrganizationJsonLd (→7)", () => {
   it("address là PostalAddress có addressCountry VN", () => {
     expect(org.address).toMatchObject({
       "@type": "PostalAddress",
-      addressLocality: "Hồ Chí Minh",
+      streetAddress: companyContact.address.vi,
       addressCountry: "VN",
     });
   });
 
-  it("addressLocality không lặp lại quốc gia đã có trong addressCountry", () => {
-    const viAddress = buildOrganizationJsonLd("vi").address as Record<
-      string,
-      unknown
-    >;
-    const enAddress = buildOrganizationJsonLd("en").address as Record<
-      string,
-      unknown
-    >;
+  it("địa chỉ lấy trực tiếp từ CMS cho từng ngôn ngữ", () => {
+    const viAddress = buildOrganizationJsonLd("vi", companyContact)
+      .address as Record<string, unknown>;
+    const enAddress = buildOrganizationJsonLd("en", companyContact)
+      .address as Record<string, unknown>;
 
-    expect(viAddress.addressLocality).not.toMatch(/Việt Nam/i);
-    expect(enAddress.addressLocality).not.toMatch(/Vietnam/i);
+    expect(viAddress.streetAddress).toBe(companyContact.address.vi);
+    expect(enAddress.streetAddress).toBe(companyContact.address.en);
     expect(viAddress.addressCountry).toBe("VN");
     expect(enAddress.addressCountry).toBe("VN");
   });

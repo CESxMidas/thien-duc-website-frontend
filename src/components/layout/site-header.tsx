@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Menu, PhoneCall, Search, Send, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { zaloContact, zaloDisplayValue } from "@/config/site";
 import { mainNavigation } from "@/data/navigation";
 import type { BrandingSettings } from "@/lib/api/settings";
 import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
@@ -56,6 +55,7 @@ type SiteHeaderProps = {
   locale: Locale;
   dictionary: Dictionary;
   branding?: BrandingSettings;
+  companyPhone?: string;
   variant?: "default" | "home-after-banner";
 };
 
@@ -63,6 +63,7 @@ export function SiteHeader({
   locale,
   dictionary,
   branding,
+  companyPhone = "",
   variant = "default",
 }: SiteHeaderProps) {
   const pathname = usePathname();
@@ -185,13 +186,13 @@ export function SiteHeader({
                 {locale === "vi" ? "Liên hệ nhận ưu đãi" : "Request offers"}
               </Link>
               <a
-                href={`tel:${zaloContact.value}`}
+                href={`tel:${companyPhone.replace(/[^\d+]/g, "")}`}
                 className="hidden min-h-12 items-center gap-2 text-sm font-extrabold text-espresso transition hover:text-earth focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:inline-flex"
               >
                 <span className="grid size-10 place-items-center rounded-full border-2 border-gold text-gold">
                   <PhoneCall className="size-5" aria-hidden="true" />
                 </span>
-                {zaloDisplayValue()}
+                {companyPhone}
               </a>
             </>
           ) : null}

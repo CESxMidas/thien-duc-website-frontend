@@ -15,7 +15,7 @@ import {
 import { SiteShell } from "@/components/layout/site-shell";
 import { CareersHero } from "@/components/sections/careers-hero";
 import { CareersCulture } from "@/components/sections/careers-culture";
-import { siteConfig } from "@/config/site";
+import { getCompanyContact } from "@/lib/api/settings";
 import { getOpenPositions } from "@/lib/api/careers";
 import { formatDate } from "@/lib/format";
 import { isLocale, localizePath, type Locale } from "@/lib/i18n/config";
@@ -57,20 +57,26 @@ export default async function CareersPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const dictionary = await getDictionary(locale);
+  const [dictionary, companyContact] = await Promise.all([
+    getDictionary(locale),
+    getCompanyContact(),
+  ]);
   const careers = dictionary.careers;
   const hrPages = dictionary.hrPages;
   await connection();
   const openPositions = await getOpenPositions(locale);
-  const applyHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+  const applyHref = `mailto:${companyContact.email}?subject=${encodeURIComponent(
     careers.applySubject,
   )}`;
   return (
     <SiteShell
       locale={locale}
       breadcrumbs={[
-        { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
-              { label: dictionary.navLabels["/tuyen-dung"] ?? "Tuyển dụng" },
+        {
+          label: dictionary.breadcrumb.home,
+          href: locale === "en" ? "/en" : "/",
+        },
+        { label: dictionary.navLabels["/tuyen-dung"] ?? "Tuyển dụng" },
       ]}
     >
       <div className="careers-page">
@@ -91,7 +97,10 @@ export default async function CareersPage({
         >
           <div className="careers-section-heading">
             <p className="text-eyebrow text-brand">{careers.openEyebrow}</p>
-            <h2 id="careers-positions-title" className="careers-section-title mt-2">
+            <h2
+              id="careers-positions-title"
+              className="careers-section-title mt-2"
+            >
               {careers.openTitle}
             </h2>
           </div>
@@ -105,7 +114,10 @@ export default async function CareersPage({
                 >
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                     <span className="inline-flex items-center gap-1.5">
-                      <BriefcaseBusiness className="size-4" aria-hidden="true" />
+                      <BriefcaseBusiness
+                        className="size-4"
+                        aria-hidden="true"
+                      />
                       {position.department}
                     </span>
                     <span className="inline-flex items-center gap-1.5">
@@ -133,10 +145,17 @@ export default async function CareersPage({
 
                   <details className="group mt-4">
                     <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-sm text-sm font-semibold text-brand hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
-                      <span className="group-open:hidden">{careers.showDetailsLabel}</span>
-                      <span className="hidden group-open:inline">{careers.hideDetailsLabel}</span>
+                      <span className="group-open:hidden">
+                        {careers.showDetailsLabel}
+                      </span>
+                      <span className="hidden group-open:inline">
+                        {careers.hideDetailsLabel}
+                      </span>
                       <span className="sr-only">: {position.title}</span>
-                      <ChevronDown className="size-4 group-open:rotate-180" aria-hidden="true" />
+                      <ChevronDown
+                        className="size-4 group-open:rotate-180"
+                        aria-hidden="true"
+                      />
                     </summary>
                     <div className="mt-5 grid gap-5">
                       <div>
@@ -145,7 +164,10 @@ export default async function CareersPage({
                         </h4>
                         <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
                           {position.responsibilities.map((item) => (
-                            <li key={item} className="border-l-2 border-gold pl-3">
+                            <li
+                              key={item}
+                              className="border-l-2 border-gold pl-3"
+                            >
                               {item}
                             </li>
                           ))}
@@ -157,7 +179,10 @@ export default async function CareersPage({
                         </h4>
                         <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
                           {position.requirements.map((item) => (
-                            <li key={item} className="border-l-2 border-gold pl-3">
+                            <li
+                              key={item}
+                              className="border-l-2 border-gold pl-3"
+                            >
                               {item}
                             </li>
                           ))}
@@ -170,7 +195,10 @@ export default async function CareersPage({
                           </h4>
                           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate">
                             {position.benefits.map((item) => (
-                              <li key={item} className="border-l-2 border-gold pl-3">
+                              <li
+                                key={item}
+                                className="border-l-2 border-gold pl-3"
+                              >
                                 {item}
                               </li>
                             ))}
@@ -191,7 +219,10 @@ export default async function CareersPage({
             </div>
           ) : (
             <div className="careers-empty mt-6">
-              <BriefcaseBusiness className="size-7 text-earth" aria-hidden="true" />
+              <BriefcaseBusiness
+                className="size-7 text-earth"
+                aria-hidden="true"
+              />
               <div className="careers-empty-copy">
                 <h3 className="text-2xl font-semibold text-charcoal">
                   {careers.emptyTitle}
@@ -225,7 +256,10 @@ export default async function CareersPage({
         >
           <div className="careers-content-container page-container">
             <p className="text-eyebrow text-brand">{careers.processEyebrow}</p>
-            <h2 id="careers-process-title" className="careers-section-title mt-2">
+            <h2
+              id="careers-process-title"
+              className="careers-section-title mt-2"
+            >
               {careers.processTitle}
             </h2>
 
@@ -244,7 +278,9 @@ export default async function CareersPage({
                         {step.title}
                       </h3>
                       <p className="content-paragraph mt-1 text-sm leading-6 text-slate">
-                        {interpolate(step.description, { email: siteConfig.email })}
+                        {interpolate(step.description, {
+                          email: companyContact.email,
+                        })}
                       </p>
                     </div>
                   </li>
@@ -255,7 +291,6 @@ export default async function CareersPage({
         </section>
 
         <CareersCulture careers={careers} hrPages={hrPages} locale={locale} />
-
       </div>
     </SiteShell>
   );
