@@ -42,8 +42,9 @@ describe("public Zalo channel", () => {
     expect(read("src/components/layout/site-footer.tsx")).toContain("phoneHref");
     expect(read("src/components/layout/site-footer.tsx")).toContain("emailHref");
     expect(read("src/components/layout/site-footer.tsx")).toContain("mapsHref");
-    expect(read("src/app/[locale]/lien-he/page.tsx")).toContain("phoneHref");
-    expect(read("src/app/[locale]/lien-he/page.tsx")).toContain("mapsHref");
+    expect(read("src/app/[locale]/lien-he/page.tsx")).toContain("<ContactSection");
+    expect(read("src/components/sections/contact-section.tsx")).toContain("phoneHref");
+    expect(read("src/components/sections/contact-section.tsx")).toContain("mapsHref");
   });
 
   it("keeps the Zalo value in config only", () => {

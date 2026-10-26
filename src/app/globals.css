@@ -2951,3 +2951,26 @@ main .project-map-embed {
     transform: none;
   }
 }
+
+/* Li?n h?: n?n nh?, ? nh?p r? r?ng; kh?ng d?ng hi?u ?ng n?ng th? khi nh?p li?u. */
+.contact-form-panel,
+.contact-office-panel {
+  background: color-mix(in srgb, white 82%, var(--color-ivory));
+}
+
+.contact-control {
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-espresso) 4%, transparent);
+}
+
+.contact-control:focus {
+  background-color: white;
+}
+
+.contact-control[aria-invalid="true"]:focus {
+  border-color: var(--color-danger);
+  --tw-ring-color: color-mix(in srgb, var(--color-danger) 15%, transparent);
+}
+
+.contact-control:required:invalid:not([aria-invalid="true"]) {
+  color: var(--color-slate);
+}

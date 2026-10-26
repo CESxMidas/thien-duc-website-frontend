@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, LoaderCircle, TriangleAlert } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, ChevronDown, LoaderCircle, Mail, Phone, ShieldCheck, TriangleAlert, UserRound } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { inquiryTypeIds } from "@/data/contact";
@@ -10,7 +10,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { interpolate, type Dictionary } from "@/lib/i18n/get-dictionary";
 
 const inputClassName =
-  "h-12 w-full rounded-[6px] border bg-white px-4 text-base text-ink outline-none transition placeholder:text-slate focus:border-brand focus:ring-2 focus:ring-gold/40 sm:h-11 sm:text-sm";
+  "contact-control h-13 w-full rounded-xl border bg-white px-4 text-base text-ink outline-none transition-[border-color,box-shadow,background-color] placeholder:text-slate/80 hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-gold/15 disabled:cursor-wait disabled:bg-gold-soft/25 disabled:text-slate sm:text-sm";
 const labelClassName = "mb-2 block text-sm font-semibold text-ink-soft";
 const PHONE_PATTERN = /^(0|\+84)\d{9,10}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -76,8 +76,9 @@ export function ContactForm({
     return {
       "aria-invalid": error ? true : undefined,
       "aria-describedby": error ? `contact-${field}-error` : undefined,
+      disabled: status === "submitting",
       className: `${inputClassName} ${
-        error ? "border-danger" : "border-black/15"
+        error ? "border-danger" : "border-divider"
       }`,
       onBlur: (event: { currentTarget: { value: string } }) => {
         const value = event.currentTarget.value;
@@ -123,6 +124,7 @@ export function ContactForm({
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      form.querySelector<HTMLElement>(`#contact-${Object.keys(errors)[0]}`)?.focus();
       return;
     }
 
@@ -165,7 +167,7 @@ export function ContactForm({
     return (
       <div
         role="status"
-        className="border border-success/25 bg-success/10 p-8 text-center"
+        className="rounded-xl border border-success/25 bg-success/10 px-5 py-10 text-center"
       >
         <CheckCircle2
           className="mx-auto size-10 text-success"
@@ -199,7 +201,7 @@ export function ContactForm({
       onSubmit={handleSubmit}
       aria-busy={submitting}
       noValidate
-      className="grid gap-5"
+      className="contact-form grid gap-5"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -207,16 +209,20 @@ export function ContactForm({
             {copy.fields.name}
             <span className="text-brand"> *</span>
           </label>
-          <input
-            id="contact-name"
-            name="name"
-            type="text"
-            required
-            maxLength={120}
-            autoComplete="name"
-            placeholder={copy.placeholders.name}
-            {...fieldProps("name")}
-          />
+          <div className="relative">
+            <UserRound className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <input
+              id="contact-name"
+              name="name"
+              type="text"
+              required
+              maxLength={120}
+              autoComplete="name"
+              placeholder={copy.placeholders.name}
+              {...fieldProps("name")}
+              className={`${fieldProps("name").className} pl-12`}
+            />
+          </div>
           <FieldError id="contact-name-error" message={fieldErrors.name} />
         </div>
         <div>
@@ -224,58 +230,72 @@ export function ContactForm({
             {copy.fields.phone}
             <span className="text-brand"> *</span>
           </label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            required
-            maxLength={30}
-            autoComplete="tel"
-            placeholder={copy.placeholders.phone}
-            {...fieldProps("phone")}
-          />
+          <div className="relative">
+            <Phone className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <input
+              id="contact-phone"
+              name="phone"
+              type="tel"
+              required
+              maxLength={30}
+              autoComplete="tel"
+              placeholder={copy.placeholders.phone}
+              {...fieldProps("phone")}
+              className={`${fieldProps("phone").className} pl-12`}
+            />
+          </div>
           <FieldError id="contact-phone-error" message={fieldErrors.phone} />
         </div>
       </div>
 
-      <div>
-        <label htmlFor="contact-email" className={labelClassName}>
-          {copy.fields.email}
-        </label>
-        <input
-          id="contact-email"
-          name="email"
-          type="email"
-          maxLength={200}
-          autoComplete="email"
-          placeholder={copy.placeholders.email}
-          {...fieldProps("email")}
-        />
-        <FieldError id="contact-email-error" message={fieldErrors.email} />
-      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="min-w-0">
+          <label htmlFor="contact-email" className={labelClassName}>
+            {copy.fields.email}
+          </label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-4 top-4 size-5 text-brand/65" aria-hidden="true" />
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              maxLength={200}
+              autoComplete="email"
+              placeholder={copy.placeholders.email}
+              {...fieldProps("email")}
+              className={`${fieldProps("email").className} pl-12`}
+            />
+          </div>
+          <FieldError id="contact-email-error" message={fieldErrors.email} />
+        </div>
 
-      <div>
-        <label htmlFor="contact-inquiry" className={labelClassName}>
-          {copy.fields.inquiry}
-          <span className="text-brand"> *</span>
-        </label>
-        <select
-          id="contact-inquiry"
-          name="inquiry"
-          required
-          defaultValue=""
-          {...fieldProps("inquiry")}
-        >
-          <option value="" disabled>
-            {copy.inquiryPlaceholder}
-          </option>
-          {inquiryTypeIds.map((id) => (
-            <option key={id} value={id}>
-              {copy.inquiryOptions[id]}
-            </option>
-          ))}
-        </select>
-        <FieldError id="contact-inquiry-error" message={fieldErrors.inquiry} />
+        <div className="min-w-0">
+          <label htmlFor="contact-inquiry" className={labelClassName}>
+            {copy.fields.inquiry}
+            <span className="text-brand"> *</span>
+          </label>
+          <div className="relative">
+            <select
+              id="contact-inquiry"
+              name="inquiry"
+              required
+              defaultValue=""
+              {...fieldProps("inquiry")}
+              className={`${fieldProps("inquiry").className} appearance-none pr-10`}
+            >
+              <option value="" disabled>
+                {copy.inquiryPlaceholder}
+              </option>
+              {inquiryTypeIds.map((id) => (
+                <option key={id} value={id}>
+                  {copy.inquiryOptions[id]}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-4 size-5 text-brand" aria-hidden="true" />
+          </div>
+          <FieldError id="contact-inquiry-error" message={fieldErrors.inquiry} />
+        </div>
       </div>
 
       <div>
@@ -287,11 +307,11 @@ export function ContactForm({
           id="contact-message"
           name="message"
           required
-          rows={5}
+          rows={6}
           maxLength={5000}
           placeholder={copy.placeholders.message}
           {...fieldProps("message")}
-          className={`${fieldProps("message").className} min-h-35 resize-y py-3`}
+          className={`${fieldProps("message").className} h-auto min-h-40 resize-y py-3.5 leading-7`}
         />
         <FieldError id="contact-message-error" message={fieldErrors.message} />
       </div>
@@ -323,22 +343,26 @@ export function ContactForm({
         </p>
       ) : null}
 
-      <p className="text-sm leading-6 text-slate">{copy.note}</p>
+      <div className="grid gap-4 border-t border-divider/70 pt-5 sm:grid-cols-[1fr_auto] sm:items-center">
+        <p className="flex items-start gap-2 text-xs leading-5 text-slate">
+          <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />{copy.note}
+        </p>
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="button-polish inline-flex h-11 w-full min-w-44 items-center justify-center gap-2 bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-brand sm:w-auto"
-      >
-        {submitting ? (
-          <>
-            <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
-            {copy.submitting}
-          </>
-        ) : (
-          copy.submitLabel
-        )}
-      </button>
+        <button
+          type="submit"
+          disabled={submitting}
+          className="inline-flex min-h-13 w-full min-w-40 items-center justify-center gap-3 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-brand sm:w-auto"
+        >
+          {submitting ? (
+            <>
+              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+              {copy.submitting}
+            </>
+          ) : (
+            <>{copy.submitLabel}<ArrowUpRight className="size-4" aria-hidden="true" /></>
+          )}
+        </button>
+      </div>
     </form>
   );
 }

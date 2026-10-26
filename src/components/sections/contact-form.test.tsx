@@ -60,6 +60,8 @@ describe("ContactForm", () => {
     });
     expect(screen.getByText(/số điện thoại chưa đúng/i)).toBeInTheDocument();
     expect(submitMock).not.toHaveBeenCalled();
+    expect(screen.getByLabelText(/họ.*tên/i)).toHaveFocus();
+    expect(screen.getByLabelText(/họ.*tên/i)).toHaveAttribute("aria-describedby", "contact-name-error");
   });
   it("gửi hợp lệ → gọi API với phone đã chuẩn hóa, hiện màn hình thành công", async () => {
     submitMock.mockResolvedValueOnce({} as never);
@@ -78,6 +80,20 @@ describe("ContactForm", () => {
       inquiryType: "tu-van-du-an",
       message: "Tôi muốn được tư vấn về dự án Hưng Phú.",
     });
+  });
+  it("khóa ô nhập và nút gửi trong khi chờ phản hồi API", async () => {
+    let finish!: () => void;
+    submitMock.mockImplementationOnce(() => new Promise((resolve) => {
+      finish = () => resolve({} as never);
+    }));
+    renderForm();
+    fillValidForm();
+    fireEvent.click(screen.getByRole("button", { name: /gửi yêu cầu/i }));
+    expect(screen.getByLabelText(/họ.*tên/i)).toBeDisabled();
+    expect(screen.getByRole("combobox")).toBeDisabled();
+    expect(screen.getByRole("button", { name: copy.submitting })).toBeDisabled();
+    finish();
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(copy.successTitle));
   });
   it("honeypot có giá trị → giả lập thành công, KHÔNG gọi API", async () => {
     renderForm();

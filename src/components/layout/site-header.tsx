@@ -106,7 +106,7 @@ export function SiteHeader({
         className={
           homeAfterBanner
             ? "grid min-h-20 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 bg-transparent px-4 sm:px-6 lg:min-h-24 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:px-14 xl:px-20"
-            : "grid h-28 grid-cols-[auto_minmax(0,1fr)_auto] items-center bg-transparent px-5 sm:px-8 lg:h-32 lg:px-14 xl:px-20"
+            : "grid h-28 grid-cols-[auto_minmax(0,1fr)] items-center bg-transparent px-5 sm:px-8 lg:h-32 lg:px-14 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:gap-6 xl:px-20 2xl:gap-8"
         }
       >
         <Link
@@ -135,7 +135,7 @@ export function SiteHeader({
           className={
             homeAfterBanner
               ? "hidden items-center justify-center gap-2 xl:flex"
-              : "hidden items-center justify-center gap-2 xl:flex 2xl:gap-4"
+              : "hidden min-w-0 items-center gap-2 xl:flex 2xl:gap-4"
           }
           aria-label="Primary"
         >
@@ -153,7 +153,7 @@ export function SiteHeader({
                           ? "bg-gold text-espresso shadow-[0_8px_18px_rgba(115,81,60,0.18)]"
                           : "text-espresso/82 hover:bg-gold-soft/80 hover:text-earth"
                       }`
-                    : `relative flex h-14 items-center overflow-hidden rounded-[7px] border px-4 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-6 ${
+                    : `relative flex h-14 min-w-0 flex-1 items-center justify-center overflow-hidden rounded-[7px] border px-3 text-[0.8rem] font-extrabold uppercase tracking-[0.1em] whitespace-nowrap shadow-[0_6px_14px_rgba(24,14,10,0.18)] transition before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.14)_45%,transparent_70%)] before:opacity-0 before:transition before:duration-500 hover:before:opacity-100 2xl:px-4 ${
                         active
                           ? "border-gold/70 bg-[linear-gradient(135deg,#d1b36e_0%,#b98c45_100%)] text-espresso shadow-[0_10px_24px_rgba(0,0,0,0.24)]"
                           : "border-gold/30 bg-[linear-gradient(145deg,#f5e9dd_0%,#e9d4bf_100%)] text-espresso/82 hover:-translate-y-0.5 hover:border-gold/75 hover:bg-gold-soft hover:text-earth hover:shadow-[0_12px_24px_rgba(115,81,60,0.18)]"
@@ -243,7 +243,7 @@ export function SiteHeader({
             className={
               homeAfterBanner
                 ? "inline-flex min-h-12 items-center gap-2 text-espresso transition hover:text-earth focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-                : "grid size-11 place-items-center text-espresso transition hover:text-earth lg:hidden"
+                : "grid size-11 place-items-center text-espresso transition hover:text-earth xl:hidden"
             }
           >
             {menuOpen ? (
@@ -311,7 +311,7 @@ export function SiteHeader({
         className={`border-t ${
           homeAfterBanner
             ? "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md"
-            : "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md lg:hidden"
+            : "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md xl:hidden"
         } ${menuOpen ? "block" : "hidden"}`}
       >
         <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">

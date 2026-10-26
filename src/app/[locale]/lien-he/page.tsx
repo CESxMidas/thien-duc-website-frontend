@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin } from "lucide-react";
 import { SiteShell } from "@/components/layout/site-shell";
-import { ContactForm } from "@/components/sections/contact-form";
+import { ContactSection } from "@/components/sections/contact-section";
 import { PageHeading } from "@/components/ui/page-heading";
-import { displayAddress, siteConfig } from "@/config/site";
 import { getPageBySlug } from "@/lib/api/pages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -24,9 +21,6 @@ const metaCopy: Record<Locale, { title: string; description: string }> = {
       "Contact details for Thien Duc: project enquiries, development partnerships, and real estate advisory.",
   },
 };
-
-const phoneHref = `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
-const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteConfig.address)}`;
 
 export async function generateMetadata({
   params,
@@ -57,18 +51,12 @@ export default async function ContactPage({
     description: page?.paragraphs[0] ?? contact.heroDescription,
   };
 
-  // Google Maps nhận mã ngôn ngữ 2 ký tự ở tham số `hl`.
-  const mapsEmbedHref = `https://maps.google.com/maps?q=${encodeURIComponent(
-    siteConfig.address,
-  )}&hl=${locale}&z=15&output=embed`;
-
   return (
-
     <SiteShell
       locale={locale}
       breadcrumbs={[
         { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
-              { label: dictionary.navLabels["/lien-he"] ?? "Liên hệ" },
+        { label: dictionary.navLabels["/lien-he"] ?? "Liên hệ" },
       ]}
     >
       <PageHeading
@@ -77,111 +65,7 @@ export default async function ContactPage({
         description={heading.description}
       />
 
-      <section className="page-container reveal-section grid gap-8 pb-5 pt-4 sm:pb-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="hover-card border border-black/10 bg-white p-5 md:p-7">
-          <p className="text-eyebrow mb-4 text-brand">
-            {contact.formEyebrow}
-          </p>
-          <h2 className="text-3xl font-semibold leading-tight">
-            {contact.formTitle}
-          </h2>
-          <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
-            {contact.formDescription}
-          </p>
-          <p className="mt-3 text-sm text-slate">
-            {contact.callPrefix}{" "}
-            <a
-              href={phoneHref}
-              className="font-semibold text-brand hover:text-brand-dark"
-            >
-              {siteConfig.phone}
-            </a>
-            .
-          </p>
-
-          <div className="mt-8">
-            <ContactForm copy={dictionary.contactForm} locale={locale} />
-          </div>
-        </div>
-
-        <div className="grid content-start gap-6">
-          <div>
-            <p className="text-eyebrow mb-4 text-brand">
-              {contact.processEyebrow}
-            </p>
-            <h2 className="text-3xl font-semibold leading-tight">
-              {contact.processTitle}
-            </h2>
-            <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
-              {contact.processDescription}
-            </p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            {contact.process.map((item) => (
-              <div
-                key={item.step}
-                className="hover-card border border-black/10 bg-white p-5"
-              >
-                <p className="text-sm font-semibold text-brand">
-                  {item.step}
-                </p>
-                <h3 className="mt-2 font-semibold">{item.title}</h3>
-                <p className="content-paragraph mt-2 text-sm leading-6 text-slate">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="reveal-section page-container pb-5 sm:pb-8">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <p className="text-eyebrow mb-4 text-brand">
-              {contact.mapEyebrow}
-            </p>
-            <h2 className="text-3xl font-semibold leading-tight">
-              {contact.mapTitle}
-            </h2>
-            <p className="content-paragraph mt-4 text-sm leading-6 text-slate">
-              {contact.mapDescription}
-            </p>
-            <p className="mt-5 font-semibold leading-7 text-ink">
-              {displayAddress(locale)}
-            </p>
-            <Link
-              href={mapsHref}
-              target="_blank"
-              rel="noreferrer"
-              className="button-polish mt-6 inline-flex h-11 items-center bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark"
-            >
-              {contact.mapCta}
-            </Link>
-          </div>
-
-          <div className="relative overflow-hidden border border-black/10 bg-white">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 z-0 grid place-items-center bg-surface-warm"
-            >
-              <div className="flex flex-col items-center gap-3 text-brand/45">
-                <MapPin className="size-8 animate-pulse motion-reduce:animate-none" />
-                <span className="h-1.5 w-24 rounded-full bg-brand/15" />
-              </div>
-            </div>
-            <iframe
-              title={contact.mapIframeTitle}
-              src={mapsEmbedHref}
-              className="relative z-10 aspect-4/3 min-h-70 w-full border-0 lg:aspect-16/10"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      </section>
+      <ContactSection dictionary={dictionary} locale={locale} />
     </SiteShell>
   );
 }
