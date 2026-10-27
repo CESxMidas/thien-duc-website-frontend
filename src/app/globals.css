@@ -810,6 +810,24 @@ textarea {
   transform: rotate(180deg);
 }
 
+/* Lá ở chân cụm dự án hướng lên từ hai mép, nằm dưới thẻ và nút điều hướng. */
+.featured-projects-section .featured-projects-foliage-bottom {
+  top: auto;
+  bottom: -4rem;
+  width: clamp(26rem, 34vw, 40rem);
+  opacity: 0.2;
+}
+
+.featured-projects-foliage-bottom-start {
+  left: clamp(-10rem, -8vw, -6rem);
+  transform: scaleY(-1);
+}
+
+.featured-projects-foliage-bottom-end {
+  right: clamp(-10rem, -8vw, -6rem);
+  transform: rotate(180deg);
+}
+
 .about-values-foliage {
   position: absolute;
   z-index: 0;

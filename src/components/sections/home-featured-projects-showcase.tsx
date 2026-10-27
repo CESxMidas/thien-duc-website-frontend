@@ -187,6 +187,30 @@ export function HomeFeaturedProjectsShowcase({
           className="object-contain object-left-top"
         />
       </div>
+      <div
+        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-start hidden sm:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 40rem, 26rem"
+          className="object-contain object-left-top"
+        />
+      </div>
+      <div
+        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-end hidden md:block"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/contact/coconut-palm-frond-soft.png"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 40rem, 26rem"
+          className="object-contain object-left-top"
+        />
+      </div>
       <div className="relative z-10 w-full px-5 sm:px-8 lg:px-20 xl:px-28">
         <header className="mb-7 flex flex-col gap-5 md:mb-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[44rem]">
