@@ -12,6 +12,7 @@ import { localizePath, splitLocale, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import { routes } from "@/lib/routes";
 import type { NavItem } from "@/types/content";
+import { useOverlayPresence } from "@/lib/use-overlay-motion";
 
 const primaryNavigation: NavItem[] = [
   { label: "Trang chủ", href: "/" },
@@ -70,6 +71,10 @@ export function SiteHeader({
   const { path } = splitLocale(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const search = useOverlayPresence(searchOpen);
+  const searchTriggerRef = useRef<HTMLButtonElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const homeAfterBanner = variant === "home-after-banner";
   const navLabel = (item: NavItem) =>
@@ -82,11 +87,13 @@ export function SiteHeader({
       if (event.key === "Escape") {
         setMenuOpen(false);
         setSearchOpen(false);
+        if (searchOpen) searchTriggerRef.current?.focus();
+        else if (menuOpen) menuTriggerRef.current?.focus();
       }
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
-  }, []);
+  }, [menuOpen, searchOpen]);
 
   useEffect(() => {
     if (!searchOpen) return;
@@ -200,6 +207,7 @@ export function SiteHeader({
           <button
             type="button"
             aria-label={dictionary.header.searchLabel}
+            ref={searchTriggerRef}
             aria-expanded={searchOpen}
             aria-controls="header-search-panel"
             onClick={() => {
@@ -233,9 +241,13 @@ export function SiteHeader({
           />
           <button
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => {
+              setMenuOpen((open) => !open);
+              setSearchOpen(false);
+            }}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
+            ref={menuTriggerRef}
             aria-label={
               menuOpen
                 ? dictionary.header.closeMenu
@@ -259,12 +271,15 @@ export function SiteHeader({
             ) : null}
           </button>
 
-          {searchOpen ? (
+          {search.mounted ? (
             <form
               id="header-search-panel"
               role="search"
+              data-state={search.state}
+              inert={!searchOpen}
+              aria-hidden={!searchOpen}
               action={localizePath(routes.search, locale)}
-              className={`absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right animate-[searchPopoverIn_220ms_var(--ease-out-quart)_both] items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md ${
+              className={`site-popover-surface absolute right-0 top-[calc(100%+0.85rem)] z-50 flex w-[min(28rem,calc(100vw-2.5rem))] origin-top-right items-center overflow-hidden rounded-[8px] border border-earth/16 bg-ivory/96 shadow-[0_22px_60px_rgba(41,41,41,0.16)] backdrop-blur-md ${
                 homeAfterBanner ? "top-[calc(100%+1.1rem)]" : ""
               }`}
             >
@@ -284,6 +299,8 @@ export function SiteHeader({
                 id="header-search-input"
                 name="q"
                 type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder={dictionary.header.searchPlaceholder}
                 className="h-14 min-w-0 flex-1 bg-transparent px-3.5 text-[0.9rem] font-medium text-charcoal outline-none placeholder:text-charcoal/42"
               />
@@ -297,7 +314,10 @@ export function SiteHeader({
               <button
                 type="button"
                 aria-label={dictionary.header.closeMenu}
-                onClick={() => setSearchOpen(false)}
+                onClick={() => {
+                  setSearchOpen(false);
+                  searchTriggerRef.current?.focus();
+                }}
                 className="mr-1 grid h-12 w-10 shrink-0 place-items-center text-charcoal/45 transition hover:text-charcoal"
               >
                 <X className="size-4" aria-hidden="true" />
@@ -309,64 +329,68 @@ export function SiteHeader({
 
       <div
         id="mobile-navigation"
-        className={`border-t ${
+        inert={!menuOpen}
+        aria-hidden={!menuOpen}
+        className={`header-mobile-panel border-t ${
           homeAfterBanner
             ? "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md"
             : "border-gold/60 bg-[linear-gradient(120deg,rgba(217,185,147,0.99),rgba(243,231,218,0.99))] text-espresso backdrop-blur-md xl:hidden"
-        } ${menuOpen ? "block" : "hidden"}`}
+        } ${menuOpen ? "is-open" : ""}`}
       >
-        <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
-          <ul
-            className={
-              homeAfterBanner
-                ? "divide-y divide-earth/12"
-                : "divide-y divide-earth/12"
-            }
-          >
-            {mainNavigation.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={localizePath(item.href, locale)}
-                  onClick={() => setMenuOpen(false)}
-                  className={
-                    homeAfterBanner
-                      ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold hover:bg-gold-soft hover:text-earth"
-                      : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold/75 hover:bg-gold-soft hover:text-earth"
-                  }
-                >
-                  {navLabel(item)}
-                  <span aria-hidden="true">↗</span>
-                </Link>
-                {item.children?.length ? (
-                  <ul className="mb-4 grid gap-2 border-l border-earth/45 pl-4">
-                    {item.children.map((child) => (
-                      <li key={child.href}>
-                        <Link
-                          href={localizePath(child.href, locale)}
-                          onClick={() => setMenuOpen(false)}
-                          className={
-                            homeAfterBanner
-                              ? "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
-                              : "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
-                          }
-                        >
-                          {navLabel(child)}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-          <LanguageSwitcher
-            locale={locale}
-            label={dictionary.common.languageSwitcher}
-            showIcon={false}
-            variant="default"
-            className="mt-5 sm:hidden"
-          />
-        </nav>
+        <div className="min-h-0 overflow-hidden">
+          <nav className="mx-auto max-h-[calc(100svh-4.5rem)] max-w-site overflow-y-auto px-4 py-5 sm:px-6">
+            <ul
+              className={
+                homeAfterBanner
+                  ? "divide-y divide-earth/12"
+                  : "divide-y divide-earth/12"
+              }
+            >
+              {mainNavigation.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={localizePath(item.href, locale)}
+                    onClick={() => setMenuOpen(false)}
+                    className={
+                      homeAfterBanner
+                        ? "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold hover:bg-gold-soft hover:text-earth"
+                        : "my-2 flex min-h-12 items-center justify-between rounded-[6px] border border-gold/30 bg-gold-soft/65 px-4 py-3 text-[0.82rem] font-extrabold uppercase tracking-[0.1em] text-espresso hover:border-gold/75 hover:bg-gold-soft hover:text-earth"
+                    }
+                  >
+                    {navLabel(item)}
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                  {item.children?.length ? (
+                    <ul className="mb-4 grid gap-2 border-l border-earth/45 pl-4">
+                      {item.children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={localizePath(child.href, locale)}
+                            onClick={() => setMenuOpen(false)}
+                            className={
+                              homeAfterBanner
+                                ? "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
+                                : "inline-flex min-h-10 items-center text-sm text-espresso/68 hover:text-earth"
+                            }
+                          >
+                            {navLabel(child)}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+            <LanguageSwitcher
+              locale={locale}
+              label={dictionary.common.languageSwitcher}
+              showIcon={false}
+              variant="default"
+              className="mt-5 sm:hidden"
+            />
+          </nav>
+        </div>
       </div>
     </header>
   );

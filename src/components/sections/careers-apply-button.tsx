@@ -5,6 +5,7 @@ import { CheckCircle2, LoaderCircle, X } from "lucide-react";
 import { submitJobApplication } from "@/lib/api/careers";
 import { ApiError } from "@/lib/api/client";
 import type { Locale } from "@/lib/i18n/config";
+import { useAnimatedClose } from "@/lib/use-overlay-motion";
 
 const labels = {
   vi: {
@@ -120,6 +121,7 @@ function ApplicationDialog({
   onClose: () => void;
 }) {
   const copy = labels[locale];
+  const { closing, close } = useAnimatedClose(onClose);
   const id = useId();
   const dialog = useRef<HTMLDialogElement>(null);
   const inFlight = useRef(false);
@@ -140,7 +142,7 @@ function ApplicationDialog({
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (inFlight.current) return;
+    if (inFlight.current || closing) return;
     const form = event.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
@@ -240,9 +242,11 @@ function ApplicationDialog({
       aria-describedby={`${id}-intro`}
       onCancel={(event) => {
         event.preventDefault();
-        if (!inFlight.current) onClose();
+        if (!inFlight.current) close();
       }}
-      className="fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-xl border border-divider bg-ivory p-0 text-ink shadow-2xl backdrop:bg-black/50"
+      data-state={closing ? "closed" : "open"}
+      inert={closing}
+      className="site-modal-surface fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-xl border border-divider bg-ivory p-0 text-ink shadow-2xl backdrop:bg-black/50"
     >
       <header className="relative border-b border-divider px-5 py-5 pr-16 sm:px-7 sm:pr-16">
         <h2 id={`${id}-title`} className="text-xl font-semibold leading-7">
@@ -254,8 +258,8 @@ function ApplicationDialog({
         <button
           type="button"
           aria-label={copy.close}
-          onClick={onClose}
-          disabled={pending}
+          onClick={close}
+          disabled={pending || closing}
           className="absolute right-3 top-3 grid size-11 place-items-center rounded-lg hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-brand disabled:opacity-50"
         >
           <X className="size-5" aria-hidden="true" />
@@ -273,7 +277,7 @@ function ApplicationDialog({
           </p>
           <button
             type="button"
-            onClick={onClose}
+            onClick={close}
             className="mt-6 min-h-11 bg-brand px-5 text-sm font-semibold text-white"
           >
             {copy.close}
@@ -282,7 +286,7 @@ function ApplicationDialog({
       ) : (
         <form onSubmit={submit} noValidate>
           <fieldset
-            disabled={pending}
+            disabled={pending || closing}
             className="grid gap-5 px-5 py-6 sm:grid-cols-2 sm:px-7"
           >
             <div className="sm:col-span-2">
@@ -402,15 +406,15 @@ function ApplicationDialog({
           <footer className="flex flex-wrap justify-end gap-3 border-t border-divider px-5 py-4 sm:px-7">
             <button
               type="button"
-              onClick={onClose}
-              disabled={pending}
+              onClick={close}
+              disabled={pending || closing}
               className="min-h-11 rounded-lg border border-divider px-5 text-sm font-semibold disabled:opacity-50"
             >
               {copy.cancel}
             </button>
             <button
               type="submit"
-              disabled={pending}
+              disabled={pending || closing}
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand px-5 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-60"
             >
               {pending && (
