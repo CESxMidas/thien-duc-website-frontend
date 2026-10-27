@@ -31,7 +31,7 @@ function FooterNavSection({
   dictionary: Dictionary;
 }) {
   return (
-    <div className="min-w-0 xl:border-l xl:border-divider xl:pl-6">
+    <div className="min-w-0 lg:border-l lg:border-divider lg:pl-6">
       <h2 className="site-footer-heading">
         {dictionary.footerSectionTitles[section.title] ?? section.title}
       </h2>
@@ -40,7 +40,7 @@ function FooterNavSection({
           <li key={link.href}>
             <Link
               href={localizePath(link.href, locale)}
-              className={`${footerLinkClassName} xl:whitespace-nowrap`}
+              className={footerLinkClassName}
             >
               {dictionary.footerLabels[link.href] ?? link.label}
             </Link>
@@ -62,8 +62,8 @@ export function SiteFooter({
   const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyContact.address.vi)}`;
   return (
     <footer className="site-footer relative mt-auto border-t border-divider text-footer-ink">
-      <div className="grid w-full gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:px-14 lg:py-8 xl:grid-cols-[minmax(16rem,1.3fr)_max-content_max-content_minmax(19rem,1.2fr)] xl:items-start xl:gap-x-8 xl:px-20">
-        <div className="flex min-w-0 flex-col items-start gap-4 sm:col-span-2 sm:flex-row sm:items-center xl:col-span-1 xl:flex-col xl:items-start">
+      <div className="grid w-full grid-cols-1 gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-14 lg:py-8 xl:gap-x-8 xl:px-20">
+        <div className="flex min-w-0 flex-col items-start gap-4">
           <Link
             href={localizePath(routes.home, locale)}
             className="inline-flex size-24 shrink-0 items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:size-26"
@@ -90,18 +90,16 @@ export function SiteFooter({
           </div>
         </div>
 
-        <div className="grid gap-x-6 gap-y-8 min-[430px]:grid-cols-2 sm:col-span-2 xl:contents">
-          {footerSections.map((section) => (
-            <FooterNavSection
-              key={section.title}
-              section={section}
-              locale={locale}
-              dictionary={dictionary}
-            />
-          ))}
-        </div>
+        {footerSections.map((section) => (
+          <FooterNavSection
+            key={section.title}
+            section={section}
+            locale={locale}
+            dictionary={dictionary}
+          />
+        ))}
 
-        <div className="min-w-0 sm:col-span-2 xl:col-span-1 xl:border-l xl:border-divider xl:pl-6">
+        <div className="min-w-0 lg:border-l lg:border-divider lg:pl-6">
           <h2 className="site-footer-heading">{dictionary.footer.contact}</h2>
 
           <ul className="mt-2 space-y-2">
