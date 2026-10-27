@@ -813,9 +813,9 @@ textarea {
 /* Lá ở chân cụm dự án hướng lên từ hai mép, nằm dưới thẻ và nút điều hướng. */
 .featured-projects-section .featured-projects-foliage-bottom {
   top: auto;
-  bottom: -4rem;
+  bottom: 0;
   width: clamp(26rem, 34vw, 40rem);
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .featured-projects-foliage-bottom-start {
@@ -826,6 +826,21 @@ textarea {
 .featured-projects-foliage-bottom-end {
   right: clamp(-10rem, -8vw, -6rem);
   transform: rotate(180deg);
+}
+
+@media (width < 640px) {
+  .featured-projects-section .featured-projects-foliage-bottom {
+    width: 15rem;
+    opacity: 0.22;
+  }
+
+  .featured-projects-foliage-bottom-start {
+    left: -6rem;
+  }
+
+  .featured-projects-foliage-bottom-end {
+    right: -6rem;
+  }
 }
 
 .about-values-foliage {

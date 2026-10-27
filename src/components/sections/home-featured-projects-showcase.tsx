@@ -188,7 +188,7 @@ export function HomeFeaturedProjectsShowcase({
         />
       </div>
       <div
-        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-start hidden sm:block"
+        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-start"
         aria-hidden="true"
       >
         <Image
@@ -200,7 +200,7 @@ export function HomeFeaturedProjectsShowcase({
         />
       </div>
       <div
-        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-end hidden md:block"
+        className="section-foliage featured-projects-foliage-bottom featured-projects-foliage-bottom-end"
         aria-hidden="true"
       >
         <Image
