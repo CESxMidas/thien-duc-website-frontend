@@ -484,7 +484,7 @@
       {
         "step": "01",
         "title": "Submit your application",
-        "description": "Send your CV and cover letter to {email}, stating the position you're applying for in the email subject."
+        "description": "Choose an open position and apply directly on the website with a CV file or link. You can also contact us at {email}."
       },
       {
         "step": "02",

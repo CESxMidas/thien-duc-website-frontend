@@ -15,6 +15,7 @@ import {
 import { SiteShell } from "@/components/layout/site-shell";
 import { CareersHero } from "@/components/sections/careers-hero";
 import { CareersCulture } from "@/components/sections/careers-culture";
+import { CareersApplyButton } from "@/components/sections/careers-apply-button";
 import { getCompanyContact } from "@/lib/api/settings";
 import { getOpenPositions } from "@/lib/api/careers";
 import { formatDate } from "@/lib/format";
@@ -208,12 +209,7 @@ export default async function CareersPage({
                     </div>
                   </details>
 
-                  <a
-                    href={applyHref}
-                    className="button-polish mt-6 inline-flex min-h-11 items-center bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
-                  >
-                    {careers.applyCta}
-                  </a>
+                  <CareersApplyButton position={position} locale={locale} label={careers.applyCta} />
                 </article>
               ))}
             </div>

@@ -474,7 +474,7 @@
       {
         "step": "01",
         "title": "Gửi hồ sơ",
-        "description": "Gửi CV và thư ứng tuyển về {email}, ghi rõ vị trí ứng tuyển ở tiêu đề email."
+        "description": "Chọn vị trí đang tuyển và gửi hồ sơ trực tiếp trên website, kèm file hoặc link CV. Bạn cũng có thể liên hệ qua {email}."
       },
       {
         "step": "02",
