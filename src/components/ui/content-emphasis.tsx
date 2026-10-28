@@ -11,7 +11,7 @@ const editorialTerms = [
     "Thiên Đức",
     "Thien Duc",
     "Tinh hoa Ẩm thực Xứ Dừa 2026",
-    "Nhà tài trợ Kim Cương"
+    "Nhà tài trợ Kim Cương",
   ],
   ["Khu Đô Thị Hưng Phú", "Hung Phu Urban Area", "Hưng Phú", "Hung Phu"],
   ["Cannes Hotel"],
@@ -25,7 +25,10 @@ type ContentEmphasisProps = {
 
 export function ContentEmphasis({ text, names = [] }: ContentEmphasisProps) {
   const normalized = text.toLocaleLowerCase();
-  const terms = [...editorialTerms, ...names.filter(Boolean).map((name) => [name])];
+  const terms = [
+    ...editorialTerms,
+    ...names.filter(Boolean).map((name) => [name]),
+  ];
   const candidates: { start: number; end: number; group: number }[] = [];
 
   terms.forEach((aliases, group) => {
@@ -53,7 +56,8 @@ export function ContentEmphasis({ text, names = [] }: ContentEmphasisProps) {
   const output: ReactNode[] = [];
   let cursor = 0;
   for (const match of candidates) {
-    if (match.start < cursor || used.has(match.group) || used.size >= 4) continue;
+    if (match.start < cursor || used.has(match.group) || used.size >= 4)
+      continue;
     output.push(text.slice(cursor, match.start));
     output.push(
       <strong className="content-emphasis" key={match.start}>

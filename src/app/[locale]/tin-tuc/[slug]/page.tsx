@@ -116,7 +116,7 @@ export default async function NewsDetailPage({
       <JsonLd data={buildNewsArticleJsonLd(post, locale)} />
 
       <section className="page-container py-7 sm:py-10 lg:py-12">
-        <div className="grid min-w-0 items-start gap-9 border-y border-divider py-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10 lg:py-10 xl:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid min-w-0 items-start gap-7 border-y border-divider py-5 sm:py-6 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
           <article className="editorial-content min-w-0">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-earth">
               {post.category ? (
@@ -143,17 +143,27 @@ export default async function NewsDetailPage({
               {post.title}
             </h1>
 
-            <div className="mt-8 sm:mt-10">
-              <NewsDetailGallery
-                images={galleryImages}
-                title={post.title}
-                galleryLabel={dictionary.newsDetail.galleryLabel}
-                imageLabel={dictionary.newsDetail.imageLabel}
-              />
-            </div>
+            {post.referenceUrl ? (
+              <div className="mt-3 flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1 text-sm leading-6">
+                <span className="shrink-0 font-semibold text-earth">
+                  {referenceTitle}:
+                </span>
+                <a
+                  href={post.referenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 min-w-0 max-w-full items-center gap-2 font-semibold text-brand underline decoration-earth/35 underline-offset-4 transition-colors hover:text-brand-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+                >
+                  <span className="min-w-0 break-words [overflow-wrap:anywhere]">
+                    {referenceLabel}
+                  </span>
+                  <ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+                </a>
+              </div>
+            ) : null}
 
-            <div className="mt-8 border-t border-divider pt-7 sm:mt-10 sm:pt-9">
-              <div className="grid max-w-[72ch] min-w-0 gap-5 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:text-lg sm:leading-9">
+            {content.length > 0 ? (
+              <div className="mt-5 grid w-full min-w-0 gap-4 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:mt-6 sm:gap-5 sm:text-lg sm:leading-9">
                 {content.map((paragraph) =>
                   isArticleSubheading(paragraph) ? (
                     <h2
@@ -172,46 +182,25 @@ export default async function NewsDetailPage({
                   ),
                 )}
               </div>
-            </div>
+            ) : null}
 
-            {post.referenceUrl ? (
-              <section
-                aria-labelledby="news-references-title"
-                className="mt-8 max-w-[72ch] border-t border-divider pt-6 sm:mt-10"
-              >
-                <h2
-                  id="news-references-title"
-                  className="text-sm font-semibold uppercase tracking-[0.14em] text-earth"
-                >
-                  {referenceTitle}
-                </h2>
-                <ul className="mt-4 grid gap-3">
-                  <li className="min-w-0">
-                    <a
-                      href={post.referenceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-w-0 items-start gap-2 text-sm font-semibold leading-6 text-charcoal underline decoration-earth/35 underline-offset-4 transition-colors hover:text-brand"
-                    >
-                      <ExternalLink
-                        className="mt-1 size-4 shrink-0 text-earth"
-                        aria-hidden="true"
-                      />
-                      <span className="min-w-0 break-words">
-                        {referenceLabel}
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </section>
+            {galleryImages.length > 0 ? (
+              <div className="mt-6 w-full min-w-0">
+                <NewsDetailGallery
+                  images={galleryImages}
+                  title={post.title}
+                  galleryLabel={dictionary.newsDetail.galleryLabel}
+                  imageLabel={dictionary.newsDetail.imageLabel}
+                />
+              </div>
             ) : null}
           </article>
 
-          <aside className="self-start border-t border-divider pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:flex lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:min-h-[24rem] lg:flex-col lg:overflow-y-auto">
+          <aside className="self-start border-t border-divider pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:overflow-y-auto">
             <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-charcoal">
               {dictionary.newsDetail.infoTitle}
             </h2>
-            <dl className="mt-5 grid gap-5 text-sm leading-6 lg:gap-6">
+            <dl className="mt-4 grid gap-4 text-sm leading-6">
               {post.category ? (
                 <div className="grid min-w-0 gap-1 border-t border-divider pt-4">
                   <dt className="flex shrink-0 items-center gap-2 font-semibold text-earth">
@@ -273,7 +262,7 @@ export default async function NewsDetailPage({
 
             <Link
               href={localizePath(routes.news, locale)}
-              className="mt-8 inline-flex min-h-11 w-fit items-center gap-2 border-b border-earth pb-1 text-sm font-semibold text-olive transition-colors hover:text-earth lg:mt-auto"
+              className="mt-5 inline-flex min-h-11 w-fit items-center gap-2 border-b border-earth pb-1 text-sm font-semibold text-olive transition-colors hover:text-earth"
             >
               <ArrowLeft className="size-4" aria-hidden="true" />
               {dictionary.common.viewAllNews}
