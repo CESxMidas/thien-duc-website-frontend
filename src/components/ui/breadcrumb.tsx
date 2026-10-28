@@ -27,13 +27,13 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="site-breadcrumb page-container text-sm font-medium"
+      className="site-breadcrumb page-container text-[0.9375rem] font-semibold sm:text-base lg:text-[1.0625rem]"
     >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
-      <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 leading-6">
+      <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 leading-7">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           const collapseOnMobile =
@@ -57,7 +57,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current="page" className="min-w-0 wrap-break-word text-ink">
+                <span aria-current="page" className="min-w-0 wrap-break-word font-bold text-brand-dark">
                   {item.label}
                 </span>
               )}
