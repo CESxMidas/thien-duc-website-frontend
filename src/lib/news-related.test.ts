@@ -2,6 +2,7 @@ import type { NewsPost } from "@/types/content";
 import {
   compareNewsByDisplayDate,
   getNewsDisplayDate,
+  getNewsDescription,
   isArticleSubheading,
   selectRelatedNews,
 } from "./news-related";
@@ -10,7 +11,6 @@ function post(input: Partial<NewsPost> & Pick<NewsPost, "slug">): NewsPost {
   return {
     title: input.slug,
     slug: input.slug,
-    summary: "",
     publishedAt: input.publishedAt ?? "",
     eventDate: input.eventDate,
     createdAt: input.createdAt,
@@ -19,6 +19,19 @@ function post(input: Partial<NewsPost> & Pick<NewsPost, "slug">): NewsPost {
 }
 
 describe("news-related", () => {
+  it("SEO lấy đoạn đầu có nội dung, gom khoảng trắng và giới hạn 160 ký tự", () => {
+    const article = {
+      ...post({ slug: "seo" }),
+      content: ["  ", "  Nội dung\n\n  bài viết. ", "Đoạn thứ hai."],
+    };
+    expect(getNewsDescription(article)).toBe("Nội dung bài viết.");
+    expect(getNewsDescription({ ...article, content: ["a".repeat(200)] })).toHaveLength(160);
+  });
+
+  it("SEO dùng tiêu đề khi bài nháp chưa có nội dung", () => {
+    expect(getNewsDescription(post({ slug: "bai-moi" }))).toBe("bai-moi");
+  });
+
   it("uu tien ngay hien thi theo eventDate, publishedAt, createdAt", () => {
     expect(
       getNewsDisplayDate(

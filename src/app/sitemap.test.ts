@@ -5,28 +5,24 @@ const newsPosts: NewsPost[] = [
   {
     title: "Bài thuộc chuyên mục A",
     slug: "bai-a",
-    summary: "Tóm tắt",
     publishedAt: "2026-07-01",
     category: { slug: "tin-du-an", name: "Tin dự án" },
   },
   {
     title: "Bài thứ hai cùng chuyên mục A",
     slug: "bai-a2",
-    summary: "Tóm tắt",
     publishedAt: "2026-06-01",
     category: { slug: "tin-du-an", name: "Tin dự án" },
   },
   {
     title: "Bài không có chuyên mục",
     slug: "bai-khong-chuyen-muc",
-    summary: "Tóm tắt",
     publishedAt: "2026-05-01",
   },
 
   {
     title: "Bài lên lịch đã tới hạn",
     slug: "bai-len-lich-da-toi-gio",
-    summary: "Tóm tắt",
     publishedAt: "2026-08-20T01:00:00.000Z",
     category: { slug: "tin-du-an", name: "Tin dự án" },
   },

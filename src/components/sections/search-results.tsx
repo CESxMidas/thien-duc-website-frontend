@@ -120,12 +120,6 @@ export function SearchResults({
                       <h3 className="td-card-title mt-3 text-xl font-semibold">
                         {post.title}
                       </h3>
-                      <p
-                        className="content-paragraph td-card-summary mt-3 text-sm leading-6 text-slate"
-                        aria-hidden={post.summary ? undefined : "true"}
-                      >
-                        {post.summary ?? ""}
-                      </p>
                       <span className="link-arrow mt-auto pt-5 text-sm font-semibold text-brand">
                         {labels.groupNews}
                       </span>

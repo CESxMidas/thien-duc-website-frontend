@@ -139,7 +139,6 @@ describe("mapNewsPost — chuyên mục", () => {
     id: "n1",
     slug: "bai-viet-mau",
     title: { vi: "Tiêu đề", en: "Title" },
-    summary: { vi: "Tóm tắt", en: "Summary" },
   };
 
   it("giữ nguyên cặp {slug, name}, tên đã phân giải theo locale", () => {

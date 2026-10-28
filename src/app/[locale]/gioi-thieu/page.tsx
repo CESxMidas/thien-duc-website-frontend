@@ -163,7 +163,7 @@ export default async function AboutPage({
                 {about.fieldsTitle}
               </h2>
             </div>
-            <p className="content-paragraph max-w-2xl text-base leading-7 text-slate">{about.fieldsDescription}</p>
+            <p className="section-subtitle max-w-2xl text-base leading-7 text-slate">{about.fieldsDescription}</p>
           </div>
           <BusinessFieldsCarousel
             fields={about.fields}

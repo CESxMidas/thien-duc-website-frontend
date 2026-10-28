@@ -1,5 +1,11 @@
 import type { NewsPost } from "@/types/content";
 
+/** Mô tả SEO tự suy ra từ nội dung, không cần trường tóm tắt riêng. */
+export function getNewsDescription(post: NewsPost) {
+  const firstParagraph = post.content?.find((paragraph) => paragraph.trim());
+  return (firstParagraph || post.title).replace(/\s+/g, " ").trim().slice(0, 160);
+}
+
 export function getNewsDisplayDate(post: NewsPost) {
   return post.eventDate || post.publishedAt || post.createdAt || "";
 }

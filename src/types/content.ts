@@ -86,7 +86,6 @@ export type NewsCategory = NewsCategoryRef & {
 export type NewsPost = {
   title: string;
   slug: string;
-  summary: string;
   publishedAt: string;
   eventDate?: string;
   createdAt?: string;

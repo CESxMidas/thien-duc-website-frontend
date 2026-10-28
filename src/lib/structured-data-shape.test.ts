@@ -35,7 +35,7 @@ function collectUrlish(value: unknown): string[] {
 const samplePost: NewsPost = {
   slug: "bai-viet-mau",
   title: "Tiêu đề bài viết mẫu",
-  summary: "Tóm tắt bài viết mẫu dùng cho test hình dạng.",
+  content: ["Tóm tắt bài viết mẫu dùng cho test hình dạng."],
   image: "/images/news/anh.jpg",
   publishedAt: "2026-07-31T03:00:00.000Z",
   author: "Ban biên tập",
@@ -153,7 +153,7 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
 
   it("headline/description lấy đúng từ bài viết", () => {
     expect(article.headline).toBe(samplePost.title);
-    expect(article.description).toBe(samplePost.summary);
+    expect(article.description).toBe(samplePost.content?.[0] ?? samplePost.title);
   });
 
   it("publisher trỏ tới Organization qua @id (không lặp lại toàn bộ)", () => {
@@ -168,7 +168,8 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
       {
         slug: samplePost.slug,
         title: samplePost.title,
-        summary: samplePost.summary,
+        content: samplePost.content,
+        publishedAt: "",
       } as NewsPost,
       "vi",
     );
@@ -187,7 +188,8 @@ describe("NewsArticle — khớp nội dung thật, không bịa", () => {
       {
         slug: samplePost.slug,
         title: samplePost.title,
-        summary: samplePost.summary,
+        content: samplePost.content,
+        publishedAt: "",
       } as NewsPost,
       "vi",
     );
@@ -200,7 +202,7 @@ describe("Chống XSS breakout trong JSON-LD", () => {
   const hostile = {
     ...samplePost,
     title: "BREAKOUT</script><img src=x onerror=alert(1)>",
-    summary: "Ký tự nguy hiểm: < > & ",
+    content: ["Ký tự nguy hiểm: < > & "],
   } as NewsPost;
 
   const serialized = serializeJsonLd(buildNewsArticleJsonLd(hostile, "vi"));
@@ -225,6 +227,6 @@ describe("Chống XSS breakout trong JSON-LD", () => {
     };
 
     expect(parsed.headline).toBe(hostile.title);
-    expect(parsed.description).toBe(hostile.summary);
+    expect(parsed.description).toBe(hostile.content?.[0]?.trim());
   });
 });

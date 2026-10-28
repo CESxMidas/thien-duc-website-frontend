@@ -354,9 +354,14 @@ main:has(> .site-breadcrumb) .site-page-content .page-heading-rule {
 }
 
 .content-paragraph,
-.text-justified {
+.text-justified,
+.section-subtitle {
   font-size: var(--text-content);
   line-height: 1.8;
+}
+
+.section-subtitle {
+  text-indent: 0;
 }
 
 .content-emphasis {

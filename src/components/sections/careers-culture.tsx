@@ -60,7 +60,7 @@ export function CareersCulture({ careers, hrPages, locale }: CareersCultureProps
           <div className="min-w-0">
             <p className="text-eyebrow text-earth">{careers.peopleEyebrow}</p>
             <h2 id="careers-people-title" className="careers-section-title mt-4">{careers.peopleTitle}</h2>
-            <p className="content-paragraph mt-5 max-w-lg text-base leading-7 text-slate">{careers.peopleDescription}</p>
+            <p className="section-subtitle mt-5 max-w-lg text-base leading-7 text-slate">{careers.peopleDescription}</p>
           </div>
           <div>
             {peopleSections.map((item) => {

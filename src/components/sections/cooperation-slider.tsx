@@ -69,7 +69,7 @@ export function CooperationSlider({
             <h2 className="text-[2.1rem] font-medium leading-[1.08] text-charcoal sm:text-[3rem]">
               {labels.title}
             </h2>
-            <p className="content-paragraph mt-5 text-base leading-8 text-charcoal/72 sm:text-lg">
+            <p className="section-subtitle mt-5 text-base leading-8 text-charcoal/72 sm:text-lg">
               {labels.description}
             </p>
           </div>

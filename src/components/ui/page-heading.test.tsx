@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { PageHeading } from "./page-heading";
 
 describe("PageHeading", () => {
-  it("mô tả dưới tiêu đề thụt đầu dòng và giữ cách căn chữ hiện có", () => {
+  it("subtitle dùng cùng lề với tiêu đề, không thụt đầu dòng như nội dung", () => {
     render(
       <PageHeading
         eyebrow="Giới thiệu"
@@ -14,7 +14,8 @@ describe("PageHeading", () => {
     const description = screen.getByText(/Đoạn dẫn dắt ngắn/);
 
     expect(description.tagName).toBe("P");
-    expect(description).toHaveClass("content-paragraph");
+    expect(description).toHaveClass("section-subtitle");
+    expect(description).not.toHaveClass("content-paragraph");
     expect(description.className).not.toContain("text-justified");
     expect(description.className).not.toContain("prose-content");
   });

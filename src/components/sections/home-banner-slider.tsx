@@ -243,7 +243,7 @@ export function HomeBannerSlider({
                   ) : null}
 
                   {activeBanner.subtitle ? (
-                    <p className="content-paragraph mt-1 hidden max-w-[31rem] font-medium text-charcoal/70 lg:mt-2 lg:block lg:line-clamp-2 lg:text-lg lg:leading-7 lg:text-white/86">
+                    <p className="section-subtitle mt-1 hidden max-w-[31rem] font-medium text-charcoal/70 lg:mt-2 lg:block lg:line-clamp-2 lg:text-lg lg:leading-7 lg:text-white/86">
                       {activeBanner.subtitle}
                     </p>
                   ) : null}

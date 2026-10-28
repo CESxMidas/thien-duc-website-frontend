@@ -77,7 +77,7 @@ export function AboutValuesShowcase({
           >
             {title}
           </h2>
-          <p className="content-paragraph mt-5 max-w-[36rem] text-sm leading-6 text-ink/80 sm:text-base sm:leading-7">
+          <p className="section-subtitle mt-5 max-w-[36rem] text-sm leading-6 text-ink/80 sm:text-base sm:leading-7">
             {description}
           </p>
         </div>

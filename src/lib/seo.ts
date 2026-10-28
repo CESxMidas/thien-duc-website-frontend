@@ -1,3 +1,4 @@
+import { getNewsDescription } from "@/lib/news-related";
 import type { Metadata } from "next";
 import {
   brandName,
@@ -94,7 +95,7 @@ export function buildNewsArticleJsonLd(
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: post.title,
-    description: post.summary,
+    description: getNewsDescription(post),
     ...(images.length > 0 ? { image: images.map(absoluteUrl) } : {}),
     ...(post.publishedAt ? { datePublished: post.publishedAt } : {}),
     inLanguage: localeHtmlLang[locale],

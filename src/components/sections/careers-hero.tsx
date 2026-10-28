@@ -43,7 +43,7 @@ export function CareersHero({
           <h1 id="careers-hero-title" className="careers-section-title mt-3 text-white">
             {title}
           </h1>
-          <p className="content-paragraph mt-4 max-w-xl text-base leading-7 text-white/90">{description}</p>
+          <p className="section-subtitle mt-4 max-w-xl text-base leading-7 text-white/90">{description}</p>
           <div className="careers-hero-actions mt-5">
             <a href="#open-positions" className="careers-hero-cta">
               {positionsCtaLabel}

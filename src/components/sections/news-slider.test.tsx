@@ -201,7 +201,6 @@ describe("NewsSlider — trường hợp biên", () => {
         {
           title: "Có ngày sự kiện",
           slug: "co-ngay-su-kien",
-          summary: "",
           eventDate: "2026-10-07",
           publishedAt: "2026-01-01",
           createdAt: "2026-09-01",
@@ -209,13 +208,11 @@ describe("NewsSlider — trường hợp biên", () => {
         {
           title: "Chỉ có ngày xuất bản",
           slug: "chi-co-ngay-xuat-ban",
-          summary: "",
           publishedAt: "2026-08-01",
         },
         {
           title: "Dùng ngày tạo",
           slug: "dung-ngay-tao",
-          summary: "",
           publishedAt: "",
           createdAt: "2026-07-01",
         },

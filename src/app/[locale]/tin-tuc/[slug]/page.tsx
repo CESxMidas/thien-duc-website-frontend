@@ -1,3 +1,4 @@
+import { getNewsDescription } from "@/lib/news-related";
 import { ContentEmphasis } from "@/components/ui/content-emphasis";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -56,7 +57,7 @@ export async function generateMetadata({
 
   return buildPageMetadata({
     title: `${post.title} | ${dictionary.newsDetail.metaSuffix}`,
-    description: post.summary,
+    description: getNewsDescription(post),
     path: `${routes.news}/${post.slug}`,
     locale,
     image: post.image,
@@ -80,7 +81,7 @@ export default async function NewsDetailPage({
     notFound();
   }
 
-  const content = post.content?.length ? post.content : [post.summary];
+  const content = post.content ?? [];
   const galleryImages = post.gallery?.length
     ? post.gallery
     : post.image
@@ -141,10 +142,6 @@ export default async function NewsDetailPage({
             <h1 className="mt-4 w-full max-w-none editorial-title text-balance text-charcoal">
               {post.title}
             </h1>
-
-            <p className="content-paragraph mt-5 max-w-[66ch] text-base leading-7 text-charcoal/72 sm:text-lg sm:leading-8">
-              <ContentEmphasis text={post.summary} />
-            </p>
 
             <div className="mt-8 sm:mt-10">
               <NewsDetailGallery

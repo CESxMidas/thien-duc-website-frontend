@@ -22,14 +22,12 @@ const results: SearchResultsData = {
     {
       title: "Khởi công giai đoạn 2",
       slug: "khoi-cong-giai-doan-2",
-      summary: "Tóm tắt bài viết.",
       publishedAt: "2026-07-01",
       category: { slug: "tin-du-an", name: "Tin dự án" },
     },
     {
       title: "Lễ bàn giao căn hộ",
       slug: "le-ban-giao-can-ho",
-      summary: "Tóm tắt bài viết 2.",
       publishedAt: "2026-06-01",
     },
   ],
@@ -133,10 +131,9 @@ describe("SearchResults", () => {
     expect(titles).toEqual(["Khởi công giai đoạn 2", "Lễ bàn giao căn hộ"]);
   });
 
-  it("tóm tắt trong thẻ canh TRÁI, không justify (thẻ chỉ ~330px)", () => {
+  it("thẻ tin tìm kiếm không hiển thị tóm tắt", () => {
     renderResults();
 
-    const summary = screen.getByText("Tóm tắt bài viết.");
-    expect(summary.className).not.toContain("text-justified");
+    expect(screen.queryByText("Tóm tắt bài viết.")).not.toBeInTheDocument();
   });
 });

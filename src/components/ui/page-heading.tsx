@@ -47,8 +47,7 @@ export function PageHeading({
         {title}
       </h1>
       {description ? (
-       
-        <p className="content-paragraph mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
+        <p className="section-subtitle mt-5 max-w-3xl text-base leading-8 text-charcoal/72 sm:text-lg">
           {emphasizeDescription ? <ContentEmphasis text={description} /> : description}
         </p>
       ) : null}

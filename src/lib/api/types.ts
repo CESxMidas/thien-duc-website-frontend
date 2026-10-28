@@ -104,7 +104,6 @@ export type NewsPostDto = {
   id: string;
   slug: string;
   title: LocalizedText;
-  summary: LocalizedText;
   content?: LocalizedText[] | null;
   author?: string | null;
   referenceUrl?: string | null;

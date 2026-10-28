@@ -18,7 +18,6 @@ import {
 const post: NewsPost = {
   title: "Khởi công dự án Hưng Phú",
   slug: "khoi-cong-du-an-hung-phu",
-  summary: "Tóm tắt bài viết.",
   publishedAt: "2026-07-01T08:00:00.000Z",
   image: "/images/news/hung-phu.jpg",
 };
@@ -94,7 +93,7 @@ describe("buildNewsArticleJsonLd (→7)", () => {
 
     expect(article["@type"]).toBe("NewsArticle");
     expect(article.headline).toBe(post.title);
-    expect(article.description).toBe(post.summary);
+    expect(article.description).toBe(post.title);
     expect(article.datePublished).toBe(post.publishedAt);
     expect(article.author).toEqual({ "@id": organizationId() });
     expect(article.publisher).toEqual({ "@id": organizationId() });
