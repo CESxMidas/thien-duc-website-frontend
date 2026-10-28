@@ -11,7 +11,7 @@ const editorialTerms = [
     "Thiên Đức",
     "Thien Duc",
     "Tinh hoa Ẩm thực Xứ Dừa 2026",
-    " Nhà tài trợ Kim Cương"
+    "Nhà tài trợ Kim Cương"
   ],
   ["Khu Đô Thị Hưng Phú", "Hung Phu Urban Area", "Hưng Phú", "Hung Phu"],
   ["Cannes Hotel"],
