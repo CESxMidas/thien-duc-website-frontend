@@ -162,6 +162,17 @@ export default async function NewsDetailPage({
               </div>
             ) : null}
 
+            {galleryImages.length > 0 ? (
+              <div className="mt-6 w-full min-w-0">
+                <NewsDetailGallery
+                  images={galleryImages}
+                  title={post.title}
+                  galleryLabel={dictionary.newsDetail.galleryLabel}
+                  imageLabel={dictionary.newsDetail.imageLabel}
+                />
+              </div>
+            ) : null}
+
             {content.length > 0 ? (
               <div className="mt-5 grid w-full min-w-0 gap-4 break-words text-[1.0625rem] leading-8 text-charcoal/82 [overflow-wrap:anywhere] sm:mt-6 sm:gap-5 sm:text-lg sm:leading-9">
                 {content.map((paragraph) =>
@@ -184,16 +195,6 @@ export default async function NewsDetailPage({
               </div>
             ) : null}
 
-            {galleryImages.length > 0 ? (
-              <div className="mt-6 w-full min-w-0">
-                <NewsDetailGallery
-                  images={galleryImages}
-                  title={post.title}
-                  galleryLabel={dictionary.newsDetail.galleryLabel}
-                  imageLabel={dictionary.newsDetail.imageLabel}
-                />
-              </div>
-            ) : null}
           </article>
 
           <aside className="self-start border-t border-divider pt-5 lg:sticky lg:top-[calc(var(--site-header-height)+24px)] lg:max-h-[calc(100vh-var(--site-header-height)-48px)] lg:overflow-y-auto">

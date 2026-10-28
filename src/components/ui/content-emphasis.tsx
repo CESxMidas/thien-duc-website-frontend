@@ -26,6 +26,11 @@ const editorialTerms = [
   ["Xứ Dừa"],
   ["Khu Đô Thị Hưng Phú", "Hung Phu Urban Area", "Hưng Phú", "Hung Phu"],
   ["Cannes Hotel"],
+  ["Khách sạn 3 sao", "Cột mốc 3 sao"],
+  [
+    "Đồng hành kiến tạo giá trị, bền vững cùng thời gian",
+    "Đồng hành kiến tạo giá trị",
+  ],
   ["2026"],
 ];
 
