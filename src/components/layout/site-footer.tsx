@@ -62,7 +62,7 @@ export function SiteFooter({
   const mapsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyContact.address.vi)}`;
   return (
     <footer className="site-footer relative mt-auto border-t border-divider text-footer-ink">
-      <div className="grid w-full grid-cols-1 gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-14 lg:py-8 xl:gap-x-8 xl:px-20">
+      <div className="relative z-10 grid w-full grid-cols-1 gap-x-6 gap-y-7 px-5 py-7 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-14 lg:py-8 xl:gap-x-8 xl:px-20">
         <div className="flex min-w-0 flex-col items-start gap-4">
           <Link
             href={localizePath(routes.home, locale)}
