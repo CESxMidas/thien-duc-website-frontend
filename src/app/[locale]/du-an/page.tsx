@@ -67,54 +67,56 @@ export default async function ProjectsPage({
       locale={locale}
       breadcrumbs={[
         { label: dictionary.breadcrumb.home, href: locale === "en" ? "/en" : "/" },
-              { label: dictionary.breadcrumb.projects },
+        { label: dictionary.breadcrumb.projects },
       ]}
     >
       <div className="projects-motion">
-        <PageHeading
-          eyebrow={dictionary.projects.eyebrow}
-          title={dictionary.projects.title}
-          description={dictionary.projects.description}
-        />
+        <div className="projects-page-intro">
+          <PageHeading
+            eyebrow={dictionary.projects.eyebrow}
+            title={dictionary.projects.title}
+            description={dictionary.projects.description}
+          />
 
-        <section className="page-container pb-6">
-          <div className="reveal-from-left flex flex-wrap gap-2">
-            {projectStatusFilterValues.map((value) => {
-              const active = activeStatus === value;
-              const href =
-                value === "all"
-                  ? localizePath(routes.projects, locale)
-                  : localizePath(`${routes.projects}?status=${value}`, locale);
-              const count =
-                value === "all"
-                  ? projects.length
-                  : projects.filter((project) => project.status === value)
-                      .length;
+          <section className="page-container pb-6">
+            <div className="reveal-from-left flex flex-wrap gap-2">
+              {projectStatusFilterValues.map((value) => {
+                const active = activeStatus === value;
+                const href =
+                  value === "all"
+                    ? localizePath(routes.projects, locale)
+                    : localizePath(`${routes.projects}?status=${value}`, locale);
+                const count =
+                  value === "all"
+                    ? projects.length
+                    : projects.filter((project) => project.status === value)
+                        .length;
 
-              return (
-                <Link
-                  key={value}
-                  href={href}
-                  scroll={false}
-                  aria-current={active ? "page" : undefined}
-                  className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
-                    active
-                      ? "border-brand bg-brand text-white"
-                      : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
-                  }`}
-                >
-                  {active ? (
-                    <Check className="size-4 shrink-0" aria-hidden="true" />
-                  ) : null}
-                  {dictionary.projectStatus[value]}
-                  <span className={active ? "text-white" : "text-slate"}>
-                    ({count})
-                  </span>
-                </Link>
-              );
-            })}
+                return (
+                  <Link
+                    key={value}
+                    href={href}
+                    scroll={false}
+                    aria-current={active ? "page" : undefined}
+                    className={`button-polish inline-flex min-h-10 items-center gap-1.5 border px-4 text-sm font-semibold transition ${
+                      active
+                        ? "border-brand bg-brand text-white"
+                        : "border-black/10 bg-white text-ink-soft hover:border-brand hover:text-brand"
+                    }`}
+                  >
+                    {active ? (
+                      <Check className="size-4 shrink-0" aria-hidden="true" />
+                    ) : null}
+                    {dictionary.projectStatus[value]}
+                    <span className={active ? "text-white" : "text-slate"}>
+                      ({count})
+                    </span>
+                  </Link>
+                );
+              })}
           </div>
         </section>
+        </div>
 
         <section className="page-container pb-5 sm:pb-8">
           {filteredProjects.length > 0 ? (

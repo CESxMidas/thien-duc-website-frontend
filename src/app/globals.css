@@ -804,6 +804,44 @@ textarea {
   transform: translateY(0);
 }
 
+/* Nền kiến trúc lấp khoảng trống bên phải, không làm tăng chiều cao phần mở đầu. */
+.projects-page-intro {
+  position: relative;
+  isolation: isolate;
+}
+
+.projects-page-intro::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: 70%;
+  pointer-events: none;
+  background: url("/images/backgrounds/projects-architecture.webp") center 62% / cover no-repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.68;
+  mask-image:
+    linear-gradient(to right, transparent, black 38%),
+    linear-gradient(to bottom, transparent, black 12%, black 78%, transparent);
+  mask-composite: intersect;
+}
+
+.projects-page-intro > .page-heading {
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 47.999rem) {
+  .projects-page-intro::before {
+    width: 100%;
+    background-position: 65% center;
+    opacity: 0.24;
+  }
+
+  .projects-page-intro > .page-heading {
+    padding-bottom: 1.5rem;
+  }
+}
+
 .home-latest-news::before {
   content: "";
   position: absolute;
