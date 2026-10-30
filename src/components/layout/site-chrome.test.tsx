@@ -221,7 +221,7 @@ describe("SiteFooter", () => {
       }),
     ).toHaveAttribute("href", `mailto:${companyContact.email}`);
     expect(
-      within(footer).getByRole("link", { name: /Số 10 Trần Não/i }),
+      within(footer).getByRole("link", { name: /1D Trần Não/i }),
     ).toHaveAttribute(
       "href",
       expect.stringContaining(
